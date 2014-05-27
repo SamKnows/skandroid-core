@@ -1,0 +1,6 @@
+# We must NEVER check-in a local.properties file!!
+local.properties
+facebook-android-sdk-3.0.2/facebook/bin/facebooksdk.jar
+facebook-android-sdk-3.0.2/facebook/bin/jarlist.cache
+google_play_services_lib/bin/jarlist.cache
+cached-robolectric-classes.jar

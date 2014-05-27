@@ -1,0 +1,2 @@
+skandroid-core
+==============

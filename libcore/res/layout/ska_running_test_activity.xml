@@ -1,0 +1,1581 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app1="http://schemas.com.samknows.android"
+    style="@style/screenBackground"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        style="@style/screenBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/runningTestLeftLayout"
+                        android:layout_width="0dp"
+                        android:layout_weight="80"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/stat_title"
+                            style="@style/h1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="60"
+                            android:background="#ffffff"
+                            android:gravity="left|center_vertical"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="5dp"
+                            android:text="@string/running_test"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/running_test_with_closest_target"
+                            style="@style/column"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="60"
+                            android:background="#ffffff"
+                            android:gravity="left|center_vertical"
+                            android:padding="10dp"
+                            android:text="@string/closest_target"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:width="800dp" />
+
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/running_test_progress_bar"
+                        android:layout_width="0dp"
+                        android:layout_weight="20"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/average_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="80"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp" >
+
+                    <ImageView
+                        android:id="@+id/ImageView03"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAlignBottom="false"
+                        android:contentDescription="@string/line_break"
+                        android:cropToPadding="false"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/pagedrop" />
+
+                    <TextView
+                        android:id="@+id/active_metrics_textview"
+                        style="@style/h1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="left"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/active_metrics_mobile"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#555555"
+                        android:width="160dp" />
+
+                    <TableLayout
+                        android:id="@+id/download_test_panel"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/TableRow09"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" >
+
+                            <TextView
+                                android:id="@+id/TextView12"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/download"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="130dp" />
+
+                            <com.samknows.measurement.activity.components.FontFitTextView
+                                android:id="@+id/download_result"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="16sp" />
+
+                            <com.samknows.measurement.activity.components.ProgressWheel
+                                android:id="@+id/ProgressWheel1"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="right|center_vertical"
+                                android:contentDescription="@string/status"
+                                android:visibility="gone"
+                                app:barColor="#60abca"
+                                app:textSize="1sp"
+                                app1:barColor="#FFFFFF"
+                                app1:barLength="60dp"
+                                app1:barWidth="5dp"
+                                app1:rimColor="#50F050"
+                                app1:rimWidth="2dp"
+                                app1:textColor="#FFFFFF"
+                                app1:textSize="14sp"
+                                app1:title="Authenticating..." />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/upload_test_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/TableRow07"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp" >
+
+                            <TextView
+                                android:id="@+id/TextView15"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/upload"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="130dp" />
+
+                            <com.samknows.measurement.activity.components.FontFitTextView
+                                android:id="@+id/upload_result"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="16sp" />
+
+                            <com.samknows.measurement.activity.components.ProgressWheel
+                                android:id="@+id/ProgressWheel2"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:contentDescription="@string/status"
+                                android:visibility="gone"
+                                app:barColor="#60abca"
+                                app:rimColor="#dddddd"
+                                app:textColor="#ffffff"
+                                app:textSize="1sp"
+                                app1:barColor="#FFFFFF"
+                                app1:barLength="60dp"
+                                app1:barWidth="5dp"
+                                app1:rimColor="#cccccc"
+                                app1:rimWidth="2dp"
+                                app1:textColor="#FFFFFF"
+                                app1:textSize="14sp"
+                                app1:title="Authenticating..." />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/latency_test_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/TableRow04"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" >
+
+                            <TextView
+                                android:id="@+id/TextView17"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/latency"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="130dp" />
+
+                            <com.samknows.measurement.activity.components.FontFitTextView
+                                android:id="@+id/latency_result"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="16sp" />
+
+                            <com.samknows.measurement.activity.components.ProgressWheel
+                                android:id="@+id/ProgressWheel4"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:visibility="gone"
+                                app:barColor="#60abca"
+                                app:rimColor="#dddddd"
+                                app:textColor="#ffffff"
+                                app:textSize="1sp"
+                                app1:barColor="#FFFFFF"
+                                app1:barLength="60dp"
+                                app1:barWidth="5dp"
+                                app1:rimColor="#50F050"
+                                app1:rimWidth="2dp"
+                                app1:textColor="#FFFFFF"
+                                app1:textSize="14sp"
+                                app1:title="Authenticating..." />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/packetloss_test_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/TableRow01"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" >
+
+                            <TextView
+                                android:id="@+id/TextView16"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/p_loss"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="130dp" />
+
+                            <com.samknows.measurement.activity.components.FontFitTextView
+                                android:id="@+id/packetloss_result"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="16sp" />
+
+                            <com.samknows.measurement.activity.components.ProgressWheel
+                                android:id="@+id/ProgressWheel3"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:visibility="gone"
+                                app:barColor="#60abca"
+                                app:rimColor="#dddddd"
+                                app:textColor="#ffffff"
+                                app:textSize="1sp"
+                                app1:barColor="#FFFFFF"
+                                app1:barLength="60dp"
+                                app1:barWidth="5dp"
+                                app1:rimColor="#50F050"
+                                app1:rimWidth="2dp"
+                                app1:textColor="#FFFFFF"
+                                app1:textSize="14sp"
+                                app1:title="Authenticating..." />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/jitter_test_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/TableRow02"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" >
+
+                            <TextView
+                                android:id="@+id/TextView18"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/jitter"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="130dp" />
+
+                            <com.samknows.measurement.activity.components.FontFitTextView
+                                android:id="@+id/jitter_result"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="16sp" />
+
+                            <com.samknows.measurement.activity.components.ProgressWheel
+                                android:id="@+id/JitterProgressWheel"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:visibility="gone"
+                                app:barColor="#60abca"
+                                app:rimColor="#dddddd"
+                                app:textSize="1sp"
+                                app1:barColor="#FFFFFF"
+                                app1:barLength="60dp"
+                                app1:barWidth="5dp"
+                                app1:rimColor="#50F050"
+                                app1:rimWidth="2dp"
+                                app1:textColor="#FFFFFF"
+                                app1:textSize="14sp"
+                                app1:title="Authenticating..." />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/passive_metrics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/ImageView01"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAlignBottom="false"
+                        android:contentDescription="@string/line_break"
+                        android:cropToPadding="false"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/pagedrop" />
+
+                    <TextView
+                        android:id="@+id/TextView01"
+                        style="@style/h1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="@string/passive_metrics"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#555555"
+                        android:width="160dp" />
+
+                    <TableLayout
+                        android:id="@+id/passive_metrics_status"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" >
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <ProgressBar
+                                android:id="@+id/ProgressBar01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table1"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/TableRow16"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView13"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/connected"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric1"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout15"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow15"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView19"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/connectivity_type"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric2"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout14"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow14"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/passivemetric3_title"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cell_tower_id"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric3"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout13"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow13"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView09"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cell_tower_area_location_code"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="14sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric4"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout12"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow12"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView08"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/signal_strength"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric5"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout11"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow11"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView07"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/bearer"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric6"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout10"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow10"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView06"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/network_operator"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric7_networkoperatorname"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout09"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow08"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView05"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/latitude"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric8"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout08"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow06"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView04"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/longitude"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric9"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout06"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow05"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView03"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/accuracy"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric10"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/TableLayout04"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/black_alpha" >
+
+                        <TableRow
+                            android:id="@+id/TableRow03"
+                            android:layout_width="fill_parent"
+                            android:paddingRight="10dp" >
+
+                            <TextView
+                                android:id="@+id/TextView02"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/location_provider"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric11"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table12"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow12"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm12"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/sim_operator_code"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric12"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table13"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow13"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm13"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/sim_operator_name"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric13"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table14"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow14"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm14"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/imei"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric14"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table15"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow15"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm15"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/imsi"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric15"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table16"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow16"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm16"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/manufacturer"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric16"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table17"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow17"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm17"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/model"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric17"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table18"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow18"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm18"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/os"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric18"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table19"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow19"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm19"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/os_version"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric19"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table20"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow20"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm20"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/gsmbiterrorrate"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric20"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table21"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow21"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/TextView02"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cdmaecio"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric21"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table22"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow22"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm22"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/phone_type"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric22"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table23"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow23"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm23"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/active_network_type"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric23"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table24"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow24"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm24"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/connection_status"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric24"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table25"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow25"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm25"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/roaming_status"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric25"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table26"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow26"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm26"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/network_operator_code"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric26"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table27"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow27"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm27"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/signal_strength"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric27"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table28"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow28"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm28"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cdma_base_station_id"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric28"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table29"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow29"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm29"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cdma_base_station_latitude"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric29"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table30"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow30"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm30"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cdma_base_station_longitude"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric30"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table31"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow31"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm31"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cdma_network_id"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric31"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/pm_table32"
+                        style="@style/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TableRow
+                            android:id="@+id/pm_tablerow32"
+                            android:layout_width="fill_parent" >
+
+                            <TextView
+                                android:id="@+id/description_pm32"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/cdma_system_id"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="18sp"
+                                android:width="160dp" />
+
+                            <TextView
+                                android:id="@+id/passivemetric32"
+                                style="@style/column"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="1"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textSize="12sp" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

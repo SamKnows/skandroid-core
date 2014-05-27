@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/screenBackground"
+    android:id="@+id/linear_view_top"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingRight="5dp" >
+
+                <TextView
+                    android:id="@+id/version"
+                    style="@style/h1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageView
+                    android:id="@+id/ImageView03"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAlignBottom="false"
+                    android:contentDescription="@string/line_break"
+                    android:cropToPadding="false"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pagedrop" />
+
+                <TextView
+                    android:id="@+id/TextViewDownload1"
+                    style="@style/h1"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/download"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:width="190dp" />
+
+                <TextView
+                    android:id="@+id/TextViewDownload2"
+                    style="@style/normal"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/about_download" />
+
+                <TextView
+                    android:id="@+id/TextViewUpload1"
+                    style="@style/h1"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/upload"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:width="190dp" />
+
+                <TextView
+                    android:id="@+id/TextViewUpload2"
+                    style="@style/normal"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="@string/about_upload" />
+
+                <TextView
+                    android:id="@+id/TextViewLatency1"
+                    style="@style/h1"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/latency"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:width="190dp" />
+
+                <TextView
+                    android:id="@+id/TextViewLatency2"
+                    style="@style/normal"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="@string/about_latency" />
+
+                <TextView
+                    android:id="@+id/TextViewPacketLoss1"
+                    style="@style/h1"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/packet_loss"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:width="190dp" />
+
+                <TextView
+                    android:id="@+id/TextViewPacketLoss2"
+                    style="@style/normal"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="@string/about_packet_loss" />
+
+                <TextView
+                    android:id="@+id/TextViewJitter1"
+                    style="@style/h1"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/jitter"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:width="190dp" />
+
+                <TextView
+                    android:id="@+id/TextViewJitter2"
+                    style="@style/normal"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="@string/about_jitter" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
