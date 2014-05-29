@@ -60,6 +60,12 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		LocationType locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
   		
 	    LocationManager manager = (LocationManager) tc.getSystemService(Context.LOCATION_SERVICE);
+		if (manager == null) {
+			SKLogger.sAssert(LocationDataCollector.class,  false);
+		    return null;
+		}
+		
+		
 		//if the provider in the settings is gps but the service is not enable fail over to network provider
 		if(locationType == LocationType.gps &&!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			if (manager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
@@ -86,6 +92,11 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		super.start(tc);
 		mLocations = Collections.synchronizedList(new ArrayList<Location>());
 		manager = (LocationManager) tc.getSystemService(Context.LOCATION_SERVICE);
+		
+		if (manager == null) {
+			SKLogger.sAssert(getClass(),  false);
+			return;
+		}
 		
 		
 		locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();

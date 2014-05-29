@@ -89,6 +89,12 @@ public class TestExecutor {
 	
 	private void sAddPassiveLocationMetricForTestResult(JSONObject jsonResult) {
 		Pair<Location, LocationType> lastKnownPair = LocationDataCollector.sGetLastKnownLocation(getTestContext());
+		if (lastKnownPair == null) {
+			// Nothing known - don't store a passive metric, simply return instead...
+			SKLogger.sAssert(getClass(),  false);
+			return;
+		}
+		
 		Location lastKnownLocation = lastKnownPair.first;
 
 		if (lastKnownLocation == null) {
