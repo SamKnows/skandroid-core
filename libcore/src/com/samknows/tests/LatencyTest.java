@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
+import android.nfc.Tag;
+import android.util.Log;
+
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -298,6 +301,15 @@ public class LatencyTest extends Test {
 			failure();
 			return;
 		}
+		
+		try {
+			int sendBufferSizeBytes = socket.getSendBufferSize();
+			Log.d(getClass().getName(), "LatencyTest: sendBufferSizeBytes=" + sendBufferSizeBytes);
+			int receiveBufferSizeBytes = socket.getReceiveBufferSize();
+			Log.d(getClass().getName(), "LatencyTest: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
+		} catch (SocketException e1) {
+			SKLogger.sAssert(getClass(),  false);
+		}
 
 		InetAddress address = null;
 		try {
@@ -314,11 +326,9 @@ public class LatencyTest extends Test {
 				break;
 			}
 
-			UdpDatagram data = new UdpDatagram(i,
-					UdpDatagram.CLIENTTOSERVERMAGIC);
+			UdpDatagram data = new UdpDatagram(i, UdpDatagram.CLIENTTOSERVERMAGIC);
 			byte[] buf = data.byteArray();
-			DatagramPacket packet = new DatagramPacket(buf, buf.length,
-					address, port);
+			DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 			long answerTime = 0;
 
 			// It isn't the current time as in the original but a random value.

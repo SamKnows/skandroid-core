@@ -10,11 +10,14 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.SKDateFormat;
@@ -60,13 +63,36 @@ public class HttpTest extends Test {
 	public static final String JSON_WARMUPTIME = "warmup_time";
 	public static final String JSON_WARMUPBYTES = "warmup_bytes";
 	public static final String JSON_NUMBER_OF_THREADS = "number_of_threads";
+	
+	private class DebugTiming {
+		public String description;
+		public int threadIndex;
+		public Long time;
+		public int currentSpeed;
+		
+		public DebugTiming(String description, int threadIndex, Long time, int currentSpeed) {
+			super();
+			this.description = description;
+			this.threadIndex = threadIndex;
+			this.time = time;
+			this.currentSpeed = currentSpeed;
+		}
+	}
 
+	// For debug timings!
+	private static ArrayList<DebugTiming> smDebugSocketSendTimeMicroseconds = new ArrayList<DebugTiming>();
+	private	static Thread[] sThreads = null;
+	
 	/*
 	 * Time in microseconds
 	 */
-	private static long microTime() {
-		return System.nanoTime() / 1000;
+	private static long sGetMicroTime() {
+		return System.nanoTime() / 1000L;
 	}
+
+//	private static long sGetMilliTime() {
+//		return System.nanoTime() / 1000000L;
+//	}
 
 	public HttpTest() {
 	}
@@ -169,23 +195,27 @@ public class HttpTest extends Test {
 	public int getReceiveBufferSize() {
 		return receiveBufferSize;
 	}
-
+	
 	@Override
 	public void execute() {
+     	smDebugSocketSendTimeMicroseconds.clear();
+	
 		if (downstream) {
 			infoString = HTTPGETRUN;
 		} else {
 			infoString = HTTPPOSTRUN;
 		}
 		start();
-		Thread[] threads = new Thread[nThreads];
+		sThreads = new Thread[nThreads];
 		for (int i = 0; i < nThreads; i++) {
-			threads[i] = new Thread(this);
-			threads[i].start();
+			sThreads[i] = new Thread(this);
+		}
+		for (int i = 0; i < nThreads; i++) {
+			sThreads[i].start();
 		}
 		try {
 			for (int i = 0; i < nThreads; i++) {
-				threads[i].join();
+				sThreads[i].join();
 			}
 		} catch (Exception e) {
 			setErrorIfEmpty("Thread join exception: ", e);
@@ -202,6 +232,15 @@ public class HttpTest extends Test {
 		output();
 
 		finish();
+		
+		// Debug - dump timings
+		synchronized (HttpTest.class) {
+			for (DebugTiming value : smDebugSocketSendTimeMicroseconds) {
+				Log.d("HttpTest DUMP", "HttpTest DUMP - threadIndex:" + value.threadIndex + " description:"+ value.description + " time:" + value.time + " microsec speed:" + value.currentSpeed);
+			}
+			smDebugSocketSendTimeMicroseconds.clear();
+		}
+		
 	}
 
 	public String getInfo() {
@@ -256,8 +295,7 @@ public class HttpTest extends Test {
 	public String getHumanReadableResult() {
 		String ret = "";
 		String direction = downstream ? "download" : "upload";
-		String type = nThreads == 1 ? "single connection"
-				: "multiple connection";
+		String type = nThreads == 1 ? "single connection" : "multiple connection";
 		if (testStatus.equals("FAIL")) {
 			ret = String.format("The %s has failed.", direction);
 		} else {
@@ -350,18 +388,28 @@ public class HttpTest extends Test {
 		setJSONOutput(output);
 	}
 
-	public void download() {
-		Socket conn = null;
+	public void download(int threadIndex) {
+
 		OutputStream connOut = null;
 		InputStream connIn = null;
 		byte[] buff = new byte[bufferSize];
 		int readBytes = 0;
-		conn = getSocket();
-		if (conn != null) {
+		
+		Socket socket = getSocket();
+		if (socket != null) {
+			
+			try {
+				int receiveBufferSizeBytes = socket.getReceiveBufferSize();
+				Log.d(getClass().getName(), "HttpTest: download: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
+			} catch (SocketException e1) {
+				// TODO Auto-generated catch block
+				SKLogger.sAssert(getClass(),  false);
+			}
+
 			try {
 
-				connOut = conn.getOutputStream();
-				connIn = conn.getInputStream();
+				connOut = socket.getOutputStream();
+				connIn = socket.getInputStream();
 				PrintWriter writerOut = new PrintWriter(connOut, false);
 				writerOut.print(getHeaderRequest());
 				writerOut.flush();
@@ -378,7 +426,7 @@ public class HttpTest extends Test {
 		}
 		waitForAllConnections();
 		if (error.get()) {
-			closeConnection(conn, connIn, connOut);
+			closeConnection(socket, connIn, connOut);
 			return;
 		}
 		// warmup, can be based on time constraint or data usage constraint
@@ -391,7 +439,7 @@ public class HttpTest extends Test {
 			}
 		} while (!isWarmupDone(readBytes));
 		if (error.get()) {
-			closeConnection(conn, connIn, connOut);
+			closeConnection(socket, connIn, connOut);
 			return;
 		}
 		do {
@@ -402,7 +450,7 @@ public class HttpTest extends Test {
 			}
 		} while (!isTransferDone(readBytes));
 
-		closeConnection(conn, connIn, connOut);
+		closeConnection(socket, connIn, connOut);
 
 	}
 
@@ -433,9 +481,9 @@ public class HttpTest extends Test {
 
 		warmupBytes += bytes;
 		if (startWarmup == 0) {
-			startWarmup = microTime();
+			startWarmup = sGetMicroTime();
 		}
-		warmupTime = microTime() - startWarmup;
+		warmupTime = sGetMicroTime() - startWarmup;
 		// if warmup max time is set and time has exceeded its values set time
 		// warmup to true
 		timeWarmup = warmupMaxTime > 0 && warmupTime >= warmupMaxTime;
@@ -457,7 +505,7 @@ public class HttpTest extends Test {
 
 		}// warmup is finished, wait for other threads if any
 		else if (ret && warmupDoneCounter < nThreads) {
-			startTransfer = microTime();
+			startTransfer = sGetMicroTime();
 			try {
 				wait();
 			} catch (InterruptedException ie) {
@@ -484,9 +532,9 @@ public class HttpTest extends Test {
 
 		// if startTransfer is 0 this is the first call to isTransferDone
 		if (startTransfer == 0) {
-			startTransfer = microTime();
+			startTransfer = sGetMicroTime();
 		}
-		transferTime = microTime() - startTransfer;
+		transferTime = sGetMicroTime() - startTransfer;
 		// if transfermax time is
 		if ((transferMaxTime > 0) && (transferTime > transferMaxTime)) {
 			ret = true;
@@ -508,10 +556,28 @@ public class HttpTest extends Test {
 
 	@Override
 	public void run() {
+	
+		int threadIndex = 0;
+		
+		synchronized (HttpTest.class) {
+			
+			boolean bFound = false;
+
+			int i;
+			for (i = 0; i < sThreads.length; i++) {
+				if (Thread.currentThread() == sThreads[i]) {
+					threadIndex = i;
+					bFound = true;
+					break;
+				}
+			}
+			SKLogger.sAssert(getClass(), bFound);
+		}
+
 		if (downstream) {
-			download();
+			download(threadIndex);
 		} else {
-			upload();
+			upload(threadIndex);
 		}
 	}
 
@@ -553,17 +619,29 @@ public class HttpTest extends Test {
 		return ret;
 	}
 
-	public void upload() {
-		Socket conn = null;
+	public void upload(int threadIndex) {
 		OutputStream connOut = null;
 		InputStream connIn = null;
 		Random generator = new Random();
 		byte[] buff = new byte[sendDataChunkSize];
-		conn = getSocket();
-		if (conn != null) {
+
+		Socket socket = getSocket();
+		if (socket != null) {
+			
 			try {
-				connOut = conn.getOutputStream();
-				connIn = conn.getInputStream();
+				int sendBufferSizeBytes = socket.getReceiveBufferSize();
+				Log.d(getClass().getName(), "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
+				//socket.setReceiveBufferSize(16000);
+				//sendBufferSizeBytes = socket.getReceiveBufferSize();
+				//Log.d(getClass().getName(), "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
+			} catch (SocketException e1) {
+				// TODO Auto-generated catch block
+				SKLogger.sAssert(getClass(),  false);
+			}
+
+			try {
+				connOut = socket.getOutputStream();
+				connIn = socket.getInputStream();
 				PrintWriter writerOut = new PrintWriter(connOut, false);
 				writerOut.print(postHeaderRequest());
 				writerOut.flush();
@@ -574,6 +652,7 @@ public class HttpTest extends Test {
 					error.set(true);
 				}
 			} catch (IOException ioe) {
+				SKLogger.sAssert(getClass(), false);
 				error.set(true);
 			}
 		} else {
@@ -581,39 +660,66 @@ public class HttpTest extends Test {
 		}
 		waitForAllConnections();
 		if (error.get()) {
-			closeConnection(conn, connIn, connOut);
+			closeConnection(socket, connIn, connOut);
 			return;
 		}
+	
+		//
+		// Send WARM-UP data!
+		//
+		
 		do {
 			if (randomEnabled) {
 				generator.nextBytes(buff);
 			}
 			try {
+             	long start = sGetMicroTime();
 				connOut.write(buff);
+             	long end = sGetMicroTime();
+             	
+         		synchronized (HttpTest.class) {
+             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("warmup", threadIndex, end-start, getSpeed()));
+         		}
+         		
 				connOut.flush();
 			} catch (IOException ioe) {
+				SKLogger.sAssert(getClass(), false);
 				error.set(true);
 			}
 		} while (!isWarmupDone(sendDataChunkSize));
+		
 		if (error.get()) {
-			closeConnection(conn, connIn, connOut);
+			closeConnection(socket, connIn, connOut);
 			return;
 		}
+		
+		//
+		// Send the ACTUAL TEST data!
+		//
+
 		do {
 			if (randomEnabled) {
 				generator.nextBytes(buff);
 			}
 			try {
+             	long start = sGetMicroTime();
 				connOut.write(buff);
+             	long end = sGetMicroTime();
+             	
+         		synchronized (HttpTest.class) {
+             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("testit", threadIndex, end-start, getSpeed()));
+         		}
 				connOut.flush();
 			} catch (IOException ioe) {
+				SKLogger.sAssert(getClass(), false);
 				error.set(true);
 			}
 		} while (!isTransferDone(sendDataChunkSize));
-		closeConnection(conn, connIn, connOut);
+	
+		// Close the connection / tidy-up
+		closeConnection(socket, connIn, connOut);
 
 		return;
-
 	}
 
 	private void closeConnection(Socket s, InputStream i, OutputStream o) {
@@ -718,7 +824,7 @@ public class HttpTest extends Test {
 			if (startWarmup == 0) {
 				ret = 0;
 			} else if (transferMaxTime != 0) {
-				long currTime = microTime() - startWarmup;
+				long currTime = sGetMicroTime() - startWarmup;
 				ret = (double) currTime / (warmupMaxTime + transferMaxTime);
 
 			} else {
