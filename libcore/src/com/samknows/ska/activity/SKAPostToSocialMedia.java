@@ -204,8 +204,13 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 	public void promptUserToSelectSocialMediaAndThenPost(final String messageToPost) {
 		mMessageToPost = messageToPost;
 
-		twitterClient = findTwitterClient();
-		facebookClient = findFacebookClient();
+		twitterClient = findTwitterClient(messageToPost);
+		facebookClient = findFacebookClient(messageToPost);
+		
+		if ((twitterClient != null) && (twitterClient.first != null)) {
+			facebookClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
+		}
+					
 
 		//if ((twitterClient == null && facebookClient == null)) {
 		//} else {
@@ -276,13 +281,25 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 									//         							intent.putExtra(Intent.EXTRA_STREAM, uri);
 									//         							intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 									if ((twitterClient != null) && (twitterClient.first != null)) {
-										twitterClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
+									
+									    String theMessageToPost = messageToPost.replace(
+									                        getString(R.string.SocialMedia_IfUsingImage_ChangeFromThis1),
+									                        getString(R.string.SocialMedia_IfUsingImage_ChangeToThis1));
+									    theMessageToPost = theMessageToPost.replace(
+									                        getString(R.string.SocialMedia_IfUsingImage_ChangeFromThis2),
+									                        getString(R.string.SocialMedia_IfUsingImage_ChangeToThis2));
+									   
+									    // The replaceAll uses a regex!
+									    theMessageToPost = theMessageToPost.replaceAll(
+									                        getString(R.string.SocialMedia_IfUsingImage_ChangeRegex4From),
+									                        getString(R.string.SocialMedia_IfUsingImage_ChangeRegex4To));
+									        
+										twitterClient.first.putExtra(Intent.EXTRA_TEXT, theMessageToPost);
 
 										attachScreenshotToIntent(imageToPost, twitterClient.first);
 									}
 
 									if ((facebookClient != null) && (facebookClient.first != null)) {
-										facebookClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
 										attachScreenshotToIntent(imageToPost, facebookClient.first);
 									}
 								} catch (FileNotFoundException e) {
@@ -337,9 +354,9 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 	
 	// https://stackoverflow.com/questions/14051664/android-check-to-see-if-facebook-app-is-present-on-users-device
 	// https://stackoverflow.com/questions/6711295/how-to-check-if-facebook-is-installed-android
-	private Pair<Intent,Drawable> findSocialMediaClient(String appArray[]) {
+	private Pair<Intent,Drawable> findSocialMediaClient(String appArray[], String messageToPost) {
 		Intent theIntent = new Intent(Intent.ACTION_SEND);
-		theIntent.putExtra(Intent.EXTRA_TEXT, "#hashtagTest");
+		theIntent.putExtra(Intent.EXTRA_TEXT, messageToPost);
 		theIntent.setType("text/plain");
 		final PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(theIntent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -357,14 +374,14 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 		return null;
 	}
 
-	private Pair<Intent,Drawable> findTwitterClient() {
+	private Pair<Intent,Drawable> findTwitterClient(String messageToPost) {
 		final String[] appArray = { "com.twitter.android", "com.handmark.tweetcaster", "com.seesmic", "com.thedeck.android", "com.levelup.touiteur", "com.thedeck.android.app" };
-		return findSocialMediaClient(appArray);
+		return findSocialMediaClient(appArray, messageToPost);
     }
 	
-	private Pair<Intent,Drawable> findFacebookClient() {
+	private Pair<Intent,Drawable> findFacebookClient(String messageToPost) {
 		final String[] appArray = { "com.facebook.katana" };
-		return findSocialMediaClient(appArray);
+		return findSocialMediaClient(appArray, messageToPost);
     }
 	
 	private void doPostToFacebookUsingFacebookSDKButPromptFirst(final String messageToPost, final byte[] imageToPost) {

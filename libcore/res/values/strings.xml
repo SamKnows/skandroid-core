@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="about">About</string>
+<string name="socialmedia_footer_short">" with @SamKnows http://bit.ly/Oaz6mR"</string>
+<string name="socialmedia_footer_long">" with SamKnows."</string>
+<string name="socialmedia_header_short_carrier">Testing broadband speed on @</string>
+<string name="socialmedia_header_short_nocarrier">Testing broadband speed</string>
+<string name="socialmedia_header_long_carrier">Testing actual broadband speed on @</string>
+<string name="socialmedia_header_long_nocarrier">Testing actual broadband speed</string>
+<string name="socialmedia_header_short_carrier_average">Testing average broadband speed on @</string>
+<string name="socialmedia_header_short_nocarrier_average">Testing average broadband speed</string>
+<string name="socialmedia_header_long_carrier_average">Testing average broadband speed on @</string>
+<string name="socialmedia_header_long_nocarrier_average">Testing average broadband speed</string>
+<string name="SocialMedia_IfUsingImage_ChangeFromThis1">Testing average</string>
+<string name="SocialMedia_IfUsingImage_ChangeToThis1">Testing</string>
+<string name="SocialMedia_IfUsingImage_ChangeFromThis2">Testing actual</string>
+<string name="SocialMedia_IfUsingImage_ChangeToThis2">Testing</string>
+<string name="SocialMedia_IfUsingImage_ChangeRegex4From">"Up:.*, "</string>
+<string name="SocialMedia_IfUsingImage_ChangeRegex4To"></string>
+<string name="socialmedia_upload">" Up: "</string>
+<string name="socialmedia_download">" Down: "</string>
+<string name="socialmedia_post_to_twitter_title">Post to Twitter</string>
+<string name="socialmedia_twitter_authorization_error">Twitter authorization error, please try again later</string>
+<string name="socialmedia_twitter_tweet_successful">Tweet Successful!</string>
+<string name="socialmedia_twitter_tweet_duplicate_detected">Twitter won\'t let you post duplicate messages!</string>
+<string name="socialmedia_twitter_tweet_error">Tweet error, please try again later</string>
+<string name="socialmedia_twitter_login_error">Twitter Login error, please try again later</string>
+<!--  &#8230; is the ellipsis ... -->
+<string name="socialmedia_facebook_posting">Posting to Facebook&#8230;</string>
+<string name="socialmedia_facebook_posted">Posted to Facebook</string>
+<string name="socialmedia_facebook_connection_failed">Facebook connection failed</string>
+<string name="social_media_screenshot_title">Include screenshot?</string>
+<string name="social_media_screenshot_message">Would you like to include a screenshot with your social media post?</string>
+<string name="social_media_Title_ShareUsingSocialMediaMobile">Share using Social Media</string>
+<string name="social_media_Message_ShareUsingSocialMediaMobile">Only Mobile test results can be shared using Social Media.</string>
 <string name="about_browsing">Visiting a web page is one of the most common tasks people perform on the Internet. This test emulates that process and shows the average time in seconds of how long a selection of popular web sites took to load. Note that results may vary according to changes in the websites being visited. Times are recorded in seconds (lower is better).</string>
 <string name="about_download">This should be indicative of the maximum speed your broadband connection will be able to download data from the Internet.  Results are recorded in Mbps (higher is better).</string>
 <string name="about_jitter">Jitter is............</string>
@@ -384,30 +416,4 @@
 <string name="social_media_facebook">Facebook</string>
 <string name="social_media_twitter">Twitter</string>
 <!-- http://stackoverflow.com/questions/1587056/android-string-concatenate-how-to-keep-the-spaces-at-the-end-and-or-beginnin  -->
-<string name="socialmedia_header_short_carrier">Now testing my #mobilebroadband with @</string>
-<string name="socialmedia_header_short_nocarrier">Now testing my #mobilebroadband</string>
-<string name="socialmedia_header_long_carrier">Now testing my actual #mobilebroadband speed with @</string>
-<string name="socialmedia_header_long_nocarrier">Now testing my actual #mobilebroadband speed</string>
-<string name="socialmedia_header_short_carrier_average">Now testing my average #mobilebroadband with @</string>
-<string name="socialmedia_header_short_nocarrier_average">Now testing my average #mobilebroadband</string>
-<string name="socialmedia_header_long_carrier_average">Now testing my average #mobilebroadband speed with @</string>
-<string name="socialmedia_header_long_nocarrier_average">Now testing my average #mobilebroadband speed</string>
-<string name="socialmedia_upload">" Up: "</string>
-<string name="socialmedia_download">" Down: "</string>
-<string name="socialmedia_footer_short">" using free @SamKnows app"</string>
-<string name="socialmedia_footer_long">" using the free SamKnows app."</string>
-<string name="socialmedia_post_to_twitter_title">Post to Twitter</string>
-<string name="socialmedia_twitter_authorization_error">Twitter authorization error, please try again later</string>
-<string name="socialmedia_twitter_tweet_successful">Tweet Successful!</string>
-<string name="socialmedia_twitter_tweet_duplicate_detected">Twitter won\'t let you post duplicate messages!</string>
-<string name="socialmedia_twitter_tweet_error">Tweet error, please try again later</string>
-<string name="socialmedia_twitter_login_error">Twitter Login error, please try again later</string>
-<!--  &#8230; is the ellipsis ... -->
-<string name="socialmedia_facebook_posting">Posting to Facebook&#8230;</string>
-<string name="socialmedia_facebook_posted">Posted to Facebook</string>
-<string name="socialmedia_facebook_connection_failed">Facebook connection failed</string>
-<string name="social_media_screenshot_title">Include screenshot?</string>
-<string name="social_media_screenshot_message">Would you like to include a screenshot with your social media post?</string>
-<string name="social_media_Title_ShareUsingSocialMediaMobile">Share using Social Media</string>
-<string name="social_media_Message_ShareUsingSocialMediaMobile">Only Mobile test results can be shared using Social Media.</string>
 </resources>
