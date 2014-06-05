@@ -2,6 +2,8 @@ package com.samknows.libcore;
 
 import android.content.Context;
 import android.net.ParseException;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
@@ -287,7 +289,7 @@ public class SKOperators
 						if (mccMnc.equals(deviceMccMnc)) {
 							// Match!
 
-							String urlString = operator.getString("url");
+							final String urlString = operator.getString("url");
 							throttledQueryResult.carrier = operator.getString("name");
 
 							/*
@@ -321,36 +323,47 @@ public class SKOperators
 
                      		Log.d(getClass().getName(), "DEBUG: fire throttle query at (" + urlString + ")");
                      		
-							// Fire the query!
-							client.get(urlString, new AsyncHttpResponseHandler() {
-								int responseCode = 200;
+                     		final AsyncHttpClient theClient = client;
+                     		
+                     		// The internal can interfere with the external run loop.
+							// So, we fire this query under ownership the MAIN UI thread, to prevent the hang.
+                     		// TODO - investigate if we could fire this instead in a separate thread.
+                     		new Handler(Looper.getMainLooper()).post(new Runnable() {
+                     		    @Override
+                     		    public void run() {
+                     		        // Code here will run in UI thread
+                     		    	theClient.get(urlString, new AsyncHttpResponseHandler() {
+        								int responseCode = 200;
 
-								@Override
-								public void sendResponseMessage(HttpResponse response) {
-									responseCode = response.getStatusLine().getStatusCode();
-									try {
-										super.sendResponseMessage(response);
-									} catch (IOException e) {
-										SKLogger.sAssert(getClass(),  false);
-									}
-								}
+        								@Override
+        								public void sendResponseMessage(HttpResponse response) {
+        									responseCode = response.getStatusLine().getStatusCode();
+        									try {
+        										super.sendResponseMessage(response);
+        									} catch (IOException e) {
+        										SKLogger.sAssert(getClass(),  false);
+        									}
+        								}
 
-								@Override
-								public void onSuccess(int statusCode,
-										Header[] headers, byte[] responseBody) {
-									String response = String.valueOf(responseBody);
-									String trimmed = response.trim();
-									callback.onQueryCompleted(null, responseCode, trimmed);
-								}
-								
-								@Override
-								public void onFailure(int statusCode,
-										Header[] headers, byte[] responseBody,
-										Throwable error) {
-									callback.onQueryCompleted(new Exception(error), responseCode, "");
-									
-								}
-							});
+        								@Override
+        								public void onSuccess(int statusCode,
+        										Header[] headers, byte[] responseBody) {
+        									String response = String.valueOf(responseBody);
+        									String trimmed = response.trim();
+        									callback.onQueryCompleted(null, responseCode, trimmed);
+        								}
+        								
+        								@Override
+        								public void onFailure(int statusCode,
+        										Header[] headers, byte[] responseBody,
+        										Throwable error) {
+        									callback.onQueryCompleted(new Exception(error), responseCode, "");
+        									
+        								}
+        							});
+                     		    }
+                     		});
+
 
 							return throttledQueryResult;
 						}
