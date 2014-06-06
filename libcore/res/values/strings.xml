@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<string name="app_name">App Name</string>
 <string name="about">About</string>
 <string name="socialmedia_footer_short">" with @SamKnows http://bit.ly/Oaz6mR"</string>
 <string name="socialmedia_footer_long">" with SamKnows."</string>
@@ -67,7 +68,6 @@
 <string name="alert_icon">Alert Icon</string>
 <string name="all">All</string>
 <string name="already_have_account">Already have an account?</string>
-<string name="app_name">FCC Speed Test</string>
 <string name="archive_result">Archived Result</string>
 <string name="archive_result_of"> of </string>
 <string name="area_code">Area Code</string>
