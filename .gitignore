@@ -4,3 +4,6 @@ facebook-android-sdk-3.0.2/facebook/bin/facebooksdk.jar
 facebook-android-sdk-3.0.2/facebook/bin/jarlist.cache
 google_play_services_lib/bin/jarlist.cache
 cached-robolectric-classes.jar
+facebook-android-sdk-3.0.2/facebook/bin
+google_play_services_lib/bin
+facebook-android-sdk-3.0.2/facebook/gen
