@@ -208,6 +208,10 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 		facebookClient = findFacebookClient(messageToPost);
 		
 		if ((twitterClient != null) && (twitterClient.first != null)) {
+			twitterClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
+		}
+					
+		if ((facebookClient != null) && (facebookClient.first != null)) {
 			facebookClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
 		}
 					
