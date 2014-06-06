@@ -254,9 +254,16 @@ public class HttpTest extends Test {
 			ipAddress = sockAddr.getAddress().getHostAddress();
 			ret = new Socket();
 			ret.setTcpNoDelay(noDelay);
+			
 			if (0 != desideredReceiveBufferSize) {
 				ret.setReceiveBufferSize(desideredReceiveBufferSize);
 			}
+			// HACK (begin)
+			// Sets value in bytes, to be twice that supplied!
+			// https://code.google.com/p/android/issues/detail?id=13898
+			//desideredSendBufferSize = 65536 / 2; // 2 ^ 16
+			desideredSendBufferSize = 65536 / 4; // 2 ^ 15
+			// HACK (end)
 			if (0 != desideredSendBufferSize) {
 				ret.setSendBufferSize(desideredSendBufferSize);
 			}
@@ -629,7 +636,7 @@ public class HttpTest extends Test {
 		if (socket != null) {
 			
 			try {
-				int sendBufferSizeBytes = socket.getReceiveBufferSize();
+				int sendBufferSizeBytes = socket.getSendBufferSize();
 				Log.d(getClass().getName(), "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
 				//socket.setReceiveBufferSize(16000);
 				//sendBufferSizeBytes = socket.getReceiveBufferSize();
