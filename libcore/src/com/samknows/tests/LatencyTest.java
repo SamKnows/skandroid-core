@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
-import android.nfc.Tag;
-import android.util.Log;
-
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -71,6 +68,7 @@ public class LatencyTest extends Test {
 		return UdpDatagram.PACKETSIZE;
 	}
 
+	@SuppressWarnings("serial")
 	static private class PacketTimeOutException extends Exception{
 		
 	}
@@ -302,14 +300,14 @@ public class LatencyTest extends Test {
 			return;
 		}
 		
-		try {
-			int sendBufferSizeBytes = socket.getSendBufferSize();
-			Log.d(getClass().getName(), "LatencyTest: sendBufferSizeBytes=" + sendBufferSizeBytes);
-			int receiveBufferSizeBytes = socket.getReceiveBufferSize();
-			Log.d(getClass().getName(), "LatencyTest: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
-		} catch (SocketException e1) {
-			SKLogger.sAssert(getClass(),  false);
-		}
+//		try {
+//			int sendBufferSizeBytes = socket.getSendBufferSize();
+//			Log.d(getClass().getName(), "LatencyTest: sendBufferSizeBytes=" + sendBufferSizeBytes);
+//			int receiveBufferSizeBytes = socket.getReceiveBufferSize();
+//			Log.d(getClass().getName(), "LatencyTest: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
+//		} catch (SocketException e1) {
+//			SKLogger.sAssert(getClass(),  false);
+//		}
 
 		InetAddress address = null;
 		try {
@@ -317,6 +315,8 @@ public class LatencyTest extends Test {
 			ipAddress = address.getHostAddress();
 		} catch (UnknownHostException e) {
 			failure();
+     		socket.close();
+     		socket = null;
 			return;
 		}
 		for (int i = 0; i < numdatagrams; ++i) {
