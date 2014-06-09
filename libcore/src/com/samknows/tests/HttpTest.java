@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,23 +63,24 @@ public class HttpTest extends Test {
 	public static final String JSON_WARMUPBYTES = "warmup_bytes";
 	public static final String JSON_NUMBER_OF_THREADS = "number_of_threads";
 	
-	private class DebugTiming {
-		public String description;
-		public int threadIndex;
-		public Long time;
-		public int currentSpeed;
-		
-		public DebugTiming(String description, int threadIndex, Long time, int currentSpeed) {
-			super();
-			this.description = description;
-			this.threadIndex = threadIndex;
-			this.time = time;
-			this.currentSpeed = currentSpeed;
-		}
-	}
+//	private class DebugTiming {
+//		public String description;
+//		public int threadIndex;
+//		public Long time;
+//		public int currentSpeed;
+//		
+//		public DebugTiming(String description, int threadIndex, Long time, int currentSpeed) {
+//			super();
+//			this.description = description;
+//			this.threadIndex = threadIndex;
+//			this.time = time;
+//			this.currentSpeed = currentSpeed;
+//		}
+//	}
 
 	// For debug timings!
-	private static ArrayList<DebugTiming> smDebugSocketSendTimeMicroseconds = new ArrayList<DebugTiming>();
+//	private static ArrayList<DebugTiming> smDebugSocketSendTimeMicroseconds = new ArrayList<DebugTiming>();
+	
 	private	Thread[] mThreads = null;
 	
 	/*
@@ -198,7 +198,7 @@ public class HttpTest extends Test {
 	
 	@Override
 	public void execute() {
-     	smDebugSocketSendTimeMicroseconds.clear();
+//     	smDebugSocketSendTimeMicroseconds.clear();
 	
 		if (downstream) {
 			infoString = HTTPGETRUN;
@@ -233,13 +233,13 @@ public class HttpTest extends Test {
 
 		finish();
 		
-		// Debug - dump timings
-		synchronized (HttpTest.class) {
-			for (DebugTiming value : smDebugSocketSendTimeMicroseconds) {
-				Log.d("HttpTest DUMP", "HttpTest DUMP - threadIndex:" + value.threadIndex + " description:"+ value.description + " time:" + value.time + " microsec speed:" + value.currentSpeed);
-			}
-			smDebugSocketSendTimeMicroseconds.clear();
-		}
+//		// Debug - dump timings
+//		synchronized (HttpTest.class) {
+//			for (DebugTiming value : smDebugSocketSendTimeMicroseconds) {
+//				Log.d("HttpTest DUMP", "HttpTest DUMP - threadIndex:" + value.threadIndex + " description:"+ value.description + " time:" + value.time + " microsec speed:" + value.currentSpeed);
+//			}
+//			smDebugSocketSendTimeMicroseconds.clear();
+//		}
 		
 	}
 
@@ -276,16 +276,16 @@ public class HttpTest extends Test {
 			ret.setSoTimeout(Test.READTIMEOUT);
 			ret.connect(sockAddr, Test.CONNECTIONTIMEOUT);
 		} catch (Exception e) {
-			e.printStackTrace();
+			SKLogger.sAssert(getClass(),  false);
 			ret = null;
 		}
 		return ret;
 	}
 
-	private SocketAddress InetSocketAddress(String target2, int port2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	private SocketAddress InetSocketAddress(String target2, int port2) {
+//		SKLogger.sAssert(getClass(),  false);
+//		return null;
+//	}
 
 	// Bytes per second
 	public int getSpeed() {
@@ -413,7 +413,6 @@ public class HttpTest extends Test {
 				int receiveBufferSizeBytes = socket.getReceiveBufferSize();
 				Log.d(getClass().getName(), "HttpTest: download: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
 			} catch (SocketException e1) {
-				// TODO Auto-generated catch block
 				SKLogger.sAssert(getClass(),  false);
 			}
 
@@ -646,7 +645,6 @@ public class HttpTest extends Test {
 				//sendBufferSizeBytes = socket.getReceiveBufferSize();
 				//Log.d(getClass().getName(), "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
 			} catch (SocketException e1) {
-				// TODO Auto-generated catch block
 				SKLogger.sAssert(getClass(),  false);
 			}
 
@@ -684,13 +682,13 @@ public class HttpTest extends Test {
 				generator.nextBytes(buff);
 			}
 			try {
-             	long start = sGetMicroTime();
+//             	long start = sGetMicroTime();
 				connOut.write(buff);
-             	long end = sGetMicroTime();
+//             	long end = sGetMicroTime();
              	
-         		synchronized (HttpTest.class) {
-             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("warmup", threadIndex, end-start, getSpeed()));
-         		}
+//         		synchronized (HttpTest.class) {
+//             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("warmup", threadIndex, end-start, getSpeed()));
+//         		}
          		
 				connOut.flush();
 			} catch (IOException ioe) {
@@ -713,13 +711,13 @@ public class HttpTest extends Test {
 				generator.nextBytes(buff);
 			}
 			try {
-             	long start = sGetMicroTime();
+//             	long start = sGetMicroTime();
 				connOut.write(buff);
-             	long end = sGetMicroTime();
+//             	long end = sGetMicroTime();
              	
-         		synchronized (HttpTest.class) {
-             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("testit", threadIndex, end-start, getSpeed()));
-         		}
+//         		synchronized (HttpTest.class) {
+//             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("testit", threadIndex, end-start, getSpeed()));
+//         		}
 				connOut.flush();
 			} catch (IOException ioe) {
 				SKLogger.sAssert(getClass(), false);
