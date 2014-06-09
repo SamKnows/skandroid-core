@@ -81,7 +81,7 @@ public class HttpTest extends Test {
 
 	// For debug timings!
 	private static ArrayList<DebugTiming> smDebugSocketSendTimeMicroseconds = new ArrayList<DebugTiming>();
-	private	static Thread[] sThreads = null;
+	private	Thread[] mThreads = null;
 	
 	/*
 	 * Time in microseconds
@@ -206,16 +206,16 @@ public class HttpTest extends Test {
 			infoString = HTTPPOSTRUN;
 		}
 		start();
-		sThreads = new Thread[nThreads];
+		mThreads = new Thread[nThreads];
 		for (int i = 0; i < nThreads; i++) {
-			sThreads[i] = new Thread(this);
+			mThreads[i] = new Thread(this);
 		}
 		for (int i = 0; i < nThreads; i++) {
-			sThreads[i].start();
+			mThreads[i].start();
 		}
 		try {
 			for (int i = 0; i < nThreads; i++) {
-				sThreads[i].join();
+				mThreads[i].join();
 			}
 		} catch (Exception e) {
 			setErrorIfEmpty("Thread join exception: ", e);
@@ -258,17 +258,21 @@ public class HttpTest extends Test {
 			if (0 != desideredReceiveBufferSize) {
 				ret.setReceiveBufferSize(desideredReceiveBufferSize);
 			}
-			// HACK (begin)
-			// Sets value in bytes, to be twice that supplied!
+			receiveBufferSize = ret.getReceiveBufferSize();
+			
+			// Experimentation shows a *much* better settling-down on upload speed,
+			// if we force a 32K send buffer size in bytes, rather than relying
+			// on the default send buffer size.
+			
+			// When forcing value in bytes, you must actually divide by two!
 			// https://code.google.com/p/android/issues/detail?id=13898
-			//desideredSendBufferSize = 65536 / 2; // 2 ^ 16
-			desideredSendBufferSize = 65536 / 4; // 2 ^ 15
-			// HACK (end)
+			//desideredSendBufferSize = 65536 / 2; // (2 ^ 16) / 2
+			desideredSendBufferSize = 32768 / 2; // (2 ^ 15) / 2
 			if (0 != desideredSendBufferSize) {
 				ret.setSendBufferSize(desideredSendBufferSize);
 			}
 			sendBufferSize = ret.getSendBufferSize();
-			receiveBufferSize = ret.getReceiveBufferSize();
+			
 			ret.setSoTimeout(Test.READTIMEOUT);
 			ret.connect(sockAddr, Test.CONNECTIONTIMEOUT);
 		} catch (Exception e) {
@@ -571,8 +575,8 @@ public class HttpTest extends Test {
 			boolean bFound = false;
 
 			int i;
-			for (i = 0; i < sThreads.length; i++) {
-				if (Thread.currentThread() == sThreads[i]) {
+			for (i = 0; i < mThreads.length; i++) {
+				if (Thread.currentThread() == mThreads[i]) {
 					threadIndex = i;
 					bFound = true;
 					break;

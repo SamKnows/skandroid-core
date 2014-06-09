@@ -65,22 +65,44 @@ public class SamKnowsBaseActivity extends Activity {
 			
 			SKLogger.sAssert(getClass(),  tasks != null);
 
-			if (tasks != null) {
-				RunningTaskInfo currentTask = tasks.get(0);
+			if (tasks == null) {
+				SKLogger.sAssert(getClass(),  false);
+				// Assume it must be OK to close!
+				return true;
+			}
+			
+			if (tasks.size() == 0) {
+				SKLogger.sAssert(getClass(),  false);
+				// Assume it must be OK to close!
+				return true;
+			}
+			
+			RunningTaskInfo currentTask = tasks.get(0);
+			if (currentTask == null) {
+				SKLogger.sAssert(getClass(),  false);
+				// Assume it must be OK to close!
+				return true;
+			}
 
-				SKLogger.sAssert(getClass(),  tasks.size() >= 1);
-				if (tasks.size() >= 2) {
-					RunningTaskInfo nextTask = tasks.get(1);
+			if (tasks.size() < 2) {
+				SKLogger.sAssert(getClass(),  false);
+				// Assume it must be OK to close!
+				return true;
+			}
+			RunningTaskInfo nextTask = tasks.get(1);
+			if (nextTask == null) {
+				SKLogger.sAssert(getClass(),  false);
+				// Assume it must be OK to close!
+				return true;
+			}
 
-					// if we're looking at this application's base/launcher Activity,
-					// and the next task is the Android home screen, then we know we're
-					// about to close the app...
-					if (currentTask.topActivity.equals(currentTask.baseActivity)
-							&& nextTask.baseActivity.getPackageName().startsWith("com.android.launcher")) {
-						Log.d(this.getClass().toString(), "This activity is the top activity, and will return us to the Home screen");
-						return true;
-					}
-				}
+			// if we're looking at this application's base/launcher Activity,
+			// and the next task is the Android home screen, then we know we're
+			// about to close the app...
+			if (currentTask.topActivity.equals(currentTask.baseActivity)
+					&& nextTask.baseActivity.getPackageName().startsWith("com.android.launcher")) {
+				Log.d(this.getClass().toString(), "This activity is the top activity, and will return us to the Home screen");
+				return true;
 			}
 		} catch (java.lang.NullPointerException ex) {
 			// Seen on some devices!
