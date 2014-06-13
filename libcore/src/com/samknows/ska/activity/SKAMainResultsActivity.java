@@ -1529,8 +1529,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 					TelephonyManager telManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 					String carrier = telManager.getNetworkOperatorName();
-					String text = getTextForSocialMediaAverage(carrier);
-					promptUserToSelectSocialMediaAndThenPost(text);
+					SocialStrings socialStrings = getTextForSocialMediaAverage(carrier);
+					promptUserToSelectSocialMediaAndThenPost(socialStrings);
 				} else {
 					// We're NOT on an aggregate page!
 					
@@ -1731,17 +1731,33 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	}
 	
 	
+	SocialStrings getStringsForSocialMediaForCarrierDownloadUpload(String carrier, String download_result, String upload_result, boolean inThisDataIsAveraged) {
+		SocialStrings result = new SocialStrings();
+		
+		result.twitterString = getTextForSocialMediaForCarrierDownloadUpload(false, carrier, download_result, upload_result, inThisDataIsAveraged);
+		result.facebookString = getTextForSocialMediaForCarrierDownloadUpload(true, carrier, download_result, upload_result, inThisDataIsAveraged);
+
+		return result;
+	}
 	
-	String getTextForSocialMediaForCarrierDownloadUpload(String carrier, String download_result, String upload_result, boolean inThisDataIsAveraged) {
+	String getTextForSocialMediaForCarrierDownloadUpload(boolean longString, String carrier, String download_result, String upload_result, boolean inThisDataIsAveraged) {
 		StringBuilder builder = new StringBuilder();
 
 		if (carrier.length() > 0) {
 			String withCarrier;
 
 			if (inThisDataIsAveraged) {
-				withCarrier = getString(R.string.socialmedia_header_long_carrier_average);
+				if (longString) {
+    				withCarrier = getString(R.string.socialmedia_header_long_carrier_average);
+				}  else {
+    				withCarrier = getString(R.string.socialmedia_header_short_carrier_average);
+				}
 			} else {
-				withCarrier = getString(R.string.socialmedia_header_long_carrier);
+				if (longString) {
+    				withCarrier = getString(R.string.socialmedia_header_long_carrier);
+				} else {
+    				withCarrier = getString(R.string.socialmedia_header_short_carrier);
+				}
 			}
 			// Social media posting:
 			// 	- Change e.g. "My-Network-Operator" to "MyNetworkOperator"
@@ -1752,30 +1768,43 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		} else {
 			String noCarrier;
 			if (inThisDataIsAveraged) {
-    			noCarrier = getString(R.string.socialmedia_header_long_nocarrier_average);
+				if (longString) {
+        			noCarrier = getString(R.string.socialmedia_header_long_nocarrier_average);
+				} else {
+        			noCarrier = getString(R.string.socialmedia_header_short_nocarrier_average);
+				}
 			} else {
-    			noCarrier = getString(R.string.socialmedia_header_long_nocarrier);
+				if (longString) {
+        			noCarrier = getString(R.string.socialmedia_header_long_nocarrier);
+				} else {
+        			noCarrier = getString(R.string.socialmedia_header_short_nocarrier);
+				}
 			}
 			builder.append(noCarrier);
 		}
 
 		boolean gotSomethingYet = false;
-		if (upload_result.length() > 0) {
-			gotSomethingYet = true;
-			String upload = getString(R.string.socialmedia_upload);
-			builder.append(upload);
-			builder.append(upload_result);
-		}
 		if (download_result.length() > 0) {
-			if (gotSomethingYet == true) {
-				builder.append(",");
-			}
+			gotSomethingYet = true;
 			String download = getString(R.string.socialmedia_download);
 			builder.append(download);
 			builder.append(download_result);
 		}
+		if (upload_result.length() > 0) {
+			if (gotSomethingYet == true) {
+				builder.append(",");
+			}
+			String upload = getString(R.string.socialmedia_upload);
+			builder.append(upload);
+			builder.append(upload_result);
+		}
 
-		String footer = getString(R.string.socialmedia_footer_short);
+		String footer;
+		if (longString) {
+			footer = getString(R.string.socialmedia_footer_long);
+		} else {
+			footer = getString(R.string.socialmedia_footer_short);
+		}
 		builder.append(footer);
 
 		String result = builder.toString();
@@ -1784,7 +1813,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		return result;
 	}
 
-	String getTextForSocialMediaAverage(String carrier) {
+
+	SocialStrings getTextForSocialMediaAverage(String carrier) {
 
 		//"Now testing my actual #mobilebroadband speed Up:2, Down=3 using...";
 
@@ -1794,7 +1824,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		String upload_result = uploadDownload.second;
 
 		// The true means that this data is averaged!
-		return getTextForSocialMediaForCarrierDownloadUpload(carrier, download_result, upload_result, true);
+		SocialStrings result = getStringsForSocialMediaForCarrierDownloadUpload(carrier, download_result, upload_result, true);
+		return result;
 	}
 
 	/**
@@ -2172,7 +2203,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			return statRecords.size();
 		}
 		
-		public String getTextForSocialMedia(int position) {
+		public SocialStrings getTextForSocialMedia(int position) {
 			
 			//"Now testing my actual #mobilebroadband speed Up:2, Down=3 using...";
 			
@@ -2182,7 +2213,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			String download_result = sr.download_result;
 			String upload_result = sr.upload_result;
      		// The false means that this data is NOT averaged!
-		    return getTextForSocialMediaForCarrierDownloadUpload(carrier, download_result, upload_result, false);
+		    return getStringsForSocialMediaForCarrierDownloadUpload(carrier, download_result, upload_result, false);
 		}
 
 		@Override

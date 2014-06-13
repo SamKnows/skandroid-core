@@ -16,9 +16,7 @@ import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.Facebook.*;
-import com.facebook.android.FacebookError;
 import com.facebook.android.*;
 import com.facebook.*;
 import com.facebook.widget.WebDialog;
@@ -68,7 +66,13 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKScreenShot;
 
 public class SKAPostToSocialMedia extends BaseLogoutActivity {
-
+	
+	// Twitter, then Facebook!
+	public class SocialStrings {
+		String twitterString;
+		String facebookString;
+	};
+		
 	private ProgressDialog mProgress;
 
 	private static final String[] PERMISSIONS = new String[] {"publish_stream", "read_stream", "offline_access"};
@@ -83,7 +87,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
  	Pair<Intent,Drawable> twitterClient = null;
  	Pair<Intent,Drawable> facebookClient = null;
 	
-	String mMessageToPost = "";
+	SocialStrings mMessageToPost;
 	byte[] mImageToPost = null;
 	
 	private void promptUserToInstallTwitterApp() {
@@ -196,23 +200,23 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 			// This is the main discussion, where facebook reject the issue!
 
 			//startActivity(Intent.createChooser(facebookClient.first, "Post to Facebook"));
-			doPostToFacebookUsingFacebookSDKButPromptFirst(mMessageToPost, mImageToPost);
+			doPostToFacebookUsingFacebookSDKButPromptFirst(mMessageToPost.facebookString, mImageToPost);
 			//}
 		}
 	}
 	
-	public void promptUserToSelectSocialMediaAndThenPost(final String messageToPost) {
+	public void promptUserToSelectSocialMediaAndThenPost(final SocialStrings messageToPost) {
 		mMessageToPost = messageToPost;
 
-		twitterClient = findTwitterClient(messageToPost);
-		facebookClient = findFacebookClient(messageToPost);
+		twitterClient = findTwitterClient(messageToPost.twitterString);
+		facebookClient = findFacebookClient(messageToPost.facebookString);
 		
 		if ((twitterClient != null) && (twitterClient.first != null)) {
-			twitterClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
+			twitterClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost.twitterString);
 		}
 					
 		if ((facebookClient != null) && (facebookClient.first != null)) {
-			facebookClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost);
+			facebookClient.first.putExtra(Intent.EXTRA_TEXT, messageToPost.facebookString);
 		}
 					
 
@@ -286,17 +290,17 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 									//         							intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 									if ((twitterClient != null) && (twitterClient.first != null)) {
 									
-									    String theMessageToPost = messageToPost.replace(
-									                        getString(R.string.SocialMedia_IfUsingImage_ChangeFromThis1),
-									                        getString(R.string.SocialMedia_IfUsingImage_ChangeToThis1));
+									    String theMessageToPost = messageToPost.twitterString.replace(
+									                        getString(R.string.SocialMedia_TwitterIfUsingImage_ChangeFromThis1),
+									                        getString(R.string.SocialMedia_TwitterIfUsingImage_ChangeToThis1));
 									    theMessageToPost = theMessageToPost.replace(
-									                        getString(R.string.SocialMedia_IfUsingImage_ChangeFromThis2),
-									                        getString(R.string.SocialMedia_IfUsingImage_ChangeToThis2));
+									                        getString(R.string.SocialMedia_TwitterIfUsingImage_ChangeFromThis2),
+									                        getString(R.string.SocialMedia_TwitterIfUsingImage_ChangeToThis2));
 									   
 									    // The replaceAll uses a regex!
 									    theMessageToPost = theMessageToPost.replaceAll(
-									                        getString(R.string.SocialMedia_IfUsingImage_ChangeRegex4From),
-									                        getString(R.string.SocialMedia_IfUsingImage_ChangeRegex4To));
+									                        getString(R.string.SocialMedia_TwitterIfUsingImage_ChangeRegex4From),
+									                        getString(R.string.SocialMedia_TwitterIfUsingImage_ChangeRegex4To));
 									        
 										twitterClient.first.putExtra(Intent.EXTRA_TEXT, theMessageToPost);
 
@@ -672,7 +676,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 	
 	final int cRequestCodeForFacebookResult = 88888888;
 	
-	public void doPostToTwitterOldApproach(String messageToPost, byte[] imageToPost) {
+	public void doPostToTwitterOldApproach(SocialStrings messageToPost, byte[] imageToPost) {
 		
     	mMessageToPost = messageToPost;
     	mImageToPost = imageToPost;
@@ -683,9 +687,9 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 		// Remove the "about", to give shorter, Twitter-specific strings...
 		String shortString = SKAPostToSocialMedia.this.getString(R.string.socialmedia_header_short_nocarrier);
 		String longString = SKAPostToSocialMedia.this.getString(R.string.socialmedia_header_long_nocarrier);
-		messageToPost = messageToPost.replace(longString, shortString);
+		messageToPost.twitterString = messageToPost.twitterString.replace(longString, shortString);
 
-		intent.putExtra("messageToPost", messageToPost);
+		intent.putExtra("messageToPost", messageToPost.twitterString);
 		if (mImageToPost != null) {
 			intent.putExtra("imageToPost", mImageToPost);
 		}
