@@ -85,17 +85,22 @@ public class ClosestTarget extends Test {
 	@Override
 	public boolean isReady() {
 		if (!between(nPackets, NUMBEROFPACKETSMIN, NUMBEROFPACKETSMAX)) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (!between(interPacketTime, INTERPACKETIMEMIN, INTERPACKETIMEMAX)) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (!between(delayTimeout, DELAYTIMEOUTMIN, DELAYTIMEOUTMAX)) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (!between(targets.size(), NUMBEROFTARGETSMIN, NUMBEROFTARGETSMAX)) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
+		
 		return true;
 	}
 

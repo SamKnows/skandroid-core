@@ -367,10 +367,12 @@ public class TestExecutor {
 			} else {
 				SKLogger.e(TAG, "Can't find test for: " + td.type,
 						new RuntimeException());
+				SKLogger.sAssert(getClass(), false);
 				result.isSuccess = false;
 			}
 		} catch (Throwable e) {
 			SKLogger.e(this, "Error in executing the test. ", e);
+			SKLogger.sAssert(getClass(), false);
 			result.isSuccess = false;
 		} finally {
 			cancelNotification();
@@ -520,8 +522,11 @@ public class TestExecutor {
 		}
 		List<JSONObject> testsResults = new ArrayList<JSONObject>();
 		for (String out : result.results) {
-			testsResults.addAll(com.samknows.measurement.storage.StorageTestResult
-					.testOutput(out, this));
+			List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult
+					.testOutput(out, this);
+			if (theResult != null) {
+				testsResults.addAll(theResult);
+			}
 		}
 
 		if (cg != null) {

@@ -175,23 +175,30 @@ public class LatencyTest extends Test {
 	@Override
 	public boolean isReady() {
 		if (target.length() == 0) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (port == 0) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (numdatagrams == 0 || results == null) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (delayTimeout == 0) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (interPacketTime == 0) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (percentile < 0 || percentile > 100) {
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
+		
 		return true;
 	}
 

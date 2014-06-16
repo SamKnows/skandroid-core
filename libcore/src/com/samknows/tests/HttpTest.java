@@ -136,33 +136,41 @@ public class HttpTest extends Test {
 	public boolean isReady() {
 		if (target.length() == 0) {
 			setError("Target empty");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (port == 0) {
 			setError("Port is zero");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (warmupMaxTime == 0 && warmupMaxBytes == 0) {
 			setError("No warmup parameter defined");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (transferMaxTime == 0 && transferMaxBytes == 0) {
 			setError("No transfer parameter defined");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (!downstream && (sendDataChunkSize == 0 || postDataLength == 0)) {
 			setError("Upload parameter missing");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (downstream && bufferSize == 0) {
 			setError("Buffer size missing for download");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
 		if (nThreads < 1 && nThreads > MAXNTHREADS) {
 			setError("Number of threads error, current is: " + nThreads
 					+ ". Min " + 1 + " Max " + MAXNTHREADS + ".");
+			SKLogger.sAssert(getClass(),  false);
 			return false;
 		}
+		
 		return true;
 	}
 

@@ -129,6 +129,10 @@ public class ScheduleConfig implements Serializable {
 		for(TestDescription td: tests){
 			if(td.testId == id) return td;
 		}
+		
+		// Unrecognized test id!
+		SKLogger.sAssert(getClass(), false);
+		
 		return null;
 	}
 	

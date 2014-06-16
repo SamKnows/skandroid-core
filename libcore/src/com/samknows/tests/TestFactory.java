@@ -104,8 +104,10 @@ public class TestFactory {
 		} else if (Test.paramMatch(testType, PROXYDETECTOR)) {
 			ret = createProxyDetector(params);
 		}
-		if (ret != null && !ret.isReady()) {
-			ret = null;
+		if (ret != null) {
+			if (!ret.isReady()) {
+				ret = null;
+			}
 		}
 		return ret;
 	}
