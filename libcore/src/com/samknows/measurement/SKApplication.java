@@ -104,6 +104,11 @@ public class SKApplication extends Application{
 	public boolean supportOneDayResultView() {
 		return false;
 	}
+	
+	// Override this, if you want your application to support continuous testing.
+	public boolean supportContinuousTesting() {
+		return false;
+	}
 
 	// Get the class of the main activity!
 	public Class getTheMainActivityClass() {

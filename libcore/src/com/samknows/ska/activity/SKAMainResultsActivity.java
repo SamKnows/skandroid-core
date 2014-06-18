@@ -353,7 +353,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		//
 		LinearLayout layout = (LinearLayout)findViewById(R.id.btnRunContinuousTestsLayout);
 		
-		if (SKApplication.getAppInstance().supportOneDayResultView() == false) {
+		if (SKApplication.getAppInstance().supportContinuousTesting() == false) {
 			// Might not yet be attached to the main view (this is attached via a view pager, remember!)
 			if (layout != null) {
 				layout.setVisibility(View.GONE);
