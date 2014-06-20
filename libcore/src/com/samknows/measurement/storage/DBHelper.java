@@ -289,11 +289,11 @@ public class DBHelper {
 	// Returns the JSONObject containing the data to populate a grid for a
 	// specific test
 	// with id test_type_id, returns offset entry starting from index
-	public JSONObject getGridData(int test_type_id, int index, int offset) {
+	public JSONObject getGridData(int test_type_id, int index, int offset, long startdtime,
+			long enddtime) {
 		JSONObject ret = new JSONObject();
 		String test_type = StorageTestResult.testIdToString(test_type_id);
-		List<JSONObject> entries = getFilteredTestResults(test_type, index,
-				offset);
+		List<JSONObject> entries = getFilteredTestResultsInDateRange(test_type, index, offset, startdtime, enddtime);
 		try {
 			ret.put(GRIDDATA_TYPE, test_type_id);
 			
@@ -769,7 +769,7 @@ public class DBHelper {
 	 * starttime); return getTestResults(selection, n + ""); }
 	 */
 
-	// Returns n TestResult the i-th result for a given type
+	// Returns n TestResult the i-th result for a given type, irrespective of date range.
 	public List<JSONObject> getFilteredTestResults(String type, int startindex,
 			int n) {
 		String selection = String.format(Locale.US, "%s = '%s'",
@@ -779,11 +779,26 @@ public class DBHelper {
 		if (batches == null || batches.size() == 0) {
 			return new ArrayList<JSONObject>();
 		}
-		selection += " AND "
-				+ getInClause(SKSQLiteHelper.TR_COLUMN_BATCH_ID, batches);
+		selection += " AND " + getInClause(SKSQLiteHelper.TR_COLUMN_BATCH_ID, batches);
 		return getTestResults(selection, limit);
 	}
 
+	// Returns n TestResult the i-th result for a given type, given a date range.
+	public List<JSONObject> getFilteredTestResultsInDateRange(String type, int startindex,
+			int n, long starttime, long endtime) {
+		String selection = String.format(Locale.US, "%s = '%s'",
+				SKSQLiteHelper.TR_COLUMN_TYPE, type);
+		String limit = String.format(Locale.US, "%d,%d", startindex, n);
+		List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
+		if (batches == null || batches.size() == 0) {
+			return new ArrayList<JSONObject>();
+		}
+		selection += " AND " + getInClause(SKSQLiteHelper.TR_COLUMN_BATCH_ID, batches);
+		String selection2 = String.format(Locale.US,
+					"AND dtime BETWEEN %d AND %d AND success <> 0", starttime, endtime);
+		selection += selection2;
+		return getTestResults(selection, limit);
+	}
 	// Returns a JSONArray with the averages for the tests in the interval
 	// between starttime and endtime
 	// the average is computed only on successful tests

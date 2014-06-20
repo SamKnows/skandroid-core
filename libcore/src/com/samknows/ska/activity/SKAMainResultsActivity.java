@@ -660,81 +660,93 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		return result;
 	}
 
-	private void loadDownloadGrid(int testnumber, int grid, int offset,
-			int limit) {
+	private void loadDownloadGrid(int testnumber, int grid, int offset, int rowsPerPage) {
+		
+		Calendar fromCalNow = Calendar.getInstance();
+		long current_dtime = fromCalNow.getTimeInMillis();
+		lookBackwardInTime(fromCalNow);
+		long starting_dtime = fromCalNow.getTimeInMillis();
 
-		double a1 = (double) total_archive_records;
-		double a2 = (double) limit;
-		int pages = (int) Math.ceil(a1 / a2);
-		int page_number = (offset + limit) / limit;
+		JSONObject jsonObjectIfNotPaged = dbHelper.getGridData(testnumber, 0, Integer.MAX_VALUE, starting_dtime, current_dtime);
+		JSONObject jsonObject = dbHelper.getGridData(testnumber, offset, rowsPerPage, starting_dtime, current_dtime);
+		// jsonObject=dbHelper.getGridData(1, offset, limit);
+
+		double availableRowsForThisGrid = (double) total_archive_records;
+		JSONArray resultsIfNotPaged = null;
+		JSONArray results = null;
+		try {
+			resultsIfNotPaged = jsonObjectIfNotPaged.getJSONArray("results");
+			results = jsonObject.getJSONArray("results");
+		} catch (JSONException e) {
+			SKLogger.sAssert(getClass(),  false);
+		}
+
+		if (resultsIfNotPaged != null) {
+     		availableRowsForThisGrid = resultsIfNotPaged.length();
+		} else {
+			switch (testnumber) {
+			case StorageTestResult.DOWNLOAD_TEST_ID:
+				availableRowsForThisGrid = (double) total_download_archive_records;
+				break;
+			case StorageTestResult.UPLOAD_TEST_ID:
+				availableRowsForThisGrid = (double) total_upload_archive_records;
+				break;
+			case StorageTestResult.LATENCY_TEST_ID:
+				availableRowsForThisGrid = (double) total_latency_archive_records;
+				break;
+			case StorageTestResult.PACKETLOSS_TEST_ID:
+				availableRowsForThisGrid = (double) total_packetloss_archive_records;
+				break;
+			case StorageTestResult.JITTER_TEST_ID:
+				availableRowsForThisGrid = (double) total_jitter_archive_records;
+				break;
+			default:
+				SKLogger.sAssert(getClass(), false);
+				break;
+			}
+		}
+		
+		if (offset >= availableRowsForThisGrid) {
+         	offset = 0;
+		}
+		
+		int pages = (int) Math.ceil(availableRowsForThisGrid / rowsPerPage);
+		if (pages == 0) {
+			pages = 1;
+		}
+		int page_number = (offset + rowsPerPage) / rowsPerPage;
 
 		TextView tv;
 
 		switch (testnumber) {
 		case StorageTestResult.DOWNLOAD_TEST_ID:
-			a1 = (double) total_download_archive_records;
-			pages = (int) Math.ceil(a1 / a2);
-			if (pages == 0) pages = 1;
-
 			tv = (TextView) subview.findViewById(R.id.download_pagenumber);
-			tv.setText(getString(R.string.page) + " " + page_number + " "
-					+ getString(R.string.of) + " " + pages);
+			tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
 			break;
 
 		case StorageTestResult.UPLOAD_TEST_ID:
-			a1 = (double) total_upload_archive_records;
-			pages = (int) Math.ceil(a1 / a2);
-			if (pages == 0) pages = 1;
-			
 			tv = (TextView) subview.findViewById(R.id.upload_pagenumber);
-			tv.setText(getString(R.string.page) + " " + page_number + " "
-					+ getString(R.string.of) + " " + pages);
+			tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
 			break;
 
 		case StorageTestResult.LATENCY_TEST_ID:
-			a1 = (double) total_latency_archive_records;
-			pages = (int) Math.ceil(a1 / a2);
-			if (pages == 0) pages = 1;
-			
 			tv = (TextView) subview.findViewById(R.id.latency_pagenumber);
-			tv.setText(getString(R.string.page) + " " + page_number + " "
-					+ getString(R.string.of) + " " + pages);
+			tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
 			break;
 
 		case StorageTestResult.PACKETLOSS_TEST_ID:
-			a1 = (double) total_packetloss_archive_records;
-			pages = (int) Math.ceil(a1 / a2);
-			if (pages == 0) pages = 1;
-			
 			tv = (TextView) subview.findViewById(R.id.packetloss_pagenumber);
-			tv.setText(getString(R.string.page) + " " + page_number + " "
-					+ getString(R.string.of) + " " + pages);
+			tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
 			break;
 
 		case StorageTestResult.JITTER_TEST_ID:
-			a1 = (double) total_jitter_archive_records;
-			pages = (int) Math.ceil(a1 / a2);
-			if (pages == 0) pages = 1;
-			
 			tv = (TextView) subview.findViewById(R.id.jitter_pagenumber);
-			tv.setText(getString(R.string.page) + " " + page_number + " "
-					+ getString(R.string.of) + " " + pages);
+			tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
 			break;
 
 		default:
-
-		}
-
-		JSONObject jsonObject;
-
-		jsonObject = dbHelper.getGridData(testnumber, offset, limit);
-		// jsonObject=dbHelper.getGridData(1, offset, limit);
-
-		JSONArray results = null;
-		try {
-			results = jsonObject.getJSONArray("results");
-		} catch (JSONException e) {
-			e.printStackTrace();
+			SKLogger.sAssert(getClass(), false);
+			break;
 		}
 
 		String location;
