@@ -38,6 +38,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Parcelable;
+//import android.os.Trace;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -509,6 +510,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 
 	private void loadAverage() {
+     	//Trace.beginSection("loadAverage");
+     		
 		Calendar fromCalNow = Calendar.getInstance();
 		long current_dtime = fromCalNow.getTimeInMillis();
 
@@ -561,6 +564,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		}
 
+     	//Trace.endSection();
 	}
 
 	public boolean setTotalArchiveRecords() {
@@ -662,15 +666,23 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 	private void loadDownloadGrid(int testnumber, int grid, int offset, int rowsPerPage) {
 		
+		//Trace.beginSection("loadDownloadGrid");
+		
 		Calendar fromCalNow = Calendar.getInstance();
 		long current_dtime = fromCalNow.getTimeInMillis();
 		lookBackwardInTime(fromCalNow);
 		long starting_dtime = fromCalNow.getTimeInMillis();
 
+		//Trace.beginSection("jsonObjectIfNotPaged");
 		JSONObject jsonObjectIfNotPaged = dbHelper.getGridData(testnumber, 0, Integer.MAX_VALUE, starting_dtime, current_dtime);
+		//Trace.endSection();
+		
+		//Trace.beginSection("jsonObject");
 		JSONObject jsonObject = dbHelper.getGridData(testnumber, offset, rowsPerPage, starting_dtime, current_dtime);
+		//Trace.endSection();
 		// jsonObject=dbHelper.getGridData(1, offset, limit);
 
+		//Trace.beginSection("theRest");
 		double availableRowsForThisGrid = (double) total_archive_records;
 		JSONArray resultsIfNotPaged = null;
 		JSONArray results = null;
@@ -830,6 +842,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		table.getParent().requestLayout();
 
 		Util.overrideFonts(this, findViewById(android.R.id.content));
+		//Trace.endSection(); // theRest
+		
+		//Trace.endSection();
 	}
 	
 	@Override
@@ -991,6 +1006,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 					public void onClick(DialogInterface dialog, int which) {
 
 						dialog.dismiss();
+						
+					    //Trace.beginSection("processNetworkTypeButton");
 				
 						boolean bChanged = false;
 						if (which == 0) {
@@ -1013,25 +1030,37 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     	  				if (bChanged) {
     	  					setNetworkTypeToggleButton();
 
+     					    //Trace.beginSection("setTotalArchiveRecords");
     	  					// Update all the graphs etc.!!!
     	  					// Query average data, and update charts - this might make them invisible, if there is no data!
     	  					setTotalArchiveRecords();
+     					    //Trace.endSection();
+     					    
+     					    //Trace.beginSection("pagerAdapter");
     	  					adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
     	  					//viewPager = (ViewPager) findViewById(R.id.viewPager);
     	  					SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+                        		//Trace.beginSection("setAdapter");
     	  					viewPager.setAdapter(adapter);
+      					   	    //Trace.endSection();
+     					    //Trace.endSection();
 
+     					    //Trace.beginSection("queryAverageDataAndUpdateTheCharts");
     	  					queryAverageDataAndUpdateTheCharts();
+     					    //Trace.endSection();
 
-    	  					// And reload the grids!
-    	  					clearGrid(R.id.download_results_tablelayout);
-    	  					clearGrid(R.id.upload_results_tablelayout);
-    	  					clearGrid(R.id.latency_results_tablelayout);
-    	  					clearGrid(R.id.packetloss_results_tablelayout);
-    	  					clearGrid(R.id.jitter_results_tablelayout);
-    	  					adapter.loadGrids();
+//    	  					// Do NOT reload the grids, as this has been done already by the previous code.
+//    	  					clearGrid(R.id.download_results_tablelayout);
+//    	  					clearGrid(R.id.upload_results_tablelayout);
+//    	  					clearGrid(R.id.latency_results_tablelayout);
+//    	  					clearGrid(R.id.packetloss_results_tablelayout);
+//    	  					clearGrid(R.id.jitter_results_tablelayout);
+//    	  					adapter.loadGrids();
+     					    //Trace.beginSection("setContinuousTestingButton");
     	  					setContinuousTestingButton();
+     					    //Trace.endSection();
     	  				}
+					    //Trace.endSection();
 					}
 				});
 				builder.setNegativeButton(getString(R.string.cancel),
@@ -1356,6 +1385,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	}
 
 	private void graphsSetup() {
+		
+     	//Trace.beginSection("graphsSetup");
 
 		WebView graphDownload =  (WebView)subview.findViewById(R.id.download_graph);
 		 // http://stackoverflow.com/questions/2527899/disable-scrolling-in-webview
@@ -1410,6 +1441,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		graphHandlerLatency = new SKGraphForResults(context, graphLatency, latencyCaption, "latency");
 		graphHandlerPacketLoss = new SKGraphForResults(context, graphPacketLoss, packetlossCaption, "packetloss");
 		graphHandlerJitter = new SKGraphForResults(context, graphJitter, jitterCaption, "jitter");
+		
+     	//Trace.endSection();
 	}
 
 	/**
@@ -1899,25 +1932,30 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				SKLogger.e(this, "Error in reading from JSONObject.", e1);
 			}
 
+     		//Trace.beginSection("addRecords");
 			for (int i = 0; i < total_archive_records; i++) {
 				statRecords.add(new StatRecord());
 				// load blank records ready for populating
 			}
+     		//Trace.endSection();
 		}
 
 		public void readArchiveItem(int archiveItemIndex) {
+     		//Trace.beginSection("readArchiveItem");
 			JSONObject archive;
 			try {
 
 				archive = dbHelper.getArchiveData(archiveItemIndex);
 
 			} catch (Exception e) {
+         		//Trace.endSection();
 				SKLogger.e(this, "Error in reading archive item " + archiveItemIndex, e);
 				SKLogger.sAssert(getClass(), false);
 				return;
 			}
 			
 			if (archive == null) {
+         		//Trace.endSection();
 				SKLogger.sAssert(getClass(), false);
 				return;
 			}
@@ -2045,7 +2083,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 					captureUserMetricAtArchiveItemIndex(archiveItemIndex, user);
 				}
 			}
-
+			
+         	//Trace.endSection();
 		}
 
 		private void captureUserMetricAtArchiveItemIndex(int archiveItemIndex,
@@ -2231,6 +2270,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		@Override
 		public Object instantiateItem(View view, final int position) {
 
+     		//Trace.beginSection("instantiateItem");
+     		
 			StatView sc = new StatView(SKAMainResultsActivity.this);
 			sc.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.WRAP_CONTENT));
@@ -2243,7 +2284,10 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 			// If position is zero take care of the visibility of the messages
 			if(position == 0) {
+             	//Trace.beginSection("ska_main_results_activity_runnow_and_graphs");
 				subview = inflater.inflate(R.layout.ska_main_results_activity_runnow_and_graphs, null);
+             	//Trace.endSection();
+             	
 				subview.setTag(position);
 
 				if (SKApplication.getAppInstance().hideJitter() == true) {
@@ -2319,7 +2363,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				loadGrids();
 			}
 
+          	//Trace.beginSection("ska_main_results_activity_single_result");
 			subview_archive = inflater.inflate(R.layout.ska_main_results_activity_single_result, null);
+          	//Trace.endSection();
 
 			if (SKApplication.getAppInstance().hideJitter() == true) {
 				// Hide some elements!
@@ -2419,8 +2465,10 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			}
 
 			Util.overrideFonts(SKAMainResultsActivity.this, sc);
+			
+     		//Trace.endSection();
+     		
 			return sc;
-
 		}
 
 		public void loadGrids() {

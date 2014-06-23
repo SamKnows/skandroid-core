@@ -200,7 +200,9 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 			long timeDiff = System.currentTimeMillis() - lastReceivedTime;
 			if (lastReceivedTime == -1 || timeDiff > listenerDelay) {
 				lastReceivedTime = System.currentTimeMillis();
-				mLocations.add(location);
+				synchronized(this) {
+					mLocations.add(location);
+				}
 				mLastLocation = location;
 				gotLastLocation = true;
 				notifyAll();
@@ -211,8 +213,10 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	@Override
 	public List<String> getOutput() {
 		List<String> list = new ArrayList<String>();
-		for(Location l: mLocations){
-			list.addAll(new LocationData(l,locationType).convert());
+		synchronized(this) {
+			for(Location l: mLocations){
+				list.addAll(new LocationData(l,locationType).convert());
+			}
 		}
 		return list;
 	}
@@ -223,8 +227,10 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		if(lastKnown != null){
 			ret.addAll(locationToPassiveMetric(lastKnown));
 		}
-		for(Location l: mLocations){
-			ret.addAll(locationToPassiveMetric(l));
+		synchronized(this) {
+			for(Location l: mLocations){
+				ret.addAll(locationToPassiveMetric(l));
+			}
 		}
 		return ret;
 	}
@@ -284,19 +290,22 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		if(getLastKnown && lastKnown != null){
 			ret.addAll(new LocationData(true, lastKnown, locationType).convertToJSON());
 		}
-		for(Location l: mLocations){
-			ret.addAll((new LocationData(l, locationType)).convertToJSON());
+		synchronized(this) {
+			for(Location l: mLocations){
+				ret.addAll((new LocationData(l, locationType)).convertToJSON());
+			}
 		}
 		return ret;
 	}
 	
 	public List<DCSData> getPartialData(){
 		List<DCSData> ret = new ArrayList<DCSData>();
-		synchronized(mLocations){
+		synchronized(this){
 			if(getLastKnown && lastKnown != null){
 				ret.add(new LocationData(true, lastKnown, locationType));
 				lastKnown = null;
 			}
+
 			if( mLocations.isEmpty() && mLastLocation != null){
 				ret.add(new LocationData(mLastLocation, locationType, mProviderStatus));
 			}

@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
+//import android.os.Trace;
 import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
@@ -438,10 +439,12 @@ public class DBHelper {
 	// Return a summary of the archive data
 	public JSONObject getArchiveDataSummary() {
 		synchronized (sync) {
+     		//Trace.beginSection("getArchiveDataSummary");
 			List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
 			
 			JSONObject ret = new JSONObject();
 			if (open() == false) {
+         		//Trace.endSection();
 				SKLogger.sAssert(getClass(),  false);
 				return ret;
 			}
@@ -549,6 +552,9 @@ public class DBHelper {
 				SKLogger.sAssert(getClass(),  false);
 			}
 			close();
+			
+         	//Trace.endSection();
+         		
 			return ret;
 		}
 	}
