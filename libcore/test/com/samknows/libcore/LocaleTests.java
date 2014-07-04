@@ -78,6 +78,9 @@ public class LocaleTests {
 		assertTrue(theResult.equals("1,12345"));
 		theResult = SKCommon.sGetDecimalStringAnyLocaleAs1Pt5LocalisedString("1,123456");
 		assertTrue(theResult.equals("1,12346"));
+		// The Junit environment doesn't work the same as Android, alas.
+		// theResult = SKCommon.sGetDecimalStringAnyLocaleAs1Pt5LocalisedString("-٧٤٫٨٠٧٢١");
+		// assertTrue(theResult.equals("-74.80721"));
 	}
 
 	@Test

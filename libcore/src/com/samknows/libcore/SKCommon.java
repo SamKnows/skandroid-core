@@ -17,6 +17,12 @@ public class SKCommon {
 		return "1.0";
 	}
 	
+	//public static String sConvertDigits(String value)
+	//{
+	//    String newValue =  value.replaceAll("١", "1").replaceAll("٢", "2").replaceAll("٣", "3").replaceAll("٤", "4").replaceAll("٥", "5").replaceAll("٦", "6").replaceAll("٧", "7").replaceAll("٨", "8").replaceAll("٩", "9").replaceAll("٠", "0");       
+	//    return newValue;
+	//}
+	
 	public static String sGetDecimalStringAnyLocaleAs1Pt5LocalisedString(String value) {
 		
 		Locale theLocale = Locale.getDefault();
@@ -27,7 +33,9 @@ public class SKCommon {
 			theNumber = numberFormat.parse(value);
 		} catch (ParseException e) {
 			
+        	//value = sConvertDigits(value);
 	 		String valueWithDot = value.replaceAll(",",".");
+	
 			theNumber = Double.valueOf(valueWithDot);
 		}
 		
