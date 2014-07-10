@@ -33,7 +33,14 @@ public class CellTowersDataCollector extends BaseDataCollector{
 		//final TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		final CellTowersData data = new CellTowersData();
 		data.setTime(System.currentTimeMillis());
-		data.setCellLocation(mTelManager.getCellLocation());
+		
+		try {
+			data.setCellLocation(mTelManager.getCellLocation());
+		} catch (SecurityException e) {
+			// Seen - rarely - on some Android devices.
+			// Neither user 99999 nor current process has android.permission.ACCESS_COARSE_LOCATION.
+    		SKLogger.sAssert(CellTowersDataCollector.class, false);
+		}
 		
 		// Note: the following call might return NULL
 		
@@ -53,7 +60,13 @@ public class CellTowersDataCollector extends BaseDataCollector{
 		mData.setTime(System.currentTimeMillis());
 		mData.setSignal(signalStrength);
 		SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
-		mData.setCellLocation(mTelManager.getCellLocation());
+		try {
+			mData.setCellLocation(mTelManager.getCellLocation());
+		} catch (SecurityException e) {
+			// Seen - rarely - on some Android devices.
+			// Neither user 99999 nor current process has android.permission.ACCESS_COARSE_LOCATION.
+    		SKLogger.sAssert(CellTowersDataCollector.class, false);
+		}
 	}
 	
 	synchronized static	void sOnCellLocationChanged(CellLocation location){
