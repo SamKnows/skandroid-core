@@ -143,6 +143,21 @@ public class SKDateFormat  {
     	return result;
     }
 	
+    private static final String ISO_8601_FORMAT_STRING_Z = "Z";
+    private static SimpleDateFormat sIso8601DateFormatZ = null;
+    
+    public static synchronized int sUTCTimezoneAsInteger(Date date) {
+    	if (sIso8601DateFormatZ == null) {
+    		sIso8601DateFormatZ = new SimpleDateFormat(ISO_8601_FORMAT_STRING_Z, Locale.US);
+    	}
+    
+    	// get e.g. -0400
+    	String timezoneAsString = sIso8601DateFormatZ.format(date);
+    	// Convert to e.g. -4
+    	int timezone = Integer.valueOf(timezoneAsString) / 100;
+    	return timezone;
+    }
+    
     private static final String ISO_8601_FORMAT_STRING_MILLI_Z = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     private static SimpleDateFormat sIso8601DateFormatMilliZ = null;
     

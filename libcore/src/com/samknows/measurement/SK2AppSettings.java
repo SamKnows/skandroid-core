@@ -350,8 +350,11 @@ public class SK2AppSettings extends SKAppSettings {
 		}
 		long time = System.currentTimeMillis();
 		ret.put(JSON_TIMESTAMP, (time/1000));
-		ret.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));
-		ret.put(JSON_TIMEZONE, TimeUtils.millisToHours(TimeZone.getDefault().getRawOffset()));
+		
+		java.util.Date now = new java.util.Date(time);
+		ret.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(now));
+		//ret.put(JSON_TIMEZONE, TimeUtils.millisToHours(TimeZone.getDefault().getRawOffset()));
+		ret.put(JSON_TIMEZONE, String.valueOf(SKDateFormat.sUTCTimezoneAsInteger(now)));
 		if(enterprise_id != null){
 			ret.put(JSON_ENTERPRISE_ID, enterprise_id);
 		}
