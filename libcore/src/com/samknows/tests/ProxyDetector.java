@@ -72,6 +72,7 @@ public class ProxyDetector extends Test{
 			if(returnCode != 200){
 				success = false;
 				output();
+     			conn.close();
 				return;
 			}
 			
@@ -110,7 +111,7 @@ public class ProxyDetector extends Test{
 	}
 	
 	private String getHeaderRequest(){
-		String request = "GET /%s HTTP/1.1 \r\nHost: %s \r\nACCEPT: */*\r\n\r\n";
+		String request = "GET /%s HTTP/1.1\r\nHost: %s \r\nACCEPT: */*\r\n\r\n";
 		return String.format(request, file, target);
 	}
 	
