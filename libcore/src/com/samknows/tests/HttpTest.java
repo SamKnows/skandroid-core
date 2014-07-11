@@ -180,13 +180,13 @@ public class HttpTest extends Test {
 	}
 
 	private String getHeaderRequest() {
-		String request = "GET /%s HTTP/1.1 \r\nHost: %s \r\nACCEPT: */*\r\n\r\n";
+		String request = "GET /%s HTTP/1.1\r\nHost: %s \r\nACCEPT: */*\r\n\r\n";
 		return String.format(request, file, target);
 	}
 
 	private String postHeaderRequest() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("POST / HTTP/1.1 \r\n");
+		sb.append("POST / HTTP/1.1\r\n");
 		sb.append("Host :%s \r\n");
 		sb.append("Accept: */*\r\n");
 		sb.append("Content-Length: %s \r\n");
