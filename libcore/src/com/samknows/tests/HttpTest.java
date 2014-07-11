@@ -187,9 +187,9 @@ public class HttpTest extends Test {
 	private String postHeaderRequest() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("POST / HTTP/1.1\r\n");
-		sb.append("Host :%s \r\n");
+		sb.append("Host: %s\r\n");
 		sb.append("Accept: */*\r\n");
-		sb.append("Content-Length: %s \r\n");
+		sb.append("Content-Length: %s\r\n");
 		sb.append("Content-Type: application/x-www-form-urlencoded\r\n");
 		sb.append("Expect: 100-continue\r\n");
 		sb.append("\r\n");
