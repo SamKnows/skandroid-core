@@ -109,15 +109,17 @@ public class CellTowersDataCollector extends BaseDataCollector{
 	static public void sStartToCaptureCellTowersData(Context context) {
 		phoneStateListener = new AndroidPhoneStateListener ();  
 
-		mTelManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		int mask = PhoneStateListener.LISTEN_CELL_INFO | PhoneStateListener.LISTEN_CELL_LOCATION | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS;
-		//int mask = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS;
-		
 		try {
-    		mTelManager.listen(phoneStateListener, mask);
+			mTelManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+			int mask = PhoneStateListener.LISTEN_CELL_INFO | PhoneStateListener.LISTEN_CELL_LOCATION | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS;
+			//int mask = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS;
+
+			mTelManager.listen(phoneStateListener, mask);
 		} catch (java.lang.SecurityException e) {
 			// This has been seen on a small number of Android 2.3.3-2.3.7 devices, with the following:
 			// "com.samknows.fcc.FCCApplication: java.lang.SecurityException: Neither user ... nor current process has android.permission.READ_PHONE_STATE."
+			SKLogger.sAssert(CellTowersData.class, false);
+		} catch (Exception e) {
 			SKLogger.sAssert(CellTowersData.class, false);
 		}
 	}

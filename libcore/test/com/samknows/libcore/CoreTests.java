@@ -36,6 +36,29 @@ public class CoreTests {
     	assertTrue(Double.valueOf(SKCommon.getVersion()) >= 1.0);
 	}
     
+    @Test
+	public void testStringConversionToInteger() throws Exception{
+    	// Leading '+' is supported in Double.valueOf(String) - but not Integer.valueOf(String) ...! 
+    	String timezoneAsString = "0000";
+    	int timezone = Double.valueOf(timezoneAsString).intValue() / 100;
+		assertTrue(timezone == 0);
+    	
+    	timezoneAsString = "-0000";
+    	timezone = Double.valueOf(timezoneAsString).intValue() / 100;
+		assertTrue(timezone == 0);
+    	
+    	timezoneAsString = "-0100";
+    	timezone = Double.valueOf(timezoneAsString).intValue() / 100;
+		assertTrue(timezone == -1);
+    	
+    	timezoneAsString = "+0000";
+    	timezone = Double.valueOf(timezoneAsString).intValue() / 100;
+		assertTrue(timezone == 0);
+    	
+    	timezoneAsString = "+0100";
+    	timezone = Double.valueOf(timezoneAsString).intValue() / 100;
+		assertTrue(timezone == 1);
+    }
     
     @Test
 	public void testServiceDataCache() throws Exception{

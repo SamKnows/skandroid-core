@@ -154,7 +154,9 @@ public class SKDateFormat  {
     	// get e.g. -0400
     	String timezoneAsString = sIso8601DateFormatZ.format(date);
     	// Convert to e.g. -4
-    	int timezone = Integer.valueOf(timezoneAsString) / 100;
+    	
+    	// Leading '+' is supported in Double.valueOf(String) - but not Integer.valueOf(String) ...! 
+    	int timezone = Double.valueOf(timezoneAsString).intValue() / 100;
     	return timezone;
     }
     
