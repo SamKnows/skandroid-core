@@ -170,7 +170,12 @@ public class MainService extends IntentService {
 		SKLogger.d(this, "+++++DEBUG+++++ MainService onEnd (begin)");
 	
 		if (wakeLock != null) {
-			wakeLock.release();
+			synchronized (this) {
+				if (wakeLock.isHeld()) {
+					// http://stackoverflow.com/questions/12140844/java-lang-runtimeexception-wakelock-under-locked-c2dm-lib
+					wakeLock.release();
+				}
+			}
 		}
 		
 		long bytes = collector.finish();
