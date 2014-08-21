@@ -1514,8 +1514,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 //					cRunTestActivityRequestCode);
 //			ret = true;
 		} else if (R.id.menu_terms_and_condition == itemId) {
-			Intent intent = new Intent(this, SKATermsOfUseActivity.class);
-			startActivity(intent);
+			
+			SKApplication.getAppInstance().showTermsAndConditions(this);
+
 			ret = true;
 		} else if (R.id.menu_export_file == itemId) {
 			exportMenuItemSelected();

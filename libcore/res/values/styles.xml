@@ -86,6 +86,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="text_larger">
+        <item name="android:textSize">20sp</item>
+    </style>
+    
     <style name="row">
         <item name="android:background">@drawable/black_alpha</item>
         <item name="android:gravity">left</item>
