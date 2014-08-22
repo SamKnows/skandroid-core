@@ -267,11 +267,15 @@ public class ScheduleConfig implements Serializable {
 			NodeList c_tests = ((Element) continuous_tests.item(0)).getElementsByTagName(TEST);
 			for(int i = 0; i < c_tests.getLength(); i++ ){
 				int testId = Integer.parseInt(((Element)c_tests.item(i)).getAttribute(ID));
+				
+     			boolean bMatched = false;
 				for(TestDescription td: c.tests){
 					if(td.testId == testId){
+            			bMatched = true;
 						c.continuous_tests.add(td);
 					}
 				}
+    			SKLogger.sAssert(ScheduleConfig.class, bMatched);
 			}
 		}
 		
@@ -284,14 +288,19 @@ public class ScheduleConfig implements Serializable {
 				c.manual_test_condition_group_id = ((Element) manual_tests.item(0)).getAttribute(CONDITION_GROUP_ID);
 			}
 			//Get the test ids for the manual test
+			
 			manual_tests = ((Element) manual_tests.item(0)).getElementsByTagName(TEST);
 			for(int i = 0; i < manual_tests.getLength(); i++){
 				int testId =Integer.parseInt(((Element)manual_tests.item(i)).getAttribute(ID));
+				
+    			boolean bMatched = false;
 				for(TestDescription td: c.tests){
 					if(td.testId == testId){
+            			bMatched = true;
 						c.manual_tests.add(td);
 					}
 				}
+    			SKLogger.sAssert(ScheduleConfig.class, bMatched);
 			}
 		}
 		

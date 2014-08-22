@@ -125,24 +125,24 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content" >
 
-                            <TextView
+                            <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView12"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/download"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
-                                android:width="130dp" />
+                                android:textSize="18sp"/>
 
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/download_result"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
-                                android:layout_gravity="right|center_vertical"
+                                android:layout_width="0dp"
                                 android:layout_weight="1"
+                                android:layout_gravity="right|center_vertical"
                                 android:gravity="right|center_vertical"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textSize="16sp" />
@@ -182,24 +182,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp" >
 
-                            <TextView
+                            <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView15"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/upload"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
-                                android:width="130dp" />
+                                android:textSize="18sp" />
 
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/upload_result"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
-                                android:layout_gravity="right|center_vertical"
+                                android:layout_width="0dp"
                                 android:layout_weight="1"
+                                android:layout_gravity="right|center_vertical"
                                 android:gravity="right|center_vertical"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textSize="16sp" />
@@ -240,11 +240,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" >
 
-                            <TextView
+                            <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView17"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/latency"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -254,8 +255,8 @@
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/latency_result"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:gravity="right|center_vertical"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -296,11 +297,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" >
 
-                            <TextView
+                            <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView16"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/p_loss"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -310,8 +312,8 @@
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/packetloss_result"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:gravity="right|center_vertical"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -352,11 +354,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" >
 
-                            <TextView
+                            <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView18"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/jitter"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -366,8 +369,8 @@
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/jitter_result"
                                 style="@style/column"
-                                android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:gravity="right|center_vertical"
                                 android:textAppearance="?android:attr/textAppearanceMedium"

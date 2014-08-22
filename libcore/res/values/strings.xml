@@ -225,7 +225,8 @@
 <string name="menu_social_media_export">Social Media Export</string>
 <string name="menu_terms_and_condition">Terms of Use</string>
 <string name="min_data_cap_message">Minimum amount limited to </string>
-<string name="mobile">mobile</string>
+<!-- The following string must NOT be translated! -->
+<string name="mobile">mobile</string> 
 <string name="MobileNetwork">Mobile Network</string>
 <string name="mobile_dun">mobile dun</string>
 <string name="mobile_hipri">mobile hipri</string>
@@ -376,6 +377,7 @@
 <string name="version">Version </string>
 <string name="week">1 Wk</string>
 <string name="welcome">Welcome</string>
+<!-- The following string must NOT be translated! -->
 <string name="wifi">WiFi</string>
 <string name="wimax">wimax</string>
 <string name="year">1 Yr</string>

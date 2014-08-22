@@ -225,7 +225,8 @@
 <string name="menu_social_media_export">Exportar Mídias Sociais</string>
 <string name="menu_terms_and_condition">Termos de Uso</string>
 <string name="min_data_cap_message">Quantidade mínima limitada em </string>
-<string name="mobile">celular</string>
+<!-- The following string must NOT be translated! -->
+<string name="mobile">mobile</string>
 <string name="MobileNetwork">Rede móvel</string>
 <string name="mobile_dun">mobile dun</string>
 <string name="mobile_hipri">mobile hipri</string>
@@ -286,7 +287,7 @@
 <string name="registering_in">Registrando. Por favor aguarde&#8230;</string>
 <string name="requesting_reset_password">Solicitando o código para redefinir a senha</string>
 <string name="requesting_reset_password_error">Houve um erro ao solicitar o código de senha: </string>
-<string name="requesting_reset_password_success">O sistema lhe enviou um código para redefinir sua senha</string>
+<string name="requesting_reset_password_success">O sistema lhe upload um código para redefinir sua senha</string>
 <string name="request_password_recovery">Solicitar recuperação de senha</string>
 <string name="request_password_reset">Solicitar para redefinir a senha</string>
 <string name="reset_code">Código para criar uma nova senha</string>
@@ -365,7 +366,7 @@
 <string name="unit_id">Unidade ID</string>
 <string name="unknown">desconhecido</string>
 <string name="updated">Atualizado</string>
-<string name="upload">Envio</string>
+<string name="upload">Upload</string>
 <string name="uploaded">Enviado: </string>
 <string name="upload_failed">O teste de upload falhou</string>
 <string name="upload_mbps">Upload</string>
@@ -376,6 +377,7 @@
 <string name="version">Versão </string>
 <string name="week">1 s</string>
 <string name="welcome">Bem vindo</string>
+<!-- The following string must NOT be translated! -->
 <string name="wifi">WiFi</string>
 <string name="wimax">wimax</string>
 <string name="year">1 a</string>

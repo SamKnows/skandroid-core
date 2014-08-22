@@ -3,6 +3,7 @@ package com.samknows.measurement.environment;
 import java.util.List;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.util.OtherUtils;
 
 import android.content.Context;
 import android.os.Build;
@@ -59,7 +60,14 @@ public class CellTowersDataCollector extends BaseDataCollector{
 	synchronized static void sOnSignalStrengthsChanged(SignalStrength signalStrength) {
 		mData.setTime(System.currentTimeMillis());
 		mData.setSignal(signalStrength);
-		SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
+		
+		if (OtherUtils.isThisDeviceAnEmulator() == true) {
+     		// The signal will usuaully be null on the Emulator...
+		} else {
+			// On a real device... there should generally be a signal...
+			SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
+		}
+		
 		try {
 			mData.setCellLocation(mTelManager.getCellLocation());
 		} catch (SecurityException e) {

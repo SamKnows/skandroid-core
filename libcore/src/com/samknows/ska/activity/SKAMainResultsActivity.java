@@ -331,7 +331,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         	if (setTotalArchiveRecords()) {
         		adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
         		//viewPager = (ViewPager) findViewById(R.id.viewPager);
-				SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+				//SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
         		viewPager.setAdapter(adapter);
         	}
         }
