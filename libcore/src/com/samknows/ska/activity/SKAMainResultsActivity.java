@@ -1476,7 +1476,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         intent.setType("message/rfc822");
 
         intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.menu_export_mail_subject) + " - " + formattedDate);
-        intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.app_name) + " - " + context.getString(R.string.menu_export_mail_body) + "\n\n" + zipFile.getName());
+        intent.putExtra(Intent.EXTRA_TEXT, SKApplication.getAppInstance().getAppName() + " - " + context.getString(R.string.menu_export_mail_body) + "\n\n" + zipFile.getName());
 
 		return intent;
 	}
@@ -1700,7 +1700,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	
 	private void userRequestedZipExportToThisFileNameOnFileSystem(String fileName) {
 		File storage = android.os.Environment.getExternalStorageDirectory();
-		String subFolderName = getString(R.string.app_name);
+		String subFolderName = SKApplication.getAppInstance().getAppName();
 		File storageSubFolder = new File(storage, subFolderName);
 		storageSubFolder.mkdir();
 		File writeHere = new File(storageSubFolder, fileName);

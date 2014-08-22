@@ -185,4 +185,9 @@ public class SKApplication extends Application{
 		SKLogger.sAssert(getClass(),  false);
 		return null;
 	}
+	
+	public String getAppName() {
+		SKLogger.sAssert(getClass(), false); // Must be overridden!
+		return "Unknown";
+	}
 }
