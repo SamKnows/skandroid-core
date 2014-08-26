@@ -25,7 +25,7 @@ public class ExecuteScheduledTestQueueState extends BaseState{
 	public StateResponseCode executeState() {
 		SKLogger.sAssert(getClass(),  (accumulatedTestBytes == 0L));
 		
-		if(!SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabled()){
+		if(!SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			return StateResponseCode.OK;
 		}
 		

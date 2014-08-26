@@ -292,7 +292,7 @@ public class ManualTest implements Runnable {
 			SKLogger.e(this, "Submit result. ", t);
 		}
 	
-		if(!SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabled()){
+		if(!SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			MainService.force_poke(ctx);
 		}
 		SKLogger.d(this, "Exiting manual test");

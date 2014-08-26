@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -62,7 +63,7 @@ public class SKASystemInfoActivity extends BaseLogoutActivity{
 			}
 		}
 		((TextView)findViewById(R.id.tv_service_activated_value)).setText(value);
-		if(SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabled()){
+		if(SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			value = getString(R.string.enabled);
 		}else{
 			value = getString(R.string.disabled);
@@ -95,6 +96,12 @@ public class SKASystemInfoActivity extends BaseLogoutActivity{
 			}
 		}
 		((TextView)findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
+	
+		if (SK2AppSettings.getInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+			// Background processing disabled in the schedule!
+			findViewById(R.id.autotesting_row).setVisibility(View.GONE);
+			findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);
+		}
 
 		PhoneIdentityData phoneData = new PhoneIdentityDataCollector(this).collect();
 		if (!SK2AppSettings.getSK2AppSettingsInstance().anonymous){

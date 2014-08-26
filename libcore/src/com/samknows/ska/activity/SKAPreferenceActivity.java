@@ -60,13 +60,23 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 		PreferenceCategory mCategory = (PreferenceCategory) findPreference("first_category");
 		mCategory.setTitle(mCategory.getTitle()+" "+"("+versionName+")");
 
-		long testsScheduled = SK2AppSettings.getInstance().getLong("number_of_tests_schedueld", -1);
 		CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference(SKConstants.PREF_SERVICE_ENABLED);
-		if(testsScheduled <= 0){
-			mCheckBoxPref.setChecked(false);
-			mCheckBoxPref.setEnabled(false);
-		}else{
-			mCheckBoxPref.setChecked(SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabled());
+		if (SK2AppSettings.getInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+			// Background processing is NOT enabled in the schedule!
+			
+			// MPC 26/08/2014 - remove the background processing preference entirely, rather than just
+			// greying it out, if background processing is not in the schedule.
+			//mCheckBoxPref.setChecked(false);
+			//mCheckBoxPref.setEnabled(false);
+			mCategory.removePreference(mCheckBoxPref);
+			
+			// MPC 26/08/2014 - remove the wakeup preference entirely, if background processing is not in the schedule.
+    		CheckBoxPreference wakeupPref = (CheckBoxPreference) findPreference(SKConstants.PREF_ENABLE_WAKEUP);
+			mCategory.removePreference(wakeupPref);
+		} else {
+			// Background processing is enabled in the schedule!
+			
+			mCheckBoxPref.setChecked(SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences());
 		}
 		
 		// Hide the "Use Data Cap" checkbox only for some versions of the app...
@@ -127,7 +137,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(SKConstants.PREF_SERVICE_ENABLED)) {
-			if (SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabled()) {
+			if (SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()) {
 				MainService.poke(SKAPreferenceActivity.this);
 			}else{
 				OtherUtils.cancelAlarm(this);
@@ -181,7 +191,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	    	try {
 	    		NavUtils.navigateUpFromSameTask(this);
 	    	} catch (Exception e) {
-	    		// This is reuqired some times, e.g. coming back from SystemInfo!
+	    		// This is required some times, e.g. coming back from Settings/SystemInfo!
 	    		SKLogger.sAssert(getClass(), false);
 	    	}
 			onBackPressed();

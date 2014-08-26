@@ -94,7 +94,7 @@ public class MainService extends IntentService {
 			
 			// This looks first at user preferences - if the user has set a true/false value, that value is returned.
 			// otherwise, we return the "background_test" value last delivered from the config/schedule.
-			boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabled();
+			boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences();
 			
 			onBegin();
 			/* 
@@ -110,7 +110,7 @@ public class MainService extends IntentService {
 				continuousStarted();
 				new ContinuousTesting(this).execute();
 			}
-			else if((backgroundTest && appSettings.getIsBackgroundTestingEnabled()) || force_execution ) {
+			else if((backgroundTest && appSettings.getIsBackgroundTestingEnabledInUserPreferences()) || force_execution ) {
 				if (appSettings.run_in_roaming || !OtherUtils.isRoaming(this)) {
          			accumulatedTestBytes = new ScheduledTestStateMachine(this).executeRoutine();
 				} else {
@@ -120,7 +120,7 @@ public class MainService extends IntentService {
 			} else {
 				if(!backgroundTest)
 					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(config file), exiting.");
-				if (!appSettings.getIsBackgroundTestingEnabled())
+				if (!appSettings.getIsBackgroundTestingEnabledInUserPreferences())
 					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(manual), exiting.");
 			}
 		} catch (Throwable th) {
@@ -188,7 +188,7 @@ public class MainService extends IntentService {
 		}
 		appSettings.appendUsedBytes(bytes);
 		
-		if(!appSettings.getIsBackgroundTestingEnabled()){
+		if(!appSettings.getIsBackgroundTestingEnabledInUserPreferences()){
 			SKLogger.d(this, "+++++DEBUG+++++ MainService onEnd, service not enabled - cancelling alarm");
 			OtherUtils.cancelAlarm(this);
 		}

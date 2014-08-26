@@ -78,7 +78,7 @@ public class ScheduleConfig implements Serializable {
 	private boolean backgroundTest = true;
 	public List<ConditionGroup> conditionGroups = new ArrayList<ConditionGroup>();
 	public List<TestDescription> tests = new ArrayList<TestDescription>();
-	public List<TestGroup> testGroups = new ArrayList<TestGroup>();
+	public List<TestGroup> backgroundTestGroups = new ArrayList<TestGroup>();
 	public List<TestDescription> manual_tests = new ArrayList<TestDescription>();
 	public List<TestDescription> continuous_tests = new ArrayList<TestDescription>();
 	public String manual_test_condition_group_id ;
@@ -117,7 +117,7 @@ public class ScheduleConfig implements Serializable {
 	}
 	
 	public TestGroup findTestGroup(long id){
-		for(TestGroup tg: testGroups){
+		for(TestGroup tg: backgroundTestGroups){
 			if(tg.id == id){
 				return tg;
 			}
@@ -249,7 +249,7 @@ public class ScheduleConfig implements Serializable {
 		}
 		
 		//tests groups
-		c.testGroups = new ArrayList<TestGroup>();
+		c.backgroundTestGroups = new ArrayList<TestGroup>();
 		NodeList tests_groups = node.getElementsByTagName(SCHEDULED_TESTS);
 		if(tests_groups.getLength()==1){
 			tests_groups = ((Element) tests_groups.item(0)).getElementsByTagName(BATCH);
@@ -257,7 +257,7 @@ public class ScheduleConfig implements Serializable {
 				TestGroup curr = TestGroup.parseXml((Element) tests_groups.item(i));
 				curr.setUsage(c.tests);
 				c.maximumTestUsage = Math.max(c.maximumTestUsage, curr.netUsage);
-				c.testGroups.add(curr);
+				c.backgroundTestGroups.add(curr);
 			}
 		}
 		
@@ -360,9 +360,9 @@ public class ScheduleConfig implements Serializable {
 		return c;
 	}
 	
-	public int getNumberOfScheduledBatch(){
+	public int getNumberOfBackgroundTestGroups(){
 		int ret = 0;
-		for(TestGroup tg: testGroups){
+		for(TestGroup tg: backgroundTestGroups){
 			ret += tg.times.size();
 		}
 		return ret;

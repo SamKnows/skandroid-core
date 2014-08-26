@@ -143,6 +143,7 @@
                 </TableRow>
 
                 <TableRow
+                    android:id="@+id/autotesting_row"
                     style="@style/row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,6 +189,7 @@
                 </TableRow>
 
                 <TableRow
+                    android:id="@+id/next_test_scheduled_for_row"
                     style="@style/row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

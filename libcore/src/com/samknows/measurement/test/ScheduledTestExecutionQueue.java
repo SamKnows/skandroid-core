@@ -58,7 +58,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		startTime = endTime >= timeNow ? endTime : timeNow;
 		endTime = newEndTime;
 		SKLogger.d(this, "populating test queue from: " + TimeUtils.logString(startTime) + " to " + TimeUtils.logString(endTime));
-		for(TestGroup tg: tc.config.testGroups){
+		for(TestGroup tg: tc.config.backgroundTestGroups){
 			for(Long t:tg.getTimesInInterval(startTime, endTime)){
 				SKLogger.d(this, "Add test group id "+ tg.id +" at time: "+TimeUtils.logString(t) );
 				addEntry(t, tg);
@@ -69,7 +69,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 	}
 	
 	public void addEntry(long time, TestGroup tg){
-		entries.add(new QueueEntry(time, tg.id, tc.config.testGroups.indexOf(tg)));
+		entries.add(new QueueEntry(time, tg.id, tc.config.backgroundTestGroups.indexOf(tg)));
 		SKLogger.d(this, "scheduling test group at: "+TimeUtils.logString(time));
 	}
 	/*

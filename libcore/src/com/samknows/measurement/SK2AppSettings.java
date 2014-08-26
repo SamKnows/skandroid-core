@@ -159,7 +159,10 @@ public class SK2AppSettings extends SKAppSettings {
 	public void setConfig(ScheduleConfig config){
 		setWakeUpEnabledIfNull(config.testAlamType == TestAlarmType.WAKEUP);
 		setLocationTypeIfNull(config.locationType);
-		saveLong("number_of_tests_schedueld",config.getNumberOfScheduledBatch());
+	
+		// This value is used PURELY to indicate if background processing is enabled, or not, in the schedule.
+		saveLong("number_of_tests_schedueld",config.getNumberOfBackgroundTestGroups());
+		
 		// The following call stores the latest default rule to run background testing - or not - from the config/schedule data.
 		saveBoolean("background_test",config.getBackgroundTest());
 		if (config.dataCapDefault >= 0) {
@@ -169,7 +172,7 @@ public class SK2AppSettings extends SKAppSettings {
 
 	// This looks first at user preferences - if the user has set a true/false value, that value is returned.
 	// otherwise, we return the "background_test" value last delivered from the config/schedule.
-	public boolean getIsBackgroundTestingEnabled() {
+	public boolean getIsBackgroundTestingEnabledInUserPreferences() {
 		boolean backgroundTest = false; // TODO - this is the OPPOSITE to what is used in MainService
 		SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(ctx);
 		if(p.contains(SKConstants.PREF_SERVICE_ENABLED)){
