@@ -109,7 +109,7 @@
 <string name="create_user">Criar usuário</string>
 <string name="current_time">Horário atual</string>
 <string name="data_cap_day_summary">Selecionar o dia do mês que o contador da utilização dos dados móveis deve ser zerado. </string>
-<string name="data_cap_day_title">Dia de zerar a utilização dos dados móveis pelo aplicativo: </string>
+<string name="data_cap_day_title">Dia de zerar o uso dos dados: </string>
 <string name="data_cap_exceeded">Limite de dados excedido. Você deseja continuar mesmo assim? </string>
 <string name="data_cap_might_be_exceeded">Limite de dados pode ser excedido. Você deseja continuar mesmo assim? </string>
 <string name="data_cap_explanation">Por padrão o Aplicativo está configurada para utilizar até 100 megabytes (MB) de dados por mês. Qualquer testes que você iniciar irá também consumir entre 100 kilobytes (kB) para o teste de menor perda de dados e 10 MB para os testes completos. Em qualquer momento você pode mudar a quantidade de dados que o Aplicativo utiliza aumentando ou reduzindo o \"Limite de dados móveis\" no menu configurações. Você deve assegurar que a utilização de sua largura de banda, incluindo os dados utilizados pelo Aplicativo e Serviços durante o Programa, não excederá a cota do pacote de dados da sua banda larga. Sua prestadora poderá cobrar por qualquer utilização de dados excedida de seu plano de dados.</string>
@@ -132,7 +132,7 @@
 <string name="download_failed">O teste de download falhou</string>
 <string name="download_mbps">Download</string>
 <string name="download_success">O teste de download alcançou %1$s Mbps</string>
-<string name="download_upload_run_confirmation">TEste teste irá utilizar seu plano de dados. Você deseja continuar?</string>
+<string name="download_upload_run_confirmation">Teste teste irá utilizar seu plano de dados. Você deseja continuar?</string>
 <string name="edge">EDGE</string>
 <string name="ehrpd">eHRPD</string>
 <string name="empty_code_error">Código não pode estar vazio!</string>
