@@ -53,40 +53,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/average_results_title"
                     style="@style/h1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="90"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="left|center_vertical"
                     android:background="#ffffff"
                     android:gravity="center_vertical"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
-                    android:text="@string/average_results"
-                    android:width="190dp" />
-
-                <TextView
-                    android:id="@+id/TextView04"
-                    style="@style/h1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="#ffffff"
-                    android:padding="10dp"
-                    android:width="800dp" />
+                    android:text="@string/average_results"/>
 
                 <Button
                     android:id="@+id/main_show_archived_results_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
                     android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="left|center_vertical"
                     android:background="@drawable/btn_normal_selector"
                     android:gravity="center"
                     android:text="@string/right_arrow"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="30sp" />
+
             </LinearLayout>
 
             <FrameLayout
@@ -120,7 +115,7 @@
                         android:width="190dp" />
                 </LinearLayout>
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/test_last_run"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
