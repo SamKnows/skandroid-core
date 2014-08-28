@@ -94,8 +94,11 @@ public class TimeUtils {
 		return c;
 	}
 	
-	public static String getDayOfMonthSuffix(int n){
+	public static String getDayOfMonthFrom1AsStringWithNoSuffix(int n){
+		return Integer.toString(n);
+		/*
 		String ret = n+"";
+		// If you want to use a suffix, the following doesn't work properly in non-English locales.
 		if(n>=11 && n <=13){
 			ret += "th";
 		}else{
@@ -107,5 +110,6 @@ public class TimeUtils {
 			}
 		}
 		return ret;
+		*/
 	}
 }

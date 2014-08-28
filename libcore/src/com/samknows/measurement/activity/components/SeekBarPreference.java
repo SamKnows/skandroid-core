@@ -111,7 +111,7 @@ public class SeekBarPreference extends DialogPreference implements
 	public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
 		value++;
 		
-		String t = TimeUtils.getDayOfMonthSuffix(value);
+		String t = TimeUtils.getDayOfMonthFrom1AsStringWithNoSuffix(value);
 		mSeekBar.setContentDescription(t);
 		mValueText.setText( mPrefix == null ? t: mPrefix.concat(t));
 		if (shouldPersist())

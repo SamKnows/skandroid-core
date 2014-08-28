@@ -112,8 +112,6 @@
 <string name="data_cap_day_title">Mobile data usage reset day: </string>
 <string name="data_cap_exceeded">Data Cap Exceeded. Do you wish to continue anyway?  </string>
 <string name="data_cap_might_be_exceeded">Data Cap Might Be Exceeded. Do you wish to continue anyway?  </string>
-<string name="data_cap_explanation">By default the Application is configured to use no more than 100 megabytes (MB) of data each month.  Any tests you initiate will also consume between 100 kilobytes (kB) for the smallest packet loss test and 40 MB for a complete suite of tests.  At any time you can change the amount of data the Application uses by increasing or reducing the \"Mobile data cap\" in the settings menu.  You should ensure that your monthly broadband usage, including the data used by the Application and Service during the Program, does not exceed the data allowance included in your mobile broadband package.  Your carrier may charge you for any data used in excess of your package\'s data allowance.</string>
-<string name="data_cap_input_text">Please choose the amount of data (in MB) the Application should use each month:</string>
 <string name="data_cap_summary">The maximum amount of mobile data in Mega Bytes (excluding WiFi) that this application can use in a billing month.</string>
 <string name="data_cap_title">Mobile data cap: </string>
 <string name="data_usage_title">Mobile data usage: </string>
@@ -142,7 +140,7 @@
 <string name="enable_now">Enable Now</string>
 <string name="enable_service_question">Do you want to enable mobile testing?</string>
 <string name="enable_testing_summary">Enable or disable background tests.</string>
-<string name="enable_testing_title">Enable Background Testing</string>
+<string name="enable_testing_title">Enable Background Tests</string>
 <string name="enable_wakeup_summary">Enable or disable waking up device for background tests.</string>
 <string name="enable_wakeup_title">Enable device wake up</string>
 <string name="enter_email">Enter your email and a reset code will be sent to your email."</string>
@@ -170,7 +168,6 @@
 <string name="imei">IMEI</string>
 <string name="imsi">IMSI</string>
 <string name="init_settings_title">Data Consumption</string>
-<string name="intro_text">Thank you for installing the SamKnows Performance Measurement app.\n\nThis app runs in the background, measuring your mobile provider\'s network performance whilst you are not using your device. You can view results by pressing the Test Results button.  Measurement results are transmitted back to Samknows or use in their projects with telecoms regulators worldwide.\n\nThe application has been optimised for efficient network usage, however it might be still too high for your data plan. If that\'s the case you may configure a monthly data cap in settings menu accessible via the Menu key.  </string>
 <string name="is_roaming">Is Roaming</string>
 <string name="jitter">Jitter</string>
 <string name="jitter_ms">Jitter</string>

@@ -105,7 +105,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 		Preference p;
 		int data_cap_day = preferences.getInt(SKConstants.PREF_DATA_CAP_RESET_DAY, 1);
 		p = (Preference) findPreference(SKConstants.PREF_DATA_CAP_RESET_DAY);
-		p.setTitle(getString(R.string.data_cap_day_title)+ TimeUtils.getDayOfMonthSuffix(data_cap_day));
+		p.setTitle(getString(R.string.data_cap_day_title)+ TimeUtils.getDayOfMonthFrom1AsStringWithNoSuffix(data_cap_day));
 		
 		CheckBoxPreference mCheckBoxDataCapEnabled = (CheckBoxPreference) findPreference(SKConstants.PREF_DATA_CAP_ENABLED);
 		if (SKApplication.getAppInstance().canDisableDataCap() == true) {
@@ -190,8 +190,16 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	    case android.R.id.home:
 	    	try {
 	    		NavUtils.navigateUpFromSameTask(this);
+	    	} catch (IllegalArgumentException e) {
+	    		if (e.toString().contains("SKAPreferenceActivity")) {
+    	    		// This is required some times, e.g. coming back from Settings/SystemInfo - we can ignore it.
+	    			SKLogger.sAssert(getClass(), false);
+	    		} else {
+	    			// Unexpected!
+	    			SKLogger.sAssert(getClass(), false);
+	    		}
 	    	} catch (Exception e) {
-	    		// This is required some times, e.g. coming back from Settings/SystemInfo!
+	    			// Unexpected!
 	    		SKLogger.sAssert(getClass(), false);
 	    	}
 			onBackPressed();

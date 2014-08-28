@@ -72,7 +72,7 @@
 <string name="auto_testing">Teste automático</string>
 <string name="available_tests">Testes disponíveis</string>
 <string name="average">Média</string>
-<string name="average_results">Resultados médios</string>
+<string name="average_results">Média de resultados</string>
 <string name="bearer">Portadora</string>
 <string name="best_server">Melhor servidor</string>
 <string name="best_time">Melhor tempo</string>
@@ -109,11 +109,9 @@
 <string name="create_user">Criar usuário</string>
 <string name="current_time">Horário atual</string>
 <string name="data_cap_day_summary">Selecionar o dia do mês que o contador da utilização dos dados móveis deve ser zerado. </string>
-<string name="data_cap_day_title">Dia de zerar o uso dos dados: </string>
+<string name="data_cap_day_title">Dia de zerar uso de dados: </string>
 <string name="data_cap_exceeded">Limite de dados excedido. Você deseja continuar mesmo assim? </string>
 <string name="data_cap_might_be_exceeded">Limite de dados pode ser excedido. Você deseja continuar mesmo assim? </string>
-<string name="data_cap_explanation">Por padrão o Aplicativo está configurada para utilizar até 100 megabytes (MB) de dados por mês. Qualquer testes que você iniciar irá também consumir entre 100 kilobytes (kB) para o teste de menor perda de dados e 10 MB para os testes completos. Em qualquer momento você pode mudar a quantidade de dados que o Aplicativo utiliza aumentando ou reduzindo o \"Limite de dados móveis\" no menu configurações. Você deve assegurar que a utilização de sua largura de banda, incluindo os dados utilizados pelo Aplicativo e Serviços durante o Programa, não excederá a cota do pacote de dados da sua banda larga. Sua prestadora poderá cobrar por qualquer utilização de dados excedida de seu plano de dados.</string>
-<string name="data_cap_input_text">Por favor escolher a quantidade de dados (em MB) que o Aplicativo deve usar cada mês:</string>
 <string name="data_cap_summary">A máxima quantidade de dados em Mega Bytes (excluindo WiFi) que este aplicativo pode usar em no período mensal de cobrança.</string>
 <string name="data_cap_title">Limite de dados móveis: </string>
 <string name="data_usage_title">Utilização de dados móveis: </string>
@@ -170,7 +168,6 @@
 <string name="imei">IMEI</string>
 <string name="imsi">IMSI</string>
 <string name="init_settings_title">Consumo de dados</string>
-<string name="intro_text">Obrigado por instalar o aplicativo da EAQ\n\nEste aplicativo é executado em segundo plano, medindo a performance da prestadora de sua rede móvel enquanto você não está utilizando seu dispositivo. Você pode ver os resultados apertando o botão Resultados do Teste. Os resultados da medição são transmitidos para a EAQ para utilização no projeto de medição da banda larga do Brasil em conjunto com a Anatel.\n\nO aplicativo tem sido otimizado para utilização eficiente da rede, entretanto ainda pode ser muito elevada para seu plano de dados. Se esse for o caso você pode configurar um limite de dados mensais no menu de configurações acessando via Menu.\n\nPara suporte ou perguntas por favor entre em contato conosco em suporte@brasilbandalarga.com.br </string>
 <string name="is_roaming">Em Roaming</string>
 <string name="jitter">Jitter</string>
 <string name="jitter_ms">Jitter</string>
@@ -296,12 +293,12 @@
 <string name="reset_password_success">Sua senha foi redefinida</string>
 <string name="results_table_header_result">Resultado</string>
 <string name="results_for">Resultados durante</string>
-<string name="results_for_1_week">Resultados durante uma semana</string>
+<string name="results_for_1_week">Resultados para uma semana</string>
 <string name="roaming_status">Status de Roaming</string>
-<string name="running_test">Executando teste</string>
+<string name="running_test">Teste em andamento</string>
 <string name="closest_target">Melhor Servidor</string>
 <string name="running_test_closest_target">"Melhor servidor: "</string>
-<string name="run_now">Executar agora</string>
+<string name="run_now">Iniciar teste</string>
 <string name="start_continuous">Iniciar continuamente</string>
 <string name="starting_continuous">Iniciando continuamente</string>
 <string name="stopping_continuous">Parando continuamente</string>
