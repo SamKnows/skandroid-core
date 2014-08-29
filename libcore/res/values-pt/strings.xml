@@ -292,7 +292,7 @@
 <string name="reset_password_error">Houve um erro ao redefinir sua senha: </string>
 <string name="reset_password_success">Sua senha foi redefinida</string>
 <string name="results_table_header_result">Resultado</string>
-<string name="results_for">Resultados durante</string>
+<string name="results_for">Resultados para</string>
 <string name="results_for_1_week">Resultados para uma semana</string>
 <string name="roaming_status">Status de Roaming</string>
 <string name="running_test">Teste em andamento</string>
