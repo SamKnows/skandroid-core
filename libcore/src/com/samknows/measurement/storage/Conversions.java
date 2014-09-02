@@ -74,7 +74,7 @@ public class Conversions {
 		return ret;
 	}
 	
-	private static String throughputToString(double value){
+	public static String throughputToString(double value){
 		String ret = "";
 		if(value < 1000){
 			ret = String.format("%.0f bps", value);

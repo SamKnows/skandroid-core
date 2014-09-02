@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.provider.Telephony.Sms.Conversations;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -38,6 +39,7 @@ import com.samknows.measurement.MainService;
 import com.samknows.libcore.R;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.storage.Conversions;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 
 public class OtherUtils {
@@ -53,6 +55,21 @@ public class OtherUtils {
 		} else {
 			return bytes + "B";
 		}
+	}
+	
+	public static double sConvertBytesPerSecondToMbps1024Based(double bytesPerSecond) {
+		  return bytesPerSecond * 8.0 / (1024.0 * 1024.0);
+	}
+
+	public static double sConvertMbps1024BasedToMBps1000Based(double value1024Based) {
+		return value1024Based * (1024.0 * 1024.0) / (1000.0 * 1000.0);
+	}
+	
+	public static String sBitrateMbps1024BasedToString (double bitrateMbps1024Based) {
+		double bitrateMbps1000Based = sConvertMbps1024BasedToMBps1000Based(bitrateMbps1024Based);
+		double bitrateBitsPerSecond = 1000000.0 * bitrateMbps1000Based;
+		  
+		return Conversions.throughputToString(bitrateBitsPerSecond);
 	}
 
 	public static String formatToBits(long bytes) {

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_Fragment_Activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
+        android:id="@+id/background_main_fragment_activity_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_radial_blue_vivid"
+        android:orientation="vertical"
+        tools:visibility="visible">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/background_main_fragment_activity_middle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_radial_blue_samknows"
+        android:orientation="vertical"
+        tools:visibility="visible">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/background_main_fragment_activity_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_radial_blue_light"
+        android:orientation="vertical"
+        tools:visibility="visible">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_Fragment_Progress_Bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.5"
+        android:animateLayoutChanges="true"
+        android:background="@color/black"
+        android:orientation="horizontal"
+        tools:layout_height="144dp"
+        tools:visibility="visible">
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

@@ -195,7 +195,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	private long lastReceivedTime=-1;
 	@Override
 	public synchronized void onLocationChanged(Location location) {
-		SKLogger.d(this, "received new location");
+		//SKLogger.d(this, "received new location");
 		if (location != null) {
 			long timeDiff = System.currentTimeMillis() - lastReceivedTime;
 			if (lastReceivedTime == -1 || timeDiff > listenerDelay) {

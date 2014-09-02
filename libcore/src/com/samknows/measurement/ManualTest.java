@@ -86,6 +86,38 @@ public class ManualTest implements Runnable {
 		
 		return ret;
 	}
+	
+	/*
+     * Pablo's modifications
+     * Returns a ManualTest object that runs only the tests in the list
+     */
+
+    public static ManualTest create(Context ctx, Handler handler, List<Integer> test_ids, StringBuilder errorDescription)
+    {
+        ManualTest ret = create(ctx, handler, errorDescription);
+        
+        if (ret == null)
+        {
+            return ret;
+        }    
+        
+        // Add the closest target test
+        List<TestDescription> listOfTestDescriptions = new ArrayList<TestDescription>();
+        listOfTestDescriptions.add(ret.mTestDescription.get(0));
+        
+        for (TestDescription td : ret.mTestDescription)
+        {            
+            if (test_ids.contains(td.testId))
+            {    
+                listOfTestDescriptions.add(td);                                                                
+            }
+        }
+        
+        ret.mTestDescription = listOfTestDescriptions;
+        
+        return ret;        
+    }
+    // End's Pablo's modification
 
 	/*
 	 * Returns a ManualTest object if the manual_tests list of the schedule

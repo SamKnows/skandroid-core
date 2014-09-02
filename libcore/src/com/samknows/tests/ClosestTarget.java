@@ -22,6 +22,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -596,6 +597,13 @@ public class ClosestTarget extends Test {
 	public static void sSetClosestTarget(String inTarget) {
 		synchronized (ClosestTarget.class) {
 			sClosestTarget = inTarget;
+			
+			// *** Pablo's modifications *** //
+			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
+			Intent intent = new Intent("currentClosestTarget");
+			intent.putExtra("currentClosestTarget", inTarget);
+			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
+			// *** End Pablo's modifications *** //
 		}
 	}
 	

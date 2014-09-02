@@ -1,0 +1,54 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_margin_quarter">4dp</dimen>
+    <dimen name="activity_margin_half">8dp</dimen>
+    <dimen name="activity_margin_half_negative">-8dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_margin_double">32dp</dimen>
+
+    <!-- Android visual rythm per Android Design guidelines. -->
+    <dimen name="visual_rhythm_half">24dp</dimen>
+    <dimen name="visual_rhythm">48dp</dimen>
+    <dimen name="visual_rhythm_and_half">72dp</dimen>
+    <dimen name="visual_rhythm_double">96dp</dimen>
+    <dimen name="visual_rhythm_triple">144dp</dimen>
+    <dimen name="visual_rhythm_quad">192dp</dimen>
+    <dimen name="visual_rhythm_penta">240dp</dimen>
+
+    <!-- Widths and Heights-->
+    <dimen name="average_results_header_height">40dp</dimen>
+    <dimen name="average_results_result_height">80dp</dimen>
+    <dimen name="fragment_run_test_results_layout_height">120dp</dimen>
+    <dimen name="fragment_archived_results_item_height">128dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    
+    <dimen name="spacing_micro_negative">-4dp</dimen>
+    <dimen name="spacing_small_negative">-8dp</dimen>
+    <dimen name="spacing_medium_negative">-16dp</dimen>
+
+    <dimen name="padding_top_result_main">-8dp</dimen>
+    <dimen name="padding_bottom_result_main">-12dp</dimen>
+
+    <!-- Text Sizes-->
+    <dimen name="text_size_micro">8sp</dimen>
+    <dimen name="text_size_small">13sp</dimen>
+    <dimen name="text_size_small_medium">16sp</dimen>
+    <dimen name="text_size_medium">21sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_mega">32sp</dimen>
+    <dimen name="text_size_giga">40sp</dimen>
+    <dimen name="text_size_tera">50sp</dimen>
+    <dimen name="text_size_peta">64sp</dimen>
+
+    <!-- Other -->
+    <dimen name="button_login_width">240dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="button_corner_radius">8dp</dimen>
+    <dimen name="button_text_padding">10dp</dimen>
+</resources>

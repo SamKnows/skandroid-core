@@ -15,7 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.SKDateFormat;
 
 public class LatencyTest extends Test {
@@ -378,6 +383,13 @@ public class LatencyTest extends Test {
 
 			long rtt = answerTime - time;
 			results[recvPackets - 1] = rtt;
+			
+			// *** Pablo's modifications *** //
+			// Local Broadcast receiver to inform about the current speed to the speedTestActivity			
+			Intent intent = new Intent("currentLatencyIntent");			
+			intent.putExtra("currentLatencyValue", String.valueOf(rtt/1000000));			
+			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
+			// *** End Pablo's modifications *** //
 
 			sleep(rtt);
 		}

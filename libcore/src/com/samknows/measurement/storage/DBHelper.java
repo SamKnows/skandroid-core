@@ -1020,5 +1020,98 @@ public class DBHelper {
 		}
 		return ret;
 	}
+	
+	// PABLO'S ADDITION
+	// This method is used to retrieve information for the summary screen results about average and best results.
+	public ArrayList<SummaryResult> getSummaryValues(int pNetworkType, long pTimePeriodStart)
+	{
+		ArrayList<SummaryResult> summaryResults = new ArrayList<SummaryResult>();		
+		String whereClause;
+		
+		// Depending on the network type, we use different where clauses.
+		switch (pNetworkType)
+		{
+			case 0:
+				whereClause = " WHERE " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
+				break;
+				
+			case 1:
+				whereClause = " WHERE " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_METRIC + "= \"activenetworktype\" AND " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_VALUE + " = " + "\"WiFi\"" + 
+				" AND " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
+				break;
+				
+			case 2:
+				whereClause = " WHERE " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_METRIC + "= \"activenetworktype\" AND " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_VALUE + " = " + "\"mobile\"" + 
+				" AND " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
+				break;
+	
+			default:
+				whereClause = " WHERE " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
+				break;
+		}
+		
+		// Defining the query
+		String query = "SELECT " + SKSQLiteHelper.TABLE_TESTRESULT + "." + SKSQLiteHelper.TR_COLUMN_TYPE+ " ,AVG(" + SKSQLiteHelper.TR_COLUMN_RESULT + "), MAX(" + SKSQLiteHelper.TR_COLUMN_RESULT + "), MIN(" + SKSQLiteHelper.TR_COLUMN_RESULT + ")" +
+				" FROM " + SKSQLiteHelper.TABLE_TESTBATCH + " JOIN " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + " ON " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_ID + " = " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_BATCH_ID + 
+				" JOIN " + SKSQLiteHelper.TABLE_TESTRESULT + " ON " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_ID + " = " + SKSQLiteHelper.TABLE_TESTRESULT + "." + SKSQLiteHelper.TR_COLUMN_BATCH_ID
+				+ whereClause +
+				" GROUP BY " + SKSQLiteHelper.TABLE_TESTRESULT + "." + SKSQLiteHelper.TR_COLUMN_TYPE;
+		
+		if (open() == true)
+		{			
+			Cursor cursor = database.rawQuery(query, null);
+			
+			int testType = 0;
+			float max = 0;
+			float min = 0;
+			float average = 0;
+			
+			if (cursor.moveToFirst())
+			{
+				do
+				{
+					if (cursor.getString(0).equals("download"))
+					{
+						testType = 0;						
+						average = cursor.getFloat(1) / 1000000;
+					    max = cursor.getFloat(2) / 1000000;
+					    min = cursor.getFloat(3) / 1000000;
+					}
+					else if (cursor.getString(0).equals("upload"))
+					{
+						testType = 1;
+						average = cursor.getFloat(1) / 1000000;
+					    max = cursor.getFloat(2) / 1000000;
+					    min = cursor.getFloat(3) / 1000000;
+					}
+					else if (cursor.getString(0).equals("latency"))
+					{
+						testType = 2;
+						average = cursor.getFloat(1) / 1000;
+					    max = cursor.getFloat(2) / 1000;
+					    min = cursor.getFloat(3) / 1000;
+					}
+					else if (cursor.getString(0).equals("packetloss"))
+					{
+						testType = 3;
+						average = cursor.getFloat(1);
+					    max = cursor.getFloat(2);
+					    min = cursor.getFloat(3);
+					}
+					else if (cursor.getString(0).endsWith("jitter"))
+					{
+						testType = 4;
+						average = cursor.getFloat(1) / 1000;
+					    max = cursor.getFloat(2) / 1000;
+					    min = cursor.getFloat(3) / 1000;						
+					}
+					
+					summaryResults.add(new SummaryResult(testType, average, max, min));
+				}
+				while (cursor.moveToNext());
+			}
+		}		
+		return summaryResults;
+	}
 
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="run_now_grey">#ff333333</color>    
+    <color name="holo_red_dark">#ffcc0000</color>    
+    <color name="divider_color_in_drawer">#dadada</color>
+    
+    <!-- Samknows new proposed palette -->
+    <color name="black">#202020</color>
+    <color name="grey_dark">#808080</color>
+    <color name="grey_light">#D2D2D2</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_dark">#F5F5F5</color>
+    <color name="yellow">#FFE600</color>
+    <color name="blue_dark">#1AA0E1</color>
+    <color name="blue">#1FB4FF</color>
+    <color name="blue_light">#6DD3F4</color>
+    <color name="green">#00E03C</color>
+    <color name="red">#CC1818</color>
+    <color name="blue_darker">#2C4295</color>
+    <color name="orange">#FF9D03</color>
+    
+    <!-- Alternatives-->
+    <color name="blue_samknows_light">#009FE3</color>
+    <color name="blue_samknows_dark">#2552A4</color>
+    <color name="violet_light">#383589</color>
+    <color name="violet_dark">#04105B</color>
+    <color name="blue_vivid_light">#156DE3</color>
+    <color name="blue_vivid_dark">#06387F</color>
+    <color name="green_light">#39AF57</color>
+    <color name="green_dark">#044706</color>
+    <color name="blue_light_inner">#0066FF</color>
+    <color name="blue_light_outer">#003A91</color>
+    
+    <!-- Alpha modifications-->
+    <color name="white_alpha_0.5">#8FFFFFFF</color>
+    <color name="black_alpha_0.1">#1A000000</color>
+    <color name="black_alpha_0.2">#33000000</color>
+    <color name="black_alpha_0.3">#4D000000</color>
+    <color name="orange_transparent">#8FFF9D03</color>
+    
+    <!-- Chart colours -->
+    <color name="cornflower">#6495ED</color>
+    <color name="lightgray">#A9A9A9</color>
+    <color name="gradient_lightgray">#505050</color>
+    <color name="gradient_darkgray">#F028F0</color>
+    <color name="orange_light">#FFE166</color>
+    
+    
+</resources>

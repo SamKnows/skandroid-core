@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_archived_results_rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/background_gradient_radial_blue_vivid">
+
+    <LinearLayout
+        android:id="@+id/fragment_archived_results_dummy_row"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fragment_run_test_results_layout_height"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:background="@drawable/selector_summary_background_black_alpha"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_small">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:alpha=".75"
+                    android:contentDescription="@string/description_icon_download"
+                    android:src="@drawable/ic_download" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/download"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium_negative"
+                android:layout_marginTop="@dimen/spacing_medium_negative"
+                android:text="@string/slash"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_peta" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/units_Mbps"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:alpha=".75"
+                    android:contentDescription="@string/description_icon_upload"
+                    android:src="@drawable/ic_upload" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upload"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium_negative"
+                android:layout_marginTop="@dimen/spacing_medium_negative"
+                android:text="@string/slash"
+                android:textColor="@color/grey_light"
+                android:textSize="@dimen/text_size_peta"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/units_Mbps"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="@string/latency"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="@string/loss"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="@string/jitter"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/slash"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_medium" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/slash"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_medium" />
+
+                <TextView
+                    android:id="@+id/archiveResultsListItemJitter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/slash"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_medium" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fragment_archived_results_warning_no_results_yet"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/visual_rhythm"
+        android:layout_alignParentBottom="true"
+        android:background="@color/orange"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="@dimen/spacing_small"
+        android:text="@string/no_archived_results_yet"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="gone"
+        tools:visibility="visible">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/fragment_archived_results_ll_passive_metrics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:layout_marginTop="136dp"
+        android:background="@drawable/background_black_alpha"
+        android:orientation="vertical"
+        tools:visibility="visible">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="gone" >
+
+            <LinearLayout
+                android:id="@+id/fragment_archived_results_ll_inner_passive_metrics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/fragment_archived_results_passive_metric_label_sim_and_network_operators"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/sim_and_network_operators"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <LinearLayout
+                    android:id="@+id/fragment_archived_results_passive_metric_divider_sim_and_network_operators"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_sim_operator"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/sim_operator"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_sim_operator_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_sim_operator"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_sim_operator_code"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/sim_operator_code"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_sim_operator_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_sim_operator_code"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_network_operator"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/network_operator"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_network_operator_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_network_operator"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_network_operator_code"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/network_operator_code"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_network_operator_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_network_operator_code"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_roaming_status"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/roaming_status"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_roaming_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_roaming_status"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fragment_archived_results_passive_metric_label_signal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/signal"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <LinearLayout
+                    android:id="@+id/fragment_archived_results_passive_metric_divider_signal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_cell_tower_ID"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/cell_tower_id"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_cell_tower_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_cell_tower_id"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_cell_tower_area_location_code"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/cell_tower_area_location_code"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_cell_tower_area_location_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_cell_tower_area_location_code"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_signal_strength"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/signal_strength"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_signal_strength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="-89 dBm"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_bearer"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/bearer"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_bearer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_bearer"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fragment_archived_results_passive_metric_label_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/device"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_manufacturer"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/manufacturer"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_manufacturer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_manufacturer"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_model"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/model"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_detail_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="Nexus 5"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_OS"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/os"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_detail_OS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_os"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_OS_vesion"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/os_version"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_OS_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="19"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_phone_type"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/phone_type"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_phone_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_phone_type"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fragment_archived_results_passive_metric_label_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/location"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <LinearLayout
+                    android:id="@+id/fragment_archived_results_passive_metric_divider_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_latitude"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/latitude"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_latitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_latitude"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_longitude"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/longitude"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_longitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_longitude"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_accuracy"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/accuracy"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_accuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_accuracy"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small">
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_location_provider"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/location_provider"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"/>
+
+                    <TextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_location_provider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="@string/tools_text_value_location_provider"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/archived_results_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:paddingTop="@dimen/spacing_micro"
+        tools:visibility="gone" >
+    </ListView>
+
+</RelativeLayout>

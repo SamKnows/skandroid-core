@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_margin_double"
+    android:layout_marginTop="@dimen/activity_margin_double">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_radial_blue_light_with_border"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_select_test_download"
+            android:layout_width="@dimen/visual_rhythm_penta"
+            android:layout_height="@dimen/visual_rhythm"
+            android:layout_margin="@dimen/spacing_micro"
+            android:background="@drawable/dialog_buttons"
+            android:text="@string/download"
+            android:textColor="@color/button_dialog_text_state_list_color"
+            android:textSize="@dimen/text_size_small"/>
+
+        <Button
+            android:id="@+id/button_select_test_upload"
+            android:layout_width="@dimen/visual_rhythm_penta"
+            android:layout_height="@dimen/visual_rhythm"
+            android:layout_margin="@dimen/spacing_micro"
+            android:background="@drawable/dialog_buttons"
+            android:text="@string/upload"
+            android:textColor="@color/button_dialog_text_state_list_color"
+            android:textSize="@dimen/text_size_small"/>
+
+        <Button
+            android:id="@+id/button_select_test_latency_loss"
+            android:layout_width="@dimen/visual_rhythm_penta"
+            android:layout_height="@dimen/visual_rhythm"
+            android:layout_margin="@dimen/spacing_micro"
+            android:background="@drawable/dialog_buttons"
+            android:text="@string/latency_loss_jitter"
+            android:textColor="@color/button_dialog_text_state_list_color"
+            android:textSize="@dimen/text_size_small"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/button_select_test_ok"
+        android:layout_width="@dimen/visual_rhythm_double"
+        android:layout_height="@dimen/visual_rhythm"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_margin"
+        android:gravity="center"
+        android:text="@string/ok"
+        android:textColor="@color/white_dark"
+        android:textSize="@dimen/text_size_small"/>
+
+</RelativeLayout>

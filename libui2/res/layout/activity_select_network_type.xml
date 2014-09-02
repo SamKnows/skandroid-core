@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select_network_type_relativelayout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_margin_double"
+    android:layout_marginTop="@dimen/activity_margin_double"
+    tools:background="@drawable/background_gradient_radial_blue_vivid">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_select_network_all"
+            android:layout_width="@dimen/visual_rhythm_penta"
+            android:layout_height="@dimen/visual_rhythm"
+            android:layout_margin="@dimen/spacing_micro"
+            android:background="@drawable/dialog_buttons"
+            android:text="@string/network_type_all"
+            android:textColor="@color/button_dialog_text_state_list_color"
+            android:textSize="@dimen/text_size_small"/>
+
+        <LinearLayout
+            android:id="@+id/ll_select_network_wifi"
+            android:layout_width="@dimen/visual_rhythm_penta"
+            android:layout_height="@dimen/visual_rhythm"
+            android:layout_margin="@dimen/spacing_micro"
+            android:background="@drawable/dialog_buttons"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_select_network_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_swifi"
+                android:drawablePadding="@dimen/spacing_small"
+                android:gravity="center"
+                android:text="@string/network_type_wifi"
+                android:textColor="@color/button_dialog_text_state_list_color"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_select_network_mobile"
+            android:layout_width="@dimen/visual_rhythm_penta"
+            android:layout_height="@dimen/visual_rhythm"
+            android:layout_margin="@dimen/spacing_micro"
+            android:background="@drawable/dialog_buttons"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_select_network_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_sgsm"
+                android:drawablePadding="@dimen/spacing_small"
+                android:gravity="center"
+                android:text="@string/network_type_mobile"
+                android:textColor="@color/button_dialog_text_state_list_color"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
