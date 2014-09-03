@@ -68,7 +68,7 @@ public class SKConstants {
 	public static final String PROP_BRAND 									= "brand";
 
 	public static final String PROP_RUN_TEST_POPUP 							= "run_test_pop_up";
-	public static final String PROP_DCS_URL 								= "DCS_Init_url";
+	//public static final String PROP_DCS_URL 								= "DCS_Init_url";
 	public static final String PROP_REPORTING_PATH 							= "Reporting_path";
 	public static final String PROP_RESCHEDULE_TIME 						= "fail_request_reschedule_time_in_millis";
 	public static final String PROP_TEST_START_WINDOW_RTC_WAKEUP 			= "test_start_window_in_millis_rtc_wakeup";
@@ -80,7 +80,7 @@ public class SKConstants {
 	public static final String INTENT_EXTRA_USERNAME 						= "username";
 	public static final String INTENT_EXTRA_DEVICE 							= "device";
 	public static final String INTENT_EXTRA_IS_CURRENT_DEVICE 				= "isCurrentDevice";
-	public static final String PROP_ENTERPRISE_ID 							= "enterprise_id";
+	//public static final String PROP_ENTERPRISE_ID 							= "enterprise_id";
 	public static final String PROP_USER_SELF_IDENTIFIER					= "user_self_identifier";
 	public static final String PROP_DATA_CAP_WELCOME						= "data_cap_welcome";
 	public static final String PROP_COLLECT_TRAFFIC_DATA					= "collect_traffic_data";

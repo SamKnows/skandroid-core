@@ -190,4 +190,22 @@ public class SKApplication extends Application{
 		SKLogger.sAssert(getClass(), false); // Must be overridden!
 		return "Unknown";
 	}
+	
+	// For now, we don't generally support server-based upload speed measurement testing.
+	public boolean getDoesAppSupportServerBasedUploadSpeedTesting() {
+		return false;
+	}
+	
+	// Must be overridden!
+	public String getDCSInitUrl() {
+		SKLogger.sAssert(getClass(), false);
+		return "DCSInitUrl_UNKNOWN";
+	}
+
+	// Must be overridden!
+	public String getEnterpriseId() {
+		SKLogger.sAssert(getClass(), false);
+		return "EnterpriseId_UNKNOWN";
+	}
+
 }

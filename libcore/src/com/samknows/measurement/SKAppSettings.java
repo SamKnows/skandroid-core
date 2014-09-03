@@ -47,7 +47,7 @@ public class SKAppSettings {
 		Properties p = new Properties();
 		try {
 			p.load(is);
-			dCSInitUrl = p.getProperty(SKConstants.PROP_DCS_URL);
+			dCSInitUrl = SKApplication.getAppInstance().getDCSInitUrl();
 			reportingServerPath = p.getProperty(SKConstants.PROP_REPORTING_PATH);
 			rescheduleTime = Long.valueOf(p.getProperty(SKConstants.PROP_RESCHEDULE_TIME));
 			testStartWindow = Long.valueOf(p.getProperty(SKConstants.PROP_TEST_START_WINDOW_RTC));

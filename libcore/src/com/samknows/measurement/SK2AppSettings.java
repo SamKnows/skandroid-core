@@ -86,7 +86,7 @@ public class SK2AppSettings extends SKAppSettings {
 			submit_path 			= p.getProperty(SKConstants.PROP_SUBMIT_PATH);
 			download_config_path 	= p.getProperty(SKConstants.PROP_DOWNLOAD_CONFIG_PATH);
 
-			enterprise_id 			= p.getProperty(SKConstants.PROP_ENTERPRISE_ID);
+			enterprise_id 			= SKApplication.getAppInstance().getEnterpriseId();
 			user_self_id 			= Boolean.parseBoolean(p.getProperty(SKConstants.PROP_USER_SELF_IDENTIFIER));
 			data_cap_welcome		= Boolean.parseBoolean(p.getProperty(SKConstants.PROP_DATA_CAP_WELCOME));
 			collect_traffic_data	= Boolean.parseBoolean(p.getProperty(SKConstants.PROP_COLLECT_TRAFFIC_DATA));

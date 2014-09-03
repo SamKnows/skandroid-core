@@ -1031,28 +1031,44 @@ public class HttpTest extends Test {
 				closeConnection(socket, connIn, connOut);
 				return;
 			}
+		
+			//
+			// Now - decide if we can use server-based upload speed testing, or not!
+        	// Note: we only run the new server-side upload speed tests WHERE THE APP SPECFICALLY ALLOWS IT.
+			//
+			MyHttpReadThread readThread = null;
+		
+			if (SKApplication.getAppInstance().getDoesAppSupportServerBasedUploadSpeedTesting() == false) {
+				// No, we are on an older app, that does not use server-based upload speed testing...
+				Log.d("TAG", "DEBUG: app does not use server-based upload speed testing...");
+         		bGotValidResponseFromServer = false;
+         		bReadThreadIsRunning = false;
+			} else {
+				// Yes, we can use server-based upload speed testing!
+				Log.d("TAG", "DEBUG: app uses server-based upload speed testing...!");
 
-			// Create a read thread, that starts monitor for a response from the server.
-			MyHttpReadThread readThread = new MyHttpReadThread(socket, connIn) {
+				// Create a read thread, that starts monitor for a response from the server.
 
-				@Override
-				public void callOnStopOrCancel(String responseString, int responseCode) {
+				readThread = new MyHttpReadThread(socket, connIn) {
 
-					synchronized(HttpTest.this) {
-						HttpTest.this.closeConnection(socket,  connIn,  connOut);
-						connIn = null;
-						connOut = null;
-						socket = null;
-					}
+					@Override
+					public void callOnStopOrCancel(String responseString, int responseCode) {
 
-					if ((responseCode != 100) && (responseCode != 200)) {
-						SKLogger.sAssert(getClass(), false);
-						// TODO - [self connection:nil didFailWithError:nil];
-					} else {
-						Log.d("TAG", "DEBUG: reponseCode=" + responseCode + ", responseString=>>>" + responseString + "<<<");
+						synchronized(HttpTest.this) {
+							HttpTest.this.closeConnection(socket,  connIn,  connOut);
+							connIn = null;
+							connOut = null;
+							socket = null;
+						}
 
-						// Example
-						/*
+						if ((responseCode != 100) && (responseCode != 200)) {
+							SKLogger.sAssert(getClass(), false);
+							// TODO - [self connection:nil didFailWithError:nil];
+						} else {
+							Log.d("TAG", "DEBUG: reponseCode=" + responseCode + ", responseString=>>>" + responseString + "<<<");
+
+							// Example
+							/*
 		       HTTP/1.1 100 Continue
 		       X-SamKnows: 1
 
@@ -1068,77 +1084,78 @@ public class HttpTest extends Test {
 		       MEASUR_SESSION: 15 1666000 8293952
 
 		       That is 829352/15 = 552930.13333 bytes per second.
-						 */
+							 */
 
-						double finalBytesPerSecond = 0.0;
-						double finalBytesMilliseconds = 0.0;
-						double finalBytes = 0.0;
+							double finalBytesPerSecond = 0.0;
+							double finalBytesMilliseconds = 0.0;
+							double finalBytes = 0.0;
 
-						String[] items = responseString.split("\n");
-						if (items.length == 0) {
-							SKLogger.sAssert(getClass(),  false);
-						} else {
-							int itemCount = items.length;
-							int itemIndex;
-							for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
-								String item = items[itemIndex];
-								// Locate the MEASURE_SESSION items.
-								if (item.contains("MEASUR_SESSION")) {
-									// Use the final calculated value!
-									String[] items2 = item.split(" ");
-									if (items2.length != 4) {
-										SKLogger.sAssert(getClass(),  false);
-									} else {
-										double seconds = Double.valueOf(items2[1]);
-
-										if (seconds <= 0) {
+							String[] items = responseString.split("\n");
+							if (items.length == 0) {
+								SKLogger.sAssert(getClass(),  false);
+							} else {
+								int itemCount = items.length;
+								int itemIndex;
+								for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
+									String item = items[itemIndex];
+									// Locate the MEASURE_SESSION items.
+									if (item.contains("MEASUR_SESSION")) {
+										// Use the final calculated value!
+										String[] items2 = item.split(" ");
+										if (items2.length != 4) {
 											SKLogger.sAssert(getClass(),  false);
 										} else {
-											bGotValidResponseFromServer = true;
+											double seconds = Double.valueOf(items2[1]);
 
-											double bytesThusFar = Double.valueOf(items2[3]);
-											SKLogger.sAssert(getClass(), bytesThusFar > 0);
+											if (seconds <= 0) {
+												SKLogger.sAssert(getClass(),  false);
+											} else {
+												bGotValidResponseFromServer = true;
 
-											double bytesThisTime = bytesThusFar; // - bytesAtLastMeasurement;
-											SKLogger.sAssert(getClass(), bytesThisTime > 0);
+												double bytesThusFar = Double.valueOf(items2[3]);
+												SKLogger.sAssert(getClass(), bytesThusFar > 0);
 
-											double bytesPerSecond = bytesThisTime / seconds;
-											SKLogger.sAssert(getClass(), bytesPerSecond > 0);
+												double bytesThisTime = bytesThusFar; // - bytesAtLastMeasurement;
+												SKLogger.sAssert(getClass(), bytesThisTime > 0);
 
-											finalBytesPerSecond = bytesPerSecond;
-											finalBytesMilliseconds = seconds * 1000.0;
-											finalBytes = bytesThusFar;
+												double bytesPerSecond = bytesThisTime / seconds;
+												SKLogger.sAssert(getClass(), bytesPerSecond > 0);
+
+												finalBytesPerSecond = bytesPerSecond;
+												finalBytesMilliseconds = seconds * 1000.0;
+												finalBytes = bytesThusFar;
+											}
 										}
 									}
 								}
+
 							}
 
+							//SKLogger.sAssert(getClass(), bGotValidResponseFromServer == true);
+
+							// bGotValidResponseFromServer = false; // TODO - debug hack for testing!
+
+							if (bGotValidResponseFromServer == true)
+							{
+								synchronized (HttpTest.class) {
+
+									sServerUploadBytesPerSecond.add(Double.valueOf(finalBytesPerSecond));
+								}
+
+								Log.w(TAG, "DEBUG: BYTES CALCULATED FROM SERVER, PER SECOND = " + finalBytesPerSecond);
+								bitrateMpbs1024Based = OtherUtils.sConvertBytesPerSecondToMbps1024Based(finalBytesPerSecond);
+								Log.w(TAG, "DEBUG: bitsPerSecond CALCULATED FROM SERVER = " + OtherUtils.sBitrateMbps1024BasedToString(bitrateMpbs1024Based));
+							}
+
+							// TODO [self doSendUpdateStatus:self.status threadId:threadId];
+
+							// bGotValidResponseFromServer = false; // DEBUG ONLY TESTING!
 						}
-
-						//SKLogger.sAssert(getClass(), bGotValidResponseFromServer == true);
-
-						// bGotValidResponseFromServer = false; // TODO - debug hack for testing!
-
-						if (bGotValidResponseFromServer == true)
-						{
-                    		synchronized (HttpTest.class) {
-
-                    			sServerUploadBytesPerSecond.add(Double.valueOf(finalBytesPerSecond));
-                    		}
-                    		
-							Log.w(TAG, "DEBUG: BYTES CALCULATED FROM SERVER, PER SECOND = " + finalBytesPerSecond);
-							bitrateMpbs1024Based = OtherUtils.sConvertBytesPerSecondToMbps1024Based(finalBytesPerSecond);
-							Log.w(TAG, "DEBUG: bitsPerSecond CALCULATED FROM SERVER = " + OtherUtils.sBitrateMbps1024BasedToString(bitrateMpbs1024Based));
-						}
-
-						// TODO [self doSendUpdateStatus:self.status threadId:threadId];
-
-						// bGotValidResponseFromServer = false; // DEBUG ONLY TESTING!
+						bReadThreadIsRunning = false;
 					}
-					bReadThreadIsRunning = false;
-				}
-			};
-			readThread.start();
+				};
+				readThread.start();
+			}
 
 
 			//
@@ -1180,7 +1197,9 @@ public class HttpTest extends Test {
 			if (error.get()) {
 				// Let the thread do this! closeConnection(socket, connIn, connOut);
 				// No need to wait for the thread to complete, however.
-    			readThread.doStop();
+				if (readThread != null) {
+					readThread.doStop();
+				}
 				return;
 			}
 
@@ -1249,10 +1268,11 @@ public class HttpTest extends Test {
 
             	// Stop EITHER if:
             	// 1) the read thread tells us!
-            	if (readThread.getIsCancelled() == true) {
+            	if ((readThread != null) && (readThread.getIsCancelled() == true)) {
             		Log.w("MPC", "loop - break 4");
             		break;
             	}
+            	
             	// 2) we at least 10 seconds AFTER the detection of "isTransferDone" - giving server long enough to respond, or until we've written enough bytes!
             	//if (transferMaxBytes == 0) {
                 if (isTransferDone == true) {
@@ -1289,29 +1309,35 @@ public class HttpTest extends Test {
 			// already requested it to stop; however, it is fine to call doStop as many times as you want.
 			
 			// Has the server *already* finished?
-			if (readThread.getIsCancelled() == true) {
-				// Already got a response!
-			} else {
-				readThread.doStop();
+            if (readThread != null) {
+            	if (readThread.getIsCancelled() == true) {
+            		// Already got a response!
+            	} else {
+            		readThread.doStop();
 
-				// Once the read thread has completed, send our best known result.
-				while (bReadThreadIsRunning == true) {
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-						SKLogger.sAssert(getClass(), false);
-					}
-				}
-			}
+            		// Once the read thread has completed, send our best known result.
+            		while (bReadThreadIsRunning == true) {
+            			try {
+            				Thread.sleep(50);
+            			} catch (InterruptedException e) {
+            				SKLogger.sAssert(getClass(), false);
+            			}
+            		}
+            	}
+            }
 
 			// Close the connection / tidy-up once the thread has finished?
 			// No - the thread does this itself.
 			// closeConnection(socket, connIn, connOut);
+            
+            int bytesPerSecondMeasurement = getSpeedBytesPerSecond();
 
 			if (bGotValidResponseFromServer == true) {
 				// BEST RESULT is from the SERVER!
+         		Log.d(TAG, "Best result is from the SERVER, bytesPerSecondMeasurement=" + bytesPerSecondMeasurement);
 				// TODO! [self doSendtodDidCompleteTransferOperation:0 transferBytes:0 totalBytes:0 ForceThisBitsPerSecondFromServer:bitrateMpbs1024Based threadId:threadId];
 			} else {
+         		Log.d(TAG, "Best result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement=" + bytesPerSecondMeasurement);
 				// Best result is from the built-in measurement.
 				// TODO! [self doSendtodDidCompleteTransferOperation:transferTimeMicroseconds transferBytes:transferBytes totalBytes:totalBytes ForceThisBitsPerSecondFromServer:-1.0  threadId:threadId];
 			}
@@ -1319,7 +1345,7 @@ public class HttpTest extends Test {
 			// *** Pablo's modifications *** //
 			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
 			Intent intent = new Intent("currentSpeedIntent");
-			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
+			intent.putExtra("currentSpeedValue", String.valueOf(bytesPerSecondMeasurement));
 			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
 			// Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
 			// *** End Pablo's modifications *** //
