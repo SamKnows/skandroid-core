@@ -1,5 +1,6 @@
 package com.samknows.tests;
 
+import com.samknows.libcore.SKLogger;
 import com.samknows.tests.Param;
 
 import java.util.HashSet;
@@ -227,6 +228,7 @@ public class TestFactory {
 				} else if (Test.paramMatch(param, POSTDATALENGTH)) {
 					ret.setPostDataLenght(Integer.parseInt(value));
 				} else {
+					SKLogger.sAssert(TestFactory.class, false);
 					ret = null;
 					break;
 				}

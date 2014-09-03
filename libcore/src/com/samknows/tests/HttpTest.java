@@ -458,10 +458,14 @@ public class HttpTest extends Test {
         sb.append("&WARMUP_SAMPLE_TIME=");
         // The system will reject a header with "WARMUP_SAMPLE_TIME=0".
         // If that happens, set WARMUP_SAMPLE_TIME to UINT32_MAX instead of zero.
-        long millisecondsWarmupSampleTime = (long)(warmupMaxTimeMicro/1000.0);
+        //long millisecondsWarmupSampleTime = (long)(warmupMaxTimeMicro/1000.0);
+        long millisecondsWarmupSampleTime = (long)(warmupMaxTime/1000.0);
         if (millisecondsWarmupSampleTime == 0) {
         	// There is no unsigned 32 bit int in Java. You have to use long (signed 64-bit) instead.
+        	// Not expected - and might cause the server-based test to timeout!
+        	SKLogger.sAssert(getClass(),  false);
             millisecondsWarmupSampleTime = 4294967295L;
+            //millisecondsWarmupSampleTime = 5000L; // Hack!
         }
     	sb.append(millisecondsWarmupSampleTime); // WARMUP_SAMPLE_TIME=%d (milli) - from Micro!
         sb.append("&NUM_WARMUP_SAMPLES=1");
