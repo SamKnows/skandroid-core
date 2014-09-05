@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.samknows.measurement.SKApplication;
 import com.samknows.ska.activity.SKAPreferenceActivity;
+import com.samknows.ska.activity.SKASystemInfoActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 import com.samknows.libui2.R;
 
@@ -349,6 +350,12 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		if (itemId == R.id.menu_item_fragment_activity_main_about) {
 			Intent intent = new Intent(this, ActivityAbout.class);
 			startActivity(intent);
+			
+			return true;
+		}
+		
+		if (itemId == R.id.menu_system_info){
+			startActivity(new Intent(this, SKASystemInfoActivity.class));
 			
 			return true;
 		}
