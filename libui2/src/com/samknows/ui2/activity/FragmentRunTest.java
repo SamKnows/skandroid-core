@@ -613,7 +613,10 @@ public class FragmentRunTest extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				if (testsRunning == true) {
+				if (MainService.isExecuting()) {
+					showAlertCannotRunTestAsBackgroundTaskIsRunning();
+				}
+				else if (testsRunning == true) {
 					if (manualTest == null) {
 						SKLogger.sAssert(getClass(), false);
 						// Should not happen - force a tidy-up!
@@ -1150,8 +1153,40 @@ public class FragmentRunTest extends Fragment
     	else
     	{
     		manualTest = ManualTest.create(getActivity(), testResultsHandler, errorDescription);
+    		
+    		if (manualTest == null) {
+    			if (errorDescription.toString().contains(getString(R.string.manual_test_create_failed_3))) {
+    				showAlertCannotRunTestAsBackgroundTaskIsRunning();
+    			} else {
+    				showAlertForTestWithMessageBody (getString(R.string.unexpected_error));
+    			}
+    		}
     	}    	
     }
+   
+    // Shown when the background test is already running, so we cannot run the manual
+    // test at the moment...
+    void showAlertCannotRunTestAsBackgroundTaskIsRunning () {
+      showAlertForTestWithMessageBody (getString(R.string.manual_test_error));
+    }
+    
+    
+    void showAlertForTestWithMessageBody (String bodyMessage) {
+    	Context ctx = FragmentRunTest.this.getActivity();
+
+    	AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+    	builder.setTitle(R.string.tests_running_title);
+    	builder.setMessage(bodyMessage)
+    	.setCancelable(false)
+    	.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+    		public void onClick(DialogInterface dialog, int id) {
+    			dialog.dismiss();
+    		}
+    	});
+    	builder.create().show();
+
+    }
+    
     
     /**
      * Checks which tests are selected

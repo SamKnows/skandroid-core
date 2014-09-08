@@ -190,8 +190,8 @@
 <string name="lte">LTE</string>
 <string name="manual_test_create_failed_1">Test cannot be initialized - cannot find the schedule configuration. Please re-activate!</string>
 <string name="manual_test_create_failed_2">Test cannot be initialized - the schedule is empty.</string>
-<string name="manual_test_create_failed_3">ManualTest cannot be initialized - the main service is running.</string>
-<string name="manual_test_error">Unable to launch tests, another background test is running. Please retry shortly.</string>
+<string name="manual_test_create_failed_3">Manual Test cannot be initialized - the main service is running.</string>
+<string name="manual_test_error">Unable to launch test, a background task is running. Please retry shortly.</string>
 <string name="unexpected_error">An unexpected error occurred.</string>
 <string name="manufacturer">Manufacturer</string>
 <string name="max_data_cap_message">Maximum amount limited to </string>
@@ -241,7 +241,7 @@
 <string name="next">next</string>
 <string name="next_grid">Next Grid Page</string>
 <string name="next_service_task">Next Service Task</string>
-<string name="next_test_scheduled_for">Next Test</string>
+<string name="next_test_scheduled_for">Next Task</string>
 <string name="no">no</string>
 <string name="none">none</string>
 <string name="none_unknown">None or unknown</string>
