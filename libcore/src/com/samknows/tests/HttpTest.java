@@ -1254,7 +1254,7 @@ public class HttpTest extends Test {
             	// *** Pablo's modifications *** //
     			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
     			Intent intent = new Intent("currentSpeedIntent");
-    			//intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
+    			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
     			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
     			//Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
     			// *** End Pablo's modifications *** //
@@ -1280,25 +1280,34 @@ public class HttpTest extends Test {
             	
             	// 2) we at least 10 seconds AFTER the detection of "isTransferDone" - giving server long enough to respond, or until we've written enough bytes!
             	//if (transferMaxBytes == 0) {
-                if (isTransferDone == true) {
-                	if (sGetMilliTime() > waitUntilTime) {
-                		Log.w("MPC", "loop - break 5a, waituntiltime=" + waitUntilTime + ", waited for " + (sGetMilliTime() - waitFromTime) + " ms");
-                		break;
-                	}
-            	} else if (actuallyTransferredBytes >= transferMaxBytes) {
-            		Log.w("MPC", "loop - break 5b");
-            		break;
-            	}
-
-            	// Give other threads a chance, otherwise we're locked a hard loop...
-            	try {
-            		if (isTransferDone) {
-                		Thread.sleep(10);
-            		} else {
-                		Thread.sleep(1);
+            	if (readThread != null) {
+            		// Server-based upload speed test in operation...
+            		if (isTransferDone == true) {
+            			if (sGetMilliTime() > waitUntilTime) {
+            				Log.w("MPC", "loop - break 5a, waituntiltime=" + waitUntilTime + ", waited for " + (sGetMilliTime() - waitFromTime) + " ms");
+            				break;
+            			}
+            		} else if (actuallyTransferredBytes >= transferMaxBytes) {
+            			Log.w("MPC", "loop - break 5b");
+            			break;
             		}
-            	} catch (InterruptedException e) {
-            		SKLogger.sAssert(getClass(), false);
+
+            		// Give other threads a chance, otherwise we're locked a hard loop...
+            		try {
+            			if (isTransferDone) {
+            				Thread.sleep(10);
+            			} else {
+            				Thread.sleep(1);
+            			}
+            		} catch (InterruptedException e) {
+            			SKLogger.sAssert(getClass(), false);
+            		}
+            	} else {
+            		// Old-style upload speed test - simple condition to end the loop.
+            		if (isTransferDone == true) {
+                    	Log.d("MPC", "loop - break as isTransferDone is true");
+            			break;
+            		}
             	}
             	
             	//Log.w("MPC", "loop - continue 6 - actualBytesTransferred = " + actuallyTransferredBytes);
