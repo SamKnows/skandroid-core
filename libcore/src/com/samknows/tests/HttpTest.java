@@ -558,7 +558,6 @@ public class HttpTest extends Test {
 			if (0 != desiredReceiveBufferSize) {
 				ret.setReceiveBufferSize(desiredReceiveBufferSize);
 			}
-			receiveBufferSize = ret.getReceiveBufferSize();
 
 			// Experimentation shows a *much* better settling-down on upload speed,
 			// if we force a 32K send buffer size in bytes, rather than relying
@@ -567,17 +566,19 @@ public class HttpTest extends Test {
 			// When forcing value in bytes, you must actually divide by two!
 			// https://code.google.com/p/android/issues/detail?id=13898
 			//desiredSendBufferSize = 65536 / 2; // (2 ^ 16) / 2
-			desiredSendBufferSize = 32768 / 2; // (2 ^ 15) / 2
+			//desiredSendBufferSize = 32768 / 2; // (2 ^ 15) / 2
 			if (0 != desiredSendBufferSize) {
 				ret.setSendBufferSize(desiredSendBufferSize);
 			}
 			sendBufferSize = ret.getSendBufferSize();
 
-			if (downstream) {
-				ret.setSoTimeout(Test.READTIMEOUT); //  = 10000; // 10 seconds read timeout ... 25000 is the iOS value!
-			} else {
-				ret.setSoTimeout(100); // Just 100 ms while polling server for upload test response!
-			}
+			receiveBufferSize = ret.getReceiveBufferSize();
+
+			//if (downstream) {
+			ret.setSoTimeout(Test.READTIMEOUT);
+			//} else {
+			//	ret.setSoTimeout(100); // Just 100 ms while polling server for upload test response!
+			//}
 
 			ret.connect(sockAddr, Test.CONNECTIONTIMEOUT); // // 10 seconds connection timeout
 		} catch (Exception e) {
