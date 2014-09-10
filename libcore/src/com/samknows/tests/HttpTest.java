@@ -1251,13 +1251,13 @@ public class HttpTest extends Test {
             		break;
             	}
             	
-            	// *** Pablo's modifications *** //
-    			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-    			Intent intent = new Intent("currentSpeedIntent");
-    			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
-    			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
-    			//Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
-    			// *** End Pablo's modifications *** //
+//            	// *** Pablo's modifications *** //
+//    			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
+//    			Intent intent = new Intent("currentSpeedIntent");
+//    			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
+//    			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
+//    			//Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
+//    			// *** End Pablo's modifications *** //
 
             	final long waitForTimeMs = 20000L;
             	if (isTransferDone == false) {
@@ -1358,9 +1358,9 @@ public class HttpTest extends Test {
 			
 			// *** Pablo's modifications *** //
 			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-			Intent intent = new Intent("currentSpeedIntent");
-			intent.putExtra("currentSpeedValue", String.valueOf(bytesPerSecondMeasurement));
-			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
+//			Intent intent = new Intent("currentSpeedIntent");
+//			intent.putExtra("currentSpeedValue", String.valueOf(bytesPerSecondMeasurement));
+//			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
 			// Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
 			// *** End Pablo's modifications *** //
 
