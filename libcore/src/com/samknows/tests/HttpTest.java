@@ -1170,7 +1170,7 @@ public class HttpTest extends Test {
 					generator.nextBytes(buff);
 				}
 				try {
-					synchronized(HttpTest.this) {
+					//synchronized(HttpTest.this) {
 						if (connOut == null) {
 							break;
 						}
@@ -1183,7 +1183,7 @@ public class HttpTest extends Test {
 						//         		}
 
 						connOut.flush();
-					}
+					//}
 					
 					// Give other threads a chance, otherwise we're locked a hard loop...
 					try {
@@ -1223,9 +1223,9 @@ public class HttpTest extends Test {
             		generator.nextBytes(buff);
             	}
             	try {
-            		synchronized(HttpTest.this) {
+            		//synchronized(HttpTest.this) {
             			if (connOut == null) {
-            				Log.w("MPC", "loop - break 2");
+            				//Log.w("MPC", "loop - break 2");
             				break;
             			}
             			//             	long start = sGetMicroTime();
@@ -1239,7 +1239,7 @@ public class HttpTest extends Test {
             			//             		smDebugSocketSendTimeMicroseconds.add(new DebugTiming("testit", threadIndex, end-start, getSpeed()));
             			//         		}
             			connOut.flush();
-            		}
+            		//}
 
             	} catch (IOException ioe) {
             		SKLogger.sAssert(getClass(), false);
