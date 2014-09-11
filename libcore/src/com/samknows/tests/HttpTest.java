@@ -796,12 +796,12 @@ public class HttpTest extends Test {
 				readBytes = BYTESREADERR;
 				SKLogger.sAssert(getClass(),  false);
 			}
-			// *** Pablo's modifications *** //
-			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-			Intent intent = new Intent("currentSpeedIntent");			
-			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
-			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);			
-			// *** End Pablo's modifications *** //
+//			// *** Pablo's modifications *** //
+//			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
+//			Intent intent = new Intent("currentSpeedIntent");			
+//			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
+//			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);			
+//			// *** End Pablo's modifications *** //
 		} while (!isTransferDone(readBytes));
 
 		closeConnection(socket, connIn, connOut);
@@ -1214,7 +1214,7 @@ public class HttpTest extends Test {
             long waitUntilTime = Long.MAX_VALUE;
             long waitFromTime = Long.MAX_VALUE;
             
-            Log.w("MPC", "loop - start 1");
+            //Log.w("MPC", "loop - start 1");
             
             long actuallyTransferredBytes = 0L;
             
@@ -1303,7 +1303,7 @@ public class HttpTest extends Test {
             	} else {
             		// Old-style upload speed test - simple condition to end the loop.
             		if (isTransferDone == true) {
-                    	Log.d("MPC", "loop - break as isTransferDone is true");
+                    	//Log.d("MPC", "loop - break as isTransferDone is true");
             			break;
             		}
             	}
@@ -1314,7 +1314,7 @@ public class HttpTest extends Test {
 			//
 			// To reach here, the (blocking) test is finished.
 			//
-            Log.w("MPC", "loop - ended continue7");
+            //Log.w("MPC", "loop - ended continue7");
 			
 			// Ask the thread to stop... and wait for it to stop!
 			// Note that in the event of an error when transferring data, we'll have
