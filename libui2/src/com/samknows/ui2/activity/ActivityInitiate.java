@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.util.LoginHelper;
 import com.samknows.measurement.util.OtherUtils;
@@ -37,7 +39,10 @@ public class ActivityInitiate extends BaseLogoutActivity
 		else
 		{
 			Log.d(this.getClass().toString(), "This app is NOT debuggable, so setting-up crash reporting!");
-			CrashManager.register(this, "3d13669fc03f8ace6693934bc9922c65", new CrashManagerListener()
+
+            String crashReportingId = SKApplication.getAppInstance().getCrashManagerId();
+
+			CrashManager.register(this, crashReportingId, new CrashManagerListener()
 			{
 				@Override
 				public boolean shouldAutoUploadCrashes()

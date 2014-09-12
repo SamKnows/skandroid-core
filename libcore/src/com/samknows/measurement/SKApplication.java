@@ -208,4 +208,8 @@ public class SKApplication extends Application{
 		return "EnterpriseId_UNKNOWN";
 	}
 
+	public String getCrashManagerId() {
+		SKLogger.sAssert(getClass(), false);
+		return "CrashManagerId_UNKNOWN";
+	}
 }
