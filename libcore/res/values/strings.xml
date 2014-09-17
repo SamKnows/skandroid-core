@@ -292,8 +292,12 @@
 <string name="reset_password_error">There was an error resetting your password: </string>
 <string name="reset_password_success">Your password has been reset</string>
 <string name="results_table_header_result">Result</string>
-<string name="results_for">Results for</string>
+<string name="results_for_1_day">Results for 1 day</string>
 <string name="results_for_1_week">Results for 1 week</string>
+<string name="results_for_1_month">Results for 1 Month</string>
+<string name="results_for_2_weeks">Results for 2 Weeks</string>
+<string name="results_for_3_months">Results for 3 Months</string>
+<string name="results_for_1_year">Results for 1 Year</string>
 <string name="roaming_status">Roaming status</string>
 <string name="running_test">Running Test</string>
 <string name="closest_target">Best Target</string>

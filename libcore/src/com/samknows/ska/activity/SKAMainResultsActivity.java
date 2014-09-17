@@ -941,20 +941,26 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		});
 		
 		String caption = getString(R.string.time_period_1week);
+		
 		if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK) {
-    		caption = getString(R.string.time_period_1week);
-    	} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_MONTH) {
-    		caption = getString(R.string.time_period_1month);
+			caption = getString(R.string.time_period_1week);
+			timeperiod_button.setText(R.string.results_for_1_week);
+		} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_MONTH) {
+			caption = getString(R.string.time_period_1month);
+			timeperiod_button.setText(R.string.results_for_1_month);
 		} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_THREE_MONTHS) {
     		caption = getString(R.string.time_period_3months);
-		} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_YEAR) {
-    		caption = getString(R.string.time_period_1year);
+    		timeperiod_button.setText(R.string.results_for_3_months);
+    	} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_YEAR) {
+			caption = getString(R.string.time_period_1year);
+			timeperiod_button.setText(R.string.results_for_1_year);
 		} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_DAY) {
-    		caption = getString(R.string.time_period_1day);
+			caption = getString(R.string.time_period_1day);
+			timeperiod_button.setText(R.string.results_for_1_day);
 		} else {
+			timeperiod_button.setText(R.string.results_for_1_week);
 			SKLogger.sAssert(getClass(), false);
 		}
-		timeperiod_button.setText(getString(R.string.results_for) + " " + caption);
 
 
 //		LinearLayout timeperiod_button2;
@@ -2556,23 +2562,27 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			public void onClick(DialogInterface dialog, int which) {
 
 				String value = array_spinner[which];
+				Button tvHeader = (Button) findViewById(R.id.btn_timeperiod);
+				
 				if (value.equals(getString(R.string.time_period_1week))) {
+    				tvHeader.setText(R.string.results_for_1_week);
 					mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
 				} else if (value.equals(getString(R.string.time_period_1month))) {
+    				tvHeader.setText(R.string.results_for_1_month);
 					mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_MONTH;
 				} else if (value.equals(getString(R.string.time_period_3months))) {
+    				tvHeader.setText(R.string.results_for_3_months);
 					mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_THREE_MONTHS;
 				} else if (value.equals(getString(R.string.time_period_1year))) {
+    				tvHeader.setText(R.string.results_for_1_year);
 					mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_YEAR;
 				} else if (value.equals(getString(R.string.time_period_1day))) {
+    				tvHeader.setText(R.string.results_for_1_day);
 					mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_DAY;
 				} else {
+    				tvHeader.setText(R.string.results_for_1_week);
 					Log.e(this.getClass().toString(), "onClick - value out of range=" + value);
 				}
-
-				Button tvHeader = (Button) findViewById(R.id.btn_timeperiod);
-				String caption = getString(R.string.results_for) + " " + array_spinner[which];
-				tvHeader.setText(caption);
 				
 				// Query average data, and update charts - this might make them invisible, if there is no data!
 				queryAverageDataAndUpdateTheCharts();

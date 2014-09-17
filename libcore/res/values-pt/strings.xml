@@ -72,7 +72,7 @@
 <string name="auto_testing">Teste automático</string>
 <string name="available_tests">Testes disponíveis</string>
 <string name="average">Média</string>
-<string name="average_results">Média de resultados</string>
+<string name="average_results">Média de resultados do período</string>
 <string name="bearer">Portadora</string>
 <string name="best_server">Melhor servidor</string>
 <string name="best_time">Melhor tempo</string>
@@ -126,7 +126,7 @@
 <string name="download">Download</string>
 <string name="downloaded">Baixado: </string>
 <string name="download_complete">Download completo</string>
-<string name="download_configuration">Configuração do Download</string>
+<string name="download_configuration">Baixando configuração</string>
 <string name="download_failed">O teste de download falhou</string>
 <string name="download_mbps">Download</string>
 <string name="download_success">O teste de download alcançou %1$s Mbps</string>
@@ -292,8 +292,12 @@
 <string name="reset_password_error">Houve um erro ao redefinir sua senha: </string>
 <string name="reset_password_success">Sua senha foi redefinida</string>
 <string name="results_table_header_result">Resultado</string>
-<string name="results_for">Resultados para</string>
-<string name="results_for_1_week">Resultados para uma semana</string>
+<string name="results_for_1_day">Resultados do último dia</string>
+<string name="results_for_1_week">Resultados da última semana</string>
+<string name="results_for_1_month">Resultados do último mês</string>
+<string name="results_for_2_weeks">Resultados das últimas duas semanas</string>
+<string name="results_for_3_months">Resultados dos últimos três meses</string>
+<string name="results_for_1_year">Resultados do último ano</string>
 <string name="roaming_status">Status de Roaming</string>
 <string name="running_test">Teste em andamento</string>
 <string name="closest_target">Melhor Servidor</string>
