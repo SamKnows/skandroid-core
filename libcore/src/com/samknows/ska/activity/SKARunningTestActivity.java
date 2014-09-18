@@ -132,8 +132,15 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 						if (name == null) {
 							name = hostUrl;
 						}
+						
+						if (name.length() <= 1) {
+							// For now, just show the "Finding..." message as the text.
+							runningTestWithClosestTarget.setText(R.string.TEST_Label_Finding_Best_Target);
+						} else {
+							// Show "Best Target - myserver" as the text.
+    						runningTestWithClosestTarget.setText(getString(R.string.running_test_closest_target) + name);
+						}
 
-						runningTestWithClosestTarget.setText(getString(R.string.running_test_closest_target) + name);
 					}
 
 					try {
