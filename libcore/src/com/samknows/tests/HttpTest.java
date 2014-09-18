@@ -388,7 +388,7 @@ public class HttpTest extends Test {
 	 */
 	@Override
 	public int getNetUsage() {
-		return transferBytes + warmupBytes;
+		return transferBytesAcrossAllTestThreads + warmupBytesAcrossAllTestThreads;
 	}
 
 	// @SuppressLint("NewApi")
@@ -602,7 +602,7 @@ public class HttpTest extends Test {
 		int bytesPerSecondFromClient = 0;
 		if (transferTimeMicroseconds != 0) {
 			double transferTimeSeconds = ((double) transferTimeMicroseconds) / 1000000.0;
-			bytesPerSecondFromClient = (int) (((double)transferBytes) / transferTimeSeconds);
+			bytesPerSecondFromClient = (int) (((double)transferBytesAcrossAllTestThreads) / transferTimeSeconds);
 			// Log.w(TAG, "DEBUG: getSpeedBytesPerSecond, candidate client value = " + bytesPerSecondFromClient);
 		}
 		
@@ -628,11 +628,11 @@ public class HttpTest extends Test {
 	}
 
 	public synchronized int getTransferBytes() {
-		return warmupBytes + transferBytes;
+		return warmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
 	}
 
 	public synchronized int getWarmupBytes() {
-		return warmupBytes;
+		return warmupBytesAcrossAllTestThreads;
 	}
 
 	public String getHumanReadableResult() {
@@ -712,8 +712,8 @@ public class HttpTest extends Test {
 		o.add(Long.toString(transferTimeMicroseconds));
 		output.put(JSON_TRANFERTIME, transferTimeMicroseconds);
 		// transfer bytes
-		o.add(Integer.toString(transferBytes));
-		output.put(JSON_TRANFERBYTES, transferBytes);
+		o.add(Integer.toString(transferBytesAcrossAllTestThreads));
+		output.put(JSON_TRANFERBYTES, transferBytesAcrossAllTestThreads);
 		// byets_sec
 		o.add(Integer.toString(getSpeedBytesPerSecond()));
 		output.put(JSON_BYTES_SEC, getSpeedBytesPerSecond());
@@ -721,8 +721,8 @@ public class HttpTest extends Test {
 		o.add(Long.toString(warmupTime));
 		output.put(JSON_WARMUPTIME, warmupTime);
 		// warmup bytes
-		o.add(Integer.toString(warmupBytes));
-		output.put(JSON_WARMUPBYTES, warmupBytes);
+		o.add(Integer.toString(warmupBytesAcrossAllTestThreads));
+		output.put(JSON_WARMUPBYTES, warmupBytesAcrossAllTestThreads);
 		// number of threads
 		o.add(Integer.toString(nThreads));
 		output.put(JSON_NUMBER_OF_THREADS, nThreads);
@@ -834,7 +834,7 @@ public class HttpTest extends Test {
 			error.set(true);
 		}
 
-		warmupBytes += bytes;
+		warmupBytesAcrossAllTestThreads += bytes;
 		if (startWarmup == 0) {
 			startWarmup = sGetMicroTime();
 		}
@@ -845,7 +845,7 @@ public class HttpTest extends Test {
 
 		// if warmup max bytes is set and bytes counter exceeded its value set
 		// bytesWarmup to true
-		bytesWarmup = warmupMaxBytes > 0 && warmupBytes >= warmupMaxBytes;
+		bytesWarmup = warmupMaxBytes > 0 && warmupBytesAcrossAllTestThreads >= warmupMaxBytes;
 
 		// if a condition happened increment the warmupDoneCounter
 		if (timeWarmup || bytesWarmup) {
@@ -884,7 +884,7 @@ public class HttpTest extends Test {
 			error.set(true);
 			bytes = 0;
 		}
-		transferBytes += bytes;
+		transferBytesAcrossAllTestThreads += bytes;
 
 		// if startTransfer is 0 this is the first call to isTransferDone
 		if (startTransfer == 0) {
@@ -896,10 +896,10 @@ public class HttpTest extends Test {
 			ret = true;
 		}
 		if ((transferMaxBytes > 0)
-				&& (transferBytes + warmupBytes > transferMaxBytes)) {
+				&& (transferBytesAcrossAllTestThreads + warmupBytesAcrossAllTestThreads > transferMaxBytes)) {
 			ret = true;
 		}
-		if (transferBytes > 0) {
+		if (transferBytesAcrossAllTestThreads > 0) {
 			testStatus = "OK";
 		}
 
@@ -1497,7 +1497,7 @@ public class HttpTest extends Test {
 				ret = (double) currTime / (warmupMaxTime + transferMaxTime);
 
 			} else {
-				int currBytes = warmupBytes + transferBytes;
+				int currBytes = warmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
 				ret = (double) currBytes / (warmupMaxBytes + transferMaxBytes);
 			}
 		}
@@ -1517,14 +1517,14 @@ public class HttpTest extends Test {
 	long startWarmup = 0;
 	long warmupTime = 0;
 	long warmupMaxTime = 0;
-	int warmupBytes = 0;
+	int warmupBytesAcrossAllTestThreads = 0;
 	int warmupMaxBytes = 0;
 	int warmupDoneCounter = 0;
 
 	// transfer variables
 	long startTransfer = 0;
 	long transferTimeMicroseconds = 0;
-	int transferBytes = 0;
+	int transferBytesAcrossAllTestThreads = 0;
 	long transferMaxTime = 0;
 	int transferMaxBytes = 0;
 	int transferDoneCounter = 0;
