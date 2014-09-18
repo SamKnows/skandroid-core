@@ -488,7 +488,7 @@ public class FragmentRunTest extends Fragment
         // Label showing the closest server
         tv_Closest_Server = (TextView)pView.findViewById(R.id.fragment_speed_test_closest_server);
         tv_Closest_Server.setTextColor(getResources().getColor(R.color.grey_light));
-        tv_Closest_Server.setText(R.string.closest_target);        
+        tv_Closest_Server.setText(R.string.TEST_Label_Finding_Best_Target);        
         
         // Text views in the shining labels
         tv_Status_Label_1 = (TextView)pView.findViewById(R.id.status_label_1);
@@ -1755,7 +1755,7 @@ public class FragmentRunTest extends Fragment
 		sendRefreshUIMessage();
 		layout_ll_results.setClickable(true);
 		setUpPassiveMetricsLayout(connectivityType);	                        
-		changeFadingTextViewValue(tv_Closest_Server, getString(R.string.closest_target), getResources().getColor(R.color.grey_light));
+		changeFadingTextViewValue(tv_Closest_Server, getString(R.string.TEST_Label_Finding_Best_Target), getResources().getColor(R.color.grey_light));
 	}
 
 	private void registerBackButtonHandler() {

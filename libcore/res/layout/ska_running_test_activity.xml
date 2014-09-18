@@ -63,7 +63,7 @@
                             android:background="#ffffff"
                             android:gravity="left|center_vertical"
                             android:padding="10dp"
-                            android:text="@string/closest_target"
+                            android:text="@string/TEST_Label_Finding_Best_Target"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:width="800dp" />
 
