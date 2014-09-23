@@ -17,6 +17,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer.*;
+import org.achartengine.util.MathHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,6 +131,9 @@ public class SKGraphForResults {
         // The next two lines prevent the Y axis zero from being suppressed!
         multipleSeriesRenderer.setYAxisMin(0.0);
         multipleSeriesRenderer.setYAxisMax(this.corePlotMaxValue); //  * 1.05); // Allow border at top, for the points to draw in the case of 24-hour mod!
+      
+        // http://stackoverflow.com/questions/13216619/android-chart-with-dates-on-x-axis?rq=1
+        // multipleSeriesRenderer.setXRoundedLabels(true);
         
         //multipleSeriesRenderer.setYTitle(mYAxisTitle);
         //multipleSeriesRenderer.setSelectableBuffer(20);
@@ -151,6 +155,11 @@ public class SKGraphForResults {
         	FillOutsideLine fillOutsideLine = new FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BELOW);
         	fillOutsideLine.setColor(areaEndColor);
         	seriesRenderer.addFillOutsideLine(fillOutsideLine);
+        	
+        	// Show points, filled!
+        	seriesRenderer.setPointStyle(PointStyle.CIRCLE);
+            //seriesRenderer.setFillPoints(true);
+        	seriesRenderer.setPointStrokeWidth(8);
         }
 
         // Add the series renderer to the multiple series renderer...
@@ -385,58 +394,62 @@ public class SKGraphForResults {
 				}
 			}
 
+			final boolean bDoBackAndForwardFill = false;
+			
 			// To reach here, we have an array of items...
-			// We must now interpolate!
-			int theLastNonNilNumberAtIndex = -1;
-			lItems = theNewArray.size();
+			if (bDoBackAndForwardFill == true) {
+				// We must now interpolate!
+				int theLastNonNilNumberAtIndex = -1;
+				lItems = theNewArray.size();
 
-			// To reach here, we have an array of items...
-			// We must now interpolate!
-			for (lIndex = 0; lIndex < daysBetween; lIndex++) {
+				// To reach here, we have an array of items...
+				// We must now interpolate!
+				for (lIndex = 0; lIndex < daysBetween; lIndex++) {
 
-				Double theObject = theNewArray.get(lIndex);
-				if (theObject == null) {
-					// This is our PLACEHOLDER!
-					if (theLastNonNilNumberAtIndex == -1) {
-						// Nothing we can do here!
-						continue;
-					}
-
-					Double theNumberAtLastNonNilIndex = theNewArray.get(theLastNonNilNumberAtIndex);
-
-					// Interpolate. Look FORWARD to the next number!
-					// If none found, then simply copy forward.
-					boolean bLookForwardFound = false;
-
-					int lLookForwardIndex;
-					for (lLookForwardIndex = lIndex + 1; ; lLookForwardIndex++) {
-						if (lLookForwardIndex >= lItems)
-						{
-							break;
+					Double theObject = theNewArray.get(lIndex);
+					if (theObject == null) {
+						// This is our PLACEHOLDER!
+						if (theLastNonNilNumberAtIndex == -1) {
+							// Nothing we can do here!
+							continue;
 						}
 
-						Double theLookForwardObject = theNewArray.get(lLookForwardIndex);
-						if (theLookForwardObject != null) {
-							Double theLookForwardNumber = theLookForwardObject;
-							bLookForwardFound = true;
+						Double theNumberAtLastNonNilIndex = theNewArray.get(theLastNonNilNumberAtIndex);
 
-							// Calculate the value to use!
-							double theDecimalLookForward = theLookForwardNumber;
-							double theDecimalNumberAtLastNonNilIndex = theNumberAtLastNonNilIndex;
-							double theInterpolatedValue = theDecimalNumberAtLastNonNilIndex + (theDecimalLookForward - theDecimalNumberAtLastNonNilIndex) * ((double)(lIndex - theLastNonNilNumberAtIndex)) / ((double)(lLookForwardIndex - theLastNonNilNumberAtIndex));
-							theNewArray.set(lIndex, theInterpolatedValue);
-							break;
+						// Interpolate. Look FORWARD to the next number!
+						// If none found, then simply copy forward.
+						boolean bLookForwardFound = false;
+
+						int lLookForwardIndex;
+						for (lLookForwardIndex = lIndex + 1; ; lLookForwardIndex++) {
+							if (lLookForwardIndex >= lItems)
+							{
+								break;
+							}
+
+							Double theLookForwardObject = theNewArray.get(lLookForwardIndex);
+							if (theLookForwardObject != null) {
+								Double theLookForwardNumber = theLookForwardObject;
+								bLookForwardFound = true;
+
+								// Calculate the value to use!
+								double theDecimalLookForward = theLookForwardNumber;
+								double theDecimalNumberAtLastNonNilIndex = theNumberAtLastNonNilIndex;
+								double theInterpolatedValue = theDecimalNumberAtLastNonNilIndex + (theDecimalLookForward - theDecimalNumberAtLastNonNilIndex) * ((double)(lIndex - theLastNonNilNumberAtIndex)) / ((double)(lLookForwardIndex - theLastNonNilNumberAtIndex));
+								theNewArray.set(lIndex, theInterpolatedValue);
+								break;
+							}
 						}
+
+						if (bLookForwardFound == false) {
+							theNewArray.set(lIndex, theNewArray.get(theLastNonNilNumberAtIndex));
+						}
+
+					} else {
+						theLastNonNilNumberAtIndex = lIndex;
 					}
 
-					if (bLookForwardFound == false) {
-						theNewArray.set(lIndex, theNewArray.get(theLastNonNilNumberAtIndex));
-					}
-
-				} else {
-					theLastNonNilNumberAtIndex = lIndex;
 				}
-
 			}
 
 			// Finally, find the minimum and maximum values, for scaling the plot!
@@ -446,8 +459,8 @@ public class SKGraphForResults {
 			boolean bMaxFound = false;
 
 
-			for (lIndex = 0; lIndex < lItems; lIndex++) {
-				Double theObject = theNewArray.get(lIndex);
+			for (Double theObject : theNewArray) { //(lIndex = 0; lIndex < lItems; lIndex++) {
+				// Double theObject = theNewArray.get(lIndex);
 				if (theObject != null) {
 					Double theNumber = theObject;
 					double theDouble = theNumber;
@@ -470,6 +483,9 @@ public class SKGraphForResults {
 		} catch (NullPointerException e) {
 			SKLogger.sAssert(getClass(), false);
 		}
+		
+		// Allow enough range for the plots note to be chopped-off in the Y range!
+		corePlotMaxValue *= 1.10;
 
 		mpCorePlotDataPoints = theNewArray;
 		mpCorePlotDates = theDateArray;
@@ -548,13 +564,15 @@ public class SKGraphForResults {
 			int hourIndex;
 			for (hourIndex = 0; hourIndex < 24; hourIndex++) {
 				datesByHour.add(cTheCalendar.getTime());
-				itemsByHour .add(0);
-				valuesByHour.add(0.0);
+				itemsByHour.add(0);
+				valuesByHour.add(null);
 
 				cTheCalendar.add(Calendar.HOUR,  +1);
 			}
 		}
 
+		final boolean bDoBackAndForwardFill = false;
+		
 		for (Pair<String,String> theDay : sortedArray24) {
 			Double theStartTimeInterval = SKCommon.sGetDecimalStringAnyLocaleAsDouble(theDay.first);
 			Date theDate = new Date((Long.valueOf(theDay.first)));
@@ -582,7 +600,13 @@ public class SKGraphForResults {
 			}
 
 			itemsByHour.set(hourIndex, itemsByHour.get(hourIndex) + 1);
-			valuesByHour.set(hourIndex, valuesByHour.get(hourIndex) + theResult);
+			
+			Double valueAtHour = valuesByHour.get(hourIndex);
+			if (valueAtHour == null) {
+				valuesByHour.set(hourIndex, theResult);
+			} else {
+    			valuesByHour.set(hourIndex, valueAtHour + theResult);
+			}
 		}
 
 		// Now run through, and calculate the averages.
@@ -606,7 +630,14 @@ public class SKGraphForResults {
 			int hourIndex;
 			for (hourIndex = 0; hourIndex < 24; hourIndex++) {
 				Date theDate = datesByHour.get(hourIndex);
+				theDateArray.add(theDate);
+				
 				Double theResult = valuesByHour.get(hourIndex);
+				
+				if (theResult == null) {
+     				theNewArray.add(theResult);
+					continue;
+				}
 
 				if (bMaxFound == false) {
 					corePlotMaxValue = theResult;
@@ -618,11 +649,13 @@ public class SKGraphForResults {
 					bMaxFound = true;
 				}
 
-				theDateArray.add(theDate);
 				theNewArray.add(theResult);
 			}
 		}
-
+		
+		// Allow enough range for the plots note to be chopped-off in the Y range!
+		corePlotMaxValue *= 1.10;
+		
 		mpCorePlotDataPoints = theNewArray;
 		mpCorePlotDates = theDateArray;
 
@@ -633,8 +666,10 @@ public class SKGraphForResults {
 
 
 	private void addCorePlotDataToGraphicalView() {
-        
-		int lItems = mpCorePlotDataPoints.size();
+       
+		int lDates = mpCorePlotDates.size();
+		
+		SKLogger.sAssert(getClass(), mpCorePlotDataPoints.size() == mpCorePlotDates.size());
 		
 		if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_DAY) {
 			// 24-hour mode - just plot hourly averages!
@@ -644,20 +679,67 @@ public class SKGraphForResults {
 			multipleSeriesRenderer.setXLabels(12);
 		} else if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK) {
 			// If week period, force more label items...
-			multipleSeriesRenderer.setXLabels(lItems);
+			multipleSeriesRenderer.setXLabels(lDates);
 		} else if (multipleSeriesRenderer.getXLabels() < 5) {
 			multipleSeriesRenderer.setXLabels(5);
 		}
-        
+       
+		// With the chart engine used on iOS, if we don't provide items, the x-axis (time) labels are generated.
+		// However, on Android, the x-axis labels are generated only where there are data items provided!
+		// The best we can do on Android, is:
+		// - start plotting well off-screen.
+    	// - Once we have a value, we can interpolate.
+		// - We cannot draw points!
+		
+		int indexOfFirstFoundValue = -1;
 		int lIndex = 0;
-		for (lIndex = 0; lIndex < lItems; lIndex++) {
-			double theDouble = 0.0;
+		for (lIndex = 0; lIndex < lDates; lIndex++) {
 			Double theValue = mpCorePlotDataPoints.get(lIndex);
 			if (theValue != null) {
-				theDouble = theValue;
+          		indexOfFirstFoundValue = lIndex;
+          		break;
 			}
-			//mCurrentSeries.add(lIndex, theDouble);
-			mTimeSeries.add(mpCorePlotDates.get(lIndex), theDouble);
+		}
+		
+		int indexOfLastFoundValue = -1;
+		if (indexOfFirstFoundValue != -1) {
+			// At least one item found... look backwards for last value.
+			for (lIndex = lDates-1; lIndex >= 0; lIndex--) {
+				Double theValue = mpCorePlotDataPoints.get(lIndex);
+				if (theValue != null) {
+					indexOfLastFoundValue = lIndex;
+					break;
+				}
+			}
+		}
+
+		for (lIndex = 0; lIndex < lDates; lIndex++) {
+			Double theValue = mpCorePlotDataPoints.get(lIndex);
+			if (theValue != null) {
+    			double theDouble = theValue;
+    			//mCurrentSeries.add(lIndex, theDouble);
+    			mTimeSeries.add(mpCorePlotDates.get(lIndex), theDouble);
+    			
+			} else {
+				// Nothing there - use a magic value that isn't plotted!
+				// http://stackoverflow.com/questions/13025981/achartengine-renders-null-values
+				
+				// We can (and must) do this ONLY if
+				// - there are not yet any values to plot from this point backwards
+				// - OR if there are no values from here on to plot.
+				// Otherwise, don't provide a data point - that allows the system to fill between plot points.
+				// That allows the graph to start and end at "zero" with no points plotted,
+				// and allows the graph to fill as required between the plotted points.
+				if (lIndex <= indexOfFirstFoundValue) {
+					// No values yet plotted.
+					mTimeSeries.add(mpCorePlotDates.get(lIndex), MathHelper.NULL_VALUE);
+				} else {
+					// Are there any values to come in the future?
+    				if (lIndex >= indexOfLastFoundValue) {
+    					mTimeSeries.add(mpCorePlotDates.get(lIndex), MathHelper.NULL_VALUE);
+    				}
+				}
+			}
 		}
 	}
     
