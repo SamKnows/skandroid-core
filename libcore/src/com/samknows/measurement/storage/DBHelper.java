@@ -208,6 +208,7 @@ public class DBHelper {
 		try {
 			String value = testValueToGraph(test_type_id,
 					tr.getDouble(SKSQLiteHelper.TR_COLUMN_RESULT));
+			//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
 			long dtime = tr.getLong(SKSQLiteHelper.TR_COLUMN_DTIME);
 			ret.put(GRAPHDATA_RESULTS_DATETIME, "" + dtime);
 			ret.put(GRAPHDATA_RESULTS_VALUE, value);
@@ -225,6 +226,8 @@ public class DBHelper {
 			String value = pm.getString(SKSQLiteHelper.PM_COLUMN_VALUE);
 			ret.put(ARCHIVEDATA_PASSIVEMETRICS_METRIC, metric);
 			ret.put(ARCHIVEDATA_PASSIVEMETRICS_TYPE, type);
+			
+        	//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
 			ret.put(ARCHIVEDATA_PASSIVEMETRICS_VALUE, value);
 		} catch (JSONException je) {
 			SKLogger.e(DBHelper.class, "error creating json object", je);
@@ -843,10 +846,10 @@ public class DBHelper {
 					int test_type_id = StorageTestResult.testStringToId(cursor
 							.getString(0));
 					curr.put(AVERAGEDATA_TYPE, test_type_id + "");
-					curr.put(
-							AVERAGEDATA_VALUE,
-							StorageTestResult.hrResult(test_type_id,
-									cursor.getDouble(1)));
+					
+					String value = StorageTestResult.hrResult(test_type_id, cursor.getDouble(1));
+        			//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
+					curr.put( AVERAGEDATA_VALUE, value);
 				} catch (JSONException je) {
 
 				}

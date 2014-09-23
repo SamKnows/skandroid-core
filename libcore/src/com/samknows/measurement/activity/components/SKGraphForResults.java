@@ -312,6 +312,9 @@ public class SKGraphForResults {
 			for (lIndex = 0; lIndex < lItems; lIndex++) {
 				JSONObject item = theResults.getJSONObject(lIndex);
 				String value = item.getString("value");
+				
+				//value = "0.00499"; // TODO - for debug/testing only!!
+				
 				String datetime = item.getString("datetime");
 
 				// Which day does this correspond to?!
@@ -385,13 +388,13 @@ public class SKGraphForResults {
 						theNewArray.set(lIndex,  (theNewArray.get(lIndex) / (double)theCountArray.get(lIndex)));
 					}
 				}
-				
-				// achartengine displays weird values if they are too small...
-				if (theNewArray.get(lIndex) != null) {
-					if (theNewArray.get(lIndex) < 0.01) {
-						theNewArray.set(lIndex,  0.01);
-					}
-				}
+
+//				// achartengine displays weird values if they are too small...
+//				if (theNewArray.get(lIndex) != null) {
+//					if (theNewArray.get(lIndex) < 0.01) {
+//						theNewArray.set(lIndex,  0.01);
+//					}
+//				}
 			}
 
 			final boolean bDoBackAndForwardFill = false;
@@ -459,10 +462,22 @@ public class SKGraphForResults {
 			boolean bMaxFound = false;
 
 
-			for (Double theObject : theNewArray) { //(lIndex = 0; lIndex < lItems; lIndex++) {
-				// Double theObject = theNewArray.get(lIndex);
+			int items = theNewArray.size();
+			for (lIndex = 0; lIndex < items; lIndex++)
+			{
+				Double theObject = theNewArray.get(lIndex);
 				if (theObject != null) {
 					Double theNumber = theObject;
+					
+				    //theNumber = 0.00499; // TODO - this is for debug ONLY!
+				    // If the value is 0.00999 or less, then treat as 0.0!
+				    if (theNumber.doubleValue() < 0.01) {
+				      if (theNumber.doubleValue() > 0) {
+				        theNumber = 0.00;
+				        theNewArray.set(lIndex, theNumber);
+				      }
+				    }
+				      
 					double theDouble = theNumber;
 					if (bMaxFound == false) {
 						corePlotMaxValue = theDouble;
@@ -516,6 +531,8 @@ public class SKGraphForResults {
 			for (lIndex = 0; lIndex < lItems; lIndex++) {
 				JSONObject item = theResults.getJSONObject(lIndex);
 				String value = item.getString("value");
+				
+				//value = "0.00499"; // TODO - for debug/testing only!!
 				String datetime = item.getString("datetime");
 
 				Pair<String,String> dateValuePair = new Pair<String,String>(datetime, value);
@@ -637,6 +654,14 @@ public class SKGraphForResults {
 				if (theResult == null) {
      				theNewArray.add(theResult);
 					continue;
+				}
+				
+				//theResult = 0.00499; // TODO - this is for debug ONLY!
+				// If the value is 0.00999 or less, then treat as 0.0!
+				if (theResult.doubleValue() < 0.01) {
+				  if (theResult.doubleValue() > 0) {
+				    theResult = 0.00;
+				  }
 				}
 
 				if (bMaxFound == false) {
