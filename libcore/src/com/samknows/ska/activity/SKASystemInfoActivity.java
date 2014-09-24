@@ -1,5 +1,12 @@
 package com.samknows.ska.activity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.location.Location;
@@ -8,7 +15,10 @@ import android.os.Bundle;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,14 +45,72 @@ import com.samknows.measurement.util.SKGsmSignalStrength;
 
 public class SKASystemInfoActivity extends BaseLogoutActivity{
 
+	private static final String TAG = SKASystemInfoActivity.class.getSimpleName();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.ska_system_info_activity);
-		
+
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
+
+		final Button clearAllResultsButton = (Button) findViewById(R.id.settings_clearallresults_button);
+		clearAllResultsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//Log.w(TAG, "TODO: clear all results clicked...");
+
+				Builder builder = new AlertDialog.Builder(SKASystemInfoActivity.this);
+				builder.setTitle(getString(R.string.Settings_ClearAllResults_Title));
+				builder.setMessage(getString(R.string.Settings_ClearAllResults_Message));
+				builder.setPositiveButton(getString(R.string.ok_dialog),
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				builder.setNegativeButton(getString(R.string.cancel),
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				AlertDialog alert = builder.create();
+				alert.show();
+			}
+		});
+		
+		final Button activateButton = (Button) findViewById(R.id.settings_activate_button);
+		activateButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//Log.w(TAG, "TODO: activation clicked...");
+
+//				Builder builder = new AlertDialog.Builder(SKASystemInfoActivity.this);
+//				builder.setTitle(getString(R.string.Settings_ClearAllResults_Title));
+//				builder.setMessage(getString(R.string.Settings_ClearAllResults_Message));
+//				builder.setPositiveButton(getString(R.string.ok_dialog),
+//						new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();
+//					}
+//				});
+//				builder.setNegativeButton(getString(R.string.cancel),
+//						new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();
+//					}
+//				});
+//				AlertDialog alert = builder.create();
+//				alert.show();
+			}
+		});
 	}
 	
 	@Override

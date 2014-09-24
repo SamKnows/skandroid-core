@@ -131,8 +131,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         return graphHandlerDownload;
 	}
 
-	private static final String TAG = SKAMainResultsActivity.class
-			.getSimpleName();
+	private static final String TAG = SKAMainResultsActivity.class.getSimpleName();
 	public static final String SETTINGS = "SamKnows";
 	private static final int PANEL_HEIGHT = 550;
 	private final Context context = this;

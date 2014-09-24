@@ -401,4 +401,10 @@
 <string name="social_media_facebook">Facebook</string>
 <string name="social_media_twitter">Twitter</string>
 <!-- http://stackoverflow.com/questions/1587056/android-string-concatenate-how-to-keep-the-spaces-at-the-end-and-or-beginnin  -->
+
+<string name="SETTINGS_Title">Configurações</string>
+<string name="Storyboard_Settings_Configuration">Configuração</string>
+<string name="Settings_ClearAllResults">Limpar todos os resultados</string>
+<string name="Settings_ClearAllResults_Title">Limpar todos os resultados?</string>
+<string name="Settings_ClearAllResults_Message">Você deseja limpar todos os seus resultados?</string>
 </resources>
