@@ -1511,10 +1511,6 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		} else if (R.id.menu_settings == itemId) {
 			startActivity(new Intent(this, SKASettingsActivity.class));
 			ret = true;
-		} else if (R.id.menu_activation == itemId) {
-			SKAActivationActivity.sDoShowActivation(this);
-			finish();
-			ret = true;
 //		} else if (R.id.menu_map == itemId) {
 //			// startActivity(new Intent(this, SamKnowsMapActivity.class));
 //			startActivityForResult(new Intent(this, SKAMapActivity.class),

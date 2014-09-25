@@ -192,7 +192,7 @@
 <string name="manual_test_create_failed_2">O teste não pode ser iniciado - o agendamento está vazio.</string>
 <string name="manual_test_create_failed_3">Teste Manual não pode ser inicializado - o serviço principal está sendo executado.</string>
 <string name="manual_test_error">Não é possível executar os testes, outro teste está em execução em segundo plano. Por favor tentar novamente em breve.</string>
-<string name="must_wait_for_test_to_run">Um teste está em execução em segundo plano. Por favor tentar novamente em breve.</string>
+<string name="must_wait_for_test_to_run">Teste sendo executado em segundo plano. Tente novamente mais tarde.</string>
 <string name="unexpected_error">Ocorreu um erro inesperado.</string>
 <string name="manufacturer">Fabricante</string>
 <string name="max_data_cap_message">Quantia máxima limitada em </string>
