@@ -21,8 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.samknows.measurement.SKApplication;
+import com.samknows.ska.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKAPreferenceActivity;
-import com.samknows.ska.activity.SKASystemInfoActivity;
+import com.samknows.ska.activity.SKASettingsActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 import com.samknows.libui2.R;
 
@@ -334,7 +335,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		int itemId = item.getItemId();
 		
 		if (itemId == R.id.menu_item_fragment_activity_main_settings) {
-			Intent intent_menu_settings = new Intent(this, SKAPreferenceActivity.class);
+			Intent intent_menu_settings = new Intent(this, SKASettingsActivity.class);
 			startActivity(intent_menu_settings);
 			
 			return true;
@@ -346,16 +347,18 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 			
 			return true;
 		}
-		
+	
 		if (itemId == R.id.menu_item_fragment_activity_main_about) {
-			Intent intent = new Intent(this, ActivityAbout.class);
+    		// TODO - which about screen to show?!
+			//Intent intent = new Intent(this, ActivityAbout.class);
+			Intent intent = new Intent(this, SKAAboutActivity.class);
 			startActivity(intent);
 			
 			return true;
 		}
 		
-		if (itemId == R.id.menu_system_info){
-			startActivity(new Intent(this, SKASystemInfoActivity.class));
+		if (itemId == R.id.menu_settings){
+			startActivity(new Intent(this, SKASettingsActivity.class));
 			
 			return true;
 		}

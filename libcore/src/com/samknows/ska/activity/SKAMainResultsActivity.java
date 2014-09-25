@@ -344,6 +344,10 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         	((Button)findViewById(R.id.btnRunContinuousTests)).setText(R.string.start_continuous);
         }
         */
+        
+	    if (SKApplication.sGetUpdateAllDataOnScreen() == true) {
+    		updateAllDataOnScreen();
+    	}
 	}
 	
 	private void setContinuousTestingButton(){
@@ -429,14 +433,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				}
 				setNetworkTypeToggleButton();
 
-				// refresh data
-				adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
-				setTotalArchiveRecords();
-				//viewPager = (ViewPager) findViewById(R.id.viewPager);
-				SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
-				viewPager.setAdapter(adapter);
-				viewPager.setCurrentItem(1, true); // true means - perform a smooth scroll!
-				//overridePendingTransition(0, 0);
+				updateAllDataOnScreen();
 			}
 		} else {
 			// Unexpected!
@@ -452,6 +449,19 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		 * viewPager.setCurrentItem(resultCode, false);
 		 * adapter.notifyDataSetChanged(); overridePendingTransition(0, 0); }
 		 */
+	}
+	
+	private void updateAllDataOnScreen() {
+	    SKApplication.sSetUpdateAllDataOnScreen(false);
+    	
+		// refresh data
+		adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
+		setTotalArchiveRecords();
+		//viewPager = (ViewPager) findViewById(R.id.viewPager);
+		SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+		viewPager.setAdapter(adapter);
+		viewPager.setCurrentItem(1, true); // true means - perform a smooth scroll!
+		//overridePendingTransition(0, 0);
 	}
 	
 	private void lookBackwardInTime(Calendar fromCal) {
@@ -1499,18 +1509,10 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			startActivity(intent);
 			ret = true;
 		} else if (R.id.menu_settings == itemId) {
-			startActivity(new Intent(this, SKAPreferenceActivity.class));
-			ret = true;
-		} else if (R.id.menu_system_info == itemId) {
-			startActivity(new Intent(this, SKASystemInfoActivity.class));
+			startActivity(new Intent(this, SKASettingsActivity.class));
 			ret = true;
 		} else if (R.id.menu_activation == itemId) {
-			int size = SK2AppSettings.getInstance().getDevices().size();
-			if (size == 0 || (size == 1 && OtherUtils.isPhoneAssosiated(this))) {
-				SK2AppSettings.getInstance().setForceDownload();
-			}
-			
-			startActivity(new Intent(this, SKAActivationActivity.class));
+			SKAActivationActivity.sDoShowActivation(this);
 			finish();
 			ret = true;
 //		} else if (R.id.menu_map == itemId) {

@@ -212,4 +212,15 @@ public class SKApplication extends Application{
 		SKLogger.sAssert(getClass(), false);
 		return "CrashManagerId_UNKNOWN";
 	}
+	
+	private static boolean sbUpdateAllDataOnScreen = false;
+	
+	public static void sSetUpdateAllDataOnScreen(boolean value) {
+		sbUpdateAllDataOnScreen = value;
+	}
+	
+	public static boolean sGetUpdateAllDataOnScreen() {
+		return sbUpdateAllDataOnScreen;
+	}
+
 }

@@ -561,6 +561,19 @@ public class DBHelper {
 			return ret;
 		}
 	}
+	
+	public void emptyTheDatabase() {
+		synchronized (sync) {
+			if (open() == false) {
+				SKLogger.sAssert(getClass(),  false);
+				return;
+			}
+			database.delete(SKSQLiteHelper.TABLE_TESTRESULT, null, null);
+			database.delete(SKSQLiteHelper.TABLE_PASSIVEMETRIC, null, null);
+			database.delete(SKSQLiteHelper.TABLE_TESTBATCH, null, null);
+			close();
+		}
+	}
 
 	public void insertTestBatch(JSONObject test_batch, JSONArray tests,
 			JSONArray passive_metrics) {

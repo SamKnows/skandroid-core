@@ -18,67 +18,44 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <TextView
-                    style="@style/h1"
-                    android:layout_marginBottom="10dp"
-                    android:layout_span="2"
-                    android:gravity="left"
-                    android:text="@string/Storyboard_Settings_Configuration"
-                    android:textStyle="bold" />
+                android:layout_width="fill_parent"
+                android:layout_height="10dp" >
             </LinearLayout>
 
-                    <LinearLayout
-                        style="@style/row"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:paddingRight="5dp" >
-
-                        <TextView
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="0dp"
-                            android:layout_weight="50"
-                            android:layout_height="wrap_content"
-                            android:text="@string/version"
-                            android:textColor="#000000"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/version"
-                            android:layout_gravity="center_vertical|right"
-                            android:layout_width="0dp"
-                            android:layout_weight="50"
-                            android:layout_height="wrap_content"
-                            style="@style/normal"/>
-                    </LinearLayout>
             <com.samknows.measurement.activity.components.ButtonWithRightArrow
                 android:id="@+id/settings_clearallresults_button"
-                android:layout_height="40dp"
                 android:layout_width="match_parent"
-                android:text="@string/Settings_ClearAllResults"
+                android:layout_height="40dp"
+                android:layout_gravity="left|center_vertical"
                 android:background="@drawable/btn_action_selector"
                 android:drawableRight="@drawable/arrow_right"
-                android:layout_gravity="left|center_vertical"
                 android:gravity="left|center"
+                android:text="@string/Settings_ClearAllResults"
                 android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <com.samknows.measurement.activity.components.ButtonWithRightArrow
                 android:id="@+id/settings_activate_button"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="@string/state_activate"
-                android:background="@drawable/btn_action_selector"
                 android:layout_gravity="left|center_vertical"
+                android:background="@drawable/btn_action_selector"
                 android:gravity="left|center"
+                android:text="@string/state_activate"
                 android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
+
+            <com.samknows.measurement.activity.components.ButtonWithRightArrow
+                android:id="@+id/settings_preferences_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/btn_action_selector"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="left|center"
+                android:text="@string/Storyboard_Settings_Configuration"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -90,11 +67,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="10dp"
                     android:background="#ffffff"
                     android:paddingTop="10dp"
                     android:shrinkColumns="0" >
-
 
                     <TableRow
                         android:layout_width="match_parent"

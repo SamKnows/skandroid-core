@@ -58,7 +58,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 			SKLogger.e(this, e.getMessage());
 		}
 		PreferenceCategory mCategory = (PreferenceCategory) findPreference("first_category");
-		mCategory.setTitle(mCategory.getTitle()+" "+"("+versionName+")");
+		mCategory.setTitle(SKApplication.getAppInstance().getAppName() + " " + getString(R.string.Storyboard_Settings_Configuration) +" "+"("+versionName+")");
 
 		CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference(SKConstants.PREF_SERVICE_ENABLED);
 		if (SK2AppSettings.getInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
@@ -193,7 +193,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	    	} catch (IllegalArgumentException e) {
 	    		if (e.toString().contains("SKAPreferenceActivity")) {
     	    		// This is required some times, e.g. coming back from Settings/SystemInfo - we can ignore it.
-	    			SKLogger.sAssert(getClass(), false);
+	    			//SKLogger.sAssert(getClass(), false);
 	    		} else {
 	    			// Unexpected!
 	    			SKLogger.sAssert(getClass(), false);

@@ -46,6 +46,14 @@
         <item name="android:textColor">#0591c6</item>
     </style>
 
+    <style name="style_button_with_right_arrow">
+        <item name="android:background">@drawable/btn_action_selector</item>
+        <item name="android:layout_gravity">left|center_vertical</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="h2">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
@@ -89,7 +97,7 @@
     <style name="text_larger">
         <item name="android:textSize">20sp</item>
     </style>
-    
+
     <style name="row">
         <item name="android:background">@drawable/black_alpha</item>
         <item name="android:gravity">left</item>
@@ -145,4 +153,5 @@
     </style>
 
     <dimen name="social_media_text_padding_left">20dp</dimen>
+
 </resources>

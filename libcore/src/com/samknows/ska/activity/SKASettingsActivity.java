@@ -6,7 +6,9 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.location.Location;
@@ -28,6 +30,7 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 
 import com.samknows.measurement.activity.BaseLogoutActivity;
@@ -39,19 +42,41 @@ import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityData;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.util.DCSConvertorUtil;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.SKGsmSignalStrength;
 
-public class SKASystemInfoActivity extends BaseLogoutActivity{
+public class SKASettingsActivity extends BaseLogoutActivity{
 
-	private static final String TAG = SKASystemInfoActivity.class.getSimpleName();
+	private static final String TAG = SKASettingsActivity.class.getSimpleName();
+    
+    void showAlertForTestWithMessageBody (String bodyMessage) {
+
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle(R.string.running_test);
+    	builder.setMessage(bodyMessage)
+    	.setCancelable(false)
+    	.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+    		public void onClick(DialogInterface dialog, int id) {
+    			dialog.dismiss();
+    		}
+    	});
+    	builder.create().show();
+
+    }
+	
+    // Shown when the background test is already running, so we cannot clear
+    // data at the moment...
+    void showAlertCannotClearDataAsBackgroundTaskIsRunning () {
+      showAlertForTestWithMessageBody (getString(R.string.must_wait_for_test_to_run));
+    }
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.ska_system_info_activity);
+		setContentView(R.layout.ska_settings_activity);
 
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
@@ -62,13 +87,26 @@ public class SKASystemInfoActivity extends BaseLogoutActivity{
 			public void onClick(View v) {
 				//Log.w(TAG, "TODO: clear all results clicked...");
 
-				Builder builder = new AlertDialog.Builder(SKASystemInfoActivity.this);
+				Builder builder = new AlertDialog.Builder(SKASettingsActivity.this);
 				builder.setTitle(getString(R.string.Settings_ClearAllResults_Title));
 				builder.setMessage(getString(R.string.Settings_ClearAllResults_Message));
 				builder.setPositiveButton(getString(R.string.ok_dialog),
 						new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						
+						if (MainService.isExecuting()) {
+							showAlertCannotClearDataAsBackgroundTaskIsRunning();
+							return;
+						}
+						
+						// Clear all results!
+						// ... and let the main screen respond to this!
+						SKApplication.sSetUpdateAllDataOnScreen(true);
+						
+						DBHelper db = new DBHelper(SKASettingsActivity.this);
+						db.emptyTheDatabase();
+						
 						dialog.dismiss();
 					}
 				});
@@ -88,29 +126,17 @@ public class SKASystemInfoActivity extends BaseLogoutActivity{
 		activateButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//Log.w(TAG, "TODO: activation clicked...");
-
-//				Builder builder = new AlertDialog.Builder(SKASystemInfoActivity.this);
-//				builder.setTitle(getString(R.string.Settings_ClearAllResults_Title));
-//				builder.setMessage(getString(R.string.Settings_ClearAllResults_Message));
-//				builder.setPositiveButton(getString(R.string.ok_dialog),
-//						new DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						dialog.dismiss();
-//					}
-//				});
-//				builder.setNegativeButton(getString(R.string.cancel),
-//						new DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						dialog.dismiss();
-//					}
-//				});
-//				AlertDialog alert = builder.create();
-//				alert.show();
+				SKAActivationActivity.sDoShowActivation(SKASettingsActivity.this);
 			}
 		});
+		
+		final Button preferencesButton = (Button) findViewById(R.id.settings_preferences_button);
+		preferencesButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SKASettingsActivity.this.startActivity(new Intent(SKASettingsActivity.this, SKAPreferenceActivity.class));
+			}
+		});	
 	}
 	
 	@Override
@@ -138,15 +164,6 @@ public class SKASystemInfoActivity extends BaseLogoutActivity{
 		}
 		((TextView)findViewById(R.id.tv_service_autotesting_value)).setText(value);
 		((TextView)findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
-		
-		String versionName="";
-		try {
-			versionName = this.getPackageManager().getPackageInfo(this.getPackageName(), 0 ).versionName;
-		} catch (NameNotFoundException e) {
-			SKLogger.e(this, "Error in getting app version name.", e);
-		}
-		
-		((TextView)findViewById(R.id.version)).setText(versionName);
 		
 		ScheduleConfig config = CachingStorage.getInstance().loadScheduleConfig();
 		String schedule_version = config == null ? "" : config.getConfigVersion(); 

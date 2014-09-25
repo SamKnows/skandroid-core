@@ -60,7 +60,7 @@
 <string name="activity_info_name">Informações do sistema</string>
 <string name="activity_initial_settings_name">Limite de dados</string>
 <string name="activity_logs_name">Logs da EAQ</string>
-<string name="activity_pref_name">Configurações</string>
+<string name="activity_settings_name">Configurações</string>
 <string name="activity_run_test_name">EAQ Executor de Testes</string>
 <string name="activity_test_results_name">Resultados do teste</string>
 <string name="agree">Eu Aceito</string>
@@ -192,6 +192,7 @@
 <string name="manual_test_create_failed_2">O teste não pode ser iniciado - o agendamento está vazio.</string>
 <string name="manual_test_create_failed_3">Teste Manual não pode ser inicializado - o serviço principal está sendo executado.</string>
 <string name="manual_test_error">Não é possível executar os testes, outro teste está em execução em segundo plano. Por favor tentar novamente em breve.</string>
+<string name="must_wait_for_test_to_run">Um teste está em execução em segundo plano. Por favor tentar novamente em breve.</string>
 <string name="unexpected_error">Ocorreu um erro inesperado.</string>
 <string name="manufacturer">Fabricante</string>
 <string name="max_data_cap_message">Quantia máxima limitada em </string>

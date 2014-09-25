@@ -36,7 +36,7 @@ public class ButtonWithRightArrow extends Button {
         arrowPaint = new Paint();
         arrowPaint.setAntiAlias(true);
         arrowPaint.setColor(arrowColor);
-        arrowPaint.setStrokeWidth(4);
+        arrowPaint.setStrokeWidth(2);
         arrowPaint.setStrokeCap(Cap.ROUND);
         arrowPaint.setStyle(Style.STROKE);
 
@@ -64,7 +64,7 @@ public class ButtonWithRightArrow extends Button {
 
         double offsetXY = viewHeight/4;
         
-        int centerRightX = viewWidth - 20;
+        int centerRightX = viewWidth - 15;
         int centerRightY = viewHeight/2;
         int topLeftX = (int) (centerRightX - offsetXY);
         int topLeftY = (int) (centerRightY - offsetXY);

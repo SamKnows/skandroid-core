@@ -3,6 +3,8 @@ package com.samknows.ska.activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,12 +15,14 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.UIUpdate;
 import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.util.LoginHelper;
+import com.samknows.measurement.util.OtherUtils;
 
 public class SKAActivationActivity extends BaseLogoutActivity {
 
@@ -98,5 +102,15 @@ public class SKAActivationActivity extends BaseLogoutActivity {
 	public void onDestroy() {
 		super.onDestroy();
 		MainService.unregisterActivationHandler();
+	}
+	
+	public static void sDoShowActivation(Activity fromActivity) {
+		int size = SK2AppSettings.getInstance().getDevices().size();
+		if (size == 0 || (size == 1 && OtherUtils.isPhoneAssosiated(fromActivity))) {
+			SK2AppSettings.getInstance().setForceDownload();
+		}
+		
+		fromActivity.startActivity(new Intent(fromActivity, SKAActivationActivity.class));
+		//fromActivity.finish();
 	}
 }

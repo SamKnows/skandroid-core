@@ -60,7 +60,7 @@
 <string name="activity_info_name">System Info</string>
 <string name="activity_initial_settings_name">Data Cap</string>
 <string name="activity_logs_name">SamKnows Logs</string>
-<string name="activity_pref_name">Settings</string>
+<string name="activity_settings_name">Settings</string>
 <string name="activity_run_test_name">SamKnows Test Executor</string>
 <string name="activity_test_results_name">Test Results</string>
 <string name="agree">I Agree</string>
@@ -192,6 +192,7 @@
 <string name="manual_test_create_failed_2">Test cannot be initialized - the schedule is empty.</string>
 <string name="manual_test_create_failed_3">Manual Test cannot be initialized - the main service is running.</string>
 <string name="manual_test_error">Unable to launch test, a background task is running. Please retry shortly.</string>
+<string name="must_wait_for_test_to_run">A background task is running. Please retry shortly.</string>
 <string name="unexpected_error">An unexpected error occurred.</string>
 <string name="manufacturer">Manufacturer</string>
 <string name="max_data_cap_message">Maximum amount limited to </string>
