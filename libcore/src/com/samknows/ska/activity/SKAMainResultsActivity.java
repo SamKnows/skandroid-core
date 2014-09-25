@@ -2318,13 +2318,13 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 					// We are NOT activated!
 					TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
 					tv.setText(R.string.activation_needed);
-					((TextView) subview.findViewById(R.id.test_last_run)).setVisibility(View.INVISIBLE);
+					 mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
 				} else {
 					// We are activated!
 
 					if (total_archive_records == 0) {
 						// No data!
-						((TextView) subview.findViewById(R.id.test_last_run)).setVisibility(View.INVISIBLE);
+						mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
 					} else {
 						// Data!
 						TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
@@ -2333,7 +2333,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 						iv.setVisibility(View.GONE);
 						// data icon
 						// & message
-						((TextView) subview.findViewById(R.id.test_last_run)).setVisibility(View.VISIBLE);
+						mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.VISIBLE);
 					}
 				}
 
@@ -2345,7 +2345,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				}
 
 				String caption = getString(R.string.last_run) + " " + last_run_test_formatted;
-				((TextView) subview.findViewById(R.id.test_last_run)).setText(caption);
+				((TextView) findViewById(R.id.test_last_run)).setText(caption);
 
 				if (SKApplication.getAppInstance().hideJitter() == true) {
 					// Hide some elements!

@@ -15,73 +15,30 @@
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:orientation="vertical" >
-
-            <RelativeLayout
-                android:id="@+id/networkTypeLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <Button
-                        android:id="@+id/networkTypeButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:drawableLeft="@drawable/network_type"
-                        android:background="@drawable/network_type_selector"
-                        android:drawablePadding="5dp"
-                        android:gravity="left|center_vertical"
-                        android:paddingLeft="10dp"
-                        android:text="@string/network_type_mobile_results"/>
-
-                <!--
-                       TextView
-                    android:id="@+id/networkTypeToggleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:text="@string/network_type_mobile_results" />
-                -->
-
-            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp" >
+                </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/average_results_title"
-                    style="@style/h1"
-                    android:layout_width="0dp"
-                    android:layout_weight="90"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left|center_vertical"
-                    android:background="#ffffff"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:text="@string/average_results"/>
-
                 <Button
-                    android:id="@+id/main_show_archived_results_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="10"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/btn_normal_selector"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left|center_vertical"
-                    android:gravity="center"
-                    android:text="@string/right_arrow"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="30sp" />
-
+                    android:id="@+id/btnRunTest"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:alpha="0.8"
+                    android:background="@drawable/btn_run_now_selector"
+                    android:drawableLeft="@drawable/play"
+                    android:drawableRight="@drawable/btn_run"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/run_now"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <FrameLayout
@@ -122,12 +79,66 @@
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="10dp"
                     android:paddingBottom="5dp"
-                    android:textColor="#000000"
                     android:text="@string/last_run"
+                    android:textColor="#000000"
                     android:textSize="15sp"
                     android:width="190dp" />
-
             </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/average_results_title"
+                    style="@style/h1"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_weight="90"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/average_results" />
+
+                <Button
+                    android:id="@+id/main_show_archived_results_button"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_weight="10"
+                    android:background="@drawable/btn_normal_selector"
+                    android:gravity="center"
+                    android:text="@string/right_arrow"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/networkTypeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/networkTypeButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/network_type_selector"
+                    android:drawableLeft="@drawable/network_type"
+                    android:drawablePadding="5dp"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/network_type_mobile_results" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/average_page"
@@ -136,32 +147,10 @@
                 android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <Button
-                        android:id="@+id/btnRunTest"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:alpha="0.8"
-                        android:background="@drawable/btn_run_now_selector"
-                        android:drawableLeft="@drawable/play"
-                        android:drawableRight="@drawable/btn_run"
-                        android:gravity="left|center_vertical"
-                        android:paddingLeft="10dp"
-                        android:text="@string/run_now"
-                        android:textColor="#ffffff" >
-                    </Button>
-                </LinearLayout>
-                
-               <LinearLayout
                     android:id="@+id/btnRunContinuousTestsLayout"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" >
 
                     <Button
                         android:id="@+id/btnRunContinuousTests"
@@ -180,13 +169,12 @@
                         android:textColor="#ffffff" >
                     </Button>
                 </LinearLayout>
-                
 
                 <LinearLayout
                     android:id="@+id/timePeriodLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    
+                    android:layout_height="wrap_content" >
+
                     <Button
                         android:id="@+id/btn_timeperiod"
                         android:layout_width="match_parent"
@@ -199,8 +187,7 @@
                         android:drawablePadding="10dp"
                         android:gravity="left|center_vertical"
                         android:paddingLeft="10dp"
-                        android:text="@string/results_for_1_week"/>
-                        
+                        android:text="@string/results_for_1_week" />
                 </LinearLayout>
 
                 <TableLayout
@@ -286,7 +273,7 @@
                             android:gravity="left"
                             android:visibility="visible" >
                         </TableLayout>
-                        
+
                         <LinearLayout
                             android:id="@+id/download_grid_nav"
                             style="@style/row"
@@ -301,8 +288,8 @@
                                 android:id="@+id/btn_download_grid_left"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
-                                android:background="@drawable/btn_normal_selector"
                                 android:layout_gravity="left|center_vertical"
+                                android:background="@drawable/btn_normal_selector"
                                 android:gravity="center"
                                 android:text="@string/left_arrow"
                                 android:textColor="@android:color/darker_gray"
@@ -322,14 +309,13 @@
                                 android:id="@+id/btn_download_grid_right"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
-                                android:background="@drawable/btn_normal_selector"
                                 android:layout_gravity="left|center_vertical"
+                                android:background="@drawable/btn_normal_selector"
                                 android:gravity="center"
                                 android:text="@string/right_arrow"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="15sp" />
                         </LinearLayout>
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -813,6 +799,7 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
     </RelativeLayout>
 
 </ScrollView>
