@@ -355,17 +355,17 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		//
 		// Should the button be visible at all?
 		//
-		LinearLayout layout = (LinearLayout)findViewById(R.id.btnRunContinuousTestsLayout);
+		View continuousTestingButton = findViewById(R.id.btnRunContinuousTestsLayout);
 		
 		if (SKApplication.getAppInstance().supportContinuousTesting() == false) {
 			// Might not yet be attached to the main view (this is attached via a view pager, remember!)
-			if (layout != null) {
-				layout.setVisibility(View.GONE);
+			if (continuousTestingButton != null) {
+				continuousTestingButton.setVisibility(View.GONE);
 			}
 			return;
 		}
 		
-		if (layout == null) {
+		if (continuousTestingButton == null) {
 			// Not yet attached to the main view (this is attached via a view pager, remember!)
 			return;
 		}
@@ -373,7 +373,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		//
 		// The button should be visible and active!
 		//
-		layout.setVisibility(View.VISIBLE);
+		continuousTestingButton.setVisibility(View.VISIBLE);
 		
 		Button b = (Button) findViewById(R.id.btnRunContinuousTests);
 		if(b != null){

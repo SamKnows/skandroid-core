@@ -41,6 +41,29 @@
                     android:textColor="#ffffff" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/btnRunContinuousTestsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/btnRunContinuousTests"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:alpha="0.8"
+                    android:background="@drawable/btn_run_now_selector"
+                    android:drawableLeft="@drawable/play"
+                    android:drawableRight="@drawable/btn_run"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/start_continuous"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/test_last_run_or_there_is_no_data_frame"
                 android:layout_width="fill_parent"
@@ -145,30 +168,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
-
-                <LinearLayout
-                    android:id="@+id/btnRunContinuousTestsLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" >
-
-                    <Button
-                        android:id="@+id/btnRunContinuousTests"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:alpha="0.8"
-                        android:background="@drawable/btn_run_now_selector"
-                        android:drawableLeft="@drawable/play"
-                        android:drawableRight="@drawable/btn_run"
-                        android:gravity="left|center_vertical"
-                        android:paddingLeft="10dp"
-                        android:text="@string/start_continuous"
-                        android:textColor="#ffffff" >
-                    </Button>
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/timePeriodLayout"
