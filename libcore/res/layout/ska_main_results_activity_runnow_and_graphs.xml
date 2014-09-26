@@ -15,10 +15,11 @@
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:orientation="vertical" >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10dp" >
-                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,77 +71,89 @@
                 android:layout_height="wrap_content" >
 
                 <LinearLayout
+                    android:id="@+id/x"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" >
+                    android:orientation="vertical" >
 
-                    <ImageView
-                        android:id="@+id/no_data_message_image"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/alert_icon"
-                        android:padding="5dp"
-                        android:src="@drawable/alert_icon" />
+                        android:orientation="horizontal" >
 
-                    <TextView
-                        android:id="@+id/no_data_message_text"
-                        style="@style/normal"
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/average_results_title"
+                            style="@style/h1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_weight="90"
+                            android:background="#ffffff"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:text="@string/average_results" />
+
+                        <com.samknows.measurement.activity.components.ButtonWithRightArrow
+                            android:id="@+id/main_show_archived_results_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="10"
+                            android:layout_height="40dp"
+                            android:layout_gravity="left|center_vertical"
+                            android:background="@drawable/btn_action_selector"
+                            android:drawableRight="@drawable/arrow_right"
+                            android:gravity="left|center"
+                            android:minWidth="60dp"
+                            android:text=""
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/fr"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="@string/no_data_message"
-                        android:width="190dp" />
+                        android:layout_height="wrap_content" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/test_last_run"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/last_run"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:width="190dp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp" >
+
+                            <ImageView
+                                android:id="@+id/no_data_message_image"
+                                android:layout_width="30dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:contentDescription="@string/alert_icon"
+                                android:padding="0dp"
+                                android:src="@drawable/alert_icon" />
+
+                            <com.samknows.measurement.activity.components.FontFitTextView
+                                android:id="@+id/no_data_message_text"
+                                style="@style/normal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="@string/no_data_message"
+                                android:width="190dp" />
+                        </LinearLayout>
+                    </FrameLayout>
                 </LinearLayout>
-
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/test_last_run"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="@string/last_run"
-                    android:textColor="#000000"
-                    android:textSize="15sp"
-                    android:width="190dp" />
             </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/average_results_title"
-                    style="@style/h1"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left|center_vertical"
-                    android:layout_weight="90"
-                    android:background="#ffffff"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:text="@string/average_results" />
-
-                <Button
-                    android:id="@+id/main_show_archived_results_button"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left|center_vertical"
-                    android:layout_weight="10"
-                    android:background="@drawable/btn_normal_selector"
-                    android:gravity="center"
-                    android:text="@string/right_arrow"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="30sp" />
-            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/networkTypeLayout"
@@ -798,7 +811,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </RelativeLayout>
 
 </ScrollView>
