@@ -503,11 +503,11 @@
 
                         <TextView
                             style="@style/normal"
-                            android:text="@string/longitude"
+                            android:text="@string/latitude"
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/tv_loc_long_value"
+                            android:id="@+id/tv_loc_lat_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -524,11 +524,11 @@
 
                         <TextView
                             style="@style/normal"
-                            android:text="@string/latitude"
+                            android:text="@string/longitude"
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/tv_loc_lat_value"
+                            android:id="@+id/tv_loc_long_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"

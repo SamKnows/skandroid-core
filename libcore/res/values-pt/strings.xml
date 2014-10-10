@@ -247,7 +247,7 @@
 <string name="none">nenhum</string>
 <string name="none_unknown">Nenhum ou desconhecido</string>
 <string name="not_submitted_logs">Nenhum log submetido</string>
-<string name="no_data_message">Nenhum dado. Por favor executar seu primeiro teste.</string>
+<string name="no_data_message">Nenhum dado. Por favor execute o seu primeiro teste.</string>
 <string name="no_dialog">Não</string>
 <string name="ntf_checking_conditions">Verificando condições de teste</string>
 <string name="ntf_running_test">Executando teste: </string>
@@ -404,7 +404,8 @@
 <!-- http://stackoverflow.com/questions/1587056/android-string-concatenate-how-to-keep-the-spaces-at-the-end-and-or-beginnin  -->
 
 <string name="SETTINGS_Title">Configurações</string>
-<string name="Storyboard_Settings_Configuration">Configuração</string>
+<string name="Settings_Configuration">Configuração</string>
+<string name="Storyboard_Settings_Configuration">Dados consumidos</string>
 <string name="Settings_ClearAllResults">Limpar todos os resultados</string>
 <string name="Settings_ClearAllResults_Title">Limpar todos os resultados?</string>
 <string name="Settings_ClearAllResults_Message">Você deseja limpar todos os seus resultados?</string>

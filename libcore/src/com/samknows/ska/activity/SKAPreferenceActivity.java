@@ -58,7 +58,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 			SKLogger.e(this, e.getMessage());
 		}
 		PreferenceCategory mCategory = (PreferenceCategory) findPreference("first_category");
-		mCategory.setTitle(SKApplication.getAppInstance().getAppName() + " " + getString(R.string.Storyboard_Settings_Configuration) +" "+"("+versionName+")");
+		mCategory.setTitle(SKApplication.getAppInstance().getAppName() + " " + getString(R.string.Storyboard_Settings_Configuration));
 
 		CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference(SKConstants.PREF_SERVICE_ENABLED);
 		if (SK2AppSettings.getInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
