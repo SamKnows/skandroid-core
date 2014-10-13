@@ -75,7 +75,7 @@ public class SKAppSettings {
 	public static SKAppSettings getInstance() {
 		return instance;
 	}
-
+	
 	public boolean getIsBackgroundProcessingEnabledInTheSchedule() {
 		
 		long testsScheduled = getInstance().getLong("number_of_tests_schedueld", -1);

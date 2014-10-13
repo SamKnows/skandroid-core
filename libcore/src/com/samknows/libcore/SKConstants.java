@@ -81,7 +81,6 @@ public class SKConstants {
 	public static final String INTENT_EXTRA_DEVICE 							= "device";
 	public static final String INTENT_EXTRA_IS_CURRENT_DEVICE 				= "isCurrentDevice";
 	//public static final String PROP_ENTERPRISE_ID 							= "enterprise_id";
-	public static final String PROP_USER_SELF_IDENTIFIER					= "user_self_identifier";
 	public static final String PROP_DATA_CAP_WELCOME						= "data_cap_welcome";
 	public static final String PROP_COLLECT_TRAFFIC_DATA					= "collect_traffic_data";
 	public static final String PROP_RUN_IN_ROAMING							= "run_in_roaming";
@@ -107,7 +106,6 @@ public class SKConstants {
 	public static final String PREF_DATA_CAP_USER_DEFINED = "data_cap_user_defined";
 	public static final String PREF_ENABLE_WAKEUP = "enable_wakeup";
 	public static final String PREF_LOCATION_TYPE = "location_type";
-	public static final String PREF_USER_SELF_ID = "user_self_id";
 	public static String PREF_DATA_CAP_RESET_DAY = "data_cap_reset_day";
 	
 	public static String STATE_MACHINE_STATUS = "state_machine_status";

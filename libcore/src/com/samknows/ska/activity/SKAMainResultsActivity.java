@@ -94,6 +94,7 @@ import com.samknows.measurement.SamKnowsLoginService;
 import com.samknows.measurement.SamKnowsResponseHandler;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.activity.BaseLogoutActivity;
+import com.samknows.measurement.activity.components.ButtonWithRightArrow;
 import com.samknows.measurement.activity.components.ResizeAnimation;
 import com.samknows.measurement.activity.components.SKGraphForResults;
 import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_1w1m3m1y;
@@ -870,7 +871,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 	Button mNetworkTypeToggleButton = null;
 //	TextView     mNetworkTypeToggleTextView = null;
-	Button       mShowArchivedResultsButton = null;
+	ButtonWithRightArrow       mShowArchivedResultsButton = null;
 	
 	void setNetworkTypeToggleButton() {
 		mNetworkTypeToggleButton = (Button) findViewById(R.id.networkTypeButton);
@@ -983,7 +984,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 //		});
 
 		// page turn navigation button
-		mShowArchivedResultsButton = (Button) findViewById(R.id.main_show_archived_results_button);
+		mShowArchivedResultsButton = (ButtonWithRightArrow) findViewById(R.id.main_show_archived_results_button);
 
 		mShowArchivedResultsButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -1899,7 +1900,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		};
 	}
 
-	private class MyPagerAdapter extends PagerAdapter {
+	public class MyPagerAdapter extends PagerAdapter {
 
 		private ArrayList<StatRecord> statRecords;
 

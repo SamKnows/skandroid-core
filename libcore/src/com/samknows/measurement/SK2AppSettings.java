@@ -41,7 +41,6 @@ public class SK2AppSettings extends SKAppSettings {
 	public static final String JSON_DATETIME 				= "datetime";
 	public static final String JSON_ENTERPRISE_ID 			= "enterprise_id";
 	public static final String JSON_SIMOPERATORCODE 		= "sim_operator_code";
-	public static final String JSON_USER_SELF_ID 			= "user_self_id";
 	
 	//Used to know if the app needs to collect identifiers 
 	public boolean anonymous;
@@ -58,9 +57,6 @@ public class SK2AppSettings extends SKAppSettings {
 	
 	//Enterprise id read from the properties file
 	public String enterprise_id;
-	
-	//User self identifier preference enabled
-	public boolean user_self_id = false;
 	
 	//Show data cap form after installation or upgrade
 	public boolean data_cap_welcome;
@@ -87,7 +83,6 @@ public class SK2AppSettings extends SKAppSettings {
 			download_config_path 	= p.getProperty(SKConstants.PROP_DOWNLOAD_CONFIG_PATH);
 
 			enterprise_id 			= SKApplication.getAppInstance().getEnterpriseId();
-			user_self_id 			= Boolean.parseBoolean(p.getProperty(SKConstants.PROP_USER_SELF_IDENTIFIER));
 			data_cap_welcome		= Boolean.parseBoolean(p.getProperty(SKConstants.PROP_DATA_CAP_WELCOME));
 			collect_traffic_data	= Boolean.parseBoolean(p.getProperty(SKConstants.PROP_COLLECT_TRAFFIC_DATA));
 			String roaming = p.getProperty(SKConstants.PROP_RUN_IN_ROAMING);
@@ -336,6 +331,11 @@ public class SK2AppSettings extends SKAppSettings {
 		}
 	}
 	
+	public String getLocationTypeAsString() {
+		return PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+				SKConstants.PREF_LOCATION_TYPE, ctx.getString(R.string.MobileNetwork));
+	}
+	
 	//Returns a Map containing all the json entries to be added when submitting the results
 	public Map<String,Object> getJSONExtra(){
 		Map<String, Object> ret= new HashMap<String,Object>();
@@ -360,15 +360,6 @@ public class SK2AppSettings extends SKAppSettings {
 		ret.put(JSON_TIMEZONE, String.valueOf(SKDateFormat.sUTCTimezoneAsInteger(now)));
 		if(enterprise_id != null){
 			ret.put(JSON_ENTERPRISE_ID, enterprise_id);
-		}
-		
-		if (SK2AppSettings.getSK2AppSettingsInstance().user_self_id) {
-			Log.e(this.getClass().toString(), "user_self_id is set to true!");
-			String user_self_id = PreferenceManager.getDefaultSharedPreferences(ctx).getString(SKConstants.PREF_USER_SELF_ID, null);
-			if(user_self_id != null ){
-				Log.e(this.getClass().toString(), "user_self_id written to json (" + user_self_id + ")");
-				ret.put(JSON_USER_SELF_ID, user_self_id);
-			}
 		}
 		
 		TelephonyManager manager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);

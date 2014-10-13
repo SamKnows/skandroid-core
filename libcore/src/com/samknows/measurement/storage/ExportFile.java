@@ -56,7 +56,7 @@ public class ExportFile {
 	
 	private static File storage;
 	//main section data
-	public static final String[] MAIN_FIELDS = {SK2AppSettings.JSON_UNIT_ID, SK2AppSettings.JSON_APP_VERSION_CODE, SK2AppSettings.JSON_APP_VERSION_NAME, SK2AppSettings.JSON_SCHEDULE_CONFIG_VERSION, SK2AppSettings.JSON_TIMEZONE, SK2AppSettings.JSON_TIMESTAMP, SK2AppSettings.JSON_DATETIME, SK2AppSettings.JSON_ENTERPRISE_ID, SK2AppSettings.JSON_SIMOPERATORCODE, SK2AppSettings.JSON_USER_SELF_ID};
+	public static final String[] MAIN_FIELDS = {SK2AppSettings.JSON_UNIT_ID, SK2AppSettings.JSON_APP_VERSION_CODE, SK2AppSettings.JSON_APP_VERSION_NAME, SK2AppSettings.JSON_SCHEDULE_CONFIG_VERSION, SK2AppSettings.JSON_TIMEZONE, SK2AppSettings.JSON_TIMESTAMP, SK2AppSettings.JSON_DATETIME, SK2AppSettings.JSON_ENTERPRISE_ID, SK2AppSettings.JSON_SIMOPERATORCODE};
 	
 	//tests data
 	public static final String[] HTTP_FIELDS = {Test.JSON_TYPE, Test.JSON_TIMESTAMP, Test.JSON_DATETIME, Test.JSON_TARGET, Test.JSON_TARGET_IPADDRESS, Test.JSON_SUCCESS, 

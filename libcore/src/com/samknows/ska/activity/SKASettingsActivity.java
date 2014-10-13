@@ -1,5 +1,9 @@
 package com.samknows.ska.activity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,11 +13,14 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.view.ViewPager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
@@ -30,10 +37,14 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.SKAppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 
+import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.BaseLogoutActivity;
+import com.samknows.measurement.activity.components.ButtonWithRightArrow;
+import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.CellTowersData;
 import com.samknows.measurement.environment.CellTowersDataCollector;
@@ -42,10 +53,12 @@ import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityData;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.util.DCSConvertorUtil;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.SKGsmSignalStrength;
+import com.samknows.ska.activity.SKAMainResultsActivity.MyPagerAdapter;
 
 public class SKASettingsActivity extends BaseLogoutActivity{
 
@@ -81,7 +94,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
 
-		final Button clearAllResultsButton = (Button) findViewById(R.id.settings_clearallresults_button);
+		final ButtonWithRightArrow clearAllResultsButton = (ButtonWithRightArrow) findViewById(R.id.settings_clearallresults_button);
 		clearAllResultsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -122,7 +135,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			}
 		});
 		
-		final Button activateButton = (Button) findViewById(R.id.settings_activate_button);
+		final ButtonWithRightArrow activateButton = (ButtonWithRightArrow) findViewById(R.id.settings_activate_button);
 		activateButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -130,11 +143,58 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			}
 		});
 		
-		final Button preferencesButton = (Button) findViewById(R.id.settings_preferences_button);
+		final ButtonWithRightArrow preferencesButton = (ButtonWithRightArrow) findViewById(R.id.settings_preferences_button);
 		preferencesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				SKASettingsActivity.this.startActivity(new Intent(SKASettingsActivity.this, SKAPreferenceActivity.class));
+			}
+		});	
+		
+		final FontFitTextView locationServicesTypeButtonText = (FontFitTextView) findViewById(R.id.settings_location_services_type_text);
+		final ButtonWithRightArrow locationServicesTypeButton = (ButtonWithRightArrow) findViewById(R.id.settings_location_services_type);
+		String theValue = SK2AppSettings.getSK2AppSettingsInstance().getLocationTypeAsString();
+		locationServicesTypeButtonText.setText(getString(R.string.location_type_title) + ": " + theValue);
+		locationServicesTypeButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final String the_array_spinner[] = new String[2];
+				the_array_spinner[0] = getString(R.string.GPS);
+				the_array_spinner[1] = getString(R.string.MobileNetwork);
+
+				Builder builder = new AlertDialog.Builder(SKASettingsActivity.this);
+				builder.setTitle(getString(R.string.location_type_title));
+
+				builder.setItems(the_array_spinner, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+						dialog.dismiss();
+						
+						String theValue = the_array_spinner[which];
+						
+						if(theValue.equals(getString(R.string.GPS))) {
+						} else if (theValue.equals(getString(R.string.MobileNetwork))) {
+						} else {
+							SKLogger.sAssert(SKASettingsActivity.class, false);
+						}
+					
+						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SKASettingsActivity.this);
+						prefs.edit().putString(SKConstants.PREF_LOCATION_TYPE, theValue).commit();
+						
+                		String theValue2 = SK2AppSettings.getSK2AppSettingsInstance().getLocationTypeAsString();
+                		locationServicesTypeButtonText.setText(getString(R.string.location_type_title) + ": " + theValue);
+					}
+				});
+				builder.setNegativeButton(getString(R.string.cancel),
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		});	
 	}

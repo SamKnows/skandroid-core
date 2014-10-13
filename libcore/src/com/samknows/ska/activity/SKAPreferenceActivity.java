@@ -41,15 +41,6 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 		}
 		
 		addPreferencesFromResource(R.xml.preferences);
-		//Hide preference user_self_id for some versions of the app
-		if(!SK2AppSettings.getSK2AppSettingsInstance().user_self_id){
-			Preference user_tag = findPreference("user_self_id");
-			PreferenceCategory pc = (PreferenceCategory) findPreference("first_category");
-			pc.removePreference(user_tag);
-		} else {
-			Log.e(this.getClass().toString(), "user_self_id set to true");
-		}
-		
 		
 		String versionName="";
 		try {
