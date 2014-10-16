@@ -126,7 +126,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:text="@string/activating"
+                    android:text="@string/installing_configuration"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textSize="18sp"
                     android:width="160dp" />

@@ -127,6 +127,7 @@
 <string name="downloaded">Downloaded: </string>
 <string name="download_complete">Download complete</string>
 <string name="download_configuration">Download configuration</string>
+<string name="installing_configuration">Installing configuration</string>
 <string name="download_failed">The download test has failed</string>
 <string name="download_mbps">Download</string>
 <string name="download_success">The download test achieved %1$s Mbps</string>
