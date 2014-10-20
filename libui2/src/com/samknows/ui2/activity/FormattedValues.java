@@ -6,6 +6,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.samknows.libcore.SKCommon;
+
 /**
  * This class is a helper to format values
  * 
@@ -33,8 +35,12 @@ public class FormattedValues
 		NumberFormat formatter = new DecimalFormat("00.0");
 		
 		String unit = pValue.substring(pValue.length() - 4,pValue.length());
-		float value = Float.valueOf(pValue.substring(0, pValue.length() - 4));
 		
+		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble (pValue.substring(0, pValue.length() - 4));
+		return (float)value;
+	
+		/*
+		// TODO??!?! Restore this code, somehow?!
 		if (unit.equalsIgnoreCase("mbps"))
 		{
 			if (value >= 100) 
@@ -58,6 +64,7 @@ public class FormattedValues
 		}		
 		
 		return Float.valueOf(formatter.format(value));
+		*/
 	}
 	
 	/**
@@ -90,7 +97,10 @@ public class FormattedValues
 	 */
 	public int getFormattedPacketLossValue(String pValue)
 	{
-		return Math.round(Float.valueOf(pValue.substring(0, pValue.length() - 2)));
+		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble (pValue.substring(0, pValue.length() - 2));
+		return (int)value;
+	
+		//return Math.round(Float.valueOf(pValue.substring(0, pValue.length() - 2)));
 	}
 	
 	/**
@@ -104,7 +114,9 @@ public class FormattedValues
 	{
 		String split[] = pValue.split(" ");
 
-		return (int)Math.round(Float.valueOf(split[0]));
+		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(split[0]);
+		return (int)value;
+		//return (int)Math.round(Float.valueOf(split[0]));
 	}
 	
 	/**
