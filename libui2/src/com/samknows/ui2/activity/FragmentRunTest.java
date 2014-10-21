@@ -540,7 +540,7 @@ public class FragmentRunTest extends Fragment
         // Label showing the closest server
         tv_Closest_Server = (TextView)pView.findViewById(R.id.fragment_speed_test_closest_server);
         tv_Closest_Server.setTextColor(getResources().getColor(R.color.grey_light));
-        tv_Closest_Server.setText(R.string.TEST_Label_Finding_Best_Target);        
+        tv_Closest_Server.setText("");
         
         // Text views in the shining labels
         tv_Status_Label_1 = (TextView)pView.findViewById(R.id.status_label_1);
@@ -665,73 +665,9 @@ public class FragmentRunTest extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				if (MainService.isExecuting()) {
-					showAlertCannotRunTestAsBackgroundTaskIsRunning();
-				}
-				else if (testsRunning == true) {
-					if (manualTest == null) {
-						SKLogger.sAssert(getClass(), false);
-						// Should not happen - force a tidy-up!
-						didDetectTestCompleted();
-					} else if (threadRunningTests == null) {
-						SKLogger.sAssert(getClass(), false);
-						// Should not happen - force a tidy-up!
-						didDetectTestCompleted();
-					} else {
-						//
-						// Tests are running - stop the tests, if the user agrees!
-						//
-						testRunningAskUserIfTheyWantToCancelIt();
-					}
-				} else {
-					//
-					// Tests are not running - start the test!
-					//
-
-					// If at least one test is selected
-					if (atLeastOneTestSelected())
-					{
-						new InitTestAsyncTask().execute();												
-					}
-					// If any tests is selected, show the activity to select tests
-					else
-					{
-						Intent intent_select_tests = new Intent(getActivity(),ActivitySelectTests.class);
-		    			startActivity(intent_select_tests);
-					}
-				}		
+				onStartButtonPressed();		
 			}
 
-			private void testRunningAskUserIfTheyWantToCancelIt() {
-				//
-				// Tests are running - stop the tests, if the user agrees!
-				//
-				Context ctx = FragmentRunTest.this.getActivity();
-				
-				AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-				builder.setTitle(R.string.tests_running_title);
-				builder.setMessage(R.string.tests_running_message)
-					.setCancelable(false)
-					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-						}
-					})
-					.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-							
-							// Note that if the test has auto-stopped since we started asking
-							// the user, the manualTest value will be null; so, we need to defend
-							// against that.
-							if (manualTest != null) {
-                 				changeAdviceMessageTo(getString(R.string.advice_message_stopping));
-							    manualTest.stop();
-							}
-						}
-					});
-				builder.create().show();
-			}
 		});
 
 		// Handler that is listening for test results and updates the UI
@@ -937,7 +873,7 @@ public class FragmentRunTest extends Fragment
 	    			    // The tests are completed
 						else if (messageType == "completed")
 	        			{
-	                        didDetectTestCompleted();
+	                        onDidDetectTestCompleted();
 						}
 	    			}
 	        		catch (JSONException e)
@@ -1787,9 +1723,9 @@ public class FragmentRunTest extends Fragment
     }
 
     //
-    // This method is called when the activity detects that the runnning test has completed.
+    // This method is called when the activity detects that the running test has completed.
     //
-	private void didDetectTestCompleted() {
+	private void onDidDetectTestCompleted() {
 	    checkOutDataCap();												// Check out if we have reach the data cap to show the warning
 	    
 		testsRunning = false;											// Indicate that we are not running tests
@@ -1807,7 +1743,8 @@ public class FragmentRunTest extends Fragment
 		sendRefreshUIMessage();
 		layout_ll_results.setClickable(true);
 		setUpPassiveMetricsLayout(connectivityType);	                        
-		changeFadingTextViewValue(tv_Closest_Server, getString(R.string.TEST_Label_Finding_Best_Target), getResources().getColor(R.color.grey_light));
+		//changeFadingTextViewValue(tv_Closest_Server, getString(R.string.TEST_Label_Finding_Best_Target), getResources().getColor(R.color.grey_light));
+        tv_Closest_Server.setText("");
 	}
 
 	private void registerBackButtonHandler() {
@@ -1916,5 +1853,76 @@ public class FragmentRunTest extends Fragment
 				});
 			}
 		});
+	}
+
+
+	private void testRunningAskUserIfTheyWantToCancelIt() {
+		//
+		// Tests are running - stop the tests, if the user agrees!
+		//
+		Context ctx = getActivity();
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		builder.setTitle(R.string.tests_running_title);
+		builder.setMessage(R.string.tests_running_message)
+		.setCancelable(false)
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+			}
+		})
+		.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+
+				// Note that if the test has auto-stopped since we started asking
+				// the user, the manualTest value will be null; so, we need to defend
+				// against that.
+				if (manualTest != null) {
+					changeAdviceMessageTo(getString(R.string.advice_message_stopping));
+					manualTest.stop();
+				}
+			}
+		});
+		builder.create().show();
+	}
+	
+	private void onStartButtonPressed() {
+		if (MainService.isExecuting()) {
+			showAlertCannotRunTestAsBackgroundTaskIsRunning();
+		}
+		else if (testsRunning == true) {
+			if (manualTest == null) {
+				SKLogger.sAssert(getClass(), false);
+				// Should not happen - force a tidy-up!
+				onDidDetectTestCompleted();
+			} else if (threadRunningTests == null) {
+				SKLogger.sAssert(getClass(), false);
+				// Should not happen - force a tidy-up!
+				onDidDetectTestCompleted();
+			} else {
+				//
+				// Tests are running - stop the tests, if the user agrees!
+				//
+				testRunningAskUserIfTheyWantToCancelIt();
+			}
+		} else {
+			//
+			// Tests are not running - start the test!
+			//
+
+			// If at least one test is selected
+			if (atLeastOneTestSelected())
+			{
+                tv_Closest_Server.setText(R.string.TEST_Label_Finding_Best_Target);        
+				new InitTestAsyncTask().execute();												
+			}
+			else
+			{
+    			// No tests are selected: show the activity to select tests
+				Intent intent_select_tests = new Intent(getActivity(),ActivitySelectTests.class);
+				startActivity(intent_select_tests);
+			}
+		}
 	}
 }
