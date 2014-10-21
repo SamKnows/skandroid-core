@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +62,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.tests.HttpTest;
 
 /**
  * This fragment is responsible for running the tests and managing the home screen.
@@ -143,7 +146,7 @@ public class FragmentRunTest extends Fragment
 		
 		// Bind and initialise the resources
 		setUpResources(view);
-		
+	
 		// Inflate the layout for this fragment
 		return view;		
 	}
@@ -169,8 +172,10 @@ public class FragmentRunTest extends Fragment
         
         // Register the local broadcast receiver listener to receive messages within the application (Listen for current values while performing tests)
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverCurrentClosestTarget, new IntentFilter("currentClosestTarget"));			// Current closest target server
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverCurrentpeed, new IntentFilter("currentSpeedIntent"));				// Current download / upload speed
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverCurrentLatency, new IntentFilter("currentLatencyIntent"));			// Current latency value
+        
+		// Start the periodic timer!
+		startTimer();
 
         // Add the listener to the telephonyManager to listen for changes in the data connectivity
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
@@ -190,6 +195,9 @@ public class FragmentRunTest extends Fragment
     	LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverCurrentClosestTarget);
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverCurrentpeed);
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverCurrentLatency);
+
+		// Stop the periodic timer!
+		stopTimer();
 
         //Remove the telephonyManager listener
         telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
@@ -251,7 +259,51 @@ public class FragmentRunTest extends Fragment
     			}				
 			}    		    		
     	}    	
+
     };
+    	
+    Handler mHandler = new Handler();
+    Timer myTimer = null;
+   
+    private void stopTimer() {
+    	if (myTimer != null) {
+    		myTimer.cancel();
+    		myTimer = null;
+    	}
+    }
+   
+    static int lastPolledSpeedValue = 0;
+    
+    private void startTimer() {
+    	
+       Timer myTimer = new Timer();
+        myTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	// For each timer "tick", *IF* the tests are running, we must see if the
+            	// measured speed has changed since last time... and if so, update the UI.
+            	// Otherwise, do nothing!
+            	if (testsRunning) {
+            		mHandler.post(new Runnable() {
+
+            			@Override
+            			public void run() {
+            				int value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitor();
+            				if (value != lastPolledSpeedValue) {
+            					lastPolledSpeedValue = value;
+            					String message = String.valueOf(value);
+            					updateCurrentTestSpeed(message);										// Update the current result meter for download/upload
+            					gaugeView.setResult(Double.valueOf(message)*0.000008);					// Update the gauge colour indicator (in Megabytes)
+            					lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
+            				}
+            			}});
+            	}
+            }
+
+        }, 0, C_UPDATE_INTERVAL_IN_MS);
+    }
+    
+
     
     // Broadcast receiver listening for changes in current latency value measurement
     private BroadcastReceiver messageReceiverCurrentLatency = new BroadcastReceiver()

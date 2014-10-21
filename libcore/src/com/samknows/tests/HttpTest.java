@@ -347,6 +347,10 @@ public class HttpTest extends Test {
 	    // It is a random value from [0...2^32-1]
     	mSESSIONID_ForServerUploadTest = sRandom.nextLong() & 0xffffffffL;
 		SKLogger.sAssert(getClass(), mSESSIONID_ForServerUploadTest >= 0);
+
+		// static values that need resetting!
+		sServerUploadBytesPerSecond.clear();
+		sSetLatestSpeedForExternalMonitor(0);
 	}
 
 	public HttpTest() {
@@ -796,16 +800,23 @@ public class HttpTest extends Test {
 				readBytes = BYTESREADERR;
 				SKLogger.sAssert(getClass(),  false);
 			}
-//			// *** Pablo's modifications *** //
-//			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-//			Intent intent = new Intent("currentSpeedIntent");			
-//			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
-//			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);			
-//			// *** End Pablo's modifications *** //
+			
+			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond());
+
 		} while (!isTransferDone(readBytes));
 
 		closeConnection(socket, connIn, connOut);
 
+	}
+
+	static private int sLatestSpeedForExternalMonitor = 0;
+			
+	public static int sGetLatestSpeedForExternalMonitor() {
+		return sLatestSpeedForExternalMonitor;
+	}
+
+	public static void sSetLatestSpeedForExternalMonitor(int bytesPerSecond) {
+  	    sLatestSpeedForExternalMonitor = bytesPerSecond;
 	}
 
 	synchronized void waitForAllConnections() {
@@ -1249,13 +1260,7 @@ public class HttpTest extends Test {
             		break;
             	}
             	
-//            	// *** Pablo's modifications *** //
-//    			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-//    			Intent intent = new Intent("currentSpeedIntent");
-//    			intent.putExtra("currentSpeedValue", String.valueOf(getSpeedBytesPerSecond()));
-//    			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
-//    			//Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
-//    			// *** End Pablo's modifications *** //
+    			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond());
 
             	final long waitForTimeMs = 20000L;
             	if (isTransferDone == false) {
@@ -1354,13 +1359,7 @@ public class HttpTest extends Test {
 				// TODO! [self doSendtodDidCompleteTransferOperation:transferTimeMicroseconds transferBytes:transferBytes totalBytes:totalBytes ForceThisBitsPerSecondFromServer:-1.0  threadId:threadId];
 			}
 			
-			// *** Pablo's modifications *** //
-			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-//			Intent intent = new Intent("currentSpeedIntent");
-//			intent.putExtra("currentSpeedValue", String.valueOf(bytesPerSecondMeasurement));
-//			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
-			// Log.i("First Upload Point", String.valueOf(getSpeedBytesPerSecond()));
-			// *** End Pablo's modifications *** //
+    		sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement);
 
 			return;
 		}
