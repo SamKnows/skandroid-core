@@ -60,6 +60,7 @@ import com.samknows.measurement.MainService;
 import com.samknows.measurement.ManualTest;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.tests.HttpTest;
@@ -106,7 +107,8 @@ public class FragmentRunTest extends Fragment
 	// Text views showing the test result labels
 	private TextView tv_Label_Mbps_1, tv_Label_Mbps_2, tv_Label_Latency, tv_Label_Loss, tv_Label_Download, tv_Label_Upload, tv_Label_Jitter, tv_Contextual_Information;
 	// Text views showing the test result information
-	private TextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter, tv_Result_Date;
+	private FontFitTextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
+	private TextView tv_Result_Date;
 	// Text views showing the passive metric headers
 	private TextView tv_header_label_sim_and_network_operators, tv_header_label_signal, tv_header_label_device, tv_header_label_location;
 	// Text views showing the passive metric labels
@@ -508,11 +510,16 @@ public class FragmentRunTest extends Fragment
 		});
 		
 		// Elements in the results layout
-		tv_Result_Download = (TextView)pView.findViewById(R.id.new_speed_test_fragment_result_download);
-		tv_Result_Upload = (TextView)pView.findViewById(R.id.new_speed_test_fragment_result_upload);
-		tv_Result_Latency = (TextView)pView.findViewById(R.id.new_speed_test_fragment_result_latency);
-		tv_Result_Packet_Loss = (TextView)pView.findViewById(R.id.new_speed_test_fragment_result_loss);
-		tv_Result_Jitter = (TextView)pView.findViewById(R.id.new_speed_test_fragment_result_jitter);
+		tv_Result_Download = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_download);
+		tv_Result_Download.setText(R.string.slash);
+		tv_Result_Upload = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_upload);
+		tv_Result_Upload.setText(R.string.slash);
+		tv_Result_Latency = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_latency);
+		tv_Result_Latency.setText(R.string.slash);
+		tv_Result_Packet_Loss = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_loss);
+		tv_Result_Packet_Loss.setText(R.string.slash);
+		tv_Result_Jitter = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_jitter);
+		tv_Result_Jitter.setText(R.string.slash);
 		
 		tv_Label_Download = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_download);
 		tv_Label_Upload = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_upload);

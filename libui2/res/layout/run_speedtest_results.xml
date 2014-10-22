@@ -45,13 +45,13 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/new_speed_test_fragment_result_download"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding_bottom_result_main"
                     android:layout_marginTop="@dimen/padding_top_result_main"
-                    android:text="@string/slash"
+                    android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_peta"
                     tools:text="6.6" />
@@ -95,13 +95,14 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/new_speed_test_fragment_result_upload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding_bottom_result_main"
                     android:layout_marginTop="@dimen/padding_top_result_main"
-                    android:text="@string/slash"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/nineninenine"
                     android:textColor="@color/grey_light"
                     android:textSize="@dimen/text_size_peta"
                     tools:text="3.8"/>
@@ -110,6 +111,7 @@
                     android:id="@+id/new_speed_test_fragment_label_2_mbps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="@string/units_Mbps"
                     android:textColor="@color/white_dark"
                     android:textSize="@dimen/text_size_small"/>
@@ -165,35 +167,35 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/new_speed_test_fragment_result_latency"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/slash"
+                        android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_small_medium"
                         tools:text="35 ms" />
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/new_speed_test_fragment_result_loss"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
                         android:gravity="center"
-                        android:text="@string/slash"
+                        android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_small_medium"
                         tools:text="5 %" />
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/new_speed_test_fragment_result_jitter"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/slash"
+                        android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_small_medium"
                         tools:text="25 ms" />
