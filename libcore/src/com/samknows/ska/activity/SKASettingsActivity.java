@@ -217,7 +217,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			}
 		}
 		((TextView)findViewById(R.id.tv_service_activated_value)).setText(value);
-		if(SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()){
+		if(SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			value = getString(R.string.enabled);
 		}else{
 			value = getString(R.string.disabled);
@@ -242,7 +242,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		}
 		((TextView)findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
 	
-		if (SK2AppSettings.getInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+		if (SKApplication.getAppInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
 			// Background processing disabled in the schedule!
 			findViewById(R.id.autotesting_row).setVisibility(View.GONE);
 			findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);

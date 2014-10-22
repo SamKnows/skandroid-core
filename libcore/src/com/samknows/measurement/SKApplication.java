@@ -7,6 +7,7 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKOperators;
 import com.samknows.measurement.environment.CellTowersDataCollector;
+import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.test.TestResultsManager;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
@@ -223,4 +224,17 @@ public class SKApplication extends Application{
 		return sbUpdateAllDataOnScreen;
 	}
 
+	public Boolean getIsBackgroundProcessingEnabledInTheSchedule() {
+		Boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundProcessingEnabledInTheSchedule();
+		return backgroundTest;
+	}
+	
+	public Boolean getIsBackgroundTestingEnabledInUserPreferences() {
+    	if (getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+    		return false;
+    	}
+    	
+    	Boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences();
+    	return backgroundTest;
+	}
 }

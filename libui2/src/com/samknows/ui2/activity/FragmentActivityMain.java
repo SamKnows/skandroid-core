@@ -138,16 +138,16 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
         	switch (position)
         	{
         		case 0:					
-        			return "Speed Test";
+        			return SKApplication.getAppInstance().getAppName();
         			
 				case 1:
-					return "Archive Results";
+					return SKApplication.getAppInstance().getApplicationContext().getString(R.string.title_history); //  "History";
 					
 				case 2:					
-					return "Summary";
+					return SKApplication.getAppInstance().getApplicationContext().getString(R.string.title_summary); //  "Summary";
 					
 				default:
-					return "Speed Test";
+        			return SKApplication.getAppInstance().getAppName();
 			}        	
         }
     }

@@ -7,6 +7,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
@@ -25,7 +26,7 @@ public class ExecuteScheduledTestQueueState extends BaseState{
 	public StateResponseCode executeState() {
 		SKLogger.sAssert(getClass(),  (accumulatedTestBytes == 0L));
 		
-		if(!SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()){
+		if(!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			return StateResponseCode.OK;
 		}
 		

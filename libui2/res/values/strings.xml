@@ -165,5 +165,9 @@
     <string name="menu_item_select_network">Select Network</string>
     <string name="menu_item_select_tests">Select Tests</string>
     <string name="menu_item_share">Share</string>
+    
+    <!--  PAGE TITLES -->
+    <string name="title_history">History</string>
+    <string name="title_summary">Summary</string>
 
 </resources>

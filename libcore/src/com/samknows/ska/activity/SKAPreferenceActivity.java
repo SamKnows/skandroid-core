@@ -52,7 +52,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 		mCategory.setTitle(SKApplication.getAppInstance().getAppName() + " " + getString(R.string.Storyboard_Settings_Configuration));
 
 		CheckBoxPreference mCheckBoxPref = (CheckBoxPreference) findPreference(SKConstants.PREF_SERVICE_ENABLED);
-		if (SK2AppSettings.getInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+		if (SKApplication.getAppInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
 			// Background processing is NOT enabled in the schedule!
 			
 			// MPC 26/08/2014 - remove the background processing preference entirely, rather than just
@@ -67,7 +67,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 		} else {
 			// Background processing is enabled in the schedule!
 			
-			mCheckBoxPref.setChecked(SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences());
+			mCheckBoxPref.setChecked(SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences());
 		}
 		
 		// Hide the "Use Data Cap" checkbox only for some versions of the app...
@@ -128,7 +128,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(SKConstants.PREF_SERVICE_ENABLED)) {
-			if (SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences()) {
+			if (SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()) {
 				MainService.poke(SKAPreferenceActivity.this);
 			}else{
 				OtherUtils.cancelAlarm(this);
