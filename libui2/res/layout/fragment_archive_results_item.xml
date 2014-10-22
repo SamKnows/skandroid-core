@@ -8,7 +8,8 @@
     android:baselineAligned="false"
     android:gravity="center"
     android:orientation="horizontal"
-    tools:background="@drawable/background_gradient_radial_blue_vivid">
+    tools:background="@drawable/background_gradient_radial_blue_vivid"
+    tools:visibility="visible">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,6 +37,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:layout_gravity="top"
                     android:alpha=".75"
                     android:contentDescription="@string/description_icon_download"
                     android:src="@drawable/ic_download" />
@@ -44,29 +46,38 @@
                     android:id="@+id/downloadLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
                     android:text="@string/download"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/archiveResultsListItemDownload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_bottom_result_main"
-                android:layout_marginTop="@dimen/padding_top_result_main"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_peta"
-                tools:text="6.6" />
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/archiveResultsListItemDownload"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="80"
+                    android:gravity="center_vertical"
+                    android:text="@string/nineninenine"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_peta" />
 
-            <TextView
-                android:id="@+id/mbps_label_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/units_Mbps"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"/>
+                <TextView
+                    android:id="@+id/mbps_label_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20"
+                    android:layout_gravity="bottom"
+                    android:text="@string/units_Mbps"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -85,6 +96,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:layout_gravity="top"
                     android:alpha=".75"
                     android:contentDescription="@string/description_icon_upload"
                     android:src="@drawable/ic_upload" />
@@ -93,29 +105,38 @@
                     android:id="@+id/uploadLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
                     android:text="@string/upload"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/archiveResultsListItemUpload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_bottom_result_main"
-                android:layout_marginTop="@dimen/padding_top_result_main"
-                android:textColor="@color/grey_light"
-                android:textSize="@dimen/text_size_peta"
-                tools:text="3.8"/>
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/archiveResultsListItemUpload"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="80"
+                    android:gravity="center_vertical"
+                    android:text="@string/nineninenine"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_peta" />
 
-            <TextView
-                android:id="@+id/mbps_label_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/units_Mbps"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"/>
+                <TextView
+                    android:id="@+id/mbps_label_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20"
+                    android:layout_gravity="bottom"
+                    android:text="@string/units_Mbps"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -168,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
+               <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemLatency"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -176,9 +197,9 @@
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
-                    tools:text="35 ms" />
+                    android:text="@string/nineninenine"/>
 
-                <TextView
+               <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemPacketLoss"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -186,9 +207,9 @@
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
-                    tools:text="5 %" />
+                    android:text="@string/nineninenine"/>
 
-                <TextView
+               <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemJitter"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -196,7 +217,7 @@
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
-                    tools:text="25 ms" />
+                    android:text="@string/nineninenine"/>
 
             </LinearLayout>
 
@@ -206,24 +227,26 @@
                 android:layout_margin="@dimen/spacing_micro"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="80"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_small"
-                    tools:text="4/3/12 9:35" />
+                    android:text="4/3/12 9:35"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="20"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:gravity="right|center_vertical">
 
                     <ImageView
                         android:id="@+id/archiveResultsListItemNetworkType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:contentDescription="@string/description_image_connectivity_type"
                         tools:src="@drawable/ic_swifi" />
 

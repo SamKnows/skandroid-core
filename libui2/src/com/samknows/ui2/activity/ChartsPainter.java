@@ -69,7 +69,7 @@ public class ChartsPainter extends View
     private Path path_lines;													// Path to draw the vertical lines on each x axis label
 
     // Fonts
-    private Typeface typeface_Roboto_Thin;										// Typography of the chart text
+    private Typeface typeface_Roboto_Thin = null;										// Typography of the chart text
 
 
     // *** CONSTRUCTORS *** //
@@ -101,7 +101,10 @@ public class ChartsPainter extends View
         C_Y_AXIS_LABEL_MARGIN = (int) convertDpToPixel(12, pContext);
         
     	// Set up fonts
-    	typeface_Roboto_Thin = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto_thin.ttf");
+    	// The createFromAsset call will fail in Edit mode in Eclipse!
+    	if (isInEditMode() == false) { 
+    	  typeface_Roboto_Thin = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto_thin.ttf");
+    	}
 
     	// Paint to draw the axis
         paint_Axis = new Paint()
@@ -116,7 +119,9 @@ public class ChartsPainter extends View
         paint_Text = new Paint()
         {{
             setColor(getResources().getColor(R.color.white));	// Paint colour
-            setTypeface(typeface_Roboto_Thin);					// Paint type face
+            if (typeface_Roboto_Thin != null) {
+            	setTypeface(typeface_Roboto_Thin);					// Paint type face
+            }
             setTextAlign(Align.CENTER);							// Text align
         }};
 

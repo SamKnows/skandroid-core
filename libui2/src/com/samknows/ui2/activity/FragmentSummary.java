@@ -43,6 +43,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
+import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.SummaryResult;
@@ -78,9 +79,17 @@ public class FragmentSummary extends Fragment
 	
 	// UI elements
 	private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin, typeface_Roboto_Regular;
-	private TextView tv_summary_result_average_download, tv_summary_result_best_download, tv_summary_result_average_upload, tv_summary_result_best_upload,
-						tv_summary_result_average_latency, tv_summary_result_best_latency, tv_summary_result_average_loss, tv_summary_result_best_loss, tv_summary_result_average_jitter, tv_summary_result_best_jitter,
-							tv_label_average, tv_label_best;
+	private FontFitTextView tv_summary_result_average_download;
+	private FontFitTextView tv_summary_result_best_download;
+	private FontFitTextView tv_summary_result_average_upload;
+	private FontFitTextView tv_summary_result_best_upload;
+	private FontFitTextView tv_summary_result_average_latency;
+	private FontFitTextView tv_summary_result_best_latency;
+	private FontFitTextView tv_summary_result_average_loss;
+	private FontFitTextView tv_summary_result_best_loss;
+	private FontFitTextView tv_summary_result_average_jitter;
+	private FontFitTextView tv_summary_result_best_jitter;
+	private TextView tv_label_average, tv_label_best;
 	private LinearLayout mShowingThisSection = null;
 	private LinearLayout layout_ll_summary_section_download, layout_ll_summary_section_upload, layout_ll_summary_section_latency, layout_ll_summary_section_packet_loss, layout_ll_summary_section_jitter, layout_ll_summary_result_average_download,
 							layout_ll_summary_result_best_download, layout_ll_summary_result_average_upload, layout_ll_summary_result_best_upload, layout_ll_summary_result_average_latency, layout_ll_summary_result_best_latency, layout_ll_summary_result_average_packet_loss,
@@ -730,16 +739,26 @@ public class FragmentSummary extends Fragment
 		layout_ll_summary_result_best_jitter = (LinearLayout)pView.findViewById(R.id.fragment_summary_jitter_ll_best);
 		
 		// Result fields
-		tv_summary_result_average_download = (TextView)pView.findViewById(R.id.tv_summary_result_average_download);
-		tv_summary_result_best_download = (TextView)pView.findViewById(R.id.tv_summary_result_best_download);
-		tv_summary_result_average_upload = (TextView)pView.findViewById(R.id.tv_summary_result_average_upload);
-		tv_summary_result_best_upload = (TextView)pView.findViewById(R.id.tv_summary_result_best_upload);
-		tv_summary_result_average_latency = (TextView)pView.findViewById(R.id.tv_summary_result_average_latency);
-		tv_summary_result_best_latency = (TextView)pView.findViewById(R.id.tv_summary_result_best_latency);
-		tv_summary_result_average_loss = (TextView)pView.findViewById(R.id.tv_summary_result_average_packet_loss);
-		tv_summary_result_best_loss = (TextView)pView.findViewById(R.id.tv_summary_result_best_packet_loss);
-		tv_summary_result_average_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_average_jitter);
-		tv_summary_result_best_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_best_jitter);
+		tv_summary_result_average_download = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_download);
+		tv_summary_result_best_download = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_download);
+		tv_summary_result_average_upload = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_upload);
+		tv_summary_result_best_upload = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_upload);
+		tv_summary_result_average_latency = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_latency);
+		tv_summary_result_best_latency = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_latency);
+		tv_summary_result_average_loss = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_packet_loss);
+		tv_summary_result_best_loss = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_packet_loss);
+		tv_summary_result_average_jitter = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_jitter);
+		tv_summary_result_best_jitter = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_jitter);
+		tv_summary_result_average_download.setText(R.string.slash);
+		tv_summary_result_best_download.setText(R.string.slash);
+		tv_summary_result_average_upload.setText(R.string.slash);
+		tv_summary_result_best_upload.setText(R.string.slash);
+		tv_summary_result_average_latency.setText(R.string.slash);
+		tv_summary_result_best_latency.setText(R.string.slash);
+		tv_summary_result_average_loss.setText(R.string.slash);
+		tv_summary_result_best_loss.setText(R.string.slash);
+		tv_summary_result_average_jitter.setText(R.string.slash);
+		tv_summary_result_best_jitter.setText(R.string.slash);
 		
 		// Set up the fonts to be used
 		typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_condensed_regular.ttf");
@@ -761,14 +780,14 @@ public class FragmentSummary extends Fragment
 		
 		((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Thin);		
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Thin);		
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Thin);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Thin);
 		((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Light);
 		((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Light);
 		((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Light);

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.samknows.libui2.R;
+import com.samknows.measurement.activity.components.FontFitTextView;
 
 /**
  * This class represents the custom adapter to the archive results list view.
@@ -175,11 +176,11 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             	{            		
             		if (latencyResult < 1000)
             		{            			
-            			testLatency.setText(new DecimalFormat("000").format(latencyResult) + rowView.getContext().getString(R.string.units_ms));						
+            			testLatency.setText(new DecimalFormat("0").format(latencyResult) + " " + rowView.getContext().getString(R.string.units_ms));						
 					}
             		else if (latencyResult >= 1000)
             		{
-            			testLatency.setText(new DecimalFormat("0.0").format(latencyResult/1000) + rowView.getContext().getString(R.string.units_s));            			
+            			testLatency.setText(new DecimalFormat("0.0").format(latencyResult/1000) + " " + rowView.getContext().getString(R.string.units_s));            			
             		}            		            		
             	}            	        	
             }       
@@ -224,7 +225,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             		
             		if (stringValue.substring(stringValue.length()-1, stringValue.length()).equals("0"))
             		{            			
-            			testJitter.setText(new DecimalFormat("000").format(jitterResult) + rowView.getContext().getString(R.string.units_ms));						
+            			testJitter.setText(new DecimalFormat("0").format(jitterResult) + " " + rowView.getContext().getString(R.string.units_ms));						
 					}
             		else
             		{
