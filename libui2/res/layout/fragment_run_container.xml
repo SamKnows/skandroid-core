@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_speed_test_relative_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    tools:background="@drawable/background_gradient_radial_blue_samknows" >
+
+    <include layout="@layout/run_passive_metrics_panel"/>
+
+    <LinearLayout
+        android:id="@+id/new_speed_test_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        tools:visibility="visible">
+        
+        <include layout="@layout/run_gauge_layout"/>
+        <include layout="@layout/run_speedtest_results"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/new_data_cap_warning"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/visual_rhythm"
+            android:background="@color/orange"
+            android:gravity="center"
+            android:padding="@dimen/activity_margin_half"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="gone"
+            tools:text="Data cap exceeded"
+            tools:visibility="gone">
+        </TextView>
+
+        <TextView
+            android:id="@+id/new_connectivity_warning"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/visual_rhythm"
+            android:background="@color/red"
+            android:gravity="center"
+            android:padding="@dimen/activity_margin_half"
+            android:textColor="@color/white_dark"
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="gone"
+            tools:text="@string/tools_no_connectivity"
+            tools:visibility="gone">
+        </TextView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
