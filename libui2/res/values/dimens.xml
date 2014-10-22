@@ -21,7 +21,7 @@
     <dimen name="average_results_header_height">40dp</dimen>
     <dimen name="average_results_result_height">80dp</dimen>
     <dimen name="fragment_run_test_results_layout_height">120dp</dimen>
-    <dimen name="fragment_archived_results_item_height">128dp</dimen>
+    <dimen name="fragment_archived_results_item_height">80dp</dimen>
 
     <!-- Spacing -->
     <dimen name="spacing_micro">4dp</dimen>

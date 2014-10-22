@@ -66,7 +66,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_peta" />
+                    android:textSize="@dimen/text_size_mega" />
 
                 <TextView
                     android:id="@+id/mbps_label_1"
@@ -125,7 +125,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_peta" />
+                    android:textSize="@dimen/text_size_mega" />
 
                 <TextView
                     android:id="@+id/mbps_label_2"
@@ -152,32 +152,32 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/latency_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:gravity="center"
+                    android:gravity="top|center_horizontal"
                     android:text="@string/latency"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_small" />
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/loss_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:gravity="center"
+                    android:gravity="top|center_horizontal"
                     android:text="@string/loss"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_small" />
 
-                <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/jitter_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:gravity="center"
+                    android:gravity="top|center_horizontal"
                     android:text="@string/jitter"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_small" />

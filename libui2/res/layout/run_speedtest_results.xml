@@ -53,7 +53,7 @@
                     android:layout_marginTop="@dimen/padding_top_result_main"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_peta"
+                    android:textSize="@dimen/text_size_mega"
                     tools:text="6.6" />
 
                 <TextView
@@ -104,7 +104,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/nineninenine"
                     android:textColor="@color/grey_light"
-                    android:textSize="@dimen/text_size_peta"
+                    android:textSize="@dimen/text_size_mega"
                     tools:text="3.8"/>
 
                 <TextView
