@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+       <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/fragment_speed_test_gauge_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:layout_weight="1"
+            tools:visibility="visible">
+
+            <com.samknows.ui2.activity.GaugeView
+                android:id="@+id/fragment_speed_gauge_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:paddingBottom="@dimen/activity_margin_quarter"
+                android:paddingLeft="@dimen/activity_margin_double"
+                android:paddingRight="@dimen/activity_margin_double"
+                android:paddingTop="@dimen/activity_margin_quarter"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_tera"
+                tools:text="3,88"/>
+
+            <RelativeLayout
+                android:id="@+id/status_label_layout_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/status_label_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue_darker"
+                    android:textSize="@dimen/text_size_large"
+                    tools:text="Ready to run"
+                    tools:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/status_label_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/text_size_large"
+                    tools:text="Ready to run"
+                    tools:visibility="visible"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/fragment_speed_test_advice_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/status_label_layout_1"
+                android:layout_centerHorizontal="true"
+                android:text="@string/advice_message_press_the_button"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/fragment_speed_test_contextual_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/fragment_speed_test_gauge_textview_pseudobutton"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="@string/tools_text_value_bearer"/>
+
+            <TextView
+                android:id="@+id/fragment_speed_test_closest_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_speed_test_gauge_textview_pseudobutton"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/text_size_small_medium"
+                tools:text="@string/tools_closest_server"/>
+            </RelativeLayout>
+            
