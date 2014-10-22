@@ -20,7 +20,7 @@
         tools:visibility="visible">
         
         <include layout="@layout/run_gauge_layout"/>
-        <include layout="@layout/run_speedtest_results"/>
+        <include layout="@layout/results_panel_shared_layout"/>
 
     </LinearLayout>
 

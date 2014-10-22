@@ -36,7 +36,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
     // Custom adapter constructor
     public AdapterArchivedResultsListView(Context pContext, ArrayList<TestResult> pArchivedResultsList)
     {
-        super(pContext, R.layout.fragment_archive_results_item, pArchivedResultsList);
+        super(pContext, R.layout.results_panel_shared_layout, pArchivedResultsList);
         
         context = pContext;
         archivedResultsList = pArchivedResultsList;
@@ -63,7 +63,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
     {
     	// Get the row layout
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.fragment_archive_results_item, parent, false);
+        View rowView = inflater.inflate(R.layout.results_panel_shared_layout, parent, false);
 
         // Set up UI elements
         TextView testDate = (TextView) rowView.findViewById(R.id.archiveResultsListItemDate);

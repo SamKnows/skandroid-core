@@ -105,7 +105,9 @@ public class FragmentRunTest extends Fragment
 	// Text views showing warnings
 	private TextView tv_Data_Cap_Warning, tv_Connectivity_Warning, tv_Closest_Server;	
 	// Text views showing the test result labels
-	private TextView tv_Label_Mbps_1, tv_Label_Mbps_2, tv_Label_Latency, tv_Label_Loss, tv_Label_Download, tv_Label_Upload, tv_Label_Jitter, tv_Contextual_Information;
+	private TextView tv_Label_Download, tv_Label_Upload, tv_Label_Mbps_1, tv_Label_Mbps_2;
+	private FontFitTextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
+	private TextView tv_Contextual_Information;
 	// Text views showing the test result information
 	private FontFitTextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
 	private TextView tv_Result_Date;
@@ -475,7 +477,7 @@ public class FragmentRunTest extends Fragment
 		tv_Gauge_TextView_PsuedoButton.setText(getString(R.string.gauge_message_start));
 		
 		// Initialise and hide the results layout
-		layout_ll_results = (LinearLayout)pView.findViewById(R.id.fragment_speed_test_results_ll);
+		layout_ll_results = (LinearLayout)pView.findViewById(R.id.fragment_speed_test_results_ll2);
 		layout_ll_results.setAlpha(0.0f);
 		
 		// Get the position of the header row when it's already drawn		
@@ -510,29 +512,29 @@ public class FragmentRunTest extends Fragment
 		});
 		
 		// Elements in the results layout
-		tv_Result_Download = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_download);
+		tv_Result_Download = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemDownload);
 		tv_Result_Download.setText(R.string.slash);
-		tv_Result_Upload = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_upload);
+		tv_Result_Upload = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemUpload);
 		tv_Result_Upload.setText(R.string.slash);
-		tv_Result_Latency = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_latency);
+		tv_Result_Latency = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemLatency);
 		tv_Result_Latency.setText(R.string.slash);
-		tv_Result_Packet_Loss = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_loss);
+		tv_Result_Packet_Loss = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemPacketLoss);
 		tv_Result_Packet_Loss.setText(R.string.slash);
-		tv_Result_Jitter = (FontFitTextView)pView.findViewById(R.id.new_speed_test_fragment_result_jitter);
+		tv_Result_Jitter = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemJitter);
 		tv_Result_Jitter.setText(R.string.slash);
 		
-		tv_Label_Download = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_download);
-		tv_Label_Upload = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_upload);
-		tv_Label_Latency = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_latency);
-		tv_Label_Loss = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_loss);
-		tv_Label_Jitter = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_jitter);
-		tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_1_mbps);
-		tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.new_speed_test_fragment_label_2_mbps);
-		tv_Result_Date = (TextView)pView.findViewById(R.id.new_speed_test_fragment_results_date);
+		tv_Label_Download = (TextView)pView.findViewById(R.id.downloadLabel);
+		tv_Label_Upload = (TextView)pView.findViewById(R.id.uploadLabel);
+		tv_Label_Latency = (FontFitTextView)pView.findViewById(R.id.latency_label);
+		tv_Label_Loss = (FontFitTextView)pView.findViewById(R.id.loss_label);
+		tv_Label_Jitter = (FontFitTextView)pView.findViewById(R.id.jitter_label);
+		tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.mbps_label_1);
+		tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
+		tv_Result_Date = (TextView)pView.findViewById(R.id.archiveResultsListItemDate);
 		
 		tv_Contextual_Information = (TextView)pView.findViewById(R.id.fragment_speed_test_contextual_information);
 		
-		iv_Result_NetworkType = (ImageView)pView.findViewById(R.id.new_speed_test_fragment_result_networkType);		
+		iv_Result_NetworkType = (ImageView)pView.findViewById(R.id.archiveResultsListItemNetworkType);		
 		
 		// Label showing connectivity issues - no connectivity
         tv_Connectivity_Warning = (TextView)pView.findViewById(R.id.new_connectivity_warning);
