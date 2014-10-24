@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -1217,6 +1218,7 @@ public class FragmentSummary extends Fragment
 		Context context = SKApplication.getAppInstance().getApplicationContext();
 		
 		graphHandlerDownload = new SKGraphForResults(context, graphContainer, new TextView(context), "download");
+		//graphContainer.setBackgroundColor(Color.RED); // TODO - remove me, set transparent?
 	}
 	
 	private	SKGraphForResults graphHandlerDownload;
@@ -1245,9 +1247,31 @@ public class FragmentSummary extends Fragment
 		//} catch (JSONException e1) {
 		//}
 
-		graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange);
+		graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange, sGetGraphColourBackground(), sGetGraphColourAverageFill());
 	}
 	
+	public static int sGetSamKnowsBlue() {
+		// "#009fe3"
+		return Color.rgb( 0, 159, 227);
+	}	
+	
+	public static int sGetGraphColourBackground() {
+		//return sGetSamKnowsBlue();
+		return Color.TRANSPARENT;
+	}
+	
+	public static int sGetGraphColourAverageFill() {
+    	//return Color.rgb(0x92, 0xc0, 0xd7);
+    	return Color.TRANSPARENT;
+	}
+
+	public static int sGetGraphColourTopAreaFill() {
+		return Color.rgb(0xb8, 0xd3, 0xe1);
+	}
+
+	public static int sGetGraphColourBottomAreaFill() {
+      return Color.rgb(0x6d, 0xad, 0xce);
+	}
 
 	private JSONObject fetchGraphDataForColumnId(int PColumnId) {
 		Calendar fromCal = Calendar.getInstance();

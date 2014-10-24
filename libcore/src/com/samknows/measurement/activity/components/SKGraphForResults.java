@@ -885,6 +885,19 @@ public class SKGraphForResults {
 		// Attach a new, updated graph!
 		updateGraphAndCaption(mContext, containerViewCroup);
 	}
+
+	
+	public void updateGraphWithTheseResults(JSONObject data, DATERANGE_1w1m3m1y dateFilter,
+			int backgroundColor, int fillColor) {
+		
+    	updateGraphWithTheseResults(data, dateFilter);
+    	
+        multipleSeriesRenderer.setBackgroundColor(backgroundColor); // This is the graph BACKGROUND color
+        multipleSeriesRenderer.setMarginsColor(backgroundColor); // This is the color that SURROUNDS the graph
+        
+        // TODO - use the fill colour etc.!
+	}
+		
 	
 	DATERANGE_1w1m3m1y mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
 	
