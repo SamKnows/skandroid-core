@@ -117,7 +117,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_margin_half_negative"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -133,9 +132,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_average_download" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -144,6 +144,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_Mbps"
                         android:textColor="@color/white"
@@ -171,9 +172,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_best_download" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -182,6 +184,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_Mbps"
                         android:textColor="@color/white"
@@ -238,7 +241,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_margin_half_negative"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -254,9 +256,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_average_upload"/>
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -265,6 +268,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_Mbps"
                         android:textColor="@color/white"
@@ -292,9 +296,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_best_upload" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -303,6 +308,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_Mbps"
                         android:textColor="@color/white"
@@ -351,7 +357,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_margin_half_negative"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -367,9 +372,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_average_latency" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -378,6 +384,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_ms"
                         android:textColor="@color/white"
@@ -405,9 +412,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_best_latency" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -416,6 +424,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_ms"
                         android:textColor="@color/white"
@@ -464,7 +473,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_margin_half_negative"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -480,9 +488,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_average_packet_loss" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -491,6 +500,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_percent"
                         android:textColor="@color/white"
@@ -518,9 +528,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_best_packet_loss" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -529,6 +540,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_percent"
                         android:textColor="@color/white"
@@ -577,7 +589,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_margin_half_negative"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -593,9 +604,10 @@
                         android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_average_jitter" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
@@ -604,6 +616,7 @@
                         android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_ms"
                         android:textColor="@color/white"
@@ -627,19 +640,23 @@
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_result_best_jitter"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="80"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:text="@string/nineninenine"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_tera"
+                        android:textSize="@dimen/text_size_mega"
                         tools:text="@string/tools_text_value_best_jitter" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_label_ms_4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="20"
                         android:layout_height="match_parent"
                         android:alpha="0.8"
+                        android:gravity="left|center_vertical"
                         android:paddingTop="@dimen/activity_margin_half"
                         android:text="@string/units_ms"
                         android:textColor="@color/white"
