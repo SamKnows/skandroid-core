@@ -1,6 +1,7 @@
 package com.samknows.ui2.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,12 +28,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,6 +47,8 @@ import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.FontFitTextView;
+import com.samknows.measurement.activity.components.SKGraphForResults;
+import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_1w1m3m1y;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.SummaryResult;
@@ -66,7 +71,6 @@ public class FragmentSummary extends Fragment
 	private final static String C_TAG_FRAGMENT_SUMMARY = "Fragment Summary";		// Tag for this fragment
 	
 	// *** VARIABLES *** //
-	private int chartLayoutWidth;			// Width of the charts layout in pixels
 	private int summary_section_height, header_section_height;
 	// The initial position of each or the rows
 	private float headerPositionX, headerPositionY, initialPositionUploadX, initialPositionUploadY, initialPositionLatencyX, initialPositionLatencyY, initialPositionLossX, initialPositionLossY,
@@ -75,7 +79,6 @@ public class FragmentSummary extends Fragment
 	private long startTime;
 
 	private ArrayList<SummaryResult> aList_SummaryResults = new ArrayList<SummaryResult>();	// List of the summary results
-	private ArrayList<TestResult> aList_TestResult = new ArrayList<TestResult>();			// List of the results
 	
 	// UI elements
 	private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin, typeface_Roboto_Regular;
@@ -95,7 +98,10 @@ public class FragmentSummary extends Fragment
 							layout_ll_summary_result_best_download, layout_ll_summary_result_average_upload, layout_ll_summary_result_best_upload, layout_ll_summary_result_average_latency, layout_ll_summary_result_best_latency, layout_ll_summary_result_average_packet_loss,
 								layout_ll_summary_result_best_packet_loss, layout_ll_summary_result_average_jitter, layout_ll_summary_result_best_jitter;
 	private LinearLayout layout_ll_chart, layout_ll_header, layout_ll_summary_main;
-	private ChartsPainter chartsPainter;
+	
+	// Container for the graph
+	private WebView graphContainer;
+	
 	private MenuItem menu_item_seletcNetworkType, menu_Item_Select_Time_Period, menu_Item_Refresh_Spinner;
 	private boolean asyncTask_RetrieveData_Running = false;		// Whether or not the asynchronous task is running
 	private boolean asyncTask_PrepareChart_Running = false;		// Whether or not the asynchronous task is running
@@ -247,12 +253,12 @@ public class FragmentSummary extends Fragment
 					tv_summary_result_best_jitter.setText((R.string.slash));
 				}
 			});
+		
+			// TODO - this could fail with random SQL error when run in an async task!
+    		ExtractSummaryValues ();
 		}
-
-		// Override this method to perform a computation on a background thread
-		@Override
-		protected Void doInBackground(Void... params)
-		{
+		
+		private void ExtractSummaryValues () {
 			// Get the summary values from the data base
 			aList_SummaryResults = dbHelper.getSummaryValues(getNetworkTypeSelection(), calculateTimePeriodStart(getTimePeriodSelection()));
 			
@@ -354,6 +360,12 @@ public class FragmentSummary extends Fragment
 						break;
 				}
 			}
+		}
+
+		// Override this method to perform a computation on a background thread
+		@Override
+		protected Void doInBackground(Void... params)
+		{
 			
 			return null;
 		}
@@ -394,44 +406,16 @@ public class FragmentSummary extends Fragment
 				// Make visible the progress spinner
 				menu_Item_Refresh_Spinner.setVisible(true);				
 			}
+		
+			// TODO - this CANNOT be run in the background - achartengine simply doesn't allow for it!
+			// TODO - 0 is the DOWNLOAD etc. test id!
+			prepareChartEnvironment(0, getTimePeriodSelection());
 		}
 		// Override this method to perform a computation on a background thread
 		@Override
 		protected Void doInBackground(Void... params)
 		{
-			// Clear the rest result list before fill it
-			aList_TestResult.clear();
 			
-			// Switch depending on the network type currently selected
-			switch (getNetworkTypeSelection())
-			{
-				// Network type: All
-				case 0:
-					SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-					fillTestList();
-					
-					SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-					fillTestList();
-					break;
-				// Network type: WiFi
-				case 1:				
-					SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-					fillTestList();
-					break;
-				// Network type: Mobile
-				case 2:
-					SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-					fillTestList();
-					break;
-				// Network type: All (Default case)
-				default:
-					SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-					fillTestList();
-					
-					SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-					fillTestList();
-					break;
-			}
 			return null;
 		}
 		
@@ -797,7 +781,9 @@ public class FragmentSummary extends Fragment
 		// Chart elements
 		layout_ll_chart = (LinearLayout)pView.findViewById(R.id.fragment_summary_ll_chart);
 		
-		chartsPainter = (ChartsPainter)pView.findViewById(R.id.fragment_summary_chartPainter);
+		graphsSetup(pView);
+	
+		// Hide the chart layout for now!
 		layout_ll_chart.setAlpha(0.0f);
 		
 		// Get the width of the screen in pixels
@@ -903,9 +889,6 @@ public class FragmentSummary extends Fragment
 			@Override
 			public void onGlobalLayout()
 			{
-				// The available amount of pixels is equal to the chart layout width minus the left and right insets
-				chartLayoutWidth  = layout_ll_chart.getMeasuredWidth() - chartsPainter.C_X_INSET_LEFT - chartsPainter.C_X_INSET_RIGHT;
-				
 				layout_ll_chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}
 		});
@@ -1216,142 +1199,130 @@ public class FragmentSummary extends Fragment
 			}
 		});
 	}
+	
+	private void graphsSetup(View pView) {
 
-	/**
-	 * Retrieve the data from the data base. Fill the array with test results
-	 */
-	private void fillTestList()
-	{
-		FormattedValues formattedValues = new FormattedValues();
-		
-		startTime = calculateTimePeriodStart(getTimePeriodSelection());
-		
-		try
-		{
-			// Iterate over the archived results
-			for (int i = 0; i < dbHelper.getArchiveDataSummary().getInt("counter"); i++)
-			{
-				Long dTime = Long.valueOf(dbHelper.getArchiveData(i).getString("dtime"))/1000;
-				
-				if (startTime > dTime)
-				{
-					continue;					
-				}
-				
-				TestResult testResult = new TestResult();		// Create and initialise the test result object
-				
-				testResult.setDtime(Long.valueOf(dbHelper.getArchiveData(i).getString("dtime")));		// Set the time of the test
-				
-				// If we are on WiFi network type mode
-				if (SKApplication.getNetworkTypeResults() == eNetworkTypeResults.eNetworkTypeResults_WiFi)
-				{					
-					testResult.setNetworkType(0);	// Set the connectivity type of the test to WiFi
-				}
-				// If we are on Mobile network type mode
-				else
-				{					
-					testResult.setNetworkType(1);	// Set the connectivity type of the test to Mobile
-				}
+		//Trace.beginSection("graphsSetup");
 
-				JSONArray activeMetricResults = dbHelper.getArchiveData(i).getJSONArray("activemetrics");		// Stores the active metrics for each test
-
-				// Iterate the active metrics and save them in the test result object
-				for (int itemcount = 0; itemcount < activeMetricResults.length(); itemcount++)
-				{
-					JSONObject activeMetricsEntry = activeMetricResults.getJSONObject(itemcount);				// Stores the active metrics for a particular entry
-					
-					String testNumber = activeMetricsEntry.getString("test");			// Identifies the kind of test
-					String success = activeMetricsEntry.getString("success");			// Whether the test was successful or not
-					String testValue = activeMetricsEntry.getString("hrresult");		// Value measured by the test
-					
-					// If the test failed
-					if (success.equals("0"))
-					{
-						testValue = getString(R.string.failed);
-					}
-					// If the test is a download test
-					if (testNumber.equals(String.valueOf(StorageTestResult.DOWNLOAD_TEST_ID)))
-					{
-						// If the test didn't fail
-						if (!testValue.equalsIgnoreCase("failed"))
-						{
-							testResult.setDownloadResult(formattedValues.getFormattedSpeedValue(testValue));
-						}
-						// If the test failed
-						else
-						{
-							testResult.setDownloadResult(-1);														
-						}							
-					}
-					
-					// If the test is an upload test
-					if (testNumber.equals(String.valueOf(StorageTestResult.UPLOAD_TEST_ID)))
-					{	
-						// If the tests didn't fail
-						if (!testValue.equalsIgnoreCase("failed"))
-						{
-							testResult.setUploadResult(formattedValues.getFormattedSpeedValue(testValue));
-						}
-						// If the test failed
-						else
-						{
-							testResult.setUploadResult(-1);
-						}							
-					}
-					
-					// If the test is a latency test
-					if (testNumber.equals(String.valueOf(StorageTestResult.LATENCY_TEST_ID)))
-					{
-						// If the tests didn't fail
-						if (!testValue.equalsIgnoreCase("failed"))
-						{
-							testResult.setLatencyResult(formattedValues.getFormattedLatencyValue(testValue));
-						}
-						// If the test failed
-						else
-						{
-							testResult.setLatencyResult(-1);
-						}						
-					}
-					
-					// If the test is a packet loss test
-					if (testNumber.equals(String.valueOf(StorageTestResult.PACKETLOSS_TEST_ID)))
-					{	
-						// If the tests didn't fail
-						if (!testValue.equalsIgnoreCase("failed"))
-						{
-							testResult.setPacketLossResult(formattedValues.getFormattedPacketLossValue(testValue));
-						}
-						// If the test failed
-						else
-						{
-							testResult.setPacketLossResult(-1);
-						}
-					}
-					
-					// If the test is a jitter test
-					if (testNumber.equals(String.valueOf(StorageTestResult.JITTER_TEST_ID)))
-					{	
-						// If the tests didn't fail
-						if (!testValue.equalsIgnoreCase("failed"))
-						{
-							testResult.setJitterResult(formattedValues.getFormattedJitter(testValue));
-						}
-						// If the test failed
-						else
-						{
-							testResult.setJitterResult(-1);
-						}
-					}
-				}
-				
-				aList_TestResult.add(testResult);		// Add the test result to the list of tests
+		graphContainer =  (WebView)pView.findViewById(R.id.download_graph);
+		// http://stackoverflow.com/questions/2527899/disable-scrolling-in-webview
+		// disable scroll on touch
+		graphContainer.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return (event.getAction() == MotionEvent.ACTION_MOVE);
 			}
-		} 
-		catch (JSONException e)
+		});
+
+		Context context = SKApplication.getAppInstance().getApplicationContext();
+		
+		graphHandlerDownload = new SKGraphForResults(context, graphContainer, new TextView(context), "download");
+	}
+	
+	private	SKGraphForResults graphHandlerDownload;
+	
+	private void setGraphDataForColumnIdAndHideIfNoResultsFound(int PColumnId) {
+
+		// Switch depending on the network type currently selected - this affects the underlying query.
+		switch (getNetworkTypeSelection())
 		{
-			Log.d(C_TAG_FRAGMENT_SUMMARY, "There was a problem retrieven the archived results " + e.getMessage()) ;
-		}				
+		case 0: // Network type: All
+			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Any);
+			break;
+		case 1:				// Network type: WiFi
+			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+			break;
+		case 2: // Network type: Mobile
+			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+			break;
+		default:
+			break;
+		}
+
+		JSONObject data = null;
+		//try {
+		data = fetchGraphDataForColumnId(PColumnId);
+		//} catch (JSONException e1) {
+		//}
+
+		graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange);
+	}
+	
+
+	private JSONObject fetchGraphDataForColumnId(int PColumnId) {
+		Calendar fromCal = Calendar.getInstance();
+		
+		lookBackwardInTime(fromCal);
+		
+		long startTime = fromCal.getTimeInMillis();
+
+		Calendar upToCal = Calendar.getInstance();
+		long upToTime = upToCal.getTimeInMillis();
+		
+		if (!(startTime < upToTime)) {
+			Log.e(this.getClass().toString(), "getDataForColumnId - startTime/upToTime out of range mis-matched");
+		}
+		
+		JSONObject data = dbHelper.fetchGraphData(PColumnId, startTime, upToTime, mDateRange);	
+		return data;
+	}
+	
+	private DATERANGE_1w1m3m1y mDateRange = DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
+	
+	private DATERANGE_1w1m3m1y convertDataPeriodToDateRange(int pDataPeriod)
+	{
+		switch (pDataPeriod)
+		{
+			// 1 Day
+			case 0:
+				return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_DAY;
+			// 1 Week
+			case 1:
+				return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
+			// 1 Month
+			case 2:
+				return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_MONTH;
+			// 3 Months
+			case 3:
+				return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_THREE_MONTHS;
+			// 1 Year
+			case 4:
+				return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_YEAR;
+			// Default: 1 Week
+			default:
+				SKLogger.sAssert(getClass(),  false);
+				return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
+		}
+	}
+
+	
+	private void lookBackwardInTime(Calendar fromCal) {
+		
+		// Convert the "new app" time period, into a usable enumerated value.
+		int dataPeriod = getTimePeriodSelection();
+    	mDateRange = convertDataPeriodToDateRange(dataPeriod);
+    			
+		switch (mDateRange) {
+		case DATERANGE_1w1m3m1y_ONE_DAY:
+    		fromCal.add(Calendar.DAY_OF_YEAR, -1);
+    		break;
+		case DATERANGE_1w1m3m1y_ONE_WEEK:
+    		fromCal.add(Calendar.WEEK_OF_YEAR, -1);
+    		break;
+		case DATERANGE_1w1m3m1y_ONE_MONTH:
+    		fromCal.add(Calendar.WEEK_OF_YEAR, -4);
+    		break;
+		case DATERANGE_1w1m3m1y_THREE_MONTHS:
+    		fromCal.add(Calendar.WEEK_OF_YEAR, -12);
+    		break;
+		case DATERANGE_1w1m3m1y_ONE_YEAR:
+    		fromCal.add(Calendar.WEEK_OF_YEAR, -52);
+    		break;
+    	default:
+			SKLogger.sAssert(getClass(),  false);
+    		fromCal.add(Calendar.WEEK_OF_YEAR, -1);
+    		break;
+		}
 	}
 		
 	/**
@@ -1462,199 +1433,35 @@ public class FragmentSummary extends Fragment
 	private void prepareChartEnvironment(int pChartType, int pDataPeriod)
 	{
 		// Prepare data for the download chart
-		processChartData(pDataPeriod,pChartType);
-		
-		// Set the data period type
-		chartsPainter.setDataPeriodType(pDataPeriod);
-		
-		// Prepare chart layout
-		this.chartsPainter.setUpXAxis(pDataPeriod);
-		this.chartsPainter.setUpYAxis();
-
-		// Set the chart type to download
-		chartsPainter.setChartTitle(pChartType);
-	}
-	
-	/**
-	 * Prepare the data for a selected data period and a test type
-	 * 
-	 * @param pDataPeriod
-	 * @param pTestType
-	 */
-	private void processChartData(int pDataPeriod, int pTestType)
-	{
-		double pixelLengthInSeconds;		// How many seconds represents one pixel		
-		switch (pDataPeriod)
+		int chartType = StorageTestResult.DOWNLOAD_TEST_ID;
+		switch (pChartType)
 		{
-			// 1 Day
-			case 0:
-				pixelLengthInSeconds = 3600 * 24 / (double)chartLayoutWidth ;				
-				break;
-			// 1 Week
-			case 1:
-				pixelLengthInSeconds = 3600 * 24 * 7 / (double)chartLayoutWidth;
-				break;
-			// 1 Month
-			case 2:
-				pixelLengthInSeconds = 3600 * 24 * 31 / (double)chartLayoutWidth;
-				break;
-			// 3 Months
-			case 3:
-				pixelLengthInSeconds = 3600 * 24 * 31 * 3 / (double)chartLayoutWidth;
-				break;
-			// 1 Year
-			case 4:
-				pixelLengthInSeconds = 3600 * 24 * 365 / (double)chartLayoutWidth;
-				break;
-			// Default: 1 Week
-			default:
-				pixelLengthInSeconds = 3600 * 24 * 7 / (double)chartLayoutWidth;
-				break;
-		}
-		
-		// Initialise the list of points, as many points as pixels are available to represents them
-		chartsPainter.createAndInitialiseArrayOfValues(chartLayoutWidth);
-
-		// Represents each of the points of the x axis.
-		PointElement pointElement;
-		
-		int testInTimePosition;		// Number of seconds has past since the beginning of the period until the test was executed
-		
-		// long startPeriod = calculateTimePeriodStart(pDataPeriod);	// Time in seconds where the period started
-		
-		switch (pTestType)
-		{
+		case 0:
 			// Case download
-			case 0:
-				for (TestResult testResult : aList_TestResult)
-				{					
-					// Initialise the point element
-					pointElement = new PointElement();
-	
-					// Calculate the gap in time between the test date in seconds until the start of the period in seconds		
-					testInTimePosition = (int) (testResult.getDtime()/1000 - startTime);
-					
-					if (testResult.getDownloadResult() > 0)	// If the test was executed
-					{
-						pointElement = this.chartsPainter.pointElementsList.get((int)(Math.floor(testInTimePosition/pixelLengthInSeconds))-1);
-						pointElement.setSum(pointElement.getSum() + testResult.getDownloadResult());
-						pointElement.setNumberOfElements(pointElement.getNumberOfElements() + 1);
-						pointElement.setActive(true);
-					}										
-				}
-				break;
-
+    		chartType = StorageTestResult.DOWNLOAD_TEST_ID;
+    		break;
+		case 1:
 			// Case upload
-			case 1:
-				for (TestResult testResult : aList_TestResult)
-				{
-					// Calculate the gap in time between the test date in seconds until the start of the period in seconds
-					testInTimePosition = (int) (testResult.getDtime()/1000 - startTime);
-
-					if (testResult.getUploadResult() > 0)	// If the test was executed
-					{
-						pointElement = this.chartsPainter.pointElementsList.get((int)(Math.floor(testInTimePosition/pixelLengthInSeconds))-1);
-						pointElement.setSum(pointElement.getSum() + testResult.getUploadResult());
-						pointElement.setNumberOfElements(pointElement.getNumberOfElements() + 1);
-						pointElement.setActive(true);
-					}
-				}
-				break;
-
+    		chartType = StorageTestResult.UPLOAD_TEST_ID;
+    		break;
+		case 2:
 			// Case latency
-			case 2:
-				for (TestResult testResult : aList_TestResult)
-				{					
-					// Calculate the gap in time between the test date in seconds until the start of the period in seconds		
-					testInTimePosition = (int) (testResult.getDtime()/1000 - startTime);
-					
-					if (testResult.getLatencyResult() != 0 && testResult.getLatencyResult() != -1)
-					{					
-						if ((testResult.getLatencyResult() > 0));	// If the test was executed)
-						{
-							pointElement = this.chartsPainter.pointElementsList.get((int)(Math.floor(testInTimePosition/pixelLengthInSeconds))-1);
-							pointElement.setSum(pointElement.getSum() + testResult.getLatencyResult());
-							pointElement.setNumberOfElements(pointElement.getNumberOfElements() + 1);
-							pointElement.setActive(true);						
-						}
-					}			
-				}
-				break;
-
+    		chartType = StorageTestResult.LATENCY_TEST_ID;
+    		break;
+		case 3:
 			// Case packet loss
-			case 3:
-				for (TestResult testResult : aList_TestResult)
-				{
-					// Calculate the gap in time between the test date in seconds until the start of the period in seconds		
-					testInTimePosition = (int) (testResult.getDtime()/1000 - startTime);
-					
-					if (testResult.getPacketLossResult() != -1)
-					{
-						if (testResult.getPacketLossResult() >= 0)	// If the test was executed
-						{
-							pointElement = this.chartsPainter.pointElementsList.get((int)(Math.floor(testInTimePosition/pixelLengthInSeconds))-1);
-							pointElement.setSum(pointElement.getSum() + testResult.getPacketLossResult());
-							pointElement.setNumberOfElements(pointElement.getNumberOfElements() + 1);
-							pointElement.setActive(true);			
-						}						
-					}
-				}
-				break;
-				
-				// Case jitter
-				case 4:
-					for (TestResult testResult : aList_TestResult)
-					{
-						// Calculate the gap in time between the test date in seconds until the start of the period in seconds		
-						testInTimePosition = (int) (testResult.getDtime()/1000 - startTime);
-						
-						if (testResult.getJitterResult() != -1)
-						{
-							if (testResult.getJitterResult() >= 0)	// If the test was executed
-							{
-								pointElement = this.chartsPainter.pointElementsList.get((int)(Math.floor(testInTimePosition/pixelLengthInSeconds))-1);
-								pointElement.setSum(pointElement.getSum() + testResult.getJitterResult());
-								pointElement.setNumberOfElements(pointElement.getNumberOfElements() + 1);
-								pointElement.setActive(true);												
-							}						
-						}
-					}
-					break;
+    		chartType = StorageTestResult.PACKETLOSS_TEST_ID;
+    		break;
+		case 4:
+			// Case jitter
+    		chartType = StorageTestResult.JITTER_TEST_ID;
+    		break;
+		default:
+			SKLogger.sAssert(getClass(),  false);
 
-			// Case default
-			default:
-				break;
 		}
 		
-		// Reset the value of the yMax
-		this.chartsPainter.yAxisMaxValue = 0;
-		
-		for (PointElement p : this.chartsPainter.pointElementsList)
-		{
-			//Recalculating the Y MAX
-			if (p.getSum() / p.getNumberOfElements() > this.chartsPainter.yAxisMaxValue)
-			{
-				this.chartsPainter.yAxisMaxValue = p.getSum() / p.getNumberOfElements();									
-			}			
-		}		
-		
-		// If the first point is not active, set it to active with value 0 to force the graph line starts from here
-		if (!this.chartsPainter.pointElementsList.get(0).isActive())
-		{
-			pointElement = this.chartsPainter.pointElementsList.get(0);
-			pointElement.setSum(0);
-			pointElement.setNumberOfElements(1);
-			pointElement.setActive(true);
-		}
-		
-		// If the last point is not active, set it to active with value 0 to force the graph line finishing here
-		if (!this.chartsPainter.pointElementsList.get(this.chartsPainter.pointElementsList.size() - 1).isActive())
-		{
-			pointElement = this.chartsPainter.pointElementsList.get(this.chartsPainter.pointElementsList.size() - 1);
-			pointElement.setSum(0);
-			pointElement.setNumberOfElements(1);
-			pointElement.setActive(true);
-		}
+		setGraphDataForColumnIdAndHideIfNoResultsFound(chartType);
 	}
 	
 	/**

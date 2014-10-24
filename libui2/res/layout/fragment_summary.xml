@@ -17,11 +17,13 @@
         tools:layout_marginRight="@dimen/activity_margin"
         tools:layout_marginTop="160dp">
 
-        <com.samknows.ui2.activity.ChartsPainter
-            android:id="@+id/fragment_summary_chartPainter"
+        <WebView
+            android:id="@+id/download_graph"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.samknows.ui2.activity.ChartsPainter>
+            android:layout_height="match_parent"
+            style="@style/graphs"
+            android:visibility="visible"
+            />
 
     </LinearLayout>
 
