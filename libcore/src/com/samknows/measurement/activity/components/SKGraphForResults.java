@@ -76,11 +76,13 @@ public class SKGraphForResults {
 	
 	XYMultipleSeriesRenderer multipleSeriesRenderer = null;
 	
+    private int mFillColorEnd = Color.argb(0xff,  0x6d,  0xad,  0xce);
+    
 	private void createChartRendererSeriesAndView(Context context) {
 		
         // The color values are from the iOS version...
-        int areaColor = Color.argb(0xff,  0xb8,  0xd3,  0xe1);
-        int areaEndColor = Color.argb(0xff,  0x6d,  0xad,  0xce);
+        //int areaTopColor = Color.argb(0xff,  0xb8,  0xd3,  0xe1);
+        int areaEndColor = mFillColorEnd;
         int lineColor = Color.argb(0xff,  0x2b,  0x6d,  0xa3);
         int gridLineColor = Color.argb((int)(255.0*8),  (int)(255*0.9),  (int)(255.0*0.9),  (int)(255.0*0.9));
 		
@@ -155,6 +157,10 @@ public class SKGraphForResults {
         	FillOutsideLine fillOutsideLine = new FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BELOW);
         	fillOutsideLine.setColor(areaEndColor);
         	seriesRenderer.addFillOutsideLine(fillOutsideLine);
+        	// TODO - might be possible to use a gradient at some point?
+        	//seriesRenderer.setGradientEnabled(true);
+        	//seriesRenderer.setGradientStart(0, areaTopColor);
+        	//seriesRenderer.setGradientStop(0,  areaEndColor);
         	
         	// Show points, filled!
         	seriesRenderer.setPointStyle(PointStyle.CIRCLE);
@@ -886,12 +892,15 @@ public class SKGraphForResults {
 		updateGraphAndCaption(mContext, containerViewCroup);
 	}
 
-	
 	public void updateGraphWithTheseResults(JSONObject data, DATERANGE_1w1m3m1y dateFilter,
 			int backgroundColor, int fillColor) {
-		
+	
+		// Set the fill colour BEFORE calling update graph...
+        mFillColorEnd = fillColor;
+    
     	updateGraphWithTheseResults(data, dateFilter);
     	
+		// Now that we have the graph, we can update the colours associated with it!
         multipleSeriesRenderer.setBackgroundColor(backgroundColor); // This is the graph BACKGROUND color
         multipleSeriesRenderer.setMarginsColor(backgroundColor); // This is the color that SURROUNDS the graph
         

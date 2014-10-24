@@ -1219,6 +1219,7 @@ public class FragmentSummary extends Fragment
 		
 		graphHandlerDownload = new SKGraphForResults(context, graphContainer, new TextView(context), "download");
 		//graphContainer.setBackgroundColor(Color.RED); // TODO - remove me, set transparent?
+		//graphContainer.setBackgroundColor(Color.TRANSPARENT); // TODO - remove me, set transparent?
 	}
 	
 	private	SKGraphForResults graphHandlerDownload;
@@ -1247,7 +1248,10 @@ public class FragmentSummary extends Fragment
 		//} catch (JSONException e1) {
 		//}
 
-		graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange, sGetGraphColourBackground(), sGetGraphColourAverageFill());
+		// When using achartengine, the background CANNOT be TRANSPARENT.
+		// Otherwise, the fill area *below the y axis* will be filled with the fill colour - which is ugly!
+		graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange, sGetGraphColourBackground(), sGetGraphColourTopAreaFill());
+		//graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange);
 	}
 	
 	public static int sGetSamKnowsBlue() {
@@ -1256,13 +1260,13 @@ public class FragmentSummary extends Fragment
 	}	
 	
 	public static int sGetGraphColourBackground() {
-		//return sGetSamKnowsBlue();
-		return Color.TRANSPARENT;
+		return sGetSamKnowsBlue();
+		//return Color.TRANSPARENT;
 	}
 	
 	public static int sGetGraphColourAverageFill() {
-    	//return Color.rgb(0x92, 0xc0, 0xd7);
-    	return Color.TRANSPARENT;
+    	return Color.rgb(0x92, 0xc0, 0xd7);
+    	//return Color.TRANSPARENT;
 	}
 
 	public static int sGetGraphColourTopAreaFill() {
