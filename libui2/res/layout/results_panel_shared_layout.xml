@@ -9,7 +9,7 @@
     android:baselineAligned="false"
     android:gravity="center"
     android:orientation="horizontal"
-    tools:background="@drawable/background_gradient_radial_blue_vivid"
+    android:background="@drawable/background_gradient_nonmain"
     tools:visibility="visible">
 
     <LinearLayout
@@ -19,7 +19,7 @@
         android:layout_marginLeft="@dimen/spacing_small"
         android:layout_marginRight="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_micro"
-        android:background="@drawable/selector_summary_background_black_alpha"
+        android:background="@drawable/selector_summary_background_alpha"
         android:baselineAligned="false"
         android:gravity="center_vertical">
 
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:text="@string/download"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:text="@string/upload"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -160,7 +160,7 @@
                     android:layout_weight="1.0"
                     android:gravity="top|center_horizontal"
                     android:text="@string/latency"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
@@ -170,7 +170,7 @@
                     android:layout_weight="1.0"
                     android:gravity="top|center_horizontal"
                     android:text="@string/loss"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
@@ -180,7 +180,7 @@
                     android:layout_weight="1.0"
                     android:gravity="top|center_horizontal"
                     android:text="@string/jitter"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -234,9 +234,9 @@
                     android:layout_weight="80"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small"
-                    android:text="4/3/12 9:35"/>
+                    android:text="@string/dummydate"/>
 
                 <LinearLayout
                     android:layout_width="0dp"

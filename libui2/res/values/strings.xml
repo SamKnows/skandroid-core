@@ -36,6 +36,7 @@
     <string name="jitter">Jitter</string>
     <string name="slash">-</string>
     <string name="nineninenine">999.99</string>
+    <string name="dummydate">4/3/12 9:35</string>
     <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
 
     <!-- NETWORK TYPES -->

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/activity_margin_double"
     android:layout_marginTop="@dimen/activity_margin_double"
-    tools:background="@drawable/background_gradient_radial_blue_vivid">
+    android:background="@drawable/background_gradient_nonmain">
 
     <LinearLayout
         android:layout_width="match_parent"

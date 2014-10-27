@@ -10,7 +10,7 @@
         android:layout_marginLeft="@dimen/activity_margin_half"
         android:layout_marginRight="@dimen/activity_margin_half"
         android:layout_marginTop="136dp"
-        android:background="@drawable/background_black_alpha"
+        android:background="@drawable/background_alpha"
         android:orientation="vertical"
         tools:visibility="visible" >
 
@@ -21,7 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_black_alpha"
+                android:background="@drawable/background_alpha"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_margin"
                 android:paddingRight="@dimen/activity_margin">

@@ -74,7 +74,7 @@ public class ActivitySelectNetworkType extends Activity
 			// Case we this activity was called from Archived Results fragment
 			case 0:
 				// Set the background of the activity layout
-				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_radial_blue_vivid_with_border);
+				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_nonmain_with_border);
 				
 				// Recover the last network type selected
 				switch (getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).getInt("networkTypeArchivedTests", 0))
@@ -99,7 +99,7 @@ public class ActivitySelectNetworkType extends Activity
 			// Case this activity was called from Summary fragment
 			case 2:
 				// Set the background of the activity layout
-				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_radial_blue_light_with_border);
+				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_main_with_border);
 				
 				// Recover the last network type selected
 				switch (getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).getInt("networkTypeSummary", 0))

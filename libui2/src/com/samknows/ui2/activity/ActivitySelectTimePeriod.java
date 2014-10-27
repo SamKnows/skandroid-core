@@ -151,13 +151,13 @@ public class ActivitySelectTimePeriod extends Activity
 			// Case the fragment we came from is Archived Results fragment
 			case 0:
 				// Set the background of the activity layout
-				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_radial_blue_vivid_with_border);				
+				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_nonmain_with_border);				
 				break;
 			
 			// Case the fragment we came from is Summary fragment
 			case 2:
 				// Set the background of the activity layout
-				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_radial_blue_light_with_border);
+				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_main_with_border);
 				
 				// Recover the last network type selected
 				switch (getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).getInt("timePeriodSummary", 1))

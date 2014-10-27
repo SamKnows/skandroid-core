@@ -6,7 +6,7 @@
     android:id="@+id/fragment_archived_results_rl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/background_gradient_radial_blue_vivid">
+    android:background="@drawable/background_gradient_nonmain">
 
     <LinearLayout
         android:id="@+id/fragment_archived_results_dummy_row"
@@ -16,7 +16,7 @@
         android:layout_marginLeft="@dimen/spacing_small"
         android:layout_marginRight="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        android:background="@drawable/selector_summary_background_black_alpha"
+        android:background="@drawable/selector_summary_background_alpha"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/upload"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -135,7 +135,7 @@
                     android:layout_weight="1.0"
                     android:gravity="center"
                     android:text="@string/latency"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
                 <TextView
@@ -144,7 +144,7 @@
                     android:layout_weight="1.0"
                     android:gravity="center"
                     android:text="@string/loss"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
                 <TextView
@@ -153,7 +153,7 @@
                     android:layout_weight="1.0"
                     android:gravity="center"
                     android:text="@string/jitter"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/skblue"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -202,12 +202,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/visual_rhythm"
         android:layout_alignParentBottom="true"
-        android:background="@color/orange"
+        style="@style/style_warning_panel"
         android:clickable="true"
         android:gravity="center"
         android:padding="@dimen/spacing_small"
         android:text="@string/no_archived_results_yet"
-        android:textColor="@color/black"
         android:textSize="@dimen/text_size_medium"
         android:visibility="gone"
         tools:visibility="visible">
@@ -221,7 +220,7 @@
         android:layout_marginLeft="@dimen/spacing_small"
         android:layout_marginRight="@dimen/spacing_small"
         android:layout_marginTop="136dp"
-        android:background="@drawable/background_black_alpha"
+        android:background="@drawable/background_alpha"
         android:orientation="vertical"
         tools:visibility="visible">
 

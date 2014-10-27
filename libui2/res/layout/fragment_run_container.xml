@@ -7,7 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    tools:background="@drawable/background_gradient_radial_blue_samknows" >
+    android:background="@drawable/background_gradient_main" >
 
     <include layout="@layout/run_passive_metrics_panel"/>
 
@@ -37,7 +37,7 @@
             android:background="@color/orange"
             android:gravity="center"
             android:padding="@dimen/activity_margin_half"
-            android:textColor="@color/black"
+            android:textColor="@color/skblack"
             android:textSize="@dimen/text_size_medium"
             android:visibility="gone"
             tools:text="Data cap exceeded"
@@ -48,7 +48,7 @@
             android:id="@+id/new_connectivity_warning"
             android:layout_width="match_parent"
             android:layout_height="@dimen/visual_rhythm"
-            android:background="@color/red"
+            android:background="@color/skred"
             android:gravity="center"
             android:padding="@dimen/activity_margin_half"
             android:textColor="@color/white_dark"

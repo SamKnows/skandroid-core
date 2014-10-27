@@ -26,7 +26,7 @@
 
                 <gradient
                     android:startColor="@color/yellow"
-                    android:endColor="@color/green"/>
+                    android:endColor="@color/skgreen"/>
             </shape>
         </clip>
     </item>

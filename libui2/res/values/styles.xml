@@ -26,7 +26,7 @@
         android:src="@drawable/clip_shadow_small" />
         -->
     </style>
-
+    
     <style name="background">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
@@ -183,4 +183,17 @@
         <item name="android:src">@drawable/ic_overflow_white_new</item>
     </style>
 	            
+    <style name="style_fragment_main">
+        <item name="android:background">@drawable/background_gradient_main</item>
+    </style>
+    
+    <style name="style_fragment_main_with_border">
+        <item name="android:background">@drawable/background_gradient_main_with_border</item>
+    </style>
+    
+    <style name="style_warning_panel">
+        <item name="android:background">@color/orange</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>
