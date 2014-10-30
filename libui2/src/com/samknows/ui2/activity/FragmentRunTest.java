@@ -103,11 +103,11 @@ public class FragmentRunTest extends Fragment
 	private LinearLayout layout_ll_Speed_Test_Layout, layout_ll_Main_Progress_Bar;
 	private LinearLayout layout_ll_passive_metrics, layout_ll_results, layout_ll_passive_metrics_divider_sim_and_network_operators, layout_ll_passive_metrics_divider_signal, layout_ll_passive_metrics_divider_location;
 	// Text views showing warnings
-	private TextView tv_Data_Cap_Warning, tv_Connectivity_Warning, tv_Closest_Server;	
+	private TextView tv_Data_Cap_Warning, tv_Connectivity_Warning, mUnitText;	
 	// Text views showing the test result labels
 	private TextView tv_Label_Download, tv_Label_Upload, tv_Label_Mbps_1, tv_Label_Mbps_2;
 	private FontFitTextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
-	private TextView tv_Contextual_Information;
+	private TextView tv_TopTextNetworkType;
 	// Text views showing the test result information
 	private FontFitTextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
 	private TextView tv_Result_Date;
@@ -239,7 +239,7 @@ public class FragmentRunTest extends Fragment
     				{
     					nameOfTheServer = hostUrl;					
     				}				
-    				changeFadingTextViewValue(tv_Closest_Server, nameOfTheServer, getResources().getColor(R.color.orange));		// Update the current result closest target
+    				changeFadingTextViewValue(mUnitText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));		// Update the current result closest target
     			}				
 			}    	    			
     	}    	
@@ -532,7 +532,8 @@ public class FragmentRunTest extends Fragment
 		tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
 		tv_Result_Date = (TextView)pView.findViewById(R.id.archiveResultsListItemDate);
 		
-		tv_Contextual_Information = (TextView)pView.findViewById(R.id.fragment_speed_test_contextual_information);
+		tv_TopTextNetworkType = (TextView)pView.findViewById(R.id.top_text_network_type_label);
+		tv_TopTextNetworkType.setText(""); // Clear this immediately, until we know what the network type is!
 		
 		iv_Result_NetworkType = (ImageView)pView.findViewById(R.id.archiveResultsListItemNetworkType);		
 		
@@ -547,9 +548,9 @@ public class FragmentRunTest extends Fragment
         layout_layout_Shining_Labels = (RelativeLayout)pView.findViewById(R.id.status_label_layout_1);   
         
         // Label showing the closest server
-        tv_Closest_Server = (TextView)pView.findViewById(R.id.fragment_speed_test_closest_server);
-        tv_Closest_Server.setTextColor(getResources().getColor(R.color.grey_light));
-        tv_Closest_Server.setText("");
+        mUnitText = (TextView)pView.findViewById(R.id.unit_text_label);
+        mUnitText.setTextColor(getResources().getColor(R.color.MainColourDialUnitText));
+        mUnitText.setText("");
         
         // Text views in the shining labels
         tv_Status_Label_1 = (TextView)pView.findViewById(R.id.status_label_1);
@@ -563,7 +564,7 @@ public class FragmentRunTest extends Fragment
 		startShiningLabelsAnimation();
 		
         // Label showing an information/advice text
-		tv_Advice_Message = (TextView)pView.findViewById(R.id.fragment_speed_test_advice_message);
+		tv_Advice_Message = (TextView)pView.findViewById(R.id.press_the_start_button_label);
 		
 		// Initialise fonts
 		typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_condensed_regular.ttf");
@@ -635,10 +636,10 @@ public class FragmentRunTest extends Fragment
 		tv_Result_Date.setTypeface(typeface_Roboto_Light);
 		
 		// Other labels		
-		tv_Contextual_Information.setTypeface(typeface_Roboto_Light);
+		tv_TopTextNetworkType.setTypeface(typeface_Roboto_Light);
 		tv_Gauge_TextView_PsuedoButton.setTypeface(typeface_Din_Condensed_Cyrillic);
 		tv_Advice_Message.setTypeface(typeface_Roboto_Light);
-		tv_Closest_Server.setTypeface(typeface_Roboto_Light);		
+		mUnitText.setTypeface(typeface_Roboto_Light);		
 		tv_Data_Cap_Warning.setTypeface(typeface_Roboto_Light);
 		tv_Connectivity_Warning.setTypeface(typeface_Roboto_Light);
 		
@@ -729,7 +730,7 @@ public class FragmentRunTest extends Fragment
 								// Download test results are processed															
 								updateProgressBar(statusComplete, 0);
 								changeLabelText(getString(R.string.label_message_download_test));
-								changeContextualInformationLabel(R.string.units_Mbps);								
+								changeUnitsInformationLabel(R.string.units_Mbps);								
 								gaugeView.setKindOfTest(0);								
 								
 								if (statusComplete == 100)
@@ -745,7 +746,7 @@ public class FragmentRunTest extends Fragment
 								// Upload test results are processed															
 								updateProgressBar(statusComplete, 1);								
 								changeLabelText(getString(R.string.label_message_upload_test));								
-								changeContextualInformationLabel(R.string.units_Mbps);
+								changeUnitsInformationLabel(R.string.units_Mbps);
 								gaugeView.setKindOfTest(1);
 								
 								if (statusComplete == 100)
@@ -764,7 +765,7 @@ public class FragmentRunTest extends Fragment
 								updateProgressBar(statusComplete, 2);								
 								changeLabelText(getString(R.string.label_message_latency_loss_jitter_test));
 								gaugeView.setKindOfTest(2);								
-								changeContextualInformationLabel(R.string.units_ms);
+								changeUnitsInformationLabel(R.string.units_ms);
 								
 								if (statusComplete == 100)
 								{									
@@ -1509,24 +1510,24 @@ public class FragmentRunTest extends Fragment
     	{
     		final String networkType = Connectivity.getConnectionType(getActivity());
         	
-        	if (!networkType.equals(tv_Contextual_Information.getText()))
+        	if (!networkType.equals(tv_TopTextNetworkType.getText()))
         	{
         		if (gaugeVisible)
         		{
-        			tv_Contextual_Information.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
+        			tv_TopTextNetworkType.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
                 	{
                 		@Override
                 		public void onAnimationEnd(Animator animation)
                 		{        			
-                			tv_Contextual_Information.setText(networkType);
-                			tv_Contextual_Information.animate().alpha(1.0f).setDuration(300);
-                			tv_Contextual_Information.animate().setListener(null);
+                			tv_TopTextNetworkType.setText(networkType);
+                			tv_TopTextNetworkType.animate().alpha(1.0f).setDuration(300);
+                			tv_TopTextNetworkType.animate().setListener(null);
                 		}    		
             		});					
 				}
         		else
         		{
-        			tv_Contextual_Information.setText(networkType);        			
+        			tv_TopTextNetworkType.setText(networkType);        			
         		}
     		}
 		}    	    	    	    	
@@ -1537,19 +1538,19 @@ public class FragmentRunTest extends Fragment
      * 
      * @param pLabel
      */
-    private void changeContextualInformationLabel(final int pLabel)
+    private void changeUnitsInformationLabel(final int pLabel)
     {    	
-    	if (!onContextualInformationLabelAnimationSemaphore && !tv_Contextual_Information.getText().equals(getActivity().getString(pLabel)))
+    	if (!onContextualInformationLabelAnimationSemaphore && !mUnitText.getText().equals(getActivity().getString(pLabel)))
     	{
     		onContextualInformationLabelAnimationSemaphore = true;
     		
-    		tv_Contextual_Information.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
+    		mUnitText.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
         	{
         		@Override
         		public void onAnimationEnd(Animator animation)
         		{        			
-        			tv_Contextual_Information.setText(pLabel);
-        			tv_Contextual_Information.animate().alpha(1.0f).setDuration(300);
+        			mUnitText.setText(pLabel);
+        			mUnitText.animate().alpha(1.0f).setDuration(300);
         			onContextualInformationLabelAnimationSemaphore = false;
         		}    		
     		});			
@@ -1753,7 +1754,7 @@ public class FragmentRunTest extends Fragment
 		layout_ll_results.setClickable(true);
 		setUpPassiveMetricsLayout(connectivityType);	                        
 		//changeFadingTextViewValue(tv_Closest_Server, getString(R.string.TEST_Label_Finding_Best_Target), getResources().getColor(R.color.grey_light));
-        tv_Closest_Server.setText("");
+        mUnitText.setText("");
 	}
 
 	private void registerBackButtonHandler() {
@@ -1785,10 +1786,10 @@ public class FragmentRunTest extends Fragment
 
 	private void hideGaugeShowPassiveMetricsPanel() {
 		tv_Advice_Message.animate().setDuration(300).alpha(0.0f);
-		tv_Contextual_Information.animate().setDuration(300).alpha(0.0f);
+		tv_TopTextNetworkType.animate().setDuration(300).alpha(0.0f);
 		tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(0.0f);
 		layout_layout_Shining_Labels.animate().setDuration(300).alpha(0.0f);
-		tv_Closest_Server.animate().setDuration(300).alpha(0.0f);
+		mUnitText.animate().setDuration(300).alpha(0.0f);
 		gaugeView.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -1801,11 +1802,11 @@ public class FragmentRunTest extends Fragment
 				
 				// Hide all the gauge elements
 				tv_Advice_Message.setVisibility(View.GONE);
-				tv_Contextual_Information.setVisibility(View.GONE);
+				tv_TopTextNetworkType.setVisibility(View.GONE);
 				tv_Gauge_TextView_PsuedoButton.setVisibility(View.GONE);
 				layout_layout_Shining_Labels.setVisibility(View.GONE);
 				gaugeView.setVisibility(View.GONE);
-				tv_Closest_Server.setVisibility(View.GONE);
+				mUnitText.setVisibility(View.GONE);
 				
 				gaugeVisible = false;
 				
@@ -1842,18 +1843,18 @@ public class FragmentRunTest extends Fragment
 						
 						// Make gauge elements visible
 						tv_Advice_Message.setVisibility(View.VISIBLE);
-						tv_Contextual_Information.setVisibility(View.VISIBLE);
+						tv_TopTextNetworkType.setVisibility(View.VISIBLE);
 						tv_Gauge_TextView_PsuedoButton.setVisibility(View.VISIBLE);
 						layout_layout_Shining_Labels.setVisibility(View.VISIBLE);					
 						gaugeView.setVisibility(View.VISIBLE);
-						tv_Closest_Server.setVisibility(View.VISIBLE);
+						mUnitText.setVisibility(View.VISIBLE);
 						
 						gaugeView.animate().setDuration(300).alpha(1.0f);
 						tv_Advice_Message.animate().setDuration(300).alpha(1.0f);
-						tv_Contextual_Information.animate().setDuration(300).alpha(1.0f);
+						tv_TopTextNetworkType.animate().setDuration(300).alpha(1.0f);
 						tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(1.0f);
 						layout_layout_Shining_Labels.animate().setDuration(300).alpha(1.0f);
-						tv_Closest_Server.animate().setDuration(300).alpha(1.0f);
+						mUnitText.animate().setDuration(300).alpha(1.0f);
 						
 						gaugeVisible = true;
 						
@@ -1923,7 +1924,7 @@ public class FragmentRunTest extends Fragment
 			// If at least one test is selected
 			if (atLeastOneTestSelected())
 			{
-                tv_Closest_Server.setText(R.string.TEST_Label_Finding_Best_Target);        
+                mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
 				new InitTestAsyncTask().execute();												
 			}
 			else

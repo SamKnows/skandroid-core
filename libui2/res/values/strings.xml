@@ -35,6 +35,7 @@
     <string name="loss">Loss</string>
     <string name="jitter">Jitter</string>
     <string name="slash">-</string>
+    <string name="dummytext">dummy</string>
     <string name="nineninenine">999.99</string>
     <string name="dummydate">4/3/12 9:35</string>
     <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
@@ -151,7 +152,7 @@
     <string name="gauge_message_start">Start</string>
     <string name="gauge_message_starting">Starting</string>
     <string name="advice_message_press_the_button">Press the Start button</string>
-    <string name="advice_message_running">Running…</string>
+    <string name="advice_message_running">Running Tests</string>
     <string name="advice_message_stopping">Stopping…</string>
     <string name="label_message_ready_to_run">Ready to run</string>
     <string name="label_message_starting_tests">Starting tests…</string>

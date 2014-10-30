@@ -80,7 +80,7 @@ class GaugeView extends View
         if (robotoCondensedTypeface != null) {
         	textPaint.setTypeface(robotoCondensedTypeface);
         }
-        textPaint.setColor(mContext.getResources().getColor(R.color.orange));
+        textPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialInnerLabelText));
         
         // This let us centre vertically the text
         textHeight = textPaint.descent() - textPaint.ascent();
@@ -141,60 +141,60 @@ class GaugeView extends View
 					{
 						if (i <= this.result * 20/2)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));
 						}						
 					}
 					else if (this.result <=5)
 					{
 						if (i <= 20 + (this.result - 2) * 10/3)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}
 					}
 					else if (this.result <= 10)
 					{
 						if (i <= 30 + (this.result - 5) * 10/5)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}						
 					}
 					else if (this.result <= 30)
 					{
 						if (i <= 40 + (this.result - 10) * 10/20)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));							
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}						
 					}
 					else if (this.result <= 100)
 					{
 						if (i <= 50 + (this.result - 30) * 10/70)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));							
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}						
 					}
 					else if (this.result > 100)
 					{
-						drawPaint.setColor(mContext.getResources().getColor(R.color.red));						
+						drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));						
 					}
 					
 				break;
@@ -204,38 +204,38 @@ class GaugeView extends View
 					{
 						if (i <= this.result * 20)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));							
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));
 						}						
 					}					
 					else if (this.result <= 10)
 					{
 						if (i <= 40 + (this.result - 2) * 10/8)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));							
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}						
 					}
 					else if (this.result <= 50)
 					{
 						if (i <= 50 + (this.result - 10) * 10/40)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));							
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}						
 					}
 					else if (this.result > 50)
 					{
-						drawPaint.setColor(mContext.getResources().getColor(R.color.red));						
+						drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));						
 					}
 					break;
 					
@@ -244,32 +244,32 @@ class GaugeView extends View
 					{
 						if (i * 10 <= this.result)
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));
 						}						
 					}
 					else if (this.result <= 2000)
 					{
 						if (i <= 50 + (this.result - 500)/150 )
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.red));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));							
 						}
 						else
 						{
-							drawPaint.setColor(mContext.getResources().getColor(R.color.white));							
+							drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));							
 						}
 					}							
 					else
 					{
-						drawPaint.setColor(mContext.getResources().getColor(R.color.red));						
+						drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcRedZone));						
 					}
 					break;
 
 			default:
-				drawPaint.setColor(mContext.getResources().getColor(R.color.white));
+				drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialArcGreyZone));
 				break;
 			}        	         	         	         	        	         	 
         	 
@@ -290,7 +290,7 @@ class GaugeView extends View
     	   	// Draw the inner arcs
          	if (i % 10 == 0)
             {         		
-         		drawPaint.setColor(mContext.getResources().getColor(R.color.grey_dark));
+         		drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialInnerTicks));
              		
              	//Draw small arcs
              	canvas.drawArc(new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius),
