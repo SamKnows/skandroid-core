@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_speed_test_results_ll2"
     android:layout_width="match_parent"
     android:layout_height="@dimen/fragment_archived_results_item_height"
+    android:background="@drawable/background_gradient_nonmain"
     android:baselineAligned="false"
     android:gravity="center"
     android:orientation="horizontal"
-    android:background="@drawable/background_gradient_nonmain"
-    tools:visibility="visible">
+    tools:visibility="visible" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +37,6 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top"
-                    android:alpha=".75"
                     android:contentDescription="@string/description_icon_download"
                     android:src="@drawable/ic_download" />
 
@@ -49,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:text="@string/download"
-                    android:textColor="@color/skblue"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -98,7 +95,6 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top"
-                    android:alpha=".75"
                     android:contentDescription="@string/description_icon_upload"
                     android:src="@drawable/ic_upload" />
 
@@ -108,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:text="@string/upload"
-                    android:textColor="@color/skblue"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
@@ -149,76 +145,89 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
                 android:orientation="horizontal" >
 
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/latency_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:gravity="top|center_horizontal"
-                    android:text="@string/latency"
-                    android:textColor="@color/skblue"
-                    android:textSize="@dimen/text_size_small" />
-
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/loss_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:gravity="top|center_horizontal"
-                    android:text="@string/loss"
-                    android:textColor="@color/skblue"
-                    android:textSize="@dimen/text_size_small" />
-
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/jitter_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:gravity="top|center_horizontal"
-                    android:text="@string/jitter"
-                    android:textColor="@color/skblue"
-                    android:textSize="@dimen/text_size_small" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-               <com.samknows.measurement.activity.components.FontFitTextView
+                <LinearLayout
+                  android:layout_height="fill_parent"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                  android:orientation="vertical" >
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                      android:id="@+id/latency_label"
+                      android:layout_width="fill_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      android:gravity="left|center_vertical"
+                      android:text="@string/latency"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_small" />
+                  <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemLatency"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left|center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
                     android:text="@string/nineninenine"/>
+                </LinearLayout>
 
-               <com.samknows.measurement.activity.components.FontFitTextView
+                <LinearLayout
+                  android:layout_height="fill_parent"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                  android:orientation="vertical" >
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                      android:id="@+id/loss_label"
+                      android:layout_width="fill_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      android:gravity="left|center_vertical"
+                      android:text="@string/loss"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_small" />
+                  
+                  <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemPacketLoss"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left|center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
                     android:text="@string/nineninenine"/>
+                  </LinearLayout>
 
-               <com.samknows.measurement.activity.components.FontFitTextView
+                <LinearLayout
+                  android:layout_height="fill_parent"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                  android:orientation="vertical" >
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                      android:id="@+id/jitter_label"
+                      android:layout_width="fill_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      android:gravity="left|center_vertical"
+                      android:text="@string/jitter"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_small" />
+                  
+                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/archiveResultsListItemJitter"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left|center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
                     android:text="@string/nineninenine"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -234,7 +243,7 @@
                     android:layout_weight="80"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
-                    android:textColor="@color/skblue"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small"
                     android:text="@string/dummydate"/>
 
