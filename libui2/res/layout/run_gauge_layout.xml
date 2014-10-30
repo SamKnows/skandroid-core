@@ -28,7 +28,7 @@
                 android:paddingLeft="@dimen/activity_margin_double"
                 android:paddingRight="@dimen/activity_margin_double"
                 android:paddingTop="@dimen/activity_margin_quarter"
-                android:textColor="@color/MainColourPressTheStartButtonText"
+                android:textColor="@color/MainColourDialCenterText"
                 android:textSize="@dimen/text_size_tera"
                 android:text="@string/gauge_message_start"/>
 
@@ -66,7 +66,7 @@
                 android:layout_above="@id/status_label_layout_1"
                 android:layout_centerHorizontal="true"
                 android:text="@string/advice_message_press_the_button"
-                android:textColor="@color/white"/>
+                android:textColor="@color/MainColourStatusText"/>
 
             <TextView
                 android:id="@+id/top_text_network_type_label"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fragment_speed_test_gauge_textview_pseudobutton"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/MainColourDialUnitText"
+                android:textColor="@color/MainColourPressTheStartButtonText"
                 android:textSize="@dimen/text_size_small_medium"
                 android:text="@string/units_Mbps"/>
             </RelativeLayout>
