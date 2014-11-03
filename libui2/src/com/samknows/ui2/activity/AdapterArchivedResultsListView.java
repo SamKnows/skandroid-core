@@ -110,11 +110,11 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             
             if (resultNetworkType == 0)			// Network type is WiFi
             {        	
-            	testNetworkType.setBackgroundResource(R.drawable.ic_swifi);
+            	testNetworkType.setImageResource(R.drawable.ic_swifi);
     		}
             else if (resultNetworkType == 1)	// Network type is mobile
             {
-            	testNetworkType.setBackgroundResource(R.drawable.ic_sgsm);        	
+            	testNetworkType.setImageResource(R.drawable.ic_sgsm);        	
             }
             
             // Set the test download result
