@@ -467,6 +467,7 @@ public class FragmentSummary extends Fragment
 			{						
 				super.onAnimationEnd(animation);
 				layout_ll_chart.animate().setListener(null);
+        		layout_ll_chart.setVisibility(View.GONE);
 				
 				// Set the position of the other rows to the initial position with an animation.
 				layout_ll_summary_section_upload.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
@@ -501,6 +502,7 @@ public class FragmentSummary extends Fragment
 				super.onAnimationEnd(animation);
 				
 				layout_ll_chart.animate().setListener(null);	// Delete the listener to avoid side effects							
+        		layout_ll_chart.setVisibility(View.GONE);
 				layout_ll_summary_section_upload.animate().setDuration(300).x(initialPositionUploadX).y(initialPositionUploadY).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
 				{
 					// Executed at the end of the animation
@@ -537,6 +539,7 @@ public class FragmentSummary extends Fragment
 			{						
 				super.onAnimationEnd(animation);
 				layout_ll_chart.animate().setListener(null);
+        		layout_ll_chart.setVisibility(View.GONE);
 				
 				layout_ll_summary_section_latency.animate().setDuration(300).x(initialPositionLatencyX).y(initialPositionLatencyY).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
 				{
@@ -573,6 +576,7 @@ public class FragmentSummary extends Fragment
 			{						
 				super.onAnimationEnd(animation);
 				layout_ll_chart.animate().setListener(null);		// Delete animation listener to avoid side effects
+        		layout_ll_chart.setVisibility(View.GONE);
 				
 				layout_ll_summary_section_packet_loss.animate().setDuration(300).x(initialPositionLossX).y(initialPositionLossY).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
 				{
@@ -610,6 +614,7 @@ public class FragmentSummary extends Fragment
 				super.onAnimationEnd(animation);
 				
 				layout_ll_chart.animate().setListener(null);	// Delete the listener to avoid side effects							
+        		layout_ll_chart.setVisibility(View.GONE);
 				layout_ll_summary_section_jitter.animate().setDuration(300).x(initialPositionJitterX).y(initialPositionJitterY).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
 				{
 					// Executed at the end of the animation
@@ -786,6 +791,7 @@ public class FragmentSummary extends Fragment
 	
 		// Hide the chart layout for now!
 		layout_ll_chart.setAlpha(0.0f);
+		layout_ll_chart.setVisibility(View.GONE);
 		
 		// Get the width of the screen in pixels
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -800,11 +806,6 @@ public class FragmentSummary extends Fragment
 			public void onGlobalLayout()
 			{
 				header_section_height = layout_ll_header.getHeight();
-				
-				if(summary_section_height != 0)
-				{
-					setUpChartPosition();
-				}
 				
 				layout_ll_header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}
@@ -822,11 +823,6 @@ public class FragmentSummary extends Fragment
 				headerPositionY = layout_ll_summary_section_download.getTop();
 				
 				summary_section_height = layout_ll_summary_section_download.getHeight();
-				
-				if(header_section_height != 0)
-				{
-					setUpChartPosition();
-				}
 				
 				layout_ll_summary_section_download.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}
@@ -941,6 +937,7 @@ public class FragmentSummary extends Fragment
 								setLayoutsClickable(true);
 								// Show the chart
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+								layout_ll_chart.setVisibility(View.VISIBLE);
 								
 								mShowingThisSection = layout_ll_summary_section_download;
 							}
@@ -1005,6 +1002,7 @@ public class FragmentSummary extends Fragment
 								setLayoutsClickable(true);
 								// Show the chart
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+								layout_ll_chart.setVisibility(View.VISIBLE);
 								
 								mShowingThisSection = layout_ll_summary_section_upload;
 							}
@@ -1066,6 +1064,7 @@ public class FragmentSummary extends Fragment
 								setLayoutsClickable(true);
 								// Show the chart
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+								layout_ll_chart.setVisibility(View.VISIBLE);
 								
 								mShowingThisSection = layout_ll_summary_section_latency;
 							}
@@ -1126,6 +1125,7 @@ public class FragmentSummary extends Fragment
 								setLayoutsClickable(true);
 								// Show the chart
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+								layout_ll_chart.setVisibility(View.VISIBLE);
 								
 								mShowingThisSection = layout_ll_summary_section_packet_loss;
 							};						
@@ -1189,6 +1189,7 @@ public class FragmentSummary extends Fragment
 								setLayoutsClickable(true);
 								// Show the chart
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+								layout_ll_chart.setVisibility(View.VISIBLE);
 								
 								mShowingThisSection = layout_ll_summary_section_jitter;
 							}
@@ -1504,17 +1505,6 @@ public class FragmentSummary extends Fragment
 		layout_ll_summary_section_latency.setClickable(pAvailable);
 		layout_ll_summary_section_packet_loss.setClickable(pAvailable);
 		layout_ll_summary_section_jitter.setClickable(pAvailable);
-	}
-	
-	private void setUpChartPosition()
-	{
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-		LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams)layout_ll_header.getLayoutParams();
-		LinearLayout.LayoutParams layoutParams3 = (LinearLayout.LayoutParams)layout_ll_summary_section_download.getLayoutParams();
-		
-		layoutParams.setMargins(layoutParams2.leftMargin, layout_ll_summary_main.getPaddingTop() + header_section_height + layoutParams3.topMargin + summary_section_height + layoutParams3.bottomMargin,layoutParams2.rightMargin, layoutParams3.bottomMargin);	
-		
-		layout_ll_chart.setLayoutParams(layoutParams);		
 	}
 	
 	// *** MENUS *** //
