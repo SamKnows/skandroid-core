@@ -67,7 +67,7 @@ public class FragmentArchivedResults extends Fragment
 	
 	// UI elements
 	private RelativeLayout rl_main;
-	private LinearLayout ll_dummy_row, ll_passive_metrics, ll_passive_metrics_divider_1, ll_passive_metrics_divider_2, ll_passive_metrics_divider_location;
+	private LinearLayout ll_passive_metrics, ll_passive_metrics_divider_1, ll_passive_metrics_divider_2, ll_passive_metrics_divider_location;
 	private ListView lv_archived_results;	
 	private View listViewRow, clickedView;
 	private TextView tv_hader_label_sim_and_network_operators, tv_header_label_signal, tv_header_label_device, tv_header_label_location,
@@ -262,8 +262,6 @@ public class FragmentArchivedResults extends Fragment
 					{
 						// Hide the (empty) list view
 						lv_archived_results.setVisibility(View.GONE);
-						// Show a dummy row
-						ll_dummy_row.setVisibility(View.VISIBLE);						
 						// Show the "No results yet" message
 						tv_warning_no_results_yet.setVisibility(View.VISIBLE);						
 					}
@@ -277,8 +275,6 @@ public class FragmentArchivedResults extends Fragment
 					@Override
 					public void run()
 					{
-						// Hide the dummy row
-						ll_dummy_row.setVisibility(View.GONE);						
 						// Show the "No results yet" message
 						tv_warning_no_results_yet.setVisibility(View.GONE);
 						// Show the (not empty) list view
@@ -309,9 +305,6 @@ public class FragmentArchivedResults extends Fragment
 		// View hosting the passive metrics layout
 		ll_passive_metrics = (LinearLayout)pView.findViewById(R.id.fragment_archived_results_ll_passive_metrics);
 		ll_passive_metrics.setAlpha(0.0f);		// Make it invisible in the beginning
-		
-		// Dummy row to be showed when there are no results
-		ll_dummy_row = (LinearLayout)pView.findViewById(R.id.fragment_archived_results_dummy_row);
 		
 		// Set the warning message
 		tv_warning_no_results_yet = (TextView)pView.findViewById(R.id.fragment_archived_results_warning_no_results_yet);

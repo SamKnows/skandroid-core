@@ -257,6 +257,18 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
 
+		final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
+		final Activity ctx = this;
+
+		if (appSettings.isServiceActivated()) {
+		} else {
+			MainService.poke(ctx);
+			
+			// Show the activation screen!
+			startActivity(new Intent(ctx, SKAActivationActivity.class));
+			Util.initializeFonts(this);
+			Util.overrideFonts(this, findViewById(android.R.id.content));
+		}
 	}
 	
 	void handleOnPageSelected(int page) {

@@ -2,6 +2,7 @@ package com.samknows.ui2.activity;
 
 import android.animation.LayoutTransition;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -20,8 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.samknows.measurement.MainService;
+import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.util.LoginHelper;
 import com.samknows.ska.activity.SKAAboutActivity;
+import com.samknows.ska.activity.SKAActivationActivity;
 import com.samknows.ska.activity.SKAPreferenceActivity;
 import com.samknows.ska.activity.SKASettingsActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
@@ -67,6 +72,15 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		
 		// Bind and set up the resources
 		setUpResources();
+		
+		final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
+		final Activity ctx = this;
+		
+		if (appSettings.isServiceActivated() == false)
+		{
+			MainService.poke(ctx);
+			SKAActivationActivity.sDoShowActivation(this);
+		}
 	}
 	
 	// *** INNER CLASSES *** //

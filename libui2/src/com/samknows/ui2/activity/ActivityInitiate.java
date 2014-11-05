@@ -76,17 +76,8 @@ public class ActivityInitiate extends BaseLogoutActivity
 			});
 		}
 
-		final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		final Activity ctx = this;
 		
-		if (appSettings.isServiceActivated())
-		{
-			LoginHelper.openMainScreenWithNoTransitionAnimation(ctx, FragmentActivityMain.class);
-		}
-		else
-		{
-			MainService.poke(ctx);
-			startActivity(new Intent(ctx, ActivityActivation.class));
-		}
+		LoginHelper.openMainScreenWithNoTransitionAnimation(ctx, FragmentActivityMain.class);
 	}
 }

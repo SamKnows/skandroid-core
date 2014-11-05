@@ -76,7 +76,23 @@ public class SKAActivationActivity extends BaseLogoutActivity {
 					} else if (type == UIUpdate.JSON_INITTESTS) {
 
 					} else if (type == UIUpdate.JSON_COMPLETED) {
-						LoginHelper.openMainScreen(SKAActivationActivity.this, SKApplication.getAppInstance().getTheMainActivityClass());
+						//LoginHelper.openMainScreen(SKAActivationActivity.this, SKApplication.getAppInstance().getTheMainActivityClass());
+						
+						while (true) {
+							if (MainService.isExecuting() == false) {
+								// OK!
+								break;
+							}
+							
+							// Wait until service finished, before returning - otherwise new app can fail
+							// on very first start.
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								SKLogger.sAssert(SKAActivationActivity.class, false);
+							}
+						}
 						SKAActivationActivity.this.finish();
 					}
 
@@ -92,7 +108,7 @@ public class SKAActivationActivity extends BaseLogoutActivity {
 			SKLogger.d(this, "activation handler registered");
 		} else {
 			SKLogger.d(this, "MainService is not executing");
-			LoginHelper.openMainScreen(SKAActivationActivity.this, SKApplication.getAppInstance().getTheMainActivityClass());
+			//LoginHelper.openMainScreen(SKAActivationActivity.this, SKApplication.getAppInstance().getTheMainActivityClass());
 			SKAActivationActivity.this.finish();
 
 		}
