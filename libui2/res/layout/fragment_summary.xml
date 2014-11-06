@@ -637,6 +637,12 @@
             >
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/download_caption"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            style="@style/graphCaption" />
+        
         <LinearLayout
             android:id="@+id/fragment_summary_ll_chart"
             android:layout_width="fill_parent"
@@ -647,6 +653,7 @@
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:background="@drawable/background_alpha" >
+            
 
             <WebView
                 android:id="@+id/download_graph"

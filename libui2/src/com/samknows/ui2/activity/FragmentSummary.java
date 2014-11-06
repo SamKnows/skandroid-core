@@ -99,6 +99,7 @@ public class FragmentSummary extends Fragment
 							layout_ll_summary_result_best_download, layout_ll_summary_result_average_upload, layout_ll_summary_result_best_upload, layout_ll_summary_result_average_latency, layout_ll_summary_result_best_latency, layout_ll_summary_result_average_packet_loss,
 								layout_ll_summary_result_best_packet_loss, layout_ll_summary_result_average_jitter, layout_ll_summary_result_best_jitter;
 	private LinearLayout layout_ll_chart, layout_ll_header, layout_ll_summary_main;
+	TextView mChartCaption;
 	
 	// Container for the graph
 	private WebView graphContainer;
@@ -459,6 +460,7 @@ public class FragmentSummary extends Fragment
 
 	private void hide_ll_chart_download() {
 		// Hide the chart
+		mChartCaption.setAlpha(0.0F);
 		layout_ll_chart.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -493,6 +495,7 @@ public class FragmentSummary extends Fragment
 	
 	private void hide_ll_chart_upload() {
 		// Hide the chart
+		mChartCaption.setAlpha(0.0F);
 		layout_ll_chart.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -531,6 +534,7 @@ public class FragmentSummary extends Fragment
 	
 	private void hide_ll_chart_latency() {
 		// Hide the chart
+		mChartCaption.setAlpha(0.0F);
 		layout_ll_chart.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -568,6 +572,7 @@ public class FragmentSummary extends Fragment
 	
 	private void hide_ll_chart_packetloss() {
 		// Hide the chart
+		mChartCaption.setAlpha(0.0F);
 		layout_ll_chart.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -605,6 +610,7 @@ public class FragmentSummary extends Fragment
 	
 	private void hide_ll_chart_jitter() {
 		// Hide the chart
+		mChartCaption.setAlpha(0.0F);
 		layout_ll_chart.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -786,10 +792,12 @@ public class FragmentSummary extends Fragment
 		
 		// Chart elements
 		layout_ll_chart = (LinearLayout)pView.findViewById(R.id.fragment_summary_ll_chart);
+		mChartCaption = (TextView)pView.findViewById(R.id.download_caption);
 		
 		graphsSetup(pView);
 	
 		// Hide the chart layout for now!
+        mChartCaption.setAlpha(0.0F);
 		layout_ll_chart.setAlpha(0.0f);
 		layout_ll_chart.setVisibility(View.GONE);
 		
@@ -936,6 +944,7 @@ public class FragmentSummary extends Fragment
 								// Enable click events
 								setLayoutsClickable(true);
 								// Show the chart
+                        		mChartCaption.setAlpha(1.0F);
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
 								layout_ll_chart.setVisibility(View.VISIBLE);
 								
@@ -1001,6 +1010,7 @@ public class FragmentSummary extends Fragment
 								// Enable click events
 								setLayoutsClickable(true);
 								// Show the chart
+                        		mChartCaption.setAlpha(1.0F);
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
 								layout_ll_chart.setVisibility(View.VISIBLE);
 								
@@ -1063,6 +1073,7 @@ public class FragmentSummary extends Fragment
 								// Enable click events
 								setLayoutsClickable(true);
 								// Show the chart
+                        		mChartCaption.setAlpha(1.0F);
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
 								layout_ll_chart.setVisibility(View.VISIBLE);
 								
@@ -1124,6 +1135,7 @@ public class FragmentSummary extends Fragment
 								// Enable click events
 								setLayoutsClickable(true);
 								// Show the chart
+                        		mChartCaption.setAlpha(1.0F);
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
 								layout_ll_chart.setVisibility(View.VISIBLE);
 								
@@ -1188,6 +1200,7 @@ public class FragmentSummary extends Fragment
 								// Enable click events
 								setLayoutsClickable(true);
 								// Show the chart
+                        		mChartCaption.setAlpha(1.0F);
 								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
 								layout_ll_chart.setVisibility(View.VISIBLE);
 								
@@ -1218,7 +1231,7 @@ public class FragmentSummary extends Fragment
 
 		Context context = SKApplication.getAppInstance().getApplicationContext();
 		
-		graphHandlerDownload = new SKGraphForResults(context, graphContainer, new TextView(context), "download");
+		graphHandlerDownload = new SKGraphForResults(context, graphContainer, mChartCaption, "download");
 		//graphContainer.setBackgroundColor(Color.RED); // TODO - remove me, set transparent?
 		//graphContainer.setBackgroundColor(Color.TRANSPARENT); // TODO - remove me, set transparent?
 	}
@@ -1251,6 +1264,7 @@ public class FragmentSummary extends Fragment
 
 		// When using achartengine, the background CANNOT be TRANSPARENT.
 		// Otherwise, the fill area *below the y axis* will be filled with the fill colour - which is ugly!
+		
 		graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange, sGetGraphColourBackground(), sGetGraphColourTopAreaFill());
 		//graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange);
 	}
@@ -1261,21 +1275,19 @@ public class FragmentSummary extends Fragment
 	}	
 	
 	public static int sGetGraphColourBackground() {
-		return sGetSamKnowsBlue();
-		//return Color.TRANSPARENT;
+		return SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourBackground);
 	}
 	
 	public static int sGetGraphColourAverageFill() {
-    	return Color.rgb(0x92, 0xc0, 0xd7);
-    	//return Color.TRANSPARENT;
+		return SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourTopAreaFill);
 	}
 
 	public static int sGetGraphColourTopAreaFill() {
-		return Color.rgb(0xb8, 0xd3, 0xe1);
+		return SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourTopAreaFill);
 	}
 
 	public static int sGetGraphColourBottomAreaFill() {
-      return Color.rgb(0x6d, 0xad, 0xce);
+		return SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourBottomAreaFill);
 	}
 
 	private JSONObject fetchGraphDataForColumnId(int PColumnId) {

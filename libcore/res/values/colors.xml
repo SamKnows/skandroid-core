@@ -5,4 +5,10 @@
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
 
+	<color name="GraphColourBackground">#009fe3</color>
+    <color name="GraphColourTopLine">#2b6da3</color>
+    <color name="GraphColourVerticalGridLine">#cce5e5e5</color>
+    <color name="GraphColourTopAreaFill">#b8d3e1</color>
+    <color name="GraphColourBottomAreaFill">#6dadce</color>
+		
 </resources>

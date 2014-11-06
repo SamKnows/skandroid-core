@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.R;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.SKDateFormat;
 
 import android.content.Context;
@@ -76,15 +78,15 @@ public class SKGraphForResults {
 	
 	XYMultipleSeriesRenderer multipleSeriesRenderer = null;
 	
-    private int mFillColorEnd = Color.argb(0xff,  0x6d,  0xad,  0xce);
+    //private int mFillColorEnd = Color.argb(0xff,  0x6d,  0xad,  0xce);
     
 	private void createChartRendererSeriesAndView(Context context) {
 		
         // The color values are from the iOS version...
         //int areaTopColor = Color.argb(0xff,  0xb8,  0xd3,  0xe1);
-        int areaEndColor = mFillColorEnd;
-        int lineColor = Color.argb(0xff,  0x2b,  0x6d,  0xa3);
-        int gridLineColor = Color.argb((int)(255.0*8),  (int)(255*0.9),  (int)(255.0*0.9),  (int)(255.0*0.9));
+        int areaEndColor = SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourTopAreaFill);
+        int lineColor = SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourTopLine);
+        int gridLineColor = SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourVerticalGridLine);
 		
         // Create the multiple-series renderer... you might have more than one series
         // plotted at once, if you wanted, through this API...
@@ -896,7 +898,7 @@ public class SKGraphForResults {
 			int backgroundColor, int fillColor) {
 	
 		// Set the fill colour BEFORE calling update graph...
-        mFillColorEnd = fillColor;
+        //mFillColorEnd = fillColor;
     
     	updateGraphWithTheseResults(data, dateFilter);
     	
