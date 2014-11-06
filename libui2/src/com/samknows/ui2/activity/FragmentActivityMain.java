@@ -335,6 +335,10 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		if (item != null) {
 			item.setVisible(SKApplication.getAppInstance().isForceBackgroundMenuItemSupported());
 		}
+		item = menu.findItem(R.id.fragment_main_select_tests);
+		if (item != null) {
+			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+		}
 		
 		return true;
 	}

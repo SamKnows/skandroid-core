@@ -63,6 +63,7 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.ska.activity.SKAActivationActivity;
 import com.samknows.tests.HttpTest;
 
 /**
@@ -91,8 +92,12 @@ public class FragmentRunTest extends Fragment
 	private long lastTimeMillisProgressBar = 0;										// Last time progress bar was updated
 	private long testTime;
 	private boolean testsRunning = false;											// If true, the tests are been performed	
-	private boolean test_selected_download, test_selected_upload,					// Whether a test was selected to perform or not
-						test_selected_latency_and_packet_loss_and_jitter;
+	
+	// Whether a test was selected to perform or not
+	private boolean test_selected_download = true;
+	private boolean test_selected_upload = true;
+	private boolean test_selected_latency_and_packet_loss_and_jitter = true;
+	
 	private boolean onChangeLabelTextSemaphore = false;								// Semaphore to allow or not to enter a loop
 	private boolean onContextualInformationLabelAnimationSemaphore = false;			// Semaphore to allow or not to enter a loop	
 	private boolean gaugeVisible = true;											// Whether the gauge is visible or not
@@ -166,6 +171,9 @@ public class FragmentRunTest extends Fragment
 	@Override
     public void onResume()
     {
+		// Restore any previously saved data...
+    	restoreWhichTestsToRun();
+    	
 		// Register back button handler...
 		registerBackButtonHandler();
 		
@@ -1116,18 +1124,42 @@ public class FragmentRunTest extends Fragment
     }
     
     /**
+     * Restores all selected tests from storage.
+     */
+    private void restoreWhichTestsToRun()
+    {
+    	SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
+    	
+    	if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
+    		SharedPreferences.Editor editor = prefs.edit();
+    		editor.putBoolean("downloadTestState", true);
+    		editor.putBoolean("uploadTestState", true);
+    		editor.putBoolean("latencyAndLossTestState", true);
+	    	editor.commit();
+	    	
+    		// User is not allowed to specify which tests to run.
+        	test_selected_download = true;
+        	test_selected_upload = true;
+        	test_selected_latency_and_packet_loss_and_jitter = true;
+    		
+    	} else {
+
+    		// Get the selected tests from shared preferences
+
+    		test_selected_download = prefs.getBoolean("downloadTestState", false);
+    		test_selected_upload = prefs.getBoolean("uploadTestState", false);
+    		test_selected_latency_and_packet_loss_and_jitter = prefs.getBoolean("latencyAndLossTestState", false);
+    	}
+    }
+    
+    /**
      * Checks if at least one test is selected. True if so, false if any test is selected
      * 
      * @return true or false
      */
     private boolean atLeastOneTestSelected()
     {
-    	// Get the selected tests from shared preferences
-    	SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
-    	
-    	test_selected_download = prefs.getBoolean("downloadTestState", false);
-    	test_selected_upload = prefs.getBoolean("uploadTestState", false);
-    	test_selected_latency_and_packet_loss_and_jitter = prefs.getBoolean("latencyAndLossTestState", false);
+    	restoreWhichTestsToRun();
     	
     	return test_selected_download || test_selected_upload || test_selected_latency_and_packet_loss_and_jitter;
     }
@@ -1193,13 +1225,10 @@ public class FragmentRunTest extends Fragment
      */
     private List<Integer> findOutTestIDs()
     {    	
-    	List<Integer> testIDs = new ArrayList<Integer>();
-    	
     	// Get the selected tests from shared preferences
-    	SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
-    	test_selected_download = prefs.getBoolean("downloadTestState", false);
-    	test_selected_upload = prefs.getBoolean("uploadTestState", false);
-    	test_selected_latency_and_packet_loss_and_jitter = prefs.getBoolean("latencyAndLossTestState", false);
+    	restoreWhichTestsToRun();
+    	
+    	List<Integer> testIDs = new ArrayList<Integer>();
     	
     	// Create the list of tests to be performed
     	// All tests
@@ -1691,6 +1720,11 @@ public class FragmentRunTest extends Fragment
     	menuItem_ShareResult = menu.findItem(R.id.menu_item_fragment_run_test_share_result);
     	
 		menuItem_ShareResult.setVisible(!gaugeVisible);		
+		
+		MenuItem item = menu.findItem(R.id.menu_item_fragment_run_test_select_tests);
+		if (item != null) {
+			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+		}
     }
 
     // This hook is called whenever an item in your options menu is selected.
