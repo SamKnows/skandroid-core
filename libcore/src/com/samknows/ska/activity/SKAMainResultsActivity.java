@@ -262,12 +262,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		if (appSettings.isServiceActivated()) {
 		} else {
-			MainService.poke(ctx);
-			
 			// Show the activation screen!
-			startActivity(new Intent(ctx, SKAActivationActivity.class));
-			Util.initializeFonts(this);
-			Util.overrideFonts(this, findViewById(android.R.id.content));
+			SKAActivationActivity.sDoShowActivation(this);
 		}
 	}
 	

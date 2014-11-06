@@ -121,6 +121,8 @@ public class SKAActivationActivity extends BaseLogoutActivity {
 	}
 	
 	public static void sDoShowActivation(Activity fromActivity) {
+		MainService.poke(fromActivity);
+		
 		int size = SK2AppSettings.getInstance().getDevices().size();
 		if (size == 0 || (size == 1 && OtherUtils.isPhoneAssosiated(fromActivity))) {
 			SK2AppSettings.getInstance().setForceDownload();
