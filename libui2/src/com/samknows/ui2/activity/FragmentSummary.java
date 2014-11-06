@@ -776,19 +776,19 @@ public class FragmentSummary extends Fragment
 		
 		((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Thin);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Thin);		
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Thin);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Thin);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Thin);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Thin);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Thin);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Thin);
-		((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Light);
-		((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Light);
-		((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Light);
-		((TextView) pView.findViewById(R.id.tv_summary_packet_loss_label)).setTypeface(typeface_Roboto_Light);
-		((TextView) pView.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Light);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);		
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
+		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_packet_loss_label)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Regular);
 		
 		// Chart elements
 		layout_ll_chart = (LinearLayout)pView.findViewById(R.id.fragment_summary_ll_chart);

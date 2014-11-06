@@ -107,7 +107,7 @@
                             android:id="@+id/tv_summary_result_average_download"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -118,12 +118,12 @@
                             android:id="@+id/tv_summary_label_Mbps_1"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
 
                     <ImageView
@@ -144,7 +144,7 @@
                             android:id="@+id/tv_summary_result_best_download"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -155,12 +155,12 @@
                             android:id="@+id/tv_summary_label_Mbps_2"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -222,7 +222,7 @@
                             android:id="@+id/tv_summary_result_average_upload"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -233,12 +233,12 @@
                             android:id="@+id/tv_summary_label_Mbps_3"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
@@ -259,7 +259,7 @@
                             android:id="@+id/tv_summary_result_best_upload"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -270,12 +270,12 @@
                             android:id="@+id/tv_summary_label_Mbps_4"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -329,7 +329,7 @@
                             android:id="@+id/tv_summary_result_average_latency"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -340,12 +340,12 @@
                             android:id="@+id/tv_summary_label_ms_1"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
 
                     <ImageView
@@ -366,7 +366,7 @@
                             android:id="@+id/tv_summary_result_best_latency"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -377,12 +377,12 @@
                             android:id="@+id/tv_summary_label_ms_2"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -436,7 +436,7 @@
                             android:id="@+id/tv_summary_result_average_packet_loss"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -447,12 +447,12 @@
                             android:id="@+id/tv_summary_label_percent_1"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_percent"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
 
                     <ImageView
@@ -473,7 +473,7 @@
                             android:id="@+id/tv_summary_result_best_packet_loss"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -484,12 +484,12 @@
                             android:id="@+id/tv_summary_label_percent_2"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_percent"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -543,7 +543,7 @@
                             android:id="@+id/tv_summary_result_average_jitter"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -554,12 +554,12 @@
                             android:id="@+id/tv_summary_label_ms_3"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
 
                     <ImageView
@@ -580,7 +580,7 @@
                             android:id="@+id/tv_summary_result_best_jitter"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"
+                            android:layout_weight="70"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -591,12 +591,12 @@
                             android:id="@+id/tv_summary_label_ms_4"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="30"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -631,7 +631,7 @@
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:background="@drawable/background_alpha" 
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <WebView
                 android:id="@+id/download_graph"
