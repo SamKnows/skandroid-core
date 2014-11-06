@@ -33,7 +33,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:alpha="0.8"
                     android:gravity="center"
                     android:text="@string/average"
                     android:textColor="@color/white"
@@ -44,7 +43,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:alpha="0.8"
                     android:gravity="center"
                     android:text="@string/best"
                     android:textColor="@color/white"
@@ -79,23 +77,23 @@
                         android:id="@+id/summary_label_download"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
-                        android:alpha=".75"
                         android:contentDescription="@string/description_icon_download"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_download" />
 
-                    <TextView
+                <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_download_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:alpha="0.8"
                         android:text="@string/download"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_weight="70"
+                    android:layout_height="0dp"
                     android:orientation="horizontal" >
 
                     <LinearLayout
@@ -110,7 +108,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -122,12 +119,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_medium" />
                     </LinearLayout>
 
                     <ImageView
@@ -149,7 +145,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -161,12 +156,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_medium" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -198,23 +192,23 @@
                         android:id="@+id/summary_label_upload"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
-                        android:alpha=".75"
                         android:contentDescription="@string/description_icon_upload"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_upload" />
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_upload_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:alpha="0.8"
                         android:text="@string/upload"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_weight="70"
+                    android:layout_height="0dp"
                     android:orientation="horizontal" >
 
                     <LinearLayout
@@ -229,7 +223,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -241,12 +234,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_medium" />
                     </LinearLayout>
 
                     <ImageView
@@ -268,7 +260,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -280,12 +271,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:textSize="@dimen/text_size_medium" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -313,19 +303,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_latency_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:alpha="0.8"
                         android:text="@string/latency"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_weight="70"
+                    android:layout_height="0dp"
                     android:orientation="horizontal" >
 
                     <LinearLayout
@@ -340,7 +330,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -352,7 +341,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
@@ -379,7 +367,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -391,7 +378,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
@@ -424,19 +410,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_packet_loss_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:alpha="0.8"
                         android:text="@string/loss"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_weight="70"
+                    android:layout_height="0dp"
                     android:orientation="horizontal" >
 
                     <LinearLayout
@@ -451,7 +437,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -463,7 +448,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_percent"
@@ -490,7 +474,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -502,7 +485,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_percent"
@@ -535,19 +517,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
-                    <TextView
+                    <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/tv_summary_jitter_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:alpha="0.8"
                         android:text="@string/jitter"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_weight="70"
+                    android:layout_height="0dp"
                     android:orientation="horizontal" >
 
                     <LinearLayout
@@ -562,7 +544,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -574,7 +555,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
@@ -601,7 +581,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="80"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -613,7 +592,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="20"
-                            android:alpha="0.8"
                             android:gravity="left|center_vertical"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_ms"
@@ -630,11 +608,11 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" 
         >
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
-            >
+            android:layout_weight="3" >
         </LinearLayout>
 
         <TextView
@@ -652,8 +630,8 @@
             android:layout_marginBottom="@dimen/activity_margin_half"
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
-            android:background="@drawable/background_alpha" >
-            
+            android:background="@drawable/background_alpha" 
+            android:visibility="gone" >
 
             <WebView
                 android:id="@+id/download_graph"
