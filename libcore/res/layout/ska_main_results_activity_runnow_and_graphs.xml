@@ -111,20 +111,22 @@
 
                     <FrameLayout
                         android:id="@+id/fr"
+                        android:paddingTop="5dp"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" >
-
+                        
                         <com.samknows.measurement.activity.components.FontFitTextView
                             android:id="@+id/test_last_run"
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
-                            android:paddingBottom="5dp"
+                            android:layout_gravity="left|top"
+                            android:gravity="left|bottom"
+                            android:padding="2dp"
                             android:text="@string/last_run"
                             android:textColor="#000000"
-                            android:textSize="15sp"
-                            android:width="190dp" />
-
+                            android:textSize="15sp" />
+                        
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -140,6 +142,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:contentDescription="@string/alert_icon"
                                 android:padding="0dp"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/alert_icon" />
 
                             <com.samknows.measurement.activity.components.FontFitTextView
@@ -147,10 +150,15 @@
                                 style="@style/normal"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp"
+                                android:layout_gravity="left|center_vertical"
+                                android:gravity="left|center_vertical"
+                                android:padding="2dp"
                                 android:text="@string/no_data_message"
+                                android:textSize="15sp"
                                 android:width="190dp" />
                         </LinearLayout>
+
+
                     </FrameLayout>
                 </LinearLayout>
             </FrameLayout>
