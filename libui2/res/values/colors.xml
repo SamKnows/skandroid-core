@@ -81,13 +81,13 @@
     <color name="MainColourPressTheStartButtonText">#ffffff</color>
     <color name="MainColourStatusText">#ffffff</color>
 
+    <color name="MetricsTextColour">#FF9D03</color>
+    <color name="TableCellColourText">#FF9D03</color>
+    
     <!--
     <color name="PanelColourBackground"
     return [UIColor redColor];
-}
-    <color name="TableCellColourText"
-    return [UIColor whiteColor];
-}
+    
     <color name="ResultColourText"
     return [UIColor whiteColor];
 }

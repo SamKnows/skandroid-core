@@ -407,6 +407,23 @@ public class FragmentArchivedResults extends Fragment
 		tv_result_accuracy.setTypeface(typeface_Roboto_Light);
 		tv_result_provider.setTypeface(typeface_Roboto_Light);
 		
+		// Now - what items to show?
+		LinearLayout ip_and_reference_metrics = (LinearLayout)pView.findViewById(R.id.ip_and_reference_metrics);
+		LinearLayout network_operator_metrics = (LinearLayout)pView.findViewById(R.id.network_operator_metrics);
+		LinearLayout signal_metrics = (LinearLayout)pView.findViewById(R.id.signal_metrics);
+		LinearLayout device_metrics = (LinearLayout)pView.findViewById(R.id.device_metrics);
+		LinearLayout location_metrics = (LinearLayout)pView.findViewById(R.id.location_metrics);
+		
+		if (SKApplication.getAppInstance().getPassiveMetricsJustDisplayPublicIpAndSubmissionId() == true) {
+    		network_operator_metrics.setVisibility(View.GONE);
+	    	signal_metrics.setVisibility(View.GONE);
+		    device_metrics.setVisibility(View.GONE);
+    		location_metrics.setVisibility(View.GONE);
+		} else {
+			ip_and_reference_metrics.setVisibility(View.GONE);
+		}
+		
+		
 		// Get the width of the screen in pixels
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		Point size = new Point();
@@ -746,7 +763,7 @@ public class FragmentArchivedResults extends Fragment
 		}
 		catch (JSONException e)
 		{
-			Log.d(C_TAG_FRAGMENT_ARCHIVED_TEST, "There was a problem retrieven the archived results " + e.getMessage()) ;
+			Log.d(C_TAG_FRAGMENT_ARCHIVED_TEST, "There was a problem fetching the archived results " + e.getMessage()) ;
 		}
 		return pTemporaryArchivedTestsList;
 	}

@@ -237,4 +237,8 @@ public class SKApplication extends Application{
     	Boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences();
     	return backgroundTest;
 	}
+	
+	public Boolean getPassiveMetricsJustDisplayPublicIpAndSubmissionId() {
+		return false;
+	}
 }

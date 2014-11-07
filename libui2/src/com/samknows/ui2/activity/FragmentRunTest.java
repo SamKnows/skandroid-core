@@ -451,6 +451,24 @@ public class FragmentRunTest extends Fragment
 		// Identify and hide the passive metrics layout
 		layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_ll_passive_metrics);
     	layout_ll_passive_metrics.setAlpha(0.0f);
+    	
+		
+		// Now - what items to show?
+		LinearLayout ip_and_reference_metrics = (LinearLayout)pView.findViewById(R.id.ip_and_reference_metrics2);
+		LinearLayout network_operator_metrics = (LinearLayout)pView.findViewById(R.id.network_operator_metrics2);
+		LinearLayout signal_metrics = (LinearLayout)pView.findViewById(R.id.signal_metrics2);
+		LinearLayout device_metrics = (LinearLayout)pView.findViewById(R.id.device_metrics2);
+		LinearLayout location_metrics = (LinearLayout)pView.findViewById(R.id.location_metrics2);
+		
+		if (SKApplication.getAppInstance().getPassiveMetricsJustDisplayPublicIpAndSubmissionId() == true) {
+    		network_operator_metrics.setVisibility(View.GONE);
+	    	signal_metrics.setVisibility(View.GONE);
+		    device_metrics.setVisibility(View.GONE);
+    		location_metrics.setVisibility(View.GONE);
+		} else {
+			ip_and_reference_metrics.setVisibility(View.GONE);
+		}
+		
 
     	// Get the screen density. This is use to transform from dips to pixels
     	screenDensity = getActivity().getResources().getDisplayMetrics().density;
