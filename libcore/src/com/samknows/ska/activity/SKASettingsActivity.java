@@ -150,6 +150,10 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 				SKASettingsActivity.this.startActivity(new Intent(SKASettingsActivity.this, SKAPreferenceActivity.class));
 			}
 		});	
+    	if (SKApplication.getAppInstance().canViewDataCapInSettings() == false)
+    	{
+    		preferencesButton.setVisibility(View.GONE);
+    	}
 		
 		final FontFitTextView locationServicesTypeButtonText = (FontFitTextView) findViewById(R.id.settings_location_services_type_text);
 		final ButtonWithRightArrow locationServicesTypeButton = (ButtonWithRightArrow) findViewById(R.id.settings_location_services_type);

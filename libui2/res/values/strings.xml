@@ -55,11 +55,11 @@
 
     <!-- ACTIVITY SHARE RESULT -->
     <string name="network_performance_test">Network performance test</string>
-    <string name="download_speed">download speed</string>
-    <string name="upload_speed">upload speed</string>
-    <string name="latency_lowercase">latency</string>
-    <string name="packet_loss_lowercase">packet loss</string>
-    <string name="jitter_lowercase">jitter</string>
+    <string name="download_speed">Download Speed</string>
+    <string name="upload_speed">Upload Speed</string>
+    <string name="latency_lowercase">Netwwork Latency</string>
+    <string name="packet_loss_lowercase">Packet Loss</string>
+    <string name="jitter_lowercase">Jitter</string>
     
     <!-- ADAPTER ARCHIVED RESULTS LIST VIEW -->
     <string name="not_available">NA</string>    

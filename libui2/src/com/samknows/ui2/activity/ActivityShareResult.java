@@ -127,11 +127,15 @@ public class ActivityShareResult extends Activity
 		
 		if (SKApplication.getAppInstance().hideJitter()) {
 			tv_Jitter_Result.setVisibility(View.GONE);
-    		findViewById(R.id.archiveResultsListItemJitter).setVisibility(View.GONE);
+			if (findViewById(R.id.archiveResultsListItemJitter) != null) {
+				findViewById(R.id.archiveResultsListItemJitter).setVisibility(View.GONE);
+			}
 		}
 		if (SKApplication.getAppInstance().hideLoss()) {
 			tv_Packet_Loss_Result.setVisibility(View.GONE);
-    		findViewById(R.id.archiveResultsListItemPacketLoss).setVisibility(View.GONE);
+			if (findViewById(R.id.archiveResultsListItemPacketLoss) != null) {
+        		findViewById(R.id.archiveResultsListItemPacketLoss).setVisibility(View.GONE);
+			}
 		}
 		
 		tv_Download_Result.setTypeface(typeface_DIN_Condensed);

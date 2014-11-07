@@ -153,19 +153,22 @@ public class SKApplication extends Application{
 	}
 	
 	// Datacap enabling/disabling
+	public boolean canViewDataCapInSettings () {
+	   return true;
+	}
 	
 	public boolean canDisableDataCap () {
 		return false;
 	}
 	
 	// Datacap - enable/disable (managed via the SKAPreferenceActivity)
-	final public boolean getIsDataCapEnabled() {
-    	if (canDisableDataCap () == false) {
-    		// Can't disable the datacap in this version of the app - so in this
-    		// case, the data cap is always enabled.
-    		return true;
-    	}
-    	
+	public boolean getIsDataCapEnabled() {
+		if (canDisableDataCap () == false) {
+			// Can't disable the datacap in this version of the app - so in this
+			// case, the data cap is always enabled.
+			return true;
+		}
+
 		// The value is saved/restored automatically through PreferenceManager.
 		SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		return p.getBoolean(SKConstants.PREF_DATA_CAP_ENABLED, true);
