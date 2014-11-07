@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_speed_test_ll_passive_metrics"
+    android:id="@+id/fragment_archived_results_ll_passive_metrics"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_margin_half"
-    android:layout_marginLeft="@dimen/activity_margin_half"
-    android:layout_marginRight="@dimen/activity_margin_half"
+    android:layout_marginBottom="@dimen/spacing_small"
+    android:layout_marginLeft="@dimen/spacing_small"
+    android:layout_marginRight="@dimen/spacing_small"
     android:layout_marginTop="136dp"
     android:orientation="vertical"
     tools:visibility="visible" >
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        tools:visibility="gone" >
 
         <LinearLayout
+            android:id="@+id/all_metrics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin" >
+            android:paddingRight="@dimen/activity_margin"
+            tools:visibility="visible" >
 
             <LinearLayout
-                android:id="@+id/ip_and_reference_metrics2"
+                android:id="@+id/ip_and_reference_metrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -80,13 +83,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/network_operator_metrics2"
+                android:id="@+id/network_operator_metrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/fragment_speed_test_passive_metric_label_sim_and_network_operators"
+                    android:id="@+id/fragment_archived_results_passive_metric_label_sim_and_network_operators"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/visual_rhythm_half"
                     android:gravity="bottom"
@@ -95,7 +98,7 @@
                     android:textSize="@dimen/text_size_small" />
 
                 <LinearLayout
-                    android:id="@+id/fragment_speed_test_passive_metrics_ll_divider_sim_and_network_operators"
+                    android:id="@+id/fragment_archived_results_passive_metric_divider_sim_and_network_operators"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height"
                     android:background="@color/white_alpha_0.5"
@@ -107,7 +110,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_sim_operator"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_sim_operator"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -117,13 +120,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_sim_operator_name"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_sim_operator_name"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="giffgaff" />
+                        tools:text="@string/tools_text_value_sim_operator" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -131,7 +134,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_sim_operator_code"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_sim_operator_code"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -141,13 +144,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_sim_operator_code"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_sim_operator_code"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="23410" />
+                        tools:text="@string/tools_text_value_sim_operator_code" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -155,7 +158,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_network_operator"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_network_operator"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -165,13 +168,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_network_operator_name"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_network_operator_name"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="giffgaff" />
+                        tools:text="@string/tools_text_value_network_operator" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -179,7 +182,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_network_operator_code"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_network_operator_code"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -189,13 +192,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_network_operator_code"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_network_operator_code"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="23410" />
+                        tools:text="@string/tools_text_value_network_operator_code" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -203,7 +206,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_roaming_status"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_roaming_status"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -213,24 +216,24 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_roaming_status"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_roaming_status"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="Off" />
+                        tools:text="@string/tools_text_value_roaming_status" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/signal_metrics2"
+                android:id="@+id/signal_metrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/fragment_speed_test_passive_metric_label_signal"
+                    android:id="@+id/fragment_archived_results_passive_metric_label_signal"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/visual_rhythm_half"
                     android:gravity="bottom"
@@ -239,7 +242,7 @@
                     android:textSize="@dimen/text_size_small" />
 
                 <LinearLayout
-                    android:id="@+id/fragment_speed_test_passive_metrics_ll_divider_signal"
+                    android:id="@+id/fragment_archived_results_passive_metric_divider_signal"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height"
                     android:background="@color/white_alpha_0.5"
@@ -251,7 +254,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_cell_tower_ID"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_cell_tower_ID"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -261,13 +264,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_cell_tower_id"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_cell_tower_id"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="1260999" />
+                        tools:text="@string/tools_text_value_cell_tower_id" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -275,7 +278,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_cell_tower_area_location_code"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_cell_tower_area_location_code"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -285,13 +288,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_cell_tower_area_location_code"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_cell_tower_area_location_code"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="22019" />
+                        tools:text="@string/tools_text_value_cell_tower_area_location_code" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -299,7 +302,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_signal_strength"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_signal_strength"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -309,7 +312,7 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_signal_strength"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_signal_strength"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -323,7 +326,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_bearer"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_bearer"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -333,24 +336,24 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_bearer"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_bearer"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="HSPA+" />
+                        tools:text="@string/tools_text_value_bearer" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/device_metrics2"
+                android:id="@+id/device_metrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/fragment_speed_test_passive_metric_label_device"
+                    android:id="@+id/fragment_archived_results_passive_metric_label_device"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/visual_rhythm_half"
                     android:gravity="bottom"
@@ -369,7 +372,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_manufacturer"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_manufacturer"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -379,13 +382,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_manufacturer"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_manufacturer"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="LG" />
+                        tools:text="@string/tools_text_value_manufacturer" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -393,7 +396,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_model"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_model"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -403,7 +406,7 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_detail_model"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_detail_model"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -417,7 +420,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_OS"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_OS"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -427,13 +430,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_detail_OS"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_detail_OS"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="Android" />
+                        tools:text="@string/tools_text_value_os" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -441,7 +444,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_OS_vesion"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_OS_vesion"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -451,7 +454,7 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_OS_version"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_OS_version"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -465,7 +468,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_phone_type"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_phone_type"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -475,24 +478,24 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_phone_type"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_phone_type"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="GSM" />
+                        tools:text="@string/tools_text_value_phone_type" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/location_metrics2"
+                android:id="@+id/location_metrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/fragment_speed_test_passive_metric_label_location"
+                    android:id="@+id/fragment_archived_results_passive_metric_label_location"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/visual_rhythm_half"
                     android:gravity="bottom"
@@ -505,7 +508,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height"
                     android:background="@color/white_alpha_0.5"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical" >
                 </LinearLayout>
 
                 <LinearLayout
@@ -513,7 +516,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_latitude"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_latitude"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -523,13 +526,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_latitude"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_latitude"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="51.41995" />
+                        tools:text="@string/tools_text_value_latitude" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -537,7 +540,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_longitude"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_longitude"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -547,13 +550,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_longitude"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_longitude"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="-0.17638" />
+                        tools:text="@string/tools_text_value_longitude" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -561,7 +564,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_accuracy"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_accuracy"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -571,22 +574,22 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_accuracy"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_accuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="13.0 m" />
+                        tools:text="@string/tools_text_value_accuracy" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_margin_half" >
+                    android:layout_marginBottom="@dimen/spacing_small" >
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_label_location_provider"
+                        android:id="@+id/fragment_archived_results_passive_metric_label_location_provider"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -596,13 +599,13 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <TextView
-                        android:id="@+id/fragment_speed_test_passive_metric_result_location_provider"
+                        android:id="@+id/fragment_archived_results_passive_metric_result_location_provider"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        tools:text="GPS" />
+                        tools:text="@string/tools_text_value_location_provider" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
