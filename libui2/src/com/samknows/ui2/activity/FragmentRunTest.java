@@ -557,17 +557,7 @@ public class FragmentRunTest extends Fragment
 		tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.mbps_label_1);
 		tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
 		tv_Result_Date = (TextView)pView.findViewById(R.id.archiveResultsListItemDate);
-		
-		if (SKApplication.getAppInstance().hideJitter()) {
-			tv_Label_Jitter.setVisibility(View.GONE);
-    		pView.findViewById(R.id.archiveResultsListItemJitter).setVisibility(View.GONE);
-		}
-		if (SKApplication.getAppInstance().hideLoss()) {
-			tv_Label_Loss.setVisibility(View.GONE);
-    		pView.findViewById(R.id.archiveResultsListItemPacketLoss).setVisibility(View.GONE);
-		}
-		
-		
+
 		tv_TopTextNetworkType = (TextView)pView.findViewById(R.id.top_text_network_type_label);
 		tv_TopTextNetworkType.setText(""); // Clear this immediately, until we know what the network type is!
 		
@@ -654,22 +644,31 @@ public class FragmentRunTest extends Fragment
 		tv_result_accuracy.setTypeface(typeface_Roboto_Light);
 		tv_result_provider.setTypeface(typeface_Roboto_Light);
 
-		// Test result fields
-		tv_Result_Download.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_Result_Upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_Result_Latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_Result_Packet_Loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_Result_Jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		// Test result fields
+//		tv_Result_Download.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Packet_Loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		
+//		// Test result labels
+//		tv_Label_Download.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Upload.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Latency.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Loss.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Jitter.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Mbps_1.setTypeface(typeface_Roboto_Thin);
+//		tv_Label_Mbps_2.setTypeface(typeface_Roboto_Thin);
+//		tv_Result_Date.setTypeface(typeface_Roboto_Light);		
 		
-		// Test result labels
-		tv_Label_Download.setTypeface(typeface_Roboto_Light);
-		tv_Label_Upload.setTypeface(typeface_Roboto_Light);
-		tv_Label_Latency.setTypeface(typeface_Roboto_Light);
-		tv_Label_Loss.setTypeface(typeface_Roboto_Light);
-		tv_Label_Jitter.setTypeface(typeface_Roboto_Light);
-		tv_Label_Mbps_1.setTypeface(typeface_Roboto_Thin);
-		tv_Label_Mbps_2.setTypeface(typeface_Roboto_Thin);
-		tv_Result_Date.setTypeface(typeface_Roboto_Light);
+		if (SKApplication.getAppInstance().hideJitter()) {
+			tv_Label_Jitter.setVisibility(View.GONE);
+    		pView.findViewById(R.id.jitter_panel).setVisibility(View.GONE);
+		}
+		if (SKApplication.getAppInstance().hideLoss()) {
+			tv_Label_Loss.setVisibility(View.GONE);
+    		pView.findViewById(R.id.loss_panel).setVisibility(View.GONE);
+		}
 		
 		// Other labels		
 		tv_TopTextNetworkType.setTypeface(typeface_Roboto_Light);

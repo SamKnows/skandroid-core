@@ -90,20 +90,20 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
     	Typeface robotoCondensedTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_condensed_regular.ttf");
 
     	// Assign the fonts
-    	((TextView)rowView.findViewById(R.id.mbps_label_1)).setTypeface(robotoThinTypeFace);
-    	((TextView)rowView.findViewById(R.id.mbps_label_2)).setTypeface(robotoThinTypeFace);
-    	((TextView)rowView.findViewById(R.id.downloadLabel)).setTypeface(robotoLightTypeFace);
-    	((TextView)rowView.findViewById(R.id.uploadLabel)).setTypeface(robotoLightTypeFace);
-    	((TextView)rowView.findViewById(R.id.latency_label)).setTypeface(robotoLightTypeFace);
-    	((TextView)rowView.findViewById(R.id.loss_label)).setTypeface(robotoLightTypeFace);
-    	((TextView)rowView.findViewById(R.id.jitter_label)).setTypeface(robotoLightTypeFace);
-
-        testDate.setTypeface(robotoLightTypeFace); 
-        testDownload.setTypeface(robotoCondensedTypeface);
-        testUpload.setTypeface(robotoCondensedTypeface);
-        testLatency.setTypeface(robotoCondensedTypeface);
-        testPacketLoss.setTypeface(robotoCondensedTypeface);
-        testJitter.setTypeface(robotoCondensedTypeface);
+//    	((TextView)rowView.findViewById(R.id.mbps_label_1)).setTypeface(robotoThinTypeFace);
+//    	((TextView)rowView.findViewById(R.id.mbps_label_2)).setTypeface(robotoThinTypeFace);
+//    	((TextView)rowView.findViewById(R.id.downloadLabel)).setTypeface(robotoLightTypeFace);
+//    	((TextView)rowView.findViewById(R.id.uploadLabel)).setTypeface(robotoLightTypeFace);
+//    	((TextView)rowView.findViewById(R.id.latency_label)).setTypeface(robotoLightTypeFace);
+//    	((TextView)rowView.findViewById(R.id.loss_label)).setTypeface(robotoLightTypeFace);
+//    	((TextView)rowView.findViewById(R.id.jitter_label)).setTypeface(robotoLightTypeFace);
+//
+//        testDate.setTypeface(robotoLightTypeFace); 
+//        testDownload.setTypeface(robotoCondensedTypeface);
+//        testUpload.setTypeface(robotoCondensedTypeface);
+//        testLatency.setTypeface(robotoCondensedTypeface);
+//        testPacketLoss.setTypeface(robotoCondensedTypeface);
+//        testJitter.setTypeface(robotoCondensedTypeface);
         
         // If we have any result to show
         if (archivedResultsList.size() > 0)

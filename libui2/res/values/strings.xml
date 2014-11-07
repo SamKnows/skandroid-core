@@ -178,4 +178,8 @@
     <string name="pm_your_ip_example">89.105.103.193</string>
     <string name="pm_reference_no_label">Reference No.</string>
     <string name="pm_reference_no_example">00e2145198fc49e1fd5587d0b57db66</string>
+    
+        
+    <string name="Initial_Warning_Text"></string>
+    
 </resources>
