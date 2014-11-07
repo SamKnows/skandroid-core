@@ -130,9 +130,17 @@ public class SKApplication extends Application{
 	public boolean hideJitter() {
 		return false;
 	}
-
-	public boolean hideJitterLatencyAndPacketLoss() {
+	
+	public boolean hideLatency() {
 		return false;
+	}
+
+	public boolean hideLoss() {
+		return false;
+	}
+	
+	public boolean hideJitterLatencyAndPacketLoss() {
+		return hideJitter() & hideLatency() & hideLoss();
 	}
 
 	public boolean allowUserToSelectTestToRun() {

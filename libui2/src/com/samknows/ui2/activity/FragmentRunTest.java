@@ -558,6 +558,16 @@ public class FragmentRunTest extends Fragment
 		tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
 		tv_Result_Date = (TextView)pView.findViewById(R.id.archiveResultsListItemDate);
 		
+		if (SKApplication.getAppInstance().hideJitter()) {
+			tv_Label_Jitter.setVisibility(View.GONE);
+    		pView.findViewById(R.id.archiveResultsListItemJitter).setVisibility(View.GONE);
+		}
+		if (SKApplication.getAppInstance().hideLoss()) {
+			tv_Label_Loss.setVisibility(View.GONE);
+    		pView.findViewById(R.id.archiveResultsListItemPacketLoss).setVisibility(View.GONE);
+		}
+		
+		
 		tv_TopTextNetworkType = (TextView)pView.findViewById(R.id.top_text_network_type_label);
 		tv_TopTextNetworkType.setText(""); // Clear this immediately, until we know what the network type is!
 		

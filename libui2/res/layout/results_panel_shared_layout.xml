@@ -151,6 +151,7 @@
                 android:orientation="horizontal" >
 
                 <LinearLayout
+                  android:id="@+id/latency_panel"
                   android:layout_height="fill_parent"
                   android:layout_width="0dp"
                   android:layout_weight="1"
@@ -177,6 +178,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                  android:id="@+id/loss_panel"
                   android:layout_height="fill_parent"
                   android:layout_width="0dp"
                   android:layout_weight="1"
@@ -204,6 +206,7 @@
                   </LinearLayout>
 
                 <LinearLayout
+                  android:id="@+id/jitter_panel"
                   android:layout_height="fill_parent"
                   android:layout_width="0dp"
                   android:layout_weight="1"

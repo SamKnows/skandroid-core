@@ -721,6 +721,15 @@ public class FragmentSummary extends Fragment
 		layout_ll_summary_section_latency = (LinearLayout)pView.findViewById(R.id.ll_summary_section_latency);
 		layout_ll_summary_section_packet_loss = (LinearLayout)pView.findViewById(R.id.ll_summary_section_loss);
 		layout_ll_summary_section_jitter = (LinearLayout)pView.findViewById(R.id.ll_summary_section_jitter);
+		
+		
+		if (SKApplication.getAppInstance().hideJitter()) {
+			layout_ll_summary_section_jitter.setVisibility(View.INVISIBLE);
+		}
+		if (SKApplication.getAppInstance().hideLoss()) {
+			layout_ll_summary_section_packet_loss.setVisibility(View.INVISIBLE);
+		}
+		
 
 		// Results layouts
 		layout_ll_summary_result_average_download = (LinearLayout)pView.findViewById(R.id.fragment_summary_download_ll_average);

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.samknows.libui2.R;
+import com.samknows.measurement.SKApplication;
 
 /**
  * This activity is responsible for sharing the a test result.
@@ -123,6 +124,15 @@ public class ActivityShareResult extends Activity
 		((TextView)findViewById(R.id.activity_share_result_tv_label_packet_loss)).setTypeface(typeface_Roboto_Thin);
 		((TextView)findViewById(R.id.activity_share_result_tv_label_jitter)).setTypeface(typeface_Roboto_Thin);
 		((TextView)findViewById(R.id.activity_share_result_tv_title)).setTypeface(typeface_Roboto_Light);
+		
+		if (SKApplication.getAppInstance().hideJitter()) {
+			tv_Jitter_Result.setVisibility(View.GONE);
+    		findViewById(R.id.archiveResultsListItemJitter).setVisibility(View.GONE);
+		}
+		if (SKApplication.getAppInstance().hideLoss()) {
+			tv_Packet_Loss_Result.setVisibility(View.GONE);
+    		findViewById(R.id.archiveResultsListItemPacketLoss).setVisibility(View.GONE);
+		}
 		
 		tv_Download_Result.setTypeface(typeface_DIN_Condensed);
 		tv_Upload_Result.setTypeface(typeface_DIN_Condensed);

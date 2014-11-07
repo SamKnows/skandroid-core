@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.samknows.libui2.R;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.components.FontFitTextView;
 
 /**
@@ -74,6 +75,14 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
         TextView testLatency = (TextView) rowView.findViewById(R.id.archiveResultsListItemLatency);
         TextView testPacketLoss = (TextView) rowView.findViewById(R.id.archiveResultsListItemPacketLoss);
         TextView testJitter = (TextView) rowView.findViewById(R.id.archiveResultsListItemJitter);
+        
+		if (SKApplication.getAppInstance().hideJitter()) {
+    		rowView.findViewById(R.id.jitter_panel).setVisibility(View.GONE);
+		}
+		if (SKApplication.getAppInstance().hideLoss()) {
+    		rowView.findViewById(R.id.loss_panel).setVisibility(View.GONE);
+		}
+	
 
         // Set up fonts
     	Typeface robotoThinTypeFace = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
