@@ -47,6 +47,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -107,8 +108,10 @@ public class FragmentRunTest extends Fragment
 	private RelativeLayout layout_layout_Shining_Labels;
 	private LinearLayout layout_ll_Speed_Test_Layout, layout_ll_Main_Progress_Bar;
 	private LinearLayout layout_ll_passive_metrics, layout_ll_results, layout_ll_passive_metrics_divider_sim_and_network_operators, layout_ll_passive_metrics_divider_signal, layout_ll_passive_metrics_divider_location;
+	private FrameLayout run_results_panel_frame_to_animate;
 	// Text views showing warnings
 	private TextView tv_Data_Cap_Warning, tv_Connectivity_Warning, mUnitText;	
+	private View initial_warning_text;
 	// Text views showing the test result labels
 	private TextView tv_Label_Download, tv_Label_Upload, tv_Label_Mbps_1, tv_Label_Mbps_2;
 	private FontFitTextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
@@ -505,16 +508,17 @@ public class FragmentRunTest extends Fragment
 		// Initialise and hide the results layout
 		layout_ll_results = (LinearLayout)pView.findViewById(R.id.fragment_speed_test_results_ll2);
 		layout_ll_results.setAlpha(0.0f);
+     	run_results_panel_frame_to_animate = (FrameLayout)pView.findViewById(R.id.run_results_panel_frame_to_animate);
 		
 		// Get the position of the header row when it's already drawn		
-		layout_ll_results.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+     	run_results_panel_frame_to_animate.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
 		{			
 			@Override
 			public void onGlobalLayout()
 			{
-				results_Layout_Position_Y = layout_ll_results.getTop();
+				results_Layout_Position_Y = run_results_panel_frame_to_animate.getTop();
 				
-				layout_ll_results.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				run_results_panel_frame_to_animate.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}			
 		});
 		
@@ -577,6 +581,9 @@ public class FragmentRunTest extends Fragment
         mUnitText = (TextView)pView.findViewById(R.id.unit_text_label);
         mUnitText.setTextColor(getResources().getColor(R.color.MainColourDialUnitText));
         mUnitText.setText("");
+        
+        initial_warning_text = pView.findViewById(R.id.initial_warning_text);
+
         
         // Text views in the shining labels
         tv_Status_Label_1 = (TextView)pView.findViewById(R.id.status_label_1);
@@ -1372,9 +1379,11 @@ public class FragmentRunTest extends Fragment
     private void setTestTime()
     {    	
     	testTime = System.currentTimeMillis();
-    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-    	String currentDateandTime = sdf.format(new Date());
-    	tv_Result_Date.setText(currentDateandTime);    	
+    	//SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    	//String currentDateandTime = sdf.format(new Date());
+        String currentDateandTime = new FormattedValues().getDate(testTime, "dd/MM/yy HH:mm");
+    	//tv_Result_Date.setText(currentDateandTime);    	
+		changeFadingTextViewValue(tv_Result_Date, currentDateandTime,0);	// Set the gauge main text to STARTING
     }
     
     /**
@@ -1874,7 +1883,7 @@ public class FragmentRunTest extends Fragment
 				menuItem_ShareResult.setVisible(true);  
 
 				// Move the results layout to the top of the screen
-				layout_ll_results.animate().setDuration(300).y(dpToPx(8)).setInterpolator(new OvershootInterpolator(1.2f));
+				run_results_panel_frame_to_animate.animate().setDuration(300).y(dpToPx(8)).setInterpolator(new OvershootInterpolator(1.2f));
 				// Make the passive metrics layout visible
 				layout_ll_passive_metrics.animate().setDuration(300).alpha(1.0f);
 			}
@@ -1892,7 +1901,7 @@ public class FragmentRunTest extends Fragment
 				
 				layout_ll_passive_metrics.animate().setListener(null);		// Remove listeners to avoid side effects
 				// Move the results layout to the default position
-				layout_ll_results.animate().setDuration(300).y(results_Layout_Position_Y).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
+				run_results_panel_frame_to_animate.animate().setDuration(300).y(results_Layout_Position_Y).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
 				{
 					@Override
 					public void onAnimationEnd(Animator animation)
@@ -1900,7 +1909,7 @@ public class FragmentRunTest extends Fragment
 						// Executed at the end of the animation
 						super.onAnimationEnd(animation);
 						
-						layout_ll_results.animate().setListener(null);				// Remove listeners to avoid side effects
+						run_results_panel_frame_to_animate.animate().setListener(null);				// Remove listeners to avoid side effects
 						
 						// Make gauge elements visible
 						tv_Advice_Message.setVisibility(View.VISIBLE);
@@ -1985,6 +1994,8 @@ public class FragmentRunTest extends Fragment
 			// If at least one test is selected
 			if (atLeastOneTestSelected())
 			{
+                initial_warning_text.setVisibility(View.GONE);
+
                 mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
 				new InitTestAsyncTask().execute();												
 			}

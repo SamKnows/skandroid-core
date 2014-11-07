@@ -20,7 +20,30 @@
         tools:visibility="visible">
         
         <include layout="@layout/run_gauge_layout"/>
-        <include layout="@layout/results_panel_shared_layout"/>
+       
+        <FrameLayout 
+                android:id="@+id/run_results_panel_frame_to_animate"
+            
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fragment_archived_results_item_height"
+            >
+            
+            <include layout="@layout/results_panel_shared_layout"/>
+        
+            <TextView
+                android:id="@+id/initial_warning_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fragment_archived_results_item_height"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/text_size_small_medium"
+                android:text="@string/Initial_Warning_Text"
+                android:textColor="@color/MainColourStatusText"/>
+                
+        </FrameLayout>
+
 
     </LinearLayout>
 
