@@ -133,7 +133,7 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/packet_loss_lowercase"
-                android:textColor="@color/MetricsTextColour"/>
+                android:textColor="@color/MetricsTextColour" />
 
             <TextView
                 android:id="@+id/activity_share_result_tv_result_jitter"
@@ -177,7 +177,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"
             android:contentDescription="@string/description_icon_clock"
             android:src="@drawable/ic_action_clock" />
 
