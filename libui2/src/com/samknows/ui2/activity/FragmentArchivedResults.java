@@ -37,9 +37,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
+import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 
@@ -82,6 +84,8 @@ public class FragmentArchivedResults extends Fragment
 														tv_warning_no_results_yet;
 	private Typeface typeface_Roboto_Light, typeface_Roboto_Thin;
 	private MenuItem menu_Item_Network_Type_Filter, menu_Item_Refresh_Spinner, menu_Item_Share_Result;
+	private FontFitTextView publicIp;
+	private FontFitTextView submissionId;
 	
 	// Complex variables
 	// Hosts the archived results
@@ -358,6 +362,9 @@ public class FragmentArchivedResults extends Fragment
 		tv_result_longitude = (TextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_longitude);
 		tv_result_accuracy = (TextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_accuracy);
 		tv_result_provider = (TextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_location_provider);
+		
+		publicIp = (FontFitTextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
+		submissionId = (FontFitTextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
 		
 		// Initialise fonts		
 		typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
@@ -757,6 +764,18 @@ public class FragmentArchivedResults extends Fragment
 					{						
 						testResult.setLocationProvider(value);
 					}
+					else if (metric.equals("public_ip"))
+					{						
+						testResult.setPublicIp(value);
+					}
+					else if (metric.equals("submission_id"))
+					{						
+						testResult.setSubmissionId(value);
+					}
+					else
+					{
+						//SKLogger.sAssert(getClass(), false);
+					}
 				}
 				pTemporaryArchivedTestsList.add(testResult);
 			}
@@ -850,6 +869,19 @@ public class FragmentArchivedResults extends Fragment
 			tv_result_signal_strength.setText(pTestResult.getGSMSignalStrength());
 			tv_result_bearer.setText(pTestResult.getBearer());				
 		}
+		
+//		else if (metricString.equals("public_ip"))
+//		{
+//			if (publicIp != null) {
+//				publicIp.setText(value);
+//			}
+//		}
+//		else if (metricString.equals("submission_id")) 
+//		{
+//			if (submissionId != null) {
+//				submissionId.setText(value);
+//			}
+//		}
 			
 		// Passive metrics that will be shown in any network type
 		tv_result_manufacturer.setText(pTestResult.getManufactor());
@@ -881,6 +913,13 @@ public class FragmentArchivedResults extends Fragment
 			tv_result_longitude.setText(pTestResult.getLongitude());
 			tv_result_accuracy.setText(pTestResult.getAccuracy());
 			tv_result_provider.setText(pTestResult.getLocationProvider());
+		}
+		
+		if (publicIp != null) {
+			publicIp.setText(pTestResult.getPublicIp());
+		}
+		if (submissionId != null) {
+			submissionId.setText(pTestResult.getSubmissionId());
 		}
 	}
 

@@ -21,6 +21,8 @@ public class TestResult implements Parcelable
 	private long dtime;	
 	private String simOperatorName, simOperatorCode, networkOperatorName, networkOperatorCode, roamingStatus, GSMCellTowerID, GSMLocationAreaCode, GSMSignalStrength,
 					manufacturer, bearer, model, OSType, OSVersion, phoneType, latitude, longitude, accuracy, locationProvider;		
+	private String publicIp = "";
+	private String submissionId = "";
 	
 	public static final Parcelable.Creator<TestResult> CREATOR =
 	   new Parcelable.Creator<TestResult>()
@@ -92,6 +94,8 @@ public class TestResult implements Parcelable
 		dest.writeString(longitude);
 		dest.writeString(accuracy);
 		dest.writeString(locationProvider);
+		dest.writeString(publicIp);
+		dest.writeString(submissionId);
 	}	
 	
 	/**
@@ -129,6 +133,8 @@ public class TestResult implements Parcelable
 		jitterResult = in.readFloat();
 		latencyResult = in.readFloat();
 		packetLossResult = in.readInt();
+		publicIp = in.readString();
+		submissionId = in.readString();
 	}
 	
 	
@@ -523,6 +529,13 @@ public class TestResult implements Parcelable
 	{
 		return locationProvider;
 	}
+	
+	public String getPublicIp() {
+		return publicIp;
+	}
+	public String getSubmissionId() {
+		return submissionId;
+	}
 
 	/**
 	 * Set the test result location provider
@@ -532,6 +545,14 @@ public class TestResult implements Parcelable
 	public void setLocationProvider(String pLocationProvider)
 	{
 		this.locationProvider = pLocationProvider;
+	}
+	public void setPublicIp(String value)
+	{
+		this.publicIp = value;
+	}
+	public void setSubmissionId(String value)
+	{
+		this.submissionId = value;
 	}
 
 	/**

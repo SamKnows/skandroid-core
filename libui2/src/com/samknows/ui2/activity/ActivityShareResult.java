@@ -118,25 +118,12 @@ public class ActivityShareResult extends Activity
 		Typeface typeface_Roboto_Thin = Typeface.createFromAsset(getAssets(), "fonts/roboto_thin.ttf");
 		Typeface typeface_DIN_Condensed = Typeface.createFromAsset(getAssets(), "fonts/roboto_condensed_regular.ttf");
 		
-		((TextView)findViewById(R.id.activity_share_result_tv_label_download)).setTypeface(typeface_Roboto_Thin);
-		((TextView)findViewById(R.id.activity_share_result_tv_label_upload)).setTypeface(typeface_Roboto_Thin);
-		((TextView)findViewById(R.id.activity_share_result_tv_label_latency)).setTypeface(typeface_Roboto_Thin);
-		((TextView)findViewById(R.id.activity_share_result_tv_label_packet_loss)).setTypeface(typeface_Roboto_Thin);
-		((TextView)findViewById(R.id.activity_share_result_tv_label_jitter)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_download)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_upload)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_latency)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_packet_loss)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_jitter)).setTypeface(typeface_Roboto_Thin);
 		((TextView)findViewById(R.id.activity_share_result_tv_title)).setTypeface(typeface_Roboto_Light);
-		
-		if (SKApplication.getAppInstance().hideJitter()) {
-			tv_Jitter_Result.setVisibility(View.GONE);
-			if (findViewById(R.id.archiveResultsListItemJitter) != null) {
-				findViewById(R.id.archiveResultsListItemJitter).setVisibility(View.GONE);
-			}
-		}
-		if (SKApplication.getAppInstance().hideLoss()) {
-			tv_Packet_Loss_Result.setVisibility(View.GONE);
-			if (findViewById(R.id.archiveResultsListItemPacketLoss) != null) {
-        		findViewById(R.id.archiveResultsListItemPacketLoss).setVisibility(View.GONE);
-			}
-		}
 		
 		tv_Download_Result.setTypeface(typeface_DIN_Condensed);
 		tv_Upload_Result.setTypeface(typeface_DIN_Condensed);
@@ -180,6 +167,15 @@ public class ActivityShareResult extends Activity
 			tv_Jitter_Result.setText((int)getIntent().getExtras().getFloat("jitterResult") + " " + getString(R.string.units_ms));
 		}		
 		
+		if (SKApplication.getAppInstance().hideJitter()) {
+        	findViewById(R.id.activity_share_result_tv_result_jitter).setVisibility(View.GONE);
+        	findViewById(R.id.activity_share_result_tv_label_jitter).setVisibility(View.GONE);
+		}
+		
+		if (SKApplication.getAppInstance().hideLoss()) {
+        	findViewById(R.id.activity_share_result_tv_result_packet_loss).setVisibility(View.GONE);
+        	findViewById(R.id.activity_share_result_tv_label_packet_loss).setVisibility(View.GONE);
+		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		String date = sdf.format(new Date(getIntent().getExtras().getLong("dateResult")));

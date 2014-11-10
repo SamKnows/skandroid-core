@@ -136,10 +136,10 @@ public class ContinuousTesting {
 			te.getResultsContainer().addMetric(d.convertToJSON());
 		}
 		mListDCSData.clear();
-		te.save(JSON_SUBMISSION_TYPE);
 		
-		mDBHelper.insertTestBatch(new JSONObject(batch), testsResults, passiveMetrics);
+		long batchId = mDBHelper.insertTestBatch(new JSONObject(batch), testsResults, passiveMetrics);
 		
+		te.save(JSON_SUBMISSION_TYPE, batchId);
 	}
 	
 	

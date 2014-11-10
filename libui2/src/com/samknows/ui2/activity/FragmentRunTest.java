@@ -148,6 +148,8 @@ public class FragmentRunTest extends Fragment
     public Handler testResultsHandler;				// Handler that listen for the test results
     private ScheduleConfig config;
 
+	private	FontFitTextView publicIp;
+	private	FontFitTextView submissionId;
 
     // *** FRAGMENT LIFECYCLE METHODS *** //
     // Called to have the fragment instantiate its user interface view.
@@ -450,6 +452,9 @@ public class FragmentRunTest extends Fragment
 		tv_result_longitude = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_longitude);
 		tv_result_accuracy = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_accuracy);
 		tv_result_provider = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_location_provider);
+	
+		publicIp = (FontFitTextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
+		submissionId = (FontFitTextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
 
 		// Identify and hide the passive metrics layout
 		layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_ll_passive_metrics);
@@ -919,6 +924,21 @@ public class FragmentRunTest extends Fragment
 	        					else if (metricString.equals("locationprovider"))
 	        					{
 	        						tv_result_provider.setText(value);
+	        					}
+	        					else if (metricString.equals("public_ip"))
+	        					{
+	        						if (publicIp != null) {
+	        							publicIp.setText(value);
+	        						}
+	        					}
+	        					else if (metricString.equals("submission_id")) 
+	        					{
+	        						if (submissionId != null) {
+	        							submissionId.setText(value);
+	        						}
+	        					}
+	        					else {
+	        						//SKLogger.sAssert(getClass(),  false);
 	        					}
 							}        				
 	        			}

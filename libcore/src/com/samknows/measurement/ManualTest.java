@@ -270,8 +270,6 @@ public class ManualTest implements Runnable {
 		// stops collectors
 		manualTestExecutor.stop();
 
-		manualTestExecutor.save("manual_test");
-
 		// Gather data from collectors
 		for (BaseDataCollector collector : tc.config.dataCollectors) {
 			if (collector.isEnabled) {
@@ -296,9 +294,14 @@ public class ManualTest implements Runnable {
 
 		// insert the results in the database only if we didn't receive a stop
 		// command
+		long batchId = -1;
 		if (run.get()) {
-			db.insertTestBatch(batch, testsResults, passiveMetrics);
+			batchId = db.insertTestBatch(batch, testsResults, passiveMetrics);
 		}
+		
+		// And now upload the test (this will get a submission id etc., so *must* have a batch id to save to the database...)
+		manualTestExecutor.save("manual_test", batchId);
+
 		// Send completed message to the interface
 		msg = new Message();
 		JSONObject jtc = new JSONObject();

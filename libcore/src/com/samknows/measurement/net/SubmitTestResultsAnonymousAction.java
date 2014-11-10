@@ -27,11 +27,16 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SamKnowsResponseHandler;
+import com.samknows.measurement.storage.DBHelper;
+import com.samknows.measurement.storage.PassiveMetric;
+import com.samknows.measurement.storage.PassiveMetric.METRIC_TYPE;
+import com.samknows.measurement.storage.SKSQLiteHelper;
 import com.samknows.measurement.test.TestResultsManager;
 
 import android.content.Context;
 import android.net.ParseException;
 import android.net.Uri;
+import android.util.Log;
 
 public class SubmitTestResultsAnonymousAction {
 	protected Context context;
@@ -42,6 +47,10 @@ public class SubmitTestResultsAnonymousAction {
 	}
 	
 	public void execute() {
+		
+    	DBHelper dbHelper = new DBHelper(context);
+    	List<JSONObject> batches = dbHelper.getTestBatches();
+    	
 		String[] results = TestResultsManager.getJSONDataAsStringArray(context);
 		List<Integer> fail = new ArrayList<Integer>();
 		for (int i=0; i<results.length; i++) {
@@ -51,6 +60,53 @@ public class SubmitTestResultsAnonymousAction {
 						"no results to be submitted");
 				break;
 			}
+			
+     		long batchId = -1;
+     		String dataAsString = results[i];
+    		JSONObject jObject = null;
+    		try {
+    			if (dataAsString.length() > 0) {
+    				jObject = new JSONObject(dataAsString);
+    			}
+    			if (jObject != null) {
+    				if (jObject.has("batch_id")) {
+    					try {
+    						String batchIdAsString = jObject.getString("batch_id");
+    						long thisBatchId = Long.valueOf(batchIdAsString).longValue();
+
+    						//    					long timeStamp = jObject.getLong("timestamp");
+    						//    					// Finally - do we have have an entry in the database for this?
+    						//    					// select id from test_batch where dtime = 1385458870802
+    						//    					
+    						if (batches != null) {
+    							int theCount = batches.size();
+    							int theIndex;
+    							for (theIndex = 0; theIndex < theCount; theIndex++) {
+    								JSONObject theBatch = batches.get(theIndex);
+    								Long theBatchId = theBatch.getLong("_id");
+    								if (theBatchId == thisBatchId)
+    								{
+    									// Got it!
+    									batchId = thisBatchId;
+    									break;
+    								}
+    							}
+
+    						}
+    					} catch (JSONException e) {
+    						SKLogger.sAssert(getClass(), false);
+    					}
+    				}
+    			}
+    		} 
+    		catch (JSONException e) {
+    			SKLogger.sAssert(getClass(), false);
+    			jObject = null;
+    		}
+
+    		// If this is OLD data, it will NOT have a batch id...
+    		//SKLogger.sAssert(getClass(), batchId != -1);
+		
 			HttpContext httpContext = new BasicHttpContext();
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(buildUrl());
@@ -63,16 +119,57 @@ public class SubmitTestResultsAnonymousAction {
 						&& sl.getReasonPhrase().equals("OK");
 				int code = sl.getStatusCode();
 				SKLogger.d(this, "submiting test results to server: " + isSuccess);
-			
+
 				// http://stackoverflow.com/questions/15704715/getting-json-response-android
 				HttpEntity entity = httpResponse.getEntity();
 				if (entity != null) {
 					try {
-						String result = EntityUtils.toString(entity); 
+						String jsonString = EntityUtils.toString(entity); 
 						// e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}
-						SKLogger.d(this, "TODO: process response from server as string, to extract data from the JSON!: " + result);
+						SKLogger.d(this, "Process response from server as string, to extract data from the JSON!: " + jsonString);
+						
+         			    JSONObject jsonResponse = new JSONObject(jsonString);
+
+						if (batchId != -1) {
+							
+							JSONObject item1 = new JSONObject();
+							try {
+							    item1.put(PassiveMetric.JSON_METRIC_NAME, "public_ip");
+							    item1.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
+							    item1.put(PassiveMetric.JSON_VALUE, jsonResponse.get("public_ip"));
+							    item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.PUBLICIP);
+							} catch (JSONException e) {
+							    SKLogger.sAssert(getClass(),  false);
+							}
+							
+							
+							JSONObject item2 = new JSONObject();
+							try {
+							    item2.put(PassiveMetric.JSON_METRIC_NAME, "submission_id");
+							    item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
+							    item2.put(PassiveMetric.JSON_VALUE, jsonResponse.get("submission_id"));
+							    item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.SUBMISSIONID);
+							} catch (JSONException e) {
+							    SKLogger.sAssert(getClass(),  false);
+							}
+							
+//							metric_type = metric.getString(PassiveMetric.JSON_METRIC_NAME);
+//							dtime = metric.getLong(PassiveMetric.JSON_DTIME);
+//							value = metric.getString(PassiveMetric.JSON_VALUE);
+//							type = metric.getString(PassiveMetric.JSON_TYPE);
+//							insertPassiveMetric(metric_type, type, dtime, value
+
+							JSONArray jsonArray = new JSONArray();
+
+							jsonArray.put(item1);
+							jsonArray.put(item2);
+							dbHelper.insertPassiveMetric(jsonArray, batchId);
+						}
+
 					} catch (ParseException e) {
+						SKLogger.sAssert(getClass(), false);
 					} catch (IOException e) {
+						SKLogger.sAssert(getClass(), false);
 					}
 				}
 			} catch (Exception e) {

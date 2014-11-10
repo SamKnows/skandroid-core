@@ -502,6 +502,8 @@ public class TestExecutor {
 		}
 		
 	}
+	
+	private long mBatchId = -1;
 
 	public ConditionGroupResult executeGroup(TestGroup tg) {
 		long startTime = System.currentTimeMillis();
@@ -552,8 +554,9 @@ public class TestExecutor {
 					"Error in creating test batch object: " + je.getMessage());
 		}
 		DBHelper db = new DBHelper(tc.getContext());
-		
-		db.insertTestBatch(batch, testsResults, passiveMetrics);
+	
+		SKLogger.sAssert(getClass(), mBatchId == -1);
+		mBatchId = db.insertTestBatch(batch, testsResults, passiveMetrics);
 		
 		cancelNotification();
 		return result;
@@ -582,9 +585,21 @@ public class TestExecutor {
 		}
 		return new ConditionGroupResult();
 	}
+	
+//	public void save(String type, long batchId) {
+//		SKLogger.sAssert(getClass(),  mBatchId == -1);
+//		mBatchId = batchId;
+//		
+//    	save(type);
+//	}
 
-	public void save(String type) {
+	public void save(String type, long batchId) {
+        mBatchId = batchId;
+		
+		SKLogger.sAssert(getClass(), mBatchId != -1);
+		
 		rc.addExtra(JSON_SUBMISSION_TYPE, type);
+		rc.addExtra("batch_id", String.valueOf(batchId));
 
 		try {
 			int accumulatedNetworkTypeLocationMetricCount = accumulatedNetworkTypeLocationMetrics.length();
@@ -612,6 +627,7 @@ public class TestExecutor {
 			SKLogger.sAssert(getClass(),  false);
 		}
 		
+		//SKLogger.sAssert(getClass(), mBatchId != -1);
 		TestResultsManager.saveResult(tc.getContext(), rc);
 	}
 

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -193,9 +194,8 @@ public class TestResultsManager {
 		}
 	}
 	
-
-	
 	public static String[] getJSONDataAsStringArray(Context context) {
+		// This might return MORE THAN ONE test batch, each one as JSON String on a separate line per batch!
 		byte[] data = getJSONDataAsByteArray(context);
 		if(data == null){
 			return new String[] {};

@@ -575,19 +575,22 @@ public class DBHelper {
 		}
 	}
 
-	public void insertTestBatch(JSONObject test_batch, JSONArray tests,
+	public long insertTestBatch(JSONObject test_batch, JSONArray tests,
 			JSONArray passive_metrics) {
 		long test_batch_id;
 		test_batch_id = insertTestBatch(test_batch);
 		insertTestResult(tests, test_batch_id);
 		insertPassiveMetric(passive_metrics, test_batch_id);
+		
+		return test_batch_id;
 	}
 
-	public void insertTestBatch(JSONObject test_batch, List<JSONObject> tests,
+	public long insertTestBatch(JSONObject test_batch, List<JSONObject> tests,
 			List<JSONObject> passive_metrics) {
 		long test_batch_id = insertTestBatch(test_batch);
 		insertTestResult(tests, test_batch_id);
 		insertPassiveMetric(passive_metrics, test_batch_id);
+		return test_batch_id;
 	}
 
 	public long insertTestBatch(JSONObject test_batch) {
@@ -675,7 +678,7 @@ public class DBHelper {
 		}
 	}
 
-	private void insertPassiveMetric(JSONArray metrics, long test_batch_id) {
+	public void insertPassiveMetric(JSONArray metrics, long test_batch_id) {
 		for (int i = 0; i < metrics.length(); i++) {
 			try {
 				insertPassiveMetric(metrics.getJSONObject(i), test_batch_id);
@@ -929,6 +932,36 @@ public class DBHelper {
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
 				ret.add(cursor.getInt(0));
+				cursor.moveToNext();
+			}
+			cursor.close();
+			close();
+			return ret;
+		}
+	}
+	
+	public List<JSONObject> getTestBatches() {
+		synchronized (sync) {
+			List<JSONObject> ret = new ArrayList<JSONObject>();
+			
+			if (open() == false) {
+				SKLogger.sAssert(getClass(),  false);
+				return ret;
+			}
+			String[] columns = { "_id", SKSQLiteHelper.PM_COLUMN_DTIME };
+			Cursor cursor = database.query(SKSQLiteHelper.TABLE_TESTBATCH,
+					columns, null, null, null, null, null);
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				JSONObject ret2 = new JSONObject();
+				try {
+					ret2.put(columns[0], cursor.getLong(0));
+					ret2.put(columns[1], cursor.getLong(1));
+				} catch (JSONException je) {
+
+				}
+				ret.add(ret2);
+
 				cursor.moveToNext();
 			}
 			cursor.close();

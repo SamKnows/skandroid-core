@@ -6,6 +6,7 @@ import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
 import com.samknows.measurement.statemachine.StateResponseCode;
+import com.samknows.measurement.test.TestResultsManager;
 import com.samknows.measurement.util.OtherUtils;
 
 public class SubmitResultsAnonymousState extends BaseState{

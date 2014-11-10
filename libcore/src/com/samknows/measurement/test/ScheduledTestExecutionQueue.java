@@ -151,7 +151,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 			
 			
 			scheduledTestExecutor.stop();
-			scheduledTestExecutor.save("scheduled_tests");
+			scheduledTestExecutor.save("scheduled_tests", -1);
 		}
 		
 		extendSize();

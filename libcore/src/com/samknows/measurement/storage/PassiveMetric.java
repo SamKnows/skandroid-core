@@ -52,7 +52,9 @@ public class PassiveMetric extends JSONObject{
 		 LATITUDE("latitude"),
 		 LONGITUDE("longitude"),
 		 ACCURACY("accuracy"),
-		 LOCATIONPROVIDER("locationprovider");
+		 LOCATIONPROVIDER("locationprovider"),
+		 PUBLICIP("public_ip"),
+		 SUBMISSIONID("submission_id");
 		 public String metric_name;
 		 public String type;
 		 private METRIC_TYPE(String _name){

@@ -40,7 +40,7 @@ public class RunInitTestsState extends BaseState{
 			}
 		}
 		initTestExecutor.stop();
-		initTestExecutor.save("init_test");
+		initTestExecutor.save("init_test", -1);
 		storage.saveTestParamsManager(testContext.paramsManager);
 		
 		return StateResponseCode.OK;
