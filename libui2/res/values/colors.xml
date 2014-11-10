@@ -111,6 +111,9 @@
     <color name="GraphColourTopAreaFill">#b8d3e1</color>
     <color name="GraphColourBottomAreaFill">#6dadce</color>
 
+    <color name="share_inner">#0066FF</color>
+    <color name="share_outer">#003A91</color>
+
     <!-- 
 // Action sheet colours!
 

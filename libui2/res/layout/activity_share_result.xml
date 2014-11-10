@@ -6,7 +6,7 @@
     android:id="@+id/activity_share_result_ll_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient_nonmain"
+    android:background="@drawable/background_gradient_share"
     android:orientation="vertical">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="@dimen/visual_rhythm"
         android:gravity="center"
         android:text="@string/network_performance_test"
-        android:textColor="@color/MetricsTextColour"
+        android:textColor="@color/TableCellColourText"
         android:textSize="@dimen/text_size_large"/>
 
     <LinearLayout
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/MetricsTextColour"
+                android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_medium"
                 tools:text="@string/network_type_wifi"/>
 
@@ -65,7 +65,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:textColor="@color/MetricsTextColour"
+                android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_peta"
                 tools:text="8.33 Mbps"/>
 
@@ -76,7 +76,7 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/download_speed"
-                android:textColor="@color/MetricsTextColour"/>
+                android:textColor="@color/TableCellColourText"/>
 
             <TextView
                 android:id="@+id/activity_share_result_tv_result_upload"
@@ -84,7 +84,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:textColor="@color/MetricsTextColour"
+                android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_peta"
                 tools:text="3.88 Mbps"/>
 
@@ -95,7 +95,7 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/upload_speed"
-                android:textColor="@color/MetricsTextColour"/>
+                android:textColor="@color/TableCellColourText"/>
 
             <TextView
                 android:id="@+id/activity_share_result_tv_result_latency"
@@ -103,7 +103,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:textColor="@color/grey_light"
+                android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_giga"
                 tools:text="25 ms"/>
 
@@ -114,7 +114,7 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/latency"
-                android:textColor="@color/MetricsTextColour"/>
+                android:textColor="@color/TableCellColourText"/>
 
             <TextView
                 android:id="@+id/activity_share_result_tv_result_packet_loss"
@@ -122,7 +122,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:textColor="@color/grey_light"
+                android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_giga"
                 tools:text="2 %"/>
 
@@ -133,7 +133,7 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/packet_loss_lowercase"
-                android:textColor="@color/MetricsTextColour" />
+                android:textColor="@color/TableCellColourText" />
 
             <TextView
                 android:id="@+id/activity_share_result_tv_result_jitter"
@@ -141,7 +141,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:textColor="@color/grey_light"
+                android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_giga"
                 tools:text="22 ms"/>
 
@@ -152,7 +152,7 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/jitter_lowercase"
-                android:textColor="@color/MetricsTextColour"/>
+                android:textColor="@color/TableCellColourText"/>
 
         </LinearLayout>
 
@@ -163,7 +163,7 @@
         android:layout_height="@dimen/divider_height"
         android:layout_marginLeft="@dimen/spacing_small"
         android:layout_marginRight="@dimen/spacing_small"
-        android:background="@color/MetricsTextColour">
+        android:background="@color/TableCellColourText">
     </LinearLayout>
 
     <LinearLayout
@@ -185,7 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_small"
-            android:textColor="@color/MetricsTextColour"
+            android:textColor="@color/TableCellColourText"
             android:textSize="@dimen/text_size_small_medium"
             tools:text="24.02.1984, 02:08"/>
     </LinearLayout>
