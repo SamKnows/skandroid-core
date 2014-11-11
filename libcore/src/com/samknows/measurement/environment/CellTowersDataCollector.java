@@ -6,8 +6,6 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.OtherUtils;
 
 import android.content.Context;
-import android.os.Build;
-import android.os.Looper;
 import android.telephony.CellInfo;
 import android.telephony.CellLocation;
 import android.telephony.NeighboringCellInfo;

@@ -4,16 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.samknows.libcore.*;
 
 // http://stackoverflow.com/questions/8034494/tint-dim-drawable-on-touch?lq=1
 public class TintableImageView extends ImageView {

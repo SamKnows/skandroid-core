@@ -16,12 +16,10 @@ import android.widget.TextView;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.UIUpdate;
 import com.samknows.measurement.activity.components.Util;
-import com.samknows.measurement.util.LoginHelper;
 import com.samknows.measurement.util.OtherUtils;
 
 public class SKAActivationActivity extends BaseLogoutActivity {

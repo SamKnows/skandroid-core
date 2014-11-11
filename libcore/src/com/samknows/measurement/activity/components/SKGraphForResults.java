@@ -1,8 +1,6 @@
 package com.samknows.measurement.activity.components;
 
-import java.lang.reflect.Array;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -32,19 +30,13 @@ import com.samknows.measurement.util.SKDateFormat;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.net.ParseException;
-import android.os.Handler;
 import android.text.Html;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class SKGraphForResults {
@@ -405,63 +397,63 @@ public class SKGraphForResults {
 //				}
 			}
 
-			final boolean bDoBackAndForwardFill = false;
-			
-			// To reach here, we have an array of items...
-			if (bDoBackAndForwardFill == true) {
-				// We must now interpolate!
-				int theLastNonNilNumberAtIndex = -1;
-				lItems = theNewArray.size();
-
-				// To reach here, we have an array of items...
-				// We must now interpolate!
-				for (lIndex = 0; lIndex < daysBetween; lIndex++) {
-
-					Double theObject = theNewArray.get(lIndex);
-					if (theObject == null) {
-						// This is our PLACEHOLDER!
-						if (theLastNonNilNumberAtIndex == -1) {
-							// Nothing we can do here!
-							continue;
-						}
-
-						Double theNumberAtLastNonNilIndex = theNewArray.get(theLastNonNilNumberAtIndex);
-
-						// Interpolate. Look FORWARD to the next number!
-						// If none found, then simply copy forward.
-						boolean bLookForwardFound = false;
-
-						int lLookForwardIndex;
-						for (lLookForwardIndex = lIndex + 1; ; lLookForwardIndex++) {
-							if (lLookForwardIndex >= lItems)
-							{
-								break;
-							}
-
-							Double theLookForwardObject = theNewArray.get(lLookForwardIndex);
-							if (theLookForwardObject != null) {
-								Double theLookForwardNumber = theLookForwardObject;
-								bLookForwardFound = true;
-
-								// Calculate the value to use!
-								double theDecimalLookForward = theLookForwardNumber;
-								double theDecimalNumberAtLastNonNilIndex = theNumberAtLastNonNilIndex;
-								double theInterpolatedValue = theDecimalNumberAtLastNonNilIndex + (theDecimalLookForward - theDecimalNumberAtLastNonNilIndex) * ((double)(lIndex - theLastNonNilNumberAtIndex)) / ((double)(lLookForwardIndex - theLastNonNilNumberAtIndex));
-								theNewArray.set(lIndex, theInterpolatedValue);
-								break;
-							}
-						}
-
-						if (bLookForwardFound == false) {
-							theNewArray.set(lIndex, theNewArray.get(theLastNonNilNumberAtIndex));
-						}
-
-					} else {
-						theLastNonNilNumberAtIndex = lIndex;
-					}
-
-				}
-			}
+//			final boolean bDoBackAndForwardFill = false;
+//			
+//			// To reach here, we have an array of items...
+//			if (bDoBackAndForwardFill == true) {
+//				// We must now interpolate!
+//				int theLastNonNilNumberAtIndex = -1;
+//				lItems = theNewArray.size();
+//
+//				// To reach here, we have an array of items...
+//				// We must now interpolate!
+//				for (lIndex = 0; lIndex < daysBetween; lIndex++) {
+//
+//					Double theObject = theNewArray.get(lIndex);
+//					if (theObject == null) {
+//						// This is our PLACEHOLDER!
+//						if (theLastNonNilNumberAtIndex == -1) {
+//							// Nothing we can do here!
+//							continue;
+//						}
+//
+//						Double theNumberAtLastNonNilIndex = theNewArray.get(theLastNonNilNumberAtIndex);
+//
+//						// Interpolate. Look FORWARD to the next number!
+//						// If none found, then simply copy forward.
+//						boolean bLookForwardFound = false;
+//
+//						int lLookForwardIndex;
+//						for (lLookForwardIndex = lIndex + 1; ; lLookForwardIndex++) {
+//							if (lLookForwardIndex >= lItems)
+//							{
+//								break;
+//							}
+//
+//							Double theLookForwardObject = theNewArray.get(lLookForwardIndex);
+//							if (theLookForwardObject != null) {
+//								Double theLookForwardNumber = theLookForwardObject;
+//								bLookForwardFound = true;
+//
+//								// Calculate the value to use!
+//								double theDecimalLookForward = theLookForwardNumber;
+//								double theDecimalNumberAtLastNonNilIndex = theNumberAtLastNonNilIndex;
+//								double theInterpolatedValue = theDecimalNumberAtLastNonNilIndex + (theDecimalLookForward - theDecimalNumberAtLastNonNilIndex) * ((double)(lIndex - theLastNonNilNumberAtIndex)) / ((double)(lLookForwardIndex - theLastNonNilNumberAtIndex));
+//								theNewArray.set(lIndex, theInterpolatedValue);
+//								break;
+//							}
+//						}
+//
+//						if (bLookForwardFound == false) {
+//							theNewArray.set(lIndex, theNewArray.get(theLastNonNilNumberAtIndex));
+//						}
+//
+//					} else {
+//						theLastNonNilNumberAtIndex = lIndex;
+//					}
+//
+//				}
+//			}
 
 			// Finally, find the minimum and maximum values, for scaling the plot!
 			corePlotMinValue = 0.0;

@@ -1,14 +1,9 @@
 package com.samknows.measurement.environment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.samknows.libcore.SKLogger;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 

@@ -1,11 +1,9 @@
 package com.samknows.measurement.statemachine.state;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
-import com.samknows.libcore.R;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.net.RequestScheduleAction;
 import com.samknows.measurement.schedule.ScheduleConfig;

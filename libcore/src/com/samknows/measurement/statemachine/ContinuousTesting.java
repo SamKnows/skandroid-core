@@ -6,17 +6,14 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
-import com.samknows.measurement.ManualTest;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.environment.DCSData;
 import com.samknows.measurement.environment.NetworkDataCollector;
-import com.samknows.measurement.environment.PhoneIdentityData;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;

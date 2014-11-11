@@ -1,10 +1,5 @@
 package com.samknows.measurement.schedule;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +15,6 @@ import org.w3c.dom.NodeList;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.ManualTest;
-import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.condition.ConditionGroup;
 import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
 import com.samknows.measurement.schedule.failaction.RetryFailAction;

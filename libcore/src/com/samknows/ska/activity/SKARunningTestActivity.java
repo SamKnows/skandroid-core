@@ -1,10 +1,8 @@
 package com.samknows.ska.activity;
 
-import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
@@ -36,7 +33,6 @@ import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.ProgressWheel;
 import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.tests.ClosestTarget;
 

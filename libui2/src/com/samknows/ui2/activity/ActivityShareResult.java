@@ -22,8 +22,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.activity.components.FontFitTextView;
 
 /**
  * This activity is responsible for sharing the a test result.
@@ -38,7 +40,8 @@ public class ActivityShareResult extends Activity
 	private String path;
 	// UI elements
 	private LinearLayout layout_ll_main;
-	private TextView tv_Download_Result, tv_Upload_Result, tv_Latency_Result, tv_Packet_Loss_Result, tv_Jitter_Result, tv_Date_Result, tv_Connectivity_Result;
+	private FontFitTextView tv_Download_Result, tv_Upload_Result, tv_Latency_Result, tv_Packet_Loss_Result, tv_Jitter_Result;
+	private TextView tv_Date_Result, tv_Connectivity_Result;
 	private ImageView iv_Connectivity_Icon;	
 	
 	/**
@@ -104,11 +107,11 @@ public class ActivityShareResult extends Activity
 	{
 		layout_ll_main = (LinearLayout)findViewById(R.id.activity_share_result_ll_main);
 		
-		tv_Download_Result = (TextView)findViewById(R.id.activity_share_result_tv_result_download);
-		tv_Upload_Result = (TextView)findViewById(R.id.activity_share_result_tv_result_upload);
-		tv_Latency_Result = (TextView)findViewById(R.id.activity_share_result_tv_result_latency);
-		tv_Packet_Loss_Result = (TextView)findViewById(R.id.activity_share_result_tv_result_packet_loss);
-		tv_Jitter_Result = (TextView)findViewById(R.id.activity_share_result_tv_result_jitter);
+		tv_Download_Result = (FontFitTextView)findViewById(R.id.activity_share_result_tv_result_download);
+		tv_Upload_Result = (FontFitTextView)findViewById(R.id.activity_share_result_tv_result_upload);
+		tv_Latency_Result = (FontFitTextView)findViewById(R.id.activity_share_result_tv_result_latency);
+		tv_Packet_Loss_Result = (FontFitTextView)findViewById(R.id.activity_share_result_tv_result_packet_loss);
+		tv_Jitter_Result = (FontFitTextView)findViewById(R.id.activity_share_result_tv_result_jitter);
 		tv_Date_Result = (TextView)findViewById(R.id.activity_share_result_tv_result_date);
 		tv_Connectivity_Result = (TextView)findViewById(R.id.activity_share_result_tv_connectivity_text);
 		iv_Connectivity_Icon = (ImageView)findViewById(R.id.activity_share_result_iv_connectivity_icon);
@@ -133,28 +136,28 @@ public class ActivityShareResult extends Activity
 		tv_Date_Result.setTypeface(typeface_Roboto_Light);
 		tv_Connectivity_Result.setTypeface(typeface_Roboto_Light);
 		
-		float downloadResult = (float)getIntent().getExtras().getFloat("downloadResult");
-		if (downloadResult == 0)
+		String downloadResult = getIntent().getExtras().getString("downloadResult");
+		if (downloadResult.equals("-1"))
 		{
 			tv_Download_Result.setText(getString(R.string.slash));						
 		}
 		else
 		{
-			tv_Download_Result.setText(getIntent().getExtras().get("downloadResult") + " " + getString(R.string.units_Mbps));
+			tv_Download_Result.setText(getIntent().getExtras().get("downloadResult") + "");
 		}	
 		
-		float uploadResult = (float)getIntent().getExtras().getFloat("uploadResult");
-		if (uploadResult == 0)
+		String uploadResult = getIntent().getExtras().getString("uploadResult");
+		if (uploadResult.equals("-1"))
 		{
 			tv_Upload_Result.setText(getString(R.string.slash));			
 		}
 		else
 		{
-			tv_Upload_Result.setText(getIntent().getExtras().get("uploadResult") + " " + getString(R.string.units_Mbps));
+			tv_Upload_Result.setText(getIntent().getExtras().get("uploadResult") + "");
 		}
 		
-		int latencyResult = (int)getIntent().getExtras().getFloat("latencyResult");		
-		if (latencyResult == 0)
+		String latencyResult = getIntent().getExtras().getString("latencyResult");		
+		if (latencyResult.equals("-1"))
 		{
 			tv_Latency_Result.setText(getString(R.string.slash));
 			tv_Packet_Loss_Result.setText(getString(R.string.slash));
@@ -181,16 +184,22 @@ public class ActivityShareResult extends Activity
 		String date = sdf.format(new Date(getIntent().getExtras().getLong("dateResult")));
 		tv_Date_Result.setText(date);							
 		
-		if (getIntent().getExtras().getInt("networkType") == 0)
-		{
+		switch (getIntent().getExtras().getInt("networkType")) {
+		case 0:
+			SKLogger.sAssert(getClass(),  false);
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));	
 			tv_Connectivity_Result.setText(getString(R.string.wifi));
-		}
-		else
-		{
+			break;
+		case 1:
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_mobile));
 			tv_Connectivity_Result.setText(getString(R.string.mobile));
-		}	
+			break;
+		default:
+			SKLogger.sAssert(getClass(),  false);
+			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));	
+			tv_Connectivity_Result.setText(getString(R.string.wifi));
+			break;
+		}
 		
 		ViewTreeObserver viewTreeObserver = layout_ll_main.getViewTreeObserver();
 		viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener()

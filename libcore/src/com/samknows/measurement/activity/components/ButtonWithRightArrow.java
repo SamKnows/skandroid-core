@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.graphics.Path.Direction;
 import android.util.AttributeSet;
 import android.widget.Button;
 

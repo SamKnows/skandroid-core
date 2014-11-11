@@ -1,5 +1,8 @@
 package com.samknows.ui2.activity;
 
+import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.SKApplication.eNetworkTypeResults;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,7 +18,7 @@ import android.os.Parcelable;
 public class TestResult implements Parcelable
 {
 	// *** VARIABLES *** //
-	private int networkType;
+	private eNetworkTypeResults networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
 	private String downloadResult, uploadResult, latencyResult, jitterResult;
 	private String packetLossResult;
 	private long dtime;	
@@ -68,7 +71,19 @@ public class TestResult implements Parcelable
 	{
 		dest.writeLong(dtime);		
 		
-		dest.writeInt(networkType);		
+		switch (networkType) {
+		case eNetworkTypeResults_Any:
+			SKLogger.sAssert(getClass(), false);
+			break;
+		case eNetworkTypeResults_WiFi:
+    		dest.writeInt(1);		
+    		break;
+		case eNetworkTypeResults_Mobile:
+    		dest.writeInt(2);		
+			break;
+		default:
+			break;
+		}
 		
 		dest.writeString(downloadResult);
 		dest.writeString(uploadResult);
@@ -107,7 +122,19 @@ public class TestResult implements Parcelable
 	{
 		dtime = in.readLong();
 		
-		networkType = in.readInt();		
+		switch (in.readInt()) {
+		case 0:
+			SKLogger.sAssert(getClass(),  false);
+			break;
+		case 1:
+    		networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
+    		break;
+		case 2:
+    		networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
+			break;
+		default:
+			break;
+		}
 		
 		simOperatorName = in.readString();
 		simOperatorCode = in.readString();
@@ -165,7 +192,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @return networkType
 	 */
-	public int getNetworkType()
+	public eNetworkTypeResults getNetworkType()
 	{
 		return networkType;
 	}
@@ -175,9 +202,22 @@ public class TestResult implements Parcelable
 	 * 
 	 * @param pNetworkType
 	 */
-	public void setNetworkType(int pNetworkType)
+	public void setNetworkType(eNetworkTypeResults pNetworkType)
 	{
-		this.networkType = pNetworkType;
+		switch (pNetworkType) {
+		case eNetworkTypeResults_Any:
+			SKLogger.sAssert(getClass(), false);
+			break;
+		case eNetworkTypeResults_WiFi:
+			this.networkType = pNetworkType;
+			break;
+		case eNetworkTypeResults_Mobile:
+			this.networkType = pNetworkType;
+			break;
+		default:
+			SKLogger.sAssert(getClass(), false);
+			break;
+		}
 	}
 
 	/**

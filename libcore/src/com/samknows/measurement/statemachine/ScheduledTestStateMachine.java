@@ -5,19 +5,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.activity.components.UIUpdate;
-import com.samknows.measurement.statemachine.state.ActivateState;
-import com.samknows.measurement.statemachine.state.AssociateState;
 import com.samknows.measurement.statemachine.state.BaseState;
-import com.samknows.measurement.statemachine.state.CheckConfigVersionState;
-import com.samknows.measurement.statemachine.state.DownloadConfigAnonymousState;
-import com.samknows.measurement.statemachine.state.DownloadConfigState;
-import com.samknows.measurement.statemachine.state.ExecuteScheduledTestQueueState;
-import com.samknows.measurement.statemachine.state.InitialiseAnonymousState;
-import com.samknows.measurement.statemachine.state.InitialiseState;
-import com.samknows.measurement.statemachine.state.NoneState;
-import com.samknows.measurement.statemachine.state.RunInitTestsState;
-import com.samknows.measurement.statemachine.state.SubmitResultsAnonymousState;
-import com.samknows.measurement.statemachine.state.SubmitResultsState;
 import com.samknows.measurement.util.OtherUtils;
 
 public class ScheduledTestStateMachine {

@@ -4,17 +4,13 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.PriorityQueue;
 
-import android.app.Application;
-
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.TestGroup;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.condition.DatacapCondition;
 import com.samknows.measurement.schedule.failaction.RetryFailAction;
-import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.TimeUtils;
 
 public class ScheduledTestExecutionQueue implements Serializable{

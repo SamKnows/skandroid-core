@@ -21,6 +21,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="10dp" >
             </LinearLayout>
+            
+            <TextView
+                    android:id="@+id/version"
+                    style="@style/h1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <com.samknows.measurement.activity.components.ButtonWithRightArrow
                 android:id="@+id/settings_clearallresults_button"

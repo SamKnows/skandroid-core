@@ -10,7 +10,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -24,10 +23,8 @@ import android.widget.TextView;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.util.LoginHelper;
 import com.samknows.ska.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKAActivationActivity;
-import com.samknows.ska.activity.SKAPreferenceActivity;
 import com.samknows.ska.activity.SKASettingsActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 import com.samknows.libui2.R;
@@ -366,14 +363,14 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 			return true;
 		}
 	
-		if (itemId == R.id.menu_item_fragment_activity_main_about) {
-    		// TODO - which about screen to show?!
-			//Intent intent = new Intent(this, ActivityAbout.class);
-			Intent intent = new Intent(this, SKAAboutActivity.class);
-			startActivity(intent);
-			
-			return true;
-		}
+//		if (itemId == R.id.menu_item_fragment_activity_main_about) {
+//    		// TODO - which about screen to show?!
+//			//Intent intent = new Intent(this, ActivityAbout.class);
+//			Intent intent = new Intent(this, SKAAboutActivity.class);
+//			startActivity(intent);
+//			
+//			return true;
+//		}
 		
 		if (itemId == R.id.menu_settings){
 			startActivity(new Intent(this, SKASettingsActivity.class));

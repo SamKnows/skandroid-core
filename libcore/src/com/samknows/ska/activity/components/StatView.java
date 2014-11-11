@@ -1,8 +1,6 @@
 package com.samknows.ska.activity.components;
 
 import com.samknows.libcore.R;
-import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.StatRecord;
 

@@ -1,6 +1,5 @@
 package com.samknows.ui2.activity;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -15,9 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.activity.components.FontFitTextView;
+import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 
 /**
  * This class represents the custom adapter to the archive results list view.
@@ -118,15 +118,21 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             testDate.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "dd/MM/yy HH:mm") : rowView.getContext().getString(R.string.not_available));
             
             // Set the test network type icon
-            int resultNetworkType = archivedResultsList.get(position).getNetworkType();
-            
-            if (resultNetworkType == 0)			// Network type is WiFi
-            {        	
+            eNetworkTypeResults resultNetworkType = archivedResultsList.get(position).getNetworkType();
+           
+            switch (resultNetworkType) { 
+            case eNetworkTypeResults_WiFi:
             	testNetworkType.setImageResource(R.drawable.ic_swifi);
-    		}
-            else if (resultNetworkType == 1)	// Network type is mobile
-            {
+            	break;
+            	
+            case eNetworkTypeResults_Mobile:
             	testNetworkType.setImageResource(R.drawable.ic_sgsm);        	
+            	break;
+
+            default:
+            	testNetworkType.setImageResource(R.drawable.ic_swifi);
+            	SKLogger.sAssert(getClass(),  false);
+            	break;
             }
             
             // Set the test download result

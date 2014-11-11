@@ -4,17 +4,12 @@ import java.util.List;
 
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.activity.SamKnowsBaseActivity;
-
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.view.MenuItem;
 

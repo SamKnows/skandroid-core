@@ -18,7 +18,6 @@ import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.statemachine.ContinuousTesting;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.statemachine.ScheduledTestStateMachine;
-import com.samknows.measurement.statemachine.state.ExecuteScheduledTestQueueState;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 import com.samknows.measurement.util.OtherUtils;
 

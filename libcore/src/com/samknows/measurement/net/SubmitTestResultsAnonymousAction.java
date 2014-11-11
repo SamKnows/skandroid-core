@@ -2,11 +2,8 @@ package com.samknows.measurement.net;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -22,21 +19,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.SamKnowsResponseHandler;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.storage.PassiveMetric.METRIC_TYPE;
-import com.samknows.measurement.storage.SKSQLiteHelper;
 import com.samknows.measurement.test.TestResultsManager;
 
 import android.content.Context;
 import android.net.ParseException;
 import android.net.Uri;
-import android.util.Log;
 
 public class SubmitTestResultsAnonymousAction {
 	protected Context context;

@@ -5,10 +5,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Iterator;
-
-import android.text.TextUtils;
-import android.text.TextUtils.StringSplitter;
 import android.util.Pair;
 
 import com.samknows.libcore.SKCommon;

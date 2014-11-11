@@ -1,33 +1,14 @@
 package com.samknows.libcore;
 
-import java.util.Locale;
-
 import android.app.Activity;
-import android.util.Log;
-
-import com.samknows.libcore.*;
 import com.samknows.libcore.SKOperators.ISKQueryCompleted;
 import com.samknows.libcore.SKOperators.SKOperators_Return;
 import com.samknows.libcore.SKOperators.SKThrottledQueryResult;
-import com.samknows.libcore.SKServiceDataCache.CachedValue;
-import com.samknows.measurement.*;
-import com.samknows.measurement.test.TestExecutor;
-import com.samknows.ska.activity.SKAMainResultsActivity;
-
 import org.robolectric.Robolectric;
-import org.robolectric.Robolectric.*;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowIntent;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
-
-// Optionally, can use Mockito!
-import static org.mockito.Mockito.*;
-
-import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(RobolectricTestRunner.class)
 public class SKOperatorsTests {

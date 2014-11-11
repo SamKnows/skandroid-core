@@ -3,17 +3,14 @@ package com.samknows.measurement.statemachine.state;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
-import com.samknows.libcore.R;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.net.RequestScheduleAnonymousAction;
 import com.samknows.measurement.schedule.ScheduleConfig;

@@ -3,13 +3,9 @@ package com.samknows.ui2.activity;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.MainService;
-import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.util.LoginHelper;

@@ -1,26 +1,15 @@
 package com.samknows.measurement.storage;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
-import android.util.Pair;
-
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
-import com.samknows.measurement.environment.LocationData;
-import com.samknows.measurement.environment.NetworkData;
-import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
-import com.samknows.measurement.schedule.datacollection.LocationDataCollector;
 import com.samknows.measurement.test.TestExecutor;
 import com.samknows.measurement.util.SKDateFormat;
 

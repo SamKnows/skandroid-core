@@ -2,12 +2,9 @@ package com.samknows.ui2.activity;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -65,8 +62,6 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult;
-import com.samknows.ska.activity.SKAActivationActivity;
-import com.samknows.tests.HttpTest;
 
 /**
  * This fragment is responsible for running the tests and managing the home screen.
@@ -114,7 +109,7 @@ public class FragmentRunTest extends Fragment
 	private TextView tv_Data_Cap_Warning, tv_Connectivity_Warning, mUnitText;	
 	private View initial_warning_text;
 	// Text views showing the test result labels
-	private TextView tv_Label_Download, tv_Label_Upload, tv_Label_Mbps_1, tv_Label_Mbps_2;
+	private TextView tv_Label_Download, tv_Label_Upload; //  tv_Label_Mbps_1, tv_Label_Mbps_2;
 	private FontFitTextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
 	private TextView tv_TopTextNetworkType;
 	// Text views showing the test result information
@@ -567,8 +562,8 @@ public class FragmentRunTest extends Fragment
 		tv_Label_Latency = (FontFitTextView)pView.findViewById(R.id.latency_label);
 		tv_Label_Loss = (FontFitTextView)pView.findViewById(R.id.loss_label);
 		tv_Label_Jitter = (FontFitTextView)pView.findViewById(R.id.jitter_label);
-		tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.mbps_label_1);
-		tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
+		//tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.mbps_label_1);
+		//tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
 		tv_Result_Date = (TextView)pView.findViewById(R.id.archiveResultsListItemDate);
 
 		tv_TopTextNetworkType = (TextView)pView.findViewById(R.id.top_text_network_type_label);
@@ -786,7 +781,7 @@ public class FragmentRunTest extends Fragment
 								gaugeView.setKindOfTest(0);								
 								changeUnitsInformationLabel(getString(R.string.units_Mbps));
 								
-								valueUnits = formattedValues.getFormattedSpeedValue(value);
+								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								
 								if (valueUnits.second.length() > 0) {
     								tv_DownloadUnits.setText(valueUnits.second);
@@ -808,7 +803,7 @@ public class FragmentRunTest extends Fragment
 								gaugeView.setKindOfTest(1);
 								changeUnitsInformationLabel(getString(R.string.units_Mbps));
 								
-								valueUnits = formattedValues.getFormattedSpeedValue(value);
+								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								if (valueUnits.second.length() > 0) {
     								tv_UploadUnits.setText(valueUnits.second);
 								}
@@ -831,7 +826,7 @@ public class FragmentRunTest extends Fragment
 								gaugeView.setKindOfTest(2);								
 								changeUnitsInformationLabel(getString(R.string.units_ms));
 								
-								valueUnits = formattedValues.getFormattedSpeedValue(value);
+								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								
 								if (statusComplete == 100)
 								{									
@@ -1794,11 +1789,10 @@ public class FragmentRunTest extends Fragment
     	menuItem_SelectTests = menu.findItem(R.id.menu_item_fragment_run_test_select_tests);
     	menuItem_ShareResult = menu.findItem(R.id.menu_item_fragment_run_test_share_result);
     	
-		menuItem_ShareResult.setVisible(!gaugeVisible);		
+		menuItem_ShareResult.setVisible((!gaugeVisible) &&connectivityType == 1); // 0 wifi, 1 mobile
 		
-		MenuItem item = menu.findItem(R.id.menu_item_fragment_run_test_select_tests);
-		if (item != null) {
-			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+		if (menuItem_SelectTests != null) {
+			menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
 		}
     }
 
@@ -1809,6 +1803,11 @@ public class FragmentRunTest extends Fragment
     	int itemId = item.getItemId();
     	
     	if (itemId == R.id.menu_item_fragment_run_test_select_tests) {
+			if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
+    			menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+    			SKLogger.sAssert(getClass(), false);
+    			return true;
+			}
     		// Case select tests
     		Intent intent_select_tests = new Intent(getActivity(),ActivitySelectTests.class);
     		startActivity(intent_select_tests);
@@ -1817,18 +1816,29 @@ public class FragmentRunTest extends Fragment
     	}
     	
     	if (itemId == R.id.menu_item_fragment_run_test_share_result) {
-    		FormattedValues formattedValues = new FormattedValues();
+     		if (connectivityType == 0) {
+     			SKLogger.sAssert(getClass(), false); // 0 wifi, 1 mobile
+     			
+        		menuItem_ShareResult.setVisible((!gaugeVisible) &&connectivityType == 1); // 0 wifi, 1 mobile
+     		} else {
+     			FormattedValues formattedValues = new FormattedValues();
 
-    		Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
-    		intent_share_result_activity.putExtra("downloadResult", Float.valueOf(tv_Result_Download.getText().toString()));
-    		intent_share_result_activity.putExtra("uploadResult", Float.valueOf(tv_Result_Upload.getText().toString()));
-    		intent_share_result_activity.putExtra("latencyResult", formattedValues.getFormattedLatencyValue(tv_Result_Latency.getText().toString()));
-    		intent_share_result_activity.putExtra("packetLossResult", formattedValues.getFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()));
-    		intent_share_result_activity.putExtra("jitterResult", formattedValues.getFormattedJitter(tv_Result_Jitter.getText().toString()));
-    		intent_share_result_activity.putExtra("networkType", connectivityType);    	
-    		intent_share_result_activity.putExtra("dateResult", testTime); 				
+     			try {
+     				Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
+     				intent_share_result_activity.putExtra("downloadResult", tv_Result_Download.getText() + " " + tv_DownloadUnits.getText());
+     				intent_share_result_activity.putExtra("uploadResult", tv_Result_Upload.getText() + " " + tv_UploadUnits.getText());
+     				intent_share_result_activity.putExtra("latencyResult", formattedValues.getFormattedLatencyValue(tv_Result_Latency.getText().toString()));
+     				intent_share_result_activity.putExtra("packetLossResult", formattedValues.getFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()));
+     				intent_share_result_activity.putExtra("jitterResult", formattedValues.getFormattedJitter(tv_Result_Jitter.getText().toString()));
+     				intent_share_result_activity.putExtra("networkType", 1); // 1 mobile
+     				intent_share_result_activity.putExtra("dateResult", testTime); 				
 
-    		startActivity(intent_share_result_activity);
+     				startActivity(intent_share_result_activity);
+     			} catch (Exception e) {
+     				// Don't let this crash the app!
+     				SKLogger.sAssert(getClass(), false);
+     			}
+     		}
 
     		return true;
     	}
@@ -1919,7 +1929,7 @@ public class FragmentRunTest extends Fragment
 				
 				gaugeVisible = false;
 				
-				menuItem_ShareResult.setVisible(true);  
+        		menuItem_ShareResult.setVisible((!gaugeVisible) &&connectivityType == 1); // 0 wifi, 1 mobile
 
 				// Move the results layout to the top of the screen
 				run_results_panel_frame_to_animate.animate().setDuration(300).y(dpToPx(8)).setInterpolator(new OvershootInterpolator(1.2f));

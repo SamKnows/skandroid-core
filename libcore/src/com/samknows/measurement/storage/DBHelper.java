@@ -14,17 +14,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.ConnectivityManager;
 //import android.os.Trace;
 import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.activity.components.SKGraphForResults;
+import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_1w1m3m1y;
-import com.samknows.measurement.environment.TrafficData;
-import com.samknows.measurement.util.DCSConvertorUtil;
-import com.samknows.measurement.util.OtherUtils;
 
 //Helper class for accessing the data stored in the SQLite DB
 //It Exposes only the methods to populate the Interface
@@ -1072,7 +1068,7 @@ public class DBHelper {
 	
 	// PABLO'S ADDITION
 	// This method is used to retrieve information for the summary screen results about average and best results.
-	public ArrayList<SummaryResult> getSummaryValues(int pNetworkType, long pTimePeriodStart)
+	public ArrayList<SummaryResult> getSummaryValues(eNetworkTypeResults pNetworkType, long pTimePeriodStart)
 	{
 		ArrayList<SummaryResult> summaryResults = new ArrayList<SummaryResult>();		
 		String whereClause;
@@ -1080,22 +1076,23 @@ public class DBHelper {
 		// Depending on the network type, we use different where clauses.
 		switch (pNetworkType)
 		{
-			case 0:
+			case eNetworkTypeResults_Any:
 				whereClause = " WHERE " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
 				break;
 				
-			case 1:
+			case eNetworkTypeResults_WiFi:
 				whereClause = " WHERE " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_METRIC + "= \"activenetworktype\" AND " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_VALUE + " = " + "\"WiFi\"" + 
 				" AND " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
 				break;
 				
-			case 2:
+			case eNetworkTypeResults_Mobile:
 				whereClause = " WHERE " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_METRIC + "= \"activenetworktype\" AND " + SKSQLiteHelper.TABLE_PASSIVEMETRIC + "." + SKSQLiteHelper.PM_COLUMN_VALUE + " = " + "\"mobile\"" + 
 				" AND " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
 				break;
 	
 			default:
 				whereClause = " WHERE " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
+				SKLogger.sAssert(getClass(),  false);
 				break;
 		}
 		

@@ -11,10 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.util.Log;
 

@@ -28,7 +28,6 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 import com.samknows.measurement.activity.components.UIUpdate;
-import com.samknows.measurement.environment.DCSData;
 import com.samknows.measurement.environment.LocationData;
 import com.samknows.measurement.environment.NetworkData;
 import com.samknows.measurement.environment.NetworkDataCollector;

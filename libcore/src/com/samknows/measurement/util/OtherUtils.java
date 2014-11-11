@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.provider.Telephony.Sms.Conversations;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 

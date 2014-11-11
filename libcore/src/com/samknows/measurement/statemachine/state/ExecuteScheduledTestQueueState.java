@@ -4,7 +4,6 @@ package com.samknows.measurement.statemachine.state;
 import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;

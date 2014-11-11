@@ -1,12 +1,9 @@
 package com.samknows.libcore;
 
 import android.content.Context;
-import android.net.ParseException;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.telephony.TelephonyManager;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -18,11 +15,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.security.MessageDigest;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
-
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;

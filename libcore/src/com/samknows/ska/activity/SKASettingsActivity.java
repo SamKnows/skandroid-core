@@ -1,16 +1,7 @@
 package com.samknows.ska.activity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,14 +11,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewPager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -37,11 +25,9 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
-import com.samknows.measurement.SKAppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 
-import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.ButtonWithRightArrow;
 import com.samknows.measurement.activity.components.FontFitTextView;
@@ -53,12 +39,10 @@ import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityData;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.util.DCSConvertorUtil;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.SKGsmSignalStrength;
-import com.samknows.ska.activity.SKAMainResultsActivity.MyPagerAdapter;
 
 public class SKASettingsActivity extends BaseLogoutActivity{
 
@@ -93,6 +77,15 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
+		
+		String versionName="";
+		try {
+			versionName = this.getPackageManager().getPackageInfo(this.getPackageName(), 0 ).versionName;
+		} catch (NameNotFoundException e) {
+			SKLogger.sAssert(getClass(), false);
+		}
+		TextView tv=(TextView) findViewById(R.id.version);
+		tv.setText(getString(R.string.version)+ " " + versionName);
 
 		final ButtonWithRightArrow clearAllResultsButton = (ButtonWithRightArrow) findViewById(R.id.settings_clearallresults_button);
 		clearAllResultsButton.setOnClickListener(new OnClickListener() {

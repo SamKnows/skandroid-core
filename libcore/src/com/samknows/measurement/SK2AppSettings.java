@@ -7,8 +7,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TimeZone;
-
 import org.apache.commons.io.IOUtils;
 
 import android.content.Context;

@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -133,9 +132,24 @@ public class FragmentArchivedResults extends Fragment
 		// Check if the request code is same as what is passed  here it is 0
 		// Check if the data is different from null, when for example the user leaves the activity with the back button
 		
-        if(data != null && requestCode == 0)  
+        if (data != null && requestCode == 0)  
         {
-        	int networkType = data.getIntExtra("networkType", 0);
+        	eNetworkTypeResults networkType;
+        	
+        	switch (data.getIntExtra("networkType", 0)) {
+        	case 0:
+        		networkType = eNetworkTypeResults.eNetworkTypeResults_Any;
+        		break;
+        	case 1:
+        		networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
+        		break;
+        	case 2:
+        		networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
+        		break;
+        	default:
+        		SKLogger.sAssert(getClass(),  false);
+        		networkType = eNetworkTypeResults.eNetworkTypeResults_Any;
+        	}
         	
         	if (networkType != getNetworkTypeSelection())
         	{
@@ -510,12 +524,25 @@ public class FragmentArchivedResults extends Fragment
 	 * 
 	 * @param pNetworkType
 	 */
-	private void saveNetworkTypeSelection(int pNetworkType)
+	private void saveNetworkTypeSelection(eNetworkTypeResults pNetworkType)
 	{
 		// Get the shared preferences editor
 		SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
+		
+		switch (pNetworkType) {
+		case eNetworkTypeResults_Any:
+			editor.putInt("networkTypeArchivedTests", 0);
+			break;
+		case eNetworkTypeResults_WiFi:
+			editor.putInt("networkTypeArchivedTests", 1);
+			break;
+		case eNetworkTypeResults_Mobile:
+			editor.putInt("networkTypeArchivedTests", 2);
+			break;
+		default:
+			SKLogger.sAssert(getClass(),  false);
+		}
 
-		editor.putInt("networkTypeArchivedTests", pNetworkType);		// Save the state of network type filter	
 		editor.commit();		// Commit changes
 	}
 	
@@ -523,12 +550,22 @@ public class FragmentArchivedResults extends Fragment
 	 * Get the state of the network type filter from shared preferences
 	 * @return
 	 */
-	private int getNetworkTypeSelection()
+	private eNetworkTypeResults getNetworkTypeSelection()
 	{
 		// Get shared preferences
 		SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
     	// Recover the state of the download button		
-    	return prefs.getInt("networkTypeArchivedTests", 0);
+    	switch (prefs.getInt("networkTypeArchivedTests", 0)) {
+    	case 0:
+    		return eNetworkTypeResults.eNetworkTypeResults_Any;
+    	case 1:
+    		return eNetworkTypeResults.eNetworkTypeResults_WiFi;
+    	case 2:
+    		return eNetworkTypeResults.eNetworkTypeResults_Mobile;
+    	default:
+    		SKLogger.sAssert(getClass(),  false);
+    		return eNetworkTypeResults.eNetworkTypeResults_Any;
+    	}
 	}
 	
 	/**
@@ -538,30 +575,19 @@ public class FragmentArchivedResults extends Fragment
 	 * @param pTemporaryArchivedTestsList
 	 * @return a list of archived tests
 	 */
-	private ArrayList<TestResult> getArchivedTestsList(int networkType, ArrayList<TestResult> pTemporaryArchivedTestsList)
+	private ArrayList<TestResult> getArchivedTestsList(eNetworkTypeResults networkType, ArrayList<TestResult> pTemporaryArchivedTestsList)
 	{
 		// Get the current network state
 		eNetworkTypeResults previosState = SKApplication.getNetworkTypeResults();
 		
-		// Get the WiFi archived results and save them if the data type is 0 or 1
-		if (networkType == 0 || networkType == 1)
-		{
-			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_WiFi);			
-			pTemporaryArchivedTestsList = getFilledArrayList(pTemporaryArchivedTestsList);			
-		}
-		
-		// Get the Mobile archived results and save them if the data type is 0 or 2
-		if (networkType == 0 || networkType == 2)
-		{
-			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);			
-			pTemporaryArchivedTestsList = getFilledArrayList(pTemporaryArchivedTestsList);
-		}		
+		SKApplication.setNetworkTypeResults(networkType);
+		pTemporaryArchivedTestsList = getFilledArrayList(pTemporaryArchivedTestsList);			
 		
 		// Back to the previous state
 		SKApplication.setNetworkTypeResults(previosState);
 		
 		// Order the archived test results by date in case we had retrieved WiFi and Mobile data
-		if (networkType == 0)
+		if (networkType == eNetworkTypeResults.eNetworkTypeResults_Any)
 		{
 			pTemporaryArchivedTestsList = getOrderedByDateList(pTemporaryArchivedTestsList);
 		}
@@ -586,19 +612,11 @@ public class FragmentArchivedResults extends Fragment
 			for (int i = 0; i < archivedResults.getInt("counter"); i++)
 			{				
 				TestResult testResult = new TestResult();
+			
+				JSONObject thisRow = dbHelper.getArchiveData(i);
+				testResult.setDtime(Long.valueOf(thisRow.getString("dtime")));
 				
-				testResult.setDtime(Long.valueOf(dbHelper.getArchiveData(i).getString("dtime")));
-				
-				if (SKApplication.getNetworkTypeResults() == eNetworkTypeResults.eNetworkTypeResults_WiFi)
-				{					
-					testResult.setNetworkType(0);
-				}
-				else
-				{					
-					testResult.setNetworkType(1);
-				}				
-				
-				JSONArray activeMetricResults = dbHelper.getArchiveData(i).getJSONArray("activemetrics");
+				JSONArray activeMetricResults = thisRow.getJSONArray("activemetrics");
 				FormattedValues formattedValues = new FormattedValues();
 				
 				// Iterate the active metrics and save them in a list
@@ -683,7 +701,7 @@ public class FragmentArchivedResults extends Fragment
 					continue;					
 				}
 				
-				JSONArray passiveMetricResults = dbHelper.getArchiveData(i).getJSONArray("passivemetrics");
+				JSONArray passiveMetricResults = thisRow.getJSONArray("passivemetrics");
 				
 				// Iterate the passive metrics to save them in an object and finally save the object in a list
 				for (int itemcount = 0; itemcount < passiveMetricResults.length(); itemcount++)
@@ -773,7 +791,22 @@ public class FragmentArchivedResults extends Fragment
 					{						
 						testResult.setSubmissionId(value);
 					}
-					else
+					else if (metric.equals("activenetworktype"))
+					{
+						if (value.equals("WiFi"))
+						{					
+							testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+						}
+						else if (value.equals("mobile"))
+						{					
+							testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+						}				
+						else
+						{
+							SKLogger.sAssert(getClass(), false);
+						}
+					}
+				
 					{
 						//SKLogger.sAssert(getClass(), false);
 					}
@@ -828,7 +861,7 @@ public class FragmentArchivedResults extends Fragment
 	private void fillPassiveMetrics(TestResult pTestResult)
 	{
 		// If network type is WiFi, hide passive metrics not related with WiFi. If network type is not WiFi, show all passive metrics related with mobile network
-		int visibilityOfMobilePassiveMetrics = pTestResult.getNetworkType() == 0 ? View.GONE : View.VISIBLE ;
+		int visibilityOfMobilePassiveMetrics = pTestResult.getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_WiFi ? View.GONE : View.VISIBLE ;
 
 		// Fields which visibility depends on the kind of network
 		tv_hader_label_sim_and_network_operators.setVisibility(visibilityOfMobilePassiveMetrics); 
@@ -971,13 +1004,26 @@ public class FragmentArchivedResults extends Fragment
     	if (itemId == R.id.menu_item_fragment_archived_tests_share_result) {
     		if (clickedPosition != -1)
     		{
+    			switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
+    			case eNetworkTypeResults_WiFi:
+    				SKLogger.sAssert(getClass(),  false);
+    				return true;
+
+    			case eNetworkTypeResults_Mobile:
+    				break;
+    				
+    			default:
+    				SKLogger.sAssert(getClass(),  false);
+    				return true;
+    			}
+    			
     			Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
+        		intent_share_result_activity.putExtra("networkType", 1);
     			intent_share_result_activity.putExtra("downloadResult", aList_ArchivedResults.get(clickedPosition).getDownloadResult());
     			intent_share_result_activity.putExtra("uploadResult", aList_ArchivedResults.get(clickedPosition).getUploadResult());
     			intent_share_result_activity.putExtra("latencyResult", aList_ArchivedResults.get(clickedPosition).getLatencyResult());
     			intent_share_result_activity.putExtra("packetLossResult", aList_ArchivedResults.get(clickedPosition).getPacketLossResult());
     			intent_share_result_activity.putExtra("jitterResult", aList_ArchivedResults.get(clickedPosition).getJitterResult());
-    			intent_share_result_activity.putExtra("networkType", aList_ArchivedResults.get(clickedPosition).getNetworkType());    	
     			intent_share_result_activity.putExtra("dateResult", aList_ArchivedResults.get(clickedPosition).getDtime());    				
 
     			startActivity(intent_share_result_activity);					
@@ -1050,6 +1096,8 @@ public class FragmentArchivedResults extends Fragment
 	private void showDetailedMetricsHideList(final int screenWidth, View view,
 			int position) {
 		clickedPosition = position;
+		setHasOptionsMenu(true);
+    		
 		// Fill the passive metrics for the selected position
 		fillPassiveMetrics(aList_ArchivedResults.get(position));
 		
@@ -1058,7 +1106,11 @@ public class FragmentArchivedResults extends Fragment
 		
 		// Hide the action bar menu filter while the details of a test are shown
 		menu_Item_Network_Type_Filter.setVisible(false);
-		menu_Item_Share_Result.setVisible(true);				// Show the share result action in the action bar
+    	if (clickedPosition != -1)
+    	{
+    		// Only share MOBILE results!
+    		menu_Item_Share_Result.setVisible(aList_ArchivedResults.get(clickedPosition).getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_Mobile);
+    	}
 		
 		// Get the position of the clicked list view item
 		originPositionX = view.getLeft();

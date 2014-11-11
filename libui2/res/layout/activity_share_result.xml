@@ -56,10 +56,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:layout_marginRight="10dp"
             android:orientation="vertical"
             android:paddingLeft="@dimen/spacing_micro">
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/activity_share_result_tv_result_download"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -76,9 +77,9 @@
                 android:layout_marginTop="@dimen/spacing_small_negative"
                 android:layout_weight="1"
                 android:text="@string/download_speed"
-                android:textColor="@color/TableCellColourText"/>
+                android:textColor="@color/TableCellColourText" />
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/activity_share_result_tv_result_upload"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -86,7 +87,7 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_peta"
-                tools:text="3.88 Mbps"/>
+                tools:text="3.88 Mbps" />
 
             <TextView
                 android:id="@+id/activity_share_result_tv_label_upload"
@@ -97,7 +98,7 @@
                 android:text="@string/upload_speed"
                 android:textColor="@color/TableCellColourText"/>
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/activity_share_result_tv_result_latency"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -116,7 +117,7 @@
                 android:text="@string/latency"
                 android:textColor="@color/TableCellColourText"/>
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/activity_share_result_tv_result_packet_loss"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -135,7 +136,7 @@
                 android:text="@string/packet_loss_lowercase"
                 android:textColor="@color/TableCellColourText" />
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/activity_share_result_tv_result_jitter"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

@@ -1,7 +1,5 @@
 package com.samknows.tests;
 
-import com.samknows.libcore.SKCommon;
-
 public class TriggerTest extends Test {
 
 	@Override

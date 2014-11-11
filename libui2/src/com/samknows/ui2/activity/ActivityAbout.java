@@ -4,7 +4,6 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.activity.SamKnowsBaseActivity;
 
-import android.app.Activity;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
 import android.os.Bundle;

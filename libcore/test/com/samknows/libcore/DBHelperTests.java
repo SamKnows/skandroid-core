@@ -2,14 +2,7 @@ package com.samknows.libcore;
 
 import java.util.Locale;
 
-import android.util.Log;
-
-import org.robolectric.Robolectric;
-import org.robolectric.Robolectric.*;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowIntent;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;

@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.storage.StorageTestResult;

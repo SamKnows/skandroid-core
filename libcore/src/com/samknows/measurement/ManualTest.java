@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.net.SubmitTestResultsAction;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
@@ -26,12 +25,9 @@ import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Test;
 import com.samknows.tests.TestFactory;
 
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 
 /*  
  * This class is used to run the the tests when they are executed manually

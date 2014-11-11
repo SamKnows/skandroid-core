@@ -3,8 +3,6 @@ package com.samknows.ui2.activity;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.animation.Animator;
@@ -38,11 +36,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.samknows.ska.activity.PointElement;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
@@ -152,7 +148,19 @@ public class FragmentSummary extends Fragment
 			{
 				// The activity that we came from is ActivitySelectNetworkType
 				case 0:
-					int networkType = data.getIntExtra("networkType", 0);
+					eNetworkTypeResults networkType;
+					switch (data.getIntExtra("networkType", 0)) {
+					case 0:
+     					networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
+     					break;
+					case 1:
+     					networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
+     					break;
+					default:
+     					networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
+						SKLogger.sAssert(getClass(), false);
+     					break;
+					}
 		        	
 					// If the network selection is different from the current network selection
 		        	if (networkType != getNetworkTypeSelection())
@@ -1252,16 +1260,17 @@ public class FragmentSummary extends Fragment
 		// Switch depending on the network type currently selected - this affects the underlying query.
 		switch (getNetworkTypeSelection())
 		{
-		case 0: // Network type: All
+		case eNetworkTypeResults_Any:
 			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Any);
 			break;
-		case 1:				// Network type: WiFi
+		case eNetworkTypeResults_WiFi:
 			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_WiFi);
 			break;
-		case 2: // Network type: Mobile
+		case eNetworkTypeResults_Mobile:
 			SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);
 			break;
 		default:
+			SKLogger.sAssert(getClass(), false);
 			break;
 		}
 
@@ -1380,12 +1389,25 @@ public class FragmentSummary extends Fragment
 	 * 
 	 * @param pNetworkType is the network type value stored in shared preferences for the Summary fragment
 	 */
-	private void saveNetworkTypeSelection(int pNetworkType)
+	private void saveNetworkTypeSelection(eNetworkTypeResults pNetworkType) // 0 wifi, 1 mobile
 	{
 		// Get shared preferences editor
 		SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
 
-		editor.putInt("networkTypeSummary", pNetworkType);	// Save the state of network type filter	
+		switch (pNetworkType) {
+		case eNetworkTypeResults_Any:
+    		editor.putInt("networkTypeSummary", 0);	// Save the state of network type filter	
+    		break;
+		case eNetworkTypeResults_Mobile:
+    		editor.putInt("networkTypeSummary", 1);	// Save the state of network type filter	
+    		break;
+		case eNetworkTypeResults_WiFi:
+    		editor.putInt("networkTypeSummary", 2);	// Save the state of network type filter	
+    		break;
+		default:
+			SKLogger.sAssert(getClass(), false);
+			break;
+		}
 		editor.commit();	// Commit changes
 	}
 		
@@ -1394,12 +1416,22 @@ public class FragmentSummary extends Fragment
 	 * 
 	 * @return networkTypeSummary is the value stored in shared preferences for the network type in the Summary fragment
 	 */
-	private int getNetworkTypeSelection()
+	private eNetworkTypeResults getNetworkTypeSelection() // 0 wifi, 1 mobile
 	{
 		// Get the shared preferences
 		SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
     	// Return the state of network type selection		
-    	return prefs.getInt("networkTypeSummary", 0);
+		switch (prefs.getInt("networkTypeSummary", 0)) {
+		case 0:
+    		return eNetworkTypeResults.eNetworkTypeResults_Any;
+		case 1:
+    		return eNetworkTypeResults.eNetworkTypeResults_WiFi;
+		case 2:
+    		return eNetworkTypeResults.eNetworkTypeResults_Mobile;
+		default:
+			SKLogger.sAssert(getClass(),  false);
+    		return eNetworkTypeResults.eNetworkTypeResults_WiFi;
+		}
 	}	
 	
 	/**

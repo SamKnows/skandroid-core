@@ -7,14 +7,12 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKOperators;
 import com.samknows.measurement.environment.CellTowersDataCollector;
-import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.test.TestResultsManager;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
