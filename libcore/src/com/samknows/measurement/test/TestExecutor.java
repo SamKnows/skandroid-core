@@ -503,7 +503,7 @@ public class TestExecutor {
 		
 	}
 	
-	private long mBatchId = -1;
+	//private long mBatchId = -1;
 
 	public ConditionGroupResult executeGroup(TestGroup tg) {
 		long startTime = System.currentTimeMillis();
@@ -555,8 +555,9 @@ public class TestExecutor {
 		}
 		DBHelper db = new DBHelper(tc.getContext());
 	
-		SKLogger.sAssert(getClass(), mBatchId == -1);
-		mBatchId = db.insertTestBatch(batch, testsResults, passiveMetrics);
+		//SKLogger.sAssert(getClass(), mBatchId == -1);
+		//mBatchId = 
+		db.insertTestBatch(batch, testsResults, passiveMetrics);
 		
 		cancelNotification();
 		return result;
@@ -594,9 +595,9 @@ public class TestExecutor {
 //	}
 
 	public void save(String type, long batchId) {
-        mBatchId = batchId;
+        //mBatchId = batchId;
 		
-		SKLogger.sAssert(getClass(), mBatchId != -1);
+		//SKLogger.sAssert(getClass(), mBatchId != -1);
 		
 		rc.addExtra(JSON_SUBMISSION_TYPE, type);
 		rc.addExtra("batch_id", String.valueOf(batchId));

@@ -12,6 +12,7 @@ abstract public class Test implements Runnable {
 	public static final int CONNECTIONTIMEOUT = 10000; // 10 seconds connection
 														// timeout
 	public static final int READTIMEOUT = 10000; // 10 seconds read timeout
+	public static final int WRITETIMEOUT = 10000; // 10 seconds write timeout
 	public enum POSITION {
 		INTERNAL, TRIGGER, EXTERNAL
 	}

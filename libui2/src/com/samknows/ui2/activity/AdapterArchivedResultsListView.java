@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,9 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
         ImageView testNetworkType = (ImageView) rowView.findViewById(R.id.archiveResultsListItemNetworkType);
 
         TextView testDownload = (TextView) rowView.findViewById(R.id.archiveResultsListItemDownload);
+        TextView testDownloadUnits = (TextView) rowView.findViewById(R.id.mbps_label_1);
         TextView testUpload = (TextView) rowView.findViewById(R.id.archiveResultsListItemUpload);
+        TextView testUploadUnits = (TextView) rowView.findViewById(R.id.mbps_label_2);
         TextView testLatency = (TextView) rowView.findViewById(R.id.archiveResultsListItemLatency);
         TextView testPacketLoss = (TextView) rowView.findViewById(R.id.archiveResultsListItemPacketLoss);
         TextView testJitter = (TextView) rowView.findViewById(R.id.archiveResultsListItemJitter);
@@ -127,47 +130,49 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             }
             
             // Set the test download result
-            float downloadResult = archivedResultsList.get(position).getDownloadResult();
+            String downloadResult = archivedResultsList.get(position).getDownloadResult();
             
-            if (downloadResult == 0)
+            if (downloadResult.equals("0"))
             {
             	testDownload.setText(rowView.getContext().getString(R.string.slash));        	        				
     		}
-            else if (downloadResult == -1)		// The test failed
+            else if (downloadResult.equals("-1"))		// The test failed
             {
-            	testDownload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-            	testDownload.setTextSize(rowView.getResources().getDimension(R.dimen.text_size_large));
-            	testDownload.setPadding(0, (int)convertDpToPixel(4, getContext()), 0,(int) convertDpToPixel(4, getContext()));
+            	//testDownload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
             	testDownload.setText(rowView.getContext().getString(R.string.failed_test));            	
+            	testDownloadUnits.setVisibility(View.INVISIBLE);
             }
             else		// The test was OK
             {
-            	testDownload.setText(String.valueOf(downloadResult));        	
+            	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(downloadResult);
+            	testDownload.setText(String.valueOf(valueUnits.first));
+            	testDownloadUnits.setText(valueUnits.second);
             }
             
             // Set the test upload result
-            float uploadResult = archivedResultsList.get(position).getUploadResult();
+            String uploadResult = archivedResultsList.get(position).getUploadResult();
             
-            if (uploadResult == 0)
+            if (uploadResult.equals("0"))
             {
             	testUpload.setText(rowView.getContext().getString(R.string.slash));			
     		}
-            else if (uploadResult == -1)		// The test failed
+            else if (uploadResult.equals("-1"))
             {
-            	testUpload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-            	testUpload.setTextSize(rowView.getResources().getDimension(R.dimen.text_size_large));     
-            	testUpload.setPadding(0, (int)convertDpToPixel(4, getContext()), 0,(int) convertDpToPixel(4, getContext()));
+            	//testUpload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
             	testUpload.setText(rowView.getContext().getString(R.string.failed_test));            	
+            	testUploadUnits.setVisibility(View.INVISIBLE);
     		}
             else		// The test was OK
             {
-            	testUpload.setText(String.valueOf(uploadResult));
+            	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(uploadResult);
+            	testUpload.setText(String.valueOf(valueUnits.first));
+            	testUploadUnits.setText(valueUnits.second);
             }
             
             // Set the test latency result
-            float latencyResult = archivedResultsList.get(position).getLatencyResult();
+            String latencyResult = archivedResultsList.get(position).getLatencyResult();
             // The test was not performed
-            if (latencyResult == 0)
+            if (latencyResult.equals("0"))
             {
             	testLatency.setText(rowView.getContext().getString(R.string.slash));        				
     		}
@@ -176,70 +181,75 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             {
             	packetLossTestWasPerformed = true;
             	
-            	if (latencyResult == -1)
+                if (latencyResult.equals("-1"))
             	{
-            		testLatency.setTextColor(context.getResources().getColor(R.color.holo_red_dark));            		
+            		//testLatency.setTextColor(context.getResources().getColor(R.color.holo_red_dark));            		
             		testLatency.setText(context.getString(R.string.failed_test));
 				}
             	else
             	{            		
-            		if (latencyResult < 1000)
-            		{            			
-            			testLatency.setText(new DecimalFormat("0").format(latencyResult) + " " + rowView.getContext().getString(R.string.units_ms));						
-					}
-            		else if (latencyResult >= 1000)
-            		{
-            			testLatency.setText(new DecimalFormat("0.0").format(latencyResult/1000) + " " + rowView.getContext().getString(R.string.units_s));            			
-            		}            		            		
+                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(latencyResult);
+            		testLatency.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
+//            		if (valueUnits.first < 1000)
+//            		{            			
+//            			testLatency.setText(new DecimalFormat("0").format(valueUnits.first) + " " + rowView.getContext().getString(R.string.units_ms));						
+//					}
+//            		else if (valueUnits.first >= 1000)
+//            		{
+//            			testLatency.setText(new DecimalFormat("0.0").format(valueUnits.first/1000) + " " + rowView.getContext().getString(R.string.units_s));
+//            		}            		            		
             	}            	        	
             }       
             
             // Set the packet loss result
-            int packetLossResult = archivedResultsList.get(position).getPacketLossResult();
+            String packetLossResult = archivedResultsList.get(position).getPacketLossResult();
             
-            if (packetLossResult == 0)
+            if (packetLossResult.equals("0"))
             {
             	testPacketLoss.setText(packetLossTestWasPerformed ? String.valueOf(packetLossResult) + rowView.getContext().getString(R.string.units_percent) : rowView.getContext().getString(R.string.slash));
     		}
             else
             {
-            	if (packetLossResult == -1)		// The test failed
+                if (packetLossResult.equals("-1"))
             	{
-            		testPacketLoss.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
+            		//testPacketLoss.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
             		testPacketLoss.setText(rowView.getContext().getString(R.string.failed_test));					
 				}
             	else		// The test was OK
             	{
-            		testPacketLoss.setText(packetLossResult + rowView.getContext().getString(R.string.units_percent));            		
+                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(packetLossResult);
+            		testPacketLoss.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
             	}            	
             }
             
             // Set the jitter result
-            float jitterResult = archivedResultsList.get(position).getJitterResult();
+            String jitterResult = archivedResultsList.get(position).getJitterResult();
             
-            if (jitterResult == 0)
+            if (jitterResult.equals("0"))
             {
             	testJitter.setText(rowView.getContext().getString(R.string.slash));			
     		}
             else
             {
-            	if (jitterResult == -1)			// The test failed
+                if (jitterResult.equals("-1"))
             	{
-            		testJitter.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
+            		//testJitter.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
             		testJitter.setText(rowView.getContext().getString(R.string.failed_test));					
 				}
             	else		// The test was OK
             	{
             		String stringValue = String.valueOf(jitterResult); 
             		
-            		if (stringValue.substring(stringValue.length()-1, stringValue.length()).equals("0"))
-            		{            			
-            			testJitter.setText(new DecimalFormat("0").format(jitterResult) + " " + rowView.getContext().getString(R.string.units_ms));						
-					}
-            		else
-            		{
-            			testJitter.setText(new DecimalFormat("0.0").format(jitterResult) + rowView.getContext().getString(R.string.units_s));            			
-            		}           		            		
+                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(packetLossResult);
+            		testJitter.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
+//            		if (stringValue.substring(stringValue.length()-1, stringValue.length()).equals("0"))
+//            		{            			
+//            			testJitter.setText(new DecimalFormat("0").format(jitterResult) + " " + rowView.getContext().getString(R.string.units_ms));						
+//					}
+//            		else
+//            		{
+//            			testJitter.setText(new DecimalFormat("0.0").format(jitterResult) + rowView.getContext().getString(R.string.units_s));            			
+//            		}           		            		
             	}            	
             }
 		}        

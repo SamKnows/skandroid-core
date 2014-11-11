@@ -577,6 +577,7 @@ public class HttpTest extends Test {
 			sendBufferSize = ret.getSendBufferSize();
 
 			if (downstream) {
+				// Read / download
 				ret.setSoTimeout(Test.READTIMEOUT);
 			} else {
 				ret.setSoTimeout(100); // Just 100 ms while polling server for upload test response!

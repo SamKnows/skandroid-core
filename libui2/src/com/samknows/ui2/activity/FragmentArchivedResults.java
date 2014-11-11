@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -618,11 +619,11 @@ public class FragmentArchivedResults extends Fragment
 					{
 						if (!hrresult.equalsIgnoreCase("failed"))
 						{
-							testResult.setDownloadResult(formattedValues.getFormattedSpeedValue(hrresult));
+							testResult.setDownloadResult(hrresult);
 						}
 						else
 						{
-							testResult.setDownloadResult(-1);														
+							testResult.setDownloadResult("-1");														
 						}							
 					}
 					
@@ -630,11 +631,11 @@ public class FragmentArchivedResults extends Fragment
 					{	
 						if (!hrresult.equalsIgnoreCase("failed"))
 						{
-							testResult.setUploadResult(formattedValues.getFormattedSpeedValue(hrresult));
+							testResult.setUploadResult(hrresult);
 						}
 						else
 						{
-							testResult.setUploadResult(-1);
+							testResult.setUploadResult("-1");
 						}							
 					}
 					
@@ -642,11 +643,11 @@ public class FragmentArchivedResults extends Fragment
 					{
 						if (!hrresult.equalsIgnoreCase("failed"))
 						{
-							testResult.setLatencyResult(formattedValues.getFormattedLatencyValue(hrresult));
+							testResult.setLatencyResult(hrresult);
 						}
 						else
 						{
-							testResult.setLatencyResult(-1);
+							testResult.setLatencyResult("-1");
 						}						
 					}
 					
@@ -654,11 +655,11 @@ public class FragmentArchivedResults extends Fragment
 					{
 						if (!hrresult.equalsIgnoreCase("failed"))
 						{
-							testResult.setPacketLossResult(formattedValues.getFormattedPacketLossValue(hrresult));
+							testResult.setPacketLossResult(hrresult);
 						}
 						else
 						{
-							testResult.setPacketLossResult(-1);
+							testResult.setPacketLossResult("-1");
 						}
 					}
 					
@@ -666,18 +667,18 @@ public class FragmentArchivedResults extends Fragment
 					{						
 						if (!hrresult.equalsIgnoreCase("failed"))
 						{
-							testResult.setJitterResult(formattedValues.getFormattedJitter(hrresult));
+							testResult.setJitterResult(hrresult);
 						}
 						else
 						{
-							testResult.setJitterResult(-1);
+							testResult.setJitterResult("-1");
 						}
 						
 					}
 				}
 				
 				// For some reason (I think it is the background tests that failed), some tests are archived with 0 and null results. This jumps over them to avoid show them
-				if (testResult.getDownloadResult()== 0 && testResult.getUploadResult() == 0 && testResult.getLatencyResult() == 0)
+				if (testResult.getDownloadResult().equals("0") && testResult.getUploadResult().equals("0") && testResult.getLatencyResult().equals("0"))
 				{
 					continue;					
 				}

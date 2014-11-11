@@ -5,8 +5,14 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
+
+import android.text.TextUtils;
+import android.text.TextUtils.StringSplitter;
+import android.util.Pair;
 
 import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKLogger;
 
 /**
  * This class is a helper to format values
@@ -30,14 +36,30 @@ public class FormattedValues
 	 * 
 	 * @return
 	 */
-	public float getFormattedSpeedValue(String pValue)
+	public static Pair<Float,String> getFormattedSpeedValue(String pValue)
 	{
+		if (pValue.length() == 0) {
+			return new Pair<Float,String>(0.0F, "");
+		}
+		if (pValue.equals("Failed")) {
+			// Convenience when debugging...
+			return new Pair<Float,String>(0.0F, "");
+		}
+		
+		
 		NumberFormat formatter = new DecimalFormat("00.0");
+	
+		String[] values = pValue.split(" ");
+		SKLogger.sAssert(FormattedValues.class, values.length > 0);
+		SKLogger.sAssert(FormattedValues.class, values.length <= 2);
 		
-		String unit = pValue.substring(pValue.length() - 4,pValue.length());
+		String unit = "";
+		if (values.length > 1) {
+			unit = values[1];
+		}
 		
-		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble (pValue.substring(0, pValue.length() - 4));
-		return (float)value;
+		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble (values[0]);
+		return new Pair<Float,String>((float)value, unit);
 	
 		/*
 		// TODO??!?! Restore this code, somehow?!

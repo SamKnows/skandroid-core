@@ -9,6 +9,7 @@ import java.util.Locale;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.widget.Toast;
 
 public class SKCommon {
@@ -95,7 +96,17 @@ public class SKCommon {
 			// We can deal with this safely, by forcing to be a point for the decimal separator, and then using Double.valueOf ...
 	 		//http://stackoverflow.com/questions/4323599/best-way-to-parsedouble-with-comma-as-decimal-separator
 	 		String valueWithDot = value.replaceAll(",",".");
-			return Double.valueOf(valueWithDot);
+	 		
+	 		try {
+			  return Double.valueOf(valueWithDot);
+	 		} catch (NumberFormatException e2)  {
+	 			// This happens if we're trying (say) to parse a string "Failed" as though it were a number!
+	 			// If this happens, it should only be due to application logic problems.
+	 			// In this case, the safest thing to do is return 0, having first fired-off a debug-time warning.
+	 			//SKLogger.sAssert(SKCommon.class,  false);
+	 			Log.d("SKCommon", "Warning: Value is not a number" + value);
+	 			return 0.0;
+	 		}
 		}
 	}
 	

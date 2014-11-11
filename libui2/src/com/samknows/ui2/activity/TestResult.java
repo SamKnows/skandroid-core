@@ -16,8 +16,8 @@ public class TestResult implements Parcelable
 {
 	// *** VARIABLES *** //
 	private int networkType;
-	private float downloadResult, uploadResult, latencyResult, jitterResult;
-	private int packetLossResult;
+	private String downloadResult, uploadResult, latencyResult, jitterResult;
+	private String packetLossResult;
 	private long dtime;	
 	private String simOperatorName, simOperatorCode, networkOperatorName, networkOperatorCode, roamingStatus, GSMCellTowerID, GSMLocationAreaCode, GSMSignalStrength,
 					manufacturer, bearer, model, OSType, OSVersion, phoneType, latitude, longitude, accuracy, locationProvider;		
@@ -70,11 +70,11 @@ public class TestResult implements Parcelable
 		
 		dest.writeInt(networkType);		
 		
-		dest.writeFloat(downloadResult);
-		dest.writeFloat(uploadResult);
-		dest.writeFloat(latencyResult);
-		dest.writeInt(packetLossResult);
-		dest.writeFloat(jitterResult);
+		dest.writeString(downloadResult);
+		dest.writeString(uploadResult);
+		dest.writeString(latencyResult);
+		dest.writeString(packetLossResult);
+		dest.writeString(jitterResult);
 		
 		dest.writeString(simOperatorName);
 		dest.writeString(simOperatorCode);
@@ -128,11 +128,11 @@ public class TestResult implements Parcelable
 		accuracy = in.readString();
 		locationProvider = in.readString();
 		
-		downloadResult = in.readFloat();
-		uploadResult = in.readFloat();
-		jitterResult = in.readFloat();
-		latencyResult = in.readFloat();
-		packetLossResult = in.readInt();
+		downloadResult = in.readString();
+		uploadResult = in.readString();
+		jitterResult = in.readString();
+		latencyResult = in.readString();
+		packetLossResult = in.readString();
 		publicIp = in.readString();
 		submissionId = in.readString();
 	}
@@ -560,7 +560,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @return downloadResult
 	 */
-	public float getDownloadResult()
+	public String getDownloadResult()
 	{
 		return downloadResult;
 	}
@@ -570,7 +570,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @param pDownloadResult
 	 */
-	public void setDownloadResult(float pDownloadResult)
+	public void setDownloadResult(String pDownloadResult)
 	{
 		this.downloadResult = pDownloadResult;
 	}
@@ -580,7 +580,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @return uploadResult
 	 */
-	public float getUploadResult()
+	public String getUploadResult()
 	{
 		return uploadResult;
 	}
@@ -590,7 +590,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @param pUploadResult
 	 */
-	public void setUploadResult(float pUploadResult)
+	public void setUploadResult(String pUploadResult)
 	{
 		this.uploadResult = pUploadResult;
 	}
@@ -600,7 +600,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @return latencyResult
 	 */
-	public float getLatencyResult()
+	public String getLatencyResult()
 	{
 		return latencyResult;
 	}
@@ -610,7 +610,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @param pLatencyResult
 	 */
-	public void setLatencyResult(float pLatencyResult)
+	public void setLatencyResult(String pLatencyResult)
 	{
 		this.latencyResult = pLatencyResult;
 	}
@@ -620,7 +620,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @return packetLossResult
 	 */
-	public int getPacketLossResult()
+	public String getPacketLossResult()
 	{
 		return packetLossResult;
 	}
@@ -630,7 +630,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @param pPacketLossResult
 	 */
-	public void setPacketLossResult(int pPacketLossResult)
+	public void setPacketLossResult(String pPacketLossResult)
 	{
 		this.packetLossResult = pPacketLossResult;
 	}
@@ -640,7 +640,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @return jitterResult
 	 */
-	public float getJitterResult()
+	public String getJitterResult()
 	{
 		return jitterResult;
 	}
@@ -650,7 +650,7 @@ public class TestResult implements Parcelable
 	 * 
 	 * @param pJitterResult
 	 */
-	public void setJitterResult(int pJitterResult)
+	public void setJitterResult(String pJitterResult)
 	{
 		this.jitterResult = pJitterResult;
 	}

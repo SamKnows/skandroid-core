@@ -36,6 +36,7 @@ import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -118,6 +119,7 @@ public class FragmentRunTest extends Fragment
 	private TextView tv_TopTextNetworkType;
 	// Text views showing the test result information
 	private FontFitTextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
+	private TextView tv_DownloadUnits, tv_UploadUnits;
 	private TextView tv_Result_Date;
 	// Text views showing the passive metric headers
 	private TextView tv_header_label_sim_and_network_operators, tv_header_label_signal, tv_header_label_device, tv_header_label_location;
@@ -548,8 +550,10 @@ public class FragmentRunTest extends Fragment
 		
 		// Elements in the results layout
 		tv_Result_Download = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemDownload);
+		tv_DownloadUnits = (TextView)pView.findViewById(R.id.mbps_label_1);
 		tv_Result_Download.setText(R.string.slash);
 		tv_Result_Upload = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemUpload);
+		tv_UploadUnits = (TextView)pView.findViewById(R.id.mbps_label_2);
 		tv_Result_Upload.setText(R.string.slash);
 		tv_Result_Latency = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemLatency);
 		tv_Result_Latency.setText(R.string.slash);
@@ -770,6 +774,8 @@ public class FragmentRunTest extends Fragment
 							}
 						}
 						
+						Pair<Float,String> valueUnits =	null;
+						
 						switch (testName)
 						{
 							// Case download test
@@ -777,14 +783,20 @@ public class FragmentRunTest extends Fragment
 								// Download test results are processed															
 								updateProgressBar(statusComplete, 0);
 								changeLabelText(getString(R.string.label_message_download_test));
-								changeUnitsInformationLabel(R.string.units_Mbps);								
 								gaugeView.setKindOfTest(0);								
+								changeUnitsInformationLabel(getString(R.string.units_Mbps));
+								
+								valueUnits = formattedValues.getFormattedSpeedValue(value);
+								
+								if (valueUnits.second.length() > 0) {
+    								tv_DownloadUnits.setText(valueUnits.second);
+								}
 								
 								if (statusComplete == 100)
 								{
 									updateCurrentTestSpeed("0");
 									gaugeView.setResult(0.0);
-									changeFadingTextViewValue(tv_Result_Download, String.valueOf(formattedValues.getFormattedSpeedValue(value)),0);																	
+									changeFadingTextViewValue(tv_Result_Download, String.valueOf(formattedValues.getFormattedSpeedValue(valueUnits.first)),0);																	
 								}							
 								break;
 
@@ -793,15 +805,20 @@ public class FragmentRunTest extends Fragment
 								// Upload test results are processed															
 								updateProgressBar(statusComplete, 1);								
 								changeLabelText(getString(R.string.label_message_upload_test));								
-								changeUnitsInformationLabel(R.string.units_Mbps);
 								gaugeView.setKindOfTest(1);
+								changeUnitsInformationLabel(getString(R.string.units_Mbps));
+								
+								valueUnits = formattedValues.getFormattedSpeedValue(value);
+								if (valueUnits.second.length() > 0) {
+    								tv_UploadUnits.setText(valueUnits.second);
+								}
 								
 								if (statusComplete == 100)
 								{									
 									updateCurrentTestSpeed("0");
 									gaugeView.setResult(0.0);
 									
-									changeFadingTextViewValue(tv_Result_Upload, String.valueOf(formattedValues.getFormattedSpeedValue(value)),0);																	
+									changeFadingTextViewValue(tv_Result_Upload, String.valueOf(formattedValues.getFormattedSpeedValue(valueUnits.first)),0);																	
 								}							
 								break;
 
@@ -812,7 +829,9 @@ public class FragmentRunTest extends Fragment
 								updateProgressBar(statusComplete, 2);								
 								changeLabelText(getString(R.string.label_message_latency_loss_jitter_test));
 								gaugeView.setKindOfTest(2);								
-								changeUnitsInformationLabel(R.string.units_ms);
+								changeUnitsInformationLabel(getString(R.string.units_ms));
+								
+								valueUnits = formattedValues.getFormattedSpeedValue(value);
 								
 								if (statusComplete == 100)
 								{									
@@ -831,7 +850,7 @@ public class FragmentRunTest extends Fragment
 								{									
 									if (value.length() > 0 && value.substring(value.length() - 1, value.length()).equals("%"))
 									{
-										changeFadingTextViewValue(tv_Result_Packet_Loss, formattedValues.getFormattedPacketLossValue(value.substring(0, value.length()-2)) + " %",0);										
+										changeFadingTextViewValue(tv_Result_Packet_Loss, formattedValues.getFormattedPacketLossValue(value.substring(0, value.length()-2)) + " %",0);
 									}
 								}									
 								break;
@@ -1621,11 +1640,11 @@ public class FragmentRunTest extends Fragment
     /**
      * Set the contextual information label with an animation
      * 
-     * @param pLabel
+     * @param second
      */
-    private void changeUnitsInformationLabel(final int pLabel)
+    private void changeUnitsInformationLabel(final String value)
     {    	
-    	if (!onContextualInformationLabelAnimationSemaphore && !mUnitText.getText().equals(getActivity().getString(pLabel)))
+    	if (!onContextualInformationLabelAnimationSemaphore && !mUnitText.getText().equals(value))
     	{
     		onContextualInformationLabelAnimationSemaphore = true;
     		
@@ -1634,7 +1653,7 @@ public class FragmentRunTest extends Fragment
         		@Override
         		public void onAnimationEnd(Animator animation)
         		{        			
-        			mUnitText.setText(pLabel);
+        			mUnitText.setText(value);
         			mUnitText.animate().alpha(1.0f).setDuration(300);
         			onContextualInformationLabelAnimationSemaphore = false;
         		}    		
@@ -2016,7 +2035,9 @@ public class FragmentRunTest extends Fragment
 			{
                 initial_warning_text.setVisibility(View.GONE);
 
-                mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
+                if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
+                	mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
+                }
 				new InitTestAsyncTask().execute();												
 			}
 			else

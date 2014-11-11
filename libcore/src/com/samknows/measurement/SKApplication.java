@@ -187,6 +187,10 @@ public class SKApplication extends Application{
 		return false;
 	}
 	
+	public boolean getDoesAppDisplayClosestTargetInfo() {
+		return true;
+	}
+	
 	// Some versions of the app can enable background menu forcing via the menu...
 	public boolean isForceBackgroundMenuItemSupported () {
 		return false;
