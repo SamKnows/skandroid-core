@@ -1,5 +1,7 @@
 package com.samknows.ui2.activity;
 
+import com.samknows.libcore.SKLogger;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,6 +27,10 @@ public class Connectivity
 	public static NetworkInfo getNetworkInfo(Context pContext)
 	{
 	    ConnectivityManager cm = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    if (cm == null) {
+	    	SKLogger.sAssert(Connectivity.class, false);
+	    	return null;
+	    }
 	    return cm.getActiveNetworkInfo();
 	}
 	
@@ -160,7 +166,7 @@ public class Connectivity
 		
 		if (info == null)
 		{
-			return "";	// Impossible to find out			
+			return "Unknown";	// Impossible to find out			
 		}
 		
 		if (!info.isConnected())

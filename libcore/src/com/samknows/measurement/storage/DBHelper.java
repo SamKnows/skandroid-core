@@ -390,6 +390,9 @@ public class DBHelper {
 				return ret;
 			}
 			
+			long test_batch_id = 0;
+			long test_batch_time = 0;
+			
 			for (;;) {
 			
 				if (index == 0) {
@@ -400,13 +403,15 @@ public class DBHelper {
 				cursor1.moveToNext();
     			if (cursor1.isAfterLast()) {
     				SKLogger.sAssert(getClass(),  false);
+    				return ret;
+    			} else {
+    				test_batch_id = cursor1.getLong(0);
+    				test_batch_time = cursor1.getLong(1);
     			}
     			
     			index--;
 			}
 			
-			long test_batch_id = cursor1.getLong(0);
-			long test_batch_time = cursor1.getLong(1);
 			cursor1.close();
 			
 			String selection = SKSQLiteHelper.TR_COLUMN_BATCH_ID + " = " + test_batch_id;

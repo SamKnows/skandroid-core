@@ -19,8 +19,8 @@ public class TestResult implements Parcelable
 {
 	// *** VARIABLES *** //
 	private eNetworkTypeResults networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
-	private String downloadResult, uploadResult, latencyResult, jitterResult;
-	private String packetLossResult;
+	private String downloadResult = "0", uploadResult = "0", latencyResult = "0", jitterResult = "0";
+	private String packetLossResult = "0";
 	private long dtime;	
 	private String simOperatorName, simOperatorCode, networkOperatorName, networkOperatorCode, roamingStatus, GSMCellTowerID, GSMLocationAreaCode, GSMSignalStrength,
 					manufacturer, bearer, model, OSType, OSVersion, phoneType, latitude, longitude, accuracy, locationProvider;		
