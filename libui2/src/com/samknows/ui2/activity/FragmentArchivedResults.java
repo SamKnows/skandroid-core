@@ -697,9 +697,12 @@ public class FragmentArchivedResults extends Fragment
 					}
 				}
 				
-				// For some reason (I think it is the background tests that failed), some tests are archived with 0 and null results. This jumps over them to avoid show them
+				// For some reason (I think it is the background tests that failed), some tests are archived with 0 and null results.
+				// This jumps over them to avoid showing them.
 				if (testResult.getDownloadResult().equals("0") && testResult.getUploadResult().equals("0") && testResult.getLatencyResult().equals("0"))
 				{
+					// Try to track this in the debugger, if it happens - to help figure-out the underlying reason.
+					SKLogger.sAssert(getClass(), false);
 					continue;					
 				}
 				
