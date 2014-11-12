@@ -22,7 +22,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/download"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <Button
             android:id="@+id/button_select_test_upload"
@@ -32,7 +32,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/upload"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <Button
             android:id="@+id/button_select_test_latency_loss"
@@ -42,7 +42,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/latency_loss_jitter"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
     </LinearLayout>
 
@@ -53,9 +53,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/activity_margin"
+            android:background="@drawable/dialog_buttons"
         android:gravity="center"
         android:text="@string/ok"
         android:textColor="@color/white_dark"
-        android:textSize="@dimen/text_size_small"/>
+        android:textSize="@dimen/text_size_medium"/>
 
 </RelativeLayout>

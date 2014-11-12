@@ -24,7 +24,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/time_period_1_day"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <Button
             android:id="@+id/button_select_time_period_1_week"
@@ -34,7 +34,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/time_period_1_week"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <Button
             android:id="@+id/button_select_time_period_1_month"
@@ -44,7 +44,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/time_period_1_month"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <Button
             android:id="@+id/button_select_time_period_3_months"
@@ -54,7 +54,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/time_period_3_months"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <Button
             android:id="@+id/button_select_time_period_1_year"
@@ -64,7 +64,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/time_period_1_year"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
     </LinearLayout>
 

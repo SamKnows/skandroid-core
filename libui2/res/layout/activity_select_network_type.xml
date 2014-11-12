@@ -24,7 +24,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/network_type_all"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_small"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <LinearLayout
             android:id="@+id/ll_select_network_wifi"
@@ -40,11 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_swifi"
-                android:drawablePadding="@dimen/spacing_small"
+                android:drawablePadding="@dimen/spacing_medium"
                 android:gravity="center"
                 android:text="@string/network_type_wifi"
                 android:textColor="@color/button_dialog_text_state_list_color"
-                android:textSize="@dimen/text_size_small"/>
+                android:textSize="@dimen/text_size_medium"/>
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +65,7 @@
                 android:gravity="center"
                 android:text="@string/network_type_mobile"
                 android:textColor="@color/button_dialog_text_state_list_color"
-                android:textSize="@dimen/text_size_small"/>
+                android:textSize="@dimen/text_size_medium"/>
         </LinearLayout>
 
     </LinearLayout>

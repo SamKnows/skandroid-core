@@ -59,8 +59,10 @@ import com.samknows.measurement.MainService;
 import com.samknows.measurement.ManualTest;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 
 /**
@@ -80,7 +82,7 @@ public class FragmentRunTest extends Fragment
 	// *** VARIABLES *** //	
 	private int numberOfTestsToBePerformed;											// Number of tests to be performed (minimum 1, maximum 3)
 	private int heightInPixels;														// Height in pixels
-	private int connectivityType;													// Type of connectivity (0 is WiFi, 1 is Mobile)
+	private eNetworkTypeResults connectivityType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
 	private int results_Layout_Position_Y;											// Position in the Y axis of the results layout	
 	private float testProgressDownload, testProgressUpload,							// Variables to control the background progress bar
 					testProgressLatencyPacketLossJitter, progressPercent;
@@ -376,7 +378,7 @@ public class FragmentRunTest extends Fragment
 				launchTests();																				// Launch tests
 				layout_ll_results.animate().setDuration(300).alpha(1.0f);									// Make the results layout visible						
 				setTestTime();																				// Set the time of the current test
-				setTestConnectivity();																		// Set the connectivity of the current test
+				//setTestConnectivity();																	// Set the connectivity of the current test
 				layout_ll_results.setClickable(false);														// The results layout is not clickable from here							
 			}
 			else
@@ -408,7 +410,7 @@ public class FragmentRunTest extends Fragment
     	//Dividers
     	layout_ll_passive_metrics_divider_sim_and_network_operators = (LinearLayout)pView.findViewById(R.id.fragment_speed_test_passive_metrics_ll_divider_sim_and_network_operators);
     	layout_ll_passive_metrics_divider_signal = (LinearLayout)pView.findViewById(R.id.fragment_speed_test_passive_metrics_ll_divider_signal);
-    	layout_ll_passive_metrics_divider_location = (LinearLayout)pView.findViewById(R.id.fragment_archived_results_passive_metric_divider_location);
+    	layout_ll_passive_metrics_divider_location = (LinearLayout)pView.findViewById(R.id.fragment_speed_test_passive_metric_divider_location);
 
     	// Labels
     	tv_label_sim_operator = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_label_sim_operator);
@@ -450,8 +452,12 @@ public class FragmentRunTest extends Fragment
 		tv_result_accuracy = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_accuracy);
 		tv_result_provider = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_location_provider);
 	
-		publicIp = (FontFitTextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
-		submissionId = (FontFitTextView)pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
+		publicIp = (FontFitTextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_your_ip_value);
+		SKLogger.sAssert(getClass(), publicIp != null);
+		submissionId = (FontFitTextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_reference_number_value);
+		SKLogger.sAssert(getClass(), submissionId != null);
+		publicIp.setText("");
+		submissionId.setText("");
 
 		// Identify and hide the passive metrics layout
 		layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_ll_passive_metrics);
@@ -843,10 +849,9 @@ public class FragmentRunTest extends Fragment
 								
 								if (statusComplete == 100)
 								{									
-									if (value.length() > 0 && value.substring(value.length() - 1, value.length()).equals("%"))
-									{
-										changeFadingTextViewValue(tv_Result_Packet_Loss, formattedValues.getFormattedPacketLossValue(value.substring(0, value.length()-2)) + " %",0);
-									}
+									// Display as Integer % (rather than Float %)
+									Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
+									changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
 								}									
 								break;
 								
@@ -951,6 +956,24 @@ public class FragmentRunTest extends Fragment
 	        							submissionId.setText(value);
 	        						}
 	        					}
+	        					else if (metricString.equals("activenetworktype"))
+	        					{
+	        						if (value.equals("WiFi"))
+	        						{					
+	        							setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+	        							//testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+	        						}
+	        						else if (value.equals("mobile"))
+	        						{					
+	        							setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+	        							//testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+	        						}				
+	        						else
+	        						{
+	        							SKLogger.sAssert(getClass(), false);
+	        						}
+	        					}
+	        				
 	        					else {
 	        						//SKLogger.sAssert(getClass(),  false);
 	        					}
@@ -1421,19 +1444,20 @@ public class FragmentRunTest extends Fragment
     }
     
     /**
-     * Set the connectivity icon depending on the connectivity
+     * Set the connectivity icon depending on the connectivity (which comes from the passive metrics!)
      */
-    private void setTestConnectivity()
+    private void setTestConnectivity(eNetworkTypeResults pNetworkType)
     {
-    	if (Connectivity.isConnectedWifi(getActivity()))
+    	//if (Connectivity.isConnectedWifi(getActivity()))
+    	if (pNetworkType == eNetworkTypeResults.eNetworkTypeResults_WiFi)
     	{
     		iv_Result_NetworkType.setImageResource(R.drawable.ic_swifi);
-    		connectivityType = 0;
+    		connectivityType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
 		}
     	else
     	{
     		iv_Result_NetworkType.setImageResource(R.drawable.ic_sgsm);
-    		connectivityType = 1;
+    		connectivityType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
     	}
     }
     
@@ -1710,11 +1734,11 @@ public class FragmentRunTest extends Fragment
      * 
      * @param pNetworkType
      */
-    private void setUpPassiveMetricsLayout(int pNetworkType)
+    private void setUpPassiveMetricsLayout(eNetworkTypeResults pNetworkType)
     {
     	int visibility;
     	
-    	if (pNetworkType == 0)
+    	if (pNetworkType == eNetworkTypeResults.eNetworkTypeResults_WiFi)
     	{
     		visibility = View.GONE;   					
 		}
@@ -1789,7 +1813,7 @@ public class FragmentRunTest extends Fragment
     	menuItem_SelectTests = menu.findItem(R.id.menu_item_fragment_run_test_select_tests);
     	menuItem_ShareResult = menu.findItem(R.id.menu_item_fragment_run_test_share_result);
     	
-		menuItem_ShareResult.setVisible((!gaugeVisible) &&connectivityType == 1); // 0 wifi, 1 mobile
+		menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
 		
 		if (menuItem_SelectTests != null) {
 			menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
@@ -1816,10 +1840,10 @@ public class FragmentRunTest extends Fragment
     	}
     	
     	if (itemId == R.id.menu_item_fragment_run_test_share_result) {
-     		if (connectivityType == 0) {
-     			SKLogger.sAssert(getClass(), false); // 0 wifi, 1 mobile
+     		if (connectivityType == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
+     			SKLogger.sAssert(getClass(), false);
      			
-        		menuItem_ShareResult.setVisible((!gaugeVisible) &&connectivityType == 1); // 0 wifi, 1 mobile
+        		menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
      		} else {
      			FormattedValues formattedValues = new FormattedValues();
 
@@ -1827,9 +1851,9 @@ public class FragmentRunTest extends Fragment
      				Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
      				intent_share_result_activity.putExtra("downloadResult", tv_Result_Download.getText() + " " + tv_DownloadUnits.getText());
      				intent_share_result_activity.putExtra("uploadResult", tv_Result_Upload.getText() + " " + tv_UploadUnits.getText());
-     				intent_share_result_activity.putExtra("latencyResult", formattedValues.getFormattedLatencyValue(tv_Result_Latency.getText().toString()));
-     				intent_share_result_activity.putExtra("packetLossResult", formattedValues.getFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()));
-     				intent_share_result_activity.putExtra("jitterResult", formattedValues.getFormattedJitter(tv_Result_Jitter.getText().toString()));
+     				intent_share_result_activity.putExtra("latencyResult", String.valueOf(formattedValues.getFormattedLatencyValue(tv_Result_Latency.getText().toString()).first));
+     				intent_share_result_activity.putExtra("packetLossResult", String.valueOf(formattedValues.getFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()).first));
+     				intent_share_result_activity.putExtra("jitterResult", String.valueOf(formattedValues.getFormattedJitter(tv_Result_Jitter.getText().toString()).first));
      				intent_share_result_activity.putExtra("networkType", 1); // 1 mobile
      				intent_share_result_activity.putExtra("dateResult", testTime); 				
 
@@ -1861,7 +1885,7 @@ public class FragmentRunTest extends Fragment
 		manualTest = null;
 		threadRunningTests = null;
 		
-		menuItem_SelectTests.setVisible(true);
+		menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
 		changeAdviceMessageTo(getString(R.string.advice_message_press_the_button));
 		resetProgressBar();
 		changeLabelText(getString(R.string.label_message_ready_to_run));
@@ -1904,6 +1928,28 @@ public class FragmentRunTest extends Fragment
 	
 
 	private void hideGaugeShowPassiveMetricsPanel() {
+		
+//		// Find the public_ip and submission_id!
+        publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
+        submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
+
+//		DBHelper dbHelper = new DBHelper(getActivity());
+//		JSONObject archivedResults = dbHelper.getArchiveDataSummary();		
+//		
+//		try
+//		{			
+//			// Iterate over the archived results
+//			for (int i = 0; i < archivedResults.getInt("counter"); i++)
+//			{				
+//				TestResult testResult = new TestResult();
+//			
+//				JSONObject thisRow = dbHelper.getArchiveData(i);
+//				String id = thisRow.getString("_id");
+//			}
+//		} catch (Exception e) {
+//			
+//		}
+				
 		tv_Advice_Message.animate().setDuration(300).alpha(0.0f);
 		tv_TopTextNetworkType.animate().setDuration(300).alpha(0.0f);
 		tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(0.0f);
@@ -1929,7 +1975,7 @@ public class FragmentRunTest extends Fragment
 				
 				gaugeVisible = false;
 				
-        		menuItem_ShareResult.setVisible((!gaugeVisible) &&connectivityType == 1); // 0 wifi, 1 mobile
+        		menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
 
 				// Move the results layout to the top of the screen
 				run_results_panel_frame_to_animate.animate().setDuration(300).y(dpToPx(8)).setInterpolator(new OvershootInterpolator(1.2f));
@@ -2044,6 +2090,18 @@ public class FragmentRunTest extends Fragment
 			if (atLeastOneTestSelected())
 			{
                 initial_warning_text.setVisibility(View.GONE);
+                SKApplication.getAppInstance().mLastPublicIp = "";
+                SKApplication.getAppInstance().mLastSubmissionId = "";
+                publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
+                submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
+                
+                // Make sure that we display the correct image (for now!) in the Test results panel.
+                // This will be overridden by incoming passive metric data.
+             	if (Connectivity.isConnectedWifi(getActivity())) {
+             		setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+             	} else {
+             		setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+             	}
 
                 if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
                 	mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        

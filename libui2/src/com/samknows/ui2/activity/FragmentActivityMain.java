@@ -27,6 +27,7 @@ import com.samknows.ska.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKAActivationActivity;
 import com.samknows.ska.activity.SKASettingsActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
+import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 
 /**
@@ -357,10 +358,19 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		}
 		
 		if (itemId == R.id.menu_item_fragment_activity_main_terms_and_conditions) {
-			Intent intent_terms_and_conditions = new Intent(this, SKATermsOfUseActivity.class);
-			startActivity(intent_terms_and_conditions);
+//			Intent intent_terms_and_conditions = new Intent(this, SKATermsOfUseActivity.class);
+//			startActivity(intent_terms_and_conditions);
+			SKApplication.getAppInstance().showTermsAndConditions(this);
 			
 			return true;
+		}
+		
+		if (itemId == R.id.fragment_main_select_tests) {
+			if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
+    			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+    			SKLogger.sAssert(getClass(), false);
+    			return true;
+			}
 		}
 	
 //		if (itemId == R.id.menu_item_fragment_activity_main_about) {

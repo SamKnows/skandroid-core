@@ -380,6 +380,8 @@ public class FragmentArchivedResults extends Fragment
 		
 		publicIp = (FontFitTextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
 		submissionId = (FontFitTextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
+		publicIp.setText("");
+		submissionId.setText("");
 		
 		// Initialise fonts		
 		typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");

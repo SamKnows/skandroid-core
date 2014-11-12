@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.storage.PassiveMetric.METRIC_TYPE;
@@ -141,6 +142,9 @@ public class SubmitTestResultsAnonymousAction {
 							    item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
 							    item2.put(PassiveMetric.JSON_VALUE, jsonResponse.get("submission_id"));
 							    item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.SUBMISSIONID);
+
+                                SKApplication.getAppInstance().mLastPublicIp = jsonResponse.get("public_ip").toString();
+                                SKApplication.getAppInstance().mLastSubmissionId = jsonResponse.get("submission_id").toString();
 							} catch (JSONException e) {
 							    SKLogger.sAssert(getClass(),  false);
 							}

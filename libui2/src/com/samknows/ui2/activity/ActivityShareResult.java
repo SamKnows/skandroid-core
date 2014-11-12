@@ -165,9 +165,9 @@ public class ActivityShareResult extends Activity
 		}
 		else
 		{
-			tv_Latency_Result.setText((int)getIntent().getExtras().getFloat("latencyResult") + " " + getString(R.string.units_ms));
+			tv_Latency_Result.setText(getIntent().getExtras().get("latencyResult") + " " + getString(R.string.units_ms));
 			tv_Packet_Loss_Result.setText(getIntent().getExtras().get("packetLossResult") + " " + getString(R.string.units_percent));
-			tv_Jitter_Result.setText((int)getIntent().getExtras().getFloat("jitterResult") + " " + getString(R.string.units_ms));
+			tv_Jitter_Result.setText(getIntent().getExtras().get("jitterResult") + " " + getString(R.string.units_ms));
 		}		
 		
 		if (SKApplication.getAppInstance().hideJitter()) {

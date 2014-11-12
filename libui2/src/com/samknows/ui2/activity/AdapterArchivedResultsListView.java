@@ -194,7 +194,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
 				}
             	else
             	{            		
-                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(latencyResult);
+                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedLatencyValue(latencyResult);
             		testLatency.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
 //            		if (valueUnits.first < 1000)
 //            		{            			
@@ -223,7 +223,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
 				}
             	else		// The test was OK
             	{
-                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(packetLossResult);
+                 	Pair<Integer,String> valueUnits = FormattedValues.getFormattedPacketLossValue(packetLossResult);
             		testPacketLoss.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
             	}            	
             }
@@ -246,7 +246,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             	{
             		String stringValue = String.valueOf(jitterResult); 
             		
-                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(packetLossResult);
+                 	Pair<Float,String> valueUnits = FormattedValues.getFormattedJitter(stringValue);
             		testJitter.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
 //            		if (stringValue.substring(stringValue.length()-1, stringValue.length()).equals("0"))
 //            		{            			

@@ -92,17 +92,22 @@ public class FormattedValues
 	 * 
 	 * @return
 	 */
-	public float getFormattedLatencyValue(String pValue)
+	public static Pair<Float,String> getFormattedLatencyValue(String pValue)
 	{
-		String split[] = pValue.split(" ");
+		String values[] = pValue.split(" ");
 		
-		if (split[1].equals("s"))
+		String unit = "";
+		if (values.length > 1) {
+			unit = values[1];
+		}
+		
+		if (unit.equals("s"))
 		{
-			return 1000 * Float.valueOf(new DecimalFormat("0.0").format(Float.valueOf(split[0])));			
+			return new Pair<Float, String>(1000 * Float.valueOf(new DecimalFormat("0.0").format(Float.valueOf(values[0]))), unit);
 		}
 		else
 		{
-			return Float.valueOf(new DecimalFormat("000").format(Math.round(Float.valueOf(Float.valueOf(split[0])))));			
+			return new Pair<Float, String>(Float.valueOf(new DecimalFormat("000").format(Math.round(Float.valueOf(Float.valueOf(values[0]))))), unit);
 		}				
 	}
 	
@@ -113,10 +118,17 @@ public class FormattedValues
 	 * 
 	 * @return
 	 */
-	public int getFormattedPacketLossValue(String pValue)
+	public static Pair<Integer,String> getFormattedPacketLossValue(String pValue)
 	{
-		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble (pValue.substring(0, pValue.length() - 2));
-		return (int)value;
+		String values[] = pValue.split(" ");
+		
+		String unit = "";
+		if (values.length > 1) {
+			unit = values[1];
+		}
+		
+		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble (values[0]);
+		return new Pair<Integer,String> ((int)value, unit);
 	
 		//return Math.round(Float.valueOf(pValue.substring(0, pValue.length() - 2)));
 	}
@@ -128,12 +140,18 @@ public class FormattedValues
 	 * 
 	 * @return
 	 */
-	public int getFormattedJitter(String pValue)
+	public static Pair<Float,String> getFormattedJitter(String pValue)
 	{
-		String split[] = pValue.split(" ");
+		String values[] = pValue.split(" ");
+		
+		String unit = "";
+		if (values.length > 1) {
+			unit = values[1];
+		}
+		
 
-		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(split[0]);
-		return (int)value;
+		double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(values[0]);
+		return new Pair<Float,String> ((float)value, unit);
 		//return (int)Math.round(Float.valueOf(split[0]));
 	}
 	

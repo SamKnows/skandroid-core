@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content" >
 
                     <com.samknows.measurement.activity.components.FontFitTextView
-                        android:id="@+id/fragment_archived_results_passive_metric_label_your_ip_label"
+                        android:id="@+id/fragment_speed_test_passive_metric_label_your_ip_label"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -43,7 +43,7 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
-                        android:id="@+id/fragment_archived_results_passive_metric_result_your_ip_value"
+                        android:id="@+id/fragment_speed_test_passive_metric_result_your_ip_value"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content" >
 
                     <com.samknows.measurement.activity.components.FontFitTextView
-                        android:id="@+id/fragment_archived_results_passive_metric_label_reference_number_label"
+                        android:id="@+id/fragment_speed_test_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="1"
@@ -68,7 +68,7 @@
                         android:textSize="@dimen/text_size_small_medium" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
-                        android:id="@+id/fragment_archived_results_passive_metric_result_reference_number_value"
+                        android:id="@+id/fragment_speed_test_passive_metric_result_reference_number_value"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
@@ -501,7 +501,7 @@
                     android:textSize="@dimen/text_size_small" />
 
                 <LinearLayout
-                    android:id="@+id/fragment_archived_results_passive_metric_divider_location"
+                    android:id="@+id/fragment_speed_test_passive_metric_divider_location"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height"
                     android:background="@color/white_alpha_0.5"
