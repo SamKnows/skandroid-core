@@ -136,7 +136,7 @@ public class FragmentArchivedResults extends Fragment
         {
         	eNetworkTypeResults networkType;
         	
-        	switch (data.getIntExtra("networkType", 0)) {
+        	switch (data.getIntExtra("networkType", 1)) {
         	case 0:
         		networkType = eNetworkTypeResults.eNetworkTypeResults_Any;
         		break;
@@ -546,6 +546,9 @@ public class FragmentArchivedResults extends Fragment
 		}
 
 		editor.commit();		// Commit changes
+	
+		// Verify that it has been saved properly!
+		SKLogger.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
 	}
 	
 	/**
@@ -606,16 +609,16 @@ public class FragmentArchivedResults extends Fragment
 	private ArrayList<TestResult> getFilledArrayList(ArrayList<TestResult> pTemporaryArchivedTestsList)
 	{
 		DBHelper dbHelper = new DBHelper(getActivity());
-		JSONObject archivedResults = dbHelper.getArchiveDataSummary();		
+		JSONArray archivedResultArray = dbHelper.getArchiveData(-1);		
 		
 		try
 		{			
 			// Iterate over the archived results
-			for (int i = 0; i < archivedResults.getInt("counter"); i++)
+			for (int i = 0; i < archivedResultArray.length(); i++)
 			{				
 				TestResult testResult = new TestResult();
 			
-				JSONObject thisRow = dbHelper.getArchiveData(i);
+				JSONObject thisRow = archivedResultArray.getJSONObject(i);
 				testResult.setDtime(Long.valueOf(thisRow.getString("dtime")));
 				
 				JSONArray activeMetricResults = thisRow.getJSONArray("activemetrics");
@@ -1000,7 +1003,20 @@ public class FragmentArchivedResults extends Fragment
     		// Case select network
     		Intent intent_select_network = new Intent(getActivity(),ActivitySelectNetworkType.class);
     		// Set the current fragment. This will determine the background of the activity
-    		intent_select_network.putExtra("currentFragment", 0);
+    		switch (getNetworkTypeSelection()) {
+    		case eNetworkTypeResults_Any:
+    			intent_select_network.putExtra("currentFragment", 0);
+    			break;
+    		case eNetworkTypeResults_WiFi:
+    			intent_select_network.putExtra("currentFragment", 1);
+    			break;
+    		case eNetworkTypeResults_Mobile:
+    			intent_select_network.putExtra("currentFragment", 2);
+    			break;
+    		default:
+    			SKLogger.sAssert(getClass(),  false);
+    			break;
+    		}
     		// Activity is started with requestCode 0
     		startActivityForResult(intent_select_network, 0);
     		return true;
@@ -1023,7 +1039,7 @@ public class FragmentArchivedResults extends Fragment
     			}
     			
     			Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
-        		intent_share_result_activity.putExtra("networkType", 1);
+        		intent_share_result_activity.putExtra("networkType", 2); // Mobile
     			intent_share_result_activity.putExtra("downloadResult", aList_ArchivedResults.get(clickedPosition).getDownloadResult());
     			intent_share_result_activity.putExtra("uploadResult", aList_ArchivedResults.get(clickedPosition).getUploadResult());
     			intent_share_result_activity.putExtra("latencyResult", aList_ArchivedResults.get(clickedPosition).getLatencyResult());

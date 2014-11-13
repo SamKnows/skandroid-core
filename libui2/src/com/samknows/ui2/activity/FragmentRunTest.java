@@ -1854,7 +1854,7 @@ public class FragmentRunTest extends Fragment
      				intent_share_result_activity.putExtra("latencyResult", String.valueOf(formattedValues.getFormattedLatencyValue(tv_Result_Latency.getText().toString()).first));
      				intent_share_result_activity.putExtra("packetLossResult", String.valueOf(formattedValues.getFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()).first));
      				intent_share_result_activity.putExtra("jitterResult", String.valueOf(formattedValues.getFormattedJitter(tv_Result_Jitter.getText().toString()).first));
-     				intent_share_result_activity.putExtra("networkType", 1); // 1 mobile
+     				intent_share_result_activity.putExtra("networkType", 2); // 2 mobile
      				intent_share_result_activity.putExtra("dateResult", testTime); 				
 
      				startActivity(intent_share_result_activity);
@@ -1929,26 +1929,9 @@ public class FragmentRunTest extends Fragment
 
 	private void hideGaugeShowPassiveMetricsPanel() {
 		
-//		// Find the public_ip and submission_id!
+		// Find the public_ip and submission_id!
         publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
         submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
-
-//		DBHelper dbHelper = new DBHelper(getActivity());
-//		JSONObject archivedResults = dbHelper.getArchiveDataSummary();		
-//		
-//		try
-//		{			
-//			// Iterate over the archived results
-//			for (int i = 0; i < archivedResults.getInt("counter"); i++)
-//			{				
-//				TestResult testResult = new TestResult();
-//			
-//				JSONObject thisRow = dbHelper.getArchiveData(i);
-//				String id = thisRow.getString("_id");
-//			}
-//		} catch (Exception e) {
-//			
-//		}
 				
 		tv_Advice_Message.animate().setDuration(300).alpha(0.0f);
 		tv_TopTextNetworkType.animate().setDuration(300).alpha(0.0f);

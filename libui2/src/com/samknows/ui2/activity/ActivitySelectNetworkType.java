@@ -3,6 +3,7 @@ package com.samknows.ui2.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 
 /**
@@ -79,21 +81,21 @@ public class ActivitySelectNetworkType extends Activity
 				// Recover the last network type selected
 				switch (getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).getInt("networkTypeArchivedTests", 0))
 				{
+				case 0:
 					// Case "All"
-					case 0:
-						button_network_all.setSelected(true);
-						break;
+					button_network_all.setSelected(true);
+					break;
+				case 1:
 					// Case "WiFi"
-					case 1:
-						layout_ll_network_wifi.setSelected(true);
-						break;
+					layout_ll_network_wifi.setSelected(true);
+					break;
+				case 2:
 					// Case "Mobile"
-					case 2:
-						layout_ll_network_mobile.setSelected(true);
-						break;
-					// Case default
-					default:
-						break;
+					layout_ll_network_mobile.setSelected(true);
+					break;
+				default:
+					SKLogger.sAssert(getClass(),  false);
+					break;
 				}
 				break;
 			// Case this activity was called from Summary fragment
@@ -102,23 +104,25 @@ public class ActivitySelectNetworkType extends Activity
 				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_main_with_border);
 				
 				// Recover the last network type selected
-				switch (getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).getInt("networkTypeSummary", 0))
+        		SharedPreferences prefs = getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
+				int networkTypeFromPreferences = prefs.getInt("networkTypeSummary", 0);
+				switch (networkTypeFromPreferences)
 				{
+				case 0:
 					// Case "All"
-					case 0:
-						button_network_all.setSelected(true);
-						break;
+					button_network_all.setSelected(true);
+					break;
+				case 1:
 					// Case "WiFi"
-					case 1:
-						layout_ll_network_wifi.setSelected(true);
-						break;
+					layout_ll_network_wifi.setSelected(true);
+					break;
+				case 2:
 					// Case "Mobile"
-					case 2:
-						layout_ll_network_mobile.setSelected(true);
-						break;
-					// Case default
-					default:
-						break;
+					layout_ll_network_mobile.setSelected(true);
+					break;
+				default:
+					SKLogger.sAssert(getClass(),  false);
+					break;
 				}
 				break;
 	

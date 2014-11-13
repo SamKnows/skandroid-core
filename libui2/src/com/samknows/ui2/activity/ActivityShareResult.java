@@ -185,15 +185,16 @@ public class ActivityShareResult extends Activity
 		tv_Date_Result.setText(date);							
 		
 		switch (getIntent().getExtras().getInt("networkType")) {
-		case 0:
+		case 1:
 			SKLogger.sAssert(getClass(),  false);
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));	
 			tv_Connectivity_Result.setText(getString(R.string.wifi));
 			break;
-		case 1:
+		case 2:
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_mobile));
 			tv_Connectivity_Result.setText(getString(R.string.mobile));
 			break;
+		case 0:
 		default:
 			SKLogger.sAssert(getClass(),  false);
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));	

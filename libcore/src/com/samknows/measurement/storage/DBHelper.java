@@ -16,6 +16,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 //import android.os.Trace;
 import android.util.Log;
+import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
@@ -324,16 +325,20 @@ public class DBHelper {
 		return ret;
 	}
 
-	// Return the JSONObject to populate an archive view
-	// index is the position of the archive data in the database
-	
-	// TODO - change this to query ONLY for batches for the current activenetworktype ...!
-	public JSONObject getArchiveData(int index) {
+	// Return archived data from the database.
+	// This can return just one, indexed item - or all items.
+	// The result(s) is/are returned via a JSONArray.
+	//
+	// Parameters:
+	//   index is the position of the archive data in the database
+	//   index = -1 - return ALL archive items, via in the JSONArray.
+	//   index = 0...N - Just one (or zero!) object in the JSONArray, at position "index".
+	public JSONArray getArchiveData(int index) {
 		synchronized (sync) {
-			JSONObject ret = new JSONObject();
+			JSONArray arrayRet = new JSONArray();
 			if (open() == false) {
 				SKLogger.sAssert(getClass(),  false);
-				return ret;
+				return arrayRet;
 			}
 			
 	 		// A consequence of the system "collecting" metrics both when we start *and* stop a test, is that 
@@ -383,60 +388,99 @@ public class DBHelper {
 				close();
 				return null;
 			}
-			if (!cursor1.moveToFirst()) {
+			if (cursor1.moveToFirst() == false) {
 				// Nothing to return!
 				cursor1.close();
 				close();
-				return ret;
+				return arrayRet;
 			}
 			
-			long test_batch_id = 0;
-			long test_batch_time = 0;
-			
-			for (;;) {
-			
-				if (index == 0) {
+			for (int thisIndex = 0; ; thisIndex++) {
+				if (cursor1.isAfterLast()) {
+					// We've reached the end!
+					break;
+				}
+
+				// Find the indexed item - or, if index is -1, find ALL items.
+				if (index == -1) {
+					// We're looking at ALL items.
+				} else {
+					// We just want ONE item.
+					if (thisIndex != index) {
+						// This current item is NOT of interest - keep looking!
+         				cursor1.moveToNext();
+						continue;
+					}
+				}
+
+				// To reach here, this is an item of interest.
+				// Either because we're returning all items, or this is the specific item of interest.
+    			long test_batch_id = cursor1.getLong(0);
+    			long test_batch_time = cursor1.getLong(1);
+
+				String selection = SKSQLiteHelper.TR_COLUMN_BATCH_ID + " = " + test_batch_id;
+				List<JSONObject> tests = getTestResults(selection);
+				List<JSONObject> passive_metrics = getPassiveMetrics(test_batch_id);
+				JSONArray j_tests = new JSONArray();
+				JSONArray j_pm = new JSONArray();
+				try {
+        			JSONObject objRet = new JSONObject();
+					objRet.put(ARCHIVEDATA_INDEX, index + "");
+					objRet.put(ARCHIVEDATA_DTIME, test_batch_time + "");
+					for (JSONObject jo : tests) {
+						j_tests.put(testResultToArchiveData(jo));
+					}
+					for (JSONObject jo : passive_metrics) {
+						j_pm.put(passiveMetricToArchiveData(jo));
+					}
+					objRet.put(ARCHIVEDATA_ACTIVEMETRICS, j_tests);
+					objRet.put(ARCHIVEDATA_PASSIVEMETRICS, j_pm);
+					
+					arrayRet.put(objRet);
+				} catch (JSONException je) {
+					SKLogger.e(DBHelper.class,
+							"Error in converting tests and passive metrics for archive data"
+									+ je.getMessage());
+				}
+				
+				if (thisIndex == index) {
+					// We've found the sole item of interest!
 					break;
 				}
 				
-    			// Find the indexed item!
 				cursor1.moveToNext();
-    			if (cursor1.isAfterLast()) {
-    				SKLogger.sAssert(getClass(),  false);
-    				return ret;
-    			} else {
-    				test_batch_id = cursor1.getLong(0);
-    				test_batch_time = cursor1.getLong(1);
-    			}
-    			
-    			index--;
 			}
 			
 			cursor1.close();
-			
-			String selection = SKSQLiteHelper.TR_COLUMN_BATCH_ID + " = " + test_batch_id;
-			List<JSONObject> tests = getTestResults(selection);
-			List<JSONObject> passive_metrics = getPassiveMetrics(test_batch_id);
-			JSONArray j_tests = new JSONArray();
-			JSONArray j_pm = new JSONArray();
-			try {
-				ret.put(ARCHIVEDATA_INDEX, index + "");
-				ret.put(ARCHIVEDATA_DTIME, test_batch_time + "");
-				for (JSONObject jo : tests) {
-					j_tests.put(testResultToArchiveData(jo));
-				}
-				for (JSONObject jo : passive_metrics) {
-					j_pm.put(passiveMetricToArchiveData(jo));
-				}
-				ret.put(ARCHIVEDATA_ACTIVEMETRICS, j_tests);
-				ret.put(ARCHIVEDATA_PASSIVEMETRICS, j_pm);
-			} catch (JSONException je) {
-				SKLogger.e(DBHelper.class,
-						"Error in converting tests and passive metrics for archive data"
-								+ je.getMessage());
-			}
 			close();
-			return ret;
+		
+			if (index == -1) {
+				// We wanted all items. It is possible that there were no items!
+			} else {
+				// We wanted just ONE item.
+				// Did we find it?
+				// It would usually be an error if we didn't find it!
+				SKLogger.sAssert(getClass(),  arrayRet.length() == 1);
+			}
+			
+			return arrayRet;
+		}
+	}
+	
+	public JSONObject getSingleArchiveDataItemAtIndex(int index) {
+		JSONArray arrayRet = getArchiveData(index);
+		if (arrayRet.length() == 0) {
+			SKLogger.sAssert(getClass(),  false);
+			return null;
+		}
+		
+		SKLogger.sAssert(getClass(),  arrayRet.length() == 1);
+		
+		try {
+			return (JSONObject)arrayRet.get(0);
+		} catch (JSONException e) {
+			SKLogger.sAssert(getClass(),  false);
+			return null;
 		}
 	}
 
@@ -1096,6 +1140,7 @@ public class DBHelper {
 				break;
 	
 			default:
+    			SKLogger.sAssert(getClass(), false);
 				whereClause = " WHERE " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
 				SKLogger.sAssert(getClass(),  false);
 				break;
@@ -1108,59 +1153,70 @@ public class DBHelper {
 				+ whereClause +
 				" GROUP BY " + SKSQLiteHelper.TABLE_TESTRESULT + "." + SKSQLiteHelper.TR_COLUMN_TYPE;
 		
-		if (open() == true)
+		if (open() == false) {
+			SKLogger.sAssert(getClass(), false);
+		}
+		else
 		{			
 			Cursor cursor = database.rawQuery(query, null);
-			
+
 			int testType = 0;
 			float max = 0;
 			float min = 0;
 			float average = 0;
-			
-			if (cursor.moveToFirst())
-			{
+
+			if (cursor.moveToFirst() == false) {
+				// No results!
+				//SKLogger.sAssert(getClass(), false);
+
+			} else {
 				do
 				{
 					if (cursor.getString(0).equals("download"))
 					{
 						testType = 0;						
 						average = cursor.getFloat(1) / 1000000;
-					    max = cursor.getFloat(2) / 1000000;
-					    min = cursor.getFloat(3) / 1000000;
+						max = cursor.getFloat(2) / 1000000;
+						min = cursor.getFloat(3) / 1000000;
 					}
 					else if (cursor.getString(0).equals("upload"))
 					{
 						testType = 1;
 						average = cursor.getFloat(1) / 1000000;
-					    max = cursor.getFloat(2) / 1000000;
-					    min = cursor.getFloat(3) / 1000000;
+						max = cursor.getFloat(2) / 1000000;
+						min = cursor.getFloat(3) / 1000000;
 					}
 					else if (cursor.getString(0).equals("latency"))
 					{
 						testType = 2;
 						average = cursor.getFloat(1) / 1000;
-					    max = cursor.getFloat(2) / 1000;
-					    min = cursor.getFloat(3) / 1000;
+						max = cursor.getFloat(2) / 1000;
+						min = cursor.getFloat(3) / 1000;
 					}
 					else if (cursor.getString(0).equals("packetloss"))
 					{
 						testType = 3;
 						average = cursor.getFloat(1);
-					    max = cursor.getFloat(2);
-					    min = cursor.getFloat(3);
+						max = cursor.getFloat(2);
+						min = cursor.getFloat(3);
 					}
 					else if (cursor.getString(0).endsWith("jitter"))
 					{
 						testType = 4;
 						average = cursor.getFloat(1) / 1000;
-					    max = cursor.getFloat(2) / 1000;
-					    min = cursor.getFloat(3) / 1000;						
+						max = cursor.getFloat(2) / 1000;
+						min = cursor.getFloat(3) / 1000;						
+					} else {
+						SKLogger.sAssert(getClass(), false);
 					}
-					
+
 					summaryResults.add(new SummaryResult(testType, average, max, min));
 				}
 				while (cursor.moveToNext());
 			}
+			
+			cursor.close();
+			close();
 		}		
 		return summaryResults;
 	}

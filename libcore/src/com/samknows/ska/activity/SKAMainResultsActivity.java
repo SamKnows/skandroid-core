@@ -1934,10 +1934,10 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		public void readArchiveItem(int archiveItemIndex) {
      		//Trace.beginSection("readArchiveItem");
-			JSONObject archive;
+			JSONObject archiveItem;
 			try {
 
-				archive = dbHelper.getArchiveData(archiveItemIndex);
+				archiveItem = dbHelper.getSingleArchiveDataItemAtIndex(archiveItemIndex);
 
 			} catch (Exception e) {
          		//Trace.endSection();
@@ -1946,7 +1946,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				return;
 			}
 			
-			if (archive == null) {
+			if (archiveItem == null) {
          		//Trace.endSection();
 				SKLogger.sAssert(getClass(), false);
 				return;
@@ -1956,7 +1956,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			String datetime = "";
 			String dtime_formatted;
 			try {
-				datetime = archive.getString("dtime");
+				datetime = archiveItem.getString("dtime");
 
 				dtime_formatted = new SKDateFormat(context).UITime(Long
 						.parseLong(datetime));
@@ -1970,7 +1970,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			JSONArray results = null;
 
 			try {
-				results = archive.getJSONArray("activemetrics");
+				results = archiveItem.getJSONArray("activemetrics");
 			} catch (JSONException je) {
 				SKLogger.e(this, "Exception in reading active metrics array: "
 						+ je.getMessage());
@@ -2047,7 +2047,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			// unpack passivemetrics
 			results = null;
 			try {
-				results = archive.getJSONArray("passivemetrics");
+				results = archiveItem.getJSONArray("passivemetrics");
 			} catch (JSONException je) {
 				SKLogger.e(this,
 						"Exception in reading JSONObject: " + je.getMessage());

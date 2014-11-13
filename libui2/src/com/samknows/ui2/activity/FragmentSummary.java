@@ -151,13 +151,16 @@ public class FragmentSummary extends Fragment
 					eNetworkTypeResults networkType;
 					switch (data.getIntExtra("networkType", 0)) {
 					case 0:
-     					networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
+     					networkType = eNetworkTypeResults.eNetworkTypeResults_Any;
      					break;
 					case 1:
+     					networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
+     					break;
+					case 2:
      					networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
      					break;
 					default:
-     					networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
+     					networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
 						SKLogger.sAssert(getClass(), false);
      					break;
 					}
@@ -270,7 +273,7 @@ public class FragmentSummary extends Fragment
 		
 		private void ExtractSummaryValues () {
 			// Get the summary values from the data base
-			aList_SummaryResults = dbHelper.getSummaryValues(getNetworkTypeSelection(), calculateTimePeriodStart(getTimePeriodSelection()));
+			aList_SummaryResults = dbHelper.getSummaryValues(getNetworkTypeSelection(), calculateTimePeriodStart());
 			
 			final FormattedValues formattedValues = new FormattedValues();		// Class to format the values
 			
@@ -1398,10 +1401,10 @@ public class FragmentSummary extends Fragment
 		case eNetworkTypeResults_Any:
     		editor.putInt("networkTypeSummary", 0);	// Save the state of network type filter	
     		break;
-		case eNetworkTypeResults_Mobile:
+		case eNetworkTypeResults_WiFi:
     		editor.putInt("networkTypeSummary", 1);	// Save the state of network type filter	
     		break;
-		case eNetworkTypeResults_WiFi:
+		case eNetworkTypeResults_Mobile:
     		editor.putInt("networkTypeSummary", 2);	// Save the state of network type filter	
     		break;
 		default:
@@ -1409,6 +1412,9 @@ public class FragmentSummary extends Fragment
 			break;
 		}
 		editor.commit();	// Commit changes
+	
+		// Verify that the value was saved properly.
+		SKLogger.sAssert(getClass(),  getNetworkTypeSelection() == pNetworkType);
 	}
 		
 	/**
@@ -1420,8 +1426,10 @@ public class FragmentSummary extends Fragment
 	{
 		// Get the shared preferences
 		SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
+		int networkTypeFromPreferences = prefs.getInt("networkTypeSummary", 0);
     	// Return the state of network type selection		
-		switch (prefs.getInt("networkTypeSummary", 0)) {
+		switch (networkTypeFromPreferences)
+		{
 		case 0:
     		return eNetworkTypeResults.eNetworkTypeResults_Any;
 		case 1:
@@ -1467,29 +1475,14 @@ public class FragmentSummary extends Fragment
 	 * @param pTimePeriodSelection time to subtract to the current time
 	 * @return the time in milliseconds equals to the current time minus the time passed as parameter
 	 */
-	private long calculateTimePeriodStart(int pTimePeriodSelection)
+	private long calculateTimePeriodStart()
 	{		
-		switch (pTimePeriodSelection)
-		{
-			// 1 day ago
-			case 0:
-				return System.currentTimeMillis()/1000 - 3600 * 24;
-	    	// 1 week ago
-			case 1:
-				return System.currentTimeMillis()/1000 - 3600 * 24 * 7;
-	    	// 4 weeks ago
-			case 2:
-				return System.currentTimeMillis()/1000 - 3600 * 24 * 31;
-	    	// 12 weeks ago
-			case 3:
-				return System.currentTimeMillis()/1000 - 3600 * 24 * 31 * 3;
-	    	// 1 year ago
-			case 4:
-				return System.currentTimeMillis()/1000 - 3600 * 24 * 365;
-			// Default case: 1 week ago
-			default:			
-				return System.currentTimeMillis()/1000 - 3600 * 24 * 7;
-		}		
+		Calendar fromCal = Calendar.getInstance();
+		
+		lookBackwardInTime(fromCal);
+		
+		long startTime = fromCal.getTimeInMillis();
+		return startTime;		
 	}
 	
 	/**
