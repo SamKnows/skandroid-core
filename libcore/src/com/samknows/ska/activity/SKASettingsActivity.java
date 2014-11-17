@@ -84,59 +84,66 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		} catch (NameNotFoundException e) {
 			SKLogger.sAssert(getClass(), false);
 		}
-		TextView tv=(TextView) findViewById(R.id.version);
-		tv.setText(getString(R.string.version)+ " " + versionName);
+		if (findViewById(R.id.version) != null) {
+			TextView tv=(TextView) findViewById(R.id.version);
+			tv.setText(getString(R.string.version)+ " " + versionName);
+		}
 
 		final ButtonWithRightArrow clearAllResultsButton = (ButtonWithRightArrow) findViewById(R.id.settings_clearallresults_button);
-		clearAllResultsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//Log.w(TAG, "TODO: clear all results clicked...");
+		
+		if (clearAllResultsButton != null) {
+			clearAllResultsButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					//Log.w(TAG, "TODO: clear all results clicked...");
 
-				Builder builder = new AlertDialog.Builder(SKASettingsActivity.this);
-				builder.setTitle(getString(R.string.Settings_ClearAllResults_Title));
-				builder.setMessage(getString(R.string.Settings_ClearAllResults_Message));
-				builder.setPositiveButton(getString(R.string.ok_dialog),
-						new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						
-						if (MainService.isExecuting()) {
-							showAlertCannotClearDataAsBackgroundTaskIsRunning();
-							return;
+					Builder builder = new AlertDialog.Builder(SKASettingsActivity.this);
+					builder.setTitle(getString(R.string.Settings_ClearAllResults_Title));
+					builder.setMessage(getString(R.string.Settings_ClearAllResults_Message));
+					builder.setPositiveButton(getString(R.string.ok_dialog),
+							new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+
+							if (MainService.isExecuting()) {
+								showAlertCannotClearDataAsBackgroundTaskIsRunning();
+								return;
+							}
+
+							// Clear all results!
+							// ... and let the main screen respond to this!
+							SKApplication.sSetUpdateAllDataOnScreen(true);
+
+							DBHelper db = new DBHelper(SKASettingsActivity.this);
+							db.emptyTheDatabase();
+
+							dialog.dismiss();
 						}
-						
-						// Clear all results!
-						// ... and let the main screen respond to this!
-						SKApplication.sSetUpdateAllDataOnScreen(true);
-						
-						DBHelper db = new DBHelper(SKASettingsActivity.this);
-						db.emptyTheDatabase();
-						
-						dialog.dismiss();
-					}
-				});
-				builder.setNegativeButton(getString(R.string.cancel),
-						new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-				AlertDialog alert = builder.create();
-				alert.show();
-			}
-		});
+					});
+					builder.setNegativeButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+			});
+		}
 		
-		final ButtonWithRightArrow activateButton = (ButtonWithRightArrow) findViewById(R.id.settings_activate_button);
-		activateButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SKAActivationActivity.sDoShowActivation(SKASettingsActivity.this);
-			}
-		});
+		ButtonWithRightArrow activateButton = (ButtonWithRightArrow) findViewById(R.id.settings_activate_button);
+		if (activateButton != null) {
+			activateButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SKAActivationActivity.sDoShowActivation(SKASettingsActivity.this);
+				}
+			});
+		}
 		
-		final ButtonWithRightArrow preferencesButton = (ButtonWithRightArrow) findViewById(R.id.settings_preferences_button);
+		ButtonWithRightArrow preferencesButton = (ButtonWithRightArrow) findViewById(R.id.settings_preferences_button);
 		preferencesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -148,52 +155,65 @@ public class SKASettingsActivity extends BaseLogoutActivity{
     		preferencesButton.setVisibility(View.GONE);
     	}
 		
-		final FontFitTextView locationServicesTypeButtonText = (FontFitTextView) findViewById(R.id.settings_location_services_type_text);
-		final ButtonWithRightArrow locationServicesTypeButton = (ButtonWithRightArrow) findViewById(R.id.settings_location_services_type);
+		FontFitTextView locationServicesTypeButtonText = null;
+		try {
+			locationServicesTypeButtonText = (FontFitTextView) findViewById(R.id.settings_location_services_type_text);
+		} catch (NoSuchFieldError e) { }
+		
+		ButtonWithRightArrow locationServicesTypeButton = null;
+		try {
+    		locationServicesTypeButton = (ButtonWithRightArrow) findViewById(R.id.settings_location_services_type);
+		} catch (NoSuchFieldError e) { }
+		
 		String theValue = SK2AppSettings.getSK2AppSettingsInstance().getLocationTypeAsString();
-		locationServicesTypeButtonText.setText(getString(R.string.location_type_title) + ": " + theValue);
-		locationServicesTypeButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final String the_array_spinner[] = new String[2];
-				the_array_spinner[0] = getString(R.string.GPS);
-				the_array_spinner[1] = getString(R.string.MobileNetwork);
+		if (locationServicesTypeButtonText != null) {
+			locationServicesTypeButtonText.setText(getString(R.string.location_type_title) + ": " + theValue);
+		}
+		if (locationServicesTypeButton != null) {
+     		final FontFitTextView finalLocationServicesTypeButtonText = locationServicesTypeButtonText;
+			locationServicesTypeButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final String the_array_spinner[] = new String[2];
+					the_array_spinner[0] = getString(R.string.GPS);
+					the_array_spinner[1] = getString(R.string.MobileNetwork);
 
-				Builder builder = new AlertDialog.Builder(SKASettingsActivity.this);
-				builder.setTitle(getString(R.string.location_type_title));
+					Builder builder = new AlertDialog.Builder(SKASettingsActivity.this);
+					builder.setTitle(getString(R.string.location_type_title));
 
-				builder.setItems(the_array_spinner, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					builder.setItems(the_array_spinner, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
 
-						dialog.dismiss();
-						
-						String theValue = the_array_spinner[which];
-						
-						if(theValue.equals(getString(R.string.GPS))) {
-						} else if (theValue.equals(getString(R.string.MobileNetwork))) {
-						} else {
-							SKLogger.sAssert(SKASettingsActivity.class, false);
+							dialog.dismiss();
+
+							String theValue = the_array_spinner[which];
+
+							if(theValue.equals(getString(R.string.GPS))) {
+							} else if (theValue.equals(getString(R.string.MobileNetwork))) {
+							} else {
+								SKLogger.sAssert(SKASettingsActivity.class, false);
+							}
+
+							SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SKASettingsActivity.this);
+							prefs.edit().putString(SKConstants.PREF_LOCATION_TYPE, theValue).commit();
+
+							String theValue2 = SK2AppSettings.getSK2AppSettingsInstance().getLocationTypeAsString();
+							finalLocationServicesTypeButtonText.setText(getString(R.string.location_type_title) + ": " + theValue);
 						}
-					
-						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SKASettingsActivity.this);
-						prefs.edit().putString(SKConstants.PREF_LOCATION_TYPE, theValue).commit();
-						
-                		String theValue2 = SK2AppSettings.getSK2AppSettingsInstance().getLocationTypeAsString();
-                		locationServicesTypeButtonText.setText(getString(R.string.location_type_title) + ": " + theValue);
-					}
-				});
-				builder.setNegativeButton(getString(R.string.cancel),
-						new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-				AlertDialog alert = builder.create();
-				alert.show();
-			}
-		});	
+					});
+					builder.setNegativeButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+			});	
+		}
 	}
 	
 	@Override
@@ -213,19 +233,32 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 				value = getString(R.string.no);
 			}
 		}
-		((TextView)findViewById(R.id.tv_service_activated_value)).setText(value);
+		
+		try {
+			((TextView)findViewById(R.id.tv_service_activated_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
+		
 		if(SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			value = getString(R.string.enabled);
 		}else{
 			value = getString(R.string.disabled);
 		}
-		((TextView)findViewById(R.id.tv_service_autotesting_value)).setText(value);
-		((TextView)findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
 		
+		try {
+			((TextView)findViewById(R.id.tv_service_autotesting_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
+		
+		try {
+			((TextView)findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
+		} catch (NoSuchFieldError e) { }
+
 		ScheduleConfig config = CachingStorage.getInstance().loadScheduleConfig();
 		String schedule_version = config == null ? "" : config.getConfigVersion(); 
-		((TextView)findViewById(R.id.schedule_version)).setText(schedule_version);
 		
+		try {
+			((TextView)findViewById(R.id.schedule_version)).setText(schedule_version);
+		} catch (NoSuchFieldError e) { }
+
 		String nextTestScheduled = "";
 		if (MainService.isExecuting()) {
 			nextTestScheduled = getString(R.string.executing_now);
@@ -237,40 +270,65 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 				nextTestScheduled = new SKDateFormat(this).UITime(nextRunTime);
 			}
 		}
-		((TextView)findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
-	
+		try {
+			((TextView)findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
+		} catch (NoSuchFieldError e) { }
+
 		if (SKApplication.getAppInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
 			// Background processing disabled in the schedule!
-			findViewById(R.id.autotesting_row).setVisibility(View.GONE);
-			findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);
+			try {
+				findViewById(R.id.autotesting_row).setVisibility(View.GONE);
+			} catch (NoSuchFieldError e) { }
+			try {
+				findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);
+			} catch (NoSuchFieldError e) { }
 		}
 
 		PhoneIdentityData phoneData = new PhoneIdentityDataCollector(this).collect();
 		if (!SK2AppSettings.getSK2AppSettingsInstance().anonymous){
-			((TextView)findViewById(R.id.tv_imei_value)).setText(phoneData.imei + "");
-			((TextView)findViewById(R.id.tv_imsi_value)).setText(phoneData.imsi + "");
-			((TextView)findViewById(R.id.tv_unitId_value)).setText(SK2AppSettings.getInstance().getUnitId());
+			try {
+				((TextView)findViewById(R.id.tv_imei_value)).setText(phoneData.imei + "");
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_imsi_value)).setText(phoneData.imsi + "");
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_unitId_value)).setText(SK2AppSettings.getInstance().getUnitId());
+			} catch (NoSuchFieldError e) { }
 		}
-		
+
 		value = phoneData.manufacturer + "\n\r" + phoneData.model;
-		((TextView)findViewById(R.id.tv_phone_value)).setText(value);
+		try {
+			((TextView)findViewById(R.id.tv_phone_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
 		value = phoneData.osType + " v" + phoneData.osVersion;
-		((TextView)findViewById(R.id.tv_os_value)).setText(value);
-		
+		try {
+			((TextView)findViewById(R.id.tv_os_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
+
 		NetworkData networkData = new NetworkDataCollector(this).collect();
 		value = DCSConvertorUtil.convertPhoneType(networkData.phoneType);
-		((TextView)findViewById(R.id.tv_phone_type_value)).setText(value);
+		try {
+			((TextView)findViewById(R.id.tv_phone_type_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
 		value = getString(DCSConvertorUtil.networkTypeToStringId(networkData.networkType));
-		((TextView)findViewById(R.id.tv_network_type_value)).setText(value);
+		try {
+			((TextView)findViewById(R.id.tv_network_type_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
 		value = networkData.networkOperatorCode + "/" + networkData.networkOperatorName;
-		((TextView)findViewById(R.id.tv_network_operator_value)).setText(value);
+		try {
+			((TextView)findViewById(R.id.tv_network_operator_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
+		
 		if(networkData.isRoaming){
 			value = getString(R.string.yes);
 		}else{
 			value = getString(R.string.no);
 		}
-		((TextView)findViewById(R.id.tv_roaming_value)).setText(value);
-		
+		try {
+			((TextView)findViewById(R.id.tv_roaming_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
+
 		Location loc1 = ((LocationManager)getSystemService(LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location loc2 = ((LocationManager)getSystemService(LOCATION_SERVICE)).getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		Location loc = null;
@@ -280,37 +338,55 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			loc = loc1 == null ? loc2 : loc1;
 		}
 		if (loc != null) {
-			((TextView)findViewById(R.id.tv_loc_date_value)).setText(new SKDateFormat(this).UITime(loc.getTime()));
-			((TextView)findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
-			((TextView)findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
-			((TextView)findViewById(R.id.tv_loc_lat_value)).setText(String.format("%1.5f", loc.getLatitude()));
-			((TextView)findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
+			try {
+				((TextView)findViewById(R.id.tv_loc_date_value)).setText(new SKDateFormat(this).UITime(loc.getTime()));
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_loc_lat_value)).setText(String.format("%1.5f", loc.getLatitude()));
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
+			} catch (NoSuchFieldError e) { }
 		}
-		
-		
+
+
 		//Cells
 		CellTowersData cellData = new CellTowersDataCollector(this).collect();
 		if (cellData.getCellLocation() == null) {
 			// No location information currently available!
 		} else if (cellData.getCellLocation() instanceof GsmCellLocation) {
 			GsmCellLocation gsmLocation = (GsmCellLocation) cellData.getCellLocation();
-			((TextView)findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
-			((TextView)findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
-			((TextView)findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
+			try {
+				((TextView)findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
+			} catch (NoSuchFieldError e) { }
+			try {
+				((TextView)findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
+			} catch (NoSuchFieldError e) { }
 		} else if (cellData.getCellLocation() instanceof CdmaCellLocation) {
-			((TextView)findViewById(R.id.tv_cell_tower_type_value)).setText("CDMA");
-//			CdmaCellLocation cdmaLocation = (CdmaCellLocation) cellLocation;
-//			builder.append(CDMA);
-//			builder.append(time/1000);
-//			builder.append(cdmaLocation.getBaseStationId());
-//			builder.append(cdmaLocation.getBaseStationLatitude());
-//			builder.append(cdmaLocation.getBaseStationLongitude());
-//			builder.append(cdmaLocation.getNetworkId());
-//			builder.append(cdmaLocation.getSystemId());
+			try {
+				((TextView)findViewById(R.id.tv_cell_tower_type_value)).setText("CDMA");
+			} catch (NoSuchFieldError e) { }
+			//			CdmaCellLocation cdmaLocation = (CdmaCellLocation) cellLocation;
+			//			builder.append(CDMA);
+			//			builder.append(time/1000);
+			//			builder.append(cdmaLocation.getBaseStationId());
+			//			builder.append(cdmaLocation.getBaseStationLatitude());
+			//			builder.append(cdmaLocation.getBaseStationLongitude());
+			//			builder.append(cdmaLocation.getNetworkId());
+			//			builder.append(cdmaLocation.getSystemId());
 		}
-		
-		
-	
+
+
+
 		if (cellData.getSignal() == null) {
 			// No signal information currently available!
 		} else if (cellData.getSignal().isGsm()) {
@@ -319,20 +395,29 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		} else {
 			value  = cellData.getSignal().getCdmaDbm() + " dBm";
 		}
-	
-		((TextView) findViewById(R.id.tv_signal_value)).setText(value);
+
+		try {
+			((TextView) findViewById(R.id.tv_signal_value)).setText(value);
+		} catch (NoSuchFieldError e) { }
 		// Note: neighbors might be NULL...
 		if (cellData.getNeighbors() != null) {
 			for (NeighboringCellInfo info : cellData.getNeighbors()) {
 				appendNeighborCellInfo(info);
 			}
 		}
-		
+
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
 	}
 	
 	public void appendNeighborCellInfo(NeighboringCellInfo data) {
+		try {
+			if (findViewById(R.id.info_table) == null) {
+				return;
+			}
+		} catch (NoSuchFieldError e) {
+			return;
+		}
 		
 		TableRow tr = new TableRow(this);
 		int color = Color.parseColor("#000000");
@@ -357,6 +442,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		tr.addView(label);
 		tr.setLayoutParams(params);
 		
+		if (findViewById(R.id.info_table) == null) {
+			return;
+		}
 		((TableLayout)findViewById(R.id.info_table)).addView(tr, params);
 		
 		tr = new TableRow(this);
@@ -379,6 +467,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		tr.addView(label);
 		
 		
+		if (findViewById(R.id.info_table) == null) {
+			return;
+		}
 		((TableLayout)findViewById(R.id.info_table)).addView(tr,params);
 		tr.setLayoutParams(params);
 		
@@ -397,6 +488,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		label.setLayoutParams(params2);
 		label.setTextColor(color);
 		tr.addView(label);
+		if (findViewById(R.id.info_table) == null) {
+			return;
+		}
 		((TableLayout)findViewById(R.id.info_table)).addView(tr, params);
 		
 		tr.setLayoutParams(params);
@@ -417,6 +511,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		label.setTextColor(color);
 		label.setLayoutParams(params2);
 		tr.addView(label);
+		if (findViewById(R.id.info_table) == null) {
+			return;
+		}
 		((TableLayout)findViewById(R.id.info_table)).addView(tr, params);
 		tr.setLayoutParams(params);
 		
@@ -435,6 +532,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		label.setTextColor(color);
 		label.setLayoutParams(params2);
 		tr.addView(label);
+		if (findViewById(R.id.info_table) == null) {
+			return;
+		}
 		((TableLayout)findViewById(R.id.info_table)).addView(tr,params);
 		tr.setLayoutParams(params);
 		
@@ -454,6 +554,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		label.setTextColor(color);
 		label.setLayoutParams(params2);
 		tr.addView(label);
+		if (findViewById(R.id.info_table) == null) {
+			return;
+		}
 		((TableLayout)findViewById(R.id.info_table)).addView(tr, params);
 		tr.setLayoutParams(params);
 	}

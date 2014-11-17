@@ -108,7 +108,7 @@ public class FragmentRunTest extends Fragment
 	private LinearLayout layout_ll_passive_metrics, layout_ll_results, layout_ll_passive_metrics_divider_sim_and_network_operators, layout_ll_passive_metrics_divider_signal, layout_ll_passive_metrics_divider_location;
 	private FrameLayout run_results_panel_frame_to_animate;
 	// Text views showing warnings
-	private TextView tv_Data_Cap_Warning, tv_Connectivity_Warning, mUnitText;	
+	private TextView mUnitText;	
 	private View initial_warning_text;
 	// Text views showing the test result labels
 	private TextView tv_Label_Download, tv_Label_Upload; //  tv_Label_Mbps_1, tv_Label_Mbps_2;
@@ -577,13 +577,6 @@ public class FragmentRunTest extends Fragment
 		
 		iv_Result_NetworkType = (ImageView)pView.findViewById(R.id.archiveResultsListItemNetworkType);		
 		
-		// Label showing connectivity issues - no connectivity
-        tv_Connectivity_Warning = (TextView)pView.findViewById(R.id.new_connectivity_warning);
-        
-        // Label showing the data cap warning
-        tv_Data_Cap_Warning = (TextView)pView.findViewById(R.id.new_data_cap_warning);
-        
-        
         // Layouts that contains the shining labels
         layout_layout_Shining_Labels = (RelativeLayout)pView.findViewById(R.id.status_label_layout_1);   
         
@@ -692,8 +685,6 @@ public class FragmentRunTest extends Fragment
 		tv_Gauge_TextView_PsuedoButton.setTypeface(typeface_Din_Condensed_Cyrillic);
 		tv_Advice_Message.setTypeface(typeface_Roboto_Light);
 		mUnitText.setTypeface(typeface_Roboto_Light);		
-		tv_Data_Cap_Warning.setTypeface(typeface_Roboto_Light);
-		tv_Connectivity_Warning.setTypeface(typeface_Roboto_Light);
 		
 		// Initialise the type face of the shining labels
 		tv_Status_Label_1.setTypeface(typeface_Roboto_Light);
@@ -1418,21 +1409,10 @@ public class FragmentRunTest extends Fragment
     	    // If the data cap was already reached or could be reached in the next run, show a message warning the user
     		if (warningMessage.length() > 0)
     		{
-    			tv_Data_Cap_Warning.setText(warningMessage);
-    			tv_Data_Cap_Warning.setVisibility(View.VISIBLE);
-    			tv_Data_Cap_Warning.animate().alpha(1.0f).setDuration(300);
+        		Toast.makeText(getActivity(), warningMessage, Toast.LENGTH_LONG).show();							
     		}
     		else	// If the data cap wasn't reached and won't be reached in the next run, hide the warning (maybe is not showed anyway)
     		{
-    			tv_Data_Cap_Warning.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
-    			{
-    				@Override
-    				public void onAnimationEnd(Animator animation)
-    				{
-    					// Set the visibility to gone for performance improvements
-    					//tv_Data_Cap_Warning.setVisibility(View.GONE);
-    				}
-				});    			    			
     		}
     	}    	
     }
@@ -1488,9 +1468,7 @@ public class FragmentRunTest extends Fragment
 				{
 					if (testsRunning == false)
 					{						
-						tv_Connectivity_Warning.setText(getString(R.string.no_connectivity));						
-						tv_Connectivity_Warning.setVisibility(View.VISIBLE);
-						tv_Connectivity_Warning.animate().alpha(1.0f).setDuration(600);
+        				Toast.makeText(getActivity(), getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();							
 						tv_Gauge_TextView_PsuedoButton.setClickable(false);						
 					}											
 				}
@@ -1504,9 +1482,7 @@ public class FragmentRunTest extends Fragment
 				@Override
 				public void run()
 				{	
-					tv_Connectivity_Warning.setText(getString(R.string.slow_connectivity));
-					tv_Connectivity_Warning.setVisibility(View.VISIBLE);
-					tv_Connectivity_Warning.animate().alpha(1.0f).setDuration(600);
+        			Toast.makeText(getActivity(), getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();							
 					tv_Gauge_TextView_PsuedoButton.setClickable(true);
 				}
 			});        	    					
@@ -1522,15 +1498,6 @@ public class FragmentRunTest extends Fragment
 					if (!testsRunning)
 					{		
 						tv_Gauge_TextView_PsuedoButton.setClickable(true);
-						tv_Connectivity_Warning.animate().alpha(0.0f).setDuration(600).setListener(new AnimatorListenerAdapter()
-						{
-							@Override
-							public void onAnimationEnd(Animator animation)
-							{
-								// Set the visibility to gone for performance improvements
-								// tv_Connectivity_Warning.setVisibility(View.GONE);								
-							};
-						});
 					}
 				}
 			});
@@ -1555,9 +1522,7 @@ public class FragmentRunTest extends Fragment
 				{
 					if (testsRunning == false)
 					{
-						tv_Connectivity_Warning.setText(getString(R.string.no_connectivity));						
-						tv_Connectivity_Warning.setVisibility(View.VISIBLE);
-						tv_Connectivity_Warning.animate().alpha(1.0f).setDuration(600);
+            			Toast.makeText(getActivity(), getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();							
 						tv_Gauge_TextView_PsuedoButton.setClickable(false);
 					}											
 				}
@@ -1571,9 +1536,7 @@ public class FragmentRunTest extends Fragment
 				@Override
 				public void run()
 				{
-					tv_Connectivity_Warning.setText(getString(R.string.slow_connectivity));
-					tv_Connectivity_Warning.setVisibility(View.VISIBLE);
-					tv_Connectivity_Warning.animate().alpha(1.0f).setDuration(600);
+            		Toast.makeText(getActivity(), getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();							
 				}
 			});
 		}
@@ -1586,15 +1549,6 @@ public class FragmentRunTest extends Fragment
 				public void run()
 				{
 					tv_Gauge_TextView_PsuedoButton.setClickable(true);
-					tv_Connectivity_Warning.animate().alpha(0.0f).setDuration(600).setListener(new AnimatorListenerAdapter()
-					{
-						@Override
-						public void onAnimationEnd(Animator animation)
-						{
-							// Set the visibility to gone for performance improvements
-							//tv_Connectivity_Warning.setVisibility(View.GONE);								
-						};
-					});
 				}
 			});
     		

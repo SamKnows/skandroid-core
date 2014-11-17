@@ -288,10 +288,22 @@ public class TestExecutor {
 			executingTest = TestFactory.create(td.type, params);
 			if (executingTest != null) {
 				getPartialResult();
-				SKLogger.d(TestExecutor.class, "start to execute test: "
-						+ td.displayName);
-				showNotification(tc.getString(R.string.ntf_running_test)
-						+ td.displayName);
+				SKLogger.d(TestExecutor.class, "start to execute test: " + td.displayName);
+			
+				String displayName = td.displayName;
+				boolean bShowNotification = true;
+				if (td.type.equalsIgnoreCase(TestFactory.CLOSESTTARGET)) {
+					if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo() == false) {
+						// Do NOT show closest target report!
+    				  bShowNotification = false;
+					}
+				} else if (td.type.equals(TestFactory.LATENCY)) {
+					displayName = tc.getString(R.string.latency);
+				}
+				
+				if (bShowNotification) {
+					showNotification(tc.getString(R.string.ntf_running_test) + displayName);
+				}
 				
 				//execute the test in a new thread and kill it if it doesn't terminate after
 				//Constants.WAIT_TEST_BEFORE_ABORT
@@ -438,7 +450,7 @@ public class TestExecutor {
 
 	@SuppressWarnings("deprecation")
 	public void showNotification(String message) {
-		String title = tc.getString(R.string.ntf_title);
+		String title = SKApplication.getAppInstance().getAppName();
 
 		NotificationManager manager = (NotificationManager) tc
 				.getSystemService(Context.NOTIFICATION_SERVICE);
