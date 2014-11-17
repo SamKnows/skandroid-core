@@ -739,6 +739,13 @@ public class FragmentRunTest extends Fragment
 	    	@Override
 			public void handleMessage(Message msg)
 	    	{
+	    		if (isAdded() == false) {
+	    			// This fragment is NOT attached to the activity.
+	    			// Don't do anything with the message, or we're likely to crash!
+	    			SKLogger.sAssert(getClass(), false);
+	    			return;
+	    		}
+	    		
 	    		FormattedValues formattedValues = new FormattedValues();
 	    		JSONObject message_JSON = (JSONObject) msg.obj;
 				int success, testName, statusComplete;
@@ -1631,9 +1638,17 @@ public class FragmentRunTest extends Fragment
     {
     	if (!testsRunning)
     	{
-    		final String networkType = Connectivity.getConnectionType(getActivity());
-        	
-        	if (!networkType.equals(tv_TopTextNetworkType.getText()))
+    		String networkType = Connectivity.getConnectionType(getActivity());
+    		
+    		if (networkType == null) {
+    			// Unexpected, but defend against it.
+    			networkType = SKApplication.getAppInstance().getApplicationContext().getString(R.string.unknown);
+    			SKLogger.sAssert(getClass(), false);
+    		}
+    		
+    		final String theNetworkType = networkType;
+    		
+    		if (!networkType.equals(tv_TopTextNetworkType.getText()))
         	{
         		if (gaugeVisible)
         		{
@@ -1642,7 +1657,7 @@ public class FragmentRunTest extends Fragment
                 		@Override
                 		public void onAnimationEnd(Animator animation)
                 		{        			
-                			tv_TopTextNetworkType.setText(networkType);
+                			tv_TopTextNetworkType.setText(theNetworkType);
                 			tv_TopTextNetworkType.animate().alpha(1.0f).setDuration(300);
                 			tv_TopTextNetworkType.animate().setListener(null);
                 		}    		

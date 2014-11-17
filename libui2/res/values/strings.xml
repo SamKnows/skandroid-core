@@ -44,6 +44,32 @@
     <string name="network_type_wifi">WiFi</string>
     <string name="network_type_mobile">Mobile</string>
     <string name="network_type_all">All</string>
+    
+    <!--  Reported network type -->
+    <string name="network_type_noconnection">No Network</string>
+    <string name="network_type_NETWORK_TYPE_1xRTT">"CDMA2000"</string> 
+    <string name="network_type_NETWORK_TYPE_CDMA">"CDMA"</string>
+    <string name="network_type_NETWORK_TYPE_EDGE">"EDGE"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_0">"EV-DO 0"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_A">"EV-DO A"</string>
+    <string name="network_type_NETWORK_TYPE_GPRS">"GPRS"</string>
+    <string name="network_type_NETWORK_TYPE_HSDPA">"HSDPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSPA">"HSPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSUPA">"HSUPA"</string>
+    <string name="network_type_NETWORK_TYPE_UMTS">"UMTS"</string>
+    <string name="network_type_NETWORK_TYPE_EHRPD">"eHRPD"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_B">"EV-DO B"</string>
+    <string name="network_type_NETWORK_TYPE_HSPAP">"HSPA+"</string>
+    <string name="network_type_NETWORK_TYPE_IDEN">"iDEN"</string>
+    <string name="network_type_NETWORK_TYPE_LTE">"LTE"</string>
+    <string name="network_type_TYPE_WIMAX">"WiMax"</string>
+    <string name="network_type_TYPE_BLUETOOTH">"Bluetooth"</string>
+    <string name="network_type_TYPE_ETHERNET">"Ethernet"</string>
+    <string name="network_type_TYPE_DUMMY">"Dummy"</string>
+    <string name="network_type_TYPE_MOBILE_DUN">"Mobile DUN"</string>
+    <string name="network_type_TYPE_MOBILE_HIPRI">"Mobile HIPRI"</string>
+    <string name="network_type_TYPE_MOBILE_MMS">"Mobile MMS"</string>
+    <string name="network_type_TYPE_MOBILE_SUPL">"Mobile SUPL"</string>
 
     <!-- TIME PERIOD -->
     <string name="time_period">Period</string>

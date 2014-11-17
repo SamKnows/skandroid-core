@@ -28,8 +28,10 @@ import com.samknows.measurement.storage.PassiveMetric.METRIC_TYPE;
 import com.samknows.measurement.test.TestResultsManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ParseException;
 import android.net.Uri;
+import android.support.v4.content.LocalBroadcastManager;
 
 public class SubmitTestResultsAnonymousAction {
 	protected Context context;
@@ -160,6 +162,9 @@ public class SubmitTestResultsAnonymousAction {
 							jsonArray.put(item1);
 							jsonArray.put(item2);
 							dbHelper.insertPassiveMetric(jsonArray, batchId);
+							
+	        				// Force the History screen to re-query, so it can show the submission id/public ip
+                            LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
 						}
 
 					} catch (ParseException e) {

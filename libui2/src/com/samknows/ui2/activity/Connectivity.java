@@ -1,6 +1,8 @@
 package com.samknows.ui2.activity;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.libui2.R;
+import com.samknows.measurement.SKApplication;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -26,12 +28,18 @@ public class Connectivity
 	 */
 	public static NetworkInfo getNetworkInfo(Context pContext)
 	{
-	    ConnectivityManager cm = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    if (cm == null) {
-	    	SKLogger.sAssert(Connectivity.class, false);
-	    	return null;
-	    }
-	    return cm.getActiveNetworkInfo();
+		try {
+			ConnectivityManager cm = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+			if (cm == null) {
+				SKLogger.sAssert(Connectivity.class, false);
+				return null;
+			}
+			return cm.getActiveNetworkInfo();
+		} catch (NullPointerException e) {
+			// This has been seen on customer devices.
+			SKLogger.sAssert(Connectivity.class, false);
+			return null;
+		}
 	}
 	
 	/**
@@ -166,7 +174,8 @@ public class Connectivity
 		
 		if (info == null)
 		{
-			return "Unknown";	// Impossible to find out			
+			// Impossible to find out!
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.unknown);
 		}
 		
 		if (!info.isConnected())
@@ -180,87 +189,87 @@ public class Connectivity
 		
 		if(type == ConnectivityManager.TYPE_WIFI)
 		{
-			return "WiFi";	// The WIFI data connection.
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi);	// The WIFI data connection.
 		}
 		else if(type==ConnectivityManager.TYPE_MOBILE)	// The Mobile data connection.
 		{
 			switch(subType)
 			{
-				case TelephonyManager.NETWORK_TYPE_1xRTT:
-					return "CDMA2000"; 	// Current network is 1xRTT, ~ 50-100 kbps
-				case TelephonyManager.NETWORK_TYPE_CDMA:
-					return "CDMA"; 	// Current network is CDMA: Either IS95A or IS95B, ~ 14-64 kbps
-				case TelephonyManager.NETWORK_TYPE_EDGE:
-					return "EDGE"; 	// Current network is EDGE ~ 50-100 kbps
-				case TelephonyManager.NETWORK_TYPE_EVDO_0:
-					return "EV-DO 0"; 	// Current network is EVDO revision 0, ~ 400-1000 kbps
-				case TelephonyManager.NETWORK_TYPE_EVDO_A:
-					return "EV-DO A"; 	// Current network is EVDO revision A, ~ 600-1400 kbps
-				case TelephonyManager.NETWORK_TYPE_GPRS:
-					return "GPRS"; 	// Current network is GPRS, ~ 100 kbps
-				case TelephonyManager.NETWORK_TYPE_HSDPA:
-					return "HSDPA"; 	// Current network is HSDPA, ~ 2-14 Mbps
-				case TelephonyManager.NETWORK_TYPE_HSPA:
-					return "HSPA"; 	// Current network is HSPA, ~ 700-1700 kbps
-				case TelephonyManager.NETWORK_TYPE_HSUPA:
-					return "HSUPA"; 	// Current network is HSUPA, ~ 1-23 Mbps
-				case TelephonyManager.NETWORK_TYPE_UMTS:
-					return "UMTS"; 	// Current network is UMTS, ~ 400-7000 kbps
+			case TelephonyManager.NETWORK_TYPE_1xRTT:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_1xRTT);
+			case TelephonyManager.NETWORK_TYPE_CDMA:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_CDMA); 	// Current network is CDMA: Either IS95A or IS95B, ~ 14-64 kbps
+			case TelephonyManager.NETWORK_TYPE_EDGE:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_EDGE); 	// Current network is EDGE ~ 50-100 kbps
+			case TelephonyManager.NETWORK_TYPE_EVDO_0:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_EVDO_0); 	// Current network is EVDO revision 0, ~ 400-1000 kbps
+			case TelephonyManager.NETWORK_TYPE_EVDO_A:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_EVDO_A);
+			case TelephonyManager.NETWORK_TYPE_GPRS:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_GPRS);
+			case TelephonyManager.NETWORK_TYPE_HSDPA:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_HSDPA);
+			case TelephonyManager.NETWORK_TYPE_HSPA:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_HSPA);
+			case TelephonyManager.NETWORK_TYPE_HSUPA:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_HSUPA);
+			case TelephonyManager.NETWORK_TYPE_UMTS:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_UMTS);
 				/*
 				 * Above API level 7, make sure to set android:targetSdkVersion 
 				 * to appropriate level to use these
 				 */
-				case TelephonyManager.NETWORK_TYPE_EHRPD: // API level 11 
-					return "eHRPD"; 	// Current network is eHRPD ~ 1-2 Mbps
-				case TelephonyManager.NETWORK_TYPE_EVDO_B: // API level 9
-					return "EV-DO B"; 	// Current network is EVDO revision B, ~ 5 Mbps
-				case TelephonyManager.NETWORK_TYPE_HSPAP: // API level 13
-					return "HSPA+"; 	// Current network is HSPA+, ~ 10-20 Mbps
-				case TelephonyManager.NETWORK_TYPE_IDEN: // API level 8
-					return "iDEN"; 	// Current network is iDen, ~25 kbps 
-				case TelephonyManager.NETWORK_TYPE_LTE: // API level 11
-					return "LTE"; 	// Current network is LTE, ~ 10+ Mbps				
-				case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-					return "Unknown";	// Network type is unknown
-				default:
-					return "Unknown";	// // Network type is unknown
+			case TelephonyManager.NETWORK_TYPE_EHRPD: // API level 11 
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_EHRPD);
+			case TelephonyManager.NETWORK_TYPE_EVDO_B: // API level 9
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_EVDO_B);
+			case TelephonyManager.NETWORK_TYPE_HSPAP: // API level 13
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_HSPAP);
+			case TelephonyManager.NETWORK_TYPE_IDEN: // API level 8
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_IDEN);
+			case TelephonyManager.NETWORK_TYPE_LTE: // API level 11
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_NETWORK_TYPE_LTE);
+			case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.unknown);
+			default:
+				return SKApplication.getAppInstance().getApplicationContext().getString(R.string.unknown);
 			}
 		}
 		else if (type == ConnectivityManager.TYPE_WIMAX)
 		{
-			return "WiMax";	// The WiMAX data connection.			
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_WIMAX);
 		}
 		else if (type == ConnectivityManager.TYPE_BLUETOOTH)
 		{
-			return "Bluetooth";	// The Bluetooth data connection.			
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_BLUETOOTH);
 		}
 		else if (type == ConnectivityManager.TYPE_ETHERNET)
 		{
-			return "Ethernet";	// The Ethernet data connection.			
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_ETHERNET);
 		}
 		else if (type == ConnectivityManager.TYPE_DUMMY)
 		{
-			return "Dummy";	// Dummy data connection. This should not be used on shipping devices.			
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_DUMMY);
 		}
 		else if (type == ConnectivityManager.TYPE_MOBILE_DUN)
 		{
-			return "Mobile DUN";	// A DUN-specific Mobile data connection.		
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_MOBILE_DUN);
 		}
 		else if (type == ConnectivityManager.TYPE_MOBILE_HIPRI)
 		{
-			return "Mobile HIPRI";	// A High Priority Mobile data connection.			
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_MOBILE_HIPRI);
 		}
 		else if (type == ConnectivityManager.TYPE_MOBILE_MMS)
 		{
-			return "Mobile MMS";	// An MMS-specific Mobile data connection.			
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_MOBILE_MMS);
 		}
 		else if (type == ConnectivityManager.TYPE_MOBILE_SUPL)
 		{
-			return "Mobile SUPL";	// A SUPL-specific Mobile data connection.		
+			return SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_TYPE_MOBILE_SUPL);
 		}
 		else
 		{
-			return "Unknown";	// Unknown data connection.
+         	return SKApplication.getAppInstance().getApplicationContext().getString(R.string.unknown);
 		}
 	}
 }
