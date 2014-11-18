@@ -525,6 +525,7 @@ public class SKGraphForResults {
 		JSONArray theResults;
 		try {
 			theResults = jsonData.getJSONArray("results");
+			mYAxisTitle = jsonData.getString("y_label");
 
 			int lItems = theResults.length();
 			int lIndex = 0;

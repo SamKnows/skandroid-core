@@ -35,6 +35,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,7 +95,8 @@ public class FragmentSummary extends Fragment
 	private LinearLayout layout_ll_summary_section_download, layout_ll_summary_section_upload, layout_ll_summary_section_latency, layout_ll_summary_section_packet_loss, layout_ll_summary_section_jitter, layout_ll_summary_result_average_download,
 							layout_ll_summary_result_best_download, layout_ll_summary_result_average_upload, layout_ll_summary_result_best_upload, layout_ll_summary_result_average_latency, layout_ll_summary_result_best_latency, layout_ll_summary_result_average_packet_loss,
 								layout_ll_summary_result_best_packet_loss, layout_ll_summary_result_average_jitter, layout_ll_summary_result_best_jitter;
-	private LinearLayout layout_ll_chart, layout_ll_header, layout_ll_summary_main;
+	private FrameLayout layout_ll_chart;
+	private LinearLayout layout_ll_header, layout_ll_summary_main;
 	TextView mChartCaption;
 	
 	// Container for the graph
@@ -811,7 +813,7 @@ public class FragmentSummary extends Fragment
 		((TextView) pView.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Regular);
 		
 		// Chart elements
-		layout_ll_chart = (LinearLayout)pView.findViewById(R.id.fragment_summary_ll_chart);
+		layout_ll_chart = (FrameLayout)pView.findViewById(R.id.fragment_summary_ll_chart);
 		mChartCaption = (TextView)pView.findViewById(R.id.download_caption);
 		
 		graphsSetup(pView);
@@ -1514,22 +1516,27 @@ public class FragmentSummary extends Fragment
 		case 0:
 			// Case download
     		chartType = StorageTestResult.DOWNLOAD_TEST_ID;
+			mChartCaption.setText(R.string.units_Mbps);
     		break;
 		case 1:
 			// Case upload
     		chartType = StorageTestResult.UPLOAD_TEST_ID;
+			mChartCaption.setText(R.string.units_Mbps);
     		break;
 		case 2:
 			// Case latency
     		chartType = StorageTestResult.LATENCY_TEST_ID;
+			mChartCaption.setText(R.string.units_ms);
     		break;
 		case 3:
 			// Case packet loss
     		chartType = StorageTestResult.PACKETLOSS_TEST_ID;
+			mChartCaption.setText(R.string.units_percent);
     		break;
 		case 4:
 			// Case jitter
     		chartType = StorageTestResult.JITTER_TEST_ID;
+			mChartCaption.setText(R.string.units_percent);
     		break;
 		default:
 			SKLogger.sAssert(getClass(),  false);

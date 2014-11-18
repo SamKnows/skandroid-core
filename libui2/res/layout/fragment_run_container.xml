@@ -30,7 +30,7 @@
             
             <include layout="@layout/results_panel_shared_layout"/>
         
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/initial_warning_text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fragment_archived_results_item_height"

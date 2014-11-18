@@ -3,6 +3,7 @@ package com.samknows.measurement.activity.components;
 import android.content.Context;
 
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
@@ -49,14 +50,17 @@ public class FontFitTextView extends TextView {
     /* Re size the font so the specified text fits in the text box
      * assuming the text box is the specified width.
      */
-    private void refitText(String text, int textWidth) 
+    private void refitText(String text, int textWidth, int textHeight) 
     { 
     	if (text.length() == 0) {
     		return;
     	}
         if (textWidth <= 0)
             return;
+        if (textHeight <= 0)
+            return;
         int targetWidth = textWidth - this.getPaddingLeft() - this.getPaddingRight();
+        int targetHeight = textHeight - this.getPaddingTop() - this.getPaddingBottom();
         
         //final float hiSp = 16;
         //float hi = spToPixels(getContext(), hiSp);
@@ -67,15 +71,46 @@ public class FontFitTextView extends TextView {
 
         mTestPaint.set(this.getPaint());
 
+        // Home-in on the correct size to use - hi is upper bounds, lo is lower bounds.
+        
+        // NB the text bounds calculation doesn't account for multi-line text.
+        // So if we need to account for this: if we have > 1 line, we need to sum-up the total line heights,
+        // and use the maximum width.
+        
+        String[] lines = text.split("\n");
+        
+        // Notes:
+        // - we finish when lo and hi are within a small difference threshold (0.5F)
+        // - we use lo so that we are likely to be slightly too narrow rather than slightly too wide!
         while((hi - lo) > threshold) {
             float size = (hi+lo)/2;
             mTestPaint.setTextSize(size);
-            if(mTestPaint.measureText(text) >= targetWidth) 
+        	Rect bounds = new Rect();
+        
+        	float maxWidth = 0.0F;
+        	float totalHeight = 0.0F;
+        	
+        	int lineCount = lines.length;
+        	
+        	for (int i = 0; i < lineCount; i++) {
+        		// Using getTextBounds accounts for multi-line text; measure text does *not*!
+        		String theLine = lines[i];
+        		mTestPaint.getTextBounds(theLine, 0, theLine.length(), bounds);
+        		maxWidth = Math.max(bounds.width(), maxWidth);
+        		totalHeight += bounds.height();
+        	}
+        	
+            if (maxWidth >= targetWidth)  {
                 hi = size; // too big
-            else
+            }
+            else if (totalHeight >= targetHeight)  {
+                hi = size; // too big
+            }
+            else {
                 lo = size; // too small
+            }
         }
-        // Use lo so that we undershoot rather than overshoot
+        
         this.setTextSize(TypedValue.COMPLEX_UNIT_PX, lo);
     }
 
@@ -84,20 +119,21 @@ public class FontFitTextView extends TextView {
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
         int height = getMeasuredHeight();
-        refitText(this.getText().toString(), parentWidth);
+        refitText(this.getText().toString(), parentWidth, parentHeight);
         this.setMeasuredDimension(parentWidth, height);
     }
 
     @Override
     protected void onTextChanged(final CharSequence text, final int start, final int before, final int after) {
-        refitText(text.toString(), this.getWidth());
+        refitText(text.toString(), this.getWidth(), this.getHeight());
     }
 
     @Override
     protected void onSizeChanged (int w, int h, int oldw, int oldh) {
         if (w != oldw) {
-            refitText(this.getText().toString(), w);
+            refitText(this.getText().toString(), w, h);
         }
     }
 
