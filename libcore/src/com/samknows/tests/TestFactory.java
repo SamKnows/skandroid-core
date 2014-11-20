@@ -208,11 +208,11 @@ public class TestFactory {
 				} else if (Test.paramMatch(param, FILE)) {
 					ret.setFile(value);
 				} else if (Test.paramMatch(param, WARMUPMAXTIME)) {
-					ret.setWarmupMaxTime(Integer.parseInt(value));
+					ret.setWarmupMaxTimeMicro(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, WARMUPMAXBYTES)) {
 					ret.setWarmupMaxBytes(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, TRANSFERMAXTIME)) {
-					ret.setTransferMaxTime(Integer.parseInt(value));
+					ret.setTransferMaxTimeMicro(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, TRANSFERMAXBYTES)) {
 					ret.setTransferMaxBytes(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, NTHREADS)) {

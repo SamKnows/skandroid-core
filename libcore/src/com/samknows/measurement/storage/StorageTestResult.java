@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
@@ -123,10 +125,16 @@ public class StorageTestResult extends JSONObject{
 		String hrresult = "";
 		switch (_test_id) {
 		case UPLOAD_TEST_ID:
+			Log.d("*******", "setResult for Upload test");
+			hrresult = throughputToString(value);
+			break;
 		case DOWNLOAD_TEST_ID:
+			Log.d("*******", "setResult for Download test");
 			hrresult = throughputToString(value);
 			break;
 		case LATENCY_TEST_ID:
+			hrresult = timeMicrosecondsToString(value);
+			break;
 		case JITTER_TEST_ID:
 			hrresult = timeMicrosecondsToString(value);
 			break;

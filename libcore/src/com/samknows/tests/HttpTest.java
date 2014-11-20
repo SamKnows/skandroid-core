@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
@@ -150,6 +151,7 @@ public class HttpTest extends Test {
 	static Random sRandom = new Random();
 	
 	static final String TAG = HttpTest.class.getSimpleName();
+	//static final String TAG = "MPCMPCMPC";
 
 	// This is used for upload tests.
 	private long mSESSIONID_ForServerUploadTest = -1L;
@@ -192,7 +194,7 @@ public class HttpTest extends Test {
 
 			for (;;) {
 				if (mbIsCancelled == true) {
-					Log.w(getClass().getName(), "mbIsCancelled=true, stop the read thread");
+					Log.d(TAG, "mbIsCancelled=true, stop the read thread");
 					break;
 				}
 
@@ -223,7 +225,7 @@ public class HttpTest extends Test {
 									{
 										// OK!
 									} else {
-										Log.w(getClass().getName(), "Error in response, code " + responseCode);
+										Log.d(TAG, "Error in response, code " + responseCode);
 										break;
 									}
 								}
@@ -234,7 +236,7 @@ public class HttpTest extends Test {
 								// Got the header!
 								if (response.contains("MEASUR_SESSION")) {
 									// Assume we have the lot!
-									Log.w(getClass().getName(), "Got MEASUR_SESSION");
+									//Log.d(TAG, "Got MEASUR_SESSION");
 									break;
 								}
 							}
@@ -253,6 +255,7 @@ public class HttpTest extends Test {
 				// Give other threads a chance, otherwise we're locked a hard loop...
 				try {
 					Thread.sleep(1);
+          			//sSetLatestSpeedForExternalMonitor(HttpTest.this.getSpeedBytesPerSecond(), "Uploadx");
 				} catch (InterruptedException e) {
 					SKLogger.sAssert(getClass(), false);
 				}
@@ -347,8 +350,9 @@ public class HttpTest extends Test {
 		SKLogger.sAssert(getClass(), mSESSIONID_ForServerUploadTest >= 0);
 
 		// static values that need resetting!
-		sServerUploadBytesPerSecond.clear();
-		sSetLatestSpeedForExternalMonitor(0);
+		sServerUploadBytesPerSecondTotal = 0.0;
+		sServerUploadBytesPerSecondCount = 0.0;
+		sLatestSpeedReset();
 	}
 
 	public HttpTest() {
@@ -390,7 +394,7 @@ public class HttpTest extends Test {
 	 */
 	@Override
 	public int getNetUsage() {
-		return transferBytesAcrossAllTestThreads + warmupBytesAcrossAllTestThreads;
+		return transferBytesAcrossAllTestThreads + mWarmupBytesAcrossAllTestThreads;
 	}
 
 	// @SuppressLint("NewApi")
@@ -404,11 +408,11 @@ public class HttpTest extends Test {
 			setError("Port is zero");
 			return false;
 		}
-		if (warmupMaxTime == 0 && warmupMaxBytes == 0) {
+		if (mWarmupMaxTimeMicro == 0 && mWarmupMaxBytes == 0) {
 			setError("No warmup parameter defined");
 			return false;
 		}
-		if (transferMaxTime == 0 && transferMaxBytes == 0) {
+		if (mTransferMaxTimeMicro == 0 && mTransferMaxBytes == 0) {
 			setError("No transfer parameter defined");
 			return false;
 		}
@@ -461,7 +465,7 @@ public class HttpTest extends Test {
         // The system will reject a header with "WARMUP_SAMPLE_TIME=0".
         // If that happens, set WARMUP_SAMPLE_TIME to UINT32_MAX instead of zero.
         //long millisecondsWarmupSampleTime = (long)(warmupMaxTimeMicro/1000.0);
-        long millisecondsWarmupSampleTime = (long)(warmupMaxTime/1000.0);
+        long millisecondsWarmupSampleTime = (long)(mWarmupMaxTimeMicro/1000.0);
         if (millisecondsWarmupSampleTime == 0) {
         	// There is no unsigned 32 bit int in Java. You have to use long (signed 64-bit) instead.
         	// Not expected - and might cause the server-based test to timeout!
@@ -594,48 +598,44 @@ public class HttpTest extends Test {
 //		return null;
 //	}
 	
-	static ArrayList<Double> sServerUploadBytesPerSecond = new ArrayList<Double>();
+	//static ArrayList<Double> sServerUploadBytesPerSecond = new ArrayList<Double>();
+	static double sServerUploadBytesPerSecondTotal = 0.0;
+	static double sServerUploadBytesPerSecondCount = 0.0;
 
 	// Bytes per second
 	public int getSpeedBytesPerSecond() {
-		
+
 		// If we have a figure from the upload server - then return the best average.
 		// Otherwise, return a value calculated by the client!
-	
+
 		int bytesPerSecondFromClient = 0;
 		if (transferTimeMicroseconds != 0) {
 			double transferTimeSeconds = ((double) transferTimeMicroseconds) / 1000000.0;
 			bytesPerSecondFromClient = (int) (((double)transferBytesAcrossAllTestThreads) / transferTimeSeconds);
-			// Log.w(TAG, "DEBUG: getSpeedBytesPerSecond, candidate client value = " + bytesPerSecondFromClient);
+			// Log.d(TAG, "DEBUG: getSpeedBytesPerSecond, candidate client value = " + bytesPerSecondFromClient);
 		}
-		
-		synchronized (HttpTest.class) {
 
-			if (sServerUploadBytesPerSecond.size() > 0) {
-				double total = 0.0;
-				for (Double theValue : sServerUploadBytesPerSecond) {
-					total += theValue.doubleValue();
-				}
-				
-				double theResult = total / ((double) sServerUploadBytesPerSecond.size());
-				
-				// Log.w(TAG, "DEBUG: getSpeedBytesPerSecond, using SERVER value (result/thread count=" + sServerUploadBytesPerSecond.size() + ") = " + theResult);
-				
-				return (int) theResult;
-			}
+		if (sServerUploadBytesPerSecondCount > 0) {
+			double total = sServerUploadBytesPerSecondTotal;
+
+			double theResult = total / sServerUploadBytesPerSecondCount;
+
+			// Log.d(TAG, "DEBUG: getSpeedBytesPerSecond, using SERVER value (result/thread count=" + sServerUploadBytesPerSecond.size() + ") = " + theResult);
+
+			return (int) theResult;
 		}
-		
-		// Log.w(TAG, "DEBUG: getSpeedBytesPerSecond, using CLIENT value = " + bytesPerSecondFromClient);
-		
+
+		// Log.d(TAG, "DEBUG: getSpeedBytesPerSecond, using CLIENT value = " + bytesPerSecondFromClient);
+
 		return bytesPerSecondFromClient;
 	}
 
 	public synchronized int getTransferBytes() {
-		return warmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
+		return mWarmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
 	}
 
 	public synchronized int getWarmupBytes() {
-		return warmupBytesAcrossAllTestThreads;
+		return mWarmupBytesAcrossAllTestThreads;
 	}
 
 	public String getHumanReadableResult() {
@@ -721,11 +721,11 @@ public class HttpTest extends Test {
 		o.add(Integer.toString(getSpeedBytesPerSecond()));
 		output.put(JSON_BYTES_SEC, getSpeedBytesPerSecond());
 		// warmup time
-		o.add(Long.toString(warmupTime));
-		output.put(JSON_WARMUPTIME, warmupTime);
+		o.add(Long.toString(mWarmupTimeMicro));
+		output.put(JSON_WARMUPTIME, mWarmupTimeMicro);
 		// warmup bytes
-		o.add(Integer.toString(warmupBytesAcrossAllTestThreads));
-		output.put(JSON_WARMUPBYTES, warmupBytesAcrossAllTestThreads);
+		o.add(Integer.toString(mWarmupBytesAcrossAllTestThreads));
+		output.put(JSON_WARMUPBYTES, mWarmupBytesAcrossAllTestThreads);
 		// number of threads
 		o.add(Integer.toString(nThreads));
 		output.put(JSON_NUMBER_OF_THREADS, nThreads);
@@ -746,7 +746,7 @@ public class HttpTest extends Test {
 
 			try {
 				int receiveBufferSizeBytes = socket.getReceiveBufferSize();
-				Log.d(getClass().getName(), "HttpTest: download: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
+				Log.d(TAG, "HttpTest: download: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
 			} catch (SocketException e1) {
 				SKLogger.sAssert(getClass(),  false);
 			}
@@ -786,7 +786,8 @@ public class HttpTest extends Test {
 				error.set(true);
          		SKLogger.sAssert(getClass(), false);
 			}
-		} while (!isWarmupDone(readBytes));
+		} while (!isWarmupDone(readBytes)); // Download warmup...
+		
 		if (error.get()) {
 			closeConnection(socket, connIn, connOut);
 			SKLogger.sAssert(getClass(),  false);
@@ -800,7 +801,7 @@ public class HttpTest extends Test {
 				SKLogger.sAssert(getClass(),  false);
 			}
 			
-			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond());
+			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond(),"Download");
 
 		} while (!isTransferDone(readBytes));
 
@@ -808,14 +809,33 @@ public class HttpTest extends Test {
 
 	}
 
-	static private int sLatestSpeedForExternalMonitor = 0;
-			
-	public static int sGetLatestSpeedForExternalMonitor() {
-		return sLatestSpeedForExternalMonitor;
+	static private int sLatestSpeedForExternalMonitorBytesPerSecond = 0;
+	static private String sLatestSpeedForExternalMonitorTestId = "";
+	static private double sBytesPerSecondLast = 0;
+	public static void sLatestSpeedReset() {
+    	sLatestSpeedForExternalMonitorBytesPerSecond = 0;
+	    sLatestSpeedForExternalMonitorTestId = "Unknown";
+    	sBytesPerSecondLast = 0;
+	}
+		
+	// Report-back a running average, to keep the UI moving...
+	public static Pair<Double,String> sGetLatestSpeedForExternalMonitorAsMbps() {
+		// use moving average of the last 2 items!
+        double bytesPerSecondToUse = sBytesPerSecondLast + sLatestSpeedForExternalMonitorBytesPerSecond;
+    	bytesPerSecondToUse /= 2;
+	    
+		double mbps = (bytesPerSecondToUse * 8.0) / 1000000.0;
+		return new Pair<Double,String>(Double.valueOf(mbps), sLatestSpeedForExternalMonitorTestId);
 	}
 
-	public static void sSetLatestSpeedForExternalMonitor(int bytesPerSecond) {
-  	    sLatestSpeedForExternalMonitor = bytesPerSecond;
+	public static void sSetLatestSpeedForExternalMonitor(int bytesPerSecond, String testId) {
+    	if (!testId.equals(sLatestSpeedForExternalMonitorTestId)) {
+        	sBytesPerSecondLast = 0.0;
+    	}
+    	
+        sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
+  	    sLatestSpeedForExternalMonitorBytesPerSecond = bytesPerSecond;
+    	sLatestSpeedForExternalMonitorTestId = testId;
 	}
 
 	synchronized void waitForAllConnections() {
@@ -835,8 +855,8 @@ public class HttpTest extends Test {
 	// the warmup ends also if there is a problem on any connection
 	synchronized boolean isWarmupDone(int bytes) {
 		boolean ret = false;
-		boolean timeWarmup = false;
-		boolean bytesWarmup = false;
+		boolean bTimeWarmup = false;
+		boolean bBytesWarmup = false;
 		// if there is an error the test must stop and report it
 		if (bytes == BYTESREADERR) {
 			setErrorIfEmpty("read error");
@@ -844,24 +864,33 @@ public class HttpTest extends Test {
 			error.set(true);
 		}
 
-		warmupBytesAcrossAllTestThreads += bytes;
-		if (startWarmup == 0) {
-			startWarmup = sGetMicroTime();
+		mWarmupBytesAcrossAllTestThreads += bytes;
+		if (mStartWarmupMicro == 0) {
+			mStartWarmupMicro = sGetMicroTime();
 		}
-		warmupTime = sGetMicroTime() - startWarmup;
+		mWarmupTimeMicro = sGetMicroTime() - mStartWarmupMicro;
 		// if warmup max time is set and time has exceeded its values set time
 		// warmup to true
-		timeWarmup = warmupMaxTime > 0 && warmupTime >= warmupMaxTime;
+		if (mWarmupMaxTimeMicro > 0) {
+			bTimeWarmup = (mWarmupTimeMicro >= mWarmupMaxTimeMicro);
+		}
 
 		// if warmup max bytes is set and bytes counter exceeded its value set
 		// bytesWarmup to true
-		bytesWarmup = warmupMaxBytes > 0 && warmupBytesAcrossAllTestThreads >= warmupMaxBytes;
+		if (mWarmupMaxBytes > 0) {
+		    bBytesWarmup = (mWarmupBytesAcrossAllTestThreads >= mWarmupMaxBytes);
+		}
 
 		// if a condition happened increment the warmupDoneCounter
-		if (timeWarmup || bytesWarmup) {
+		if (bTimeWarmup) {
 			warmupDoneCounter++;
 			ret = true;
 		}
+		if (bBytesWarmup) {
+			warmupDoneCounter++;
+			ret = true;
+		}
+		
 		// if there is an error notify all, some thread might be waiting for
 		// other to finish the warmup, and exit
 		if (error.get()) {
@@ -870,7 +899,7 @@ public class HttpTest extends Test {
 
 		}// warmup is finished, wait for other threads if any
 		else if (ret && warmupDoneCounter < nThreads) {
-			startTransfer = sGetMicroTime();
+			mStartTransferMicro = sGetMicroTime();
 			try {
 				wait();
 			} catch (InterruptedException ie) {
@@ -897,18 +926,22 @@ public class HttpTest extends Test {
 		transferBytesAcrossAllTestThreads += bytes;
 
 		// if startTransfer is 0 this is the first call to isTransferDone
-		if (startTransfer == 0) {
-			startTransfer = sGetMicroTime();
+		if (mStartTransferMicro == 0) {
+			mStartTransferMicro = sGetMicroTime();
 		}
-		transferTimeMicroseconds = sGetMicroTime() - startTransfer;
+		transferTimeMicroseconds = sGetMicroTime() - mStartTransferMicro;
 		// if transfermax time is
-		if ((transferMaxTime > 0) && (transferTimeMicroseconds > transferMaxTime)) {
-			ret = true;
+		if (mTransferMaxTimeMicro > 0) {
+			if (transferTimeMicroseconds > mTransferMaxTimeMicro) {
+				ret = true;
+			}
 		}
-		if ((transferMaxBytes > 0)
-				&& (transferBytesAcrossAllTestThreads + warmupBytesAcrossAllTestThreads > transferMaxBytes)) {
-			ret = true;
+		if (mTransferMaxBytes > 0) {
+			if (transferBytesAcrossAllTestThreads + mWarmupBytesAcrossAllTestThreads > mTransferMaxBytes) {
+				ret = true;
+			}
 		}
+		
 		if (transferBytesAcrossAllTestThreads > 0) {
 			testStatus = "OK";
 		}
@@ -1013,10 +1046,10 @@ public class HttpTest extends Test {
 
 				try {
 					int sendBufferSizeBytes = socket.getSendBufferSize();
-					Log.d(getClass().getName(), "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
+					Log.d(TAG, "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
 					//socket.setReceiveBufferSize(16000);
 					//sendBufferSizeBytes = socket.getReceiveBufferSize();
-					//Log.d(getClass().getName(), "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
+					//Log.d(TAG, "HttpTest: upload: sendBufferSizeBytes=" + sendBufferSizeBytes);
 				} catch (SocketException e1) {
 					SKLogger.sAssert(getClass(),  false);
 				}
@@ -1027,7 +1060,7 @@ public class HttpTest extends Test {
 
 					PrintWriter writerOut = new PrintWriter(connOut, false);
 
-					String postRequestHeaderString = getPostHeaderRequestStringForUploadTest(nThreads, threadIndex, transferMaxBytes, warmupTime, warmupMaxBytes);
+					String postRequestHeaderString = getPostHeaderRequestStringForUploadTest(nThreads, threadIndex, mTransferMaxBytes, mWarmupTimeMicro, mWarmupMaxBytes);
 					writerOut.print(postRequestHeaderString);
 					writerOut.flush();
 
@@ -1047,18 +1080,18 @@ public class HttpTest extends Test {
 		
 			//
 			// Now - decide if we can use server-based upload speed testing, or not!
-        	// Note: we only run the new server-side upload speed tests WHERE THE APP SPECFICALLY ALLOWS IT.
+        	// Note: we only run the new server-side upload speed tests WHERE THE APP SPECIFICALLY ALLOWS IT.
 			//
 			MyHttpReadThread readThread = null;
 		
 			if (SKApplication.getAppInstance().getDoesAppSupportServerBasedUploadSpeedTesting() == false) {
 				// No, we are on an older app, that does not use server-based upload speed testing...
-				Log.d("TAG", "DEBUG: app does not use server-based upload speed testing...");
+				Log.d(TAG, "DEBUG: app does not use server-based upload speed testing...");
          		bGotValidResponseFromServer = false;
          		bReadThreadIsRunning = false;
 			} else {
 				// Yes, we can use server-based upload speed testing!
-				Log.d("TAG", "DEBUG: app uses server-based upload speed testing...!");
+				Log.d(TAG, "DEBUG: app uses server-based upload speed testing...!");
 
 				// Create a read thread, that starts monitor for a response from the server.
 
@@ -1067,6 +1100,8 @@ public class HttpTest extends Test {
 					@Override
 					public void callOnStopOrCancel(String responseString, int responseCode) {
 
+						Log.d(TAG, "DEBUG: callOnStopOrCancel");
+						
 						synchronized(HttpTest.this) {
 							HttpTest.this.closeConnection(socket,  connIn,  connOut);
 							connIn = null;
@@ -1077,8 +1112,13 @@ public class HttpTest extends Test {
 						if ((responseCode != 100) && (responseCode != 200)) {
 							SKLogger.sAssert(getClass(), false);
 							// TODO - [self connection:nil didFailWithError:nil];
+							Log.d(TAG, "DEBUG: upload server did fail with error=" + responseCode);
 						} else {
-							Log.d("TAG", "DEBUG: reponseCode=" + responseCode + ", responseString=>>>" + responseString + "<<<");
+							if (responseCode == 100) {
+								Log.d(TAG, "DEBUG: reponseCode=" + responseCode);
+							} else {
+								Log.d(TAG, "DEBUG: reponseCode=" + responseCode + ", responseString=>>>" + responseString + "<<<");
+							}
 
 							// Example
 							/*
@@ -1124,6 +1164,7 @@ public class HttpTest extends Test {
 												SKLogger.sAssert(getClass(),  false);
 											} else {
 												bGotValidResponseFromServer = true;
+Log.d(TAG, "*** bGotValidResponseFromServer set to TRUE!");
 
 												double bytesThusFar = Double.valueOf(items2[3]);
 												SKLogger.sAssert(getClass(), bytesThusFar > 0);
@@ -1152,12 +1193,13 @@ public class HttpTest extends Test {
 							{
 								synchronized (HttpTest.class) {
 
-									sServerUploadBytesPerSecond.add(Double.valueOf(finalBytesPerSecond));
+									sServerUploadBytesPerSecondTotal += Double.valueOf(finalBytesPerSecond);
+									sServerUploadBytesPerSecondCount += 1.0;
 								}
 
-								Log.w(TAG, "DEBUG: BYTES CALCULATED FROM SERVER, PER SECOND = " + finalBytesPerSecond);
+								Log.d(TAG, "DEBUG: BYTES CALCULATED FROM SERVER, PER SECOND = " + finalBytesPerSecond);
 								bitrateMpbs1024Based = OtherUtils.sConvertBytesPerSecondToMbps1024Based(finalBytesPerSecond);
-								Log.w(TAG, "DEBUG: bitsPerSecond CALCULATED FROM SERVER = " + OtherUtils.sBitrateMbps1024BasedToString(bitrateMpbs1024Based));
+								Log.d(TAG, "DEBUG: bitsPerSecond CALCULATED FROM SERVER = " + OtherUtils.sBitrateMbps1024BasedToString(bitrateMpbs1024Based));
 							}
 
 							// TODO [self doSendUpdateStatus:self.status threadId:threadId];
@@ -1205,7 +1247,7 @@ public class HttpTest extends Test {
 					SKLogger.sAssert(getClass(), false);
 					error.set(true);
 				}
-			} while (!isWarmupDone(sendDataChunkSize));
+			} while (!isWarmupDone(sendDataChunkSize)); // Upload warmup...
 
 			if (error.get()) {
 				// Let the thread do this! closeConnection(socket, connIn, connOut);
@@ -1224,7 +1266,7 @@ public class HttpTest extends Test {
             long waitUntilTime = Long.MAX_VALUE;
             long waitFromTime = Long.MAX_VALUE;
             
-            //Log.w("MPC", "loop - start 1");
+            //Log.d(TAG, "loop - start 1");
             
             long actuallyTransferredBytes = 0L;
             
@@ -1235,7 +1277,7 @@ public class HttpTest extends Test {
             	try {
             		//synchronized(HttpTest.this) {
             			if (connOut == null) {
-            				//Log.w("MPC", "loop - break 2");
+            				//Log.d(TAG, "loop - break 2");
             				break;
             			}
             			//             	long start = sGetMicroTime();
@@ -1255,20 +1297,24 @@ public class HttpTest extends Test {
             		SKLogger.sAssert(getClass(), false);
             		error.set(true);
             		// And break out of the loop....
-            		Log.w("MPC", "loop - break 3");
+    			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond(), "Upload3");
+            		Log.d(TAG, "loop - break 3");
             		break;
             	}
             	
-    			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond());
+    			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond(), "Upload3b");
 
-            	final long waitForTimeMs = 20000L;
             	if (isTransferDone == false) {
             		isTransferDone = isTransferDone(sendDataChunkSize);
 
             		if (isTransferDone == true) {
+            			long waitForTimeMs = 20000L;
+            			if (SKApplication.getAppInstance().getDoesAppSupportServerBasedUploadSpeedTesting() == false) {
+            				waitForTimeMs = 1000L;
+            			}
             			waitFromTime = sGetMilliTime();
             			waitUntilTime = waitFromTime + waitForTimeMs;
-                		Log.w("MPC", "waituntiltime set=" + waitUntilTime);
+            			//Log.d(TAG, "waituntiltime set=" + waitUntilTime + ", from waitForTimeMs=" + waitForTimeMs);
             		}
 
             	}
@@ -1276,7 +1322,8 @@ public class HttpTest extends Test {
             	// Stop EITHER if:
             	// 1) the read thread tells us!
             	if ((readThread != null) && (readThread.getIsCancelled() == true)) {
-            		Log.w("MPC", "loop - break 4");
+    			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond(), "Upload4");
+            		//Log.d(TAG, "loop - break 4");
             		break;
             	}
             	
@@ -1286,12 +1333,15 @@ public class HttpTest extends Test {
             		// Server-based upload speed test in operation...
             		if (isTransferDone == true) {
             			if (sGetMilliTime() > waitUntilTime) {
-            				Log.w("MPC", "loop - break 5a, waituntiltime=" + waitUntilTime + ", waited for " + (sGetMilliTime() - waitFromTime) + " ms");
+            				//Log.d(TAG, "loop - break 5a, waituntiltime=" + waitUntilTime + ", waited for " + (sGetMilliTime() - waitFromTime) + " ms");
             				break;
             			}
-            		} else if (actuallyTransferredBytes >= transferMaxBytes) {
-            			Log.w("MPC", "loop - break 5b");
-            			break;
+            		} else if (mTransferMaxBytes > 0) {
+            			if (actuallyTransferredBytes >= mTransferMaxBytes) {
+            				sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond(), "Upload5b, mTransferMaxBytes=" + mTransferMaxBytes);
+            				//Log.d(TAG, "loop - break 5b");
+            				break;
+            			}
             		}
 
             		// Give other threads a chance, otherwise we're locked a hard loop...
@@ -1307,18 +1357,25 @@ public class HttpTest extends Test {
             	} else {
             		// Old-style upload speed test - simple condition to end the loop.
             		if (isTransferDone == true) {
-                    	//Log.d("MPC", "loop - break as isTransferDone is true");
+                    	//Log.d(TAG, "loop - break as isTransferDone is true");
             			break;
+            		}
+            		
+            		// Give e.g. the UI thread a chance!
+            		try {
+            			Thread.sleep(1);
+            		} catch (InterruptedException e) {
+            			SKLogger.sAssert(getClass(), false);
             		}
             	}
             	
-            	//Log.w("MPC", "loop - continue 6 - actualBytesTransferred = " + actuallyTransferredBytes);
+            	//Log.d(TAG, "loop - continue 6 - actualBytesTransferred = " + actuallyTransferredBytes);
             }
 
 			//
 			// To reach here, the (blocking) test is finished.
 			//
-            //Log.w("MPC", "loop - ended continue7");
+            //Log.d(TAG, "loop - ended continue7");
 			
 			// Ask the thread to stop... and wait for it to stop!
 			// Note that in the event of an error when transferring data, we'll have
@@ -1350,15 +1407,15 @@ public class HttpTest extends Test {
 
 			if (bGotValidResponseFromServer == true) {
 				// BEST RESULT is from the SERVER!
-         		Log.d(TAG, "Best result is from the SERVER, bytesPerSecondMeasurement=" + bytesPerSecondMeasurement);
+         		//Log.d(TAG, "Best result is from the SERVER, bytesPerSecondMeasurement=" + bytesPerSecondMeasurement);
 				// TODO! [self doSendtodDidCompleteTransferOperation:0 transferBytes:0 totalBytes:0 ForceThisBitsPerSecondFromServer:bitrateMpbs1024Based threadId:threadId];
 			} else {
-         		Log.d(TAG, "Best result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement=" + bytesPerSecondMeasurement);
+         		//Log.d(TAG, "Best result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement=" + bytesPerSecondMeasurement);
 				// Best result is from the built-in measurement.
 				// TODO! [self doSendtodDidCompleteTransferOperation:transferTimeMicroseconds transferBytes:transferBytes totalBytes:totalBytes ForceThisBitsPerSecondFromServer:-1.0  threadId:threadId];
 			}
 			
-    		sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement);
+    		sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, "UploadEnd");
 
 			return;
 		}
@@ -1374,7 +1431,7 @@ public class HttpTest extends Test {
 	}
 
 	private void closeConnection(Socket s, InputStream i, OutputStream o) {
-		Log.w(getClass().getName(), "closeConnection...");
+		Log.d(TAG, "closeConnection...");
 		
 		if(i != null){
 			try {
@@ -1413,21 +1470,21 @@ public class HttpTest extends Test {
 		this.file = file;
 	}
 
-	public void setWarmupMaxTime(int time) {
-		warmupMaxTime = time;
+	public void setWarmupMaxTimeMicro(int time) {
+		mWarmupMaxTimeMicro = time;
 	}
 
 	public void setWarmupMaxBytes(int bytes) {
-		warmupMaxBytes = bytes;
+		mWarmupMaxBytes = bytes;
 	}
 
-	public void setTransferMaxTime(int time) {
-		transferMaxTime = time;
+	public void setTransferMaxTimeMicro(int time) {
+		mTransferMaxTimeMicro = time;
 		//transferMaxTime *= 4; Log.d("TODO", "TOOD _ REMOVE ME 2");
 	}
 
 	public void setTransferMaxBytes(int bytes) {
-		transferMaxBytes = bytes;
+		mTransferMaxBytes = bytes;
 		//transferMaxBytes *= 2; Log.d("TODO", "TOOD _ REMOVE ME 2");
 	}
 
@@ -1463,7 +1520,7 @@ public class HttpTest extends Test {
 	public void setNumberOfThreads(int n) {
 		nThreads = n;
 		
-		//nThreads = 1; Log.w(TAG, "TODO - do not check this in - forcing to just one thread!");
+		//nThreads = 1; Log.d(TAG, "TODO - do not check this in - forcing to just one thread!");
 	}
 
 	public void setDirection(String d) {
@@ -1476,9 +1533,9 @@ public class HttpTest extends Test {
 
 	public boolean isProgressAvailable() {
 		boolean ret = false;
-		if (transferMaxTime > 0) {
+		if (mTransferMaxTimeMicro > 0) {
 			ret = true;
-		} else if (transferMaxBytes > 0) {
+		} else if (mTransferMaxBytes > 0) {
 			ret = true;
 		}
 		return ret;
@@ -1488,15 +1545,15 @@ public class HttpTest extends Test {
 		double ret = 0;
 
 		synchronized (this) {
-			if (startWarmup == 0) {
+			if (mStartWarmupMicro == 0) {
 				ret = 0;
-			} else if (transferMaxTime != 0) {
-				long currTime = sGetMicroTime() - startWarmup;
-				ret = (double) currTime / (warmupMaxTime + transferMaxTime);
+			} else if (mTransferMaxTimeMicro != 0) {
+				long currTime = sGetMicroTime() - mStartWarmupMicro;
+				ret = (double) currTime / (mWarmupMaxTimeMicro + mTransferMaxTimeMicro);
 
 			} else {
-				int currBytes = warmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
-				ret = (double) currBytes / (warmupMaxBytes + transferMaxBytes);
+				int currBytes = mWarmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
+				ret = (double) currBytes / (mWarmupMaxBytes + mTransferMaxBytes);
 			}
 		}
 		ret = ret < 0 ? 0 : ret;
@@ -1512,19 +1569,19 @@ public class HttpTest extends Test {
 	int postDataLength = 0;
 
 	// warmup variables
-	long startWarmup = 0;
-	long warmupTime = 0;
-	long warmupMaxTime = 0;
-	int warmupBytesAcrossAllTestThreads = 0;
-	int warmupMaxBytes = 0;
+	long mStartWarmupMicro = 0;
+	long mWarmupTimeMicro = 0;
+	long mWarmupMaxTimeMicro = 0;
+	int mWarmupBytesAcrossAllTestThreads = 0;
+	int mWarmupMaxBytes = 0;
 	int warmupDoneCounter = 0;
 
 	// transfer variables
-	long startTransfer = 0;
+	long mStartTransferMicro = 0;
 	long transferTimeMicroseconds = 0;
 	int transferBytesAcrossAllTestThreads = 0;
-	long transferMaxTime = 0;
-	int transferMaxBytes = 0;
+	long mTransferMaxTimeMicro = 0;
+	int mTransferMaxBytes = 0;
 	int transferDoneCounter = 0;
 
 	// test variables

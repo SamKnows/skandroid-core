@@ -263,15 +263,15 @@ public class FragmentRunTest extends Fragment
     	@Override
     	public void onReceive(Context context, Intent intent)
     	{
-    		if (testsRunning)
+    		//if (testsRunning)
     		{
     			// Update the UI data only few times a second
-        		if (System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS)
+        		//if (System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS)
         		{    			
-            	    String message = intent.getStringExtra("currentSpeedValue");			// Get extra data included in the Intent
-            	    updateCurrentTestSpeed(message);										// Update the current result meter for download/upload
-            	    gaugeView.setResult(Double.valueOf(message)*0.000008);					// Update the gauge colour indicator (in Megabytes)
-        	    	lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
+            	    //String message = intent.getStringExtra("currentSpeedValue");			// Get extra data included in the Intent
+            	    //updateCurrentTestSpeed(message);										// Update the current result meter for download/upload
+            	    //gaugeView.setResult(Double.valueOf(message)*0.000008);					// Update the gauge colour indicator (in Megabytes)
+        	    	//lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
     			}				
 			}    		    		
     	}    	
@@ -288,7 +288,7 @@ public class FragmentRunTest extends Fragment
     	}
     }
    
-    static int lastPolledSpeedValue = 0;
+    static double lastPolledSpeedValueMbps = 0;
     
     private void startTimer() {
     	
@@ -304,12 +304,13 @@ public class FragmentRunTest extends Fragment
 
             			@Override
             			public void run() {
-            				int value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitor();
-            				if (value != lastPolledSpeedValue) {
-            					lastPolledSpeedValue = value;
+            				Pair<Double,String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
+//Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
+            				if (value.first.doubleValue() != lastPolledSpeedValueMbps) {
+            					lastPolledSpeedValueMbps = value.first.doubleValue();
             					String message = String.valueOf(value);
-            					updateCurrentTestSpeed(message);										// Update the current result meter for download/upload
-            					gaugeView.setResult(Double.valueOf(message)*0.000008);					// Update the gauge colour indicator (in Megabytes)
+            					updateCurrentTestSpeedMbps(value.first.doubleValue());										// Update the current result meter for download/upload
+            					gaugeView.setResult(value.first.doubleValue());					// Update the gauge colour indicator (in Megabytes)
             					lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
             				}
             			}});
@@ -788,12 +789,13 @@ public class FragmentRunTest extends Fragment
 								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								
 								if (valueUnits.second.length() > 0) {
+Log.d(getClass().getName(), "gotResult for Download test ... at the end of the test - TODO - do this at the start!");
     								tv_DownloadUnits.setText(valueUnits.second);
 								}
 								
 								if (statusComplete == 100)
 								{
-									updateCurrentTestSpeed("0");
+									updateCurrentTestSpeedMbps(0.0);
 									gaugeView.setResult(0.0);
 									changeFadingTextViewValue(tv_Result_Download, String.valueOf(formattedValues.getFormattedSpeedValue(valueUnits.first)),0);																	
 								}							
@@ -809,12 +811,13 @@ public class FragmentRunTest extends Fragment
 								
 								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								if (valueUnits.second.length() > 0) {
+Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the test - TODO - do this at the start!");
     								tv_UploadUnits.setText(valueUnits.second);
 								}
 								
 								if (statusComplete == 100)
 								{									
-									updateCurrentTestSpeed("0");
+									updateCurrentTestSpeedMbps(0.0);
 									gaugeView.setResult(0.0);
 									
 									changeFadingTextViewValue(tv_Result_Upload, String.valueOf(formattedValues.getFormattedSpeedValue(valueUnits.first)),0);																	
@@ -1002,12 +1005,11 @@ public class FragmentRunTest extends Fragment
      * 
      * @param pCurrentSpeed
      */
-    private void updateCurrentTestSpeed(final String pCurrentSpeed)
+    private void updateCurrentTestSpeedMbps(final double pCurrentSpeed)
     {
-    	final double formattedValue = Integer.valueOf(pCurrentSpeed) * 0.000008;
     	final DecimalFormat df;
     	
-    	if (formattedValue < 10)
+    	if (pCurrentSpeed < 10)
     	{
     		df = new DecimalFormat("#.##");			
 		}
@@ -1022,7 +1024,7 @@ public class FragmentRunTest extends Fragment
 			@Override
 			public void run()
 			{
-				tv_Gauge_TextView_PsuedoButton.setText(String.valueOf(df.format(formattedValue)));					
+				tv_Gauge_TextView_PsuedoButton.setText(String.valueOf(df.format(pCurrentSpeed)));					
 			}
 		});    	
     }
