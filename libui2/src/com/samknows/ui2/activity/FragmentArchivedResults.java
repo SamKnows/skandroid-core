@@ -120,7 +120,8 @@ public class FragmentArchivedResults extends Fragment
 		registerBackButtonHandler();
 
 		// Register the local broadcast receiver listener to receive messages when the UI data needs to be refreshed.
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
+		Context context = SKApplication.getAppInstance().getApplicationContext();
+        LocalBroadcastManager.getInstance(context).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
 	}
 
 	// Receive the result from a previous call to startActivityForResult(Intent, int)
@@ -166,7 +167,8 @@ public class FragmentArchivedResults extends Fragment
 		super.onPause();
 		
 		// Unregister since the activity is about to be closed.
-		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateScreenMessageReceiver);
+		Context context = SKApplication.getAppInstance().getApplicationContext();
+		LocalBroadcastManager.getInstance(context).unregisterReceiver(updateScreenMessageReceiver);
 	}
 	
 	// *** BROADCAST RECEIVERS *** //
@@ -218,8 +220,11 @@ public class FragmentArchivedResults extends Fragment
 						lv_archived_results.animate().setListener(null);	// Remove the listener to avoid side effects
 						
 						isListviewHidden = false;							// Set the state of the list view to "not hidden"
-						
-						getActivity().invalidateOptionsMenu();				// Show the action bar menu filter
+					
+						if (getActivity() != null)
+						{
+							getActivity().invalidateOptionsMenu();				// Show the action bar menu filter
+						}
 						
 						lv_archived_results.setClickable(true);				// Set the list view to clickable
 					}
@@ -259,6 +264,17 @@ public class FragmentArchivedResults extends Fragment
 			return null;
 		}
 		
+	    
+	    private void safeRunOnUiThread(Runnable runnable) {
+	    	if (getActivity() == null) {
+				SKLogger.sAssert(getClass(), false);
+	    		return;
+	    	}
+	    	
+	    	getActivity().runOnUiThread(runnable);
+	    }
+	    
+		
 		// Runs on the UI thread after doInBackground
 		@Override
 		protected void onPostExecute(Void result)
@@ -274,7 +290,7 @@ public class FragmentArchivedResults extends Fragment
 			// If there are no results archived
 			if (aList_TemporaryArchivedTests.size() == 0)
 			{
-				getActivity().runOnUiThread(new Runnable()
+				safeRunOnUiThread(new Runnable()
 				{					
 					@Override
 					public void run()
@@ -289,7 +305,7 @@ public class FragmentArchivedResults extends Fragment
 			// If there are results archived
 			else
 			{
-				getActivity().runOnUiThread(new Runnable()
+				safeRunOnUiThread(new Runnable()
 				{				
 					@Override
 					public void run()
@@ -529,8 +545,9 @@ public class FragmentArchivedResults extends Fragment
 	private void saveNetworkTypeSelection(eNetworkTypeResults pNetworkType)
 	{
 		// Get the shared preferences editor
-		SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
-		
+		Context context = SKApplication.getAppInstance().getApplicationContext();
+		SharedPreferences.Editor editor = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
+
 		switch (pNetworkType) {
 		case eNetworkTypeResults_Any:
 			editor.putInt("networkTypeArchivedTests", 0);
@@ -546,7 +563,7 @@ public class FragmentArchivedResults extends Fragment
 		}
 
 		editor.commit();		// Commit changes
-	
+
 		// Verify that it has been saved properly!
 		SKLogger.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
 	}
@@ -1092,19 +1109,21 @@ public class FragmentArchivedResults extends Fragment
 							public void onAnimationEnd(Animator animation)
 							{
 								super.onAnimationEnd(animation);
-								
+
 								lv_archived_results.animate().setListener(null).setInterpolator(null);	// Remove the listener and interpolator to avoid side effects.
-																			
-			    				clickedView.setAlpha(1.0f);							// Make the view on the list view visible											
-			    				
+
+								clickedView.setAlpha(1.0f);							// Make the view on the list view visible											
+
 								rl_main.removeView(listViewRow);					// Remove the view											
-								
+
 								isListviewHidden = false;							// Set the state of the list view to "not hidden"
-								
-								getActivity().invalidateOptionsMenu();				// Show the action bar menu filter
-								
+
+								if (getActivity() != null) {
+									getActivity().invalidateOptionsMenu();				// Show the action bar menu filter
+								}
+
 								lv_archived_results.setClickable(true);				// Set the list view to clickable
-								
+
 								clickedPosition = -1;
 							}
 						});

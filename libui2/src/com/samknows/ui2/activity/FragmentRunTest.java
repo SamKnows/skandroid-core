@@ -184,11 +184,13 @@ public class FragmentRunTest extends Fragment
         // Register the broadcast receiver to listen for connectivity changes from the system
         IntentFilter mIntentFilter = new IntentFilter();               
         mIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);        
-        getActivity().registerReceiver(broadcastReceiverConnectivityChanges, mIntentFilter);
+        
+    	Context context = SKApplication.getAppInstance().getApplicationContext();
+        context.registerReceiver(broadcastReceiverConnectivityChanges, mIntentFilter);
         
         // Register the local broadcast receiver listener to receive messages within the application (Listen for current values while performing tests)
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverCurrentClosestTarget, new IntentFilter("currentClosestTarget"));			// Current closest target server
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiverCurrentLatency, new IntentFilter("currentLatencyIntent"));			// Current latency value
+        LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentClosestTarget, new IntentFilter("currentClosestTarget"));			// Current closest target server
+        LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentLatency, new IntentFilter("currentLatencyIntent"));			// Current latency value
         
 		// Start the periodic timer!
 		startTimer();
@@ -205,12 +207,13 @@ public class FragmentRunTest extends Fragment
     	super.onPause();
 
         // Unregister the broadcast receiver listener. The listener listen for connectivity changes
-    	getActivity().unregisterReceiver(broadcastReceiverConnectivityChanges);
+    	Context context = SKApplication.getAppInstance().getApplicationContext();
+    	context.unregisterReceiver(broadcastReceiverConnectivityChanges);
 
     	// Unregister the local broadcasts
-    	LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverCurrentClosestTarget);
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverCurrentpeed);
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiverCurrentLatency);
+    	LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentClosestTarget);
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentpeed);
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentLatency);
 
 		// Stop the periodic timer!
 		stopTimer();
@@ -385,7 +388,9 @@ public class FragmentRunTest extends Fragment
 			else
 			{
 				changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_start),0);	// Set the gauge main text to START
-				Toast.makeText(getActivity(), getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();							
+
+				Context context = SKApplication.getAppInstance().getApplicationContext();
+				Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();							
 			}
 			
 			super.onPostExecute(result);
@@ -483,10 +488,11 @@ public class FragmentRunTest extends Fragment
 		
 
     	// Get the screen density. This is use to transform from dips to pixels
-    	screenDensity = getActivity().getResources().getDisplayMetrics().density;
+		Context context = SKApplication.getAppInstance().getApplicationContext();
+    	screenDensity = context.getResources().getDisplayMetrics().density;
 
     	// Initialise the telephony manager
-    	telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+    	telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
     	// Set up the listener for the mobile connectivity changes
     	phoneStateListener = new PhoneStateListener()
@@ -525,9 +531,13 @@ public class FragmentRunTest extends Fragment
 			@Override
 			public void onGlobalLayout()
 			{
-				results_Layout_Position_Y = run_results_panel_frame_to_animate.getTop();
-				
-				run_results_panel_frame_to_animate.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				if (run_results_panel_frame_to_animate != null) {
+					results_Layout_Position_Y = run_results_panel_frame_to_animate.getTop();
+
+					if (run_results_panel_frame_to_animate.getViewTreeObserver() != null) {
+						run_results_panel_frame_to_animate.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					}
+				}
 			}			
 		});
 		
@@ -604,9 +614,9 @@ public class FragmentRunTest extends Fragment
 		tv_Advice_Message = (TextView)pView.findViewById(R.id.press_the_start_button_label);
 		
 		// Initialise fonts
-		typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_condensed_regular.ttf");
-		typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
-		typeface_Roboto_Thin = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_thin.ttf");
+		typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_condensed_regular.ttf");
+		typeface_Roboto_Light = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
+		typeface_Roboto_Thin = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
 
 		// Assign fonts
 		// Passive metrics headers
@@ -1000,6 +1010,15 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		}
 	}    
     
+    private void safeRunOnUiThread(Runnable runnable) {
+    	if (getActivity() == null) {
+			SKLogger.sAssert(getClass(), false);
+    		return;
+    	}
+    	
+    	getActivity().runOnUiThread(runnable);
+    }
+    
     /**
      * Update the UI current speed indicator (in Megabytes)
      * 
@@ -1018,8 +1037,12 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     		df = new DecimalFormat("##.#");    		
     	}
     	
+    	if (getActivity() == null) {
+			SKLogger.sAssert(getClass(), false);
+    		return;
+    	}
     	
-    	getActivity().runOnUiThread(new Runnable()
+    	safeRunOnUiThread(new Runnable()
 	    {				
 			@Override
 			public void run()
@@ -1039,7 +1062,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	final double formattedValue = Integer.valueOf(pLatencyValue);
     	final DecimalFormat df = new DecimalFormat("#.##");
     	
-    	getActivity().runOnUiThread(new Runnable()
+    	safeRunOnUiThread(new Runnable()
 	    {				
 			@Override
 			public void run()
@@ -1219,7 +1242,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
      */
     private void restoreWhichTestsToRun()
     {
-    	SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
+		Context context = SKApplication.getAppInstance().getApplicationContext();
+    	SharedPreferences prefs = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
     	
     	if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
     		SharedPreferences.Editor editor = prefs.edit();
@@ -1265,6 +1289,11 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	
 		testIDs = findOutTestIDs();		
 		
+		if (getActivity() == null) {
+			SKLogger.sAssert(getClass(), false);
+			return;
+		}
+		
 		// Perform the selected tests
     	if (!testIDs.contains(-1))
     	{
@@ -1293,9 +1322,9 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     
     
     void showAlertForTestWithMessageBody (String bodyMessage) {
-    	Context ctx = FragmentRunTest.this.getActivity();
+    	Context context = SKApplication.getAppInstance().getApplicationContext();
 
-    	AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+    	AlertDialog.Builder builder = new AlertDialog.Builder(context);
     	builder.setTitle(R.string.tests_running_title);
     	builder.setMessage(bodyMessage)
     	.setCancelable(false)
@@ -1411,7 +1440,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	    // If the data cap was already reached or could be reached in the next run, show a message warning the user
     		if (warningMessage.length() > 0)
     		{
-        		Toast.makeText(getActivity(), warningMessage, Toast.LENGTH_LONG).show();							
+    			Context context = SKApplication.getAppInstance().getApplicationContext();
+    			Toast.makeText(context, warningMessage, Toast.LENGTH_LONG).show();							
     		}
     		else	// If the data cap wasn't reached and won't be reached in the next run, hide the warning (maybe is not showed anyway)
     		{
@@ -1460,31 +1490,33 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	// Set the network type information to update the changes in the network
     	setNetworkTypeInformation();
     	
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		
     	// Show connectivity warning if there's no connectivity
     	if (pIntent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY,false))
         {                
-    		getActivity().runOnUiThread(new Runnable()
+    		safeRunOnUiThread(new Runnable()
     		{					
 				@Override
 				public void run()
 				{
 					if (testsRunning == false)
 					{						
-        				Toast.makeText(getActivity(), getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();							
+						Toast.makeText(context, getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();							
 						tv_Gauge_TextView_PsuedoButton.setClickable(false);						
 					}											
 				}
 			});        		
         }
     	// Show slow connection warning if we are on slow connectivity
-        else if (!Connectivity.isConnectedFast(getActivity()))
+        else if (!Connectivity.isConnectedFast(context))
     	{
-        	getActivity().runOnUiThread(new Runnable()
+        	safeRunOnUiThread(new Runnable()
         	{				
 				@Override
 				public void run()
 				{	
-        			Toast.makeText(getActivity(), getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();							
+					Toast.makeText(context, getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();							
 					tv_Gauge_TextView_PsuedoButton.setClickable(true);
 				}
 			});        	    					
@@ -1492,7 +1524,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
         else
         {
             // Hide connectivity warning if there is connectivity
-        	getActivity().runOnUiThread(new Runnable()
+        	safeRunOnUiThread(new Runnable()
         	{				
 				@Override
 				public void run()
@@ -1514,38 +1546,39 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	// Set the network type information to update the changes in the network
     	setNetworkTypeInformation();
     	
-    	if (Connectivity.isConnected(getActivity()) == false)
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+    	if (Connectivity.isConnected(context) == false)
     	{
     		// No connectivity!
-    		getActivity().runOnUiThread(new Runnable()
+    		safeRunOnUiThread(new Runnable()
     		{					
 				@Override
 				public void run()
 				{
 					if (testsRunning == false)
 					{
-            			Toast.makeText(getActivity(), getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();							
+						Toast.makeText(context, getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();							
 						tv_Gauge_TextView_PsuedoButton.setClickable(false);
 					}											
 				}
 			});    					
 		}
-    	else if (Connectivity.isConnectedFast(getActivity()) == false)
+    	else if (Connectivity.isConnectedFast(context) == false)
     	{
     		// Slow connectivity!
-    		getActivity().runOnUiThread(new Runnable()
+    		safeRunOnUiThread(new Runnable()
     		{				
 				@Override
 				public void run()
 				{
-            		Toast.makeText(getActivity(), getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();							
+            		Toast.makeText(context, getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();							
 				}
 			});
 		}
     	else
     	{
     		// Good connectivity!
-    		getActivity().runOnUiThread(new Runnable()
+    		safeRunOnUiThread(new Runnable()
     		{				
 				@Override
 				public void run()
@@ -1594,7 +1627,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     {
     	if (!testsRunning)
     	{
-    		String networkType = Connectivity.getConnectionType(getActivity());
+    		final Context context = SKApplication.getAppInstance().getApplicationContext();
+    		String networkType = Connectivity.getConnectionType(context);
     		
     		if (networkType == null) {
     			// Unexpected, but defend against it.
@@ -1656,7 +1690,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
      */
     private void sendRefreshUIMessage()
     {
-    	LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent("refreshUIMessage"));
+    	final Context context = SKApplication.getAppInstance().getApplicationContext();
+    	LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("refreshUIMessage"));
     }
     
     /**
@@ -1989,9 +2024,9 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		//
 		// Tests are running - stop the tests, if the user agrees!
 		//
-		Context ctx = getActivity();
+    	final Context context = SKApplication.getAppInstance().getApplicationContext();
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(R.string.tests_running_title);
 		builder.setMessage(R.string.tests_running_message)
 		.setCancelable(false)
@@ -2043,28 +2078,33 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 			// If at least one test is selected
 			if (atLeastOneTestSelected())
 			{
-                initial_warning_text.setVisibility(View.GONE);
-                SKApplication.getAppInstance().mLastPublicIp = "";
-                SKApplication.getAppInstance().mLastSubmissionId = "";
-                publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
-                submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
-                
-                // Make sure that we display the correct image (for now!) in the Test results panel.
-                // This will be overridden by incoming passive metric data.
-             	if (Connectivity.isConnectedWifi(getActivity())) {
-             		setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-             	} else {
-             		setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-             	}
+				initial_warning_text.setVisibility(View.GONE);
+				SKApplication.getAppInstance().mLastPublicIp = "";
+				SKApplication.getAppInstance().mLastSubmissionId = "";
+				publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
+				submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
 
-                if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
-                	mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
-                }
+				// Make sure that we display the correct image (for now!) in the Test results panel.
+				// This will be overridden by incoming passive metric data.
+				final Context context = SKApplication.getAppInstance().getApplicationContext();
+				if (Connectivity.isConnectedWifi(context)) {
+					setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+				} else {
+					setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+				}
+
+				if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
+					mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
+				}
 				new InitTestAsyncTask().execute();												
 			}
 			else
 			{
-    			// No tests are selected: show the activity to select tests
+				// No tests are selected: show the activity to select tests
+				if (getActivity() == null) {
+					SKLogger.sAssert(getClass(), false);
+					return;
+				}
 				Intent intent_select_tests = new Intent(getActivity(),ActivitySelectTests.class);
 				startActivity(intent_select_tests);
 			}

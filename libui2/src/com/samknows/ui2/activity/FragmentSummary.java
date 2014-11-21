@@ -133,7 +133,8 @@ public class FragmentSummary extends Fragment
 		registerBackButtonHandler();
 		
 		// Register the local broadcast receiver listener to receive messages when the UI data needs to be refreshed.
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+        LocalBroadcastManager.getInstance(context).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
     }
 	
 	// Receive the result from a previous call to startActivityForResult(Intent, int)
@@ -202,7 +203,8 @@ public class FragmentSummary extends Fragment
 		super.onPause();
 		
 		// Unregister since the activity is about to be closed.
-		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateScreenMessageReceiver);
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		LocalBroadcastManager.getInstance(context).unregisterReceiver(updateScreenMessageReceiver);
 	}
 	
 	// *** BROADCAST RECEIVERS *** //
@@ -217,7 +219,16 @@ public class FragmentSummary extends Fragment
 		    new PrepareChartData().execute();		// Prepare the chart data. This needs to be done here because a filter was triggered
 		}
 	};
-	
+    
+    private void safeRunOnUiThread(Runnable runnable) {
+    	if (getActivity() == null) {
+			SKLogger.sAssert(getClass(), false);
+    		return;
+    	}
+    	
+    	getActivity().runOnUiThread(runnable);
+    }
+    
 	// *** INNER CLASSES *** //	
 	/**
 	 * Retrieve the data from the database and update the UI
@@ -240,7 +251,7 @@ public class FragmentSummary extends Fragment
 			
 			// Restore all the fields before set the new values
 			// This is made because sometimes not all values are refreshed and they will show an slash
-			getActivity().runOnUiThread(new Runnable()
+			safeRunOnUiThread(new Runnable()
 			{							
 				@Override
 				public void run()
@@ -288,7 +299,7 @@ public class FragmentSummary extends Fragment
 					case 0:
 						aList_SummaryResults_No_Empty_For_Download = true;
 						
-						getActivity().runOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
+						safeRunOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
 						{							
 							@Override
 							public void run()
@@ -305,7 +316,7 @@ public class FragmentSummary extends Fragment
 					case 1:						
 						aList_SummaryResults_No_Empty_For_Upload = true;
 						
-						getActivity().runOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
+						safeRunOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
 						{							
 							@Override
 							public void run()
@@ -322,7 +333,7 @@ public class FragmentSummary extends Fragment
 					case 2:
 						aList_SummaryResults_No_Empty_For_Latency = true;
 						
-						getActivity().runOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
+						safeRunOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
 						{							
 							@Override
 							public void run()
@@ -339,7 +350,7 @@ public class FragmentSummary extends Fragment
 					case 3:
 						aList_SummaryResults_No_Empty_For_Packet_Loss = true;
 						
-						getActivity().runOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
+						safeRunOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
 						{							
 							@Override
 							public void run()
@@ -357,7 +368,7 @@ public class FragmentSummary extends Fragment
 					case 4:
 						aList_SummaryResults_No_Empty_For_Jitter = true;
 						
-						getActivity().runOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
+						safeRunOnUiThread(new Runnable()		// UI modifications must be executed in the UI thread
 						{							
 							@Override
 							public void run()
@@ -499,7 +510,10 @@ public class FragmentSummary extends Fragment
 						// Enable click events
 						setLayoutsClickable(true);
 						// Enable action bar menu filters
-						getActivity().invalidateOptionsMenu();
+						if (getActivity() != null)
+						{
+							getActivity().invalidateOptionsMenu();
+						}
 					}
 				});
 			}
@@ -538,7 +552,10 @@ public class FragmentSummary extends Fragment
 						// Enable click events
 						setLayoutsClickable(true);
 						// Enable action bar menu filters
-						getActivity().invalidateOptionsMenu();
+						if (getActivity() != null)
+						{
+							getActivity().invalidateOptionsMenu();
+						}
 					}
 				});
 			}
@@ -576,7 +593,10 @@ public class FragmentSummary extends Fragment
 						// Enable click events
 						setLayoutsClickable(true);
 						// Enable action bar menu filters
-						getActivity().invalidateOptionsMenu();
+						if (getActivity() != null)
+						{
+							getActivity().invalidateOptionsMenu();
+						}
 					};
 				});
 			}
@@ -614,7 +634,10 @@ public class FragmentSummary extends Fragment
 						// Enable click events
 						setLayoutsClickable(true);
 						// Enable action bar filters									
-						getActivity().invalidateOptionsMenu();
+						if (getActivity() != null)
+						{
+							getActivity().invalidateOptionsMenu();
+						}
 					}
 				});	
 			}
@@ -653,7 +676,10 @@ public class FragmentSummary extends Fragment
 						// Enable click events
 						setLayoutsClickable(true);
 						// Enable action bar menu filters
-						getActivity().invalidateOptionsMenu();
+						if (getActivity() != null)
+						{
+							getActivity().invalidateOptionsMenu();
+						}
 					}
 				});
 			}
@@ -700,8 +726,10 @@ public class FragmentSummary extends Fragment
 	 */
 	private void setUpResources(View pView)
 	{
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		
 		// Create the dbHelper to query the data base
-		dbHelper = new DBHelper(getActivity());
+		dbHelper = new DBHelper(context);
 		
 		// Report that this fragment would like to participate in populating the options menu by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
     	setHasOptionsMenu(true);
@@ -720,7 +748,10 @@ public class FragmentSummary extends Fragment
 			@Override
 			public void onClick(View v)
 			{				
-				v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake));
+				if (getActivity() != null)
+				{
+					v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake));
+				}
 			}			
 		};
 
@@ -928,7 +959,7 @@ public class FragmentSummary extends Fragment
 			{
 				if(!aList_SummaryResults_No_Empty_For_Download)
 				{
-					Toast.makeText(getActivity(), getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -990,7 +1021,7 @@ public class FragmentSummary extends Fragment
 			{
 				if(!aList_SummaryResults_No_Empty_For_Upload)
 				{
-					Toast.makeText(getActivity(), getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -1054,7 +1085,7 @@ public class FragmentSummary extends Fragment
 			{
 				if(!aList_SummaryResults_No_Empty_For_Latency)
 				{
-					Toast.makeText(getActivity(), getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -1117,7 +1148,7 @@ public class FragmentSummary extends Fragment
 			{
 				if(!aList_SummaryResults_No_Empty_For_Packet_Loss)
 				{
-					Toast.makeText(getActivity(), getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -1179,7 +1210,7 @@ public class FragmentSummary extends Fragment
 			{
 				if(!aList_SummaryResults_No_Empty_For_Jitter)
 				{
-					Toast.makeText(getActivity(), getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
@@ -1251,7 +1282,7 @@ public class FragmentSummary extends Fragment
 			}
 		});
 
-		Context context = SKApplication.getAppInstance().getApplicationContext();
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
 		
 		graphHandlerDownload = new SKGraphForResults(context, graphContainer, mChartCaption, "download");
 		//graphContainer.setBackgroundColor(Color.RED); // TODO - remove me, set transparent?
@@ -1397,7 +1428,8 @@ public class FragmentSummary extends Fragment
 	private void saveNetworkTypeSelection(eNetworkTypeResults pNetworkType) // 0 wifi, 1 mobile
 	{
 		// Get shared preferences editor
-		SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		SharedPreferences.Editor editor = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
 
 		switch (pNetworkType) {
 		case eNetworkTypeResults_Any:
@@ -1427,7 +1459,8 @@ public class FragmentSummary extends Fragment
 	private eNetworkTypeResults getNetworkTypeSelection() // 0 wifi, 1 mobile
 	{
 		// Get the shared preferences
-		SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		SharedPreferences prefs = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
 		int networkTypeFromPreferences = prefs.getInt("networkTypeSummary", 0);
     	// Return the state of network type selection		
 		switch (networkTypeFromPreferences)
@@ -1452,7 +1485,8 @@ public class FragmentSummary extends Fragment
 	private void saveTimePeriodSelection(int pTimePeriod)
 	{
 		// Get the shared preferences editor		 
-		SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		SharedPreferences.Editor editor = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE).edit();
 		
 		editor.putInt("timePeriodSummary", pTimePeriod);		// Save the state of the time period filter	
 		editor.commit();		// Commit changes
@@ -1466,7 +1500,8 @@ public class FragmentSummary extends Fragment
 	private int getTimePeriodSelection()
 	{
 		// Get the shared preferences
-		SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
+		final Context context = SKApplication.getAppInstance().getApplicationContext();
+		SharedPreferences prefs = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier),Context.MODE_PRIVATE);
     	// Return the state of the time period selection. The default value is 4 (1 week)		
     	return prefs.getInt("timePeriodSummary", 4);
 	}
