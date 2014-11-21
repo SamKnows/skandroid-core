@@ -25,6 +25,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.ska.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKAActivationActivity;
+import com.samknows.ska.activity.SKAMainResultsActivity;
 import com.samknows.ska.activity.SKASettingsActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 import com.samknows.libcore.SKLogger;
@@ -371,6 +372,10 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
     			SKLogger.sAssert(getClass(), false);
     			return true;
 			}
+		}
+		if (itemId == R.id.menu_item_fragment_activity_main__export_file) {
+			SKAMainResultsActivity.sExportMenuItemSelected(this, getCacheDir());
+			return true;
 		}
 	
 //		if (itemId == R.id.menu_item_fragment_activity_main_about) {

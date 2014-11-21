@@ -1510,7 +1510,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 			ret = true;
 		} else if (R.id.menu_export_file == itemId) {
-			exportMenuItemSelected();
+			sExportMenuItemSelected(this, getCacheDir());
 			ret = true;
 		} else if (R.id.menu_force_background_test == itemId) {
 
@@ -1601,11 +1601,11 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		return ret;
 	}
 
-	private void exportMenuItemSelected() {
+	public static void sExportMenuItemSelected(final Activity fromActivity, final File cacheDir) { // getCacheDir()
 		File[] files = ExportFile.getAllFiles();
 		if (files.length == 0) {
 			// No files to export!
-			new AlertDialog.Builder(this)
+			new AlertDialog.Builder(fromActivity)
 			.setTitle(R.string.menu_export_nothing_to_export)
 			.setMessage(R.string.menu_export_there_is_no_data)
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -1617,30 +1617,30 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		
 		try {
 	        Date now = new Date();
-	        java.text.DateFormat df = android.text.format.DateFormat.getLongDateFormat(context);
-	        java.text.DateFormat df2 = android.text.format.DateFormat.getTimeFormat(context);
+	        java.text.DateFormat df = android.text.format.DateFormat.getLongDateFormat(fromActivity);
+	        java.text.DateFormat df2 = android.text.format.DateFormat.getTimeFormat(fromActivity);
 	        final String formattedDate = df.format(now) + " " + df2.format(now);
-	        String candidateZipFileName = context.getString(R.string.menu_export_default_file_name_no_extension) + "_" + formattedDate + ".zip";
+	        String candidateZipFileName = fromActivity.getString(R.string.menu_export_default_file_name_no_extension) + "_" + formattedDate + ".zip";
             // Ensure that there are no :/, characters in the name!
             final String zipFileName = candidateZipFileName.replace(':', '_').replace('/','_').replace(',','_').replace(' ','_').replace("__","_");
 					
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			AlertDialog.Builder builder = new AlertDialog.Builder(fromActivity);
 			builder.setMessage(R.string.menu_export_dialog_message)
 			.setCancelable(true)
 			.setPositiveButton(R.string.menu_export_dialog_email, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					// Extract to mail!
 					// Write the file temporarily to cache folder, so it can be auto-purged...
-					File zipFile = ExportFile.getZipOfAllExportJsonFilesToThisFolderFile(getCacheDir(), zipFileName);
+					File zipFile = ExportFile.getZipOfAllExportJsonFilesToThisFolderFile(cacheDir, zipFileName);
 					
-					Intent intent = getEmailAttachmentIntent(SKAMainResultsActivity.this, zipFile, formattedDate);
+					Intent intent = getEmailAttachmentIntent(fromActivity, zipFile, formattedDate);
 					
 					try {
 						// Try to launch the email intent.
 						// Note that this *might* throw an exception - on some systems - if the intent could not be found...
-						startActivity(Intent.createChooser(intent, getString(R.string.menu_export_send_file_chooser_title)));
+						fromActivity.startActivity(Intent.createChooser(intent, fromActivity.getString(R.string.menu_export_send_file_chooser_title)));
 					} catch (ActivityNotFoundException ex) {
-						new AlertDialog.Builder(SKAMainResultsActivity.this)
+						new AlertDialog.Builder(fromActivity)
 						.setTitle(R.string.menu_export_emailapp_notfound_title)
 						.setMessage(R.string.menu_export_emailapp_notfound_body)
 						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -1661,7 +1661,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				builder.setNeutralButton(R.string.menu_export_dialog_storage, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO - export to file system!
-						userRequestedZipExportToFileSystem(zipFileName);
+						userRequestedZipExportToFileSystem(fromActivity, zipFileName);
 					}
 				});
 			}
@@ -1671,7 +1671,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		} catch (Exception e) {
 			// All we can do is catch, and prevent the app crashing!
-			SKLogger.sAssert(getClass(),  false);
+			SKLogger.sAssert(SKAMainResultsActivity.class,  false);
 		}
 	}
 	
@@ -1689,7 +1689,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	    out.close();
 	}
 	
-	private void userRequestedZipExportToThisFileNameOnFileSystem(String fileName) {
+	private static void userRequestedZipExportToThisFileNameOnFileSystem(Activity fromActivity, String fileName) {
 		File storage = android.os.Environment.getExternalStorageDirectory();
 		String subFolderName = SKApplication.getAppInstance().getAppName();
 		File storageSubFolder = new File(storage, subFolderName);
@@ -1698,7 +1698,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		
 		if (writeHere.exists()) {
 			if (writeHere.delete() == false) {
-				new AlertDialog.Builder(this)
+				new AlertDialog.Builder(fromActivity)
 			    .setTitle(R.string.menu_export_file_save_failed_title)
 			    .setMessage(R.string.menu_export_file_could_not_be_overwritten)
 			    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -1713,8 +1713,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		File file = ExportFile.getZipOfAllExportJsonFilesToThisFolderFile(storageSubFolder, fileName);
 		if (file != null) {
 			
-			new AlertDialog.Builder(this)
-		    .setTitle(getString(R.string.menu_export_file_saved_title) + " (" + subFolderName + "/" + fileName + ")")
+			new AlertDialog.Builder(fromActivity)
+		    .setTitle(fromActivity.getString(R.string.menu_export_file_saved_title) + " (" + subFolderName + "/" + fileName + ")")
 		    .setMessage(R.string.menu_export_saved_ok)
 		    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
@@ -1723,7 +1723,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			
 		} else {
 
-			new AlertDialog.Builder(this)
+			new AlertDialog.Builder(fromActivity)
 			.setTitle(R.string.menu_export_file_save_failed_title)
 		    .setMessage(R.string.menu_export_file_failed_to_save)
 			.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -1734,8 +1734,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 	}
 	
-	private void userRequestedZipExportToFileSystem(String fileNameToUse) {
-      userRequestedZipExportToThisFileNameOnFileSystem(fileNameToUse);
+	private static void userRequestedZipExportToFileSystem(Activity fromActivity, String fileNameToUse) {
+      userRequestedZipExportToThisFileNameOnFileSystem(fromActivity, fileNameToUse);
 	}
 
 	/**

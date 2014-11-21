@@ -12,6 +12,9 @@
         android:orderInCategory="1"
         android:showAsAction="never"
         android:title="@string/menu_terms_and_condition"/>
+    <item
+        android:id="@+id/menu_item_fragment_activity_main__export_file"
+        android:title="@string/menu_export_file_string"/>
     <!--
     <item
         android:id="@+id/menu_item_fragment_activity_main_about"

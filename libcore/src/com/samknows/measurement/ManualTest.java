@@ -322,10 +322,11 @@ public class ManualTest implements Runnable {
 		} catch (Throwable t) {
 			SKLogger.e(this, "Submit result. ", t);
 		}
-	
-		if(!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
-			MainService.force_poke(ctx);
-		}
+
+		// MPC 21/11/2014 - Ipp w can see NO REASON for this... except, to start the traffic stat collector - which then stops immediately!
+//		if(!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
+//			MainService.force_poke(ctx);
+//		}
 		SKLogger.d(this, "Exiting manual test");
 		
 		sSetIsExecuting(false);

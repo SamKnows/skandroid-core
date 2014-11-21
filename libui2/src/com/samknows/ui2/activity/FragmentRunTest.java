@@ -1317,15 +1317,20 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     // Shown when the background test is already running, so we cannot run the manual
     // test at the moment...
     void showAlertCannotRunTestAsBackgroundTaskIsRunning () {
-      showAlertForTestWithMessageBody (getString(R.string.manual_test_error));
+    	// The App is busy
+      showAlertForTestWithMessageBody (getString(R.string.manual_test_error)); // Unable to launch test, a background task is running. Please retry shortly.
     }
     
     
     void showAlertForTestWithMessageBody (String bodyMessage) {
-    	Context context = SKApplication.getAppInstance().getApplicationContext();
+    	
+    	if (getActivity() == null) {
+    		SKLogger.sAssert(getClass(), false);
+    		return;
+    	}
 
-    	AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    	builder.setTitle(R.string.tests_running_title);
+    	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    	builder.setTitle(R.string.tests_running_title); // The app is busy
     	builder.setMessage(bodyMessage)
     	.setCancelable(false)
     	.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
@@ -2024,9 +2029,12 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		//
 		// Tests are running - stop the tests, if the user agrees!
 		//
-    	final Context context = SKApplication.getAppInstance().getApplicationContext();
+    	if (getActivity() == null) {
+    		SKLogger.sAssert(getClass(), false);
+    		return;
+    	}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.tests_running_title);
 		builder.setMessage(R.string.tests_running_message)
 		.setCancelable(false)
