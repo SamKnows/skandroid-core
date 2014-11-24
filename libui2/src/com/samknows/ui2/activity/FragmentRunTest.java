@@ -534,13 +534,19 @@ public class FragmentRunTest extends Fragment
 				if (run_results_panel_frame_to_animate != null) {
 					results_Layout_Position_Y = run_results_panel_frame_to_animate.getTop();
 
-					if (run_results_panel_frame_to_animate.getViewTreeObserver() != null) {
-						run_results_panel_frame_to_animate.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					ViewTreeObserver observer = run_results_panel_frame_to_animate.getViewTreeObserver();
+					if (observer != null) {
+						// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+						try {
+							observer.removeOnGlobalLayoutListener(this);
+						} catch (NoSuchMethodError x) {
+							observer.removeGlobalOnLayoutListener(this);
+						}
 					}
 				}
 			}			
 		});
-		
+	
 		// Set a listener to the results layout to move it to the top and show the passive metrics
 		layout_ll_results.setOnClickListener(new OnClickListener()
 		{			
@@ -559,6 +565,9 @@ public class FragmentRunTest extends Fragment
 				}
 			}
 		});
+		
+     	// Now: immediately disable clicking on the panel, until the first result has arrived (in onDidDetectTestCompleted() ...)
+  		layout_ll_results.setClickable(false);
 		
 		// Elements in the results layout
 		tv_Result_Download = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemDownload);
@@ -716,7 +725,15 @@ public class FragmentRunTest extends Fragment
 			{
 				heightInPixels = layout_ll_Speed_Test_Layout.getHeight();				
 				
-				layout_ll_Speed_Test_Layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_Speed_Test_Layout.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 		});
 		
@@ -847,7 +864,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 								
 								if (statusComplete == 100)
 								{									
-									updateCurrentLatencyValue("0");
+                    				tv_Gauge_TextView_PsuedoButton.setText("");
+									//updateCurrentLatencyValue("0");
 									gaugeView.setResult(0.0);									
 									changeFadingTextViewValue(tv_Result_Latency, value,0);
 									executingLatencyTest = false;
@@ -1673,6 +1691,15 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
      */
     private void changeUnitsInformationLabel(final String value)
     {    	
+		if (testsRunning == false) 
+		{
+			if (value.length() > 0)
+			{
+				// Do NOT update the unit text to non-empty string, if the test isn't running!
+				return;
+			}
+		}
+		
     	if (!onContextualInformationLabelAnimationSemaphore && !mUnitText.getText().equals(value))
     	{
     		onContextualInformationLabelAnimationSemaphore = true;
@@ -1682,7 +1709,13 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
         		@Override
         		public void onAnimationEnd(Animator animation)
         		{        			
-        			mUnitText.setText(value);
+        			String useValue = value;
+        			if (testsRunning == false) 
+        			{
+        				useValue = "";
+        			}
+        			
+        			mUnitText.setText(useValue);
         			mUnitText.animate().alpha(1.0f).setDuration(300);
         			onContextualInformationLabelAnimationSemaphore = false;
         		}    		

@@ -65,16 +65,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:gravity="center_vertical"
+                android:gravity="bottom|left"
                 android:textColor="@color/TableCellColourText"
-                android:textSize="@dimen/text_size_peta"
+                android:textSize="@dimen/text_size_tera"
                 tools:text="8.33 Mbps"/>
 
             <TextView
                 android:id="@+id/activity_share_result_tv_label_download"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/spacing_small_negative"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:text="@string/download_speed"
                 android:textColor="@color/TableCellColourText" />
@@ -84,16 +84,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:gravity="center_vertical"
+                android:gravity="bottom|left"
                 android:textColor="@color/TableCellColourText"
-                android:textSize="@dimen/text_size_peta"
+                android:textSize="@dimen/text_size_tera"
                 tools:text="3.88 Mbps" />
 
             <TextView
                 android:id="@+id/activity_share_result_tv_label_upload"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/spacing_small_negative"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:text="@string/upload_speed"
                 android:textColor="@color/TableCellColourText"/>
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
+                android:gravity="bottom|left"
                 android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_giga"
                 tools:text="25 ms"/>
@@ -112,7 +112,7 @@
                 android:id="@+id/activity_share_result_tv_label_latency"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/spacing_small_negative"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:text="@string/latency"
                 android:textColor="@color/TableCellColourText"/>
@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
+                android:gravity="bottom|left"
                 android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_giga"
                 tools:text="2 %"/>
@@ -131,7 +131,7 @@
                 android:id="@+id/activity_share_result_tv_label_packet_loss"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/spacing_small_negative"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:text="@string/packet_loss_lowercase"
                 android:textColor="@color/TableCellColourText" />
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:gravity="center_vertical"
+                android:gravity="bottom|left"
                 android:textColor="@color/TableCellColourText"
                 android:textSize="@dimen/text_size_giga"
                 tools:text="22 ms"/>
@@ -150,7 +150,7 @@
                 android:id="@+id/activity_share_result_tv_label_jitter"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/spacing_small_negative"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:text="@string/jitter_lowercase"
                 android:textColor="@color/TableCellColourText"/>

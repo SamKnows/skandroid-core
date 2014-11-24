@@ -258,7 +258,6 @@ public class FragmentArchivedResults extends Fragment
 		protected Void doInBackground(Void... params)
 		{
 			aList_TemporaryArchivedTests.clear();		// Clear the values of the temporary list
-			aList_ArchivedResults.clear();			// Clear the values of the final list
 			aList_TemporaryArchivedTests = getArchivedTestsList(getNetworkTypeSelection(), aList_TemporaryArchivedTests);	// Fill the temporary list
 
 			return null;

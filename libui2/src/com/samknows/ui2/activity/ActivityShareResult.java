@@ -165,9 +165,9 @@ public class ActivityShareResult extends Activity
 		}
 		else
 		{
-			tv_Latency_Result.setText(getIntent().getExtras().get("latencyResult") + " " + getString(R.string.units_ms));
-			tv_Packet_Loss_Result.setText(getIntent().getExtras().get("packetLossResult") + " " + getString(R.string.units_percent));
-			tv_Jitter_Result.setText(getIntent().getExtras().get("jitterResult") + " " + getString(R.string.units_ms));
+			tv_Latency_Result.setText(getIntent().getExtras().get("latencyResult") + " ");
+			tv_Packet_Loss_Result.setText(getIntent().getExtras().get("packetLossResult") + " ");
+			tv_Jitter_Result.setText(getIntent().getExtras().get("jitterResult") + " ");
 		}		
 		
 		if (SKApplication.getAppInstance().hideJitter()) {
@@ -208,7 +208,15 @@ public class ActivityShareResult extends Activity
 			@Override
 			public void onGlobalLayout()
 			{
-				layout_ll_main.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_main.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 				
 				new GenerateImageAndShare().execute();				
 			}

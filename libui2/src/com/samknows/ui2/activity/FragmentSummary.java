@@ -29,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -868,7 +869,15 @@ public class FragmentSummary extends Fragment
 			{
 				header_section_height = layout_ll_header.getHeight();
 				
-				layout_ll_header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_header.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 			
 			
@@ -885,7 +894,15 @@ public class FragmentSummary extends Fragment
 				
 				summary_section_height = layout_ll_summary_section_download.getHeight();
 				
-				layout_ll_summary_section_download.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_summary_section_download.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 		});
 		
@@ -898,7 +915,15 @@ public class FragmentSummary extends Fragment
 				initialPositionUploadX = layout_ll_summary_section_upload.getLeft();
 				initialPositionUploadY = layout_ll_summary_section_upload.getTop();
 				
-				layout_ll_summary_section_upload.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_summary_section_upload.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 		});
 		
@@ -911,7 +936,15 @@ public class FragmentSummary extends Fragment
 				initialPositionLatencyX = layout_ll_summary_section_latency.getLeft();
 				initialPositionLatencyY = layout_ll_summary_section_latency.getTop();
 				
-				layout_ll_summary_section_latency.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_summary_section_latency.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 		});
 		
@@ -924,7 +957,15 @@ public class FragmentSummary extends Fragment
 				initialPositionLossX = layout_ll_summary_section_packet_loss.getLeft();
 				initialPositionLossY = layout_ll_summary_section_packet_loss.getTop();
 				
-				layout_ll_summary_section_packet_loss.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_summary_section_packet_loss.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 		});
 		
@@ -937,7 +978,15 @@ public class FragmentSummary extends Fragment
 						initialPositionJitterX = layout_ll_summary_section_jitter.getLeft();
 						initialPositionJitterY = layout_ll_summary_section_jitter.getTop();
 						
-						layout_ll_summary_section_jitter.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						ViewTreeObserver observer = layout_ll_summary_section_jitter.getViewTreeObserver();
+						if (observer != null) {
+							// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+							try {
+								observer.removeOnGlobalLayoutListener(this);
+							} catch (NoSuchMethodError x) {
+								observer.removeGlobalOnLayoutListener(this);
+							}
+						}
 					}
 				});
 
@@ -947,7 +996,15 @@ public class FragmentSummary extends Fragment
 			@Override
 			public void onGlobalLayout()
 			{
-				layout_ll_chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				ViewTreeObserver observer = layout_ll_chart.getViewTreeObserver();
+				if (observer != null) {
+					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+					try {
+						observer.removeOnGlobalLayoutListener(this);
+					} catch (NoSuchMethodError x) {
+						observer.removeGlobalOnLayoutListener(this);
+					}
+				}
 			}
 		});
 		
