@@ -58,7 +58,7 @@ public class FontFitTextView extends TextView {
 
 	private float mMinTextSize = 5.0F;
 
-	private int mWidthLimit;
+	private int mWidthLimit = 0;
 
 	private static final int NO_LINE_LIMIT = -1;
 	private int mMaxLines;
@@ -187,6 +187,9 @@ public class FontFitTextView extends TextView {
 				- getCompoundPaddingTop();
 		mWidthLimit = getMeasuredWidth() - getCompoundPaddingLeft()
 				- getCompoundPaddingRight();
+		if (mWidthLimit < 0) {
+			mWidthLimit = 0;
+		}
 		mAvailableSpaceRect.right = mWidthLimit;
 		mAvailableSpaceRect.bottom = heightLimit;
 		super.setTextSize(
