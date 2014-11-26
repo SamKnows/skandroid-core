@@ -1,142 +1,310 @@
 package com.samknows.measurement.activity.components;
 
+import com.samknows.libcore.SKLogger;
+
 import android.content.Context;
 
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 
-// Based on https://stackoverflow.com/questions/2617266/how-to-adjust-text-font-size-to-fit-textview
+//public class FontFitTextView extends TextView {
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.RectF;
+import android.os.Build;
+import android.text.Layout.Alignment;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.util.AttributeSet;
+import android.util.SparseIntArray;
+import android.util.TypedValue;
+import android.widget.TextView;
 
-// <com.samknows.measurement.activity.components.FontFitTextView 
+// Based on http://stackoverflow.com/questions/16017165/auto-fit-textview-for-android
 
 public class FontFitTextView extends TextView {
-
-    private float initialTextSizePx = 200;
-        
-    public FontFitTextView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		
-        initialTextSizePx = getTextSize();
-        initialise();
+	private interface SizeTester {
+		/**
+		 * 
+		 * @param suggestedSize
+		 *            Size of text to be tested
+		 * @param availableSpace
+		 *            available space in which text must fit
+		 * @return an integer < 0 if after applying {@code suggestedSize} to
+		 *         text, it takes less space than {@code availableSpace}, > 0
+		 *         otherwise
+		 */
+		public int onTestSize(int suggestedSize, RectF availableSpace);
 	}
-    
-    public FontFitTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        
-        initialTextSizePx = getTextSize();
-        initialise();
-    }
+
+	private RectF mTextRect = new RectF();
+
+	private RectF mAvailableSpaceRect;
+
+	private SparseIntArray mTextCachedSizes;
+
+	private TextPaint mPaint;
+
+	private float mMaxTextSize;
+
+	private float mSpacingMult = 1.0f;
+
+	private float mSpacingAdd = 0.0f;
+
+	private float mMinTextSize = 5.0F;
+
+	private int mWidthLimit;
+
+	private static final int NO_LINE_LIMIT = -1;
+	private int mMaxLines;
+
+	private boolean mEnableSizeCache = true;
+	private boolean mInitiallized;
 
 	public FontFitTextView(Context context) {
-        super(context);
-        initialise();
-    }
+		super(context);
+		initialize();
+	}
 
-    private void initialise() {
-        mTestPaint = new Paint();
-        mTestPaint.set(this.getPaint());
-        //max size defaults to the initially specified text size unless it is too small
-    }
-   
-    // https://stackoverflow.com/questions/6263250/convert-pixels-to-sp
-    public static float spToPixels(Context context, Float sp) {
-        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
-        return scaledDensity * sp;
-    }
+	public FontFitTextView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		initialize();
+	}
 
-    /* Re size the font so the specified text fits in the text box
-     * assuming the text box is the specified width.
-     */
-    private void refitText(String text, int textWidth, int textHeight) 
-    { 
-    	if (text.length() == 0) {
-    		return;
-    	}
-        if (textWidth <= 0)
-            return;
-        if (textHeight <= 0)
-            return;
-        int targetWidth = textWidth - this.getPaddingLeft() - this.getPaddingRight();
-        int targetHeight = textHeight - this.getPaddingTop() - this.getPaddingBottom();
-        
-        //final float hiSp = 16;
-        //float hi = spToPixels(getContext(), hiSp);
-        float hi = initialTextSizePx;
-        
-        float lo = 2;
-        final float threshold = 0.5f; // How close we have to be
+	public FontFitTextView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		initialize();
+	}
 
-        mTestPaint.set(this.getPaint());
+	private void initialize() {
+		mPaint = new TextPaint(getPaint());
+		mMaxTextSize = getTextSize();
+		mAvailableSpaceRect = new RectF();
+		mTextCachedSizes = new SparseIntArray();
+		if (mMaxLines == 0) {
+			// no value was assigned during construction
+			mMaxLines = NO_LINE_LIMIT;
+		}
+		mInitiallized = true;
+	}
 
-        // Home-in on the correct size to use - hi is upper bounds, lo is lower bounds.
-        
-        // NB the text bounds calculation doesn't account for multi-line text.
-        // So if we need to account for this: if we have > 1 line, we need to sum-up the total line heights,
-        // and use the maximum width.
-        
-        String[] lines = text.split("\n");
-        
-        // Notes:
-        // - we finish when lo and hi are within a small difference threshold (0.5F)
-        // - we use lo so that we are likely to be slightly too narrow rather than slightly too wide!
-        while((hi - lo) > threshold) {
-            float size = (hi+lo)/2;
-            mTestPaint.setTextSize(size);
-        	Rect bounds = new Rect();
-        
-        	float maxWidth = 0.0F;
-        	float totalHeight = 0.0F;
-        	
-        	int lineCount = lines.length;
-        	
-        	for (int i = 0; i < lineCount; i++) {
-        		// Using getTextBounds accounts for multi-line text; measure text does *not*!
-        		String theLine = lines[i];
-        		mTestPaint.getTextBounds(theLine, 0, theLine.length(), bounds);
-        		maxWidth = Math.max(bounds.width(), maxWidth);
-        		totalHeight += bounds.height();
-        	}
-        	
-            if (maxWidth >= targetWidth)  {
-                hi = size; // too big
-            }
-            else if (totalHeight >= targetHeight)  {
-                hi = size; // too big
-            }
-            else {
-                lo = size; // too small
-            }
-        }
-        
-        this.setTextSize(TypedValue.COMPLEX_UNIT_PX, lo);
-    }
+	@Override
+	public void setText(final CharSequence text, BufferType type) {
+		super.setText(text, type);
+		adjustTextSize(text.toString());
+	}
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
-        int height = getMeasuredHeight();
-        refitText(this.getText().toString(), parentWidth, parentHeight);
-        this.setMeasuredDimension(parentWidth, height);
-    }
+	@Override
+	public void setTextSize(float size) {
+		mMaxTextSize = size;
+		mTextCachedSizes.clear();
+		adjustTextSize(getText().toString());
+	}
 
-    @Override
-    protected void onTextChanged(final CharSequence text, final int start, final int before, final int after) {
-        refitText(text.toString(), this.getWidth(), this.getHeight());
-    }
+	@Override
+	public void setMaxLines(int maxlines) {
+		super.setMaxLines(maxlines);
+		mMaxLines = maxlines;
+		reAdjust();
+	}
 
-    @Override
-    protected void onSizeChanged (int w, int h, int oldw, int oldh) {
-        if (w != oldw) {
-            refitText(this.getText().toString(), w, h);
-        }
-    }
+	public int getMaxLines() {
+		return mMaxLines;
+	}
 
-    //Attributes
-    private Paint mTestPaint;
+	@Override
+	public void setSingleLine() {
+		super.setSingleLine();
+		mMaxLines = 1;
+		reAdjust();
+	}
+
+	@Override
+	public void setSingleLine(boolean singleLine) {
+		super.setSingleLine(singleLine);
+		if (singleLine) {
+			mMaxLines = 1;
+		} else {
+			mMaxLines = NO_LINE_LIMIT;
+		}
+		reAdjust();
+	}
+
+	@Override
+	public void setLines(int lines) {
+		super.setLines(lines);
+		mMaxLines = lines;
+		reAdjust();
+	}
+
+	@Override
+	public void setTextSize(int unit, float size) {
+		Context c = getContext();
+		Resources r;
+
+		if (c == null)
+			r = Resources.getSystem();
+		else
+			r = c.getResources();
+		mMaxTextSize = TypedValue.applyDimension(unit, size,
+				r.getDisplayMetrics());
+		mTextCachedSizes.clear();
+		adjustTextSize(getText().toString());
+	}
+
+	@Override
+	public void setLineSpacing(float add, float mult) {
+		super.setLineSpacing(add, mult);
+		mSpacingMult = mult;
+		mSpacingAdd = add;
+	}
+
+	/**
+	 * Set the lower text size limit and invalidate the view
+	 * 
+	 * @param minTextSize
+	 */
+	public void setMinTextSize(float minTextSize) {
+		mMinTextSize = minTextSize;
+		reAdjust();
+	}
+
+	private void reAdjust() {
+		adjustTextSize(getText().toString());
+	}
+
+	private void adjustTextSize(String string) {
+		if (!mInitiallized) {
+			return;
+		}
+		int startSize = (int) mMinTextSize;
+		int heightLimit = getMeasuredHeight() - getCompoundPaddingBottom()
+				- getCompoundPaddingTop();
+		mWidthLimit = getMeasuredWidth() - getCompoundPaddingLeft()
+				- getCompoundPaddingRight();
+		mAvailableSpaceRect.right = mWidthLimit;
+		mAvailableSpaceRect.bottom = heightLimit;
+		super.setTextSize(
+				TypedValue.COMPLEX_UNIT_PX,
+				efficientTextSizeSearch(startSize, (int) mMaxTextSize,
+						mSizeTester, mAvailableSpaceRect));
+	}
+
+	private final SizeTester mSizeTester = new SizeTester() {
+		@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+		@Override
+		public int onTestSize(int suggestedSize, RectF availableSPace) {
+			mPaint.setTextSize(suggestedSize);
+			String text = getText().toString();
+			boolean singleline = getMaxLines() == 1;
+			if (singleline) {
+				mTextRect.bottom = mPaint.getFontSpacing();
+				mTextRect.right = mPaint.measureText(text);
+			} else {
+				StaticLayout layout = new StaticLayout(text, mPaint,
+						mWidthLimit, Alignment.ALIGN_NORMAL, mSpacingMult,
+						mSpacingAdd, true);
+				// return early if we have more lines
+						if (getMaxLines() != NO_LINE_LIMIT
+						&& layout.getLineCount() > getMaxLines()) {
+							return 1;
+						}
+						mTextRect.bottom = layout.getHeight();
+						int maxWidth = -1;
+						for (int i = 0; i < layout.getLineCount(); i++) {
+							if (maxWidth < layout.getLineWidth(i)) {
+								maxWidth = (int) layout.getLineWidth(i);
+							}
+						}
+						mTextRect.right = maxWidth;
+			}
+
+			mTextRect.offsetTo(0, 0);
+			if (availableSPace.contains(mTextRect)) {
+				// may be too small, don't worry we will find the best match
+				return -1;
+			} else {
+				// too big
+				return 1;
+			}
+		}
+	};
+
+	/**
+	 * Enables or disables size caching, enabling it will improve performance
+	 * where you are animating a value inside TextView. This stores the font
+	 * size against getText().length() Be careful though while enabling it as 0
+	 * takes more space than 1 on some fonts and so on.
+	 * 
+	 * @param enable
+	 *            enable font size caching
+	 */
+	public void enableSizeCache(boolean enable) {
+		mEnableSizeCache = enable;
+		mTextCachedSizes.clear();
+		adjustTextSize(getText().toString());
+	}
+
+	private int efficientTextSizeSearch(int start, int end,
+			SizeTester sizeTester, RectF availableSpace) {
+		if (!mEnableSizeCache) {
+			return binarySearch(start, end, sizeTester, availableSpace);
+		}
+		String text = getText().toString();
+		int key = text == null ? 0 : text.length();
+		int size = mTextCachedSizes.get(key);
+		if (size != 0) {
+			return size;
+		}
+		size = binarySearch(start, end, sizeTester, availableSpace);
+		mTextCachedSizes.put(key, size);
+		return size;
+	}
+
+	private static int binarySearch(int start, int end, SizeTester sizeTester,
+			RectF availableSpace) {
+		int lastBest = start;
+		int lo = start;
+		int hi = end - 1;
+		int mid = 0;
+		while (lo <= hi) {
+			mid = (lo + hi) >>> 1;
+							int midValCmp = sizeTester.onTestSize(mid, availableSpace);
+							if (midValCmp < 0) {
+								lastBest = lo;
+								lo = mid + 1;
+							} else if (midValCmp > 0) {
+								hi = mid - 1;
+								lastBest = hi;
+							} else {
+								return mid;
+							}
+		}
+		// make sure to return last best
+		// this is what should always be returned
+		return lastBest;
+
+	}
+
+	@Override
+	protected void onTextChanged(final CharSequence text, final int start,
+			final int before, final int after) {
+		super.onTextChanged(text, start, before, after);
+		reAdjust();
+	}
+
+	@Override
+	protected void onSizeChanged(int width, int height, int oldwidth,
+			int oldheight) {
+		mTextCachedSizes.clear();
+		super.onSizeChanged(width, height, oldwidth, oldheight);
+		if (width != oldwidth || height != oldheight) {
+			reAdjust();
+		}
+	}
 }
