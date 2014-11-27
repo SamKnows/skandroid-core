@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.samknows.libcore.SKLogger;
+
 import android.content.Context;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
@@ -17,7 +19,20 @@ public class SKDateFormat  {
 	}
 	
 	public static String sGetGraphDateFormat(Context context){
-		char[] order = DateFormat.getDateFormatOrder(context);
+		char[] order = null;
+		try {
+			order = DateFormat.getDateFormatOrder(context);
+		} catch (java.lang.IllegalArgumentException e) {
+			// Deal with OEM bug seen on some devices...:
+			// "java.lang.IllegalArgumentException: Bad pattern character 'E' in E, MMM d, yyyy at libcore.icu.ICU.getDateFormatOrder"
+			SKLogger.sAssert(SKDateFormat.class,  false);
+			
+			order = new char[3];
+			order[0] = DateFormat.MONTH;
+			order[1] = DateFormat.DATE;
+			order[2] = DateFormat.YEAR;
+		}
+		
 		StringBuilder sb = new StringBuilder();
 		for(int i =0; i< order.length; i++){
 			switch(order[i]){

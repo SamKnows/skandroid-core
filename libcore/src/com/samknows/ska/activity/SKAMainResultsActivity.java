@@ -1276,36 +1276,31 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		// toggle buttons
 
-		TableLayout button;
-		button = (TableLayout) findViewById(R.id.download_header);
+		View button = findViewById(R.id.download_header);
 		ImageView button_iv = (ImageView) findViewById(R.id.btn_download_toggle);
 
 		button.setOnClickListener(this);
 		button_iv.setOnClickListener(this);
 
-		TableLayout button2;
-		button2 = (TableLayout) subview.findViewById(R.id.upload_header);
+		View button2 = subview.findViewById(R.id.upload_header);
 		ImageView button2_iv = (ImageView) findViewById(R.id.btn_upload_toggle);
 
 		button2.setOnClickListener(this);
 		button2_iv.setOnClickListener(this);
 
-		TableLayout button3;
-		button3 = (TableLayout) subview.findViewById(R.id.latency_header);
+		View button3 = subview.findViewById(R.id.latency_header);
 		ImageView button3_iv = (ImageView) findViewById(R.id.btn_latency_toggle);
 
 		button3.setOnClickListener(this);
 		button3_iv.setOnClickListener(this);
 
-		TableLayout button4;
-		button4 = (TableLayout) subview.findViewById(R.id.packetloss_header);
+		View button4 = subview.findViewById(R.id.packetloss_header);
 		ImageView button4_iv = (ImageView) findViewById(R.id.btn_packetloss_toggle);
 
 		button4.setOnClickListener(this);
 		button4_iv.setOnClickListener(this);
 
-		TableLayout button5;
-		button5 = (TableLayout) subview.findViewById(R.id.jitter_header);
+		View button5 = subview.findViewById(R.id.jitter_header);
 		ImageView button5_iv = (ImageView) findViewById(R.id.btn_jitter_toggle);
 
 		button5.setOnClickListener(this);
