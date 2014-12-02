@@ -75,6 +75,7 @@
             android:orientation="horizontal" >
 
             <LinearLayout
+                android:id="@+id/main_Fragment_Toolbar_Layout_Run"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -84,7 +85,7 @@
                     android:id="@+id/main_Fragment_Toolbar_Button_Run"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7"
+                    android:layout_weight="6"
                     android:background="@color/black"
                     android:src="@drawable/ic_action_home" />
 
@@ -92,8 +93,8 @@
                     android:id="@+id/main_Fragment_Toolbar_Button_Run_Text"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:padding="2dp"
+                    android:layout_weight="4"
+                    android:padding="1dp"
                     android:gravity="center"
                     android:text="@string/run"
                     android:textColor="@color/sam_knows_blue"
@@ -101,6 +102,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/main_Fragment_Toolbar_Layout_Results"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -110,7 +112,7 @@
                     android:id="@+id/main_Fragment_Toolbar_Button_Results"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7"
+                    android:layout_weight="6"
                     android:background="@color/black"
                     android:src="@drawable/ic_action_list" />
 
@@ -118,8 +120,8 @@
                     android:id="@+id/main_Fragment_Toolbar_Button_Results_Text"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:padding="2dp"
+                    android:layout_weight="4"
+                    android:padding="1dp"
                     android:gravity="center"
                     android:text="@string/title_history"
                     android:textColor="@color/sam_knows_blue"
@@ -127,6 +129,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/main_Fragment_Toolbar_Layout_Summary"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -136,7 +139,7 @@
                     android:id="@+id/main_Fragment_Toolbar_Button_Summary"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7"
+                    android:layout_weight="6"
                     android:background="@color/black"
                     android:src="@drawable/ic_action_chart" />
 
@@ -144,8 +147,8 @@
                     android:id="@+id/main_Fragment_Toolbar_Button_Summary_Text"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:padding="2dp"
+                    android:layout_weight="4"
+                    android:padding="1dp"
                     android:gravity="center"
                     android:text="@string/title_summary"
                     android:textColor="@color/sam_knows_blue"

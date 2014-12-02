@@ -219,7 +219,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		mSummaryButtonText.setTextColor(this.getResources().getColor(R.color.white));
 		
 		mRunButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Run);
-		mRunButton.setOnClickListener(new OnClickListener() {
+		findViewById(R.id.main_Fragment_Toolbar_Layout_Run).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				layout_ll_background_middle.setAlpha(0.0f);
@@ -231,7 +231,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		//x.setColorFilter(Color.argb(255, 0, 0, 255));
 		
 		mHistoryButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Results);
-		mHistoryButton.setOnClickListener(new OnClickListener() {
+		findViewById(R.id.main_Fragment_Toolbar_Layout_Results).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				layout_ll_background_middle.setAlpha(1.0f);
@@ -241,7 +241,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		});
 		
 		mSummaryButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Summary);
-		mSummaryButton.setOnClickListener(new OnClickListener() {
+		findViewById(R.id.main_Fragment_Toolbar_Layout_Summary).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				layout_ll_background_top.setAlpha(1.0f);
