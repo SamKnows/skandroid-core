@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -165,6 +169,13 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
         }
     }
 	
+	ImageButton mRunButton = null;
+	ImageButton mHistoryButton = null;
+	ImageButton mSummaryButton = null;
+	TextView mRunButtonText = null;
+	TextView mHistoryButtonText = null;
+	TextView mSummaryButtonText = null;
+	
 	// *** CUSTOM METHODS *** //
 	/**
 	 * Bind the resources with the objects in this class and set up them
@@ -199,10 +210,49 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		viewPager = (ViewPager)findViewById(R.id.viewpager);		
 		viewPager.setAdapter(adapter_ViewPager);		
 		viewPager.setOffscreenPageLimit(2);
+		
+    	mRunButtonText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Run_Text);
+	    mHistoryButtonText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Results_Text);
+	    mSummaryButtonText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Summary_Text);
+		mRunButtonText.setTextColor(this.getResources().getColor(R.color.sam_knows_blue));
+		mHistoryButtonText.setTextColor(this.getResources().getColor(R.color.white));
+		mSummaryButtonText.setTextColor(this.getResources().getColor(R.color.white));
+		
+		mRunButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Run);
+		mRunButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				layout_ll_background_middle.setAlpha(0.0f);
+				FragmentActivityMain.this.viewPager.setCurrentItem(0);
+			}
+		});
+		mRunButton.setColorFilter(this.getResources().getColor(R.color.sam_knows_blue));
+		//x.setColorFilter(this.getResources().getColor(R.color.white));
+		//x.setColorFilter(Color.argb(255, 0, 0, 255));
+		
+		mHistoryButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Results);
+		mHistoryButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				layout_ll_background_middle.setAlpha(1.0f);
+				layout_ll_background_top.setAlpha(0.0f);
+				FragmentActivityMain.this.viewPager.setCurrentItem(1);
+			}
+		});
+		
+		mSummaryButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Summary);
+		mSummaryButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				layout_ll_background_top.setAlpha(1.0f);
+				FragmentActivityMain.this.viewPager.setCurrentItem(2);
+			}
+		});
 
 	    // Get the action bar
 	    final ActionBar actionBar = getActionBar();
 	    
+		/*
 		// Specify that tabs should be displayed in the action bar.
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -254,6 +304,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 			}
 	    	
 	    };
+	    */
 	    
 	    // Set a listener that will be invoked whenever the page changes or is incrementally scrolled.
 	    // This listener is used for changing smoothly the colour of the background, this is modifying the visibility of the different layers
@@ -265,17 +316,31 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	    	{
 	    		super.onPageScrolled(position, positionOffset, positionOffsetPixels);
 	    		
+                mRunButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mRunButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                mHistoryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mHistoryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                mSummaryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mSummaryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                      	
 	    		switch (position)
 	    		{
 					case 0:
+                      	mRunButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mRunButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		//imageButton.setColorFilter(this.getResources().getColor(R.color.white));
 						layout_ll_background_middle.setAlpha(positionOffset);
 						break;
 						
 					case 1:						
+                      	mHistoryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mHistoryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
 						layout_ll_background_top.setAlpha(positionOffset);
 						break;
 	
 					default:
+                      	mSummaryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mSummaryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
 						break;
 				}	    		
 	    	}
@@ -284,11 +349,12 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	    	@Override
 	        public void onPageSelected(int position)
 	    	{	    		
-	            getActionBar().setSelectedNavigationItem(position);					// When swiping between pages, select the corresponding tab
+	            //getActionBar().setSelectedNavigationItem(position);					// When swiping between pages, select the corresponding tab
 	            actionBar.setTitle(adapter_ViewPager.getPageTitle(position));		// Set the title
             }	    	
         });
-	    
+	   
+	    /*
 	    // Adding tabs, specifying the tab's text and TabListener
 	    for (int i = 0; i < C_NUMBER_OF_TABS; i++)
 	    {
@@ -318,6 +384,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 					break;
 			}
 	    }
+	    */
 	}
 	
 	// *** MENUS *** //

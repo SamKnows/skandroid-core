@@ -1,57 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_Fragment_Activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/background_main_fragment_activity_bottom"
+    <RelativeLayout
+        android:id="@+id/main_Fragment_Activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_gradient_nonmain"
-        android:orientation="vertical"
-        tools:visibility="visible">
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/main_Fragment_Toolbar_Bottom"
+        android:animateLayoutChanges="true" >
 
-    <LinearLayout
-        android:id="@+id/background_main_fragment_activity_middle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:visibility="visible"
-        android:orientation="vertical"
-        style="@style/style_fragment_main">
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/background_main_fragment_activity_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_gradient_nonmain"
+            android:orientation="vertical"
+            tools:visibility="visible" >
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/background_main_fragment_activity_top"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:visibility="visible"
-        style="@style/style_fragment_main">
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/background_main_fragment_activity_middle"
+            style="@style/style_fragment_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:visibility="visible" >
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/main_Fragment_Progress_Bar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        <LinearLayout
+            android:id="@+id/background_main_fragment_activity_top"
+            style="@style/style_fragment_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:visibility="visible" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_Fragment_Progress_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:layout_height="144dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.5"
+            android:animateLayoutChanges="true"
+            android:background="@color/skblack"
+            android:orientation="horizontal"
+            tools:visibility="visible" >
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_Fragment_Toolbar_Bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:alpha="0.5"
-        android:animateLayoutChanges="true"
-        android:background="@color/skblack"
-        android:orientation="horizontal"
-        tools:layout_height="144dp"
-        tools:visibility="visible">
-    </LinearLayout>
+        android:background="@color/black"
+        android:overScrollMode="never" >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/main_Fragment_Toolbar_Button_Run"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:background="@color/black"
+                    android:src="@drawable/ic_action_home" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/main_Fragment_Toolbar_Button_Run_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:padding="2dp"
+                    android:gravity="center"
+                    android:text="@string/run"
+                    android:textColor="@color/sam_knows_blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/main_Fragment_Toolbar_Button_Results"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:background="@color/black"
+                    android:src="@drawable/ic_action_list" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/main_Fragment_Toolbar_Button_Results_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:padding="2dp"
+                    android:gravity="center"
+                    android:text="@string/title_history"
+                    android:textColor="@color/sam_knows_blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/main_Fragment_Toolbar_Button_Summary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:background="@color/black"
+                    android:src="@drawable/ic_action_chart" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/main_Fragment_Toolbar_Button_Summary_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:padding="2dp"
+                    android:gravity="center"
+                    android:text="@string/title_summary"
+                    android:textColor="@color/sam_knows_blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
