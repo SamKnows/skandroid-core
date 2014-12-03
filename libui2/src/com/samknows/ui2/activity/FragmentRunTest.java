@@ -137,6 +137,7 @@ public class FragmentRunTest extends Fragment
 	private MenuItem menuItem_SelectTests, menuItem_ShareResult;
 
 	// Other class objects
+    private FrameLayout gaugeViewContainer;
     private GaugeView gaugeView;
     private PhoneStateListener phoneStateListener;
     private TelephonyManager telephonyManager;
@@ -513,6 +514,8 @@ public class FragmentRunTest extends Fragment
     	// Report that this fragment would like to participate in populating the options menu by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
     	setHasOptionsMenu(true);
 
+		// Gauge view container
+		gaugeViewContainer = (FrameLayout)pView.findViewById(R.id.fragment_speed_gauge_container);		
 		// Gauge view
 		gaugeView = (GaugeView)pView.findViewById(R.id.fragment_speed_gauge_view);		
 		
@@ -1982,7 +1985,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(0.0f);
 		layout_layout_Shining_Labels.animate().setDuration(300).alpha(0.0f);
 		mUnitText.animate().setDuration(300).alpha(0.0f);
-		gaugeView.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
+		gaugeViewContainer.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
 			@Override
@@ -1990,14 +1993,14 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 			{					
 				super.onAnimationEnd(animation);
 				
-				gaugeView.animate().setListener(null);		// Remove listener to avoid side effects
+				gaugeViewContainer.animate().setListener(null);		// Remove listener to avoid side effects
 				
 				// Hide all the gauge elements
 				tv_Advice_Message.setVisibility(View.GONE);
 				tv_TopTextNetworkType.setVisibility(View.GONE);
 				tv_Gauge_TextView_PsuedoButton.setVisibility(View.GONE);
 				layout_layout_Shining_Labels.setVisibility(View.GONE);
-				gaugeView.setVisibility(View.GONE);
+				gaugeViewContainer.setVisibility(View.GONE);
 				mUnitText.setVisibility(View.GONE);
 				
 				gaugeVisible = false;
@@ -2038,10 +2041,10 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 						tv_TopTextNetworkType.setVisibility(View.VISIBLE);
 						tv_Gauge_TextView_PsuedoButton.setVisibility(View.VISIBLE);
 						layout_layout_Shining_Labels.setVisibility(View.VISIBLE);					
-						gaugeView.setVisibility(View.VISIBLE);
+						gaugeViewContainer.setVisibility(View.VISIBLE);
 						mUnitText.setVisibility(View.VISIBLE);
 						
-						gaugeView.animate().setDuration(300).alpha(1.0f);
+						gaugeViewContainer.animate().setDuration(300).alpha(1.0f);
 						tv_Advice_Message.animate().setDuration(300).alpha(1.0f);
 						tv_TopTextNetworkType.animate().setDuration(300).alpha(1.0f);
 						tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(1.0f);

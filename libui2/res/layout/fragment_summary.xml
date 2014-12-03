@@ -16,6 +16,30 @@
             android:background="@drawable/background_gradient_nonmain"
             android:orientation="vertical"
             android:paddingTop="@dimen/activity_margin_half" >
+            
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" >
+
+            <!-- Could not get layout_alignToLeftOf working! -->
+            <ImageButton
+                android:id="@+id/summary_filter_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="?android:attr/actionBarSize"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_filter" />
+            <ImageButton
+                android:id="@+id/summary_time_period_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_clock" />
+        </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ll_header"
@@ -124,6 +148,7 @@
                             android:gravity="bottom|left"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
+                            android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
@@ -161,6 +186,7 @@
                             android:gravity="bottom|left"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
+                            android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
@@ -240,6 +266,7 @@
                             android:gravity="bottom|left"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
+                            android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_small_medium" />
                     </LinearLayout>
@@ -277,6 +304,7 @@
                             android:gravity="bottom|left"
                             android:paddingTop="@dimen/activity_margin_half"
                             android:text="@string/units_Mbps"
+                            android:maxLines="1"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_small_medium" />
                     
@@ -635,7 +663,7 @@
             android:id="@+id/fragment_summary_ll_chart"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="@dimen/activity_margin_half"
             android:layout_marginLeft="@dimen/activity_margin"

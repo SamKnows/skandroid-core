@@ -21,16 +21,47 @@
         tools:visibility="visible" >
     </TextView>
 
-    <ListView
-        android:id="@+id/archived_results_list_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:divider="@null"
-        android:paddingTop="@dimen/spacing_micro"
-        tools:visibility="gone" >
-    </ListView>
+        android:orientation="vertical" >
 
-    <include layout="@layout/archive_passive_metrics_panel"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" >
+
+            <!-- Could not get layout_alignToLeftOf working! -->
+            <ImageButton
+                android:id="@+id/archive_share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="?android:attr/actionBarSize"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_share" />
+            <ImageButton
+                android:id="@+id/archive_filter_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_filter" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/archived_results_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:paddingTop="@dimen/spacing_micro"
+            tools:visibility="gone" >
+        </ListView>
+    </LinearLayout>
+
+    <include layout="@layout/archive_passive_metrics_panel" />
 
 </RelativeLayout>

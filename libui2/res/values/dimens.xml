@@ -1,12 +1,12 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_margin_quarter">4dp</dimen>
-    <dimen name="activity_margin_half">8dp</dimen>
-    <dimen name="activity_margin_half_negative">-8dp</dimen>
-    <dimen name="activity_margin">16dp</dimen>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="activity_margin_double">32dp</dimen>
+    <dimen name="activity_margin_quarter">2dp</dimen>
+    <dimen name="activity_margin_half">4dp</dimen>
+    <dimen name="activity_margin_half_negative">-4dp</dimen>
+    <dimen name="activity_margin">8dp</dimen>
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">8dp</dimen>
+    <dimen name="activity_margin_double">16dp</dimen>
 
     <!-- Android visual rythm per Android Design guidelines. -->
     <dimen name="visual_rhythm_half">24dp</dimen>

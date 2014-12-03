@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.ActionBar;
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -94,6 +97,8 @@ public class FragmentArchivedResults extends Fragment
 	private ArrayList<TestResult> aList_TemporaryArchivedTests = new ArrayList<TestResult>();
 	private ArrayAdapter<TestResult> adapter_Archived_Results;
 
+	private	View mArchiveFilterButton = null;
+	private	View mArchiveShareButton = null;
 
 	// *** FRAGMENT LIFECYCLE ** //
 	// Called to have the fragment instantiate its user interface view.
@@ -171,6 +176,38 @@ public class FragmentArchivedResults extends Fragment
 		LocalBroadcastManager.getInstance(context).unregisterReceiver(updateScreenMessageReceiver);
 	}
 	
+	void doUpdateToolbarSetIsListViewHidden(boolean value) {
+		isListviewHidden = value;
+		
+    	mArchiveFilterButton.setVisibility(View.GONE);
+	    mArchiveShareButton.setVisibility(View.GONE);
+	    
+    	if (isListviewHidden == true) {
+    		// Showing result details...
+    	} else {
+    		// Not showing result details. Show the button.
+    		mArchiveFilterButton.setVisibility(View.VISIBLE);
+    	}
+    		
+		if (clickedPosition != -1)
+		{
+			switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
+
+			case eNetworkTypeResults_Mobile: {
+				mArchiveShareButton.setVisibility(View.VISIBLE);
+			}
+			break;
+			default:
+				break;
+			}
+		}
+		
+		// Update menu.
+		if (getActivity() != null) {
+			getActivity().invalidateOptionsMenu();
+		}
+	}
+	
 	// *** BROADCAST RECEIVERS *** //
 	// Handler for received Intents. This will be called whenever an Intent with an action named "refreshUIMessage" is broadcasted.
 	private BroadcastReceiver updateScreenMessageReceiver = new BroadcastReceiver()
@@ -201,6 +238,7 @@ public class FragmentArchivedResults extends Fragment
 				
 				// Hide the passive metrics layout
 				ll_passive_metrics.animate().setDuration(300).alpha(0.0f).setInterpolator(new OvershootInterpolator(1.2f));
+        		ll_passive_metrics.setVisibility(View.GONE);
 				
 				// Set the list view to the original position
 				lv_archived_results.animate().setDuration(300).alpha(1.0f).x(0).setListener(new AnimatorListenerAdapter()
@@ -218,15 +256,11 @@ public class FragmentArchivedResults extends Fragment
 						super.onAnimationEnd(animation);
 						
 						lv_archived_results.animate().setListener(null);	// Remove the listener to avoid side effects
-						
-						isListviewHidden = false;							// Set the state of the list view to "not hidden"
 					
-						if (getActivity() != null)
-						{
-							getActivity().invalidateOptionsMenu();				// Show the action bar menu filter
-						}
-						
 						lv_archived_results.setClickable(true);				// Set the list view to clickable
+						
+						// Set the state of the list view to "not hidden"
+						doUpdateToolbarSetIsListViewHidden(false);
 					}
 				});
 			}
@@ -338,7 +372,7 @@ public class FragmentArchivedResults extends Fragment
 		
 		// View hosting the passive metrics layout
 		ll_passive_metrics = (LinearLayout)pView.findViewById(R.id.fragment_archived_results_ll_passive_metrics);
-		ll_passive_metrics.setAlpha(0.0f);		// Make it invisible in the beginning
+		ll_passive_metrics.setVisibility(View.GONE);		// Make it invisible in the beginning
 		
 		// Set the warning message
 		tv_warning_no_results_yet = (TextView)pView.findViewById(R.id.fragment_archived_results_warning_no_results_yet);
@@ -462,6 +496,22 @@ public class FragmentArchivedResults extends Fragment
 			ip_and_reference_metrics.setVisibility(View.GONE);
 		}
 		
+		mArchiveFilterButton = pView.findViewById(R.id.archive_filter_button);
+		mArchiveFilterButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showSelectNetwork();
+			}
+		});	
+		mArchiveShareButton = pView.findViewById(R.id.archive_share_button);
+		mArchiveShareButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showShareResult();
+			}
+		});	
 		
 		// Get the width of the screen in pixels
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -504,6 +554,9 @@ public class FragmentArchivedResults extends Fragment
 				}
 			}
 		});
+        
+     	// If true, the list view is hidden, if false, the list view is shown.
+     	doUpdateToolbarSetIsListViewHidden(false);
 
         // Retrieve from data base the data of the archived tests within 1 week (default time period)
         new RefreshListViewData().execute();
@@ -1010,6 +1063,60 @@ public class FragmentArchivedResults extends Fragment
     	menu_Item_Refresh_Spinner.setVisible(asyncTask_RefreshListViewData_Running);
 	}
 	
+	private void showShareResult() {
+		if (clickedPosition != -1)
+		{
+			switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
+
+			case eNetworkTypeResults_Mobile: {
+				Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
+				intent_share_result_activity.putExtra("networkType", 2); // Mobile
+				intent_share_result_activity.putExtra("downloadResult", aList_ArchivedResults.get(clickedPosition).getDownloadResult());
+				intent_share_result_activity.putExtra("uploadResult", aList_ArchivedResults.get(clickedPosition).getUploadResult());
+				intent_share_result_activity.putExtra("latencyResult", aList_ArchivedResults.get(clickedPosition).getLatencyResult());
+				intent_share_result_activity.putExtra("packetLossResult", aList_ArchivedResults.get(clickedPosition).getPacketLossResult());
+				intent_share_result_activity.putExtra("jitterResult", aList_ArchivedResults.get(clickedPosition).getJitterResult());
+				intent_share_result_activity.putExtra("dateResult", aList_ArchivedResults.get(clickedPosition).getDtime());    				
+
+				startActivity(intent_share_result_activity);					
+			}
+			break;
+
+			case eNetworkTypeResults_WiFi:
+				SKLogger.sAssert(getClass(),  false);
+				return;
+
+			default:
+				SKLogger.sAssert(getClass(),  false);
+				return;
+			}
+
+		}    			
+
+	}
+	
+	private void showSelectNetwork() {
+
+		Intent intent_select_network = new Intent(getActivity(),ActivitySelectNetworkType.class);
+		// Set the current fragment. This will determine the background of the activity
+		switch (getNetworkTypeSelection()) {
+		case eNetworkTypeResults_Any:
+			intent_select_network.putExtra("currentFragment", 0);
+			break;
+		case eNetworkTypeResults_WiFi:
+			intent_select_network.putExtra("currentFragment", 1);
+			break;
+		case eNetworkTypeResults_Mobile:
+			intent_select_network.putExtra("currentFragment", 2);
+			break;
+		default:
+			SKLogger.sAssert(getClass(),  false);
+			break;
+		}
+		// Activity is started with requestCode 0
+		startActivityForResult(intent_select_network, 0);
+	}
+	
 	// This hook is called whenever an item in your options menu is selected
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -1017,54 +1124,12 @@ public class FragmentArchivedResults extends Fragment
     	int itemId = item.getItemId();
     	if  (itemId == R.id.menu_item_fragment_archived_tests_select_network) {
     		// Case select network
-    		Intent intent_select_network = new Intent(getActivity(),ActivitySelectNetworkType.class);
-    		// Set the current fragment. This will determine the background of the activity
-    		switch (getNetworkTypeSelection()) {
-    		case eNetworkTypeResults_Any:
-    			intent_select_network.putExtra("currentFragment", 0);
-    			break;
-    		case eNetworkTypeResults_WiFi:
-    			intent_select_network.putExtra("currentFragment", 1);
-    			break;
-    		case eNetworkTypeResults_Mobile:
-    			intent_select_network.putExtra("currentFragment", 2);
-    			break;
-    		default:
-    			SKLogger.sAssert(getClass(),  false);
-    			break;
-    		}
-    		// Activity is started with requestCode 0
-    		startActivityForResult(intent_select_network, 0);
+    		showSelectNetwork();
     		return true;
     	}
 
     	if (itemId == R.id.menu_item_fragment_archived_tests_share_result) {
-    		if (clickedPosition != -1)
-    		{
-    			switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
-    			case eNetworkTypeResults_WiFi:
-    				SKLogger.sAssert(getClass(),  false);
-    				return true;
-
-    			case eNetworkTypeResults_Mobile:
-    				break;
-    				
-    			default:
-    				SKLogger.sAssert(getClass(),  false);
-    				return true;
-    			}
-    			
-    			Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
-        		intent_share_result_activity.putExtra("networkType", 2); // Mobile
-    			intent_share_result_activity.putExtra("downloadResult", aList_ArchivedResults.get(clickedPosition).getDownloadResult());
-    			intent_share_result_activity.putExtra("uploadResult", aList_ArchivedResults.get(clickedPosition).getUploadResult());
-    			intent_share_result_activity.putExtra("latencyResult", aList_ArchivedResults.get(clickedPosition).getLatencyResult());
-    			intent_share_result_activity.putExtra("packetLossResult", aList_ArchivedResults.get(clickedPosition).getPacketLossResult());
-    			intent_share_result_activity.putExtra("jitterResult", aList_ArchivedResults.get(clickedPosition).getJitterResult());
-    			intent_share_result_activity.putExtra("dateResult", aList_ArchivedResults.get(clickedPosition).getDtime());    				
-
-    			startActivity(intent_share_result_activity);					
-    		}    			
+    		showShareResult();
     		return true;
     	}
 
@@ -1086,6 +1151,7 @@ public class FragmentArchivedResults extends Fragment
 				super.onAnimationEnd(animation);
 				
 				ll_passive_metrics.animate().setListener(null);		// Remove the listener to avoid side effects
+				ll_passive_metrics.setVisibility(View.GONE);
 				
 				// Move the view to the original position
 				listViewRow.animate().setDuration(300).x(originPositionX).y(originPositionY).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
@@ -1115,21 +1181,39 @@ public class FragmentArchivedResults extends Fragment
 
 								rl_main.removeView(listViewRow);					// Remove the view											
 
-								isListviewHidden = false;							// Set the state of the list view to "not hidden"
-
-								if (getActivity() != null) {
-									getActivity().invalidateOptionsMenu();				// Show the action bar menu filter
-								}
-
 								lv_archived_results.setClickable(true);				// Set the list view to clickable
 
 								clickedPosition = -1;
+								
+								// Set the state of the list view to "not hidden"
+        						doUpdateToolbarSetIsListViewHidden(false);
 							}
 						});
 					};
 				});
 			};
 		});
+	}
+
+	//
+	// Get the height that would be taken by an action bar on this Android system.
+	// https://stackoverflow.com/questions/12301510/how-to-get-the-actionbar-height
+	// Works even if action bar hidden... note that simply doing getActivity().getActionBar().getHeight() returns 0
+	// if the action bar is hidden.
+	//
+	int getActionBarHeight() {
+		TypedValue tv = new TypedValue();
+		if (getActivity() == null) {
+			return 0;
+		}
+		
+		if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+		{
+		    int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+		    return actionBarHeight;
+		}
+		
+		return 0;
 	}
 
 	private void showDetailedMetricsHideList(final int screenWidth, View view,
@@ -1168,7 +1252,12 @@ public class FragmentArchivedResults extends Fragment
 
 		// Make the view on the list view invisible
 		view.setAlpha(0.0f);
+		
+		// Immediately update the toolbar!
+        doUpdateToolbarSetIsListViewHidden(true);
 
+	    final int actionBarHeight = getActionBarHeight();
+						
 		// Hide the list view and show the passive metrics
 		lv_archived_results.animate().setDuration(300).alpha(0.0f).x(-screenWidth).setListener(new AnimatorListenerAdapter()
 		{
@@ -1178,10 +1267,15 @@ public class FragmentArchivedResults extends Fragment
 			{						
 				super.onAnimationEnd(animation);
 				
+				
 				lv_archived_results.animate().setListener(null);	// Clean the listener to avoid side effects							
 				
-				// Set the position of the list view item to a header position. Considering the top padding of the list view (that is now gone to the left side of the screen)
-				listViewRow.animate().setDuration(300).x(0).y(lv_archived_results.getPaddingTop()).setInterpolator(new OvershootInterpolator(1.2f)).setListener(new AnimatorListenerAdapter()
+				// Set the position of the list view item to a header position.
+				// Considering the top "fake action bar", and the top padding of the list view
+				// (that is now gone to the left side of the screen)
+				float targetY = actionBarHeight;
+				targetY += lv_archived_results.getPaddingTop();
+				listViewRow.animate().setDuration(300).x(0).y(targetY).setListener(new AnimatorListenerAdapter()
 				{
 					// Executed at the end of the animation
 					@Override
@@ -1191,7 +1285,9 @@ public class FragmentArchivedResults extends Fragment
 
 						rl_main.animate().setListener(null);		// Clean the listener to avoid side effects
 						ll_passive_metrics.animate().setDuration(300).alpha(1.0f);		// Show the passive metrics layout									
-						isListviewHidden = true;					// Set the list view state to hidden
+        				ll_passive_metrics.setVisibility(View.VISIBLE);
+						// Set the list view state to hidden
+        				doUpdateToolbarSetIsListViewHidden(true);
 						rl_main.setClickable(true);					// Set the main relative layout as clickable
 					}
 				});

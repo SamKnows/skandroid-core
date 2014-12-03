@@ -1,91 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-       <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/fragment_speed_test_gauge_rl"
+    android:id="@+id/fragment_speed_test_gauge_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_margin"
+    android:layout_marginLeft="@dimen/activity_margin"
+    android:layout_marginRight="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/activity_margin"
+    android:layout_weight="1"
+    tools:visibility="visible" >
+
+    <FrameLayout
+        android:id="@+id/fragment_speed_gauge_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <!-- Optional icon, shown in some of the app variants!
+            ImageView
+                android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/icon"
+                >
+                </ImageView -->
+
+        <com.samknows.ui2.activity.GaugeView
+            android:id="@+id/fragment_speed_gauge_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:layout_weight="1"
-            tools:visibility="visible">
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
-            <com.samknows.ui2.activity.GaugeView
-                android:id="@+id/fragment_speed_gauge_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_margin_quarter"
+        android:paddingLeft="@dimen/activity_margin_double"
+        android:paddingRight="@dimen/activity_margin_double"
+        android:paddingTop="@dimen/activity_margin_quarter"
+        android:text="@string/gauge_message_start"
+        android:textColor="@color/MainColourDialCenterText"
+        android:textSize="@dimen/text_size_tera" />
 
-            <TextView
-                android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:paddingBottom="@dimen/activity_margin_quarter"
-                android:paddingLeft="@dimen/activity_margin_double"
-                android:paddingRight="@dimen/activity_margin_double"
-                android:paddingTop="@dimen/activity_margin_quarter"
-                android:textColor="@color/MainColourDialCenterText"
-                android:textSize="@dimen/text_size_tera"
-                android:text="@string/gauge_message_start"/>
+    <RelativeLayout
+        android:id="@+id/status_label_layout_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" >
 
-            <RelativeLayout
-                android:id="@+id/status_label_layout_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/status_label_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_message_ready_to_run"
+            android:textColor="@color/MainColourStatusText"
+            android:textSize="@dimen/text_size_large"
+            tools:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/status_label_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/MainColourStatusText"
-                    android:textSize="@dimen/text_size_large"
-                    android:text="@string/label_message_ready_to_run"
-                    tools:visibility="visible"/>
+        <TextView
+            android:id="@+id/status_label_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_message_ready_to_run"
+            android:textColor="@color/MainColourStatusText"
+            android:textSize="@dimen/text_size_large"
+            tools:visibility="visible" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/status_label_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/MainColourStatusText"
-                    android:textSize="@dimen/text_size_large"
-                    android:text="@string/label_message_ready_to_run"
-                    tools:visibility="visible"/>
+    <TextView
+        android:id="@+id/press_the_start_button_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/status_label_layout_1"
+        android:layout_centerHorizontal="true"
+        android:text="@string/advice_message_press_the_button"
+        android:textColor="@color/MainColourStatusText" />
 
-            </RelativeLayout>
+    <TextView
+        android:id="@+id/top_text_network_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fragment_speed_test_gauge_textview_pseudobutton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/tools_text_value_bearer"
+        android:textColor="@color/MainColourDialTopText"
+        android:textSize="@dimen/text_size_medium" />
 
-            <TextView
-                android:id="@+id/press_the_start_button_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/status_label_layout_1"
-                android:layout_centerHorizontal="true"
-                android:text="@string/advice_message_press_the_button"
-                android:textColor="@color/MainColourStatusText"/>
+    <TextView
+        android:id="@+id/unit_text_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_speed_test_gauge_textview_pseudobutton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/units_Mbps"
+        android:textColor="@color/MainColourPressTheStartButtonText"
+        android:textSize="@dimen/text_size_small_medium" />
 
-            <TextView
-                android:id="@+id/top_text_network_type_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/fragment_speed_test_gauge_textview_pseudobutton"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/MainColourDialTopText"
-                android:textSize="@dimen/text_size_medium"
-                android:text="@string/tools_text_value_bearer"/>
-
-            <TextView
-                android:id="@+id/unit_text_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fragment_speed_test_gauge_textview_pseudobutton"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/MainColourPressTheStartButtonText"
-                android:textSize="@dimen/text_size_small_medium"
-                android:text="@string/units_Mbps"/>
-            </RelativeLayout>
-            
+</RelativeLayout>

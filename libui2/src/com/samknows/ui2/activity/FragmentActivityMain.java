@@ -19,7 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,6 +72,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);		
+		
+		// Hide action bar, which is not used in this activity...
+	    final ActionBar actionBar = getActionBar();
+	    actionBar.hide();
+	    
 		setContentView(R.layout.fragment_main);
 		
 		// Bind and set up the resources
@@ -86,6 +92,15 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		}
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		// Hide action bar, which is shown ONLY on the Settings screen!
+	    final ActionBar actionBar = getActionBar();
+	    actionBar.hide();
+	}
+
 	// *** INNER CLASSES *** //
 	/**
 	 * Implementation of PagerAdapter that represents each page as a Fragment that is persistently kept in the fragment manager as long as the user can return to the page.
@@ -169,12 +184,12 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
         }
     }
 	
-	ImageButton mRunButton = null;
-	ImageButton mHistoryButton = null;
-	ImageButton mSummaryButton = null;
-	TextView mRunButtonText = null;
-	TextView mHistoryButtonText = null;
-	TextView mSummaryButtonText = null;
+	ImageView mRunImageView = null;
+	ImageView mHistoryImageView = null;
+	ImageView mSummaryImageView = null;
+	TextView mRunImageViewText = null;
+	TextView mHistoryImageViewText = null;
+	TextView mSummaryImageViewText = null;
 	
 	// *** CUSTOM METHODS *** //
 	/**
@@ -211,14 +226,14 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		viewPager.setAdapter(adapter_ViewPager);		
 		viewPager.setOffscreenPageLimit(2);
 		
-    	mRunButtonText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Run_Text);
-	    mHistoryButtonText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Results_Text);
-	    mSummaryButtonText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Summary_Text);
-		mRunButtonText.setTextColor(this.getResources().getColor(R.color.sam_knows_blue));
-		mHistoryButtonText.setTextColor(this.getResources().getColor(R.color.white));
-		mSummaryButtonText.setTextColor(this.getResources().getColor(R.color.white));
+    	mRunImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Run_Text);
+	    mHistoryImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Results_Text);
+	    mSummaryImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Summary_Text);
+		mRunImageViewText.setTextColor(this.getResources().getColor(R.color.sam_knows_blue));
+		mHistoryImageViewText.setTextColor(this.getResources().getColor(R.color.white));
+		mSummaryImageViewText.setTextColor(this.getResources().getColor(R.color.white));
 		
-		mRunButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Run);
+		mRunImageView = (ImageView)findViewById(R.id.main_Fragment_Toolbar_Button_Run);
 		findViewById(R.id.main_Fragment_Toolbar_Layout_Run).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -226,11 +241,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 				FragmentActivityMain.this.viewPager.setCurrentItem(0);
 			}
 		});
-		mRunButton.setColorFilter(this.getResources().getColor(R.color.sam_knows_blue));
+		mRunImageView.setColorFilter(this.getResources().getColor(R.color.sam_knows_blue));
 		//x.setColorFilter(this.getResources().getColor(R.color.white));
 		//x.setColorFilter(Color.argb(255, 0, 0, 255));
 		
-		mHistoryButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Results);
+		mHistoryImageView = (ImageView)findViewById(R.id.main_Fragment_Toolbar_Button_Results);
 		findViewById(R.id.main_Fragment_Toolbar_Layout_Results).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -240,7 +255,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 			}
 		});
 		
-		mSummaryButton = (ImageButton)findViewById(R.id.main_Fragment_Toolbar_Button_Summary);
+		mSummaryImageView = (ImageView)findViewById(R.id.main_Fragment_Toolbar_Button_Summary);
 		findViewById(R.id.main_Fragment_Toolbar_Layout_Summary).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -316,31 +331,31 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	    	{
 	    		super.onPageScrolled(position, positionOffset, positionOffsetPixels);
 	    		
-                mRunButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
-        		mRunButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
-                mHistoryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
-        		mHistoryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
-                mSummaryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
-        		mSummaryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                mRunImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mRunImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                mHistoryImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mHistoryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                mSummaryImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mSummaryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
                       	
 	    		switch (position)
 	    		{
 					case 0:
-                      	mRunButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
-                		mRunButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
-                		//imageButton.setColorFilter(this.getResources().getColor(R.color.white));
+                      	mRunImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mRunImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		//imageImageView.setColorFilter(this.getResources().getColor(R.color.white));
 						layout_ll_background_middle.setAlpha(positionOffset);
 						break;
 						
 					case 1:						
-                      	mHistoryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
-                		mHistoryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                      	mHistoryImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mHistoryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
 						layout_ll_background_top.setAlpha(positionOffset);
 						break;
 	
 					default:
-                      	mSummaryButton.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
-                		mSummaryButtonText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                      	mSummaryImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mSummaryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
 						break;
 				}	    		
 	    	}

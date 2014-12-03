@@ -1,5 +1,7 @@
 package com.samknows.ska.activity;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -9,12 +11,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -69,9 +73,18 @@ public class SKASettingsActivity extends BaseLogoutActivity{
       showAlertForTestWithMessageBody (getString(R.string.must_wait_for_test_to_run));
     }
 	
+	@SuppressLint("InlinedApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// ALWAYS show the action bar in the settings screen!
+	    // Make sure we're running on Honeycomb or higher to use ActionBar APIs
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+    	    final ActionBar actionBar = getActionBar();
+			//getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+			actionBar.show();
+		}
 
 		setContentView(R.layout.ska_settings_activity);
 

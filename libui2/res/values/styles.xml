@@ -139,6 +139,16 @@
     <style
         name="CustomActionBarTheme"
         parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>        
+        <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>                       
+    </style> 
+    
+    <style
+        name="CustomActionBarThemeNoActionBar"
+        parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowNoTitle">true</item>
         <item name="android:actionBarStyle">@style/MyActionBarStyle</item>        
         <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>                       

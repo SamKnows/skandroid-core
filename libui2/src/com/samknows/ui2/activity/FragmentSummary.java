@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +18,11 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -37,6 +40,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +49,6 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
-import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.SKGraphForResults;
 import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_1w1m3m1y;
 import com.samknows.measurement.storage.DBHelper;
@@ -70,7 +73,7 @@ public class FragmentSummary extends Fragment
 	private final static String C_TAG_FRAGMENT_SUMMARY = "Fragment Summary";		// Tag for this fragment
 	
 	// *** VARIABLES *** //
-	private int summary_section_height, header_section_height;
+	private int header_section_height;
 	// The initial position of each or the rows
 	private float headerPositionX, headerPositionY, initialPositionUploadX, initialPositionUploadY, initialPositionLatencyX, initialPositionLatencyY, initialPositionLossX, initialPositionLossY,
 					initialPositionJitterX, initialPositionJitterY;
@@ -81,16 +84,16 @@ public class FragmentSummary extends Fragment
 	
 	// UI elements
 	private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin, typeface_Roboto_Regular;
-	private FontFitTextView tv_summary_result_average_download;
-	private FontFitTextView tv_summary_result_best_download;
-	private FontFitTextView tv_summary_result_average_upload;
-	private FontFitTextView tv_summary_result_best_upload;
-	private FontFitTextView tv_summary_result_average_latency;
-	private FontFitTextView tv_summary_result_best_latency;
-	private FontFitTextView tv_summary_result_average_loss;
-	private FontFitTextView tv_summary_result_best_loss;
-	private FontFitTextView tv_summary_result_average_jitter;
-	private FontFitTextView tv_summary_result_best_jitter;
+	private TextView tv_summary_result_average_download;
+	private TextView tv_summary_result_best_download;
+	private TextView tv_summary_result_average_upload;
+	private TextView tv_summary_result_best_upload;
+	private TextView tv_summary_result_average_latency;
+	private TextView tv_summary_result_best_latency;
+	private TextView tv_summary_result_average_loss;
+	private TextView tv_summary_result_best_loss;
+	private TextView tv_summary_result_average_jitter;
+	private TextView tv_summary_result_best_jitter;
 	private TextView tv_label_average, tv_label_best;
 	private LinearLayout mShowingThisSection = null;
 	private LinearLayout layout_ll_summary_section_download, layout_ll_summary_section_upload, layout_ll_summary_section_latency, layout_ll_summary_section_packet_loss, layout_ll_summary_section_jitter, layout_ll_summary_result_average_download,
@@ -108,6 +111,9 @@ public class FragmentSummary extends Fragment
 	private boolean asyncTask_PrepareChart_Running = false;		// Whether or not the asynchronous task is running
 	private boolean aList_SummaryResults_No_Empty_For_Download, aList_SummaryResults_No_Empty_For_Upload, aList_SummaryResults_No_Empty_For_Latency, aList_SummaryResults_No_Empty_For_Packet_Loss, aList_SummaryResults_No_Empty_For_Jitter;
 	
+	private	View mSummaryFilterButton = null;
+	private	View mSummaryTimePeriodButton = null;
+		
 	// Database
 	private DBHelper dbHelper;
 
@@ -120,7 +126,15 @@ public class FragmentSummary extends Fragment
 		setUpResources(view);	// Bind the resources with the elements in this class and set up them
 		
 		new RetrieveAverageAndBestResults().execute();		// Background process retrieving the data for the first time
-		new PrepareChartData().execute();		// Prepare the chart data. This needs to be done here because a filter was triggered
+		
+		// WE must DEFER the chart data loading (which actually happens on the main thread!) to prevent the UI blocking on start-up
+		new Handler().post(new Runnable() {
+			
+			@Override
+			public void run() {
+				new PrepareChartData().execute();		// Prepare the chart data. This needs to be done here because a filter was triggered
+			}
+		});
 		
 		return view;						// Inflate the layout for this fragment
 	}
@@ -281,8 +295,8 @@ public class FragmentSummary extends Fragment
 				}
 			});
 		
-			// TODO - this could fail with random SQL error when run in an async task!
-    		ExtractSummaryValues ();
+//			// TODO - this could fail with random SQL error when run in an async task!
+//    		ExtractSummaryValues ();
 		}
 		
 		private void ExtractSummaryValues () {
@@ -393,6 +407,7 @@ public class FragmentSummary extends Fragment
 		@Override
 		protected Void doInBackground(Void... params)
 		{
+    		ExtractSummaryValues ();
 			
 			return null;
 		}
@@ -510,15 +525,31 @@ public class FragmentSummary extends Fragment
 						
 						// Enable click events
 						setLayoutsClickable(true);
-						// Enable action bar menu filters
-						if (getActivity() != null)
-						{
-							getActivity().invalidateOptionsMenu();
-						}
+						
+						// Update toolbar/menu items!
+                     	doUpdateToolbar();
 					}
 				});
 			}
 		});
+	}
+	
+	private void doUpdateToolbar() {
+		mSummaryFilterButton.setVisibility(View.GONE);
+		mSummaryTimePeriodButton.setVisibility(View.GONE);
+
+		if (rowsHidden == true)
+		{
+			// We are showing the graph...
+		} else {
+			mSummaryFilterButton.setVisibility(View.VISIBLE);
+			mSummaryTimePeriodButton.setVisibility(View.VISIBLE);
+		}
+		
+		if (getActivity() != null)
+		{
+			getActivity().invalidateOptionsMenu();
+		}
 	}
 	
 	private void hide_ll_chart_upload() {
@@ -552,11 +583,9 @@ public class FragmentSummary extends Fragment
 						
 						// Enable click events
 						setLayoutsClickable(true);
-						// Enable action bar menu filters
-						if (getActivity() != null)
-						{
-							getActivity().invalidateOptionsMenu();
-						}
+						
+						// Update toolbar/menu items!
+                     	doUpdateToolbar();
 					}
 				});
 			}
@@ -593,11 +622,9 @@ public class FragmentSummary extends Fragment
 						
 						// Enable click events
 						setLayoutsClickable(true);
-						// Enable action bar menu filters
-						if (getActivity() != null)
-						{
-							getActivity().invalidateOptionsMenu();
-						}
+						
+						// Update toolbar/menu items!
+                     	doUpdateToolbar();
 					};
 				});
 			}
@@ -634,11 +661,9 @@ public class FragmentSummary extends Fragment
 						
 						// Enable click events
 						setLayoutsClickable(true);
-						// Enable action bar filters									
-						if (getActivity() != null)
-						{
-							getActivity().invalidateOptionsMenu();
-						}
+						
+						// Update toolbar/menu items!
+                     	doUpdateToolbar();
 					}
 				});	
 			}
@@ -676,11 +701,9 @@ public class FragmentSummary extends Fragment
 						
 						// Enable click events
 						setLayoutsClickable(true);
-						// Enable action bar menu filters
-						if (getActivity() != null)
-						{
-							getActivity().invalidateOptionsMenu();
-						}
+						
+						// Update toolbar/menu items!
+                     	doUpdateToolbar();
 					}
 				});
 			}
@@ -718,6 +741,27 @@ public class FragmentSummary extends Fragment
 		    });
 	}
 	
+	//
+	// Get the height that would be taken by an action bar on this Android system.
+	// https://stackoverflow.com/questions/12301510/how-to-get-the-actionbar-height
+	// Works even if action bar hidden... note that simply doing getActivity().getActionBar().getHeight() returns 0
+	// if the action bar is hidden.
+	//
+	int getActionBarHeight() {
+		TypedValue tv = new TypedValue();
+		if (getActivity() == null) {
+			return 0;
+		}
+		
+		if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+		{
+		    int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+		    return actionBarHeight;
+		}
+		
+		return 0;
+	}
+	
 	
 	// *** CUSTOM METHODS *** //
 	/**
@@ -742,6 +786,23 @@ public class FragmentSummary extends Fragment
     	layout_ll_header = (LinearLayout)pView.findViewById(R.id.ll_header);
 		tv_label_average = (TextView)pView.findViewById(R.id.tv_label_average);
 		tv_label_best = (TextView)pView.findViewById(R.id.tv_label_best);
+		
+		mSummaryFilterButton = pView.findViewById(R.id.summary_filter_button);
+		mSummaryFilterButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showSelectNetwork();
+			}
+		});
+		mSummaryTimePeriodButton = pView.findViewById(R.id.summary_time_period_button);
+		mSummaryTimePeriodButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showSelectTimePeriod();
+			}
+		});
 		
 		// Set up the on click listener to perform a shake animation		
 		OnClickListener shakeOnClickListener = new OnClickListener()
@@ -789,16 +850,16 @@ public class FragmentSummary extends Fragment
 		layout_ll_summary_result_best_jitter = (LinearLayout)pView.findViewById(R.id.fragment_summary_jitter_ll_best);
 		
 		// Result fields
-		tv_summary_result_average_download = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_download);
-		tv_summary_result_best_download = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_download);
-		tv_summary_result_average_upload = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_upload);
-		tv_summary_result_best_upload = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_upload);
-		tv_summary_result_average_latency = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_latency);
-		tv_summary_result_best_latency = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_latency);
-		tv_summary_result_average_loss = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_packet_loss);
-		tv_summary_result_best_loss = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_packet_loss);
-		tv_summary_result_average_jitter = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_average_jitter);
-		tv_summary_result_best_jitter = (FontFitTextView)pView.findViewById(R.id.tv_summary_result_best_jitter);
+		tv_summary_result_average_download = (TextView)pView.findViewById(R.id.tv_summary_result_average_download);
+		tv_summary_result_best_download = (TextView)pView.findViewById(R.id.tv_summary_result_best_download);
+		tv_summary_result_average_upload = (TextView)pView.findViewById(R.id.tv_summary_result_average_upload);
+		tv_summary_result_best_upload = (TextView)pView.findViewById(R.id.tv_summary_result_best_upload);
+		tv_summary_result_average_latency = (TextView)pView.findViewById(R.id.tv_summary_result_average_latency);
+		tv_summary_result_best_latency = (TextView)pView.findViewById(R.id.tv_summary_result_best_latency);
+		tv_summary_result_average_loss = (TextView)pView.findViewById(R.id.tv_summary_result_average_packet_loss);
+		tv_summary_result_best_loss = (TextView)pView.findViewById(R.id.tv_summary_result_best_packet_loss);
+		tv_summary_result_average_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_average_jitter);
+		tv_summary_result_best_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_best_jitter);
 		tv_summary_result_average_download.setText(R.string.slash);
 		tv_summary_result_best_download.setText(R.string.slash);
 		tv_summary_result_average_upload.setText(R.string.slash);
@@ -830,14 +891,14 @@ public class FragmentSummary extends Fragment
 		
 		((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);		
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
-		((FontFitTextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);		
+		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
+		((TextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Regular);
@@ -889,10 +950,10 @@ public class FragmentSummary extends Fragment
 			@Override
 			public void onGlobalLayout()
 			{
+         	    //final int actionBarHeight = getActionBarHeight();
+						
 				headerPositionX = layout_ll_summary_section_download.getLeft();
 				headerPositionY = layout_ll_summary_section_download.getTop();
-				
-				summary_section_height = layout_ll_summary_section_download.getHeight();
 				
 				ViewTreeObserver observer = layout_ll_summary_section_download.getViewTreeObserver();
 				if (observer != null) {
@@ -1065,6 +1126,7 @@ public class FragmentSummary extends Fragment
 					}				
 					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
 					rowsHidden = !rowsHidden;					
+					doUpdateToolbar();
 				}
 			}
 
@@ -1130,6 +1192,7 @@ public class FragmentSummary extends Fragment
 					}				
 					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
 					rowsHidden = !rowsHidden;
+					doUpdateToolbar();
 				}
 			}
 		});
@@ -1193,6 +1256,7 @@ public class FragmentSummary extends Fragment
 					}				
 					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
 					rowsHidden = !rowsHidden;					
+					doUpdateToolbar();
 				}
 			}
 		});
@@ -1255,6 +1319,7 @@ public class FragmentSummary extends Fragment
 					}			
 					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
 					rowsHidden = !rowsHidden;					
+					doUpdateToolbar();
 				}
 			}
 		});
@@ -1320,9 +1385,12 @@ public class FragmentSummary extends Fragment
 					}				
 					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
 					rowsHidden = !rowsHidden;
+					doUpdateToolbar();
 				}
 			}
 		});
+		
+        doUpdateToolbar();
 	}
 	
 	private void graphsSetup(View pView) {
@@ -1676,6 +1744,18 @@ public class FragmentSummary extends Fragment
     		menu_Item_Select_Time_Period.setVisible(false);
 		}
     }
+    
+    private void showSelectNetwork() {
+    	Intent intent_select_network = new Intent(getActivity(),ActivitySelectNetworkType.class);	// Intent launching the activity to select the network type
+    	intent_select_network.putExtra("currentFragment", 2);	// Set the current fragment. This will determine the background of the activity
+    	startActivityForResult(intent_select_network, 0);		// Activity is started with requestCode 0
+    }
+    
+    private void showSelectTimePeriod() {
+    	Intent intent_select_time_period = new Intent(getActivity(),ActivitySelectTimePeriod.class);	// Intent launching the activity to select the time period
+    	intent_select_time_period.putExtra("currentFragment", 2);		// Set the current fragment. This will determine the background of the activity
+    	startActivityForResult(intent_select_time_period, 1); 			// Activity is started with requestCode 1
+    }
 
     // This hook is called whenever an item in your options menu is selected
     @Override
@@ -1685,18 +1765,14 @@ public class FragmentSummary extends Fragment
 
     	if (itemId == R.id.menu_item_fragment_summary_select_network) {
     		// Case select network
-    		Intent intent_select_network = new Intent(getActivity(),ActivitySelectNetworkType.class);	// Intent launching the activity to select the network type
-    		intent_select_network.putExtra("currentFragment", 2);	// Set the current fragment. This will determine the background of the activity
-    		startActivityForResult(intent_select_network, 0);		// Activity is started with requestCode 0
+            showSelectNetwork();
 
     		return true;
     	}
 
     	if (itemId == R.id.menu_item_fragment_summary_select_time_period) {
     		// Case select time period
-    		Intent intent_select_time_period = new Intent(getActivity(),ActivitySelectTimePeriod.class);	// Intent launching the activity to select the time period
-    		intent_select_time_period.putExtra("currentFragment", 2);		// Set the current fragment. This will determine the background of the activity
-    		startActivityForResult(intent_select_time_period, 1); 			// Activity is started with requestCode 1
+            showSelectTimePeriod();
 
     		return true;
     	}
