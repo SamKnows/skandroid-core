@@ -30,13 +30,12 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize" >
 
-            <!-- Could not get layout_alignToLeftOf working! -->
+            <!-- The share button is only shown where the filter button might be (in which case, the filter button is hidden) -->
             <ImageButton
                 android:id="@+id/archive_share_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:paddingRight="?android:attr/actionBarSize"
                 android:background="@color/white"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_action_share" />
