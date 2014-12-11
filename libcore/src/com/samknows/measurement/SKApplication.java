@@ -254,6 +254,10 @@ public class SKApplication extends Application{
 	public Boolean getPassiveMetricsJustDisplayPublicIpAndSubmissionId() {
 		return false;
 	}
+	
+	public boolean getForceUploadDownloadSpeedToReportInMbps() {
+		return false;
+	}
 
   // Used by the new app...
   public String mLastSubmissionId = "";

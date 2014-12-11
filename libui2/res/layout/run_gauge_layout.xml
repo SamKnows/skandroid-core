@@ -31,7 +31,7 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-    <TextView
+    <com.samknows.measurement.activity.components.SimpleFontFitTextView
         android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:paddingTop="@dimen/activity_margin_quarter"
         android:text="@string/gauge_message_start"
         android:textColor="@color/MainColourDialCenterText"
-        android:textSize="@dimen/text_size_tera" />
+        android:textSize="70sp"/>
 
     <RelativeLayout
         android:id="@+id/status_label_layout_1"
@@ -71,13 +71,15 @@
             tools:visibility="visible" />
     </RelativeLayout>
 
-    <TextView
+    <com.samknows.measurement.activity.components.SimpleFontFitTextView
         android:id="@+id/press_the_start_button_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/status_label_layout_1"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:text="@string/advice_message_press_the_button"
+            android:textSize="@dimen/text_size_mega"
         android:textColor="@color/MainColourStatusText" />
 
     <TextView
@@ -88,6 +90,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/tools_text_value_bearer"
         android:textColor="@color/MainColourDialTopText"
+        android:textStyle="bold"
         android:textSize="@dimen/text_size_medium" />
 
     <TextView

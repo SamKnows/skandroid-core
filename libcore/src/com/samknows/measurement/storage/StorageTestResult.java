@@ -11,6 +11,7 @@ import android.util.Log;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.test.TestExecutor;
 import com.samknows.measurement.util.SKDateFormat;
@@ -147,6 +148,11 @@ public class StorageTestResult extends JSONObject{
 	}
 
 	public static String throughputToString(double value) {
+		
+		if (SKApplication.getAppInstance().getForceUploadDownloadSpeedToReportInMbps()) {
+			return String.format("%.2f Mbps", (double) (value / 1000000.0));
+		}
+		
 		String ret = "";
 		if (value < 1000) {
 			ret = String.format("%.0f bps", value);

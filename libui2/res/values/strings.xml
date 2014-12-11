@@ -176,11 +176,14 @@
     <string name="data_cap_warning_already_exceeded">Data cap exceeded</string>
     <string name="data_cap_warning_might_be_exceeded">Data cap might be exceeded</string>
     <string name="gauge_message_start">Start</string>
-    <string name="gauge_message_starting">Starting</string>
+    <!--  <string name="gauge_message_starting">Starting</string> -->
+    <string name="gauge_message_starting"></string>
     <string name="advice_message_press_the_button">Press the Start button</string>
+    <string name="advice_message_press_the_button_run_again">Press the Start button to run again</string>
     <string name="advice_message_running">Running Tests</string>
     <string name="advice_message_stopping">Stopping…</string>
     <string name="label_message_ready_to_run">Ready to run</string>
+    <string name="label_message_tests_executed">Tests Executed</string>
     <string name="label_message_starting_tests">Starting tests…</string>
     <string name="label_message_download_test">Download test</string>
     <string name="label_message_upload_test">Upload test</string>

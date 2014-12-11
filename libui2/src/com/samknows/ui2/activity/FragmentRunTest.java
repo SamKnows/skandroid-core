@@ -134,6 +134,7 @@ public class FragmentRunTest extends Fragment
 	private TextView tv_Advice_Message, tv_Gauge_TextView_PsuedoButton, tv_Status_Label_1, tv_Status_Label_2;
 	private ImageView iv_Result_NetworkType;															// Image showing the network type icon (Mobile or WiFi)
 	private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin;		// Type faces to be used in this fragment UI
+	private Typeface typeface_Roboto_Bold;
 	private MenuItem menuItem_SelectTests, menuItem_ShareResult;
 
 	// Other class objects
@@ -371,27 +372,30 @@ public class FragmentRunTest extends Fragment
 		@Override
 		protected void onPostExecute(Boolean result)
 		{
-			
-			if (result)
-			{
-				testsRunning = true;																		// Make it notice that tests are running
-				resetValueFields();																			// Set the value fields to a initial state
-				menuItem_SelectTests.setVisible(false);
-				changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_starting),0);	// Set the gauge main text to STARTING
-				changeAdviceMessageTo(getString(R.string.advice_message_running));							// Change the advice message to "Running tests"
-				fadeInProgressBar();																		// Initiate the progress bar to let the user know the progress of the tests
-				launchTests();																				// Launch tests
-				layout_ll_results.animate().setDuration(300).alpha(1.0f);									// Make the results layout visible						
-				setTestTime();																				// Set the time of the current test
-				//setTestConnectivity();																	// Set the connectivity of the current test
-				layout_ll_results.setClickable(false);														// The results layout is not clickable from here							
-			}
-			else
-			{
-				changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_start),0);	// Set the gauge main text to START
+			if (getActivity() == null) {
+				SKLogger.sAssert(getClass(), false);
+				
+			} else {
+				
+				if (result) {
+					testsRunning = true;																		// Make it notice that tests are running
+					resetValueFields();																			// Set the value fields to a initial state
+					menuItem_SelectTests.setVisible(false);
+					changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_starting),0);	// Set the gauge main text to STARTING
+					changeAdviceMessageTo(getString(R.string.advice_message_running));							// Change the advice message to "Running tests"
+					fadeInProgressBar();																		// Initiate the progress bar to let the user know the progress of the tests
+					launchTests();																				// Launch tests
+					layout_ll_results.animate().setDuration(300).alpha(1.0f);									// Make the results layout visible						
+					setTestTime();																				// Set the time of the current test
+					//setTestConnectivity();																	// Set the connectivity of the current test
+					layout_ll_results.setClickable(false);														// The results layout is not clickable from here							
+				}
+				else {
+					changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_start),0);	// Set the gauge main text to START
 
-				Context context = SKApplication.getAppInstance().getApplicationContext();
-				Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();							
+					Context context = SKApplication.getAppInstance().getApplicationContext();
+					Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();							
+				}
 			}
 			
 			super.onPostExecute(result);
@@ -629,6 +633,7 @@ public class FragmentRunTest extends Fragment
 		typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_condensed_regular.ttf");
 		typeface_Roboto_Light = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
 		typeface_Roboto_Thin = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
+		typeface_Roboto_Bold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
 
 		// Assign fonts
 		// Passive metrics headers
@@ -704,7 +709,7 @@ public class FragmentRunTest extends Fragment
 		}
 		
 		// Other labels		
-		tv_TopTextNetworkType.setTypeface(typeface_Roboto_Light);
+		tv_TopTextNetworkType.setTypeface(typeface_Roboto_Bold);
 		tv_Gauge_TextView_PsuedoButton.setTypeface(typeface_Din_Condensed_Cyrillic);
 		tv_Advice_Message.setTypeface(typeface_Roboto_Light);
 		mUnitText.setTypeface(typeface_Roboto_Light);		
@@ -1933,9 +1938,9 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		threadRunningTests = null;
 		
 		menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
-		changeAdviceMessageTo(getString(R.string.advice_message_press_the_button));
+		changeAdviceMessageTo(getString(R.string.advice_message_press_the_button_run_again));
 		resetProgressBar();
-		changeLabelText(getString(R.string.label_message_ready_to_run));
+		changeLabelText(getString(R.string.label_message_tests_executed));
 		changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_start),0);
 		// tv_Gauge_Message.setText(getString(R.string.gauge_message_start));
 		gaugeView.setKindOfTest(-1);
