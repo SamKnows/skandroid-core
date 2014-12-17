@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- FRAGMENT ARCHIVED RESULTS -->
+    <string name="no_archived_results_yet">There are no results yet</string>
+    
+    <!-- FRAGMENT SUMMARY -->
+    <string name="average">平均</string>
+    <string name="best">最佳</string>
+    <string name="no_results_for_period_and_network">沒有測試紀錄</string>
+    
+    <!-- FRAGMENT RUN TEST -->    
+    <string name="running">運行中</string>
+    <string name="no_connectivity">檢查你的連線情況</string>    
+    <string name="slow_connectivity">連線</string>
+    
+    <!-- ACTIVITY SELECT TESTS -->
+    <string name="latency_loss_jitter">網絡時延 / 封包遺失 / 抖動</string>
+    <string name="ok">OK</string>
+    
+    <!-- ACTIVITY ABOUT -->
+    <string name="about_title">關於</string>
+    <string name="about_description_download">This should be indicative of the maximum speed your broadband connection will be able to download data from the Internet.  Results are recorded in Mbps (higher is better).</string>
+    <string name="about_description_upload">This should be indicative of the maximum speed your broadband connection will be able to transmit data to the Internet.  Results are recorded in Mbps (higher is better).</string>
+    <string name="about_description_latency">This test measures how long it takes one packet to be sent to one of our test servers, and then returned back to you.  Latency can be thought of as the responsiveness of the connection from your device and our servers on the Internet. Times are recorded here in milliseconds (lower is better).</string>
+    <string name="about_description_packet_loss">Packet loss occurs when the information sent by your device fails to reach its destination. When packet loss is high, you may find that time sensitive applications such as Voice over IP (VoIP) and online gaming will suffer. Packet loss is recorded here as a percentage (lower is better).</string>
+    <string name="about_description_jitter">This test measures the variation in the time it takes one packet to be sent to one of our test servers and then returned back to you. In other words, jitter represents the variation of latency. Jitter is usually an indication of network congestion and high levels of jitter would impact the performance of time sensitive applications such as VoIP, online gaming and video streaming. Jitter is recorded in milliseconds (lower is better).</string>
+    
+    <!-- COMMON TEXT -->
+    <string name="download">下載</string>
+    <string name="upload">上載</string>
+    <string name="latency">網絡時延</string>
+    <string name="packet_loss">封包遺失</string>
+    <string name="loss">遺失</string>
+    <string name="jitter">抖動</string>
+    <string name="slash">-</string>
+    <string name="dummytext">dummy</string>
+    <string name="nineninenine">999.99</string>
+    <string name="dummydate">4/3/12 9:35</string>
+    <string name="dummydateday">19/12/14</string>
+    <string name="dummydatetime">12:35:59</string>
+    <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
+
+    <!-- NETWORK TYPES -->
+    <string name="network_type_wifi">WiFi</string>
+    <string name="network_type_mobile">流動網絡</string>
+    <string name="network_type_all">所有</string>
+    
+    <!--  Reported network type -->
+    <string name="network_type_noconnection">沒有網絡</string>
+    <string name="network_type_NETWORK_TYPE_1xRTT">"CDMA2000"</string> 
+    <string name="network_type_NETWORK_TYPE_CDMA">"CDMA"</string>
+    <string name="network_type_NETWORK_TYPE_EDGE">"EDGE"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_0">"EV-DO 0"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_A">"EV-DO A"</string>
+    <string name="network_type_NETWORK_TYPE_GPRS">"GPRS"</string>
+    <string name="network_type_NETWORK_TYPE_HSDPA">"HSDPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSPA">"HSPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSUPA">"HSUPA"</string>
+    <string name="network_type_NETWORK_TYPE_UMTS">"UMTS"</string>
+    <string name="network_type_NETWORK_TYPE_EHRPD">"eHRPD"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_B">"EV-DO B"</string>
+    <string name="network_type_NETWORK_TYPE_HSPAP">"HSPA+"</string>
+    <string name="network_type_NETWORK_TYPE_IDEN">"iDEN"</string>
+    <string name="network_type_NETWORK_TYPE_LTE">"LTE"</string>
+    <string name="network_type_TYPE_WIMAX">"WiMax"</string>
+    <string name="network_type_TYPE_BLUETOOTH">"Bluetooth"</string>
+    <string name="network_type_TYPE_ETHERNET">"Ethernet"</string>
+    <string name="network_type_TYPE_DUMMY">"Dummy"</string>
+    <string name="network_type_TYPE_MOBILE_DUN">"Mobile DUN"</string>
+    <string name="network_type_TYPE_MOBILE_HIPRI">"Mobile HIPRI"</string>
+    <string name="network_type_TYPE_MOBILE_MMS">"Mobile MMS"</string>
+    <string name="network_type_TYPE_MOBILE_SUPL">"Mobile SUPL"</string>
+
+    <!-- TIME PERIOD -->
+    <string name="time_period">時期</string>
+    <string name="time_period_1_day">一日</string>
+    <string name="time_period_1_week">一星期</string>
+    <string name="time_period_1_month">一個月</string>
+    <string name="time_period_3_months">三個月</string>
+    <string name="time_period_1_year">一年</string>
+
+    <!-- ACTIVITY SHARE RESULT -->
+    <string name="network_performance_test">網絡表現測試</string>
+    <string name="download_speed">下載速度</string>
+    <string name="upload_speed">上載速度</string>
+    <string name="latency_lowercase">網絡時延</string>
+    <string name="packet_loss_lowercase">封包遺失</string>
+    <string name="jitter_lowercase">抖動</string>
+    
+    <!-- ADAPTER ARCHIVED RESULTS LIST VIEW -->
+    <string name="not_available">NA</string>    
+    <string name="failed_test">失敗</string>
+    <string name="failed_test_short">F</string>
+
+    <!-- IMAGE DESCRIPTIONS -->
+    <string name="description_icon_clock">An image representing a clock</string>
+    <string name="description_wifi_icon">An icon representing a wifi signal</string>
+    <string name="description_icon_chart">Icon representing a chart</string>
+    <string name="description_image_connectivity_type">Image representing the connectivity type</string>
+    <string name="description_icon_download">This icon represents the download result</string>
+    <string name="description_icon_upload">This icon represents the upload result</string>
+    <string name="description_image_eaq_logo">Image with the SamKnows logo</string>
+
+    <!-- UNITS -->
+    <string name="units_Mbps">Mbps</string>
+    <string name="units_ms">ms</string>
+    <string name="units_s">s</string>
+    <string name="units_percent">%</string>
+
+    <!-- PASSIVE METRICS DETAILS -->
+    <!-- Sim and Network operators -->
+    <string name="sim_and_network_operators">Sim and Network Operators</string>
+    <string name="sim_operator">Sim Operator</string>
+    <string name="sim_operator_code">Sim Operator Code</string>
+    <string name="network_operator">Network Operator</string>
+    <string name="network_operator_code">Network Operator Code</string>
+    <string name="roaming_status">Roaming Status</string>
+
+    <!-- Signal Details -->
+    <string name="cell_tower_id">Cell Tower ID</string>
+    <string name="cell_tower_area_location_code">Cell Tower Area Location Code</string>
+    <string name="signal">Signal</string>
+    <string name="signal_strength">Signal Strength</string>
+    <string name="bearer">Bearer</string>
+
+    <!-- Device details -->
+    <string name="device">Device</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model">Model</string>
+    <string name="os">OS</string>
+    <string name="os_version">OS version</string>
+    <string name="phone_type">Phone Type</string>
+
+    <!-- Position -->
+    <string name="location">Location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="accuracy">Accuracy</string>
+    <string name="location_provider">Location Provider</string>
+
+    <!-- TOOLS TEXT -->
+    <string name="tools_text_value_date">"4/4/2014"</string>
+    <string name="tools_text_value_average_download">"3"</string>
+    <string name="tools_text_value_average_upload">"1"</string>
+    <string name="tools_text_value_average_latency">"3"</string>
+    <string name="tools_text_value_average_packet_loss">"3"</string>
+    <string name="tools_text_value_average_jitter">"2"</string>
+
+    <string name="tools_text_value_best_download">"4"</string>
+    <string name="tools_text_value_best_upload">"2"</string>
+    <string name="tools_text_value_best_latency">"1"</string>
+    <string name="tools_text_value_best_packet_loss">"1"</string>
+    <string name="tools_text_value_best_jitter">"1"</string>
+
+    <string name="tools_text_value_sim_operator_code">"23410"</string>
+    <string name="tools_text_value_network_operator_code">"23410"</string>
+    <string name="tools_text_value_roaming_status">"off"</string>
+    <string name="tools_text_value_cell_tower_id">1260999</string>
+    <string name="tools_text_value_sim_operator">giffgaff</string>
+    <string name="tools_text_value_network_operator">giffgaff</string>
+    <string name="tools_text_value_cell_tower_area_location_code">22019</string>
+    <string name="tools_text_value_signal_strength">-89dB</string>
+    <string name="tools_text_value_bearer">HSPA+</string>
+    <string name="tools_text_value_manufacturer">LG</string>
+    <string name="tools_text_value_model">Nexus 5</string>
+    <string name="tools_text_value_os">Android</string>
+    <string name="tools_text_value_os_version">19</string>
+    <string name="tools_text_value_phone_type">GSM</string>
+    <string name="tools_text_value_latitude">51.41995</string>
+    <string name="tools_text_value_longitude">-0.17638</string>
+    <string name="tools_text_value_accuracy">13.0 m</string>
+    <string name="tools_text_value_location_provider">GPS</string>
+    <string name="tools_text_value_network_type">"Mobile Network"</string>
+
+    <!-- MESSAGES, WARNINGS -->
+    <string name="data_cap_warning_already_exceeded">Data cap exceeded</string>
+    <string name="data_cap_warning_might_be_exceeded">Data cap might be exceeded</string>
+    <string name="gauge_message_start">開始</string>
+    <string name="gauge_message_starting"></string>
+    <string name="advice_message_press_the_button">按 開始</string>
+    <string name="advice_message_press_the_button_run_again">Press the Start button to run again</string>
+    <string name="advice_message_running">運行測試中</string>
+    <string name="advice_message_stopping">正在停止中..</string>
+    <string name="label_message_ready_to_run">Ready to run</string>
+    <string name="label_message_tests_executed">Tests executed</string>
+    <string name="label_message_starting_tests">正在測試..</string>
+    <string name="label_message_download_test">下載測試</string>
+    <string name="label_message_upload_test">上載測試</string>
+    <string name="label_message_latency_loss_jitter_test">網絡時延 / 封包遺失 / 抖動</string>
+    <string name="no_internet_connection ">沒有連線</string>     
+    <string name="tests_running_title">Tests Running</string>
+    <string name="tests_running_message">我們建議你等待測試完成，你是否希望終止測試?</string>
+    
+    <!-- MENU ITEMS -->
+    <string name="menu_item_refresh">更新</string>
+    <string name="menu_item_select_network">Select Network</string>
+    <string name="menu_item_select_tests">Select Tests</string>
+    <string name="menu_item_share">Share</string>
+    
+    <!--  PAGE TITLES -->
+    <string name="title_test">運行</string>
+    <string name="title_history">紀錄</string>
+    <string name="title_summary">總結</string>
+
+    <!-- PASSIVE METRICS -->
+    <string name="pm_your_ip_label">你的IP</string>
+    <string name="pm_your_ip_example">89.105.103.193</string>
+    <string name="pm_reference_no_label">參考編號</string>
+    <string name="pm_reference_no_example">00e2145198fc49e1fd5587d0b57db66</string>
+    
+        
+    <string name="Initial_Warning_Text"></string>
+    
+</resources>
