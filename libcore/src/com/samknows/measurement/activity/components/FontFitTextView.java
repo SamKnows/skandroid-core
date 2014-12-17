@@ -4,7 +4,10 @@ import com.samknows.libcore.SKLogger;
 
 import android.content.Context;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,6 +19,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.RectF;
+import android.hardware.Camera.Size;
 import android.os.Build;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
@@ -155,8 +159,7 @@ public class FontFitTextView extends TextView {
 			r = Resources.getSystem();
 		else
 			r = c.getResources();
-		mMaxTextSize = TypedValue.applyDimension(unit, size,
-				r.getDisplayMetrics());
+		mMaxTextSize = TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
 		mTextCachedSizes.clear();
 		adjustTextSize(getText().toString());
 	}
@@ -314,4 +317,16 @@ public class FontFitTextView extends TextView {
 			reAdjust();
 		}
 	}
+
+//	// Enable the following if you want some green debug boxes drawn around your items!
+//	@Override
+//	protected void onDraw(Canvas canvas) {
+//		// TODO Auto-generated method stub
+//		super.onDraw(canvas);
+//	
+//		Paint paint = new Paint();
+//		paint.setColor(Color.GREEN);
+//		paint.setStyle(Style.STROKE);
+//		canvas.drawRect(new Rect(0,0,getWidth()-1, getHeight()-1), paint);
+//	}
 }

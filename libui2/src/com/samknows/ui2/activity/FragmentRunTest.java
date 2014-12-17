@@ -112,12 +112,13 @@ public class FragmentRunTest extends Fragment
 	private View initial_warning_text;
 	// Text views showing the test result labels
 	private TextView tv_Label_Download, tv_Label_Upload; //  tv_Label_Mbps_1, tv_Label_Mbps_2;
-	private FontFitTextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
+	private TextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
 	private TextView tv_TopTextNetworkType;
 	// Text views showing the test result information
-	private FontFitTextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
+	private TextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
 	private TextView tv_DownloadUnits, tv_UploadUnits;
-	private TextView tv_Result_Date;
+	private TextView tv_Result_DateDay;
+	private TextView tv_Result_DateTime;
 	// Text views showing the passive metric headers
 	private TextView tv_header_label_sim_and_network_operators, tv_header_label_signal, tv_header_label_device, tv_header_label_location;
 	// Text views showing the passive metric labels
@@ -149,8 +150,8 @@ public class FragmentRunTest extends Fragment
     public Handler testResultsHandler;				// Handler that listen for the test results
     private ScheduleConfig config;
 
-	private	FontFitTextView publicIp;
-	private	FontFitTextView submissionId;
+	private	TextView publicIp;
+	private	TextView submissionId;
 
     // *** FRAGMENT LIFECYCLE METHODS *** //
     // Called to have the fragment instantiate its user interface view.
@@ -463,9 +464,9 @@ public class FragmentRunTest extends Fragment
 		tv_result_accuracy = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_accuracy);
 		tv_result_provider = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_location_provider);
 	
-		publicIp = (FontFitTextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_your_ip_value);
+		publicIp = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_your_ip_value);
 		SKLogger.sAssert(getClass(), publicIp != null);
-		submissionId = (FontFitTextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_reference_number_value);
+		submissionId = (TextView)pView.findViewById(R.id.fragment_speed_test_passive_metric_result_reference_number_value);
 		SKLogger.sAssert(getClass(), submissionId != null);
 		publicIp.setText("");
 		submissionId.setText("");
@@ -577,27 +578,28 @@ public class FragmentRunTest extends Fragment
   		layout_ll_results.setClickable(false);
 		
 		// Elements in the results layout
-		tv_Result_Download = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemDownload);
+		tv_Result_Download = (TextView)pView.findViewById(R.id.archiveResultsListItemDownload);
 		tv_DownloadUnits = (TextView)pView.findViewById(R.id.mbps_label_1);
 		tv_Result_Download.setText(R.string.slash);
-		tv_Result_Upload = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemUpload);
+		tv_Result_Upload = (TextView)pView.findViewById(R.id.archiveResultsListItemUpload);
 		tv_UploadUnits = (TextView)pView.findViewById(R.id.mbps_label_2);
 		tv_Result_Upload.setText(R.string.slash);
-		tv_Result_Latency = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemLatency);
+		tv_Result_Latency = (TextView)pView.findViewById(R.id.archiveResultsListItemLatency);
 		tv_Result_Latency.setText(R.string.slash);
-		tv_Result_Packet_Loss = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemPacketLoss);
+		tv_Result_Packet_Loss = (TextView)pView.findViewById(R.id.archiveResultsListItemPacketLoss);
 		tv_Result_Packet_Loss.setText(R.string.slash);
-		tv_Result_Jitter = (FontFitTextView)pView.findViewById(R.id.archiveResultsListItemJitter);
+		tv_Result_Jitter = (TextView)pView.findViewById(R.id.archiveResultsListItemJitter);
 		tv_Result_Jitter.setText(R.string.slash);
 		
 		tv_Label_Download = (TextView)pView.findViewById(R.id.downloadLabel);
 		tv_Label_Upload = (TextView)pView.findViewById(R.id.uploadLabel);
-		tv_Label_Latency = (FontFitTextView)pView.findViewById(R.id.latency_label);
-		tv_Label_Loss = (FontFitTextView)pView.findViewById(R.id.loss_label);
-		tv_Label_Jitter = (FontFitTextView)pView.findViewById(R.id.jitter_label);
+		tv_Label_Latency = (TextView)pView.findViewById(R.id.latency_label);
+		tv_Label_Loss = (TextView)pView.findViewById(R.id.loss_label);
+		tv_Label_Jitter = (TextView)pView.findViewById(R.id.jitter_label);
 		//tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.mbps_label_1);
 		//tv_Label_Mbps_2 = (TextView)pView.findViewById(R.id.mbps_label_2);
-		tv_Result_Date = (TextView)pView.findViewById(R.id.archiveResultsListItemDate);
+		tv_Result_DateDay = (TextView)pView.findViewById(R.id.archiveResultsListItemDateDay);
+		tv_Result_DateTime = (TextView)pView.findViewById(R.id.archiveResultsListItemDateTime);
 
 		tv_TopTextNetworkType = (TextView)pView.findViewById(R.id.top_text_network_type_label);
 		tv_TopTextNetworkType.setText(""); // Clear this immediately, until we know what the network type is!
@@ -1488,9 +1490,11 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	testTime = System.currentTimeMillis();
     	//SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
     	//String currentDateandTime = sdf.format(new Date());
-        String currentDateandTime = new FormattedValues().getDate(testTime, "dd/MM/yy HH:mm");
+        String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yy");
+        String currentDateandTimeTime = new FormattedValues().getDate(testTime, "HH:mm:ss");
     	//tv_Result_Date.setText(currentDateandTime);    	
-		changeFadingTextViewValue(tv_Result_Date, currentDateandTime,0);	// Set the gauge main text to STARTING
+		changeFadingTextViewValue(tv_Result_DateDay, currentDateandTimeDay,0);	// Set the gauge main text to STARTING
+		changeFadingTextViewValue(tv_Result_DateTime, currentDateandTimeTime,0);	// Set the gauge main text to STARTING
     }
     
     /**
@@ -1851,7 +1855,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	changeFadingTextViewValue(tv_Result_Latency, getString(R.string.slash), 0);
     	changeFadingTextViewValue(tv_Result_Packet_Loss, getString(R.string.slash), 0);
     	changeFadingTextViewValue(tv_Result_Jitter, getString(R.string.slash), 0);
-    	changeFadingTextViewValue(tv_Result_Date, getString(R.string.slash), 0);
+    	changeFadingTextViewValue(tv_Result_DateDay, getString(R.string.slash), 0);
+    	changeFadingTextViewValue(tv_Result_DateTime, getString(R.string.slash), 0);
     }
 
     // *** MENUS *** //

@@ -54,8 +54,9 @@
 
         <TextView
             android:id="@+id/status_label_1"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+        android:gravity="center"
             android:text="@string/label_message_ready_to_run"
             android:textColor="@color/MainColourStatusText"
             android:textSize="@dimen/text_size_large"
@@ -63,17 +64,19 @@
 
         <TextView
             android:id="@+id/status_label_2"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+        android:gravity="center"
             android:text="@string/label_message_ready_to_run"
             android:textColor="@color/MainColourStatusText"
             android:textSize="@dimen/text_size_large"
             tools:visibility="visible" />
     </RelativeLayout>
 
-    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+    <com.samknows.measurement.activity.components.FontFitTextView
         android:id="@+id/press_the_start_button_label"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:layout_above="@id/status_label_layout_1"
         android:layout_centerHorizontal="true"

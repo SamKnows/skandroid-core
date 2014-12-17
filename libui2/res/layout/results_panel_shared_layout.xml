@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:padding="0dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -45,7 +46,7 @@
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/downloadLabel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:text="@string/download"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small" />
@@ -55,7 +56,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:orientation="vertical" >
 
                 <com.samknows.measurement.activity.components.FontFitTextView
@@ -64,9 +65,10 @@
                     android:layout_height="0dp"
                     android:layout_weight="70"
                     android:gravity="center_vertical"
+                    android:textStyle="bold"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_mega" />
+                    android:textSize="@dimen/text_size_peta" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/mbps_label_1"
@@ -105,7 +107,7 @@
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/uploadLabel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="top"
                     android:text="@string/upload"
                     android:textColor="@color/white"
@@ -116,7 +118,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:orientation="vertical" >
 
                 <com.samknows.measurement.activity.components.FontFitTextView
@@ -125,9 +127,10 @@
                     android:layout_height="0dp"
                     android:layout_weight="70"
                     android:gravity="center_vertical"
+                    android:textStyle="bold"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_mega" />
+                    android:textSize="@dimen/text_size_peta" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/mbps_label_2"
@@ -177,6 +180,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="left|center_vertical"
+                    android:textStyle="bold"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
                     android:text="@string/nineninenine"/>
@@ -205,6 +209,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="left|center_vertical"
+                    android:textStyle="bold"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
                     android:text="@string/nineninenine"/>
@@ -233,6 +238,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="left|center_vertical"
+                    android:textStyle="bold"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small_medium"
                     android:text="@string/nineninenine"/>
@@ -246,16 +252,33 @@
                 android:layout_weight="2"
                 android:layout_margin="@dimen/spacing_micro"
                 android:orientation="horizontal">
-
-                <com.samknows.measurement.activity.components.FontFitTextView
-                    android:id="@+id/archiveResultsListItemDate"
+                
+                <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="80"
-                    android:layout_height="fill_parent"
-                    android:gravity="left|center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_small"
-                    android:text="@string/dummydate"/>
+                    android:orientation="vertical" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/archiveResultsListItemDateDay"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/dummydateday"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/archiveResultsListItemDateTime"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/dummydatetime"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small" />
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/archiveResultsListItemNetworkType"

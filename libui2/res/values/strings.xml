@@ -10,7 +10,6 @@
     <string name="no_results_for_period_and_network">There are no results</string>
     
     <!-- FRAGMENT RUN TEST -->    
-    <string name="run">Run</string>
     <string name="running">Running</string>
     <string name="no_connectivity">Check out your connectivity</string>    
     <string name="slow_connectivity">Slow connectivity</string>
@@ -37,7 +36,9 @@
     <string name="slash">-</string>
     <string name="dummytext">dummy</string>
     <string name="nineninenine">999.99</string>
-    <string name="dummydate">4/3/12 9:35</string>
+    <string name="dummydate">19/12/14 12:35</string>
+    <string name="dummydateday">19/12/14</string>
+    <string name="dummydatetime">12:35:59</string>
     <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
 
     <!-- NETWORK TYPES -->
@@ -183,10 +184,10 @@
     <string name="advice_message_running">Running Tests</string>
     <string name="advice_message_stopping">Stopping…</string>
     <string name="label_message_ready_to_run">Ready to run</string>
-    <string name="label_message_tests_executed">Tests Executed</string>
-    <string name="label_message_starting_tests">Starting tests…</string>
-    <string name="label_message_download_test">Download test</string>
-    <string name="label_message_upload_test">Upload test</string>
+    <string name="label_message_tests_executed">Tests executed</string>
+    <string name="label_message_starting_tests">Target Selection</string>
+    <string name="label_message_download_test">Download testing</string>
+    <string name="label_message_upload_test">Upload testing</string>
     <string name="label_message_latency_loss_jitter_test">Latency / Loss / Jitter</string>
     <string name="no_internet_connection ">There is no internet connection</string>     
     <string name="tests_running_title">Tests Running</string>
@@ -199,6 +200,7 @@
     <string name="menu_item_share">Share</string>
     
     <!--  PAGE TITLES -->
+    <string name="title_test">Test</string>
     <string name="title_history">Results</string>
     <string name="title_summary">Summary</string>
 

@@ -139,5 +139,17 @@ public class SimpleFontFitTextView extends TextView {
 
     //Attributes
     private Paint mTestPaint;
+    
+//	// Enable the following if you want some yellow debug boxes drawn around your items!
+//	@Override
+//	protected void onDraw(Canvas canvas) {
+//		// TODO Auto-generated method stub
+//		super.onDraw(canvas);
+//	
+//		Paint paint = new Paint();
+//		paint.setColor(Color.CYAN);
+//		paint.setStyle(Style.STROKE);
+//		canvas.drawRect(new Rect(0,0,getWidth()-1, getHeight()-1), paint);
+//	}
 }
 

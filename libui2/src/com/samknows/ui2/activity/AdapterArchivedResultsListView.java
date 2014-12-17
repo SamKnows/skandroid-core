@@ -68,7 +68,8 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
         View rowView = inflater.inflate(R.layout.results_panel_shared_layout, parent, false);
 
         // Set up UI elements
-        TextView testDate = (TextView) rowView.findViewById(R.id.archiveResultsListItemDate);
+        TextView testDateDay = (TextView) rowView.findViewById(R.id.archiveResultsListItemDateDay);
+        TextView testDateTime = (TextView) rowView.findViewById(R.id.archiveResultsListItemDateTime);
         ImageView testNetworkType = (ImageView) rowView.findViewById(R.id.archiveResultsListItemNetworkType);
 
         TextView testDownload = (TextView) rowView.findViewById(R.id.archiveResultsListItemDownload);
@@ -115,7 +116,8 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
         	
         	// Set the test time
         	long resultDate = archivedResultsList.get(position).getDtime();
-            testDate.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "dd/MM/yy HH:mm") : rowView.getContext().getString(R.string.not_available));
+            testDateDay.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "dd/MM/yy") : rowView.getContext().getString(R.string.not_available));
+            testDateTime.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "HH:mm:ss") : rowView.getContext().getString(R.string.not_available));
             
             // Set the test network type icon
             eNetworkTypeResults resultNetworkType = archivedResultsList.get(position).getNetworkType();

@@ -96,7 +96,7 @@
                     android:layout_weight="4"
                     android:padding="1dp"
                     android:gravity="center"
-                    android:text="@string/run"
+                    android:text="@string/title_test"
                     android:textColor="@color/sam_knows_blue"
                     android:textSize="20sp" />
             </LinearLayout>
