@@ -87,7 +87,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="6"
                     android:background="@color/black"
-                    android:src="@drawable/ic_action_home" />
+                    android:src="@drawable/tab_test" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/main_Fragment_Toolbar_Button_Run_Text"
@@ -114,7 +114,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="6"
                     android:background="@color/black"
-                    android:src="@drawable/ic_action_list" />
+                    android:src="@drawable/tab_history" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/main_Fragment_Toolbar_Button_Results_Text"
@@ -141,7 +141,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="6"
                     android:background="@color/black"
-                    android:src="@drawable/ic_action_chart" />
+                    android:src="@drawable/tab_summary" />
 
                 <com.samknows.measurement.activity.components.FontFitTextView
                     android:id="@+id/main_Fragment_Toolbar_Button_Summary_Text"

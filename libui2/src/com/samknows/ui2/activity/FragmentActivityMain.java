@@ -379,13 +379,13 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	    	{
 	    		// Case first tab
 		    	case 0:
-					tab.setIcon(R.drawable.ic_action_home);							// Add the icon
+					tab.setIcon(R.drawable.tab_test);							// Add the icon
 					actionBar.addTab(tab.setTabListener(tabListener), 0, true);		// Add the tab and listener
 					break;
 				
 				// Case second tab
 		    	case 1:
-					tab.setIcon(R.drawable.ic_action_list);							// Add the icon
+					tab.setIcon(R.drawable.tab_history);							// Add the icon
 					actionBar.addTab(tab.setTabListener(tabListener), 1, false);	// Add the tab and listener
 					break;
 				

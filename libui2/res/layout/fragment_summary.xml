@@ -158,7 +158,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.30"
                         android:contentDescription="@string/description_icon_chart"
-                        android:src="@drawable/ic_action_chart" />
+                        android:src="@drawable/tab_summary" />
 
                     <LinearLayout
                         android:id="@+id/fragment_summary_download_ll_best"
@@ -276,7 +276,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.30"
                         android:contentDescription="@string/description_icon_chart"
-                        android:src="@drawable/ic_action_chart" />
+                        android:src="@drawable/tab_summary" />
 
                     <LinearLayout
                         android:id="@+id/fragment_summary_upload_ll_best"
@@ -387,7 +387,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.30"
                         android:contentDescription="@string/description_icon_chart"
-                        android:src="@drawable/ic_action_chart" />
+                        android:src="@drawable/tab_summary" />
 
                     <LinearLayout
                         android:id="@+id/fragment_summary_latency_ll_best"
@@ -495,7 +495,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.30"
                         android:contentDescription="@string/description_icon_chart"
-                        android:src="@drawable/ic_action_chart" />
+                        android:src="@drawable/tab_summary" />
 
                     <LinearLayout
                         android:id="@+id/fragment_summary_packet_loss_ll_best"
@@ -603,7 +603,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.30"
                         android:contentDescription="@string/description_icon_chart"
-                        android:src="@drawable/ic_action_chart" />
+                        android:src="@drawable/tab_summary" />
 
                     <LinearLayout
                         android:id="@+id/fragment_summary_jitter_ll_best"
