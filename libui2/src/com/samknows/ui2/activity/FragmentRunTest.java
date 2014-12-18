@@ -2021,6 +2021,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 				run_results_panel_frame_to_animate.animate().setDuration(300).y(dpToPx(8)).setInterpolator(new OvershootInterpolator(1.2f));
 				// Make the passive metrics layout visible
 				layout_ll_passive_metrics.animate().setDuration(300).alpha(1.0f);
+				layout_ll_passive_metrics.setVisibility(View.VISIBLE);
 			}
 		});
 	}
@@ -2061,6 +2062,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 						layout_layout_Shining_Labels.animate().setDuration(300).alpha(1.0f);
 						mUnitText.animate().setDuration(300).alpha(1.0f);
 						
+        				layout_ll_passive_metrics.setVisibility(View.GONE);
 						gaugeVisible = true;
 						
 						menuItem_ShareResult.setVisible(false);
