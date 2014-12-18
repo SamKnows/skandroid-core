@@ -322,8 +322,8 @@ public class FragmentSummary extends Fragment
 								layout_ll_summary_result_average_download.setGravity(Gravity.LEFT);
 								layout_ll_summary_result_best_download.setGravity(Gravity.RIGHT);
 								
-								tv_summary_result_average_download.setText(formattedValues.getFormattedSpeedValue(summaryResult.getAverage()));
-								tv_summary_result_best_download.setText(formattedValues.getFormattedSpeedValue(summaryResult.getMax()));
+								tv_summary_result_average_download.setText(formattedValues.sGet3DigitsNumber(summaryResult.getAverage()));
+								tv_summary_result_best_download.setText(formattedValues.sGet3DigitsNumber(summaryResult.getMax()));
 							}
 						});						
 						break;
@@ -339,8 +339,8 @@ public class FragmentSummary extends Fragment
 								layout_ll_summary_result_average_upload.setGravity(Gravity.LEFT);
 								layout_ll_summary_result_best_upload.setGravity(Gravity.RIGHT);
 								
-								tv_summary_result_average_upload.setText(formattedValues.getFormattedSpeedValue(summaryResult.getAverage()));
-								tv_summary_result_best_upload.setText(formattedValues.getFormattedSpeedValue(summaryResult.getMax()));
+								tv_summary_result_average_upload.setText(formattedValues.sGet3DigitsNumber(summaryResult.getAverage()));
+								tv_summary_result_best_upload.setText(formattedValues.sGet3DigitsNumber(summaryResult.getMax()));
 							}
 						});
 						break;
@@ -878,16 +878,16 @@ public class FragmentSummary extends Fragment
 		typeface_Roboto_Regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_regular.ttf");
 		
 		// Assign fonts the the layout text fields
-		tv_summary_result_average_download.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_best_download.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_average_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_best_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_average_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_best_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_average_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_best_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_average_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
-		tv_summary_result_best_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_average_download.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_best_download.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_average_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_best_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_average_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_best_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_average_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_best_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_average_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_summary_result_best_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
 		
 		((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
 		((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);

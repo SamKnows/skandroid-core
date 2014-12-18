@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 // A version of TextView that automatically scales-back the font size to fit the available space.
 // This does not always work as expected on real devices (usually fine on the Emulator), hence
-// we also have both SpeedFontFitTextView and FontFitTextView as alternatives.
+// we also have both LargeTextFontFitTextView and FontFitTextView as alternatives.
 
 public class SimpleFontFitTextView extends TextView {
 

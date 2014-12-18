@@ -473,8 +473,8 @@ public class FragmentRunTest extends Fragment
 
 		// Identify and hide the passive metrics layout
 		layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_ll_passive_metrics);
+    	layout_ll_passive_metrics.setVisibility(View.GONE);
     	layout_ll_passive_metrics.setAlpha(0.0f);
-    	
 		
 		// Now - what items to show?
 		LinearLayout ip_and_reference_metrics = (LinearLayout)pView.findViewById(R.id.ip_and_reference_metrics2);
@@ -834,7 +834,7 @@ Log.d(getClass().getName(), "gotResult for Download test ... at the end of the t
 								{
 									updateCurrentTestSpeedMbps(0.0);
 									gaugeView.setResult(0.0);
-									changeFadingTextViewValue(tv_Result_Download, String.valueOf(formattedValues.getFormattedSpeedValue(valueUnits.first)),0);																	
+									changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)),0);																	
 								}							
 								break;
 
@@ -857,7 +857,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 									updateCurrentTestSpeedMbps(0.0);
 									gaugeView.setResult(0.0);
 									
-									changeFadingTextViewValue(tv_Result_Upload, String.valueOf(formattedValues.getFormattedSpeedValue(valueUnits.first)),0);																	
+									changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)),0);																	
 								}							
 								break;
 

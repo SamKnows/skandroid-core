@@ -162,21 +162,21 @@ public class FormattedValues
 	 * 
 	 * @return
 	 */
-	public String getFormattedSpeedValue(float pValue)
+	static public String sGet3DigitsNumber(float pValue)
 	{
 		NumberFormat formatter = new DecimalFormat("00.0");
 		
-		if (pValue >= 100) 
+		if (pValue < 10)
 		{
-			formatter = new DecimalFormat("000");				
+			formatter = new DecimalFormat("0.00");				
 		}
-		else if (pValue >= 10)
+		else if (pValue < 100)
 		{
 			formatter = new DecimalFormat("00.0");				
 		}
-		else if (pValue >= 0)
+		else if (pValue >= 100) 
 		{
-			formatter = new DecimalFormat("0.00");				
+			formatter = new DecimalFormat("000");				
 		}
 		
 		return String.valueOf(formatter.format(pValue));

@@ -18,24 +18,24 @@ import android.widget.TextView;
 // To work around this, in a few cases we can use this class, which uses a custom onDraw
 // method to render the text such that it is not offset incorrectly!
 // At the moment, this is used only for displaying Upload/Download speed values, vertically
-// centered in their containers.
+// centered in their containers; and also in the Summary view screen!
 // Note that neither SimpleFontFitTextView or FontFitTextView behave exactly as required;
 // SimpleFontFitTextView shows the text mis-aligned (probably a native-layer bug on Samsung, as
 // it is fine in the Emulator), and FontFitTextView shows the text much
 // smaller that required (this could be because the that class calculates size having
 // mis-aligned the text down, not allowing correctly for the cut-off part of the text...?)
 
-public class SpeedFontFitTextView extends SimpleFontFitTextView {
+public class LargeTextFontFitTextView extends SimpleFontFitTextView {
 
-    public SpeedFontFitTextView(Context context, AttributeSet attrs, int defStyle) {
+    public LargeTextFontFitTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
     
-    public SpeedFontFitTextView(Context context, AttributeSet attrs) {
+    public LargeTextFontFitTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-  	public SpeedFontFitTextView(Context context) {
+  	public LargeTextFontFitTextView(Context context) {
         super(context);
     }
 

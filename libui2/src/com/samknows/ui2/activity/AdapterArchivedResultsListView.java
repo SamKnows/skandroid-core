@@ -72,9 +72,9 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
         TextView testDateTime = (TextView) rowView.findViewById(R.id.archiveResultsListItemDateTime);
         ImageView testNetworkType = (ImageView) rowView.findViewById(R.id.archiveResultsListItemNetworkType);
 
-        TextView testDownload = (TextView) rowView.findViewById(R.id.archiveResultsListItemDownload);
+        TextView tv_Result_Download = (TextView) rowView.findViewById(R.id.archiveResultsListItemDownload);
         TextView testDownloadUnits = (TextView) rowView.findViewById(R.id.mbps_label_1);
-        TextView testUpload = (TextView) rowView.findViewById(R.id.archiveResultsListItemUpload);
+        TextView tv_Result_Upload = (TextView) rowView.findViewById(R.id.archiveResultsListItemUpload);
         TextView testUploadUnits = (TextView) rowView.findViewById(R.id.mbps_label_2);
         TextView testLatency = (TextView) rowView.findViewById(R.id.archiveResultsListItemLatency);
         TextView testPacketLoss = (TextView) rowView.findViewById(R.id.archiveResultsListItemPacketLoss);
@@ -143,18 +143,18 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             
             if (downloadResult.equals("0"))
             {
-            	testDownload.setText(rowView.getContext().getString(R.string.slash));        	        				
+            	tv_Result_Download.setText(rowView.getContext().getString(R.string.slash));        	        				
     		}
             else if (downloadResult.equals("-1"))		// The test failed
             {
             	//testDownload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-            	testDownload.setText(rowView.getContext().getString(R.string.failed_test));            	
+            	tv_Result_Download.setText(rowView.getContext().getString(R.string.failed_test));            	
             	testDownloadUnits.setVisibility(View.INVISIBLE);
             }
             else		// The test was OK
             {
             	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(downloadResult);
-            	testDownload.setText(String.valueOf(valueUnits.first));
+				tv_Result_Download.setText(String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)));
             	testDownloadUnits.setText(valueUnits.second);
             }
             
@@ -163,18 +163,18 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
             
             if (uploadResult.equals("0"))
             {
-            	testUpload.setText(rowView.getContext().getString(R.string.slash));			
+            	tv_Result_Upload.setText(rowView.getContext().getString(R.string.slash));			
     		}
             else if (uploadResult.equals("-1"))
             {
             	//testUpload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-            	testUpload.setText(rowView.getContext().getString(R.string.failed_test));            	
+            	tv_Result_Upload.setText(rowView.getContext().getString(R.string.failed_test));            	
             	testUploadUnits.setVisibility(View.INVISIBLE);
     		}
             else		// The test was OK
             {
             	Pair<Float,String> valueUnits = FormattedValues.getFormattedSpeedValue(uploadResult);
-            	testUpload.setText(String.valueOf(valueUnits.first));
+				tv_Result_Upload.setText(String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)));
             	testUploadUnits.setText(valueUnits.second);
             }
             
