@@ -30,6 +30,9 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 // Based on http://stackoverflow.com/questions/16017165/auto-fit-textview-for-android
+// A version of TextView that automatically scales-back the font size to fit the available space.
+// This does not always work as expected, hence we also have both SimpleFontTextView and
+// SpeedFontFitTextView as alternatives.
 
 public class FontFitTextView extends TextView {
 	private interface SizeTester {

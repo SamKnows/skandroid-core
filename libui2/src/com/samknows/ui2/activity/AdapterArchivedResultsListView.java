@@ -103,6 +103,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
 //    	((TextView)rowView.findViewById(R.id.jitter_label)).setTypeface(robotoLightTypeFace);
 //
 //        testDate.setTypeface(robotoLightTypeFace); 
+    	// If we override the font, the text doesn't display with the correct alignment!
 //        testDownload.setTypeface(robotoCondensedTypeface);
 //        testUpload.setTypeface(robotoCondensedTypeface);
 //        testLatency.setTypeface(robotoCondensedTypeface);
@@ -116,7 +117,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult>
         	
         	// Set the test time
         	long resultDate = archivedResultsList.get(position).getDtime();
-            testDateDay.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "dd/MM/yy") : rowView.getContext().getString(R.string.not_available));
+            testDateDay.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "dd/MM/yyyy") : rowView.getContext().getString(R.string.not_available));
             testDateTime.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "HH:mm:ss") : rowView.getContext().getString(R.string.not_available));
             
             // Set the test network type icon

@@ -59,11 +59,12 @@
                 android:layout_weight="3"
                 android:orientation="vertical" >
 
-                <com.samknows.measurement.activity.components.FontFitTextView
+                <com.samknows.measurement.activity.components.SpeedFontFitTextView
                     android:id="@+id/archiveResultsListItemDownload"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="70"
+                    android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
                     android:text="@string/nineninenine"
@@ -121,11 +122,12 @@
                 android:layout_weight="3"
                 android:orientation="vertical" >
 
-                <com.samknows.measurement.activity.components.FontFitTextView
+                <com.samknows.measurement.activity.components.SpeedFontFitTextView
                     android:id="@+id/archiveResultsListItemUpload"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="70"
+                    android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
                     android:text="@string/nineninenine"

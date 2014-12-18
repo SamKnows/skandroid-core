@@ -1490,7 +1490,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	testTime = System.currentTimeMillis();
     	//SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
     	//String currentDateandTime = sdf.format(new Date());
-        String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yy");
+        String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yyyy");
         String currentDateandTimeTime = new FormattedValues().getDate(testTime, "HH:mm:ss");
     	//tv_Result_Date.setText(currentDateandTime);    	
 		changeFadingTextViewValue(tv_Result_DateDay, currentDateandTimeDay,0);	// Set the gauge main text to STARTING
