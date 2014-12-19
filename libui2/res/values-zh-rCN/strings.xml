@@ -2,7 +2,7 @@
 <resources>
     
     <!-- FRAGMENT ARCHIVED RESULTS -->
-    <string name="no_archived_results_yet">There are no results yet</string>
+    <string name="no_archived_results_yet">还未有结果</string>
     
     <!-- FRAGMENT SUMMARY -->
     <string name="average">平均</string>
@@ -81,6 +81,9 @@
     <string name="time_period_1_year">一年</string>
 
     <!-- ACTIVITY SHARE RESULT -->
+    <string name="share_image_using">Share image using...</string>
+    <string name="share_caption_mobile">流动电话</string>
+    <string name="share_caption_wifi">WiFi</string>
     <string name="network_performance_test">网络表现测试</string>
     <string name="download_speed">下载速度</string>
     <string name="upload_speed">上载速度</string>
@@ -179,14 +182,14 @@
     <string name="gauge_message_start">开始</string>
     <string name="gauge_message_starting"></string>
     <string name="advice_message_press_the_button">按 开始</string>
-    <string name="advice_message_press_the_button_run_again">Press the Start button to run again</string>
+    <string name="advice_message_press_the_button_run_again">按开始再进行测试</string>
     <string name="advice_message_running">运行测试中</string>
     <string name="advice_message_stopping">正在停止中..</string>
-    <string name="label_message_ready_to_run">Ready to run</string>
-    <string name="label_message_tests_executed">Tests executed</string>
-    <string name="label_message_starting_tests">正在测试..</string>
-    <string name="label_message_download_test">下载测试</string>
-    <string name="label_message_upload_test">上载测试</string>
+    <string name="label_message_ready_to_run">准备运行</string>
+    <string name="label_message_tests_executed">已执行测试</string>
+    <string name="label_message_starting_tests">选择目标</string>
+    <string name="label_message_download_test">下载测试中</string>
+    <string name="label_message_upload_test">上载测试中</string>
     <string name="label_message_latency_loss_jitter_test">网络时延 / 封包遗失 / 抖动</string>
     <string name="no_internet_connection ">没有连线</string>     
     <string name="tests_running_title">Tests Running</string>
@@ -199,8 +202,8 @@
     <string name="menu_item_share">Share</string>
     
     <!--  PAGE TITLES -->
-    <string name="title_test">运行</string>
-    <string name="title_history">纪录</string>
+    <string name="title_test">测试</string>
+    <string name="title_history">结果</string>
     <string name="title_summary">总结</string>
 
     <!-- PASSIVE METRICS -->

@@ -188,11 +188,11 @@ public class ActivityShareResult extends Activity
 		case 1:
 			SKLogger.sAssert(getClass(),  false);
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));	
-			tv_Connectivity_Result.setText(getString(R.string.wifi));
+			tv_Connectivity_Result.setText(getString(R.string.share_caption_wifi));
 			break;
 		case 2:
 			iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_mobile));
-			tv_Connectivity_Result.setText(getString(R.string.mobile));
+			tv_Connectivity_Result.setText(getString(R.string.share_caption_mobile));
 			break;
 		case 0:
 		default:

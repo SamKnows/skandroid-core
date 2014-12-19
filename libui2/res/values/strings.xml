@@ -81,6 +81,9 @@
     <string name="time_period_1_year">1 Year</string>
 
     <!-- ACTIVITY SHARE RESULT -->
+    <string name="share_image_using">Share image using...</string>
+    <string name="share_caption_mobile">Mobile</string>
+    <string name="share_caption_wifi">WiFi</string>
     <string name="network_performance_test">Network performance test</string>
     <string name="download_speed">Download Speed</string>
     <string name="upload_speed">Upload Speed</string>
