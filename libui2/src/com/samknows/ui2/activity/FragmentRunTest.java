@@ -378,7 +378,7 @@ public class FragmentRunTest extends Fragment
 				
 			} else {
 				
-				if (result) {
+				if (/*haha*/result) {
 					testsRunning = true;																		// Make it notice that tests are running
 					resetValueFields();																			// Set the value fields to a initial state
 					menuItem_SelectTests.setVisible(false);

@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
@@ -220,6 +221,7 @@ public class LatencyTest extends Test {
 		return infoString;
 	}
 
+	@Override
 	public String getHumanReadableResult() {
 		String ret = "";
 		if (testStatus.equals("FAIL")) {
@@ -229,28 +231,53 @@ public class LatencyTest extends Test {
 			int packetLoss = (int) (100 * (((float) sentPackets - recvPackets) / sentPackets)); 
 			
 			int jitter = (int) ((averageNanoseconds - minimumNanoseconds) / 1000000);
-			ret = String.format(
+			ret = String.format(Locale.UK,
 					"Latency is %d ms. Packet loss is %d %%. Jitter is %d ms",
 					(int) (averageNanoseconds / 1000000), packetLoss, jitter);
 		}
 		return ret;
 	}
 
-	@Override
-	public HumanReadable getHumanReadable() {
-		HumanReadable ret = new HumanReadable();
-		if (testStatus.equals("FAIL")) {
-			ret.testString = TEST_STRING.LATENCY_FAILED;
-		} else {
-			ret.testString = TEST_STRING.LATENCY_SUCCESS;
-			ret.values = new String[3];
-			ret.values[0] = "" + ((int) (averageNanoseconds / 1000000));
-			ret.values[1] = ""
-					+ ((int) (100 * (((float) sentPackets - recvPackets) / sentPackets)));
-			ret.values[2] = "" + ((int) ((averageNanoseconds - minimumNanoseconds) / 1000000));
-		}
-		return ret;
+	
+	private String[] formValuesArr(){
+		String[] values = new String[3];
+		values[0] = "" + ((int) (averageNanoseconds / 1000000));
+		values[1] = "" + ((int) (100 * (((float) sentPackets - recvPackets) / sentPackets)));
+		values[2] = "" + ((int) ((averageNanoseconds - minimumNanoseconds) / 1000000));
+
+		return values;
 	}
+	
+	@Override
+	public String getResultsAsString(){							/* New Human readable implementation */
+		if (testStatus.equals("FAIL")){
+			return "";
+		}else{
+			String[] values = formValuesArr();			
+			return String.format(Locale.UK, values[0], values[1], values[2]);
+		}		
+	}
+	@Override
+	public String getResultsAsString(String locale){			/* New Human readable implementation */
+		if (testStatus.equals("FAIL")){
+			return locale;
+		}else{
+			String[] values = formValuesArr();			
+			return String.format(locale, values[0], values[1], values[2]);
+		}		
+	}
+	@Override
+	public HashMap<String, String> getResultsAsHash(){
+		HashMap<String, String> ret = new HashMap<String, String>();
+		if (!testStatus.equals("FAIL")) {
+			String[] values = formValuesArr();
+			ret.put("latency", values[0]);
+			ret.put("packetloss", values[1]);
+			ret.put("jitter", values[2]);
+		}
+		return ret;		
+	}
+		
 
 	private void output() {
 		Map<String, Object> output = new HashMap<String, Object>();

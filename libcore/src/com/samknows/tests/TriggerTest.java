@@ -1,5 +1,7 @@
 package com.samknows.tests;
 
+import java.util.HashMap;
+
 public class TriggerTest extends Test {
 
 	@Override
@@ -173,13 +175,25 @@ public class TriggerTest extends Test {
 	}
 
 	@Override
-	public HumanReadable getHumanReadable() {
+	public String getStringID() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getStringID() {
+	public String getResultsAsString() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	@Override
+	public String getResultsAsString(String locale) {
+		// TODO Auto-generated method stub
+		return locale;
+	}
+
+	@Override
+	public HashMap<String, String> getResultsAsHash() {
 		// TODO Auto-generated method stub
 		return null;
 	}

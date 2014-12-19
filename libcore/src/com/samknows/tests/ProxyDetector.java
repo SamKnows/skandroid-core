@@ -8,18 +8,19 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProxyDetector extends Test{
-	
+
 	private static final String X_REMOTE_ADDR = "X-Remote-Addr";
 	private static final String HTTP_VIA = "Via";
 	private static final String X_FORWARDED_FOR = "X-Forwarded-For";
 	private static final String X_PROXY_DETECTOR = "X-Proxy-Detector";
-	
+
 	//OUTPUTFORMAT
 	//PROXYDETECTOR;<unix timestamp>;<OK|FAIL>;<target>;<target ip>;<x-remote-addr>;<http-via-ip>;<x-forwarded-ip>
 	private static final String TESTSTRING = "PROXYDETECTOR";
-	
+
 	private static final String checkHeader(String line, String header){
 		String ret = null;
 		if(line.toLowerCase().startsWith(header.toLowerCase())){
@@ -31,7 +32,7 @@ public class ProxyDetector extends Test{
 		return ret;
 	}
 	public ProxyDetector(){
-		
+
 	}
 	private void output(){
 		out.add(TESTSTRING);
@@ -48,7 +49,7 @@ public class ProxyDetector extends Test{
 		out.add(forwardedForIp);
 		setOutput(out.toArray(new String[1]));
 	}
-	
+
 	@Override
 	public void execute(){
 		try{
@@ -62,20 +63,20 @@ public class ProxyDetector extends Test{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			int returnCode = 0;
 			String line = reader.readLine();
-			
+
 			if( line != null && line.length() != 0 ){
 				int s = line.indexOf(' ');
 				int f = line.indexOf(' ', ++s);
 				returnCode = Integer.parseInt(line.substring(s, f));
 			}
-			
+
 			if(returnCode != 200){
 				success = false;
 				output();
-     			conn.close();
+				conn.close();
 				return;
 			}
-			
+
 			while ((line = reader.readLine()) != null){
 				String headerValue = checkHeader(line, X_PROXY_DETECTOR);
 				if(headerValue!= null && headerValue.equals("true")){
@@ -109,19 +110,19 @@ public class ProxyDetector extends Test{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String getHeaderRequest(){
 		String request = "GET /%s HTTP/1.1\r\nHost: %s \r\nACCEPT: */*\r\n\r\n";
 		return String.format(request, file, target);
 	}
-	
+
 	public boolean isProxyDetected(){
 		if(forwardedForIp.equals("NONE") && httpViaIp.equals("NONE")){
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean isSuccessful() {
 		return success;
@@ -150,7 +151,7 @@ public class ProxyDetector extends Test{
 	public int getProgress() {		
 		return 0;
 	}
-	
+
 	@Override
 	public boolean isReady() {
 		if(target.equals("")){
@@ -166,19 +167,19 @@ public class ProxyDetector extends Test{
 	public int getNetUsage() {
 		return 0;
 	}
-	
+
 	public void setPort(int p){
 		port = p;
 	}
-	
+
 	public void setTarget(String t){
 		target = t;
 	}
-	
+
 	public void setFile(String f){
 		file = f;
 	}
-	
+
 	ArrayList<String> out = new ArrayList<String>();
 	int port = 80;
 	private String targetIpAddress = "" ;
@@ -190,13 +191,21 @@ public class ProxyDetector extends Test{
 	private String file = "";
 
 	@Override
-	public HumanReadable getHumanReadable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
 	public String getStringID() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public String getResultsAsString() {
+		return "";
+	}
+	@Override
+	public String getResultsAsString(String locale) {
+		return locale;
+	}
+	@Override
+	public HashMap<String, String> getResultsAsHash() {
+		return null;
+	}
+
 }

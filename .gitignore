@@ -9,3 +9,6 @@ google_play_services_lib/bin
 facebook-android-sdk-3.0.2/facebook/gen
 libui2/bin
 libui2/gen
+libcore/bin/
+google_play_services_lib/gen/
+libcore/gen/

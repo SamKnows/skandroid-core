@@ -28,6 +28,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 import com.samknows.measurement.activity.components.UIUpdate;
+import com.samknows.measurement.environment.DCSData;
 import com.samknows.measurement.environment.LocationData;
 import com.samknows.measurement.environment.NetworkData;
 import com.samknows.measurement.environment.NetworkDataCollector;
@@ -39,7 +40,6 @@ import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
 import com.samknows.measurement.schedule.datacollection.LocationDataCollector;
 import com.samknows.measurement.storage.DBHelper;
-
 import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
@@ -101,7 +101,7 @@ public class TestExecutor {
 			return;
 		}
 		LocationType lastKnownLocationType = lastKnownPair.second;
-
+		
 		LocationData locationData = new LocationData(true, lastKnownLocation, lastKnownLocationType);
 
 		// The following should only ever return a List<JSONObject> containing one item!
@@ -116,12 +116,17 @@ public class TestExecutor {
 				// Overwrite the date/time fields...
 //				ResultsContainer resultsContainer = getResultsContainer();
 //				JSONObject theTest = resultsContainer.getJSONArrayForTestId(getInternalNameOfExecutingTest());
+				long timestamp = 0;
+				try{
+					timestamp = jsonResult.getLong(DCSData.JSON_TIMESTAMP);
+				}catch(Exception e){
+					int hahah = 1;
+				}
 				
-				long timestamp = jsonResult.getLong(LocationData.JSON_TIMESTAMP);
 				item.put("type", "location");
-				item.put(LocationData.JSON_TIMESTAMP, timestamp);
-				String datetime = jsonResult.getString(LocationData.JSON_DATETIME);
-				item.put(LocationData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
+				item.put(DCSData.JSON_TIMESTAMP, timestamp);
+				String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
+				item.put(DCSData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
 				
          		accumulatedNetworkTypeLocationMetrics.put(item);
 			} catch (JSONException e) {
@@ -146,10 +151,10 @@ public class TestExecutor {
 			JSONObject item = passiveMetrics.get(i);
 			try {
 				// Overwrite the date/time fields...
-				long timestamp = jsonResult.getLong(LocationData.JSON_TIMESTAMP);
-				item.put(LocationData.JSON_TIMESTAMP, timestamp);
-				String datetime = jsonResult.getString(LocationData.JSON_DATETIME);
-				item.put(LocationData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
+				long timestamp = jsonResult.getLong(DCSData.JSON_TIMESTAMP);
+				item.put(DCSData.JSON_TIMESTAMP, timestamp);
+				String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
+				item.put(DCSData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
 				
          		accumulatedNetworkTypeLocationMetrics.put(item);
 			} catch (JSONException e) {
@@ -328,6 +333,7 @@ public class TestExecutor {
 					
 					// TODO MPC - theJsonResult here, can be used to append the Accumulated results!
 					JSONObject jsonResult = executingTest.getJSONResult();
+					SKLogger.e("", jsonResult.toString());//TODO remove in production
 					sAddPassiveLocationMetricForTestResult(jsonResult);
 		         	sAddPassiveNetworkTypeMetricForTestResult(jsonResult);
 					rc.addTest(jsonResult);
@@ -358,17 +364,15 @@ public class TestExecutor {
 					}
 
 					if (result.isSuccess) {
-						tc.paramsManager.processOutParams(out,
-								td.outParamsDescription);
-						if (executingTest.getHumanReadable() != null) {
-							HashMap<String, String> last_values = executingTest
-									.getHumanReadable().getValues();
+						tc.paramsManager.processOutParams(out, td.outParamsDescription);
+
+
+						HashMap<String, String> last_values = executingTest.getResultsAsHash();
+						if( last_values != null ){
 							for (String key : last_values.keySet()) {
 								String value = last_values.get(key);
-								SKLogger.d(TestExecutor.class, "last_" + key
-										+ " " + value);
-								SK2AppSettings.getInstance().saveString(
-										"last_" + key, value);
+								SKLogger.d(TestExecutor.class, "last_" + key + " " + value);
+								SK2AppSettings.getInstance().saveString( "last_" + key, value);
 							}
 						}
 					}
@@ -433,12 +437,12 @@ public class TestExecutor {
 
 	}
 
-	public Test.HumanReadable getHumanReadable() {
+/*	public Test.HumanReadable getHumanReadable() {
 		if (executingTest == null) {
 			return null;
 		}
 		return executingTest.getHumanReadable();
-	}
+	}*/
 
 	public String getHumanReadableResult() {
 		if (executingTest != null) {

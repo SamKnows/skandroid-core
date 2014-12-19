@@ -57,7 +57,7 @@ public class SKConstants {
 	
 	public static final String TEST_RESULTS_TO_SUBMIT_FILE_NAME = "test_results_to_submit";
 	public static final String TEST_RESULTS_SUBMITTED_FILE_NAME = "test_results_submited";
-	public static final String SCHEDULE_CONFIG_FILE_NAME 		= "schedule_config";
+	public static final String SCHEDULE_CONFIG_FILE_NAME 		= "schedule_fcc";
 	public static final String EXECUTION_QUEUE_FILE_NAME 		= "execution_queue";
 	public static final String TEST_PARAMS_MANAGER_FILE_NAME 	= "test_params";
 	public static final String KEYS_FILE_NAME 					= "keys";

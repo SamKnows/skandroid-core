@@ -17,7 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-import android.util.Log;
+
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -101,7 +101,7 @@ public class OtherUtils {
 		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ rescheduleRTC time=" + time);
 
 		if (ScheduledTestExecutionQueue.sGetDebugOnlyForceBackgroundTestingToBeFrequent()) {
-			time = 5L * 60L * 1000L; Log.d(OtherUtils.class.getName(), "+++++DEBUG+++++ rescheduleRTC sGetDebugOnlyForceBackgroundTestingToBeFrequent forced time to time=" + time);
+			time = 5L * 60L * 1000L; SKLogger.d(OtherUtils.class.getName(), "+++++DEBUG+++++ rescheduleRTC sGetDebugOnlyForceBackgroundTestingToBeFrequent forced time to time=" + time);
 			SKLogger.sAssert(OtherUtils.class, false);
 		}
 
@@ -135,7 +135,7 @@ public class OtherUtils {
 		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ time immediately overridden (by) = checkRescheduleTime to " + time);
 
 		if (ScheduledTestExecutionQueue.sGetDebugOnlyForceBackgroundTestingToBeFrequent()) {
-			time = 5L * 60L * 1000L; Log.d(OtherUtils.class.getName(), "+++++DEBUG+++++ rescheduleWakeup sGetDebugOnlyForceBackgroundTestingToBeFrequent forced time to time=" + time);
+			time = 5L * 60L * 1000L; SKLogger.d(OtherUtils.class.getName(), "+++++DEBUG+++++ rescheduleWakeup sGetDebugOnlyForceBackgroundTestingToBeFrequent forced time to time=" + time);
 			SKLogger.sAssert(OtherUtils.class, false);
 		}
 

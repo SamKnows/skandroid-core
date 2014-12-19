@@ -668,14 +668,32 @@ public class ClosestTarget extends Test {
 		return ret;
 	}
 	
+//	@Override
+//	public HumanReadable getHumanReadable() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 	@Override
-	public HumanReadable getHumanReadable() {
+	public String getStringID() {
+		return TESTSTRING;
+	}
+	
+	@Override
+	public String getResultsAsString(String locale) {
+		// TODO Auto-generated method stub
+		return locale;
+	}
+
+	@Override
+	public HashMap<String, String> getResultsAsHash() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getStringID() {
-		return TESTSTRING;
+	public String getResultsAsString() {
+		// TODO Auto-generated method stub
+		return "";
 	}
 }

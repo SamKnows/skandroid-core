@@ -88,9 +88,9 @@ public class LocationData implements DCSData {
 		List<JSONObject> ret = new ArrayList<JSONObject>();
 		Map<String, Object> loc = new HashMap<String, Object>();
 		
-		loc.put(JSON_TYPE, mIsLastKnown ? JSON_LASTKNOWNLOCATION : JSON_LOCATION);
-		loc.put(JSON_TIMESTAMP, mLocation.getTime() / 1000);
-		loc.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mLocation.getTime())));
+		loc.put(DCSData.JSON_TYPE, mIsLastKnown ? JSON_LASTKNOWNLOCATION : JSON_LOCATION);
+		loc.put(DCSData.JSON_TIMESTAMP, mLocation.getTime() / 1000);
+		loc.put(DCSData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mLocation.getTime())));
 		loc.put(JSON_LOCATION_TYPE, mLocType + "");
 		loc.put(JSON_LATITUDE, mLocation.getLatitude());
 		loc.put(JSON_LONGITUDE, mLocation.getLongitude());

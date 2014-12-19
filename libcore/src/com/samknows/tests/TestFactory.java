@@ -27,6 +27,7 @@ public class TestFactory {
 	 */
 	private static final String DOWNSTREAM = "downStream";
 	private static final String UPSTREAM = "upStream";
+	private static final String UPLOADSTRATEGY = "strategy";
 
 	private static final String WARMUPMAXTIME = "warmupMaxTime";
 	private static final String WARMUPMAXBYTES = "warmupMaxBytes";
@@ -196,47 +197,67 @@ public class TestFactory {
 	}
 
 	private static HttpTest createHttpTest(String direction, List<Param> params) {
-		HttpTest ret = new HttpTest(direction);
+		HttpTest ret = HttpTest.getInstance(direction, params);
+		
+		/*boolean initialised = true;
+		
 		try {
 			for (Param curr : params) {
 				String param = curr.getName();
 				String value = curr.getValue();
 				if (Test.paramMatch(param, TARGET)) {
-					ret.setTarget(value);
+					HttpTest.setTarget(value);
 				} else if (Test.paramMatch(param, PORT)) {
-					ret.setPort(Integer.parseInt(value));
+					HttpTest.setPort(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, FILE)) {
-					ret.setFile(value);
+					HttpTest.setFile(value);
 				} else if (Test.paramMatch(param, WARMUPMAXTIME)) {
-					ret.setWarmupMaxTimeMicro(Integer.parseInt(value));
+					HttpTest.setWarmupMaxTimeMicro(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, WARMUPMAXBYTES)) {
-					ret.setWarmupMaxBytes(Integer.parseInt(value));
+					HttpTest.setWarmupMaxBytes(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, TRANSFERMAXTIME)) {
-					ret.setTransferMaxTimeMicro(Integer.parseInt(value));
+					HttpTest.setTransferMaxTimeMicro(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, TRANSFERMAXBYTES)) {
-					ret.setTransferMaxBytes(Integer.parseInt(value));
+					HttpTest.setTransferMaxBytes(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, NTHREADS)) {
-					ret.setNumberOfThreads(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, BUFFERSIZE)) {
-					ret.setBufferSize(Integer.parseInt(value));
+					HttpTest.setNumberOfThreads(Integer.parseInt(value));
+				} else if (Test.paramMatch(param, UPLOADSTRATEGY)){
+					HttpTest.setUploadStrategy(HttpTest.UploadStrategy.ACTIVE);
+				}else if (Test.paramMatch(param, BUFFERSIZE)) {
+					HttpTest.setDownloadBufferSize(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, SENDBUFFERSIZE)) {
-					ret.setSendBufferSize(Integer.parseInt(value));
+					HttpTest.setSocketBufferSize(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, RECEIVEBUFFERSIZE)) {
-					ret.setReceiveBufferSize(Integer.parseInt(value));
+					HttpTest.setReceiveBufferSize(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, SENDDATACHUNK)) {
-					ret.setSendDataChunk(Integer.parseInt(value));
+					HttpTest.setUploadBufferSize(Integer.parseInt(value));
 				} else if (Test.paramMatch(param, POSTDATALENGTH)) {
-					ret.setPostDataLenght(Integer.parseInt(value));
+					HttpTest.setPostDataLenght(Integer.parseInt(value));
 				} else {
 					SKLogger.sAssert(TestFactory.class, false);
-					ret = null;
+					initialised = false;
 					break;
 				}
 
 			}
 		} catch (NumberFormatException nfe) {
-			ret = null;
+			initialised = false;
 		}
+		
+		if ( !initialised )
+			return null;
+					
+		HttpTest ret = null;
+		if ( direction == DOWNSTREAM ){
+			ret = new DownloadTest();
+		}
+		else if ( direction == UPSTREAM ){
+			if (HttpTest.getUploadStrategy() == HttpTest.UploadStrategy.ACTIVE)
+				ret = new ActiveServerloadTest();
+			else
+				ret = new PassiveServerUploadTest();
+		}*/
+		
 		return ret;
 	}
 
