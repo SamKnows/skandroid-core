@@ -299,6 +299,10 @@ public class TestExecutor {
 					}
 				} else if (td.type.equals(TestFactory.LATENCY)) {
 					displayName = tc.getString(R.string.latency);
+				} else if (td.type.equals(TestFactory.DOWNSTREAMTHROUGHPUT)) {
+					displayName = tc.getString(R.string.download);
+				} else if (td.type.equals(TestFactory.UPSTREAMTHROUGHPUT)) {
+					displayName = tc.getString(R.string.upload);
 				}
 				
 				if (bShowNotification) {
