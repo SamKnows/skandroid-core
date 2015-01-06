@@ -262,4 +262,14 @@ public class SKApplication extends Application{
   // Used by the new app...
   public String mLastSubmissionId = "";
   public String mLastPublicIp = "";
+  
+  public double[] getDownloadSixSegmentMaxValues() {
+	double arrSegmentMinValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
+	return arrSegmentMinValues_Download;
+  }
+  
+  public double[] getUploadSixSegmentMaxValues() {
+	double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
+	return arrSegmentMaxValues_Upload;
+  }
 }
