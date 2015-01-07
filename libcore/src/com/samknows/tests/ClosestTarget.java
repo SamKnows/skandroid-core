@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -34,31 +35,38 @@ import com.samknows.tests.LatencyTest;
 
 public class ClosestTarget extends Test {
 	
-	private static final String VALUE_NOT_KNOWN = "-";
+	/*
+	 * constants for creating a ClosestTarget test
+	 */
+	private final String NUMBEROFPACKETS = "numberOfPackets";
+	private final String DELAYTIMEOUT = "delayTimeout";
+	private final String INTERPACKETTIME = "interPacketTime";
+		
+	private final static String VALUE_NOT_KNOWN = "-";
 
 	public static final String TESTSTRING = "CLOSESTTARGET";
 		
 	/*
 	 * Default values for the LatencyTest
 	 */
-	private static final int NPACKETS = 5;
-	private static final int INTERPACKETTIME = 1000000;
-	private static final int DELAYTIMEOUT = 2000000;
-	private static final int PORT = 6000;
+	private final int _NPACKETS = 5;
+	private final int _INTERPACKETTIME = 1000000;
+	private final int _DELAYTIMEOUT = 2000000;
+	private final int _PORT = 6000;
 
 	/*
 	 * Constraints for the test parameters This values are needed to avoid to
 	 * misconfigure the latency test and hence to make the test useless or worst
 	 * to get stuck with the closest target test execution
 	 */
-	private static final int NUMBEROFPACKETSMAX = 100;
-	private static final int NUMBEROFPACKETSMIN = 5;
-	private static final int INTERPACKETIMEMAX = 60000000;
-	private static final int INTERPACKETIMEMIN = 10000;
-	private static final int DELAYTIMEOUTMIN = 1000000;
-	private static final int DELAYTIMEOUTMAX = 5000000;
-	private static final int NUMBEROFTARGETSMAX = 50;
-	private static final int NUMBEROFTARGETSMIN = 2;
+	private final int NUMBEROFPACKETSMAX = 100;
+	private final int NUMBEROFPACKETSMIN = 5;
+	private final int INTERPACKETIMEMAX = 60000000;
+	private final int INTERPACKETIMEMIN = 10000;
+	private final int DELAYTIMEOUTMIN = 1000000;
+	private final int DELAYTIMEOUTMAX = 5000000;
+	private final int NUMBEROFTARGETSMAX = 50;
+	private final int NUMBEROFTARGETSMIN = 2;
 	
 	public static final String JSON_CLOSETTARGET = "closest_target";
 	public static final String JSON_IPCLOSESTTARGET = "ip_closest_target";
@@ -73,12 +81,21 @@ public class ClosestTarget extends Test {
 	//Used to collect the results from the individual LatencyTests as soon as the finish
 	public BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<LatencyTest.Result>();
 	
-	public ClosestTarget() {
+	//public ClosestTarget() {
+	//	synchronized (ClosestTarget.this) {	
+	//		sClosestTarget = "";
+	//	}
+	//}
+	
+	public ClosestTarget(List<Param> params) {
 		synchronized (ClosestTarget.this) {	
 			sClosestTarget = "";
+			setParams(params);
 		}
 	}
 
+	private boolean between(int x, int a, int b) {	return (x >= a && x <= b);	}
+	
 	@Override
 	public boolean isReady() {
 		if (!between(nPackets, NUMBEROFPACKETSMIN, NUMBEROFPACKETSMAX)) {
@@ -534,12 +551,12 @@ public class ClosestTarget extends Test {
 		Map<String, Object> output= new HashMap<String,Object>();
 		//string id
 		o.add(TESTSTRING);
-		output.put(Test.JSON_TYPE, TESTSTRING);
+		output.put(JsonData.JSON_TYPE, TESTSTRING);
 		//TIME
 		long time_stamp = unixTimeStamp();
 		o.add(time_stamp+"");
-		output.put(Test.JSON_TIMESTAMP, time_stamp);
-		output.put(Test.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp*1000)));
+		output.put(JsonData.JSON_TIMESTAMP, time_stamp);
+		output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp*1000)));
 		//status
 		boolean status = true;
 		if (closestTarget.equals(VALUE_NOT_KNOWN)) {
@@ -551,7 +568,7 @@ public class ClosestTarget extends Test {
 		}
 		
 		o.add(status ? "OK" : "FAIL");
-		output.put(Test.JSON_SUCCESS, status);
+		output.put(JsonData.JSON_SUCCESS, status);
 		//closest target - might be VALUE_NOT_KNOWN...
 		o.add(closestTarget);
 		output.put(JSON_CLOSETTARGET, closestTarget);
@@ -560,15 +577,15 @@ public class ClosestTarget extends Test {
 		output.put(JSON_IPCLOSESTTARGET, ipClosestTarget);
 		
 		setOutput(o.toArray(new String[1]));
-		setJSONOutput(output);
+		setJSONResult(output);
 	}
 
 	private Test[] latencyTests = null;
 	private ArrayList<String> targets = new ArrayList<String>();
-	private int nPackets = NPACKETS;
-	private int interPacketTime = INTERPACKETTIME;
-	private int delayTimeout = DELAYTIMEOUT;
-	private int port = PORT;
+	private int nPackets = _NPACKETS;
+	private int interPacketTime = _INTERPACKETTIME;
+	private int delayTimeout = _DELAYTIMEOUT;
+	private int port = _PORT;
 	private String closestTarget = VALUE_NOT_KNOWN;
 	boolean success = false;
 	private String ipClosestTarget = VALUE_NOT_KNOWN;
@@ -679,21 +696,35 @@ public class ClosestTarget extends Test {
 		return TESTSTRING;
 	}
 	
+	
 	@Override
-	public String getResultsAsString(String locale) {
-		// TODO Auto-generated method stub
-		return locale;
-	}
-
-	@Override
-	public HashMap<String, String> getResultsAsHash() {
+	public HashMap<String, String> getResults() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getResultsAsString() {
-		// TODO Auto-generated method stub
-		return "";
+
+	final private void setParams(List<Param> params) {
+		try {
+			for (Param param : params) {
+				String value = param.getValue();
+				if (param.contains( TARGET)) {
+					addTarget(value);
+				} else if (param.contains( PORT)) {
+					setPort(Integer.parseInt(value));
+				} else if (param.contains(NUMBEROFPACKETS)) {
+					setNumberOfDatagrams(Integer.parseInt(value));
+				} else if (param.contains(DELAYTIMEOUT)) {
+					setDelayTimeout(Integer.parseInt(value));
+				} else if (param.contains(INTERPACKETTIME)) {
+					setInterPacketTime(Integer.parseInt(value));
+				} else {
+					initialised = false;
+					break;
+				}
+			}
+		} catch (NumberFormatException nfe) {
+			initialised = false;
+		}
 	}
 }

@@ -147,6 +147,7 @@ public class TestDescription implements Serializable{
 	}
 	
 	public String getTypeString(){
-		return TestFactory.getTestString(type, params);
+		String hlp = TestFactory.getTestString(type, params);
+		return hlp;
 	}
 }

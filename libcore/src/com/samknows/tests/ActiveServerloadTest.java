@@ -4,43 +4,50 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import android.annotation.SuppressLint;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.test.TestExecutor;
 import com.samknows.measurement.util.OtherUtils;
 
 @SuppressLint("UseSparseArrays")
 public final class ActiveServerloadTest extends UploadTest {
+	private boolean bGotValidResponseFromServer = false;
+	//private boolean bReadThreadIsRunning = 		true;				/* True if thread from Server still running */
+
 	private AtomicInteger threadsCount = new AtomicInteger(0);
 
-	private AtomicLong bytesPerSecondTotal = new AtomicLong(0);
-	private AtomicLong bytesTransferTotal = new AtomicLong(0);
-	private AtomicLong bytesWarmUpTotal  = new AtomicLong(0);
-	private AtomicLong timeWarmUpTotal = new AtomicLong(0);
-	private AtomicLong timeTransferTotal = new  AtomicLong(0);
+	/* Server side metrics */
+	private AtomicLong serverBytesPerSecondTotal = new AtomicLong(0);
+	private AtomicLong serverBytesTransferTotal = new AtomicLong(0);
+	private AtomicLong serverBytesWarmUpTotal  = new AtomicLong(0);
+	private AtomicLong serverTimeWarmUpTotal = new AtomicLong(0);
+	private AtomicLong serverTimeTransferTotal = new  AtomicLong(0);
 
+	private AtomicLong runUpStartTime = new AtomicLong(0);
 
 	private long mSessionID = -1L;	
-	private HashMap<Integer, ServerInStreamThread> readThreads = new HashMap<Integer, ServerInStreamThread>();
+	//private HashMap<Integer, ServerInStreamThread> readThreads = new HashMap<Integer, ServerInStreamThread>();
 
-	public ActiveServerloadTest( ) {
-		super();
-		super.init();										/*TODO : check error state*/
+	public ActiveServerloadTest(List<Param> params){
+		super(params);
+		setSessionID();
+	}
 
+	private void setSessionID(){
 		Random sRandom = new Random();
 		mSessionID = sRandom.nextLong() & 0xffffffffL;
 		SKLogger.sAssert(getClass(), mSessionID >= 0);
 
-		SKLogger.d(TAG(this), "Session ID = " + mSessionID);//TODO remove in production
+		//SKLogger.d(TAG(this), "Session ID = " + mSessionID);//haha remove in production
 	}
-
 
 	private String formPostHeaderRequest(int numThreads, int threadIndex ) {
 		StringBuilder sb = new StringBuilder();
@@ -94,13 +101,11 @@ public final class ActiveServerloadTest extends UploadTest {
 		sb.append("\r\n");
 
 		String result = sb.toString();
-
-		SKLogger.d(TAG(this), "Request string: \n" + result);//TODO remove in production
+		//SKLogger.d(TAG(this), "<---    Thread  # " + getThreadIndex() + "    --->");
+		//SKLogger.d(TAG(this), "Request string: \n" + result);//haha remove in production
 		return result;
 	}
-	private void requestHeader(){				
-
-		OutputStream connOut = getOutputStream();
+	private void requestHeader(OutputStream connOut){
 		if( connOut != null){
 			PrintWriter writerOut = new PrintWriter(connOut, false);
 
@@ -109,117 +114,23 @@ public final class ActiveServerloadTest extends UploadTest {
 			writerOut.flush();
 		}
 	}
-	private class ServerInStreamThread extends Thread {		
 
-		//Socket mSocket = null;
-		InputStream mConnIn = null;
-		boolean mbIsCancelled = false;
-		int threadIndex = 0;
+	@Override
+	final protected boolean warmup(Socket socket, int threadIndex){
+		return true;
+	}
 
-		public void doStop() {
-			mbIsCancelled = true;
-		}
+	@Override
+	final protected boolean transfer(Socket socket, int threadIndex){
 
-		public boolean getIsCancelled() {
-			return mbIsCancelled;
-		}
-
-
-		public ServerInStreamThread( InputStream inConnIn, int threadIndex) {
-			super();
-
-			//mSocket = inSocket;
-			mConnIn = inConnIn;
-			this.threadIndex = threadIndex;
-		}
-
-		@Override
-		public void run() {
-
-			byte[] buffer = new byte[4000];
-
-			String response = new String();
-			int responseCode = 0;
-
-			for (;;) {
-				if (mbIsCancelled == true) {
-					SKLogger.d(TAG(this), "mbIsCancelled=true, stop the read thread");
-					break;
-				}
-
-				try {
-
-					int approxBytesAvailable = mConnIn.available();
-					if (approxBytesAvailable <= 0) {
-						// continue the for loop!
-						continue;
-					}
-
-					int bytes = mConnIn.read(buffer, 0, buffer.length-1);
-
-					if (bytes > 0) {
-						buffer[bytes] = '\0';
-						String bufferAsUtf8String = new String(buffer, "UTF-8");
-						response = bufferAsUtf8String;//.substring(0, bytes - 1);
-						SKLogger.d(TAG(this), "Server response: \n " + response);//TODO remove in production						
-
-						String[] items = response.split(" ");
-
-						if (items.length > 0) {
-							if (items[0].equals("HTTP/1.1")) {
-								if (items.length > 1) {
-									responseCode = Integer.valueOf(items[1]);
-									if ( (responseCode == 100) || // Continue
-											(responseCode == 200)    // OK
-											)
-									{
-										// OK!
-									} else {
-										SKLogger.d(TAG(this), "Error in response, code " + responseCode);
-										break;
-									}
-								}
-							}
-
-							// Have we got everything we need yet?
-							if (response.contains("SAMKNOWS_HTTP_REPLY")) {
-								// Got the header!
-								if (response.contains("MEASUR_SESSION")) {
-									// Assume we have the lot!
-									//SKLogger.d(TAG(this), "Got MEASUR_SESSION");
-									break;
-								}
-							}
-
-						}
-					}
-				} catch (SocketTimeoutException e) {
-					// Keep going!
-				} catch (IOException e) {
-					SKLogger.sAssert(getClass(),  false);
-					break;
-				}			
-			}
-
-			callOnStopOrCancel(response, responseCode);
-
-			mbIsCancelled = true;
-		}
-
-		public void callOnStopOrCancel(String responseString, int responseCode) {
-			// This must be overridden!
-			SKLogger.sAssert(getClass(),  false);
-		}
-	};
-	private int setReadThread(){
-		InputStream inputStream = getInputStream();
-
-		ServerInStreamThread readThread = new ServerInStreamThread(inputStream, getThreadIndex()) {
+		OutputStream connOut = getOutput(socket);
+		InputStream connIn = getInput(socket);															/* Get input stream */
+		ServerInStreamThread readThread = new ServerInStreamThread(connIn) {							/* Create the input stream info processing class */
 
 			@Override
 			public void callOnStopOrCancel(String responseString, int responseCode) {
 
-				SKLogger.d(TAG(this), "DEBUG: callOnStopOrCancel");
+				//SKLogger.d(TAG(this), "DEBUG: callOnStopOrCancel");//haha
 
 				//					synchronized(HttpTest.this) {
 				//						HttpTest.this.closeConnection(socket,  connIn,  connOut);
@@ -231,13 +142,13 @@ public final class ActiveServerloadTest extends UploadTest {
 				if ((responseCode != 100) && (responseCode != 200)) {
 					SKLogger.sAssert(getClass(), false);
 
-					SKLogger.d(TAG(this), "DEBUG: upload server did fail with error=" + responseCode);
+					//SKLogger.d(TAG(this), "DEBUG: upload server did fail with error=" + responseCode);//haha
 				} else {
-					if (responseCode == 100) {
-						SKLogger.d(TAG(this), "DEBUG: reponseCode=" + responseCode);
+				/*	if (responseCode == 100) {
+						//SKLogger.d(TAG(this), "DEBUG: reponseCode=" + responseCode);//haha
 					} else {
-						SKLogger.d(TAG(this), "DEBUG: reponseCode=" + responseCode + ", responseString=>>>" + responseString + "<<<");
-					}
+						//SKLogger.d(TAG(this), "DEBUG: reponseCode=" + responseCode + ", responseString=>>>" + responseString + "<<<");//haha
+					}*/
 
 					// Example
 					/*
@@ -280,7 +191,7 @@ public final class ActiveServerloadTest extends UploadTest {
 							// Locate the WARMUP_SESSION items.
 							// Locate the MEASURE_SESSION items.
 
-							SKLogger.e(TAG(this), item);//TODO haha
+							//SKLogger.e(TAG(this), item);//haha haha
 							if ( item.contains("WARMUP_SESSION")){
 								String[] warmUpItems = item.split(" ");
 								if( warmUpItems.length != 4 ){
@@ -312,7 +223,7 @@ public final class ActiveServerloadTest extends UploadTest {
 										SKLogger.sAssert(getClass(),  false);
 									} else {
 										bGotValidResponseFromServer = true;
-										SKLogger.d(TAG(this), "*** bGotValidResponseFromServer set to TRUE!");//TODO remove in production
+										//SKLogger.d(TAG(this), "*** bGotValidResponseFromServer set to TRUE!");//haha remove in production
 
 										transferBytes = Long.valueOf(transferItems[3]);
 										SKLogger.sAssert(getClass(), transferBytes > 0);
@@ -328,51 +239,51 @@ public final class ActiveServerloadTest extends UploadTest {
 					if (bGotValidResponseFromServer == true)
 					{
 						threadsCount.addAndGet(1);
-						bytesPerSecondTotal.addAndGet(transferBytesPerSecond);
-						bytesTransferTotal.addAndGet(transferBytes);
-						bytesWarmUpTotal.addAndGet(warmUpBytes);
-						timeTransferTotal.addAndGet((long)(transfernSecTime / 1000.0));
-						timeWarmUpTotal.addAndGet((long)(warmupnSecTime / 1000.0));
+						serverBytesPerSecondTotal.addAndGet(transferBytesPerSecond);
+						serverBytesTransferTotal.addAndGet(transferBytes);
+						serverBytesWarmUpTotal.addAndGet(warmUpBytes);
+						serverTimeTransferTotal.addAndGet((long)(transfernSecTime / 1000.0));
+						serverTimeWarmUpTotal.addAndGet((long)(warmupnSecTime / 1000.0));
 
 
-						SKLogger.d(TAG(this), "DEBUG: BYTES CALCULATED FROM SERVER, PER SECOND = " + transferBytesPerSecond);//TODO remove in production
+						//SKLogger.d(TAG(this), "DEBUG: BYTES CALCULATED FROM SERVER, PER SECOND = " + transferBytesPerSecond);//haha remove in production
 						bitrateMpbs1024Based = OtherUtils.sConvertBytesPerSecondToMbps1024Based(transferBytesPerSecond);
-						SKLogger.d(TAG(this), "DEBUG: bitsPerSecond CALCULATED FROM SERVER = " + OtherUtils.sBitrateMbps1024BasedToString(bitrateMpbs1024Based));
+						//SKLogger.d(TAG(this), "DEBUG: bitsPerSecond CALCULATED FROM SERVER = " + OtherUtils.sBitrateMbps1024BasedToString(bitrateMpbs1024Based));
 					}
 				}
-				SKLogger.d(TAG(this), "Closing thread 'INPUT FROM SERVER' ("+ threadIndex +") at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//TODO remove in production
-				bReadThreadIsRunning = false;
+				//SKLogger.d(TAG(this), "Closing thread 'INPUT FROM SERVER' at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//haha remove in production
+				//bReadThreadIsRunning = false;
 			}
 		};
 
-		requestHeader();										/* inform Server about this connection parameters */
+		requestHeader(connOut);																				/* inform Server about this connection parameters */
 
-		readThreads.put(this.getThreadIndex(), readThread);		/* Memorize this input thread */
+	//	readThreads.put(getThreadIndex(), readThread);														/* Memorize this input thread */
 
-		SKLogger.d(TAG(this), "Starting thread 'INPUT FROM SERVER at ' " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//TODO remove in production
+		//SKLogger.d(TAG(this), "Starting thread "+ threadIndex + " 'INPUT FROM SERVER at ' " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//haha remove in production
 
 		try{
-			readThread.start();									/* Start input thread */
+			readThread.start();																			/* Start input thread */
 		}
 		catch(Exception io){
-			SKLogger.d(TAG(this), "Thread 'INPUT FROM SERVER has already started " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//TODO remove in production
-			return 1;
+			//SKLogger.d(TAG(this), "Thread 'INPUT FROM SERVER has already started " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//haha remove in production
+			return false;
 		}
-		return 0;
-	}
 
-	@Override
-	final protected boolean runUp(){
-		SKLogger.d(TAG(this), "Starting thread 'UPLOAD TO SERVER at ' " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//TODO remove in production
-		//
-		// Send the ACTUAL TEST data!
-		//
+		try {
+			while(!readThread.getSemaphoreState()){}													/* Wait until input thread issues OK to "proceed" */
+		} catch (InterruptedException e) {
+			//SKLogger.d(TAG(this), "Error in receiving message from thread");//haha
+			return false;
+		}
+
+		//SKLogger.d(TAG(this), "Starting thread " + threadIndex + " 'UPLOAD TO SERVER at ' " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//haha remove in production
 
 		boolean isTransferDone = false;
-		long waitUntilTime = 0;
-		long waitFromTime = 0;
+		long waitUntilTime = 0;															/* Safeguard if read fails to return properly */
+//		long waitFromTime = 0;
 
-		long bytesTransferredInThisThread = 0L;												/* bytes transferred by this thread */
+		long bytesTransferredInThisThread = 0L;											/* bytes transferred by this thread */
 		long timeElapsedSinceLastExternalMonitorUpdate = 0;
 
 		long currentTime = sGetMicroTime();
@@ -380,10 +291,17 @@ public final class ActiveServerloadTest extends UploadTest {
 			runUpStartTime.set(currentTime);											/* Memorize time when process starts */	
 
 		waitUntilTime = currentTime + mTransferMaxTimeMicro + 1;
-		waitFromTime = currentTime;
+	//	waitFromTime = currentTime;
 
-		ServerInStreamThread readThread = readThreads.get(getThreadIndex());
-		OutputStream connOut = getOutputStream();
+	
+		if ( connOut == null) {
+			closeConnection(socket);
+			SKLogger.sAssert(getClass(),  false);
+			//SKLogger.e(TAG(this), "Error in setting up output stream, exiting... thread: " + threadIndex);//haha
+			return false;
+		}
+
+
 		for (;;) {//do while suits us better???
 			long timeElapsed = sGetMicroTime() - runUpStartTime.get();
 
@@ -401,20 +319,21 @@ public final class ActiveServerloadTest extends UploadTest {
 				SKLogger.sAssert(getClass(), false);
 				error.set(true);
 				// And break out of the loop....
+				//sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "ActiveUpload", Callable<Integer> transferSpeed );
 				sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes( )/(timeElapsed / 1000000.0))  , "Upload write exception");
-				SKLogger.d(TAG(this), "Upload write exception");		//TODO remove this later
+				//SKLogger.d(TAG(this), "Upload write exception");		//haha remove this later
 				break;
 			}
 
 			long updateTime = 0;
 			updateTime = timeElapsedSinceLastExternalMonitorUpdate == 0 ? 1000000 : /*40000*/500000;
-			if( timeElapsed - timeElapsedSinceLastExternalMonitorUpdate > updateTime/*uSec*/ ){													/* should be triggered 25 times a second after the 1st second */
-				sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes( )/(timeElapsed / 1000000.0))  , "Normal upload cycle");		/* update speed parameter + indicative ID */
+			if( timeElapsed - timeElapsedSinceLastExternalMonitorUpdate > updateTime/*uSec*/ ){																					/* should be triggered 25 times a second after the 1st second */
+				sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes( )/((sGetMicroTime() - runUpStartTime.get()) / 1000000.0))  , "Normal upload cycle");		/* update speed parameter + indicative ID */
 
 				timeElapsedSinceLastExternalMonitorUpdate = timeElapsed;
-				SKLogger.d(TAG(this), "External Monitor updated at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) + 
-						" as " +  (super.getTotalTransferBytes( )/(timeElapsed / 1000000.0)) +
-						" thread: " + getThreadIndex());//TODO remove in production
+//				SKLogger.d(TAG(this), "External Monitor updated at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) + 
+//						" as " +  (super.getTotalTransferBytes( )/(timeElapsed / 1000000.0)) +
+//						" thread: " + threadIndex);//haha remove in production
 			}
 
 
@@ -425,12 +344,12 @@ public final class ActiveServerloadTest extends UploadTest {
 
 
 			if (mTransferMaxBytes > 0) {
-				if (getTotalWarmUpBytes() + super.getTotalTransferBytes() > mTransferMaxBytes) {					/* we transferred more bytes that was initially allowed */
+				if (super.getTotalWarmUpBytes() + super.getTotalTransferBytes() > mTransferMaxBytes) {					/* we transferred more bytes that was initially allowed */
 					isTransferDone = true;
 				}
 			}
 
-			if (getTotalTransferBytes() > 0) {																/* if we managed just to transfer something set status from parent class to OK */
+			if (super.getTotalTransferBytes() > 0) {																/* if we managed just to transfer something set status from parent class to OK */
 				testStatus = "OK";
 			}
 
@@ -442,7 +361,7 @@ public final class ActiveServerloadTest extends UploadTest {
 			// 1) the read thread tells us!
 			if ((readThread != null) && (readThread.getIsCancelled() == true)) {
 				sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes( )/(timeElapsed / 1000000.0)), "Server Read thread has stopped");
-				SKLogger.d(TAG(this), "Server Read thread has stopped");
+				//SKLogger.d(TAG(this), "Server Read thread has stopped");//haha
 				break;
 			}
 
@@ -451,21 +370,21 @@ public final class ActiveServerloadTest extends UploadTest {
 			if (readThread != null) {
 				// Server-based upload speed test in operation...
 				if (isTransferDone == true) {
-					if (sGetMilliTime() > waitUntilTime) {
-						SKLogger.d(TAG(this), "loop - break 5a, waituntiltime=" + waitUntilTime + ", waited for " + (sGetMilliTime() - waitFromTime) + " ms");
+					//SKLogger.d(TAG(this), "loop - break 5a, waituntiltime=" + waitUntilTime + ", waited for " + (sGetMilliTime() /*- waitFromTime*/) + " ms");//haha
+					if (sGetMicroTime() > waitUntilTime) {
+
 						break;
 					}
 				} else if (mTransferMaxBytes > 0) {
 					if (bytesTransferredInThisThread >= mTransferMaxBytes) {
 						sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes( )/(timeElapsed / 1000000.0)), "Upload5b, mTransferMaxBytes=" + mTransferMaxBytes);
-						SKLogger.d(TAG(this), "loop - break 5b");
+						//SKLogger.d(TAG(this), "loop - break 5b");//haha
 						break;
 					}
 				}
 			}
 			//SKLogger.d(TAG(this), "loop - continue 6 - actualBytesTransferred = " + actuallyTransferredBytes);
 		}//for(;;)
-
 
 		//
 		// To reach here, the (blocking) test is finished.
@@ -483,47 +402,47 @@ public final class ActiveServerloadTest extends UploadTest {
 				readThread.doStop();
 
 				// Once the read thread has completed, send our best known result.
-				while (bReadThreadIsRunning == true) {
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-						SKLogger.sAssert(getClass(), false);
-					}
-				}
+				//				while (bReadThreadIsRunning == true) {
+				//					try {
+				//						Thread.sleep(50);
+				//					} catch (InterruptedException e) {
+				//						SKLogger.sAssert(getClass(), false);
+				//					}
+				//				}
 			} 
 		}
 
-		int bytesPerSecondFinalMeasurement = getSpeedBytesPerSecond();
+		//int bytesPerSecondFinalMeasurement = getTransferBytesPerSecond();
 
-		sSetLatestSpeedForExternalMonitor(bytesPerSecondFinalMeasurement, "UploadEnd");
-		SKLogger.d(TAG(this), "Stopping thread 'UPLOAD TO SERVER' (" + this.getThreadIndex() +") at" + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//TODO remove in production
+		//sSetLatestSpeedForExternalMonitor(bytesPerSecondFinalMeasurement, "UploadEnd");
+		//SKLogger.d(TAG(this), "Stopping thread 'UPLOAD TO SERVER' (" + threadIndex +") at" + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) );//haha remove in production
 		return true;
 	}
 	@Override
-	public long getWarmUpTimeMicro(){
+	protected long getWarmUpTimeMicro(){
 		if (threadsCount.get() > 0) {
-			return (long)(timeWarmUpTotal.doubleValue() / threadsCount.get());
+			return (long)(serverTimeWarmUpTotal.doubleValue() / threadsCount.get());
 		}
 		return 0;
 	}
 	@Override
-	public long getTransferTimeMicro(){
+	protected long getTransferTimeMicro(){
 		if (threadsCount.get() > 0) {
-			return (long)(timeTransferTotal.doubleValue() / threadsCount.get());
+			return (long)(serverTimeTransferTotal.doubleValue() / threadsCount.get());
 		}
 		return 0;
 	}
 	@Override
-	public long getTotalWarmUpBytes(){
+	protected long getTotalWarmUpBytes(){
 		if (threadsCount.get() > 0) {
-			return (long)(bytesWarmUpTotal.doubleValue() / threadsCount.get());
+			return (long)(serverBytesWarmUpTotal.doubleValue() / threadsCount.get());
 		}
 		return 0;
 	}
 	@Override	
-	public long getTotalTransferBytes(){
+	protected long getTotalTransferBytes(){
 		if (threadsCount.get() > 0) {
-			return (long)(bytesTransferTotal.doubleValue() / threadsCount.get());
+			return (long)(serverBytesTransferTotal.doubleValue() / threadsCount.get());
 		}
 		return 0;
 
@@ -534,22 +453,137 @@ public final class ActiveServerloadTest extends UploadTest {
 		//setWarmUpTimeMicro((long)(  warmupnSecTime   / 1000.0));
 	}
 	@Override	
-	public int getSpeedBytesPerSecond() {
+	protected int getTransferBytesPerSecond() {
 		int res = 0;
 
 		if (threadsCount.get() > 0) {
-			long total = bytesPerSecondTotal.get();
+			long total = serverBytesPerSecondTotal.get();
 			double theResult = total / threadsCount.get();
 
-			SKLogger.d(TAG(this), "DEBUG: getSpeedBytesPerSecond, using SERVER value (result/thread count=" + threadsCount.get() + ") = " + (int)theResult);
+			//SKLogger.d(TAG(this), "DEBUG: getSpeedBytesPerSecond, using SERVER value (result/thread count=" + threadsCount.get() + ") = " + (int)theResult);//haha
 			return (int) theResult;
 		}
 		return res;
 	}
+
 	@Override
-	public void run() {
-		if ( setReadThread() == 0) 
-			runUp();
+	protected int getWarmupBytesPerSecond() {
+		//SKLogger.e(TAG(this), "getWarmupSpeedBytesPerSecond not implemented...");//haha
+		return 0;
 	}
 
+
+
+
+
+
+	/*------------------------------------ Private Class implementing read from server thread -----------------------------------------*/	
+	private class ServerInStreamThread extends Thread {		
+
+		private InputStream mConnIn = null;
+		private boolean mbIsCancelled = false;
+		private boolean semaphore = false;
+
+		private synchronized void startTransmit()
+				throws InterruptedException{
+			semaphore = true;
+			notify();
+		}
+
+		public synchronized boolean getSemaphoreState()
+				throws InterruptedException{
+					
+			while(!semaphore)
+				wait();
+			
+			notify();
+			return semaphore;
+		}
+
+		void doStop() 				{mbIsCancelled = true;}
+
+		boolean getIsCancelled() 	{return mbIsCancelled;}
+
+		ServerInStreamThread( InputStream inConnIn) {
+			super();
+			mConnIn = inConnIn;
+		}
+
+		@Override
+		public void run() {
+
+			byte[] buffer = new byte[4000];
+
+			String response = new String();
+			int responseCode = 0;
+
+			for (;;) {
+				if (mbIsCancelled == true) {
+					//SKLogger.d(TAG(this), "mbIsCancelled=true, stop the read thread");//haha
+					break;
+				}
+
+				try {
+
+					int bytes = mConnIn.read(buffer, 0, buffer.length-1);
+					//SKLogger.d(TAG(this), "Number of bytes read " + bytes);//haha
+
+					if (bytes > 0) {
+						buffer[bytes] = '\0';
+						String bufferAsUtf8String = (new String(buffer, "UTF-8")).substring(0, bytes);
+						response = bufferAsUtf8String;//.substring(0, bytes - 1);
+						//SKLogger.d(TAG(this), "Server response: thread " + response);//haha remove in production						
+
+						String[] items = response.split(" ");
+
+						if (items.length > 0) {
+							if (items[0].equals("HTTP/1.1")) {
+								if (items.length > 1) {
+									responseCode = Integer.valueOf(items[1]);
+									if ( (responseCode == 100) || /* Continue*/ (responseCode == 200)  /* OK */)
+									{
+										//SKLogger.d(TAG(this), "Got Continue");//haha remove in production
+										try {
+											startTransmit();
+										} catch (InterruptedException e) {
+											//SKLogger.d(TAG(this), "Error in sending message by thread ");//haha
+											break;
+										}
+									} else {
+										//SKLogger.d(TAG(this), "Error in response, code " + responseCode);//haha
+										break;
+									}
+								}
+							}
+
+							// Have we got everything we need yet?
+							if (response.contains("SAMKNOWS_HTTP_REPLY")) {
+								//SKLogger.d(TAG(this), "Got HEADER");//haha remove in production
+								if (response.contains("MEASUR_SESSION")) {
+									// Assume we have the lot!
+									//SKLogger.d(TAG(this), "Got MEASUR_SESSION");//haha remove in production
+									break;
+								}
+							}
+
+						}
+					}
+				} catch (SocketTimeoutException e) {
+					//SKLogger.d(TAG(this), e.getMessage());//haha remove in production
+				} catch (IOException e) {
+					SKLogger.sAssert(getClass(),  false);
+					break;
+				}			
+			}
+
+			callOnStopOrCancel(response, responseCode);
+
+			mbIsCancelled = true;
+		}
+
+		void callOnStopOrCancel(String responseString, int responseCode) {
+			// This must be overridden!
+			SKLogger.sAssert(getClass(),  false);
+		}
+	};	
 }

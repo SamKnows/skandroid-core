@@ -367,7 +367,7 @@ public class TestExecutor {
 						tc.paramsManager.processOutParams(out, td.outParamsDescription);
 
 
-						HashMap<String, String> last_values = executingTest.getResultsAsHash();
+						HashMap<String, String> last_values = executingTest.getResults();
 						if( last_values != null ){
 							for (String key : last_values.keySet()) {
 								String value = last_values.get(key);

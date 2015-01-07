@@ -32,8 +32,8 @@ import com.samknows.measurement.schedule.condition.DatacapCondition;
 import com.samknows.measurement.schedule.condition.NetActivityCondition;
 import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.HttpTest;
+import com.samknows.tests.JsonData;
 import com.samknows.tests.LatencyTest;
-import com.samknows.tests.Test;
 
 
 public class ExportFile {
@@ -55,11 +55,11 @@ public class ExportFile {
 	public static final String[] MAIN_FIELDS = {SK2AppSettings.JSON_UNIT_ID, SK2AppSettings.JSON_APP_VERSION_CODE, SK2AppSettings.JSON_APP_VERSION_NAME, SK2AppSettings.JSON_SCHEDULE_CONFIG_VERSION, SK2AppSettings.JSON_TIMEZONE, SK2AppSettings.JSON_TIMESTAMP, SK2AppSettings.JSON_DATETIME, SK2AppSettings.JSON_ENTERPRISE_ID, SK2AppSettings.JSON_SIMOPERATORCODE};
 	
 	//tests data
-	public static final String[] HTTP_FIELDS = {Test.JSON_TYPE, Test.JSON_TIMESTAMP, Test.JSON_DATETIME, Test.JSON_TARGET, Test.JSON_TARGET_IPADDRESS, Test.JSON_SUCCESS, 
-		HttpTest.JSON_TRANFERTIME, HttpTest.JSON_TRANFERBYTES, HttpTest.JSON_BYTES_SEC, HttpTest.JSON_WARMUPTIME, HttpTest.JSON_WARMUPBYTES, HttpTest.JSON_NUMBER_OF_THREADS};
-	public static final String[] LATENCY_FIELDS = {Test.JSON_TYPE, Test.JSON_TIMESTAMP, Test.JSON_DATETIME, Test.JSON_TARGET, Test.JSON_TARGET_IPADDRESS, Test.JSON_SUCCESS,
+	public static final String[] HTTP_FIELDS = {JsonData.JSON_TYPE, JsonData.JSON_TIMESTAMP, JsonData.JSON_DATETIME, JsonData.JSON_TARGET, JsonData.JSON_TARGET_IPADDRESS, JsonData.JSON_SUCCESS, 
+		JsonData.JSON_TRANFERTIME, JsonData.JSON_TRANFERBYTES, JsonData.JSON_BYTES_SEC, JsonData.JSON_WARMUPTIME, JsonData.JSON_WARMUPBYTES, JsonData.JSON_NUMBER_OF_THREADS};
+	public static final String[] LATENCY_FIELDS = {JsonData.JSON_TYPE, JsonData.JSON_TIMESTAMP, JsonData.JSON_DATETIME, JsonData.JSON_TARGET, JsonData.JSON_TARGET_IPADDRESS, JsonData.JSON_SUCCESS,
 		LatencyTest.JSON_RTT_AVG, LatencyTest.JSON_RTT_MIN, LatencyTest.JSON_RTT_MAX, LatencyTest.JSON_RTT_STDDEV, LatencyTest.JSON_RECEIVED_PACKETS, LatencyTest.JSON_LOST_PACKETS};
-	public static final String[] CLOSESTTARGET_FIELDS = {Test.JSON_TYPE, Test.JSON_TIMESTAMP, Test.JSON_DATETIME, Test.SUCCESS, ClosestTarget.JSON_CLOSETTARGET, ClosestTarget.JSON_IPCLOSESTTARGET};
+	public static final String[] CLOSESTTARGET_FIELDS = {JsonData.JSON_TYPE, JsonData.JSON_TIMESTAMP, JsonData.JSON_DATETIME, JsonData.JSON_SUCCESS, ClosestTarget.JSON_CLOSETTARGET, ClosestTarget.JSON_IPCLOSESTTARGET};
 	
 	//metrics data
 	public static final String[] LOCATION_FIELDS = {DCSData.JSON_TYPE, DCSData.JSON_TIMESTAMP, DCSData.JSON_DATETIME, LocationData.JSON_LOCATION_TYPE, LocationData.JSON_LATITUDE, LocationData.JSON_LONGITUDE, LocationData.JSON_ACCURACY};

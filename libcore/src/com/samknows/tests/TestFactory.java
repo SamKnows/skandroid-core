@@ -1,7 +1,8 @@
 package com.samknows.tests;
 
-import com.samknows.libcore.SKLogger;
+//import com.samknows.libcore.SKLogger;
 import com.samknows.tests.Param;
+import com.samknows.tests.HttpTest.UploadStrategy;
 
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -58,12 +59,12 @@ public class TestFactory {
 			PORT, NUMBEROFPACKETS, DELAYTIMEOUT, INTERPACKETTIME, PERCENTILE,
 			MAXTIME };
 
-	public static final String[] CLOSESTTARGETPARAMLIST = LATENCYTESTPARAMLIST;
+	//public static final String[] CLOSESTTARGETPARAMLIST = LATENCYTESTPARAMLIST;
 
 	public static Test create(List<Param> params) {
 		Param testType = null;
 		for (Param p : params) {
-			if (Test.paramMatch(p.getName(), TESTTYPE)) {
+			if (p.contains(TESTTYPE)) {
 				testType = p;
 			}
 		}
@@ -76,18 +77,18 @@ public class TestFactory {
 
 	public static String getTestString(String testType, List<Param> params){
 		String ret ="";
-		if(Test.paramMatch(testType, DOWNSTREAMTHROUGHPUT)){
+		if(testType.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)){
 			for(Param p: params){
 				
-				if(Test.paramMatch(p.getName(), NTHREADS))
+				if(p.contains(NTHREADS))
 					ret = Integer.parseInt(p.getValue()) == 1 ? HttpTest.DOWNSTREAMSINGLE : HttpTest.DOWNSTREAMMULTI; 
 			}
-		}else if(Test.paramMatch(testType, UPSTREAMTHROUGHPUT)){
+		}else if(testType.equalsIgnoreCase( UPSTREAMTHROUGHPUT)){
 			for(Param p: params){
-				if(Test.paramMatch(p.getName(), NTHREADS))
+				if(p.contains(NTHREADS))
 					ret = Integer.parseInt(p.getValue()) == 1 ? HttpTest.UPSTREAMSINGLE : HttpTest.UPSTREAMMULTI; 
 			}
-		}else if (Test.paramMatch(testType, LATENCY)){
+		}else if (testType.equalsIgnoreCase(LATENCY)){
 			ret = LatencyTest.STRING_ID;
 		}
 		return ret;
@@ -95,15 +96,15 @@ public class TestFactory {
 	
 	public static Test create(String testType, List<Param> params) {
 		Test ret = null;
-		if (Test.paramMatch(testType, DOWNSTREAMTHROUGHPUT)) {
+		if (testType.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)) {
 			ret = createHttpTest(DOWNSTREAM, params);
-		} else if (Test.paramMatch(testType, UPSTREAMTHROUGHPUT)) {
+		} else if (testType.equalsIgnoreCase( UPSTREAMTHROUGHPUT)) {
 			ret = createHttpTest(UPSTREAM, params);
-		} else if (Test.paramMatch(testType, LATENCY)) {
+		} else if (testType.equalsIgnoreCase(LATENCY)) {
 			ret = createLatencyTest(params);
-		} else if (Test.paramMatch(testType, CLOSESTTARGET)) {
+		} else if (testType.equalsIgnoreCase(CLOSESTTARGET)) {
 			ret = createClosestTarget(params);
-		} else if (Test.paramMatch(testType, PROXYDETECTOR)) {
+		} else if (testType.equalsIgnoreCase(PROXYDETECTOR)) {
 			ret = createProxyDetector(params);
 		}
 		if (ret != null) {
@@ -115,43 +116,19 @@ public class TestFactory {
 	}
 
 	public static ClosestTarget createClosestTarget(List<Param> params) {
-		ClosestTarget ret = new ClosestTarget();
-		try {
-			for (Param curr : params) {
-				String param = curr.getName();
-				String value = curr.getValue();
-				if (Test.paramMatch(param, TARGET)) {
-					ret.addTarget(value);
-				} else if (Test.paramMatch(param, PORT)) {
-					ret.setPort(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, NUMBEROFPACKETS)) {
-					ret.setNumberOfDatagrams(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, DELAYTIMEOUT)) {
-					ret.setDelayTimeout(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, INTERPACKETTIME)) {
-					ret.setInterPacketTime(Integer.parseInt(value));
-				} else {
-					ret = null;
-					break;
-				}
-			}
-		} catch (NumberFormatException nfe) {
-			ret = null;
-		}
-		return ret;
+		return new ClosestTarget(params);
 	}
 
 	private static ProxyDetector createProxyDetector(List<Param> params) {
 		ProxyDetector ret = new ProxyDetector();
 		try {
-			for (Param curr : params) {
-				String param = curr.getName();
-				String value = curr.getValue();
-				if (Test.paramMatch(param, TARGET)) {
+			for (Param param : params) {
+				String value = param.getValue();
+				if (param.contains(TARGET)) {
 					ret.setTarget(value);
-				} else if (Test.paramMatch(param, PORT)) {
+				} else if (param.contains( PORT)) {
 					ret.setPort(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, FILE)) {
+				} else if (param.contains( FILE)) {
 					ret.setFile(value);
 				} else {
 					ret = null;
@@ -164,26 +141,25 @@ public class TestFactory {
 		return ret;
 	}
 
-	private static LatencyTest createLatencyTest(List<Param> params) {
+	private static LatencyTest createLatencyTest(List<Param> params) {//TODO to complete
 		LatencyTest ret = new LatencyTest();
 
 		try {
-			for (Param curr : params) {
-				String param = curr.getName();
-				String value = curr.getValue();
-				if (Test.paramMatch(param, TARGET)) {
+			for (Param param : params) {
+				String value = param.getValue();
+				if (param.contains(TARGET)) {
 					ret.setTarget(value);
-				} else if (Test.paramMatch(param, PORT)) {
+				} else if (param.contains( PORT)) {
 					ret.setPort(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, NUMBEROFPACKETS)) {
+				} else if (param.contains( NUMBEROFPACKETS)) {
 					ret.setNumberOfDatagrams(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, DELAYTIMEOUT)) {
+				} else if (param.contains( DELAYTIMEOUT)) {
 					ret.setDelayTimeout(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, INTERPACKETTIME)) {
+				} else if (param.contains( INTERPACKETTIME)) {
 					ret.setInterPacketTime(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, PERCENTILE)) {
+				} else if (param.contains( PERCENTILE)) {
 					ret.setPercentile(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, MAXTIME)) {
+				} else if (param.contains( MAXTIME)) {
 					ret.setMaxExecutionTime(Long.parseLong(value));
 				} else {
 					ret = null;
@@ -197,68 +173,32 @@ public class TestFactory {
 	}
 
 	private static HttpTest createHttpTest(String direction, List<Param> params) {
-		HttpTest ret = HttpTest.getInstance(direction, params);
-		
-		/*boolean initialised = true;
-		
-		try {
-			for (Param curr : params) {
-				String param = curr.getName();
-				String value = curr.getValue();
-				if (Test.paramMatch(param, TARGET)) {
-					HttpTest.setTarget(value);
-				} else if (Test.paramMatch(param, PORT)) {
-					HttpTest.setPort(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, FILE)) {
-					HttpTest.setFile(value);
-				} else if (Test.paramMatch(param, WARMUPMAXTIME)) {
-					HttpTest.setWarmupMaxTimeMicro(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, WARMUPMAXBYTES)) {
-					HttpTest.setWarmupMaxBytes(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, TRANSFERMAXTIME)) {
-					HttpTest.setTransferMaxTimeMicro(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, TRANSFERMAXBYTES)) {
-					HttpTest.setTransferMaxBytes(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, NTHREADS)) {
-					HttpTest.setNumberOfThreads(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, UPLOADSTRATEGY)){
-					HttpTest.setUploadStrategy(HttpTest.UploadStrategy.ACTIVE);
-				}else if (Test.paramMatch(param, BUFFERSIZE)) {
-					HttpTest.setDownloadBufferSize(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, SENDBUFFERSIZE)) {
-					HttpTest.setSocketBufferSize(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, RECEIVEBUFFERSIZE)) {
-					HttpTest.setReceiveBufferSize(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, SENDDATACHUNK)) {
-					HttpTest.setUploadBufferSize(Integer.parseInt(value));
-				} else if (Test.paramMatch(param, POSTDATALENGTH)) {
-					HttpTest.setPostDataLenght(Integer.parseInt(value));
-				} else {
-					SKLogger.sAssert(TestFactory.class, false);
-					initialised = false;
-					break;
-				}
-
-			}
-		} catch (NumberFormatException nfe) {
-			initialised = false;
-		}
-		
-		if ( !initialised )
-			return null;
-					
-		HttpTest ret = null;
+		UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;
+		HttpTest result = null;
+	
 		if ( direction == DOWNSTREAM ){
-			ret = new DownloadTest();
+			result = new DownloadTest( params );
 		}
 		else if ( direction == UPSTREAM ){
-			if (HttpTest.getUploadStrategy() == HttpTest.UploadStrategy.ACTIVE)
-				ret = new ActiveServerloadTest();
-			else
-				ret = new PassiveServerUploadTest();
-		}*/
+			
+			for (Param param : params) {
+				if (param.contains(UPLOADSTRATEGY)){
+					uploadStrategyServerBased = UploadStrategy.ACTIVE;
+					break;
+				}
+			}
 		
-		return ret;
+			if ( uploadStrategyServerBased ==  UploadStrategy.ACTIVE )
+				result = new ActiveServerloadTest( params );
+			else
+				result = new PassiveServerUploadTest( params);
+		}
+		
+		if( result != null )
+			if (result.isReady())		
+				return result;
+		
+		return null;
 	}
 
 	public static final ArrayList<Param> testConfiguration(List<Param> allParam) {
@@ -304,6 +244,7 @@ public class TestFactory {
 		return ret;
 	}
 	
+	//TODO Refactor this
 	public static final long getMaxUsage(String type, List<Param> params){
 		long ret = 0;
 		if(type.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)|| type.equalsIgnoreCase(UPSTREAMTHROUGHPUT)){
@@ -314,6 +255,7 @@ public class TestFactory {
 		return ret;
 	}
 	
+	//TODO move to test
 	private static long getMaxUsageHttp(List<Param> params){
 		long ret = 0;
 		for(Param p:params){

@@ -5,7 +5,11 @@ import java.util.Locale;
 
 public class Param implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
+	public boolean contains(String name) {
+		return this.name.equalsIgnoreCase(name);
+	}
+
 	public Param(String name, String value){
 		this.name = name.toLowerCase(Locale.ENGLISH);
 		this.value = value;

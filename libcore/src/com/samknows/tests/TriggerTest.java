@@ -1,6 +1,7 @@
 package com.samknows.tests;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class TriggerTest extends Test {
 
@@ -180,21 +181,22 @@ public class TriggerTest extends Test {
 		return null;
 	}
 
-	@Override
+	/*@Override
 	public String getResultsAsString() {
 		// TODO Auto-generated method stub
 		return "";
 	}
 
 	@Override
-	public String getResultsAsString(String locale) {
+	public String getResults(String locale) {
 		// TODO Auto-generated method stub
 		return locale;
-	}
+	}*/
 
 	@Override
-	public HashMap<String, String> getResultsAsHash() {
+	public HashMap<String, String> getResults() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

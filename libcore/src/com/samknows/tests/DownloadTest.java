@@ -7,18 +7,24 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-
-import android.util.Log;
+import java.util.concurrent.Callable;
 
 import com.samknows.libcore.SKLogger;
 
 public final class DownloadTest extends HttpTest {
+	private byte[] buff = new byte[downloadBufferSize];
+	private int readBytes = 0;
+
+	public DownloadTest(List<Param> params){
+		super(_DOWNSTREAM, params);
+	}
+
 	private String[] formValuesArr(){
 		String[] values = new String[1];			
-		values[0] = String.format("%.2f", (getSpeedBytesPerSecond() * 8d / 1000000));
+		values[0] = String.format("%.2f", (getTransferBytesPerSecond() * 8d / 1000000));
 
 		return values;
 	}
@@ -62,96 +68,87 @@ public final class DownloadTest extends HttpTest {
 		}
 		return ret;
 	}
-	private void downloadTest(int threadIndex) {
 
-		OutputStream connOut = null;
-		InputStream connIn = null;
-		byte[] buff = new byte[downloadBufferSize];
-		int readBytes = 0;
+	private boolean transmit(Socket socket, int threadIndex, boolean isWarmup){
+		Callable<Integer> bytesPerSecond = null;																			/* Generic method returning the current average speed across all thread  since thread started */
+		Callable<Boolean> transmissionDone = null;																			/* Generic method returning the transmission state */
 
-		Socket socket = getSocket();
-	
-		if (socket != null) {
-
-			try {
-				int receiveBufferSizeBytes = socket.getReceiveBufferSize();
-				Log.d(TAG(this), "HttpTest: download: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
-			} catch (SocketException e1) {
+		if (isWarmup){																										/* If warmup mode is active */
+			bytesPerSecond = new Callable<Integer>(){ public Integer call() { return getWarmupBytesPerSecond();} };
+			transmissionDone = new Callable<Boolean>(){ public Boolean call() { return isWarmupDone(readBytes);} };
+			
+			sendHeaderRequest( socket );																					/* Send download request is the part of the warm up process */
+			if (error.get()) {																								/* Error relates to sendHeader procedure */
 				SKLogger.sAssert(getClass(),  false);
+				return false;
 			}
+		}
+		else{																												/* If transmission mode is active */
+			bytesPerSecond = new Callable<Integer>(){ public Integer call() { return getTransferBytesPerSecond();} };
+			transmissionDone = new Callable<Boolean>(){ public Boolean call() { return isTransferDone(readBytes);} };
+		}
+				
+		InputStream connIn = getInput(socket);
 
-			try {
-				connOut = socket.getOutputStream();
-				connIn = socket.getInputStream();
-				PrintWriter writerOut = new PrintWriter(connOut, false);
-				writerOut.print(getHeaderRequest());
-				writerOut.flush();
-				int httpResponse = readResponse(connIn);
-				if (httpResponse != HTTPOK) {
-					setErrorIfEmpty("Http response received: " + httpResponse);
-					error.set(true);
-				}
-			} catch (IOException io) {
+		if ( connIn == null) {
+			closeConnection(socket);
+			SKLogger.sAssert(getClass(),  false);
+			//hahaSKLogger.e(TAG(this), "Error in setting up input stream, exiting... thread: " + this.getThreadIndex());
+			return false;
+		}
+		
+		try {
+			do {
+				readBytes = connIn.read(buff, 0, buff.length);
+				sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "Download", bytesPerSecond);
+			} while (!transmissionDone.call());
+		} catch (Exception io) {
+			readBytes = BYTESREADERR;	
+			SKLogger.sAssert(getClass(),  false);
+			return false;
+		}
+		return true;
+	}
+		
+	private void sendHeaderRequest(Socket socket) {
+		InputStream connIn = getInput(socket);
+		OutputStream connOut = getOutput(socket);
+
+		if ( connOut == null || connIn == null) {
+			closeConnection(socket);
+			SKLogger.sAssert(getClass(),  false);
+			error.set(true);
+			//hahaSKLogger.e(TAG(this), "Error in setting up output stream, exiting... thread: " + getThreadIndex());
+			return;
+		}
+		
+		try {			
+			PrintWriter writerOut = new PrintWriter(connOut, false);
+			writerOut.print(getHeaderRequest());
+			writerOut.flush();
+			int httpResponse = readResponse(connIn);
+			if (httpResponse != HTTPOK) {
+				setErrorIfEmpty("Http response received: " + httpResponse);
 				error.set(true);
-				SKLogger.sAssert(getClass(),  false);
 			}
-		} else {
+		} catch (Exception io) {
 			error.set(true);
 			SKLogger.sAssert(getClass(),  false);
 		}
-		//waitForAllConnections();
-		if (error.get()) {
-			closeConnection(socket, connIn, connOut);
-			SKLogger.sAssert(getClass(),  false);
-			return;
-		}
-		// warmup, can be based on time constraint or data usage constraint
-		do {
-			try {
-				readBytes = connIn.read(buff, 0, buff.length);
-			} catch (IOException io) {
-				readBytes = BYTESREADERR;
-				error.set(true);
-				SKLogger.sAssert(getClass(), false);
-			}
-		} while (!isWarmupDone(readBytes)); // Download warmup...
-
-		if (error.get()) {
-			closeConnection(socket, connIn, connOut);
-			SKLogger.sAssert(getClass(),  false);
-			return;
-		}
-		do {
-			try {
-				readBytes = connIn.read(buff, 0, buff.length);
-			} catch (IOException io) {
-				readBytes = BYTESREADERR;
-				SKLogger.sAssert(getClass(),  false);
-			}
-
-			sSetLatestSpeedForExternalMonitor(getSpeedBytesPerSecond(),"Download");
-
-		} while (!isTransferDone(readBytes));
-
-		closeConnection(socket, connIn, connOut);
-
 	}
-
+	
 	@Override
-	int getSpeedBytesPerSecond() {
-		// If we have a figure from the upload server - then return the best average.
-		// Otherwise, return a value calculated by the client!
-
-		int bytesPerSecond = 0;
-		if (getTransferTimeMicro() != 0) {
-			double transferTimeSeconds = ((double) getTransferTimeMicro()) / 1000000.0;
-			
-			bytesPerSecond = (int) (((double)getTotalTransferBytes()) / transferTimeSeconds);
-		}
-
-		//Log.d(TAG(this), "DEBUG: getSpeedBytesPerSecond, using CLIENT value = " + bytesPerSecondFromClient);
-		return bytesPerSecond;
+	protected boolean transfer(Socket socket, int threadIndex) {
+		boolean isWarmup = false;
+		return transmit(socket, threadIndex, isWarmup);	
 	}
+	
+	@Override
+	protected boolean warmup(Socket socket, int threadIndex) {
+		boolean isWarmup = true;
+		return transmit(socket, threadIndex, isWarmup);	
+	}
+	
 	@Override
 	public String getStringID() {
 		String ret = "";
@@ -163,11 +160,7 @@ public final class DownloadTest extends HttpTest {
 		}
 		return ret;
 	}
-	@Override
-	public void run() {
-		int threadIndex = getThreadIndex();
-		downloadTest(threadIndex);
-	}
+
 	@Override
 	public String getHumanReadableResult() {
 		String ret = "";
@@ -176,30 +169,12 @@ public final class DownloadTest extends HttpTest {
 		if (testStatus.equals("FAIL")) {
 			ret = String.format("The %s has failed.", direction);
 		} else {
-			ret = String.format(Locale.UK, "The %s %s test achieved %.2f Mbps.", type,	direction, (getSpeedBytesPerSecond() * 8d / 1000000));
+			ret = String.format(Locale.UK, "The %s %s test achieved %.2f Mbps.", type,	direction, (getTransferBytesPerSecond() * 8d / 1000000));
 		}
 		return ret;
 	}
 	@Override
-	public String getResultsAsString(){							/* New Human readable implementation */
-		if (testStatus.equals("FAIL")){
-			return "";
-		}else{
-			String[] values = formValuesArr();			
-			return String.format(Locale.UK, values[0]);
-		}		
-	}
-	@Override
-	public String getResultsAsString(String locale){			/* New Human readable implementation */
-		if (testStatus.equals("FAIL")){
-			return locale;
-		}else{
-			String[] values = formValuesArr();			
-			return String.format(locale, values[0]);
-		}		
-	}
-	@Override
-	public HashMap<String, String> getResultsAsHash(){
+	public HashMap<String, String> getResults(){
 		HashMap<String, String> ret = new HashMap<String, String>();
 		if (!testStatus.equals("FAIL")) {
 			String[] values = formValuesArr();
@@ -212,5 +187,107 @@ public final class DownloadTest extends HttpTest {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }
+
+
+/*	@Override
+public String getResultsAsString(){							 New Human readable implementation 
+	if (testStatus.equals("FAIL")){
+		return "";
+	}else{
+		String[] values = formValuesArr();			
+		return String.format(Locale.UK, values[0]);
+	}		
+}*/
+/*@Override
+public String getResults(String locale){			 New Human readable implementation 
+	if (testStatus.equals("FAIL")){
+		return locale;
+	}else{
+		String[] values = formValuesArr();			
+		return String.format(locale, values[0]);
+	}		
+}*/
+
+
+
+//private void closeConnection(Socket s, InputStream i, OutputStream o) {
+//SKLogger.e(TAG(this), "closeConnection...");//TODO remove in production 
+//
+//if(i != null){
+//	try {
+//		i.close();
+//	} catch (IOException ioe) {
+//		SKLogger.sAssert(getClass(),  false);
+//	}
+//}
+//
+//if(o != null){
+//	try {
+//		o.close();
+//	} catch (IOException ioe) {
+//		SKLogger.sAssert(getClass(),  false);
+//	}
+//}
+//
+//if(s != null){
+//	try {
+//		s.close();
+//	} catch (IOException ioe) {
+//		SKLogger.sAssert(getClass(),  false);
+//	}
+//}
+//}
+
+
+
+
+//private void downloadTest(int threadIndex) {
+//
+//	OutputStream connOut = null;
+//	InputStream connIn = null;
+//	byte[] buff = new byte[downloadBufferSize];
+//	int readBytes = 0;
+//
+//	Socket socket = getSocket();
+//
+//	if (socket != null) {
+//
+//		try {
+//			int receiveBufferSizeBytes = socket.getReceiveBufferSize();
+//			SKLogger.e(TAG(this), "HttpTest: download: receiveBufferSizeBytes=" + receiveBufferSizeBytes);
+//		} catch (SocketException e1) {
+//			SKLogger.sAssert(getClass(),  false);
+//		}
+//
+//		try {
+//			connOut = socket.getOutputStream();
+//			connIn = socket.getInputStream();
+//			PrintWriter writerOut = new PrintWriter(connOut, false);
+//			writerOut.print(getHeaderRequest());
+//			writerOut.flush();
+//			int httpResponse = readResponse(connIn);
+//			if (httpResponse != HTTPOK) {
+//				setErrorIfEmpty("Http response received: " + httpResponse);
+//				error.set(true);
+//			}
+//		} catch (IOException io) {
+//			error.set(true);
+//			SKLogger.sAssert(getClass(),  false);
+//		}
+//	} else {
+//		error.set(true);
+//		SKLogger.sAssert(getClass(),  false);
+//	}
+//	//waitForAllConnections();
+//	if (error.get()) {
+//		closeConnection(socket, connIn, connOut);
+//		SKLogger.sAssert(getClass(),  false);
+//		return;
+//	}
+//	
+//	
+//
+//	closeConnection(socket, connIn, connOut);
+//
+//}

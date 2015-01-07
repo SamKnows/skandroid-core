@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProxyDetector extends Test{
 
@@ -195,17 +196,17 @@ public class ProxyDetector extends Test{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
+/*	@Override
 	public String getResultsAsString() {
 		return "";
 	}
 	@Override
-	public String getResultsAsString(String locale) {
+	public String getResults(String locale) {
 		return locale;
-	}
+	}*/
 	@Override
-	public HashMap<String, String> getResultsAsHash() {
+	public HashMap<String, String> getResults() {
 		return null;
 	}
-
+	
 }

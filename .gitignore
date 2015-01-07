@@ -12,3 +12,4 @@ libui2/gen
 libcore/bin/
 google_play_services_lib/gen/
 libcore/gen/
+libui2/.settings/org.eclipse.jdt.core.prefs

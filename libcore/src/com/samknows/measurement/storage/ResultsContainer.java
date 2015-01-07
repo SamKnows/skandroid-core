@@ -78,7 +78,7 @@ public class ResultsContainer {
 		mMetrics.addAll(metrics);
 	}
 
-	private int getNumberOfThreadsForHttpTestDescription(
+/*	private int getNumberOfThreadsForHttpTestDescription(
 			TestDescription testDescription) {
 		int numberOfThreads = 1;
 		for (Param curr : testDescription.params) {
@@ -90,7 +90,7 @@ public class ResultsContainer {
 			}
 		}
 		return numberOfThreads;
-	}
+	}*/
 	
 	public void addFailedCondition(String condition) {
 		mConditionBreaches.put(condition, condition);

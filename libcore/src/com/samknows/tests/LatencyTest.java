@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -248,26 +249,26 @@ public class LatencyTest extends Test {
 		return values;
 	}
 	
-	@Override
-	public String getResultsAsString(){							/* New Human readable implementation */
+/*	@Override
+	public String getResultsAsString(){							 New Human readable implementation 
 		if (testStatus.equals("FAIL")){
 			return "";
 		}else{
 			String[] values = formValuesArr();			
 			return String.format(Locale.UK, values[0], values[1], values[2]);
 		}		
-	}
-	@Override
-	public String getResultsAsString(String locale){			/* New Human readable implementation */
+	}*/
+	/*@Override
+	public String getResults(String locale){			 New Human readable implementation 
 		if (testStatus.equals("FAIL")){
 			return locale;
 		}else{
 			String[] values = formValuesArr();			
 			return String.format(locale, values[0], values[1], values[2]);
 		}		
-	}
+	}*/
 	@Override
-	public HashMap<String, String> getResultsAsHash(){
+	public HashMap<String, String> getResults(){
 		HashMap<String, String> ret = new HashMap<String, String>();
 		if (!testStatus.equals("FAIL")) {
 			String[] values = formValuesArr();
@@ -284,21 +285,21 @@ public class LatencyTest extends Test {
 		ArrayList<String> o = new ArrayList<String>();
 		// test string id
 		o.add(STRING_ID);
-		output.put(Test.JSON_TYPE, STRING_ID);
+		output.put(JsonData.JSON_TYPE, STRING_ID);
 		// time
 		Long time_stamp = unixTimeStamp();
 		o.add(Long.toString(time_stamp));
-		output.put(Test.JSON_TIMESTAMP, time_stamp);
-		output.put(Test.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp*1000)));
+		output.put(JsonData.JSON_TIMESTAMP, time_stamp);
+		output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp*1000)));
 		// test status
 		o.add(testStatus);
-		output.put(Test.JSON_SUCCESS, isSuccessful());
+		output.put(JsonData.JSON_SUCCESS, isSuccessful());
 		// target
 		o.add(target);
-		output.put(Test.JSON_TARGET, target);
+		output.put(JsonData.JSON_TARGET, target);
 		// target ipaddress
 		o.add(ipAddress);
-		output.put(Test.JSON_TARGET_IPADDRESS, ipAddress);
+		output.put(JsonData.JSON_TARGET_IPADDRESS, ipAddress);
 		// average
 		o.add(Long.toString(((long)(averageNanoseconds / 1000))));
 		output.put(JSON_RTT_AVG, (long) (averageNanoseconds / 1000));
@@ -319,7 +320,7 @@ public class LatencyTest extends Test {
 		o.add(Integer.toString(sentPackets - recvPackets));
 		output.put(JSON_LOST_PACKETS, sentPackets - recvPackets);
 		setOutput(o.toArray(new String[1]));
-		setJSONOutput(output);
+		setJSONResult(output);
 	}
 
 	@Override
@@ -564,4 +565,9 @@ public class LatencyTest extends Test {
 	private int interPacketTime = 0;
 	private long[] results = null;
 	private BlockingQueue<Result> bq_results = null;
+	
+	final private void setParams(List<Param> params) {
+		// TODO Auto-generated method stub
+		
+	}
 }
