@@ -81,7 +81,7 @@
     <string name="time_period_1_year">一年</string>
 
     <!-- ACTIVITY SHARE RESULT -->
-    <string name="share_image_using">Share image using...</string>
+    <string name="share_image_using">分享图像</string>
     <string name="share_caption_mobile">流动电话</string>
     <string name="share_caption_wifi">WiFi</string>
     <string name="network_performance_test">网络表现测试</string>

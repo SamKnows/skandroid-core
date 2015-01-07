@@ -316,7 +316,7 @@ public class FragmentRunTest extends Fragment
             					lastPolledSpeedValueMbps = value.first.doubleValue();
             					String message = String.valueOf(value);
             					updateCurrentTestSpeedMbps(value.first.doubleValue());										// Update the current result meter for download/upload
-            					gaugeView.setResult(value.first.doubleValue());					// Update the gauge colour indicator (in Megabytes)
+            					gaugeView.setAngleByValue(value.first.doubleValue());					// Update the gauge colour indicator (in Megabytes)
             					lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
             				}
             			}});
@@ -341,7 +341,7 @@ public class FragmentRunTest extends Fragment
         		{    			
             	    String message = intent.getStringExtra("currentLatencyValue");	// Get extra data included in the Intent
             	    updateCurrentLatencyValue(message);								// Update the current result meter for latency
-            	    gaugeView.setResult(Double.valueOf(message));					// Update the gauge colour indicator
+            	    gaugeView.setAngleByValue(Double.valueOf(message));					// Update the gauge colour indicator
             	    
             	    lastTimeMillisCurrentSpeed = System.currentTimeMillis();		// Register the time of the last UI update
     			}    							
@@ -833,7 +833,7 @@ Log.d(getClass().getName(), "gotResult for Download test ... at the end of the t
 								if (statusComplete == 100)
 								{
 									updateCurrentTestSpeedMbps(0.0);
-									gaugeView.setResult(0.0);
+									gaugeView.setAngleByValue(0.0);
 									changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)),0);																	
 								}							
 								break;
@@ -855,7 +855,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 								if (statusComplete == 100)
 								{									
 									updateCurrentTestSpeedMbps(0.0);
-									gaugeView.setResult(0.0);
+									gaugeView.setAngleByValue(0.0);
 									
 									changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)),0);																	
 								}							
@@ -876,7 +876,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 								{									
                     				tv_Gauge_TextView_PsuedoButton.setText("");
 									//updateCurrentLatencyValue("0");
-									gaugeView.setResult(0.0);									
+									gaugeView.setAngleByValue(0.0);									
 									changeFadingTextViewValue(tv_Result_Latency, value,0);
 									executingLatencyTest = false;
 								}									
