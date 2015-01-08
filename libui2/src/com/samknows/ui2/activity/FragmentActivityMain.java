@@ -187,13 +187,15 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	ImageView mRunImageView = null;
 	ImageView mHistoryImageView = null;
 	ImageView mSummaryImageView = null;
+	ImageView mSettingsImageView = null;
 	TextView mRunImageViewText = null;
 	TextView mHistoryImageViewText = null;
 	TextView mSummaryImageViewText = null;
+	TextView mSettingsImageViewText = null;
 	
 	// *** CUSTOM METHODS *** //
 	/**
-	 * Bind the resources with the objects in this class and set up them
+	 * Bind the resources with the objects in this class and set them up
 	 */
 	private void setUpResources()
 	{
@@ -229,9 +231,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
     	mRunImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Run_Text);
 	    mHistoryImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Results_Text);
 	    mSummaryImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Summary_Text);
+	    mSettingsImageViewText = (TextView)findViewById(R.id.main_Fragment_Toolbar_Button_Settings_Text);
 		mRunImageViewText.setTextColor(this.getResources().getColor(R.color.sam_knows_blue));
 		mHistoryImageViewText.setTextColor(this.getResources().getColor(R.color.white));
 		mSummaryImageViewText.setTextColor(this.getResources().getColor(R.color.white));
+		mSettingsImageViewText.setTextColor(this.getResources().getColor(R.color.white));
 		
 		mRunImageView = (ImageView)findViewById(R.id.main_Fragment_Toolbar_Button_Run);
 		findViewById(R.id.main_Fragment_Toolbar_Layout_Run).setOnClickListener(new OnClickListener() {
@@ -261,6 +265,15 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 			public void onClick(View v) {
 				layout_ll_background_top.setAlpha(1.0f);
 				FragmentActivityMain.this.viewPager.setCurrentItem(2);
+			}
+		});
+		
+		mSettingsImageView = (ImageView)findViewById(R.id.main_Fragment_Toolbar_Button_Settings);
+		findViewById(R.id.main_Fragment_Toolbar_Layout_Settings).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent_menu_settings = new Intent(FragmentActivityMain.this, SKASettingsActivity.class);
+				startActivity(intent_menu_settings);
 			}
 		});
 
@@ -337,6 +350,8 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
         		mHistoryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
                 mSummaryImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
         		mSummaryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
+                mSettingsImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.white));
+        		mSettingsImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.white));
                       	
 	    		switch (position)
 	    		{
@@ -433,12 +448,12 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		// Handle item selection		
 		int itemId = item.getItemId();
 		
-		if (itemId == R.id.menu_item_fragment_activity_main_settings) {
-			Intent intent_menu_settings = new Intent(this, SKASettingsActivity.class);
-			startActivity(intent_menu_settings);
-			
-			return true;
-		}
+//		if (itemId == R.id.menu_item_fragment_activity_main_settings) {
+//			Intent intent_menu_settings = new Intent(this, SKASettingsActivity.class);
+//			startActivity(intent_menu_settings);
+//			
+//			return true;
+//		}
 		
 		if (itemId == R.id.menu_item_fragment_activity_main_terms_and_conditions) {
 //			Intent intent_terms_and_conditions = new Intent(this, SKATermsOfUseActivity.class);

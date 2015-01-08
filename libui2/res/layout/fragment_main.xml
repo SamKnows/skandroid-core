@@ -154,6 +154,33 @@
                     android:textColor="@color/sam_knows_blue"
                     android:textSize="20sp" />
             </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/main_Fragment_Toolbar_Layout_Settings"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/main_Fragment_Toolbar_Button_Settings"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="6"
+                    android:background="@color/black"
+                    android:src="@drawable/tab_settings" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/main_Fragment_Toolbar_Button_Settings_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:padding="1dp"
+                    android:gravity="center"
+                    android:text="@string/SETTINGS_Title"
+                    android:textColor="@color/sam_knows_blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
