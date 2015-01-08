@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKCommon;
@@ -94,21 +96,30 @@ public class FormattedValues
 	 */
 	public static Pair<Float,String> getFormattedLatencyValue(String pValue)
 	{
+		// pValue = "失敗"; // "Failed" - for testing against invalid strings.
+		
 		String values[] = pValue.split(" ");
 		
 		String unit = "";
 		if (values.length > 1) {
 			unit = values[1];
 		}
-		
-		if (unit.equals("s"))
-		{
-			return new Pair<Float, String>(1000 * Float.valueOf(new DecimalFormat("0.0").format(Float.valueOf(values[0]))), unit);
+	
+		try {
+			if (unit.equals("s"))
+			{
+				return new Pair<Float, String>(1000 * Float.valueOf(new DecimalFormat("0.0").format(Float.valueOf(values[0]))), unit);
+			}
+			else
+			{
+				return new Pair<Float, String>(Float.valueOf(new DecimalFormat("000").format(Math.round(Float.valueOf(Float.valueOf(values[0]))))), unit);
+			}				
+		} catch (java.lang.NumberFormatException e) {
+			// Things like "Failed" can result in an error - we must not allow these to crash the app!
+ 			Log.d("SKCommon", "Warning: Value is not a number" + pValue);
+			SKLogger.sAssert(FormattedValues.class, false);
+			return new Pair<Float, String>(0.0F, "");
 		}
-		else
-		{
-			return new Pair<Float, String>(Float.valueOf(new DecimalFormat("000").format(Math.round(Float.valueOf(Float.valueOf(values[0]))))), unit);
-		}				
 	}
 	
 	/**

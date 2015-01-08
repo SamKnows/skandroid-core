@@ -291,8 +291,12 @@ public class FragmentArchivedResults extends Fragment
 		@Override
 		protected Void doInBackground(Void... params)
 		{
-			aList_TemporaryArchivedTests.clear();		// Clear the values of the temporary list
-			aList_TemporaryArchivedTests = getArchivedTestsList(getNetworkTypeSelection(), aList_TemporaryArchivedTests);	// Fill the temporary list
+			// Clear the values of the temporary list - by completely re-constructing it,
+			// to avoid any danger of array adapters sharing list references.
+        	aList_TemporaryArchivedTests = new ArrayList<TestResult>();
+			//aList_TemporaryArchivedTests.clear();
+			// Fill the temporary list
+			populateEmptyArchivedTestsList(getNetworkTypeSelection(), aList_TemporaryArchivedTests);
 
 			return null;
 		}
@@ -348,8 +352,22 @@ public class FragmentArchivedResults extends Fragment
 						// Show the (not empty) list view
 						lv_archived_results.setVisibility(View.VISIBLE);
 						
-						// Copy the temporary list into the final list
-						aList_ArchivedResults = aList_TemporaryArchivedTests;
+						// Copy the temporary list into the final list.
+						// Note that this creates a NEW list, not a simple reference to the original.
+						// However, the items in the list are *NOT* clones, but are shared references to the underlying items.
+						// If we just did this:
+                    	// aList_ArchivedResults = aList_TemporaryArchivedTests
+						// ... then any change to aList_TemporaryArchivedTests would potentially
+						// cause this sort of runtime error:
+						// java.lang.IllegalStateException:
+						// The content of the adapter has changed but ListView did
+						// not receive a notification.
+						// Make sure the content of your adapter is not modified
+						// from a background thread, but only from the UI thread.
+						// Make sure your adapter calls notifyDataSetChanged() when its content changes.
+						// [in ListView(2131165312, class android.widget.ListView) with
+						// Adapter(class com.samknows.ui2.activity.AdapterArchivedResultsListView)]
+                    	aList_ArchivedResults = new ArrayList<TestResult>(aList_TemporaryArchivedTests);
 						// Refresh the list view
 						adapter_Archived_Results = new AdapterArchivedResultsListView(getActivity(), aList_ArchivedResults);        
 				        lv_archived_results.setAdapter(adapter_Archived_Results);
@@ -649,24 +667,22 @@ public class FragmentArchivedResults extends Fragment
 	 * @param pTemporaryArchivedTestsList
 	 * @return a list of archived tests
 	 */
-	private ArrayList<TestResult> getArchivedTestsList(eNetworkTypeResults networkType, ArrayList<TestResult> pTemporaryArchivedTestsList)
+	private void populateEmptyArchivedTestsList(eNetworkTypeResults networkType, ArrayList<TestResult> pTemporaryArchivedTestsList)
 	{
 		// Get the current network state
-		eNetworkTypeResults previosState = SKApplication.getNetworkTypeResults();
+		eNetworkTypeResults previousState = SKApplication.getNetworkTypeResults();
 		
 		SKApplication.setNetworkTypeResults(networkType);
-		pTemporaryArchivedTestsList = getFilledArrayList(pTemporaryArchivedTestsList);			
+		populateEmptyArrayList(pTemporaryArchivedTestsList);			
 		
 		// Back to the previous state
-		SKApplication.setNetworkTypeResults(previosState);
+		SKApplication.setNetworkTypeResults(previousState);
 		
 		// Order the archived test results by date in case we had retrieved WiFi and Mobile data
 		if (networkType == eNetworkTypeResults.eNetworkTypeResults_Any)
 		{
-			pTemporaryArchivedTestsList = getOrderedByDateList(pTemporaryArchivedTestsList);
+			orderListByDate(pTemporaryArchivedTestsList);
 		}
-		
-		return pTemporaryArchivedTestsList;
 	}
 	
 	/**
@@ -675,7 +691,7 @@ public class FragmentArchivedResults extends Fragment
 	 * @param pTemporaryArchivedTestsList
 	 * @return
 	 */
-	private ArrayList<TestResult> getFilledArrayList(ArrayList<TestResult> pTemporaryArchivedTestsList)
+	private void populateEmptyArrayList(ArrayList<TestResult> pTemporaryArchivedTestsList)
 	{
 		DBHelper dbHelper = new DBHelper(getActivity());
 		JSONArray archivedResultArray = dbHelper.getArchiveData(-1);		
@@ -895,7 +911,6 @@ public class FragmentArchivedResults extends Fragment
 		{
 			Log.d(C_TAG_FRAGMENT_ARCHIVED_TEST, "There was a problem fetching the archived results " + e.getMessage()) ;
 		}
-		return pTemporaryArchivedTestsList;
 	}
 
 	/**
@@ -904,7 +919,7 @@ public class FragmentArchivedResults extends Fragment
 	 * @param pTemporaryArchivedTestsList
 	 * @return
 	 */
-	private ArrayList<TestResult> getOrderedByDateList(ArrayList<TestResult> pTemporaryArchivedTestsList)
+	private void orderListByDate(ArrayList<TestResult> pTemporaryArchivedTestsList)
 	{		
 	    boolean flag = true;			// Set flag to true to begin first pass. Indicates if we need another loop or if it's enough
 	    TestResult temp;				// Holding variable
@@ -927,7 +942,6 @@ public class FragmentArchivedResults extends Fragment
                 }
             }
 	    }
-	    return pTemporaryArchivedTestsList;
     }
 	
 	/**

@@ -43,7 +43,7 @@
 
     <!-- NETWORK TYPES -->
     <string name="network_type_wifi">WiFi</string>
-    <string name="network_type_mobile">流動網絡</string>
+    <string name="network_type_mobile">流動電話</string>
     <string name="network_type_all">所有</string>
     
     <!--  Reported network type -->
@@ -137,8 +137,8 @@
 
     <!-- Position -->
     <string name="location">Location</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
+    <string name="latitude">緯度</string>
+    <string name="longitude">經度</string>
     <string name="accuracy">Accuracy</string>
     <string name="location_provider">Location Provider</string>
 
@@ -183,7 +183,7 @@
     <string name="gauge_message_starting"></string>
     <string name="advice_message_press_the_button">按 開始</string>
     <string name="advice_message_press_the_button_run_again">按開始再進行測試</string>
-    <string name="advice_message_running">運行測試中</string>
+    <string name="advice_message_running">測試運行中</string>
     <string name="advice_message_stopping">正在停止中..</string>
     <string name="label_message_ready_to_run">準備運行</string>
     <string name="label_message_tests_executed">已執行測試</string>

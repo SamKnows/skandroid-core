@@ -151,7 +151,7 @@
 <string name="evdo_a">EVDO rev A</string>
 <string name="evdo_b">EVDO rev B</string>
 <string name="executing_now">運行中</string>
-<string name="executing_test">運行測試s: </string>
+<string name="executing_test">運行測試: </string>
 <string name="failed">失敗</string>
 <string name="failed_to_load_config">載入設定檔失敗!</string>
 <string name="false_string">False</string>
@@ -251,7 +251,7 @@
 <string name="no_data_message">沒有資料。請先運行測試.</string>
 <string name="no_dialog">否</string>
 <string name="ntf_checking_conditions">Checking test conditions</string>
-<string name="ntf_running_test">Running test: </string>
+<string name="ntf_running_test">測試運行中: </string>
 <string name="of">of</string>
 <string name="ok">ok</string>
 <string name="ok_dialog">OK</string>
@@ -387,7 +387,7 @@
 <string name="network_type_wifi_results">顯示WiFi測試結果</string>
 <string name="network_type_all_results">顯示所有測試結果</string>
 <string name="network_type_choose">選擇顯示的測試結果:</string>
-<string name="network_type_choose_mobile_results">流動網絡</string>
+<string name="network_type_choose_mobile_results">流動電話</string>
 <string name="network_type_choose_wifi_results">WiFi</string>
 <string name="network_type_choose_all_results">所有</string>
 <string name="right_arrow">&gt; </string>
@@ -406,7 +406,7 @@
 <string name="SETTINGS_Title">設定</string>
 <string name="Settings_Configuration">設定檔</string>
 <string name="Storyboard_Settings_Configuration">Data consumption</string>
-<string name="Settings_ClearAllResults">已清除所有結果</string>
+<string name="Settings_ClearAllResults">清除所有結果</string>
 <string name="Settings_ClearAllResults_Title">是否清除所有結果?</string>
 <string name="Settings_ClearAllResults_Message">你是否想清除所有結果?</string>
 </resources>
