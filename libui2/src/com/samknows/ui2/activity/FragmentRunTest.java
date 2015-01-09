@@ -1493,8 +1493,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
         String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yyyy");
         String currentDateandTimeTime = new FormattedValues().getDate(testTime, "HH:mm:ss");
     	//tv_Result_Date.setText(currentDateandTime);    	
-		changeFadingTextViewValue(tv_Result_DateDay, currentDateandTimeDay,0);	// Set the gauge main text to STARTING
-		changeFadingTextViewValue(tv_Result_DateTime, currentDateandTimeTime,0);	// Set the gauge main text to STARTING
+		tv_Result_DateDay.setText(currentDateandTimeDay);	// Set the gauge main text to STARTING
+		tv_Result_DateTime.setText(currentDateandTimeTime);	// Set the gauge main text to STARTING
     }
     
     /**
@@ -1855,8 +1855,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	changeFadingTextViewValue(tv_Result_Latency, getString(R.string.slash), 0);
     	changeFadingTextViewValue(tv_Result_Packet_Loss, getString(R.string.slash), 0);
     	changeFadingTextViewValue(tv_Result_Jitter, getString(R.string.slash), 0);
-    	changeFadingTextViewValue(tv_Result_DateDay, getString(R.string.slash), 0);
-    	changeFadingTextViewValue(tv_Result_DateTime, getString(R.string.slash), 0);
+    	tv_Result_DateDay.setText(getString(R.string.slash));
+    	tv_Result_DateTime.setText(getString(R.string.slash));
     }
 
     // *** MENUS *** //

@@ -424,17 +424,17 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_fragment_activity_main, menu);
-	
-		MenuItem item = menu.findItem(R.id.menu_force_background_test);
-		if (item != null) {
-			item.setVisible(SKApplication.getAppInstance().isForceBackgroundMenuItemSupported());
-		}
-		item = menu.findItem(R.id.fragment_main_select_tests);
-		if (item != null) {
-			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
-		}
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.menu_fragment_activity_main, menu);
+//	
+//		MenuItem item = menu.findItem(R.id.menu_force_background_test);
+//		if (item != null) {
+//			item.setVisible(SKApplication.getAppInstance().isForceBackgroundMenuItemSupported());
+//		}
+//		item = menu.findItem(R.id.fragment_main_select_tests);
+//		if (item != null) {
+//			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+//		}
 		
 		return true;
 	}

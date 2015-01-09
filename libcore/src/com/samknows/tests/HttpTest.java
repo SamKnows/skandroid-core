@@ -499,9 +499,9 @@ public abstract class HttpTest extends Test {
 
 			timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime());											/* set new update time */
 			
-			SKLogger.e(TAG(this), "External Monitor updated at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) + 
-					" as " +  ( currentSpeed / 1000000.0) +
-					" thread: " + getThreadIndex());//haha remove in production
+//			SKLogger.d(TAG(this), "External Monitor updated at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) + 
+//					" as " +  ( currentSpeed / 1000000.0) +
+//					" thread: " + getThreadIndex());//haha remove in production
 		}
 	}
 

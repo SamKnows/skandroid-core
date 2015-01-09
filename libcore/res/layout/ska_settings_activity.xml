@@ -31,6 +31,19 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+		    
+            <com.samknows.measurement.activity.components.ButtonWithRightArrow
+                android:id="@+id/settings_aboutus_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/btn_action_selector"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="left|center"
+                android:text="@string/menu_terms_and_condition"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+		        android:visibility="gone"/>
 
             <com.samknows.measurement.activity.components.ButtonWithRightArrow
                 android:id="@+id/settings_clearallresults_button"
@@ -43,6 +56,19 @@
                 android:text="@string/Settings_ClearAllResults"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
+            
+            <com.samknows.measurement.activity.components.ButtonWithRightArrow
+                android:id="@+id/settings_exportresults_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/btn_action_selector"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="left|center"
+                android:text="@string/menu_export_file_string"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" 
+		        android:visibility="gone"/>
 
             <com.samknows.measurement.activity.components.ButtonWithRightArrow
                 android:id="@+id/settings_activate_button"

@@ -167,6 +167,22 @@ public class SKASettingsActivity extends BaseLogoutActivity{
     	{
     		preferencesButton.setVisibility(View.GONE);
     	}
+    	
+		ButtonWithRightArrow aboutUsButton = (ButtonWithRightArrow) findViewById(R.id.settings_aboutus_button);
+		aboutUsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SKApplication.getAppInstance().showTermsAndConditions(SKASettingsActivity.this);
+			}
+		});	
+		
+		ButtonWithRightArrow exportResultsButton = (ButtonWithRightArrow) findViewById(R.id.settings_exportresults_button);
+		exportResultsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SKAMainResultsActivity.sExportMenuItemSelected(SKASettingsActivity.this, getCacheDir());
+			}
+		});	
 		
 		FontFitTextView locationServicesTypeButtonText = null;
 		try {
