@@ -6,6 +6,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.Util;
 
@@ -19,7 +20,10 @@ public class SKATermsOfUseActivity extends BaseLogoutActivity {
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.ska_terms_of_use_activity);
 		setTitle(getString(R.string.terms_of_use_title));
+		
 		mWebView = (WebView) findViewById(R.id.webview);
+		SKLogger.sAssert(getClass(), mWebView != null);
+		
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebInterface = new WebAppInterface(this);
 		mWebView.addJavascriptInterface(mWebInterface, "Android");

@@ -32,6 +32,7 @@ import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.ProgressWheel;
 import com.samknows.measurement.activity.components.Util;
+import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.tests.ClosestTarget;
@@ -144,10 +145,16 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 						String type = message_json.getString(StorageTestResult.JSON_TYPE_ID);
 
 						if (type == "completed") {
-
+							
 							result = 1;
-							SKARunningTestActivity.this.finish();
-							overridePendingTransition(0, 0);
+							
+							if (SKARunningTestActivity.this.checkIfIsConnectedAndIfNotShowAnAlertThenFinish() == false)
+							{
+								// The alert that is shown, handles the "finish()"
+							} else {
+								SKARunningTestActivity.this.finish();
+								overridePendingTransition(0, 0);
+							}
 						}
 
 						if (type == "test") {
@@ -518,6 +525,28 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 			SKLogger.e(this, "handler or test failure", t);
 		}
 	}
+	
+	
+	private boolean checkIfIsConnectedAndIfNotShowAnAlertThenFinish() {
+		
+		if (NetworkDataCollector.sGetIsConnected() == true) {
+			return true;
+		}
+	
+		// We're not connected - show an alert - if possible - and return false!
+		if (!isFinishing()) {
+			new AlertDialog.Builder(this)
+			.setMessage(R.string.Offline_message)
+			.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					SKARunningTestActivity.this.finish();
+					overridePendingTransition(0, 0);
+				}
+			}).show();
+		}
+		
+		return false;
+	}
 
 	// https://stackoverflow.com/questions/3947641/android-equivalent-to-nsnotificationcenter
 	
@@ -698,12 +727,10 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 						startTest(mt);
 					}
 				})
-				.setNegativeButton(R.string.no_dialog,
-						new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.no_dialog, new DialogInterface.OnClickListener() {
 
 					@Override
-					public void onClick(DialogInterface dialog,
-							int which) {
+					public void onClick(DialogInterface dialog, int which) {
 						result = 0;
 						SKARunningTestActivity.this.finish();
 						overridePendingTransition(0, 0);

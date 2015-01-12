@@ -1582,7 +1582,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     	setNetworkTypeInformation();
     	
 		final Context context = SKApplication.getAppInstance().getApplicationContext();
-    	if (Connectivity.isConnected(context) == false)
+    	if (Connectivity.sGetIsConnected(context) == false)
     	{
     		// No connectivity!
     		safeRunOnUiThread(new Runnable()

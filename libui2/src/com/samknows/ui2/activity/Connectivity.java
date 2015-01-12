@@ -3,6 +3,7 @@ package com.samknows.ui2.activity;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libui2.R;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.environment.NetworkDataCollector;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -26,20 +27,9 @@ public class Connectivity
 	 * 
 	 * @return details about the currently active default data network
 	 */
-	public static NetworkInfo getNetworkInfo(Context pContext)
+	public static NetworkInfo sGetNetworkInfo(Context pContext)
 	{
-		try {
-			ConnectivityManager cm = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-			if (cm == null) {
-				SKLogger.sAssert(Connectivity.class, false);
-				return null;
-			}
-			return cm.getActiveNetworkInfo();
-		} catch (NullPointerException e) {
-			// This has been seen on customer devices.
-			SKLogger.sAssert(Connectivity.class, false);
-			return null;
-		}
+		return NetworkDataCollector.sGetNetworkInfo();
 	}
 	
 	/**
@@ -49,10 +39,9 @@ public class Connectivity
 	 * 
 	 * @return true or false
 	 */
-	public static boolean isConnected(Context pContext)
+	public static boolean sGetIsConnected(Context pContext)
 	{
-	    NetworkInfo info = Connectivity.getNetworkInfo(pContext);
-	    return (info != null && info.isConnected());
+		return NetworkDataCollector.sGetIsConnected();
 	}
 	
 	/**
@@ -65,7 +54,7 @@ public class Connectivity
 	 */
 	public static boolean isConnectedWifi(Context pContext)
 	{
-	    NetworkInfo info = Connectivity.getNetworkInfo(pContext);
+	    NetworkInfo info = Connectivity.sGetNetworkInfo(pContext);
 	    return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
 	}
 	
@@ -79,7 +68,7 @@ public class Connectivity
 	 */
 	public static boolean isConnectedMobile(Context pContext)
 	{
-	    NetworkInfo info = Connectivity.getNetworkInfo(pContext);
+	    NetworkInfo info = Connectivity.sGetNetworkInfo(pContext);
 	    return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_MOBILE);
 	}
 	
@@ -92,7 +81,7 @@ public class Connectivity
 	 */
 	public static boolean isConnectedFast(Context pContext)
 	{
-	    NetworkInfo info = Connectivity.getNetworkInfo(pContext);
+	    NetworkInfo info = Connectivity.sGetNetworkInfo(pContext);
 	    return (info != null && info.isConnected() && Connectivity.isConnectionFast(info.getType(),info.getSubtype()));
 	}
 	
@@ -170,7 +159,7 @@ public class Connectivity
 	 */
 	public static String getConnectionType(Context pContext)
 	{
-		NetworkInfo info = Connectivity.getNetworkInfo(pContext);
+		NetworkInfo info = Connectivity.sGetNetworkInfo(pContext);
 		
 		if (info == null)
 		{

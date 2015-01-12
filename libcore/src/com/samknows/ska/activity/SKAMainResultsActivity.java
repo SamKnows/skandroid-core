@@ -82,6 +82,7 @@ import com.samknows.measurement.activity.components.StatModel;
 import com.samknows.measurement.activity.components.StatRecord;
 import com.samknows.measurement.activity.components.UpdatedTextView;
 import com.samknows.measurement.activity.components.Util;
+import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.storage.DBHelper;
@@ -2594,16 +2595,40 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	}
 	
 	final int cRunTestActivityRequestCode = 99999999;
+	
+	private boolean checkIfIsConnectedAndIfNotShowAnAlert() {
+		
+		if (NetworkDataCollector.sGetIsConnected() == true) {
+			return true;
+		}
+	
+		// We're not connected - show an alert if possible, and return false!
+		if (!isFinishing()) {
+			new AlertDialog.Builder(this)
+			.setMessage(R.string.Offline_message)
+			.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+				}
+			}).show();
+		}
+		
+		return false;
+	}
 
 	private void RunChoice() {
 
 		storage = CachingStorage.getInstance();
 		config = storage.loadScheduleConfig();
-		// if config == null the app is not been activate and
+		// if config == null the app is not been activated and
 		// no test can be run
 		if (config == null) {
-			// TODO Add an alert that the app has not been init yet
+			// TODO Add an alert that the app has not been initialised yet
 			config = new ScheduleConfig();
+		}
+		
+		// Only allow this to continue, if we're connected!
+		if (checkIfIsConnectedAndIfNotShowAnAlert() == false) {
+			return;
 		}
 		
 		if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
@@ -2718,7 +2743,12 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		//CONTINUOUS TESTING
 
 		if (mContinuousState == ContinuousState.STOPPED) {
-			
+		
+			// Only allow this to continue, if we're connected!
+    		if (checkIfIsConnectedAndIfNotShowAnAlert() == false) {
+    			return;
+	    	}
+		
 			String showWithMessage = "";
 
 			if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
@@ -2743,8 +2773,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 						.setMessage(theErrorString)
 						.setPositiveButton(R.string.ok_dialog,
 								new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int id) {
+							public void onClick(DialogInterface dialog, int id) {
 							}
 						}).show();
 						return;
@@ -2799,9 +2828,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	
 
 	
-	private boolean mContinuousRequested = false;
-	private MainService mMainService = null;
-	private ServiceConnection mConnection;
+//	private boolean mContinuousRequested = false;
+//	private MainService mMainService = null;
+//	private ServiceConnection mConnection;
 	
 	public boolean forceBackToAllowClose() {
 		if (on_aggregate_page) {

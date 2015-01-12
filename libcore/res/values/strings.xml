@@ -409,4 +409,5 @@
 <string name="Settings_ClearAllResults">Clear all results</string>
 <string name="Settings_ClearAllResults_Title">Clear all results?</string>
 <string name="Settings_ClearAllResults_Message">Do you want to clear all your result data?</string>
+<string name="Offline_message">The internet connection appears to be offline. Please connect and try again.</string>
 </resources>

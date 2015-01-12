@@ -1,9 +1,11 @@
 package com.samknows.measurement.environment;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.SKApplication;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
@@ -11,6 +13,33 @@ public class NetworkDataCollector extends BaseDataCollector{
 
 	public NetworkDataCollector(Context context) {
 		super(context);
+	}
+	
+	public static NetworkInfo sGetNetworkInfo()
+	{
+		try {
+			ConnectivityManager cm = (ConnectivityManager) SKApplication.getAppInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+			if (cm == null) {
+				SKLogger.sAssert(NetworkInfo.class, false);
+				return null;
+			}
+			return cm.getActiveNetworkInfo();
+		} catch (NullPointerException e) {
+			// This has been seen on customer devices.
+			SKLogger.sAssert(NetworkInfo.class, false);
+			return null;
+		}
+	}
+	
+	public static boolean sGetIsConnected() {
+		
+		NetworkInfo activeNetworkInfo = sGetNetworkInfo();
+		if (activeNetworkInfo == null) {
+			SKLogger.sAssert(NetworkDataCollector.class, false);
+			return false;
+		}
+		
+		return activeNetworkInfo.isConnected();
 	}
 	
 	TelephonyManager mTelManager;

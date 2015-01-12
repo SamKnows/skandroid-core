@@ -409,4 +409,5 @@
 <string name="Settings_ClearAllResults">清除所有结果</string>
 <string name="Settings_ClearAllResults_Title">是否清除所有结果?</string>
 <string name="Settings_ClearAllResults_Message">你是否想清除所有结果?</string>
+<string name="Offline_message">网络连线中断，请连线并再试一次</string>
 </resources>
