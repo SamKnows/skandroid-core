@@ -72,6 +72,26 @@ public class SKASettingsActivity extends BaseLogoutActivity{
     void showAlertCannotClearDataAsBackgroundTaskIsRunning () {
       showAlertForTestWithMessageBody (getString(R.string.must_wait_for_test_to_run));
     }
+    
+	
+	private boolean checkIfIsConnectedAndIfNotShowAnAlert() {
+		
+		if (NetworkDataCollector.sGetIsConnected() == true) {
+			return true;
+		}
+	
+		// We're not connected - show an alert if possible, and return false!
+		if (!isFinishing()) {
+			new AlertDialog.Builder(this)
+			.setMessage(R.string.Offline_message)
+			.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+				}
+			}).show();
+		}
+		
+		return false;
+	}
 	
 	@SuppressLint("InlinedApi")
 	@Override
@@ -151,7 +171,9 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			activateButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					SKAActivationActivity.sDoShowActivation(SKASettingsActivity.this);
+					if (SKASettingsActivity.this.checkIfIsConnectedAndIfNotShowAnAlert() == true) {
+						SKAActivationActivity.sDoShowActivation(SKASettingsActivity.this);
+					}
 				}
 			});
 		}

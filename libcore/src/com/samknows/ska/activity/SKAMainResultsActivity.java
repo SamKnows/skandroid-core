@@ -303,6 +303,43 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		SKLogger.d(this, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onDestroy...");
 	}
 	
+	/*
+	 // Example of async processing using Bolt... we should look to use this sort of approach in a future implementation.
+	 // https://github.com/BoltsFramework/Bolts-Android
+		  
+	 private void onResumeDoAsyncQueryToHandleResult() {
+
+		// Handle this delayed, so we don't mess-up the transition.
+		final boolean uiResult = setTotalArchiveRecords();
+
+		Task.callInBackground(new Callable<MyPagerAdapter>() {
+			// This is called in the background thread...
+
+			@Override
+			public MyPagerAdapter call() throws Exception {
+				// TODO Put-in the background work here!
+				if (uiResult == true) {
+					MyPagerAdapter theAdapter = new MyPagerAdapter(SKAMainResultsActivity.this);
+					return theAdapter;
+					//viewPager = (ViewPager) findViewById(R.id.viewPager);
+					//SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+				}
+				return null;
+			}
+		}).onSuccess(new Continuation<MyPagerAdapter, Void>() {
+			public Void then(Task<MyPagerAdapter> task) throws Exception {
+				// This is called in the main UI Thread...!
+				MyPagerAdapter theAdapter = task.getResult();
+
+				SKAMainResultsActivity.this.postResumeOnMainThreadUseAdapter(theAdapter);
+
+				// All done!
+				return null;
+			}
+		}, Task.UI_THREAD_EXECUTOR);
+	}
+	*/
+	
 	boolean mbHandlingOnActivityResult = false;
 
 	@Override
@@ -310,7 +347,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		super.onResume(); // Always call the superclass method first
 		
         SKLogger.d(this, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onResume...");
-
+        
         if (mbHandlingOnActivityResult == true) {
         	// Already handled on the activity result... which has taken us to the archived results screen.
             mbHandlingOnActivityResult = false;
@@ -338,6 +375,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     		updateAllDataOnScreen();
     	}
 	}
+	
 	
 	private void setContinuousTestingButton(){
 		
@@ -1455,6 +1493,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		menu.findItem(R.id.menu_force_background_test).setVisible(SKApplication.getAppInstance().isForceBackgroundMenuItemSupported());
 		menu.findItem(R.id.menu_share_averages).setVisible(SKApplication.getAppInstance().isSocialMediaExportSupported());
+	
+		// postponeEnterTransition();
 
 		return true;
 	}

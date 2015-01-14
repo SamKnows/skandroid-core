@@ -9,9 +9,10 @@
 	<classpathentry kind="lib" path="/google_play_services_lib/libs/google-play-services.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="lib" path="libs/achartengine-1.1.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="/FacebookSDK/libs/android-support-v4.jar"/>
-  <classpathentry combineaccessrules="false" exported="true" kind="src" path="/FacebookSDK"/>
+	<classpathentry exported="true" kind="lib" path="/FacebookSDK/libs/android-support-v4.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/FacebookSDK"/>
 	<classpathentry kind="lib" path="libs/twitter4j-core-3.0.5.jar"/>
 	<classpathentry kind="lib" path="libs/HockeySDK-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/bolts-android-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
