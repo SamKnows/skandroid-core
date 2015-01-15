@@ -63,7 +63,7 @@
 <string name="activity_settings_name">Configurações</string>
 <string name="activity_run_test_name">EAQ Executor de Testes</string>
 <string name="activity_test_results_name">Resultados do teste</string>
-<string name="agree">Eu Aceito</string>
+<string name="agree">Aceito</string>
 <string name="alert_icon">Ícone de Alerta</string>
 <string name="all">Todos</string>
 <string name="archive_result">Resultado Arquivado</string>

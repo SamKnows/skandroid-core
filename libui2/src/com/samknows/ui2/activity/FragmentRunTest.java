@@ -524,6 +524,10 @@ public class FragmentRunTest extends Fragment
 		// Gauge view
 		gaugeView = (GaugeView)pView.findViewById(R.id.fragment_speed_gauge_view);		
 		
+		// Experiment: force turn-off of any hardware acceleration, on a per-view basis:
+		//gaugeView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		//SKLogger.sAssert(getClass(), gaugeView.getLayerType() == View.LAYER_TYPE_SOFTWARE);
+		
 		// Text view showing the measurement values
 		tv_Gauge_TextView_PsuedoButton = (TextView)pView.findViewById(R.id.fragment_speed_test_gauge_textview_pseudobutton);		
 		tv_Gauge_TextView_PsuedoButton.setText(getString(R.string.gauge_message_start));

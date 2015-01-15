@@ -15,12 +15,13 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class SKApplication extends Application{
 
 	static private SKApplication sAppInstance = null;
-	
+
 	public SKApplication() {
 		super();
 
@@ -39,7 +40,7 @@ public class SKApplication extends Application{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		// Initialize the SKOperators data!
 		SKOperators.getInstance(getApplicationContext());
 
@@ -47,12 +48,12 @@ public class SKApplication extends Application{
 		if (theCacheDir == null) {
 			theCacheDir = getCacheDir();
 		}
-		
-	
+
+
 		// Clear the cache dir of old export files... as they might be quite big!
 		{
 			File[] files = theCacheDir.listFiles();
-			
+
 			String baseExportName = getString(R.string.menu_export_default_file_name_no_extension);
 
 			if (files != null) {
@@ -66,13 +67,13 @@ public class SKApplication extends Application{
 
 		SKLogger.setStorageFolder(theCacheDir);
 		TestResultsManager.setStorage(theCacheDir);
-		
+
 		// Do NOT use the storage area for ExportFiles... these should be retained for future export.
 		ExportFile.setStorage(getFilesDir());
-		
+
 		SK2AppSettings.create(this);
 		CachingStorage.create(this);
-		
+
 		// Start monitoring for cell tower signal strength etc....
 		// We need to do this, as Android does not allow us to query this information synchronously.
 		CellTowersDataCollector.sStartToCaptureCellTowersData(this);
@@ -109,7 +110,7 @@ public class SKApplication extends Application{
 	public boolean supportOneDayResultView() {
 		return false;
 	}
-	
+
 	// Override this, if you want your application to support continuous testing.
 	public boolean supportContinuousTesting() {
 		return false;
@@ -128,7 +129,7 @@ public class SKApplication extends Application{
 	public boolean hideJitter() {
 		return false;
 	}
-	
+
 	public boolean hideLatency() {
 		return false;
 	}
@@ -136,7 +137,7 @@ public class SKApplication extends Application{
 	public boolean hideLoss() {
 		return false;
 	}
-	
+
 	public boolean hideJitterLatencyAndPacketLoss() {
 		return hideJitter() & hideLatency() & hideLoss();
 	}
@@ -149,16 +150,16 @@ public class SKApplication extends Application{
 	public boolean isExportMenuItemSupported() {
 		return false;
 	}
-	
+
 	// Datacap enabling/disabling
 	public boolean canViewDataCapInSettings () {
-	   return true;
+		return true;
 	}
-	
+
 	public boolean canDisableDataCap () {
 		return false;
 	}
-	
+
 	// Datacap - enable/disable (managed via the SKAPreferenceActivity)
 	public boolean getIsDataCapEnabled() {
 		if (canDisableDataCap () == false) {
@@ -171,11 +172,11 @@ public class SKApplication extends Application{
 		SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		return p.getBoolean(SKConstants.PREF_DATA_CAP_ENABLED, true);
 	}
-	
+
 	public boolean isSocialMediaExportSupported() {
 		return false;
 	}
-	
+
 	public boolean isSocialMediaImageExportSupported() {
 		return false;
 	}
@@ -184,32 +185,32 @@ public class SKApplication extends Application{
 	public boolean isThrottleQuerySupported() {
 		return false;
 	}
-	
+
 	public boolean getDoesAppDisplayClosestTargetInfo() {
 		return true;
 	}
-	
+
 	// Some versions of the app can enable background menu forcing via the menu...
 	public boolean isForceBackgroundMenuItemSupported () {
 		return false;
 	}
-	
+
 	public String getExportFileProviderAuthority() {
-        // e.g.	return "com.samknows.myapppackage.ExportFileProvider.provider";
+		// e.g.	return "com.samknows.myapppackage.ExportFileProvider.provider";
 		SKLogger.sAssert(getClass(),  false);
 		return null;
 	}
-	
+
 	public String getAppName() {
 		SKLogger.sAssert(getClass(), false); // Must be overridden!
 		return "Unknown";
 	}
-	
+
 	// For now, we don't generally support server-based upload speed measurement testing.
 	public boolean getDoesAppSupportServerBasedUploadSpeedTesting() {
 		return false;
 	}
-	
+
 	// Must be overridden!
 	public String getDCSInitUrl() {
 		SKLogger.sAssert(getClass(), false);
@@ -226,13 +227,13 @@ public class SKApplication extends Application{
 		SKLogger.sAssert(getClass(), false);
 		return "CrashManagerId_UNKNOWN";
 	}
-	
+
 	private static boolean sbUpdateAllDataOnScreen = false;
-	
+
 	public static void sSetUpdateAllDataOnScreen(boolean value) {
 		sbUpdateAllDataOnScreen = value;
 	}
-	
+
 	public static boolean sGetUpdateAllDataOnScreen() {
 		return sbUpdateAllDataOnScreen;
 	}
@@ -241,35 +242,68 @@ public class SKApplication extends Application{
 		Boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundProcessingEnabledInTheSchedule();
 		return backgroundTest;
 	}
-	
+
 	public Boolean getIsBackgroundTestingEnabledInUserPreferences() {
-    	if (getIsBackgroundProcessingEnabledInTheSchedule() == false) {
-    		return false;
-    	}
-    	
-    	Boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences();
-    	return backgroundTest;
+		if (getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+			return false;
+		}
+
+		Boolean backgroundTest = SK2AppSettings.getSK2AppSettingsInstance().getIsBackgroundTestingEnabledInUserPreferences();
+		return backgroundTest;
 	}
-	
+
 	public Boolean getPassiveMetricsJustDisplayPublicIpAndSubmissionId() {
 		return false;
 	}
-	
+
 	public boolean getForceUploadDownloadSpeedToReportInMbps() {
 		return false;
 	}
 
-  // Used by the new app...
-  public String mLastSubmissionId = "";
-  public String mLastPublicIp = "";
-  
-  public double[] getDownloadSixSegmentMaxValues() {
-	double arrSegmentMinValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
-	return arrSegmentMinValues_Download;
-  }
-  
-  public double[] getUploadSixSegmentMaxValues() {
-	double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
-	return arrSegmentMaxValues_Upload;
-  }
+	// Used by the new app...
+	public String mLastSubmissionId = "";
+	public String mLastPublicIp = "";
+
+	public double[] getDownloadSixSegmentMaxValues() {
+		double arrSegmentMinValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
+		return arrSegmentMinValues_Download;
+	}
+
+	public double[] getUploadSixSegmentMaxValues() {
+		double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
+		return arrSegmentMaxValues_Upload;
+	}
+
+	// T&C checking!
+	final static private String kPreferencesFileName = "termsAndConditions";
+	final static private String kAgreementKey = "agreementVersion";
+	public static boolean sGetTermsAcceptedAtThisVersionOrGreater(Activity activity, String termsVersion) {
+
+		SharedPreferences prefs = activity.getSharedPreferences(kPreferencesFileName, MODE_PRIVATE);
+		String agreement = prefs.getString(kAgreementKey, null);
+		if (agreement != null) {
+			try {
+				if ( Double.valueOf(agreement) >= Double.valueOf(termsVersion))
+				{
+					return true;
+				}
+			} catch (Exception e) {
+				SKLogger.sAssert(SKApplication.class,  false);
+			}
+		}
+
+		return false;
+	}
+
+	public static void sSetTermsAcceptedAtThisVersion(Activity activity, String termsVersion) {
+		SharedPreferences prefs = activity.getSharedPreferences(kPreferencesFileName, MODE_PRIVATE);
+		Editor editor = prefs.edit();
+		editor.putString(kAgreementKey, termsVersion);
+		editor.commit();
+	}
+	
+	public String getTAndCVersionToCheckFor() {
+		return "1.0";
+	}
+
 }
