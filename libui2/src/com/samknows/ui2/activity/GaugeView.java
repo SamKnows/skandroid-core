@@ -146,8 +146,8 @@ class GaugeView extends View
     	
     	//double arrSegmentMaxValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
     	//double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
-    	double arrSegmentMaxValues_Download[] = SKApplication.getAppInstance().getDownloadSixSegmentMaxValues();
-    	double arrSegmentMaxValues_Upload[] = SKApplication.getAppInstance().getUploadSixSegmentMaxValues();
+    	double arrSegmentMaxValues_Download[] = SKApplication.sGetDownloadSixSegmentMaxValues();
+    	double arrSegmentMaxValues_Upload[] = SKApplication.sGetUploadSixSegmentMaxValues();
     	double arrSegmentMaxValues[] = arrSegmentMaxValues_Download;
     	switch (this.kindOfTest) {
     	case TEST_DOWNLOAD:

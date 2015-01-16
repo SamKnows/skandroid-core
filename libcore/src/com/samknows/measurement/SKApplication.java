@@ -273,6 +273,29 @@ public class SKApplication extends Application{
 		double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
 		return arrSegmentMaxValues_Upload;
 	}
+	
+	public static double[] sGetDownloadSixSegmentMaxValues() {
+		if (getAppInstance() != null) {
+			// The normal case!
+			return getAppInstance().getDownloadSixSegmentMaxValues();
+		}
+		
+		// Special fallback case to cater for GaugeView.java in the layout designer
+		double arrSegmentMinValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
+		return arrSegmentMinValues_Download;
+	}
+
+	public static double[] sGetUploadSixSegmentMaxValues() {
+		if (getAppInstance() != null) {
+			// The normal case!
+			return getAppInstance().getUploadSixSegmentMaxValues();
+		}
+		
+		// Special fallback case to cater for GaugeView.java in the layout designer
+		double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
+		return arrSegmentMaxValues_Upload;
+	}
+	
 
 	// T&C checking!
 	final static private String kPreferencesFileName = "termsAndConditions";
