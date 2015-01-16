@@ -291,7 +291,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
-                        <com.samknows.measurement.activity.components.FontFitTextView
+                        <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                           android:maxLines="1"
                             android:id="@+id/TextView16"
                             style="@style/column"
                             android:layout_width="130dp"

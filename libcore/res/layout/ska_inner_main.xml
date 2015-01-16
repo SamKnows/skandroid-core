@@ -85,7 +85,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" >
 
-                        <com.samknows.measurement.activity.components.FontFitTextView
+                        <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                            android:maxLines="1"
                             android:id="@+id/average_results_title"
                             style="@style/h1"
                             android:layout_width="0dp"
@@ -119,7 +120,8 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp" >
 
-                        <com.samknows.measurement.activity.components.FontFitTextView
+                        <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                            android:maxLines="1"
                             android:id="@+id/test_last_run"
                             android:layout_width="fill_parent"
                             android:layout_height="30dp"
@@ -149,7 +151,8 @@
                                 android:scaleType="fitCenter"
                                 android:src="@drawable/alert_icon" />
 
-                            <com.samknows.measurement.activity.components.FontFitTextView
+                            <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                                android:maxLines="1"
                                 android:id="@+id/no_data_message_text"
                                 style="@style/normal"
                                 android:layout_width="fill_parent"
@@ -610,7 +613,8 @@
                                 android:background="@drawable/btn_closed_selector"
                                 android:contentDescription="@string/open_panel" />
 
-                            <TextView
+                            <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                                android:maxLines="1"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
