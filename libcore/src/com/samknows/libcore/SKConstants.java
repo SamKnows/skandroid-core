@@ -98,7 +98,7 @@ public class SKConstants {
 	public static final String PREF_WAS_INTRO_SHOWN = "was_intro_shown";
 	public static final String PREF_KEY_USERNAME = "username";
 	public static final String PREF_KEY_PASSWORD = "password";
-	public static final String PREF_KEY_SERVICE_ACTIVATED = "service_activated";
+	public static final String PREF_KEY_SERVICE_ACTIVATED = "service_activated2"; // Updated MPC 19/01/2015, to force re-activation after Terms agreed.
 	public static final String PREF_KEY_DEVICES = "devices";
 	
 	public static final String PREF_SERVICE_ENABLED = "enable_testing";
