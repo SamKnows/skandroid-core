@@ -85,8 +85,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" >
 
+                        <!--  http://stackoverflow.com/questions/17604777/prevent-undesired-line-wrapping-in-textview -->
                         <com.samknows.measurement.activity.components.SimpleFontFitTextView
                             android:maxLines="1"
+                            android:inputType="text"
+                            android:singleLine="true"
                             android:id="@+id/average_results_title"
                             style="@style/h1"
                             android:layout_width="0dp"
@@ -103,15 +106,14 @@
                             android:id="@+id/main_show_archived_results_button"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
-                            android:layout_gravity="left|center_vertical"
                             android:layout_weight="10"
                             android:background="@drawable/btn_action_selector"
                             android:drawableRight="@drawable/arrow_right"
                             android:gravity="left|center"
                             android:minWidth="60dp"
-                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
+
                     </LinearLayout>
 
                     <FrameLayout
@@ -120,8 +122,11 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp" >
 
+                        <!--  http://stackoverflow.com/questions/17604777/prevent-undesired-line-wrapping-in-textview -->
                         <com.samknows.measurement.activity.components.SimpleFontFitTextView
                             android:maxLines="1"
+                            android:inputType="text"
+                            android:singleLine="true"
                             android:id="@+id/test_last_run"
                             android:layout_width="fill_parent"
                             android:layout_height="30dp"
@@ -161,8 +166,7 @@
                                 android:gravity="left|center_vertical"
                                 android:padding="2dp"
                                 android:text="@string/no_data_message"
-                                android:textSize="15sp"
-                                android:width="190dp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </LinearLayout>
@@ -186,13 +190,14 @@
                     android:drawablePadding="5dp"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="10dp"
+                    android:textSize="16dp"
                     android:text="@string/network_type_mobile_results" />
             </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/average_page"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -212,6 +217,7 @@
                         android:drawablePadding="10dp"
                         android:gravity="left|center_vertical"
                         android:paddingLeft="10dp"
+                        android:textSize="16dp"
                         android:text="@string/results_for_1_week" />
                 </LinearLayout>
 
@@ -264,7 +270,7 @@
                                 android:padding="5dp"
                                 android:text="@string/download_mbps"
                                 android:textColor="#202020"
-                                android:textSize="18sp" />
+                                android:textSize="16sp" />
 
                         <TextView
                                 android:id="@+id/download_average"
@@ -383,7 +389,7 @@
                                 android:padding="5dp"
                                 android:text="@string/upload_mbps"
                                 android:textColor="#202020"
-                                android:textSize="18sp"/>
+                                android:textSize="16sp"/>
 
                         <TextView
                                 android:id="@+id/upload_average"
@@ -503,7 +509,7 @@
                                 android:padding="5dp"
                                 android:text="@string/latency_ms"
                                 android:textColor="#202020"
-                                android:textSize="18sp"/>
+                                android:textSize="16sp"/>
 
                         <TextView
                                 android:id="@+id/latency_average"
@@ -613,7 +619,7 @@
                                 android:background="@drawable/btn_closed_selector"
                                 android:contentDescription="@string/open_panel" />
 
-                            <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                            <TextView
                                 android:maxLines="1"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
@@ -622,7 +628,7 @@
                                 android:padding="5dp"
                                 android:text="@string/p_loss"
                                 android:textColor="#202020"
-                                android:textSize="18sp"/>
+                                android:textSize="14sp"/>
 
                         <TextView
                                 android:id="@+id/packetloss_average"
@@ -741,7 +747,7 @@
                                 android:padding="5dp"
                                 android:text="@string/jitter_ms"
                                 android:textColor="#202020"
-                                android:textSize="18sp"/>
+                                android:textSize="16sp"/>
 
                         <TextView
                                 android:id="@+id/jitter_average"
@@ -822,6 +828,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+                
             </LinearLayout>
         </LinearLayout>
     </com.samknows.measurement.activity.components.CustomScrollView>

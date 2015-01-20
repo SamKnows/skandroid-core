@@ -291,8 +291,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
+                        <!--  http://stackoverflow.com/questions/17604777/prevent-undesired-line-wrapping-in-textview -->
                         <com.samknows.measurement.activity.components.SimpleFontFitTextView
-                           android:maxLines="1"
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:singleLine="true"
                             android:id="@+id/TextView16"
                             style="@style/column"
                             android:layout_width="130dp"

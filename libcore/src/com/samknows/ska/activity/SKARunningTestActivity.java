@@ -213,9 +213,11 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 								pw = (ProgressWheel) findViewById(R.id.ProgressWheel3);
 								fftv = (FontFitTextView) findViewById(R.id.packetloss_result);
 								pw.setProgress((int) (status_complete * 3.6));
-								pw.setContentDescription("Status "
-										+ status_complete + "%");
+								pw.setContentDescription("Status " + status_complete + "%");
 								if (status_complete == 100) {
+									// We MUST restore the packet loss result field after the progress spinner has finished,
+									// otherwise, we can see "Perda de pacote" truncated to just "Perda da"...
+									fftv.setVisibility(View.VISIBLE);
 									pw.setVisibility(View.GONE);
 									fftv.setText(value);
 									fftv.setContentDescription(getString(R.string.packet_loss)
@@ -223,6 +225,9 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 									fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
 								} else {
 									pw.setVisibility(View.VISIBLE);
+									// We MUST hide the packet loss result field while the progress spinner is present,
+									// otherwise, we can see "Perda de pacote" truncated to just "Perda da"
+									fftv.setVisibility(View.GONE);
 									fftv.setText("");
 								}
 								break;

@@ -113,7 +113,7 @@
                     <TableLayout
                         android:id="@+id/download_test_panel"
                         android:layout_width="fill_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -127,14 +127,14 @@
 
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView12"
-                                style="@style/column"
+                                style="@style/column_metric_caption"
                                 android:layout_height="50dp"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/download"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"/>
+                                android:textSize="16sp"/>
 
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/download_result"
@@ -170,7 +170,7 @@
                     <TableLayout
                         android:id="@+id/upload_test_panel"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -180,7 +180,7 @@
                         <TableRow
                             android:id="@+id/TableRow07"
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp" >
+                            android:layout_height="wrap_content" >
 
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/TextView15"
@@ -191,7 +191,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/upload"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp" />
+                                android:textSize="16sp" />
 
                             <com.samknows.measurement.activity.components.FontFitTextView
                                 android:id="@+id/upload_result"
@@ -228,7 +228,7 @@
                     <TableLayout
                         android:id="@+id/latency_test_panel"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -249,7 +249,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/latency"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="130dp" />
 
                             <com.samknows.measurement.activity.components.FontFitTextView
@@ -285,7 +285,7 @@
                     <TableLayout
                         android:id="@+id/packetloss_test_panel"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -297,8 +297,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" >
 
-                            <com.samknows.measurement.activity.components.SimpleFontFitTextView
-                                android:maxLines="1"
+                        <!--  http://stackoverflow.com/questions/17604777/prevent-undesired-line-wrapping-in-textview -->
+                        <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:singleLine="true"
                                 android:id="@+id/TextView16"
                                 style="@style/column"
                                 android:layout_height="50dp"
@@ -306,8 +309,9 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/p_loss"
+                                text="Perda de pacote"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="130dp" />
 
                             <com.samknows.measurement.activity.components.FontFitTextView
@@ -343,7 +347,7 @@
                     <TableLayout
                         android:id="@+id/jitter_test_panel"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -364,7 +368,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/jitter"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="130dp" />
 
                             <com.samknows.measurement.activity.components.FontFitTextView
@@ -468,7 +472,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/connected"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -504,7 +508,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/connectivity_type"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -540,7 +544,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cell_tower_id"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -615,7 +619,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/signal_strength"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -651,7 +655,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/bearer"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -687,7 +691,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/network_operator"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -723,7 +727,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/latitude"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -759,7 +763,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/longitude"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -795,7 +799,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/accuracy"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -830,7 +834,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/location_provider"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -864,7 +868,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/sim_operator_code"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -899,7 +903,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/sim_operator_name"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -934,7 +938,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/imei"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -969,7 +973,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/imsi"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1004,7 +1008,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/manufacturer"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1039,7 +1043,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/model"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1074,7 +1078,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/os"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1109,7 +1113,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/os_version"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1144,7 +1148,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/gsmbiterrorrate"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1179,7 +1183,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cdmaecio"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1214,7 +1218,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/phone_type"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1249,7 +1253,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/active_network_type"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1284,7 +1288,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/connection_status"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1319,7 +1323,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/roaming_status"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1354,7 +1358,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/network_operator_code"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1389,7 +1393,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/signal_strength"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1424,7 +1428,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cdma_base_station_id"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1459,7 +1463,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cdma_base_station_latitude"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1494,7 +1498,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cdma_base_station_longitude"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1529,7 +1533,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cdma_network_id"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView
@@ -1564,7 +1568,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/cdma_system_id"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:width="160dp" />
 
                             <TextView

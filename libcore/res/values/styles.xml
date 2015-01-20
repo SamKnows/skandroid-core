@@ -112,6 +112,10 @@
         <item name="android:gravity">right</item>
         <item name="android:paddingLeft">5dip</item>
     </style>
+    
+    <style name="column_metric_caption" parent="column">
+        <item name="android:textSize">17sp</item>
+    </style>
 
     <style name="Button" parent="android:style/Widget.Button">
         <item name="android:textSize">16sp</item>
