@@ -191,12 +191,24 @@ public class SKASettingsActivity extends BaseLogoutActivity{
     	}
     	
 		ButtonWithRightArrow aboutUsButton = (ButtonWithRightArrow) findViewById(R.id.settings_aboutus_button);
-		aboutUsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SKApplication.getAppInstance().showTermsAndConditions(SKASettingsActivity.this);
-			}
-		});	
+		if (aboutUsButton != null) {
+			aboutUsButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SKApplication.getAppInstance().showAbout(SKASettingsActivity.this);
+				}
+			});	
+		}
+		
+		ButtonWithRightArrow termsButton = (ButtonWithRightArrow) findViewById(R.id.settings_termsandconditions);
+		if (termsButton != null) {
+			termsButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SKApplication.getAppInstance().showTermsAndConditions(SKASettingsActivity.this);
+				}
+			});	
+		}
 		
 		ButtonWithRightArrow exportResultsButton = (ButtonWithRightArrow) findViewById(R.id.settings_exportresults_button);
 		exportResultsButton.setOnClickListener(new OnClickListener() {

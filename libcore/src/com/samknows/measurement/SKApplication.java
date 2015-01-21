@@ -9,6 +9,7 @@ import com.samknows.libcore.SKOperators;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.test.TestResultsManager;
+import com.samknows.ska.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 
 import android.app.Activity;
@@ -82,6 +83,11 @@ public class SKApplication extends Application{
 
 	public static SKApplication getAppInstance() {
 		return sAppInstance;
+	}
+	
+	public void showAbout(Activity activity) {
+		Intent intent = new Intent(activity, SKAAboutActivity.class);
+		activity.startActivity(intent);
 	}
 
 	public void showTermsAndConditions(Activity activity) {
@@ -327,6 +333,11 @@ public class SKApplication extends Application{
 	
 	public String getTAndCVersionToCheckFor() {
 		return "1.0";
+	}
+
+	// Some apps can override this, to show terms when app starts.
+	public boolean getShouldAppShowTermsAtStart() {
+		return false;
 	}
 
 }

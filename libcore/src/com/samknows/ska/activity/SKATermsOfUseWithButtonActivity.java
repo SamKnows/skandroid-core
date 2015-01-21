@@ -117,7 +117,7 @@ public class SKATermsOfUseWithButtonActivity extends BaseLogoutActivity {
 			// Do this only if online!
 			if (checkIfIsConnectedAndIfNotShowAnAlert() == true) {
 				SKApplication.sSetTermsAcceptedAtThisVersion(this, SKApplication.getAppInstance().getTAndCVersionToCheckFor());
-				LoginHelper.openMainScreenWithNoTransitionAnimation(this, SKAMainResultsActivity.class);
+				LoginHelper.openMainScreenWithNoTransitionAnimation(this, SKApplication.getAppInstance().getTheMainActivityClass());
 			}
 		}
 		return super.onMenuItemSelected(featureId, item);

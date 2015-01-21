@@ -10,6 +10,7 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.util.LoginHelper;
 import com.samknows.measurement.util.OtherUtils;
+import com.samknows.ska.activity.SKATermsOfUseWithButtonActivity;
 
 /**
  * This activity is in charge of:
@@ -73,7 +74,16 @@ public class ActivityInitiate extends BaseLogoutActivity
 		}
 
 		final Activity ctx = this;
-		
-		LoginHelper.openMainScreenWithNoTransitionAnimation(ctx, FragmentActivityMain.class);
+	
+		if ( (SKApplication.getAppInstance().getShouldAppShowTermsAtStart() == false) ||
+          	 (SKATermsOfUseWithButtonActivity.sGetAreTermsAccepted(this) == true)
+           )
+    	{
+			LoginHelper.openMainScreenWithNoTransitionAnimation(ctx, FragmentActivityMain.class);
+			this.setTheme(android.R.style.Theme_NoDisplay);
+		} else {
+			// Show the main screen!
+			LoginHelper.openMainScreenWithNoTransitionAnimation(ctx, SKATermsOfUseWithButtonActivity.class);
+		}
 	}
 }
