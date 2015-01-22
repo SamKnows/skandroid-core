@@ -15,6 +15,7 @@
     <color name="white_dark">#F5F5F5</color>
     <color name="yellow">#FFE600</color>
     <color name="blue">#0000ff</color>
+    <color name="blue_pure_dark">#000090</color>
     <color name="skblue">#1FB4FF</color>
     <color name="blue_light">#6DD3F4</color>
     <color name="blue_dark">#1AA0E1</color>
@@ -56,15 +57,7 @@
     <color name="gradient_darkgray">#F028F0</color>
     <color name="orange_light">#FFE166</color>
 
-    <!-- APP COLOUR SCHEME colors...
-    <color name="WelcomeSplashBackgroundColor"></color>
-    return [SKAppColourScheme sGetSamKnowsBlue];
-    <color name="WelcomeSplashTextColor"></color>
-    return [SKAppColourScheme sGetSamKnowsWhite];
--(CGFloat)getMainAlphaProgressFill"
-    return 0.1;
-}
-    -->
+    <!-- APP COLOUR SCHEME colors... -->
     <color name="getInnerColor">#009FE3</color>
     <color name="OuterColor">#2552A4</color>
     <color name="MainColourProgressFill">#00000000</color>
@@ -84,27 +77,6 @@
     <color name="MetricsTextColour">#FF9D03</color>
     <color name="TableCellColourText">#FF9D03</color>
     
-    <!--
-    <color name="PanelColourBackground"
-    return [UIColor redColor];
-    
-    <color name="ResultColourText"
-    return [UIColor whiteColor];
-}
-
-    <color name="SummaryGetMenuPanelBackgroundColour"
-    return [UIColor redColor];
-}
-    <color name="SummaryGetCellBackgroundColour"
-    return [UIColor redColor];
-}
-
-    <color name="SummaryGetTableSeparatorColour"
-    return [UIColor whiteColor];
-}
-
-// Graph colours! -->
-
     <color name="GraphColourBackground">#009fe3</color>
     <color name="GraphColourTopLine">#2b6da3</color>
     <color name="GraphColourVerticalGridLine">#cce5e5e5</color>
@@ -113,51 +85,5 @@
 
     <color name="share_inner">#0066FF</color>
     <color name="share_outer">#003A91</color>
-
-    <!-- 
-// Action sheet colours!
-
-// This is on TOP of the background gradient.
-    <color name="ActionSheetBackgroundColour"
-    return [UIColor yellowColor]; // [UIColor colorWithWhite:1 alpha:0.5];
-}
-
-    <color name="ActionSheetOuterAreaColour"
-    return [UIColor whiteColor]; //[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.6];
-}
-
-    <color name="ActionSheetInnerAreaBorderColour"
-    return [UIColor blackColor]; //[UIColor colorWithWhite:1 alpha:0.5];
-}
-
-    <color name="ActionSheetButtonColour"
-    return [UIColor redColor];
-}
-
-    <color name="ActionSheetTextColour"
-    return [UIColor blackColor];
-}
-
-    <color name="ActionSheetButton1Colour"
-    return [UIColor redColor];
-}
-
-    <color name="ActionSheetText1Colour"
-    return [UIColor whiteColor];
-}
-
-    <color name="MetricsTextColour"
-    return [UIColor blackColor];
-}
-
-    <color name="BlinkerBorderColour"
-    return [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1];
-}
-
-    <color name="BlinkerBackgroundColour"
-   return [UIColor whiteColor];
-}
-    -->
-    
     
 </resources>
