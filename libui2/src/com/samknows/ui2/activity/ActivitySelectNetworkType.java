@@ -1,5 +1,6 @@
 package com.samknows.ui2.activity;
 
+import android.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -71,10 +72,10 @@ public class ActivitySelectNetworkType extends Activity
 		
 		
 		// Switch taking actions depending on the fragment this activity was called from
-		switch (getIntent().getIntExtra("currentFragment", 0))
+		switch (getIntent().getIntExtra("currentFragment", 1))
 		{
 			// Case we this activity was called from Archived Results fragment
-			case 0:
+			case 1:
 				// Set the background of the activity layout
 				layout_rl_main.setBackgroundResource(R.drawable.background_gradient_nonmain_with_border);
 				
@@ -128,8 +129,12 @@ public class ActivitySelectNetworkType extends Activity
 	
 			// Case default
 			default:
+				SKLogger.sAssert(getClass(),  false);
 				break;
 		}
+
+	    // Set TICKS, if appropriate.
+    	setButtonTicks();
 		
 		// Button listener when "All" button is pressed
 		button_network_all.setOnClickListener(new OnClickListener()
@@ -176,5 +181,16 @@ public class ActivitySelectNetworkType extends Activity
 			}
 		});
 		
+	}
+	
+	// Set TICKS, if appropriate.
+	private void setButtonTicks() {
+		// Set TICKS, if appropriate.
+		button_network_all.setText(getString(R.string.network_type_all)
+				+  (button_network_all.isSelected() ? " \u2713" : ""));
+		tv_network_wifi.setText(getString(R.string.network_type_wifi)
+				+  (layout_ll_network_wifi.isSelected() ? " \u2713" : ""));
+		tv_network_mobile.setText(getString(R.string.network_type_mobile)
+				+  (layout_ll_network_mobile.isSelected() ? " \u2713" : ""));
 	}
 }

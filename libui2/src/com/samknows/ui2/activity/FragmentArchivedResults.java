@@ -1113,20 +1113,7 @@ public class FragmentArchivedResults extends Fragment
 
 		Intent intent_select_network = new Intent(getActivity(),ActivitySelectNetworkType.class);
 		// Set the current fragment. This will determine the background of the activity
-		switch (getNetworkTypeSelection()) {
-		case eNetworkTypeResults_Any:
-			intent_select_network.putExtra("currentFragment", 0);
-			break;
-		case eNetworkTypeResults_WiFi:
-			intent_select_network.putExtra("currentFragment", 1);
-			break;
-		case eNetworkTypeResults_Mobile:
-			intent_select_network.putExtra("currentFragment", 2);
-			break;
-		default:
-			SKLogger.sAssert(getClass(),  false);
-			break;
-		}
+		intent_select_network.putExtra("currentFragment", 1);
 		// Activity is started with requestCode 0
 		startActivityForResult(intent_select_network, 0);
 	}

@@ -84,6 +84,9 @@ public class ActivitySelectTests extends Activity
 			{
 				// Invert the button selected state
 				v.setSelected(!v.isSelected());				
+				
+            	// Set TICKS, if appropriate.
+        	    setButtonTicks();
 			}
 		};
 		
@@ -91,6 +94,9 @@ public class ActivitySelectTests extends Activity
 		button_test_download.setOnClickListener(select_tests_listener);
 		button_test_upload.setOnClickListener(select_tests_listener);
 		button_test_latency_and_packet_loss.setOnClickListener(select_tests_listener);
+		
+		// Set TICKS, if appropriate.
+		setButtonTicks();
 		
 		// Listener for the confirmation button. The text is showed in bold while pressed
 		tv_ok.setOnTouchListener(new OnTouchListener()
@@ -119,6 +125,16 @@ public class ActivitySelectTests extends Activity
 		});
 	}
 	
+	// Set TICKS, if appropriate.
+	private void setButtonTicks() {
+		button_test_download.setText(getString(R.string.download)
+    		+  (button_test_download.isSelected() ? " \u2713" : ""));
+		button_test_upload.setText(getString(R.string.upload)
+    		+  (button_test_upload.isSelected() ? " \u2713" : ""));
+		button_test_latency_and_packet_loss.setText(getString(R.string.latency_loss_jitter)
+			+  (button_test_latency_and_packet_loss.isSelected() ? " \u2713" : ""));
+	}
+	
 	/**
 	 * Restore the last state of the tests from shared preferences (whether they were pressed or not the last time) to show the buttons pressed or not
 	 */
@@ -133,6 +149,8 @@ public class ActivitySelectTests extends Activity
 
     	// Recover the state of the latency and loss button
 		button_test_latency_and_packet_loss.setSelected(prefs.getBoolean("latencyAndLossTestState", false));
+		
+		setButtonTicks();
     }
 	
 	/**

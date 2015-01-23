@@ -22,7 +22,7 @@
             android:background="@drawable/dialog_buttons"
             android:text="@string/download"
             android:textColor="@color/button_dialog_text_state_list_color"
-            android:textSize="@dimen/text_size_medium"/>
+            android:textSize="@dimen/text_size_medium" />
 
         <Button
             android:id="@+id/button_select_test_upload"

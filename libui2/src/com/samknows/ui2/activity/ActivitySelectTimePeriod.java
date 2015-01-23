@@ -193,5 +193,22 @@ public class ActivitySelectTimePeriod extends Activity
 			default:
 				break;
 		}
+		
+    	// Set TICKS, if appropriate.
+	    setButtonTicks();
+	}
+	
+	// Set TICKS, if appropriate.
+	private void setButtonTicks() {
+		button_time_period_1_day.setText(getString(R.string.time_period_1_day)
+				+  (button_time_period_1_day.isSelected() ? " \u2713" : ""));
+		button_time_period_1_week.setText(getString(R.string.time_period_1_week)
+				+  (button_time_period_1_week.isSelected() ? " \u2713" : ""));
+		button_time_period_1_month.setText(getString(R.string.time_period_1_month)
+				+  (button_time_period_1_month.isSelected() ? " \u2713" : ""));
+		button_time_period_3_months.setText(getString(R.string.time_period_3_months)
+				+  (button_time_period_3_months.isSelected() ? " \u2713" : ""));
+		button_time_period_1_year.setText(getString(R.string.time_period_1_year)
+				+  (button_time_period_1_year.isSelected() ? " \u2713" : ""));
 	}
 }
