@@ -35,7 +35,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
-import com.samknows.libcore.R;
+import com.samknows.libui2.R;
 
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.ButtonWithRightArrow;
