@@ -49,7 +49,7 @@ import com.samknows.libui2.R;
 public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 {
 	// *** CONSTANTS *** //
-	private static final int C_NUMBER_OF_TABS = 3;	
+	private static final int C_NUMBER_OF_TABS = 4;	
 	
 	// *** VARIABLES *** //	
 	// UI elements
@@ -64,6 +64,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 	private static Fragment fragmentArchivedResults;	// Represents the archived results fragment
 	private static Fragment fragmentRunTest;			// Represents the run test fragment
 	private static Fragment fragmentSummary;			// Represents the summary fragment
+	private static Fragment fragmentSettings;			// Represents the summary fragment
 
 
 	// *** FRAGMENT ACTIVITY LIFECYCLE *** //
@@ -152,12 +153,16 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 					
 					return fragmentSummary;
 					
-				// Case default, run test fragment
-				default:
-					if (fragmentRunTest == null)
+				case 3:
+					if (fragmentSettings == null)
 					{
-						fragmentRunTest = new FragmentRunTest();						
+						fragmentSettings = new FragmentSettings();						
 					}
+					
+					return fragmentSettings;
+					
+				default:
+					SKLogger.sAssert(getClass(), false);
 					
 					return fragmentRunTest;
 			}
@@ -177,6 +182,9 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 					
 				case 2:					
 					return SKApplication.getAppInstance().getApplicationContext().getString(R.string.title_summary); //  "Summary";
+					
+				case 3:					
+					return SKApplication.getAppInstance().getApplicationContext().getString(R.string.settings); //  "Summary";
 					
 				default:
         			return SKApplication.getAppInstance().getAppName();
@@ -272,8 +280,8 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		findViewById(R.id.main_Fragment_Toolbar_Layout_Settings).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent_menu_settings = new Intent(FragmentActivityMain.this, SKASettingsActivity.class);
-				startActivity(intent_menu_settings);
+				layout_ll_background_top.setAlpha(1.0f);
+				FragmentActivityMain.this.viewPager.setCurrentItem(3);
 			}
 		});
 
@@ -368,9 +376,15 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 						layout_ll_background_top.setAlpha(positionOffset);
 						break;
 	
-					default:
+					case 2:						
                       	mSummaryImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
                 		mSummaryImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+						layout_ll_background_top.setAlpha(positionOffset);
+						break;
+						
+					default:
+                      	mSettingsImageView.setColorFilter(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
+                		mSettingsImageViewText.setTextColor(FragmentActivityMain.this.getResources().getColor(R.color.sam_knows_blue));
 						break;
 				}	    		
 	    	}
@@ -484,11 +498,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 //			return true;
 //		}
 		
-		if (itemId == R.id.menu_settings){
-			startActivity(new Intent(this, SKASettingsActivity.class));
-			
-			return true;
-		}
+//		if (itemId == R.id.menu_settings){
+//			startActivity(new Intent(this, SKASettingsActivity.class));
+//			
+//			return true;
+//		}
 
 		return super.onOptionsItemSelected(item);
 	}
