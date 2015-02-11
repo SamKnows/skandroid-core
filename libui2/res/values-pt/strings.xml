@@ -2,52 +2,52 @@
 <resources>
     
     <!-- FRAGMENT ARCHIVED RESULTS -->
-    <string name="no_archived_results_yet">There are no results yet</string>
+    <string name="no_archived_results_yet">Sem resultados até o momento</string>
     
     <!-- FRAGMENT SUMMARY -->
-    <string name="average">Average</string>
-    <string name="best">Best</string>
-    <string name="no_results_for_period_and_network">There are no results</string>
+    <string name="average">Média</string>
+    <string name="best">Melhor</string>
+    <string name="no_results_for_period_and_network">Sem resultados</string>
     
     <!-- FRAGMENT RUN TEST -->    
-    <string name="running">Running</string>
-    <string name="no_connectivity">Check out your connectivity</string>    
-    <string name="slow_connectivity">Slow connectivity</string>
+    <string name="running">Executando</string>
+    <string name="no_connectivity">Verifique sua conexão</string>    
+    <string name="slow_connectivity">Conexão lenta</string>
     
     <!-- ACTIVITY SELECT TESTS -->
-    <string name="latency_loss_jitter">Latency / Loss / Jitter</string>
+    <string name="latency_loss_jitter">Latência / Perda de pacotes / Jitter</string>
     <string name="ok">OK</string>
     
     <!-- ACTIVITY ABOUT -->
-    <string name="about_title">About</string>
-    <string name="about_description_download">This should be indicative of the maximum speed your broadband connection will be able to download data from the Internet.  Results are recorded in Mbps (higher is better).</string>
-    <string name="about_description_upload">This should be indicative of the maximum speed your broadband connection will be able to transmit data to the Internet.  Results are recorded in Mbps (higher is better).</string>
-    <string name="about_description_latency">This test measures how long it takes one packet to be sent to one of our test servers, and then returned back to you.  Latency can be thought of as the responsiveness of the connection from your device and our servers on the Internet. Times are recorded here in milliseconds (lower is better).</string>
-    <string name="about_description_packet_loss">Packet loss occurs when the information sent by your device fails to reach its destination. When packet loss is high, you may find that time sensitive applications such as Voice over IP (VoIP) and online gaming will suffer. Packet loss is recorded here as a percentage (lower is better).</string>
-    <string name="about_description_jitter">This test measures the variation in the time it takes one packet to be sent to one of our test servers and then returned back to you. In other words, jitter represents the variation of latency. Jitter is usually an indication of network congestion and high levels of jitter would impact the performance of time sensitive applications such as VoIP, online gaming and video streaming. Jitter is recorded in milliseconds (lower is better).</string>
+    <string name="about_title">Sobre</string>
+    <string name="about_description_download">Este é o indicativo da velocidade máxima que sua conexão fará um download de dados da internet. Os resultados são reportados em Mbps (quanto maior, melhor).</string>
+    <string name="about_description_upload">Este é o indicativo da velocidade máxima que sua conexão transmitirá dados para a internet. Os resultados são reportados em Mbps (quanto maior, melhor).</string>
+    <string name="about_description_latency">Este teste mede o tempo que um pacote demora para ser enviado para nossos servidores e ser devolvido para você. A latência pode ser considerada a responsável pela conexão entre seu dispositivo e nossos servidores na internet. O tempo é reportado em milisegundos (quanto menor, melhor).</string>
+    <string name="about_description_packet_loss">A perda de pacotes ocorre quanto a informação enviada pelo seu dispositivo falha ao tentar alcançar o destino final. Quando a perda é alta você notará que aplicações sensitivas ao tempo como Voz sobre IP (VoIP) e jogos online sofrerão impacto. A perda de pacotes é reportada em porcentagem (quanto menor, melhor).</string>
+    <string name="about_description_jitter">Este teste mede a variação do tempo para um pacote ser enviado para nossos servidores e retornar para você. Em outras palavras, o jitter representa a variação da latência. O jitter usualmente é a indicação do congestionamento da rede e altos níveis de jitter podem impactar a performance de aplicações sensíveis ao tempo como VoIP, jogos online e streaming de vídeo. Jitter é reportado em milisegundos (quanto menor, melhor).</string>
     
     <!-- COMMON TEXT -->
     <string name="download">Download</string>
     <string name="upload">Upload</string>
-    <string name="latency">Latency</string>
-    <string name="packet_loss">Packet loss</string>
-    <string name="loss">Loss</string>
+    <string name="latency">Latência</string>
+    <string name="packet_loss">Perda de pacotes</string>
+    <string name="loss">Perda de pacotes</string>
     <string name="jitter">Jitter</string>
     <string name="slash">-</string>
     <string name="dummytext">dummy</string>
-    <string name="nineninenine">999.99</string>
+    <string name="nineninenine">999,99</string>
     <string name="dummydate">19/12/14 12:35</string>
     <string name="dummydateday">19/12/14</string>
     <string name="dummydatetime">12:35:59</string>
-    <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
+    <string name="sharedPreferencesIdentifier">EAQ SpeedTest</string>    
 
     <!-- NETWORK TYPES -->
     <string name="network_type_wifi">WiFi</string>
-    <string name="network_type_mobile">Mobile</string>
-    <string name="network_type_all">All</string>
+    <string name="network_type_mobile">Móvel</string>
+    <string name="network_type_all">Todos</string>
     
     <!--  Reported network type -->
-    <string name="network_type_noconnection">No Network</string>
+    <string name="network_type_noconnection">Sem internet</string>
     <string name="network_type_NETWORK_TYPE_1xRTT">"CDMA2000"</string> 
     <string name="network_type_NETWORK_TYPE_CDMA">"CDMA"</string>
     <string name="network_type_NETWORK_TYPE_EDGE">"EDGE"</string>
@@ -73,27 +73,27 @@
     <string name="network_type_TYPE_MOBILE_SUPL">"Mobile SUPL"</string>
 
     <!-- TIME PERIOD -->
-    <string name="time_period">Period</string>
-    <string name="time_period_1_day">1 Day</string>
-    <string name="time_period_1_week">1 Week</string>
-    <string name="time_period_1_month">1 Month</string>
-    <string name="time_period_3_months">3 Months</string>
-    <string name="time_period_1_year">1 Year</string>
+    <string name="time_period">Período</string>
+    <string name="time_period_1_day">1 dia</string>
+    <string name="time_period_1_week">1 semana</string>
+    <string name="time_period_1_month">1 mês</string>
+    <string name="time_period_3_months">3 meses</string>
+    <string name="time_period_1_year">1 ano</string>
 
     <!-- ACTIVITY SHARE RESULT -->
-    <string name="share_image_using">Share image using...</string>
-    <string name="share_caption_mobile">Mobile</string>
+    <string name="share_image_using">Compartilhar imagem utilizando...</string>
+    <string name="share_caption_mobile">Móvel</string>
     <string name="share_caption_wifi">WiFi</string>
-    <string name="network_performance_test">Network performance test</string>
-    <string name="download_speed">Download Speed</string>
-    <string name="upload_speed">Upload Speed</string>
-    <string name="latency_lowercase">Netwwork Latency</string>
-    <string name="packet_loss_lowercase">Packet Loss</string>
+    <string name="network_performance_test">Teste de performance de rede</string>
+    <string name="download_speed">Velocidade de Download</string>
+    <string name="upload_speed">Velocidade de Upload</string>
+    <string name="latency_lowercase">Latência de rede</string>
+    <string name="packet_loss_lowercase">Perda de pacotes</string>
     <string name="jitter_lowercase">Jitter</string>
     
     <!-- ADAPTER ARCHIVED RESULTS LIST VIEW -->
     <string name="not_available">NA</string>    
-    <string name="failed_test">Failed</string>
+    <string name="failed_test">Falha</string>
     <string name="failed_test_short">F</string>
 
     <!-- IMAGE DESCRIPTIONS -->
@@ -113,34 +113,34 @@
 
     <!-- PASSIVE METRICS DETAILS -->
     <!-- Sim and Network operators -->
-    <string name="sim_and_network_operators">Sim and Network Operators</string>
-    <string name="sim_operator">Sim Operator</string>
-    <string name="sim_operator_code">Sim Operator Code</string>
-    <string name="network_operator">Network Operator</string>
-    <string name="network_operator_code">Network Operator Code</string>
-    <string name="roaming_status">Roaming Status</string>
+    <string name="sim_and_network_operators">Prestadora do SIMCard e internet</string>
+    <string name="sim_operator">Prestadora do SIMCard</string>
+    <string name="sim_operator_code">Código da prestadora do SIMCard</string>
+    <string name="network_operator">Prestadora da internet</string>
+    <string name="network_operator_code">Código da prestadora da rede</string>
+    <string name="roaming_status">Status do roaming</string>
 
     <!-- Signal Details -->
-    <string name="cell_tower_id">Cell Tower ID</string>
-    <string name="cell_tower_area_location_code">Cell Tower Area Location Code</string>
-    <string name="signal">Signal</string>
-    <string name="signal_strength">Signal Strength</string>
-    <string name="bearer">Bearer</string>
+    <string name="cell_tower_id">Cell ID</string>
+    <string name="cell_tower_area_location_code">LAC</string>
+    <string name="signal">Sinal</string>
+    <string name="signal_strength">Potência do sinal</string>
+    <string name="bearer">Tipo de conexão</string>
 
     <!-- Device details -->
-    <string name="device">Device</string>
-    <string name="manufacturer">Manufacturer</string>
-    <string name="model">Model</string>
-    <string name="os">OS</string>
-    <string name="os_version">OS version</string>
-    <string name="phone_type">Phone Type</string>
+    <string name="device">Dispositivo</string>
+    <string name="manufacturer">Fabricante</string>
+    <string name="model">Modelo</string>
+    <string name="os">S.O.</string>
+    <string name="os_version">Versão do S.O.</string>
+    <string name="phone_type">Tipo de telefone</string>
 
     <!-- Position -->
-    <string name="location">Location</string>
+    <string name="location">Localização</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
-    <string name="accuracy">Accuracy</string>
-    <string name="location_provider">Location Provider</string>
+    <string name="accuracy">Acurácia</string>
+    <string name="location_provider">Fonte da Localização</string>
 
     <!-- TOOLS TEXT -->
     <string name="tools_text_value_date">"4/4/2014"</string>
@@ -158,7 +158,7 @@
 
     <string name="tools_text_value_sim_operator_code">"23410"</string>
     <string name="tools_text_value_network_operator_code">"23410"</string>
-    <string name="tools_text_value_roaming_status">"off"</string>
+    <string name="tools_text_value_roaming_status">"fora"</string>
     <string name="tools_text_value_cell_tower_id">1260999</string>
     <string name="tools_text_value_sim_operator">giffgaff</string>
     <string name="tools_text_value_network_operator">giffgaff</string>
@@ -174,43 +174,43 @@
     <string name="tools_text_value_longitude">-0.17638</string>
     <string name="tools_text_value_accuracy">13.0 m</string>
     <string name="tools_text_value_location_provider">GPS</string>
-    <string name="tools_text_value_network_type">"Mobile Network"</string>
+    <string name="tools_text_value_network_type">"Rede móvel"</string>
 
     <!-- MESSAGES, WARNINGS -->
-    <string name="data_cap_warning_already_exceeded">Data cap exceeded</string>
-    <string name="data_cap_warning_might_be_exceeded">Data cap might be exceeded</string>
-    <string name="gauge_message_start">Start</string>
-    <!--  <string name="gauge_message_starting">Starting</string> -->
+    <string name="data_cap_warning_already_exceeded">Limite de dados excedido</string>
+    <string name="data_cap_warning_might_be_exceeded">Limite de dados pode ter excedido</string>
+    <string name="gauge_message_start">Início</string>
+    <!--  <string name="gauge_message_starting">Iniciando</string> -->
     <string name="gauge_message_starting"></string>
-    <string name="advice_message_press_the_button">Press the Start button</string>
-    <string name="advice_message_press_the_button_run_again">Press the Start button to run again</string>
-    <string name="advice_message_running">Running Tests</string>
-    <string name="advice_message_stopping">Stopping…</string>
-    <string name="label_message_ready_to_run">Ready to run</string>
-    <string name="label_message_tests_executed">Tests executed</string>
-    <string name="label_message_starting_tests">Target Selection</string>
-    <string name="label_message_download_test">Download testing</string>
-    <string name="label_message_upload_test">Upload testing</string>
-    <string name="label_message_latency_loss_jitter_test">Latency / Loss / Jitter</string>
-    <string name="no_internet_connection ">There is no internet connection</string>     
-    <string name="tests_running_title">Tests Running</string>
-    <string name="tests_running_message">You are recommended to wait until the tests complete. Do you really want to stop the tests?</string>
+    <string name="advice_message_press_the_button">Pressione o botão Iniciar</string>
+    <string name="advice_message_press_the_button_run_again">Pressione o botão iniciar para executar novamente</string>
+    <string name="advice_message_running">Testes em andamento</string>
+    <string name="advice_message_stopping">Parando…</string>
+    <string name="label_message_ready_to_run">Pronto para executar</string>
+    <string name="label_message_tests_executed">Testes executados com sucesso</string>
+    <string name="label_message_starting_tests">Escolha do servidor</string>
+    <string name="label_message_download_test">Testando Download</string>
+    <string name="label_message_upload_test"> Testando Upload</string>
+    <string name="label_message_latency_loss_jitter_test">Latência / Perda de pacotes / Jitter</string>
+    <string name="no_internet_connection ">Sem conexão com a internet no momento</string>     
+    <string name="tests_running_title">Executando testes</string>
+    <string name="tests_running_message">Recomenda-se aguardar a conclusão dos testes. Deseja interromper os testes?</string>
     
     <!-- MENU ITEMS -->
-    <string name="menu_item_refresh">Refresh</string>
-    <string name="menu_item_select_network">Select Network</string>
-    <string name="menu_item_select_tests">Select Tests</string>
-    <string name="menu_item_share">Share</string>
+    <string name="menu_item_refresh">Atualizar</string>
+    <string name="menu_item_select_network">Selecionar rede</string>
+    <string name="menu_item_select_tests"> Selecionar Testes</string>
+    <string name="menu_item_share">Compartilhar</string>
     
     <!--  PAGE TITLES -->
-    <string name="title_test">Test</string>
-    <string name="title_history">Results</string>
-    <string name="title_summary">Summary</string>
+    <string name="title_test">Teste</string>
+    <string name="title_history">Resultados</string>
+    <string name="title_summary">Resumo</string>
 
     <!-- PASSIVE METRICS -->
-    <string name="pm_your_ip_label">Your IP</string>
+    <string name="pm_your_ip_label">Seu IP</string>
     <string name="pm_your_ip_example">89.105.103.193</string>
-    <string name="pm_reference_no_label">Reference No.</string>
+    <string name="pm_reference_no_label">Número de referência</string>
     <string name="pm_reference_no_example">00e2145198fc49e1fd5587d0b57db66</string>
     
         
