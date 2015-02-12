@@ -97,13 +97,13 @@
     <string name="failed_test_short">F</string>
 
     <!-- IMAGE DESCRIPTIONS -->
-    <string name="description_icon_clock">An image representing a clock</string>
-    <string name="description_wifi_icon">An icon representing a wifi signal</string>
-    <string name="description_icon_chart">Icon representing a chart</string>
-    <string name="description_image_connectivity_type">Image representing the connectivity type</string>
-    <string name="description_icon_download">This icon represents the download result</string>
-    <string name="description_icon_upload">This icon represents the upload result</string>
-    <string name="description_image_eaq_logo">Image with the SamKnows logo</string>
+    <string name="description_icon_clock">Uma imagem representando um relógio</string>
+    <string name="description_wifi_icon">Uma imagem representando um sinal wifi</string>
+    <string name="description_icon_chart">Um ícone representando um gráfico</string>
+    <string name="description_image_connectivity_type">Uma imagem representando o tipo de conexão</string>
+    <string name="description_icon_download">Este ícone representa o resultado de download</string>
+    <string name="description_icon_upload">Este ícone representa o resultado de upload</string>
+    <string name="description_image_eaq_logo">Imagem com o logo da EAQ</string>
 
     <!-- UNITS -->
     <string name="units_Mbps">Mbps</string>
