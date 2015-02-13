@@ -1053,28 +1053,33 @@ public class FragmentArchivedResults extends Fragment
     // You should place your menu items in to menu. For this method to be called, you must have first called setHasOptionsMenu(boolean).
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-    	inflater.inflate(R.menu.menu_fragment_archived_tests, menu);
+	{
+	  inflater.inflate(R.menu.menu_fragment_archived_tests, menu);
 
-    	menu_Item_Network_Type_Filter = menu.findItem(R.id.menu_item_fragment_archived_tests_select_network);	// Identify network type filter menu in the action bar
-    	menu_Item_Refresh_Spinner = menu.findItem(R.id.menu_item_fragment_archived_tests_refreshSpinner);		// Identify the loading spinner in the action bar
-    	menu_Item_Share_Result = menu.findItem(R.id.menu_item_fragment_archived_tests_share_result);				// Identify the share results action in the action bar
+	  menu_Item_Network_Type_Filter = menu.findItem(R.id.menu_item_fragment_archived_tests_select_network);	// Identify network type filter menu in the action bar
+	  menu_Item_Refresh_Spinner = menu.findItem(R.id.menu_item_fragment_archived_tests_refreshSpinner);		// Identify the loading spinner in the action bar
+	  menu_Item_Share_Result = menu.findItem(R.id.menu_item_fragment_archived_tests_share_result);				// Identify the share results action in the action bar
 
-    	// If the list view is hidden, hide as well the network type filter
-    	if (isListviewHidden)
-    	{
-    		menu_Item_Network_Type_Filter.setVisible(false);
-    		menu_Item_Share_Result.setVisible(true);				// Show the share result action in the action bar
-		}
-    	else
-    	{
-    		menu_Item_Share_Result.setVisible(false);				// Hide the share result action in the action bar    		
-    	}
-    	// Assign the resource to the loading spinner
-    	menu_Item_Refresh_Spinner.setActionView(R.layout.actionbar_indeterminate_progress);
-    	
-    	// When creating the menu, if the asynchronous task is running then show the loading spinner
-    	menu_Item_Refresh_Spinner.setVisible(asyncTask_RefreshListViewData_Running);
+	  // If the list view is hidden, hide as well the network type filter
+	  if (isListviewHidden)
+	  {
+	    menu_Item_Network_Type_Filter.setVisible(false);
+	    menu_Item_Share_Result.setVisible(true);				// Show the share result action in the action bar
+	  }
+	  else
+	  {
+	    menu_Item_Share_Result.setVisible(false);				// Hide the share result action in the action bar    		
+	  }
+	  
+    if (SKApplication.getAppInstance().isSocialMediaExportSupported() == false) {
+	    menu_Item_Share_Result.setVisible(false);				// Hide the share result action in the action bar    		
+    }
+	  
+	  // Assign the resource to the loading spinner
+	  menu_Item_Refresh_Spinner.setActionView(R.layout.actionbar_indeterminate_progress);
+
+	  // When creating the menu, if the asynchronous task is running then show the loading spinner
+	  menu_Item_Refresh_Spinner.setVisible(asyncTask_RefreshListViewData_Running);
 	}
 	
 	private void showShareResult() {

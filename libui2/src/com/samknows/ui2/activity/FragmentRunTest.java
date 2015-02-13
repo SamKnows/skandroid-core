@@ -1806,16 +1806,20 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-    	inflater.inflate(R.menu.menu_fragment_run_test, menu); 
-    	
-    	menuItem_SelectTests = menu.findItem(R.id.menu_item_fragment_run_test_select_tests);
-    	menuItem_ShareResult = menu.findItem(R.id.menu_item_fragment_run_test_share_result);
-    	
-		menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
-		
-		if (menuItem_SelectTests != null) {
-			menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
-		}
+      inflater.inflate(R.menu.menu_fragment_run_test, menu); 
+
+      menuItem_SelectTests = menu.findItem(R.id.menu_item_fragment_run_test_select_tests);
+      menuItem_ShareResult = menu.findItem(R.id.menu_item_fragment_run_test_share_result);
+
+      menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
+      
+      if (SKApplication.getAppInstance().isSocialMediaExportSupported() == false) {
+        menuItem_ShareResult.setVisible(false);
+      }
+
+      if (menuItem_SelectTests != null) {
+        menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+      }
     }
 
     // This hook is called whenever an item in your options menu is selected.
