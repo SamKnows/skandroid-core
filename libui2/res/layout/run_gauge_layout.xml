@@ -16,50 +16,52 @@
         android:id="@+id/top_panel"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
-         >
+        android:layout_weight="9" >
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/fragment_speed_gauge_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
-            <!-- Optional icon, shown in some of the app variants!
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
                 android:scaleType="fitStart"
-                android:src="@drawable/icon"
-            >
-            </ImageView -->
+		android:visibility="gone"
+                android:src="@drawable/icon" >
+            </ImageView>
 
-            <FrameLayout
-                android:id="@+id/this_relative_layout"
+            <com.samknows.ui2.activity.GaugeView
+                android:id="@+id/fragment_speed_gauge_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <!-- Left to Right: Blank | TopMidBottom | Blank -->
+
+            <LinearLayout
+                android:id="@+id/main_center_panel"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal" >
 
-                <com.samknows.ui2.activity.GaugeView
-                    android:id="@+id/fragment_speed_gauge_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <!-- blank left -->
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <!-- mid TopMidBottom -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="10dp"/>
-                <LinearLayout
-                    android:layout_width="0dp"
                     android:layout_weight="2"
-                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical" >
 
                     <com.samknows.measurement.activity.components.SimpleFontFitTextView
                         android:id="@+id/top_text_network_type_label"
@@ -67,8 +69,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textAlignment="center"
                         android:text="@string/tools_text_value_bearer"
+                        android:textAlignment="center"
                         android:textColor="@color/MainColourDialTopText"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold" />
@@ -77,12 +79,12 @@
                         android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="1"
                         android:gravity="center|bottom"
-                        android:textAlignment="center"
+                        android:maxLines="1"
                         android:text="@string/gauge_message_start"
+                        android:textAlignment="center"
                         android:textColor="@color/MainColourDialCenterText"
-                        android:textSize="@dimen/text_size_peta"/>
+                        android:textSize="@dimen/text_size_peta" />
 
                     <com.samknows.measurement.activity.components.SimpleFontFitTextView
                         android:id="@+id/unit_text_label"
@@ -90,18 +92,42 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:textAlignment="center"
                         android:text="@string/units_Mbps"
+                        android:textAlignment="center"
                         android:textColor="@color/MainColourPressTheStartButtonText"
                         android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
+
+                <!-- blank right -->
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="10dp"/>
-                </LinearLayout>
-            </FrameLayout>
-        </FrameLayout>
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main_center_panel"
+                android:orientation="vertical" >
+
+                <!-- padding! -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/measurement_text_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/download"
+                    android:textColor="@color/MainColourPressTheStartButtonText"
+                    android:textSize="@dimen/text_size_small_medium" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout

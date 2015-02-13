@@ -15,7 +15,7 @@
     <string name="slow_connectivity">Conexão lenta</string>
     
     <!-- ACTIVITY SELECT TESTS -->
-    <string name="latency_loss_jitter">Latência / Perda de pacotes / Jitter</string>
+    <string name="latency_loss_jitter">Latência / Perda da pacotes / Jitter</string>
     <string name="ok">OK</string>
     
     <!-- ACTIVITY ABOUT -->
@@ -23,15 +23,15 @@
     <string name="about_description_download">Este é o indicativo da velocidade máxima que sua conexão fará um download de dados da internet. Os resultados são reportados em Mbps (quanto maior, melhor).</string>
     <string name="about_description_upload">Este é o indicativo da velocidade máxima que sua conexão transmitirá dados para a internet. Os resultados são reportados em Mbps (quanto maior, melhor).</string>
     <string name="about_description_latency">Este teste mede o tempo que um pacote demora para ser enviado para nossos servidores e ser devolvido para você. A latência pode ser considerada a responsável pela conexão entre seu dispositivo e nossos servidores na internet. O tempo é reportado em milisegundos (quanto menor, melhor).</string>
-    <string name="about_description_packet_loss">A perda de pacotes ocorre quanto a informação enviada pelo seu dispositivo falha ao tentar alcançar o destino final. Quando a perda é alta você notará que aplicações sensitivas ao tempo como Voz sobre IP (VoIP) e jogos online sofrerão impacto. A perda de pacotes é reportada em porcentagem (quanto menor, melhor).</string>
+    <string name="about_description_packet_loss">A de pacote ocorre quanto a informação enviada pelo seu dispositivo falha ao tentar alcançar o destino final. Quando a perda é alta você notará que aplicações sensitivas ao tempo como Voz sobre IP (VoIP) e jogos online sofrerão impacto. A de pacote é reportada em porcentagem (quanto menor, melhor).</string>
     <string name="about_description_jitter">Este teste mede a variação do tempo para um pacote ser enviado para nossos servidores e retornar para você. Em outras palavras, o jitter representa a variação da latência. O jitter usualmente é a indicação do congestionamento da rede e altos níveis de jitter podem impactar a performance de aplicações sensíveis ao tempo como VoIP, jogos online e streaming de vídeo. Jitter é reportado em milisegundos (quanto menor, melhor).</string>
     
     <!-- COMMON TEXT -->
     <string name="download">Download</string>
     <string name="upload">Upload</string>
     <string name="latency">Latência</string>
-    <string name="packet_loss">Perda de pacotes</string>
-    <string name="loss">Perda de pacotes</string>
+    <string name="packet_loss">de pacote</string>
+    <string name="loss">de pacote</string>
     <string name="jitter">Jitter</string>
     <string name="slash">-</string>
     <string name="dummytext">dummy</string>
@@ -88,7 +88,7 @@
     <string name="download_speed">Velocidade de Download</string>
     <string name="upload_speed">Velocidade de Upload</string>
     <string name="latency_lowercase">Latência de rede</string>
-    <string name="packet_loss_lowercase">Perda de pacotes</string>
+    <string name="packet_loss_lowercase">de pacote</string>
     <string name="jitter_lowercase">Jitter</string>
     
     <!-- ADAPTER ARCHIVED RESULTS LIST VIEW -->
@@ -179,7 +179,7 @@
     <!-- MESSAGES, WARNINGS -->
     <string name="data_cap_warning_already_exceeded">Limite de dados excedido</string>
     <string name="data_cap_warning_might_be_exceeded">Limite de dados pode ter excedido</string>
-    <string name="gauge_message_start">Início</string>
+    <string name="gauge_message_start">Iniciar</string>
     <!--  <string name="gauge_message_starting">Iniciando</string> -->
     <string name="gauge_message_starting"></string>
     <string name="advice_message_press_the_button">Pressione o botão Iniciar</string>
@@ -191,7 +191,7 @@
     <string name="label_message_starting_tests">Escolha do servidor</string>
     <string name="label_message_download_test">Testando Download</string>
     <string name="label_message_upload_test"> Testando Upload</string>
-    <string name="label_message_latency_loss_jitter_test">Latência / Perda de pacotes / Jitter</string>
+    <string name="label_message_latency_loss_jitter_test">Latência / de pacote / Jitter</string>
     <string name="no_internet_connection ">Sem conexão com a internet no momento</string>     
     <string name="tests_running_title">Executando testes</string>
     <string name="tests_running_message">Recomenda-se aguardar a conclusão dos testes. Deseja interromper os testes?</string>
@@ -203,7 +203,7 @@
     <string name="menu_item_share">Compartilhar</string>
     
     <!--  PAGE TITLES -->
-    <string name="title_test">Teste</string>
+    <string name="title_test">Executar</string>
     <string name="title_history">Resultados</string>
     <string name="title_summary">Resumo</string>
 

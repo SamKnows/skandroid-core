@@ -109,6 +109,7 @@ public class FragmentRunTest extends Fragment
 	private FrameLayout run_results_panel_frame_to_animate;
 	// Text views showing warnings
 	private TextView mUnitText;	
+	private TextView mMeasurementText;	
 	private View initial_warning_text;
 	// Text views showing the test result labels
 	private TextView tv_Label_Download, tv_Label_Upload; //  tv_Label_Mbps_1, tv_Label_Mbps_2;
@@ -139,7 +140,7 @@ public class FragmentRunTest extends Fragment
 	private MenuItem menuItem_SelectTests, menuItem_ShareResult;
 
 	// Other class objects
-    private FrameLayout gaugeViewContainer;
+    private RelativeLayout gaugeViewContainer;
     private GaugeView gaugeView;
     private PhoneStateListener phoneStateListener;
     private TelephonyManager telephonyManager;
@@ -176,53 +177,52 @@ public class FragmentRunTest extends Fragment
 	
 	// Called when the fragment is visible to the user and actively running
 	@Override
-    public void onResume()
-    {
-		// Restore any previously saved data...
-    	restoreWhichTestsToRun();
-    	
-		// Register back button handler...
-		registerBackButtonHandler();
-		
-        // Register the broadcast receiver to listen for connectivity changes from the system
-        IntentFilter mIntentFilter = new IntentFilter();               
-        mIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);        
-        
-    	Context context = SKApplication.getAppInstance().getApplicationContext();
-        context.registerReceiver(broadcastReceiverConnectivityChanges, mIntentFilter);
-        
-        // Register the local broadcast receiver listener to receive messages within the application (Listen for current values while performing tests)
-        LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentClosestTarget, new IntentFilter("currentClosestTarget"));			// Current closest target server
-        LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentLatency, new IntentFilter("currentLatencyIntent"));			// Current latency value
-        
-		// Start the periodic timer!
-		startTimer();
+  public void onResume()
+	{
+	  // Restore any previously saved data...
+	  restoreWhichTestsToRun();
 
-        // Add the listener to the telephonyManager to listen for changes in the data connectivity
-        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
-        super.onResume();
-    }
+	  // Register back button handler...
+	  registerBackButtonHandler();
+
+	  // Register the broadcast receiver to listen for connectivity changes from the system
+	  IntentFilter mIntentFilter = new IntentFilter();               
+	  mIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);        
+
+	  Context context = SKApplication.getAppInstance().getApplicationContext();
+	  context.registerReceiver(broadcastReceiverConnectivityChanges, mIntentFilter);
+
+	  // Register the local broadcast receiver listener to receive messages within the application (Listen for current values while performing tests)
+	  LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentClosestTarget, new IntentFilter("currentClosestTarget"));			// Current closest target server
+	  LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentLatency, new IntentFilter("currentLatencyIntent"));			// Current latency value
+
+	  // Start the periodic timer!
+	  startTimer();
+
+	  // Add the listener to the telephonyManager to listen for changes in the data connectivity
+	  telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+	  super.onResume();
+	}
 
 	// Called when the fragment is no longer resumed
     @Override
     public void onPause()
     {
-    	super.onPause();
+      super.onPause();
 
-        // Unregister the broadcast receiver listener. The listener listen for connectivity changes
-    	Context context = SKApplication.getAppInstance().getApplicationContext();
-    	context.unregisterReceiver(broadcastReceiverConnectivityChanges);
+      // Unregister the broadcast receiver listener. The listener listen for connectivity changes
+      Context context = SKApplication.getAppInstance().getApplicationContext();
+      context.unregisterReceiver(broadcastReceiverConnectivityChanges);
 
-    	// Unregister the local broadcasts
-    	LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentClosestTarget);
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentpeed);
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentLatency);
+      // Unregister the local broadcasts
+      LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentClosestTarget);
+      LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentLatency);
 
-		// Stop the periodic timer!
-		stopTimer();
+      // Stop the periodic timer!
+      stopTimer();
 
-        //Remove the telephonyManager listener
-        telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+      //Remove the telephonyManager listener
+      telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
 
 	/// *** BROADCASTER RECEIVERS **** ///
@@ -258,30 +258,12 @@ public class FragmentRunTest extends Fragment
     					nameOfTheServer = hostUrl;					
     				}				
     				changeFadingTextViewValue(mUnitText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));		// Update the current result closest target
+    				changeFadingTextViewValue(mMeasurementText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));		// Update the current result closest target
+    				
+  					changeAdviceMessageTo(getString(R.string.running_test_closest_target) + nameOfTheServer);
     			}				
 			}    	    			
     	}    	
-    };
-    
-    // Broadcast receiver listening for changes in current download / upload speed measurement
-    private BroadcastReceiver messageReceiverCurrentpeed = new BroadcastReceiver()
-    {
-    	@Override
-    	public void onReceive(Context context, Intent intent)
-    	{
-    		//if (testsRunning)
-    		{
-    			// Update the UI data only few times a second
-        		//if (System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS)
-        		{    			
-            	    //String message = intent.getStringExtra("currentSpeedValue");			// Get extra data included in the Intent
-            	    //updateCurrentTestSpeed(message);										// Update the current result meter for download/upload
-            	    //gaugeView.setResult(Double.valueOf(message)*0.000008);					// Update the gauge colour indicator (in Megabytes)
-        	    	//lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
-    			}				
-			}    		    		
-    	}    	
-
     };
     	
     Handler mHandler = new Handler();
@@ -297,56 +279,54 @@ public class FragmentRunTest extends Fragment
     static double lastPolledSpeedValueMbps = 0;
     
     private void startTimer() {
-    	
-       Timer myTimer = new Timer();
-        myTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-            	// For each timer "tick", *IF* the tests are running, we must see if the
-            	// measured speed has changed since last time... and if so, update the UI.
-            	// Otherwise, do nothing!
-            	if (testsRunning) {
-            		mHandler.post(new Runnable() {
 
-            			@Override
-            			public void run() {
-            				Pair<Double,String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
-//Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
-            				if (value.first.doubleValue() != lastPolledSpeedValueMbps) {
-            					lastPolledSpeedValueMbps = value.first.doubleValue();
-            					String message = String.valueOf(value);
-            					updateCurrentTestSpeedMbps(value.first.doubleValue());										// Update the current result meter for download/upload
-            					gaugeView.setAngleByValue(value.first.doubleValue());					// Update the gauge colour indicator (in Megabytes)
-            					lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
-            				}
-            			}});
-            	}
-            }
+      Timer myTimer = new Timer();
+      myTimer.schedule(new TimerTask() {
+        @Override
+        public void run() {
+          // For each timer "tick", *IF* the tests are running, we must see if the
+          // measured speed has changed since last time... and if so, update the UI.
+          // Otherwise, do nothing!
+          if (testsRunning) {
+            mHandler.post(new Runnable() {
 
-        }, 0, C_UPDATE_INTERVAL_IN_MS);
+              @Override
+              public void run() {
+                Pair<Double,String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
+                //Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
+                if (value.first.doubleValue() != lastPolledSpeedValueMbps) {
+                  lastPolledSpeedValueMbps = value.first.doubleValue();
+                  String message = String.valueOf(value);
+                  updateCurrentTestSpeedMbps(value.first.doubleValue());										// Update the current result meter for download/upload
+                  gaugeView.setAngleByValue(value.first.doubleValue());					// Update the gauge colour indicator (in Megabytes)
+                  lastTimeMillisCurrentSpeed = System.currentTimeMillis();				// Register the time of the last UI update
+                }
+              }});
+          }
+        }
+
+      }, 0, C_UPDATE_INTERVAL_IN_MS);
     }
-    
-
     
     // Broadcast receiver listening for changes in current latency value measurement
     private BroadcastReceiver messageReceiverCurrentLatency = new BroadcastReceiver()
     {
-    	@Override
-    	public void onReceive(Context context, Intent intent)
-    	{
-    		if (testsRunning)
-    		{
-    			// Update the UI data only few times a second
-        		if (executingLatencyTest && System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS)
-        		{    			
-            	    String message = intent.getStringExtra("currentLatencyValue");	// Get extra data included in the Intent
-            	    updateCurrentLatencyValue(message);								// Update the current result meter for latency
-            	    gaugeView.setAngleByValue(Double.valueOf(message));					// Update the gauge colour indicator
-            	    
-            	    lastTimeMillisCurrentSpeed = System.currentTimeMillis();		// Register the time of the last UI update
-    			}    							
-			}    		    		
-    	}    	
+      @Override
+      public void onReceive(Context context, Intent intent)
+      {
+        if (testsRunning)
+        {
+          // Update the UI data only few times a second
+          if (executingLatencyTest && System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS)
+          {    			
+            String message = intent.getStringExtra("currentLatencyValue");	// Get extra data included in the Intent
+            updateCurrentLatencyValue(message);								// Update the current result meter for latency
+            gaugeView.setAngleByValue(Double.valueOf(message));					// Update the gauge colour indicator
+
+            lastTimeMillisCurrentSpeed = System.currentTimeMillis();		// Register the time of the last UI update
+          }    							
+        }    		    		
+      }    	
     };
     
     // *** INNER CLASSES *** //
@@ -520,7 +500,7 @@ public class FragmentRunTest extends Fragment
     	setHasOptionsMenu(true);
 
 		// Gauge view container
-		gaugeViewContainer = (FrameLayout)pView.findViewById(R.id.fragment_speed_gauge_container);		
+		gaugeViewContainer = (RelativeLayout)pView.findViewById(R.id.fragment_speed_gauge_container);		
 		// Gauge view
 		gaugeView = (GaugeView)pView.findViewById(R.id.fragment_speed_gauge_view);		
 		
@@ -558,28 +538,30 @@ public class FragmentRunTest extends Fragment
 				}
 			}			
 		});
-	
-		// Set a listener to the results layout to move it to the top and show the passive metrics
-		layout_ll_results.setOnClickListener(new OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				if (gaugeVisible)
-				{
-    				// If the gauge elements are visible, hide them and show the passive metrics.
-					hideGaugeShowPassiveMetricsPanel();
-				}
-				else
-				{
-    				// The gauge elements are invisible - show them and hide the passive metrics.
-					showGaugeHidePassiveMetricsPanel();
-				}
-			}
-		});
-		
-     	// Now: immediately disable clicking on the panel, until the first result has arrived (in onDidDetectTestCompleted() ...)
-  		layout_ll_results.setClickable(false);
+
+    if (SKApplication.getAppInstance().getDoesNewAppMainScreenRevealResultsPanel()) {
+     	  // Set a listener to the results layout to move it to the top and show the passive metrics
+     	  layout_ll_results.setOnClickListener(new OnClickListener()
+     	  {			
+     	    @Override
+     	    public void onClick(View v)
+     	    {
+     	      if (gaugeVisible)
+     	      {
+     	        // If the gauge elements are visible, hide them and show the passive metrics.
+     	        hideGaugeShowPassiveMetricsPanel();
+     	      }
+     	      else
+     	      {
+     	        // The gauge elements are invisible - show them and hide the passive metrics.
+     	        showGaugeHidePassiveMetricsPanel();
+     	      }
+     	    }
+     	  });
+
+     	  // Now: immediately disable clicking on the panel, until the first result has arrived (in onDidDetectTestCompleted() ...)
+     	  layout_ll_results.setClickable(false);
+     	}
 		
 		// Elements in the results layout
 		tv_Result_Download = (TextView)pView.findViewById(R.id.archiveResultsListItemDownload);
@@ -617,6 +599,10 @@ public class FragmentRunTest extends Fragment
         mUnitText = (TextView)pView.findViewById(R.id.unit_text_label);
         mUnitText.setTextColor(getResources().getColor(R.color.MainColourDialUnitText));
         mUnitText.setText("");
+        
+        mMeasurementText = (TextView)pView.findViewById(R.id.measurement_text_label);
+        mMeasurementText.setTextColor(getResources().getColor(R.color.MainColourDialUnitText));
+        mMeasurementText.setText("");
         
         initial_warning_text = pView.findViewById(R.id.initial_warning_text);
 
@@ -719,6 +705,7 @@ public class FragmentRunTest extends Fragment
 		tv_Gauge_TextView_PsuedoButton.setTypeface(typeface_Din_Condensed_Cyrillic);
 		tv_Advice_Message.setTypeface(typeface_Roboto_Light);
 		mUnitText.setTypeface(typeface_Roboto_Light);		
+    mMeasurementText.setTypeface(typeface_Roboto_Light);		
 		
 		// Initialise the type face of the shining labels
 		tv_Status_Label_1.setTypeface(typeface_Roboto_Light);
@@ -825,7 +812,7 @@ public class FragmentRunTest extends Fragment
 								updateProgressBar(statusComplete, 0);
 								changeLabelText(getString(R.string.label_message_download_test));
 								gaugeView.setKindOfTest(0);								
-								changeUnitsInformationLabel(getString(R.string.units_Mbps));
+								changeUnitsInformationLabel(getString(R.string.units_Mbps), getString(R.string.download));
 								
 								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								
@@ -848,7 +835,7 @@ Log.d(getClass().getName(), "gotResult for Download test ... at the end of the t
 								updateProgressBar(statusComplete, 1);								
 								changeLabelText(getString(R.string.label_message_upload_test));								
 								gaugeView.setKindOfTest(1);
-								changeUnitsInformationLabel(getString(R.string.units_Mbps));
+								changeUnitsInformationLabel(getString(R.string.units_Mbps), getString(R.string.upload));
 								
 								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								if (valueUnits.second.length() > 0) {
@@ -872,17 +859,17 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 								updateProgressBar(statusComplete, 2);								
 								changeLabelText(getString(R.string.label_message_latency_loss_jitter_test));
 								gaugeView.setKindOfTest(2);								
-								changeUnitsInformationLabel(getString(R.string.units_ms));
+								changeUnitsInformationLabel(getString(R.string.units_ms), getString(R.string.latency));
 								
 								valueUnits = FormattedValues.getFormattedSpeedValue(value);
 								
 								if (statusComplete == 100)
-								{									
-                    				tv_Gauge_TextView_PsuedoButton.setText("");
-									//updateCurrentLatencyValue("0");
-									gaugeView.setAngleByValue(0.0);									
-									changeFadingTextViewValue(tv_Result_Latency, value,0);
-									executingLatencyTest = false;
+								{
+								  tv_Gauge_TextView_PsuedoButton.setText("");
+								  //updateCurrentLatencyValue("0");
+								  gaugeView.setAngleByValue(0.0);									
+								  changeFadingTextViewValue(tv_Result_Latency, value,0);
+								  executingLatencyTest = false;
 								}									
 								break;
 
@@ -1180,10 +1167,10 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 	 */
     public void launchTests()
     {    	
-    	createManualTest();								// Create the manual test object storing which tests will be performed    	
-    	threadRunningTests = new Thread(manualTest);	// Create the thread with the Manual Test Object (Runnable Object) 
-		changeLabelText(getString(R.string.label_message_starting_tests));
-		threadRunningTests.start();    					// Run the thread		
+      createManualTest();								// Create the manual test object storing which tests will be performed    	
+      threadRunningTests = new Thread(manualTest);	// Create the thread with the Manual Test Object (Runnable Object) 
+      changeLabelText(getString(R.string.label_message_starting_tests));
+      threadRunningTests.start();    					// Run the thread		
     }
     
     /**
@@ -1226,28 +1213,8 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
      */
     private void changeLabelText(final String pLabelText)
     {
-    	// If the text is different and we are not during an animation, perform the text change animation
-    	if (!pLabelText.equals(tv_Status_Label_1.getText()) && !onChangeLabelTextSemaphore)
-    	{
-    		onChangeLabelTextSemaphore = true;
-    		layout_layout_Shining_Labels.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
-        	{
-        		@Override
-        		public void onAnimationEnd(Animator animation)
-        		{
-        			tv_Status_Label_1.setText(pLabelText);
-        			tv_Status_Label_2.setText(pLabelText);
-        			layout_layout_Shining_Labels.animate().alpha(1.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
-        			{
-        				@Override
-        				public void onAnimationEnd(Animator animation)
-        				{
-        					onChangeLabelTextSemaphore = false;
-        				}
-					});        			
-        		}
-    		});			
-		}    	
+      tv_Status_Label_1.setText(pLabelText);
+      tv_Status_Label_2.setText(pLabelText);
     }
 
     /**
@@ -1257,16 +1224,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
      */
     private void changeAdviceMessageTo(final String pAdviceMessageRunning)
     {
-    	tv_Advice_Message.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
-    	{
-    		@Override
-    		public void onAnimationEnd(Animator animation)
-    		{
-    			tv_Advice_Message.setText(pAdviceMessageRunning);
-    	    	tv_Advice_Message.animate().alpha(1.0f).setDuration(300);
-    	    	tv_Advice_Message.animate().setListener(null);
-    		}
-		});    	
+    	tv_Advice_Message.setText(pAdviceMessageRunning);
     }
     
     /**
@@ -1705,38 +1663,17 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
      * 
      * @param second
      */
-    private void changeUnitsInformationLabel(final String value)
-    {    	
-		if (testsRunning == false) 
-		{
-			if (value.length() > 0)
-			{
-				// Do NOT update the unit text to non-empty string, if the test isn't running!
-				return;
-			}
-		}
-		
-    	if (!onContextualInformationLabelAnimationSemaphore && !mUnitText.getText().equals(value))
-    	{
-    		onContextualInformationLabelAnimationSemaphore = true;
-    		
-    		mUnitText.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter()
-        	{
-        		@Override
-        		public void onAnimationEnd(Animator animation)
-        		{        			
-        			String useValue = value;
-        			if (testsRunning == false) 
-        			{
-        				useValue = "";
-        			}
-        			
-        			mUnitText.setText(useValue);
-        			mUnitText.animate().alpha(1.0f).setDuration(300);
-        			onContextualInformationLabelAnimationSemaphore = false;
-        		}    		
-    		});			
-		}    	  	
+    private void changeUnitsInformationLabel(final String unitsLabel, final String testLabel)
+    {
+      if ( (testsRunning == false) &&
+           (unitsLabel.length() > 0)
+         )
+      {
+        // Do NOT update the unit text etc. to non-empty string, if the test isn't running!
+      } else {
+        mUnitText.setText(unitsLabel);
+        mMeasurementText.setText(testLabel);
+      }
     }
     
     /**
@@ -1955,10 +1892,13 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		gaugeView.setKindOfTest(-1);
 		setNetworkTypeInformation();
 		sendRefreshUIMessage();
-		layout_ll_results.setClickable(true);
+    if (SKApplication.getAppInstance().getDoesNewAppMainScreenRevealResultsPanel()) {
+  		layout_ll_results.setClickable(true);
+    }
 		setUpPassiveMetricsLayout(connectivityType);	                        
 		//changeFadingTextViewValue(tv_Closest_Server, getString(R.string.TEST_Label_Finding_Best_Target), getResources().getColor(R.color.grey_light));
-        mUnitText.setText("");
+    mUnitText.setText("");
+    mMeasurementText.setText("");
 	}
 
 	private void registerBackButtonHandler() {
@@ -1999,6 +1939,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 		tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(0.0f);
 		layout_layout_Shining_Labels.animate().setDuration(300).alpha(0.0f);
 		mUnitText.animate().setDuration(300).alpha(0.0f);
+		mMeasurementText.animate().setDuration(300).alpha(0.0f);
 		gaugeViewContainer.animate().setDuration(300).alpha(0.0f).setListener(new AnimatorListenerAdapter()
 		{
 			// Executed at the end of the animation
@@ -2016,6 +1957,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 				layout_layout_Shining_Labels.setVisibility(View.GONE);
 				gaugeViewContainer.setVisibility(View.GONE);
 				mUnitText.setVisibility(View.GONE);
+				mMeasurementText.setVisibility(View.GONE);
 				
 				gaugeVisible = false;
 				
@@ -2058,6 +2000,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 						layout_layout_Shining_Labels.setVisibility(View.VISIBLE);					
 						gaugeViewContainer.setVisibility(View.VISIBLE);
 						mUnitText.setVisibility(View.VISIBLE);
+						mMeasurementText.setVisibility(View.VISIBLE);
 						
 						gaugeViewContainer.animate().setDuration(300).alpha(1.0f);
 						tv_Advice_Message.animate().setDuration(300).alpha(1.0f);
@@ -2065,6 +2008,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 						tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(1.0f);
 						layout_layout_Shining_Labels.animate().setDuration(300).alpha(1.0f);
 						mUnitText.animate().setDuration(300).alpha(1.0f);
+						mMeasurementText.animate().setDuration(300).alpha(1.0f);
 						
         				layout_ll_passive_metrics.setVisibility(View.GONE);
 						gaugeVisible = true;
@@ -2155,6 +2099,7 @@ Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the tes
 
 				if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
 					mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);        
+					mMeasurementText.setText("");
 				}
 				new InitTestAsyncTask().execute();												
 			}

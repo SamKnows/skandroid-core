@@ -403,7 +403,7 @@
 <string name="social_media_twitter">Twitter</string>
 <!-- http://stackoverflow.com/questions/1587056/android-string-concatenate-how-to-keep-the-spaces-at-the-end-and-or-beginnin  -->
 
-<string name="SETTINGS_Title">Configurações</string>
+<string name="SETTINGS_Title">Ajustes</string>
 <string name="Settings_Configuration">Configuração</string>
 <string name="Storyboard_Settings_Configuration">Dados consumidos</string>
 <string name="Settings_ClearAllResults">Limpar todos os resultados</string>

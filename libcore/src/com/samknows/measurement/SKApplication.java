@@ -131,6 +131,10 @@ public class SKApplication extends Application{
 	public String getAboutScreenTitle() {
 		return getApplicationContext().getString(R.string.about);
 	}
+	
+	public boolean getDoesNewAppMainScreenRevealResultsPanel() {
+	  return true;
+	}
 
 	public boolean hideJitter() {
 		return false;
