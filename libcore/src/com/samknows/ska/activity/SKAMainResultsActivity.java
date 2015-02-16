@@ -2338,12 +2338,12 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 				setContinuousTestingButton();
 
-				if (!SK2AppSettings.getSK2AppSettingsInstance().stateMachineStatus()) {
-					// We are NOT activated!
-					TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
-					tv.setText(R.string.activation_needed);
-					 mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
-				} else {
+//				if (!SK2AppSettings.getSK2AppSettingsInstance().stateMachineStatus()) {
+//					// We are NOT activated!
+//					TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
+//					tv.setText(R.string.activation_needed);
+//					 mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
+//				} else {
 					// We are activated!
 
 					if (total_archive_records == 0) {
@@ -2359,7 +2359,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 						// & message
 						mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.VISIBLE);
 					}
-				}
+//				}
 
 				//in case there are results to display load it
 				//no matter if the state machine status

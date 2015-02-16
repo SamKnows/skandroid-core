@@ -13,51 +13,66 @@ import android.util.Log;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.environment.TrafficData;
+import com.samknows.measurement.net.RequestScheduleAnonymousAction;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 
 public class Storage {
-	private Context c;
-	
-	protected Storage(Context c) {
-		super();
-		this.c = c;
-	}
+  private Context c;
 
-	public ScheduledTestExecutionQueue loadQueue() {
-		return (ScheduledTestExecutionQueue) load(SKConstants.EXECUTION_QUEUE_FILE_NAME);
-	}
-	
-	public void saveExecutionQueue(ScheduledTestExecutionQueue eq) {
-		save(SKConstants.EXECUTION_QUEUE_FILE_NAME, eq);
-	}
-	
-	public void dropExecutionQueue() {
-		drop(SKConstants.EXECUTION_QUEUE_FILE_NAME);
-	}
-	
-	public void dropParamsManager() {
-		drop(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME);
-	}
-	
-	public void saveScheduleConfig(ScheduleConfig sg) {
-		save(SKConstants.SCHEDULE_CONFIG_FILE_NAME, sg);
-	}
-	
-	public TestParamsManager loadParamsManager() {
-		return (TestParamsManager) load(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME);
-	}
-	
-	public void saveTestParamsManager(TestParamsManager m) {
-		save(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME, m);
-	}
-	
-	public ScheduleConfig loadScheduleConfig() {
-		return (ScheduleConfig) load(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
-	}
+  protected Storage(Context c) {
+    super();
+    this.c = c;
+  }
+
+  public ScheduledTestExecutionQueue loadQueue() {
+    return (ScheduledTestExecutionQueue) load(SKConstants.EXECUTION_QUEUE_FILE_NAME);
+  }
+
+  public void saveExecutionQueue(ScheduledTestExecutionQueue eq) {
+    save(SKConstants.EXECUTION_QUEUE_FILE_NAME, eq);
+  }
+
+  public void dropExecutionQueue() {
+    drop(SKConstants.EXECUTION_QUEUE_FILE_NAME);
+  }
+
+  public void dropParamsManager() {
+    drop(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME);
+  }
+
+  public TestParamsManager loadParamsManager() {
+    return (TestParamsManager) load(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME);
+  }
+
+  public void saveTestParamsManager(TestParamsManager m) {
+    save(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME, m);
+  }
+
+  public void saveScheduleConfig(ScheduleConfig sg) {
+    //save(SKConstants.SCHEDULE_CONFIG_FILE_NAME, sg);
+  }
+
+  public ScheduleConfig loadScheduleConfig() {
+    Context ctx = SKApplication.getAppInstance().getApplicationContext();
+
+    ScheduleConfig config = null;
+    try {
+      config = ScheduleConfig.parseXml(SKApplication.getAppInstance().getScheduleXml());
+    } catch (Exception e) {
+      // Catch, and rethrow, the exception - as we'd seen this fail in some circumstances and needed to track it down.
+      SKLogger.sAssert(getClass(),  false);
+      //throw(e);
+      // TODO: should we NOT rethrow the exception?
+      // config = null;
+    }
+    return config;
+
+    //return (ScheduleConfig) load(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
+  }
 	
 	public void dropScheduleConfig(){
-		drop(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
+		// drop(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
 	}
 	
 	public void saveNetUsage(TrafficData netusage){

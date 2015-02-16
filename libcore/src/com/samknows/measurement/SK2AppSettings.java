@@ -113,20 +113,21 @@ public class SK2AppSettings extends SKAppSettings {
 	
 	
 	public boolean updateConfig(ScheduleConfig newConfig){
-		boolean ret = false;
-		ScheduleConfig savedConfig = CachingStorage.getInstance().loadScheduleConfig();
-		if(savedConfig == null ){
-			SKLogger.d(this, "Saved Config is null");
-			ret = true;
-		}else if(savedConfig.toUpdate(newConfig)){
-			SKLogger.d(this, "Config versions don't match");
-			ret = true;
-		}
-		if(forceDownload()){
-			SKLogger.d(this, "Force update config");
-			ret = true;
-		}
-		return ret;
+//		boolean ret = false;
+//		ScheduleConfig savedConfig = CachingStorage.getInstance().loadScheduleConfig();
+//		if(savedConfig == null ){
+//			SKLogger.d(this, "Saved Config is null");
+//			ret = true;
+//		}else if(savedConfig.toUpdate(newConfig)){
+//			SKLogger.d(this, "Config versions don't match");
+//			ret = true;
+//		}
+//		if(getForceDownload()){
+//			SKLogger.d(this, "Force update config");
+//			ret = true;
+//		}
+//		return ret;
+	  return false;
 	}
 		
 

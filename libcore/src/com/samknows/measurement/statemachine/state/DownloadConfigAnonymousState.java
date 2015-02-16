@@ -24,11 +24,15 @@ public class DownloadConfigAnonymousState extends BaseState {
 
 	@Override
 	public StateResponseCode executeState() throws Exception {
+	  
+		SKLogger.d(this, "Update config is not necessary");
+		return StateResponseCode.OK;
+		
+		/*
 		ScheduleConfig config = null;
 		Storage storage = CachingStorage.getInstance();
 		SK2AppSettings appSettings  = SK2AppSettings.getSK2AppSettingsInstance();
-		RequestScheduleAnonymousAction action = new RequestScheduleAnonymousAction(
-				ctx);
+		RequestScheduleAnonymousAction action = new RequestScheduleAnonymousAction(ctx);
 		action.execute();
 		if (action.isSuccess() == false) {
 			SKLogger.sAssert(this.getClass(), "schedule parsing", false);
@@ -121,5 +125,6 @@ public class DownloadConfigAnonymousState extends BaseState {
 		}
 
 		return StateResponseCode.FAIL;
+		*/
 	}
 }

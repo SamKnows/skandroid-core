@@ -168,6 +168,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		
 		ButtonWithRightArrow activateButton = (ButtonWithRightArrow) findViewById(R.id.settings_activate_button);
 		if (activateButton != null) {
+    	activateButton.setVisibility(View.GONE);
 			activateButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

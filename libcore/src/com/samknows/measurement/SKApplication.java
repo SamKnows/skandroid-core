@@ -9,6 +9,7 @@ import com.samknows.libcore.SKOperators;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.test.TestResultsManager;
+import com.samknows.measurement.util.Base64.InputStream;
 import com.samknows.ska.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 
@@ -342,6 +343,12 @@ public class SKApplication extends Application{
 	// Some apps can override this, to show terms when app starts.
 	public boolean getShouldAppShowTermsAtStart() {
 		return false;
+	}
+	
+	public java.io.InputStream getScheduleXml() {
+	  // Must be overridden!
+	  SKLogger.sAssert(getClass(), false);
+	  return null;
 	}
 
 }

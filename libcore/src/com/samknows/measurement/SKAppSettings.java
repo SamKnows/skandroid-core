@@ -150,7 +150,8 @@ public class SKAppSettings {
 
 
 	public boolean isServiceActivated() {
-		return getBoolean(SKConstants.PREF_KEY_SERVICE_ACTIVATED, false);
+	  return true;
+		//return getBoolean(SKConstants.PREF_KEY_SERVICE_ACTIVATED, false);
 	}
 
 	public void setServiceActivated(boolean activated) {
@@ -260,13 +261,14 @@ public class SKAppSettings {
 	}
 
 	public void setForceDownload() {
-		force_download = true;
+		//force_download = true;
 	}
 
-	public boolean forceDownload() {
-		boolean ret = force_download;
-		force_download = false;
-		return ret;
+	public boolean getForceDownload() {
+//		boolean ret = force_download;
+//		force_download = false;
+//		return ret;
+	  return false;
 	}
 
 
