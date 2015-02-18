@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient_nonmain"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_medium">
+        
+        <TextView
+          android:id="@+id/version"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="10dp"
+          android:textColor="@color/yellow"
+          android:textSize="@dimen/text_size_large"/>
+
+        <TextView
+            android:id="@+id/activity_about_label_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/download"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/spacing_micro"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:background="@color/grey_light">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_about_description_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/about_description_download"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/activity_about_label_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upload"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/spacing_micro"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:background="@color/grey_light">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_about_description_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/about_description_upload"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/activity_about_label_latency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/latency"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/spacing_micro"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:background="@color/grey_light">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_about_description_latency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/about_description_latency"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/activity_about_label_packet_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/packet_loss"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/spacing_micro"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:background="@color/grey_light">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_about_description_packet_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/about_description_packet_loss"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/activity_about_label_jitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jitter"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/spacing_micro"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:background="@color/grey_light">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_about_description_jitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/about_description_jitter"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_small"/>
+
+    </LinearLayout>
+
+</ScrollView>

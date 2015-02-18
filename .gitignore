@@ -14,3 +14,10 @@ google_play_services_lib/gen/
 libcore/gen/
 libui2/.settings/org.eclipse.jdt.core.prefs
 org.eclipse.core.resources.prefs
+facebook-android-sdk-3.23.0/facebook/build/generated
+facebook-android-sdk-3.23.0/facebook/build/intermediates
+libcoreStudio/bin
+libcoreStudio/build/intermediates
+libcoreStudio/build/generated
+libcoreStudio/build/outputs
+libcoreStudio/build/tmp

@@ -1,0 +1,12 @@
+<resources>
+    <!-- Text Sizes-->
+    <dimen name="text_size_micro">8sp</dimen>
+    <dimen name="text_size_small">13sp</dimen>
+    <dimen name="text_size_small_medium">16sp</dimen>
+    <dimen name="text_size_medium">21sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="text_size_mega">30sp</dimen>
+    <dimen name="text_size_giga">40sp</dimen>
+    <dimen name="text_size_tera">50sp</dimen>
+    <dimen name="text_size_peta">64sp</dimen>
+</resources>

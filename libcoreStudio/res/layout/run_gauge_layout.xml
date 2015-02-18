@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_speed_test_gauge_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_margin"
+    android:layout_marginLeft="@dimen/activity_margin"
+    android:layout_marginRight="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/activity_margin"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    tools:visibility="visible" >
+
+    <LinearLayout
+        android:id="@+id/top_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9" >
+
+        <RelativeLayout
+            android:id="@+id/fragment_speed_gauge_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+		android:visibility="gone"
+                android:src="@drawable/icon" >
+            </ImageView>
+
+            <com.samknows.ui2.activity.GaugeView
+                android:id="@+id/fragment_speed_gauge_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <!-- Left to Right: Blank | TopMidBottom | Blank -->
+
+            <LinearLayout
+                android:id="@+id/main_center_panel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal" >
+
+                <!-- blank left -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <!-- mid TopMidBottom -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                        android:id="@+id/top_text_network_type_label"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/tools_text_value_bearer"
+                        android:textAlignment="center"
+                        android:textColor="@color/MainColourDialTopText"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                        android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|bottom"
+                        android:maxLines="1"
+                        android:text="@string/gauge_message_start"
+                        android:textAlignment="center"
+                        android:textColor="@color/MainColourDialCenterText"
+                        android:textSize="@dimen/text_size_peta" />
+
+                    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                        android:id="@+id/unit_text_label"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/units_Mbps"
+                        android:textAlignment="center"
+                        android:textColor="@color/MainColourPressTheStartButtonText"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <!-- blank right -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main_center_panel"
+                android:orientation="vertical" >
+
+                <!-- padding! -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/measurement_text_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="@string/download"
+                    android:textColor="@color/MainColourPressTheStartButtonText"
+                    android:textSize="@dimen/text_size_small_medium" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.samknows.measurement.activity.components.FontFitTextView
+            android:id="@+id/press_the_start_button_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|bottom"
+            android:maxLines="1"
+            android:text="@string/advice_message_press_the_button"
+            android:textColor="@color/MainColourStatusText"
+            android:textSize="@dimen/text_size_mega" />
+
+        <RelativeLayout
+            android:id="@+id/status_label_layout_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/status_label_1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/label_message_ready_to_run"
+                android:textColor="@color/MainColourStatusText"
+                android:textSize="@dimen/text_size_large"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/status_label_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/label_message_ready_to_run"
+                android:textColor="@color/MainColourStatusText"
+                android:textSize="@dimen/text_size_large"
+                tools:visibility="visible" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

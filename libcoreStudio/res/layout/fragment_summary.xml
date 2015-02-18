@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/ll_summary_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_gradient_nonmain"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/activity_margin_half" >
+            
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" >
+
+            <!-- Could not get layout_alignToLeftOf working! -->
+            <ImageButton
+                android:id="@+id/summary_filter_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="?android:attr/actionBarSize"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_filter" />
+            <ImageButton
+                android:id="@+id/summary_time_period_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_clock" />
+        </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/visual_rhythm"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_label_average"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/average"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:id="@+id/tv_label_best"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/best"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_summary_section_download"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_weight="1"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:baselineAligned="false"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp"
+                tools:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="40"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/summary_label_download"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:contentDescription="@string/description_icon_download"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_download" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/tv_summary_download_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/download"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="60"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_download_ll_average"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.LargeTextFontFitTextView
+                            android:id="@+id/tv_summary_result_average_download"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                            android:text="@string/nineninenine"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_peta"
+                            tools:text="@string/tools_text_value_average_download" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_Mbps_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_Mbps"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/description_icon_chart"
+                        android:src="@drawable/tab_summary" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_download_ll_best"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.LargeTextFontFitTextView
+                            android:id="@+id/tv_summary_result_best_download"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                            android:text="@string/nineninenine"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_peta"
+                            tools:text="@string/tools_text_value_best_download" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_Mbps_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_Mbps"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_summary_section_upload"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:baselineAligned="false"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp"
+                tools:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="40"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/summary_label_upload"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:contentDescription="@string/description_icon_upload"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_upload" />
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/tv_summary_upload_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/upload"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="60"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_upload_ll_average"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.LargeTextFontFitTextView
+                            android:id="@+id/tv_summary_result_average_upload"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                            android:text="@string/nineninenine"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_peta"
+                            tools:text="@string/tools_text_value_average_upload" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_Mbps_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_Mbps"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/description_icon_chart"
+                        android:src="@drawable/tab_summary" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_upload_ll_best"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.LargeTextFontFitTextView
+                            android:id="@+id/tv_summary_result_best_upload"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                            android:text="@string/nineninenine"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_peta"
+                            tools:text="@string/tools_text_value_best_upload" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_Mbps_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_Mbps"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    
+                    </LinearLayout>
+                    
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_summary_section_latency"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:baselineAligned="false"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp"
+                tools:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="40"
+                    android:orientation="horizontal" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/tv_summary_latency_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/latency"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="60"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_latency_ll_average"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_result_average_latency"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_tera"
+                            android:text="@string/tools_text_value_average_latency" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_ms_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_ms"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/description_icon_chart"
+                        android:src="@drawable/tab_summary" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_latency_ll_best"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|bottom" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_result_best_latency"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_tera"
+                            android:text="@string/tools_text_value_best_latency" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_ms_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_ms"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_summary_section_loss"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:baselineAligned="false"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp"
+                tools:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="40"
+                    android:orientation="horizontal" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/tv_summary_packet_loss_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loss"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="60"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_packet_loss_ll_average"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_result_average_packet_loss"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_tera"
+                            android:text="@string/tools_text_value_average_packet_loss" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_percent_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_percent"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/description_icon_chart"
+                        android:src="@drawable/tab_summary" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_packet_loss_ll_best"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_result_best_packet_loss"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_tera"
+                            android:text="@string/tools_text_value_best_packet_loss" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_percent_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_percent"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_summary_section_jitter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/activity_margin_half"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:baselineAligned="false"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp"
+                tools:visibility="visible" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="40"
+                    android:orientation="horizontal" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/tv_summary_jitter_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jitter"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="60"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_jitter_ll_average"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_result_average_jitter"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_tera"
+                            android:text="@string/tools_text_value_average_jitter" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_ms_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_ms"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/description_icon_chart"
+                        android:src="@drawable/tab_summary" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_summary_jitter_ll_best"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical" >
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_result_best_jitter"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_tera"
+                            android:text="@string/tools_text_value_best_jitter" />
+
+                        <com.samknows.measurement.activity.components.FontFitTextView
+                            android:id="@+id/tv_summary_label_ms_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="30"
+                            android:gravity="top|left"
+                            android:paddingTop="@dimen/activity_margin_half"
+                            android:text="@string/units_ms"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_small_medium" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" 
+        >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/download_caption"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            style="@style/graphCaption" />
+        
+        <FrameLayout
+            android:id="@+id/fragment_summary_ll_chart"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/activity_margin_half"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:background="@drawable/background_alpha" 
+            android:visibility="gone" >
+
+            <WebView
+                android:id="@+id/download_graph"
+                style="@style/graphs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+</FrameLayout>

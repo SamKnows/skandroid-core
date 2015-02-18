@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_speed_test_ll_passive_metrics"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_margin_half"
+    android:layout_marginLeft="@dimen/activity_margin_half"
+    android:layout_marginRight="@dimen/activity_margin_half"
+    android:layout_marginTop="136dp"
+    android:orientation="vertical"
+    tools:visibility="visible" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin" >
+
+            <LinearLayout
+                android:id="@+id/ip_and_reference_metrics2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_your_ip_label"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/pm_your_ip_label"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_your_ip_value"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/pm_your_ip_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_reference_number_label"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/pm_reference_no_label"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_reference_number_value"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/pm_reference_no_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/network_operator_metrics2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_speed_test_passive_metric_label_sim_and_network_operators"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/sim_and_network_operators"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_speed_test_passive_metrics_ll_divider_sim_and_network_operators"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_sim_operator"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/sim_operator"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_sim_operator_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="giffgaff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_sim_operator_code"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/sim_operator_code"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_sim_operator_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="23410" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_network_operator"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/network_operator"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_network_operator_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="giffgaff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_network_operator_code"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/network_operator_code"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_network_operator_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="23410" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_roaming_status"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/roaming_status"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_roaming_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="Off" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/signal_metrics2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_speed_test_passive_metric_label_signal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/signal"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_speed_test_passive_metrics_ll_divider_signal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_cell_tower_ID"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/cell_tower_id"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_cell_tower_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="1260999" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_cell_tower_area_location_code"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/cell_tower_area_location_code"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_cell_tower_area_location_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="22019" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_signal_strength"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/signal_strength"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_signal_strength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="-89 dBm" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_bearer"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/bearer"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_bearer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="HSPA+" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/device_metrics2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_speed_test_passive_metric_label_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/device"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_manufacturer"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/manufacturer"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_manufacturer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="LG" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_model"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/model"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_detail_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="Nexus 5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_OS"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/os"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_detail_OS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="Android" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_OS_vesion"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/os_version"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_OS_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="19" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_phone_type"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/phone_type"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_phone_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="GSM" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_metrics2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fragment_speed_test_passive_metric_label_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/visual_rhythm_half"
+                    android:gravity="bottom"
+                    android:text="@string/location"
+                    android:textColor="@color/white_alpha_0.5"
+                    android:textSize="@dimen/text_size_small" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_speed_test_passive_metric_divider_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:background="@color/white_alpha_0.5"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_latitude"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/latitude"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_latitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="51.41995" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_longitude"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/longitude"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_longitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="-0.17638" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_accuracy"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/accuracy"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_accuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="13.0 m" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_margin_half" >
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_label_location_provider"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/location_provider"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+
+                    <TextView
+                        android:id="@+id/fragment_speed_test_passive_metric_result_location_provider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium"
+                        tools:text="GPS" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout    
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_share_result_ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient_share"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/activity_share_result_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/visual_rhythm"
+        android:gravity="center"
+        android:text="@string/network_performance_test"
+        android:textColor="@color/TableCellColourText"
+        android:textSize="@dimen/text_size_large"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/activity_share_result_iv_connectivity_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_medium"
+                android:layout_marginRight="@dimen/spacing_medium"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_wifi_icon"
+                android:src="@drawable/image_big_wifi" />
+
+            <TextView
+                android:id="@+id/activity_share_result_tv_connectivity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/TableCellColourText"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="@string/network_type_wifi"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_micro">
+
+            <com.samknows.measurement.activity.components.FontFitTextView
+                android:id="@+id/activity_share_result_tv_result_download"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="bottom|left"
+                android:textColor="@color/TableCellColourText"
+                android:textSize="@dimen/text_size_tera"
+                tools:text="8.33 Mbps"/>
+
+            <TextView
+                android:id="@+id/activity_share_result_tv_label_download"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:text="@string/download_speed"
+                android:textColor="@color/TableCellColourText" />
+
+            <com.samknows.measurement.activity.components.FontFitTextView
+                android:id="@+id/activity_share_result_tv_result_upload"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="bottom|left"
+                android:textColor="@color/TableCellColourText"
+                android:textSize="@dimen/text_size_tera"
+                tools:text="3.88 Mbps" />
+
+            <TextView
+                android:id="@+id/activity_share_result_tv_label_upload"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:text="@string/upload_speed"
+                android:textColor="@color/TableCellColourText"/>
+
+            <com.samknows.measurement.activity.components.FontFitTextView
+                android:id="@+id/activity_share_result_tv_result_latency"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="bottom|left"
+                android:textColor="@color/TableCellColourText"
+                android:textSize="@dimen/text_size_giga"
+                tools:text="25 ms"/>
+
+            <TextView
+                android:id="@+id/activity_share_result_tv_label_latency"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:text="@string/latency"
+                android:textColor="@color/TableCellColourText"/>
+
+            <com.samknows.measurement.activity.components.FontFitTextView
+                android:id="@+id/activity_share_result_tv_result_packet_loss"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="bottom|left"
+                android:textColor="@color/TableCellColourText"
+                android:textSize="@dimen/text_size_giga"
+                tools:text="2 %"/>
+
+            <TextView
+                android:id="@+id/activity_share_result_tv_label_packet_loss"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:text="@string/packet_loss_lowercase"
+                android:textColor="@color/TableCellColourText" />
+
+            <com.samknows.measurement.activity.components.FontFitTextView
+                android:id="@+id/activity_share_result_tv_result_jitter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="bottom|left"
+                android:textColor="@color/TableCellColourText"
+                android:textSize="@dimen/text_size_giga"
+                tools:text="22 ms"/>
+
+            <TextView
+                android:id="@+id/activity_share_result_tv_label_jitter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:text="@string/jitter_lowercase"
+                android:textColor="@color/TableCellColourText"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:background="@color/TableCellColourText">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/visual_rhythm"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_medium">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_icon_clock"
+            android:src="@drawable/ic_share_clock" />
+
+        <TextView
+            android:id="@+id/activity_share_result_tv_result_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:textColor="@color/TableCellColourText"
+            android:textSize="@dimen/text_size_small_medium"
+            tools:text="24.02.1984, 02:08"/>
+    </LinearLayout>
+
+</LinearLayout>

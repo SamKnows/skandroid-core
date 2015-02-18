@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    tools:context=".activity.BaseLogoutActivity" >
+
+        <LinearLayout
+        android:id="@+id/tableRow1"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/stat_grid_timestamp"
+            style="@style/column_left"
+                android:layout_weight="90"
+                android:layout_width="0dp"
+                android:minWidth="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/stat_grid_location"
+            style="@style/column_left"
+                android:layout_weight="100"
+                android:layout_width="0dp"
+                android:minWidth="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/location_provider"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/stat_grid_result"
+            style="@style/column_left"
+                android:layout_weight="100"
+                android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/results_table_header_result"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/networkTypeImage"
+                style="@style/column_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:layout_weight="20"
+                android:adjustViewBounds="true"
+                android:minWidth="15dp"
+                android:maxWidth="15dp"
+                android:minHeight="15dp"
+                android:maxHeight="15dp"
+                android:src="@drawable/wifiservice" />
+
+    </LinearLayout>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#c0c0c0" >
+
+        <TextView
+            android:id="@+id/TextView01"
+            style="@style/column_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="1sp" />
+
+    </TableRow>
+
+</TableLayout>

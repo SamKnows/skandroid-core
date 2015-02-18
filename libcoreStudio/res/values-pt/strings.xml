@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="about">Sobre</string>
+<string name="preferences_title">Configurações</string>
+<string name="sk2_main_results_activity_title">Nome do Aplicativo</string>
+<string name="socialmedia_footer_short">"  @SamKnows http://bit.ly/Oaz6mR"</string>
+<string name="socialmedia_footer_long">" com SamKnows."</string>
+<string name="socialmedia_header_short_carrier">Testando velocidade de banda larga em @</string>
+<string name="socialmedia_header_short_nocarrier">Testando velocidade de banda larga</string>
+<string name="socialmedia_header_long_carrier">Testando agora minha atual velocidade de banda larga em @</string>
+<string name="socialmedia_header_long_nocarrier">Testando agora minha atual velocidade de banda larga</string>
+<string name="socialmedia_header_short_carrier_average">Testando a velocidade média da banda larga em @</string>
+<string name="socialmedia_header_short_nocarrier_average">Testando a velocidade média da banda larga</string>
+<string name="socialmedia_header_long_carrier_average">Testando agora minha velocidade média da banda larga em @</string>
+<string name="socialmedia_header_long_nocarrier_average">Testando agora minha velocidade média da banda larga</string>
+<string name="SocialMedia_TwitterIfUsingImage_ChangeFromThis1">Testando média</string>
+<string name="SocialMedia_TwitterIfUsingImage_ChangeToThis1">Testando</string>
+<string name="SocialMedia_TwitterIfUsingImage_ChangeFromThis2">Testando real</string>
+<string name="SocialMedia_TwitterIfUsingImage_ChangeToThis2">Testando</string>
+<string name="SocialMedia_TwitterIfUsingImage_ChangeRegex4From">", Up:.* com"</string>
+<string name="SocialMedia_TwitterIfUsingImage_ChangeRegex4To">" com"</string>
+<string name="socialmedia_upload">" Up: "</string>
+<string name="socialmedia_download">" Down: "</string>
+<string name="socialmedia_post_to_twitter_title">Publicar no Twitter</string>
+<string name="socialmedia_twitter_authorization_error">Erro de autorização do Twitter, favor tente novamente mais tarde</string>
+<string name="socialmedia_twitter_tweet_successful">Tweet com sucesso!</string>
+<string name="socialmedia_twitter_tweet_duplicate_detected">Twitter não permitirá você postar mensagens duplicadas!</string>
+<string name="socialmedia_twitter_tweet_error">Erro no Tweet, por favor tente novamente mais tarde</string>
+<string name="socialmedia_twitter_login_error">Erro de Login no Twitter, por favor tente novamente mais tarde</string>
+<string name="socialmedia_facebook_posting">Publicando no Facebook&#8230;</string>
+<string name="socialmedia_facebook_posted">Publicado no Facebook</string>
+<string name="socialmedia_facebook_connection_failed">Conexão com Facebook falhou</string>
+<string name="social_media_screenshot_title">Incluir uma captura da tela?</string>
+<string name="social_media_screenshot_message">Você gostaria de incluir uma captura da tela em suas mídias sociais?</string>
+<string name="social_media_Title_ShareUsingSocialMediaMobile">Compartilhar utilizando Mídias Sociais</string>
+<string name="social_media_Message_ShareUsingSocialMediaMobile">OApenas resultados da rede movél podem ser compartilhados utilizando as Mídias Sociais.</string>
+<string name="about_browsing">Visitar uma página é uma das atividades mais comuns que as pessoas realizam na Internet. Este teste simula esse processo e mostra o tempo médio em segundos de quanto tempo demora para carregar uma página popular. Note que os resultados podem variar de acordo com as mudanças nas páginas enquanto visitadas. O tempo é registrado em segundos (quanto menor valor, melhor).</string>
+<string name="about_download">Este valor indica a velocidade máxima de download que sua conexão de banda larga será capaz de obter da Internet. Os resultados são registrados em Mbps (quanto maior o valor, melhor).</string>
+<string name="about_jitter">Jitter é a variação no tempo de chegada dos pacotes, causada por congestionamento na rede. Em outras palavras, o jitter representa a variação na latência (menor é melhor).</string>
+<string name="about_latency">Este teste mede quanto tempo leva para um pacote ser enviado do seu dispositivo para um dos nossos servidores de testes, e então retornar para você. A Latência pode ser considerada como a capacidade de resposta da conexão do seu dispositivo e nossos servidores na Internet. O tempo é registrado aqui em milissegundos (quanto menor o valor, melhor).</string>
+<string name="about_packet_loss">Perda de pacote ocorre quando a informação enviada pelo seu dispositivo falha a chegar no seu destino. Quando a perda de pacote é alta, você deve considerar que aplicações como Voz sobre IP (VoIP) e jogos online podem ser afetados. Perda de pacotes é registrada aqui em percentual (quanto menor valor, melhor).</string>
+<string name="about_text">Este aplicativo é executado em segundo plano, medindo a performance da prestadora de sua rede móvel enquanto você não está utilizando seu dispositivo. Você pode ver os resultados apertando o botão Resultados do Teste. Os resultados da medição são transmitidos para a EAQ para utilização no projeto de medição da banda larga do Brasil em conjunto com a Anatel.\n\nO aplicativo tem sido otimizado para utilização eficiente da rede, entretanto ainda pode ser muito elevada para seu plano de dados. Se esse for o caso você pode configurar um limite de dados mensais no menu de configurações acessando via Menu.\n\nPara suporte ou perguntas por favor entre em contato conosco em suporte@brasilbandalarga.com.br </string>
+<string name="about_upload">Este valor indica a velocidade máxima de upload que sua conexão de banda larga será capaz de transmitir para a Internet. Os resultados são registrados em Mbps (quanto maior o valor, melhor).</string>
+<string name="accept_terms">Por favor marque o checkbox para confirmar os Termos e Condições</string>
+<string name="activated">Ativado</string>
+<string name="activating">Ativando</string>
+<string name="activating_complete">Ativação completa</string>
+<string name="activation">Atualizar configuração</string>
+<string name="activation_menu_string">Ativação</string>
+<string name="activation_needed">A aplicação precisa ser ativada</string>
+<string name="active_connection">Conexão ativa: </string>
+<string name="active_metrics">Métricas ativas</string>
+<string name="server">Servidor</string>
+<string name="result">Resultado</string>
+<string name="active_metrics_mobile">Métricas ativas (Celular)</string>
+<string name="active_metrics_wifi">Métricas ativas (WiFi)</string>
+<string name="active_network_type">Tipo de rede ativa</string>
+<string name="active_network_type_title">Tipo de Rede Ativa</string>
+<string name="activity_info_name">Informações do sistema</string>
+<string name="activity_initial_settings_name">Limite de dados</string>
+<string name="activity_logs_name">Logs da EAQ</string>
+<string name="activity_settings_name">Configurações</string>
+<string name="activity_run_test_name">EAQ Executor de Testes</string>
+<string name="activity_test_results_name">Resultados do teste</string>
+<string name="agree">Aceito</string>
+<string name="alert_icon">Ícone de Alerta</string>
+<string name="all">Todos</string>
+<string name="archive_result">Resultado Arquivado</string>
+<string name="archive_result_of"> de </string>
+<string name="area_code">Código de área</string>
+<string name="auto_testing">Teste automático</string>
+<string name="available_tests">Testes disponíveis</string>
+<string name="average_results">Média de resultados do período</string>
+<!-- Deprecated  <string name="best_server">Melhor servidor</string> -->
+<string name="best_time">Melhor tempo</string>
+<string name="bluetooth">bluetooth</string>
+<string name="browsing">Navegando</string>
+<string name="cancel">Cancelar</string>
+<string name="cancel_test_question">Você deseja cancelar o teste em execução?</string>
+<string name="cant_run_test">Favor aguardar finalização do teste Melhor Servidor.</string>
+<string name="cdma">CDMA</string>
+<string name="cdmaecio">CDMA ECIO</string>
+<string name="cdma_base_station_id">ID da base de estação CDMA</string>
+<string name="cdma_base_station_latitude">Latitude da base de estação CDMA</string>
+<string name="cdma_base_station_longitude">Longitude da base de estação CDMA</string>
+<string name="cdma_base_station_strength">Resistência da base de estação CDMA</string>
+<string name="cdma_network_id">ID da rede CDMA</string>
+<string name="cdma_system_id">ID do Sistema CDMA</string>
+<string name="cell_id">ID Celular</string>
+<string name="cell_tower_info">Torre de Celular atual</string>
+<string name="choose_test">Escolher teste</string>
+<string name="choose_time">Escolher Período de Tempo</string>
+<string name="close">Fechar</string>
+<string name="close_panel">Fechar Painel</string>
+<string name="cmda_base_station_latitude">Latitude da base de estação CDMA</string>
+<string name="completed">Completo</string>
+<string name="confirm_password">Confirmar Senha</string>
+<string name="connected">Conectado</string>
+<string name="connection_status">Status da Conexão</string>
+<string name="connectivity_type">Tipo de conectividade</string>
+<string name="continue_text">Próximo</string>
+<string name="cpu_usage">Utilização do Processador: </string>
+<string name="create_account">Criar conta</string>
+<string name="create_user">Criar usuário</string>
+<string name="current_time">Horário atual</string>
+<string name="data_cap_day_summary">Selecionar o dia do mês que o contador da utilização dos dados móveis deve ser zerado. </string>
+<string name="data_cap_day_title">Dia de zerar uso de dados: </string>
+<string name="data_cap_exceeded">Limite de dados excedido. Você deseja continuar mesmo assim? </string>
+<string name="data_cap_might_be_exceeded">Limite de dados pode ser excedido. Você deseja continuar mesmo assim? </string>
+<string name="data_cap_summary">A máxima quantidade de dados em Mega Bytes (excluindo WiFi) que este aplicativo pode usar em no período mensal de cobrança.</string>
+<string name="data_cap_title">Limite de dados móveis: </string>
+<string name="data_usage_title">Utilização de dados móveis: </string>
+<string name="data_used_preference_summary">A quantidade de dados (excluindo WiFi) utilizada por este aplicativo desde o início do período mensal de cobrança.</string>
+<string name="data_used_preference_title">Dados Utilizados</string>
+<string name="date">Data</string>
+<string name="results_table_header_datetime">Dia / Horário</string>
+<string name="day_of_month">Dia do mês: </string>
+<string name="disabled">Desabilitado</string>
+<string name="dont_have_account">Necessita uma conta?</string>
+<string name="downloaded">Baixado: </string>
+<string name="download_complete">Download completo</string>
+<string name="download_configuration">Baixando configuração</string>
+<string name="installing_configuration">Instalando configuração</string>
+<string name="download_failed">O teste de download falhou</string>
+<string name="download_mbps">Download</string>
+<string name="download_success">O teste de download alcançou %1$s Mbps</string>
+<string name="download_upload_run_confirmation">Teste teste irá utilizar seu plano de dados. Você deseja continuar?</string>
+<string name="edge">EDGE</string>
+<string name="ehrpd">eHRPD</string>
+<string name="empty_code_error">Código não pode estar vazio!</string>
+<string name="empty_password_error">Senha não pode estar vazio!</string>
+<string name="empty_username_error">Nome de usuário não pode estar vazio!</string>
+<string name="enabled">Habilitado</string>
+<string name="enable_now">Habilitar agora</string>
+<string name="enable_service_question">Você deseja habilitar o teste de dados móveis</string>
+<string name="enable_testing_summary">Habilitar ou desabilitar testes em segundo plano</string>
+<string name="enable_testing_title">Teste habilitado</string>
+<string name="enable_wakeup_summary">Habilitar ou desabilitar "acordar dispositivo" para testes </string>
+<string name="enable_wakeup_title">Habilitar o dispositivo acordar</string>
+<string name="enter_email">Registrar seu email e um código de recuperação será enviado para seu email."</string>
+<string name="error_on_registering">Opa&#8230; Ocorreu um erro: </string>
+<string name="ethernet">ethernet</string>
+<string name="evdo_0">EVDO rev 0</string>
+<string name="evdo_a">EVDO rev A</string>
+<string name="evdo_b">EVDO rev B</string>
+<string name="executing_now">Executando agora</string>
+<string name="executing_test">Executando testes: </string>
+<string name="failed">Falha</string>
+<string name="failed_to_load_config">Falha ao carregar as configurações!</string>
+<string name="false_string">Falso</string>
+<string name="finished_test">Teste finalizado: </string>
+<string name="gprs">GPRS</string>
+<string name="GPS">GPS</string>
+<string name="graph">Gráfico dos dados</string>
+<string name="graphtoggle">Gráfico?</string>
+<string name="gsmbiterrorrate">Taxa de erro GSM Bit</string>
+<string name="hsdpa">HSDPA</string>
+<string name="hspa">HSPA</string>
+<string name="hspap">HSPA+</string>
+<string name="hsupa">HSUPA</string>
+<string name="iden">iDen</string>
+<string name="imei">IMEI</string>
+<string name="imsi">IMSI</string>
+<string name="init_settings_title">Consumo de dados</string>
+<string name="is_roaming">Em Roaming</string>
+<string name="jitter_ms">Jitter</string>
+<string name="last_known_location_info">Informação da última localização conhecida</string>
+<string name="last_run">Último teste executado: </string>
+<string name="last_run_never">Nunca</string>
+<string name="latency_failed">O teste de latência falhou</string>
+<string name="latency_ms">Latência</string>
+<string name="latency_run_confirmation">Este teste irá utilizar seu plano de dados. Você deseja continuar?</string>
+<string name="latency_success">Latência de %1$s ms. Perda de pacote de %2$s %%. Jitter de %3$s ms</string>
+<string name="latest">Último</string>
+<string name="line_break">Quebra de linha</string>
+<string name="location_type_summary">Selecionar seu serviço de localização preferido. Notar que o GPS irá consumir mais bateria.</string>
+<string name="location_type_title">Serviço da localização</string>
+<string name="loss_percent">Perda de pacote</string>
+<string name="lte">LTE</string>
+<string name="manual_test_create_failed_1">O teste não pode ser iniciado - não é possível localizar a configuração de agendamento. Por favor reativar!</string>
+<string name="manual_test_create_failed_2">O teste não pode ser iniciado - o agendamento está vazio.</string>
+<string name="manual_test_create_failed_3">Teste Manual não pode ser inicializado - o serviço principal está sendo executado.</string>
+<string name="manual_test_error">Não é possível executar os testes, outro teste está em execução em segundo plano. Por favor tentar novamente em breve.</string>
+<string name="must_wait_for_test_to_run">Teste sendo executado em segundo plano. Tente novamente mais tarde.</string>
+<string name="unexpected_error">Ocorreu um erro inesperado.</string>
+<string name="max_data_cap_message">Quantia máxima limitada em </string>
+<string name="mb">MB</string>
+<string name="menu_export_file_string">Exportar resultados</string>
+<string name="menu_export_dialog_message">Para onde você deseja enviar um email com arquivo zip dos resultados arquivados no formato JSON?</string>
+<string name="menu_export_dialog_storage">Armazenamento</string>
+<string name="menu_export_dialog_email">Email</string>
+
+<string name="menu_export_nothing_to_export">Nada para exportar</string>
+<string name="menu_export_there_is_no_data">Não existe nenhum dado disponível para exportar</string>
+<string name="menu_export_file_save_failed_title">Falha ao salvar arquivo</string>
+<string name="menu_export_file_could_not_be_overwritten">Já existe um arquivo em esse nome, mas não pode ser sobrescrito.</string>
+<string name="menu_export_file_saved_title">Arquivo salvo no sdcard</string>
+<string name="menu_export_saved_ok">Arquivo salvo no armazenamento.</string>
+<string name="menu_export_file_failed_to_save">Falha ao salvar arquivo no armazenamento.</string>
+<string name="menu_export_default_file_name_no_extension">exportar</string>
+<string name="menu_export_mail_subject">Resultados do teste arquivados</string>
+<string name="menu_export_mail_body">resultados do teste arquivados</string>
+<string name="menu_export_enter_file_name_title">Digitar nome do arquivo</string>
+<string name="menu_export_enter_file_name_message">Por favor digitar o nome do arquivo zip; \".zip\" será acrescentado automaticamente</string>
+<string name="menu_export_send_file_chooser_title">Enviar resultados do arquivo zip &#8230;</string>
+<string name="menu_export_emailapp_notfound_title">Aplicativo de email não encontrado</string>
+<string name="menu_export_emailapp_notfound_body">Nenhum aplicativo de email adequado pôde ser encontrado</string>
+    
+<string name="menu_force_background_test_string">Forçar teste em segundo plano</string>
+<string name="menu_social_media_export">Exportar Mídias Sociais</string>
+<string name="menu_terms_and_condition">Termos de Uso</string>
+<string name="min_data_cap_message">Quantidade mínima limitada em </string>
+<!-- The following string must NOT be translated! -->
+<string name="mobile">mobile</string>
+<string name="MobileNetwork">Rede móvel</string>
+<string name="mobile_dun">mobile dun</string>
+<string name="mobile_hipri">mobile hipri</string>
+<string name="mobile_mms">mobile mms</string>
+<string name="mobile_supl">mobile supl</string>
+<string name="mobile_testing_disabled">Teste móvel desabilitado</string>
+<string name="month">1 m</string>
+<string name="month3">3 m</string>
+<string name="month6">6 m</string>
+<string name="more">Mais&#8230;</string>
+<string name="network_info">Informação de Rede</string>
+<string name="network_type">Tipo de rede</string>
+<string name="next">seguinte</string>
+<string name="next_grid">Próxima página de grade</string>
+<string name="next_service_task">Próxima tarefa de serviço</string>
+<string name="next_test_scheduled_for">Próximo teste</string>
+<string name="no">não</string>
+<string name="none">nenhum</string>
+<string name="none_unknown">Nenhum ou desconhecido</string>
+<string name="not_submitted_logs">Nenhum log submetido</string>
+<string name="no_data_message">Nenhum dado. Por favor execute o seu primeiro teste.</string>
+<string name="no_dialog">Não</string>
+<string name="ntf_checking_conditions">Verificando condições de teste</string>
+<string name="ntf_running_test">Executando teste: </string>
+<string name="of">de</string>
+<string name="ok_dialog">OK</string>
+<string name="onexrtt">1xRTT</string>
+<string name="open_panel">Abrir painel</string>
+<string name="page">página</string>
+<string name="page_turn">Mudar página</string>
+<string name="paper_clip">Clipe de papel</string>
+<string name="passive_metrics">Métricas passivas</string>
+<string name="password">Senha</string>
+<string name="passwords_do_not_match">Senha errada!</string>
+<string name="password_recovery">Recuperar senha</string>
+<string name="password_reset_dialog">O sistema está redefinindo sua senha</string>
+<string name="phone">Telefone</string>
+<string name="phone_info">Informação do telefone</string>
+<string name="preparing_samknows_tests">Preparando testes&#8230; da EAQ</string>
+<string name="previous_grid">Página de grade anterior</string>
+<string name="privacy_notice">Aviso de privacidade</string>
+<string name="provider">Prestadora</string>
+<string name="p_loss">Perda de pacote</string>
+<string name="quit">Sair do aplicativo?</string>
+<string name="raw_result_data">Resultado bruto dos dados</string>
+<string name="really_quit">Você realmente deseja sair do aplicativo?</string>
+<string name="refresh">Atualizar</string>
+<string name="register">Criar conta</string>
+<string name="registering_in">Registrando. Por favor aguarde&#8230;</string>
+<string name="requesting_reset_password">Solicitando o código para redefinir a senha</string>
+<string name="requesting_reset_password_error">Houve um erro ao solicitar o código de senha: </string>
+<string name="requesting_reset_password_success">O sistema lhe upload um código para redefinir sua senha</string>
+<string name="request_password_recovery">Solicitar recuperação de senha</string>
+<string name="request_password_reset">Solicitar para redefinir a senha</string>
+<string name="reset_code">Código para criar uma nova senha</string>
+<string name="reset_data_cap_question">Você deseja zerar os dados utilizados esse mês manualmente?</string>
+<string name="reset_password">Redefinir senha</string>
+<string name="reset_password_error">Houve um erro ao redefinir sua senha: </string>
+<string name="reset_password_success">Sua senha foi redefinida</string>
+<string name="results_table_header_result">Resultado</string>
+<string name="results_for_1_day">Resultados do último dia</string>
+<string name="results_for_1_week">Resultados da última semana</string>
+<string name="results_for_1_month">Resultados do último mês</string>
+<string name="results_for_2_weeks">Resultados das últimas duas semanas</string>
+<string name="results_for_3_months">Resultados dos últimos três meses</string>
+<string name="results_for_1_year">Resultados do último ano</string>
+<string name="running_test">Teste em andamento</string>
+<string name="TEST_Label_Finding_Best_Target">Procurando melhor servidor...</string>
+<string name="running_test_closest_target">"Melhor servidor: "</string>
+<string name="run_now">Iniciar teste</string>
+<string name="start_continuous">Iniciar continuamente</string>
+<string name="starting_continuous">Iniciando continuamente</string>
+<string name="stopping_continuous">Parando continuamente</string>
+<string name="stop_continuous">Para continuamente</string>
+<string name="schedule_version">Versão do horário</string>
+<string name="results_table_header_location">Localização</string>
+<string name="service_info">Informação do serviço</string>
+<string name="settings">Configurações</string>
+<string name="setting_up">Configurando</string>
+<string name="set_default">Estabelecer padrão</string>
+<string name="show_measurement">Mostrar detalhe da medição?</string>
+<string name="sim_operator_name">Nome SIM da prestadora</string>
+<string name="sk_service_info">Informação do serviço da EAQ</string>
+<string name="speed">Velocidade</string>
+<string name="state_activate">Ativar</string>
+<string name="state_associate">Associar</string>
+<string name="state_check_config">Verificar configuração</string>
+<string name="state_download_config">Baixar configuração</string>
+<string name="state_execute_queue">Executar teste</string>
+<string name="state_initialise">Inicializar</string>
+<string name="state_none">Iniciar</string>
+<string name="state_run_init">Executar testes Init</string>
+<string name="state_shutdown">Desligar</string>
+<string name="state_submit_results">Enviar resultados</string>
+<string name="stats">Estatísticas</string>
+<string name="status">status</string>
+<string name="st_activate_descr">Ativando telefone</string>
+<string name="st_assosiate_descr">Associando telefone com usuário</string>
+<string name="st_check_config_version_descr">Procurando última configuração de teste</string>
+<string name="st_download_config_descr">Baixando configuração de teste</string>
+<string name="st_execute_queue_descr">Executando testes agendados para agora</string>
+<string name="st_initialise_descr">Procurando servidor</string>
+<string name="st_none_descr">Preparando</string>
+<string name="st_run_init_test_descr">Executando testes de inicialização\n(pode levar um minuto ou dois)</string>
+<string name="st_shutdown_descr">Finalizando</string>
+<string name="st_submit_results_descr">Enviando resultados para servidor</string>
+<string name="submitted_logs">Registros enviados</string>
+<string name="summary">Resumo</string>
+<string name="system_info">Informação do sistema</string>
+<string name="target">Alvo</string>
+<string name="terms_and_condition_title">Termos de Uso</string>
+<string name="terms_of_use_title">Privacidade &amp; Termos de Uso</string>
+<string name="test_results">Resultados do teste</string>
+<string name="test_to_finish">Por favor aguardar o teste finalizar</string>
+<string name="time">Período</string>
+<string name="time_period_1month">1 Mês</string>
+<string name="time_period_1week">1 Semana</string>
+<string name="time_period_1year">1 Ano</string>
+<string name="time_period_2week">2 Semanas</string>
+<string name="time_period_3months">3 Meses</string>
+<string name="time_period_1day">1 Dia</string>
+<string name="title">Título</string>
+<string name="true_string">Verdade</string>
+<string name="try_again">Tentar novamente</string>
+<string name="type">Tipo</string>
+<string name="udp_blocked_not_running">UDP bloqueado</string>
+<string name="umts">UMTS</string>
+<string name="understood_tc">Eu li e entendi os termos e condições LINK</string>
+<string name="unit_id">Unidade ID</string>
+<string name="unknown">desconhecido</string>
+<string name="updated">Atualizado</string>
+<string name="uploaded">Enviado: </string>
+<string name="upload_failed">O teste de upload falhou</string>
+<string name="upload_mbps">Upload</string>
+<string name="upload_success">O teste de conexão única de upload alcançou %1$s Mbps</string>
+<string name="username">Endereço de email</string>
+<string name="user_tag">Identificador próprio</string>
+<string name="user_tag_message">Dados do identificador próprio coletados do seu aparelho. Por favor notar que qualquer dado coletado de aparelho será associado com esse identificador.</string>
+<string name="version">Versão </string>
+<string name="week">1 s</string>
+<string name="welcome">Bem vindo</string>
+<!-- The following string must NOT be translated! -->
+<string name="wifi">WiFi</string>
+<string name="wimax">wimax</string>
+<string name="year">1 a</string>
+<string name="yes">Sim</string>
+<string name="network_type_mobile_results">Mostrando resultados do celular</string>
+<string name="network_type_wifi_results">Mostrando resultados do WiFi</string>
+<string name="network_type_all_results">Mostrando todos os resultados</string>
+<string name="network_type_choose">Selecionar resultados para mostrar:</string>
+<string name="network_type_choose_mobile_results">Celular</string>
+<string name="network_type_choose_wifi_results">WiFi</string>
+<string name="network_type_choose_all_results">Todos</string>
+<string name="right_arrow">&gt; </string>
+<string name="left_arrow"> &lt;</string>
+<string name="down_arrow">V</string>
+
+<string name="data_cap_enabled_title">Habilitar limite de dados</string>
+<string name="data_cap_enabled_summary">Marcar esse checkbox se você deseja habilitar o uso do limite de dados móveis. Desmarcar o checkbox se você deseja desabilitar o uso do limite de dados móveis.</string>
+    <string name="facebook_app_id">599730420095566</string>
+    
+<string name="social_media_post_title">Compartilhar seus resultados</string>
+<string name="social_media_facebook">Facebook</string>
+<string name="social_media_twitter">Twitter</string>
+<!-- http://stackoverflow.com/questions/1587056/android-string-concatenate-how-to-keep-the-spaces-at-the-end-and-or-beginnin  -->
+
+<string name="SETTINGS_Title">Ajustes</string>
+<string name="Settings_Configuration">Configuração</string>
+<string name="Storyboard_Settings_Configuration">Dados consumidos</string>
+<string name="Settings_ClearAllResults">Limpar todos os resultados</string>
+<string name="Settings_ClearAllResults_Title">Limpar todos os resultados?</string>
+<string name="Settings_ClearAllResults_Message">Você deseja limpar todos os seus resultados?</string>
+<string name="Offline_message">A conexão com a internet parece estar off-line. Favor conectar e tentar novamente.</string>
+
+    
+    <!-- FRAGMENT ARCHIVED RESULTS -->
+    <string name="no_archived_results_yet">Sem resultados até o momento</string>
+    
+    <!-- FRAGMENT SUMMARY -->
+    <string name="average">Média</string>
+    <string name="best">Melhor</string>
+    <string name="no_results_for_period_and_network">Sem resultados</string>
+    
+    <!-- FRAGMENT RUN TEST -->    
+    <string name="running">Executando</string>
+    <string name="no_connectivity">Verifique sua conexão</string>    
+    <string name="slow_connectivity">Conexão lenta</string>
+    
+    <!-- ACTIVITY SELECT TESTS -->
+    <string name="latency_loss_jitter">Latência / Perda da pacotes / Jitter</string>
+    <string name="ok">OK</string>
+    
+    <!-- ACTIVITY ABOUT -->
+    <string name="about_title">Sobre</string>
+    <string name="about_description_download">Este é o indicativo da velocidade máxima que sua conexão fará um download de dados da internet. Os resultados são reportados em Mbps (quanto maior, melhor).</string>
+    <string name="about_description_upload">Este é o indicativo da velocidade máxima que sua conexão transmitirá dados para a internet. Os resultados são reportados em Mbps (quanto maior, melhor).</string>
+    <string name="about_description_latency">Este teste mede o tempo que um pacote demora para ser enviado para nossos servidores e ser devolvido para você. A latência pode ser considerada a responsável pela conexão entre seu dispositivo e nossos servidores na internet. O tempo é reportado em milisegundos (quanto menor, melhor).</string>
+    <string name="about_description_packet_loss">A de pacote ocorre quanto a informação enviada pelo seu dispositivo falha ao tentar alcançar o destino final. Quando a perda é alta você notará que aplicações sensitivas ao tempo como Voz sobre IP (VoIP) e jogos online sofrerão impacto. A de pacote é reportada em porcentagem (quanto menor, melhor).</string>
+    <string name="about_description_jitter">Este teste mede a variação do tempo para um pacote ser enviado para nossos servidores e retornar para você. Em outras palavras, o jitter representa a variação da latência. O jitter usualmente é a indicação do congestionamento da rede e altos níveis de jitter podem impactar a performance de aplicações sensíveis ao tempo como VoIP, jogos online e streaming de vídeo. Jitter é reportado em milisegundos (quanto menor, melhor).</string>
+    
+    <!-- COMMON TEXT -->
+    <string name="download">Download</string>
+    <string name="upload">Upload</string>
+    <string name="latency">Latência</string>
+    <string name="packet_loss">de pacote</string>
+    <string name="loss">de pacote</string>
+    <string name="jitter">Jitter</string>
+    <string name="slash">-</string>
+    <string name="dummytext">dummy</string>
+    <string name="nineninenine">999,99</string>
+    <string name="dummydate">19/12/14 12:35</string>
+    <string name="dummydateday">19/12/14</string>
+    <string name="dummydatetime">12:35:59</string>
+    <string name="sharedPreferencesIdentifier">EAQ SpeedTest</string>    
+
+    <!-- NETWORK TYPES -->
+    <string name="network_type_wifi">WiFi</string>
+    <string name="network_type_mobile">Móvel</string>
+    <string name="network_type_all">Todos</string>
+    
+    <!--  Reported network type -->
+    <string name="network_type_noconnection">Sem internet</string>
+    <string name="network_type_NETWORK_TYPE_1xRTT">"CDMA2000"</string> 
+    <string name="network_type_NETWORK_TYPE_CDMA">"CDMA"</string>
+    <string name="network_type_NETWORK_TYPE_EDGE">"EDGE"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_0">"EV-DO 0"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_A">"EV-DO A"</string>
+    <string name="network_type_NETWORK_TYPE_GPRS">"GPRS"</string>
+    <string name="network_type_NETWORK_TYPE_HSDPA">"HSDPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSPA">"HSPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSUPA">"HSUPA"</string>
+    <string name="network_type_NETWORK_TYPE_UMTS">"UMTS"</string>
+    <string name="network_type_NETWORK_TYPE_EHRPD">"eHRPD"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_B">"EV-DO B"</string>
+    <string name="network_type_NETWORK_TYPE_HSPAP">"HSPA+"</string>
+    <string name="network_type_NETWORK_TYPE_IDEN">"iDEN"</string>
+    <string name="network_type_NETWORK_TYPE_LTE">"LTE"</string>
+    <string name="network_type_TYPE_WIMAX">"WiMax"</string>
+    <string name="network_type_TYPE_BLUETOOTH">"Bluetooth"</string>
+    <string name="network_type_TYPE_ETHERNET">"Ethernet"</string>
+    <string name="network_type_TYPE_DUMMY">"Dummy"</string>
+    <string name="network_type_TYPE_MOBILE_DUN">"Mobile DUN"</string>
+    <string name="network_type_TYPE_MOBILE_HIPRI">"Mobile HIPRI"</string>
+    <string name="network_type_TYPE_MOBILE_MMS">"Mobile MMS"</string>
+    <string name="network_type_TYPE_MOBILE_SUPL">"Mobile SUPL"</string>
+
+    <!-- TIME PERIOD -->
+    <string name="time_period">Período</string>
+    <string name="time_period_1_day">1 dia</string>
+    <string name="time_period_1_week">1 semana</string>
+    <string name="time_period_1_month">1 mês</string>
+    <string name="time_period_3_months">3 meses</string>
+    <string name="time_period_1_year">1 ano</string>
+
+    <!-- ACTIVITY SHARE RESULT -->
+    <string name="share_image_using">Compartilhar imagem utilizando...</string>
+    <string name="share_caption_mobile">Móvel</string>
+    <string name="share_caption_wifi">WiFi</string>
+    <string name="network_performance_test">Teste de performance de rede</string>
+    <string name="download_speed">Velocidade de Download</string>
+    <string name="upload_speed">Velocidade de Upload</string>
+    <string name="latency_lowercase">Latência de rede</string>
+    <string name="packet_loss_lowercase">de pacote</string>
+    <string name="jitter_lowercase">Jitter</string>
+    
+    <!-- ADAPTER ARCHIVED RESULTS LIST VIEW -->
+    <string name="not_available">NA</string>    
+    <string name="failed_test">Falha</string>
+    <string name="failed_test_short">F</string>
+
+    <!-- IMAGE DESCRIPTIONS -->
+    <string name="description_icon_clock">Uma imagem representando um relógio</string>
+    <string name="description_wifi_icon">Uma imagem representando um sinal wifi</string>
+    <string name="description_icon_chart">Um ícone representando um gráfico</string>
+    <string name="description_image_connectivity_type">Uma imagem representando o tipo de conexão</string>
+    <string name="description_icon_download">Este ícone representa o resultado de download</string>
+    <string name="description_icon_upload">Este ícone representa o resultado de upload</string>
+    <string name="description_image_eaq_logo">Imagem com o logo da EAQ</string>
+
+    <!-- UNITS -->
+    <string name="units_Mbps">Mbps</string>
+    <string name="units_ms">ms</string>
+    <string name="units_s">s</string>
+    <string name="units_percent">%</string>
+
+    <!-- PASSIVE METRICS DETAILS -->
+    <!-- Sim and Network operators -->
+    <string name="sim_and_network_operators">Prestadora do SIMCard e internet</string>
+    <string name="sim_operator">Prestadora do SIMCard</string>
+    <string name="sim_operator_code">Código da prestadora do SIMCard</string>
+    <string name="network_operator">Prestadora da internet</string>
+    <string name="network_operator_code">Código da prestadora da rede</string>
+    <string name="roaming_status">Status do roaming</string>
+
+    <!-- Signal Details -->
+    <string name="cell_tower_id">Cell ID</string>
+    <string name="cell_tower_area_location_code">LAC</string>
+    <string name="signal">Sinal</string>
+    <string name="signal_strength">Potência do sinal</string>
+    <string name="bearer">Tipo de conexão</string>
+
+    <!-- Device details -->
+    <string name="device">Dispositivo</string>
+    <string name="manufacturer">Fabricante</string>
+    <string name="model">Modelo</string>
+    <string name="os">S.O.</string>
+    <string name="os_version">Versão do S.O.</string>
+    <string name="phone_type">Tipo de telefone</string>
+
+    <!-- Position -->
+    <string name="location">Localização</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="accuracy">Acurácia</string>
+    <string name="location_provider">Fonte da Localização</string>
+
+    <!-- TOOLS TEXT -->
+    <string name="tools_text_value_date">"4/4/2014"</string>
+    <string name="tools_text_value_average_download">"3"</string>
+    <string name="tools_text_value_average_upload">"1"</string>
+    <string name="tools_text_value_average_latency">"3"</string>
+    <string name="tools_text_value_average_packet_loss">"3"</string>
+    <string name="tools_text_value_average_jitter">"2"</string>
+
+    <string name="tools_text_value_best_download">"4"</string>
+    <string name="tools_text_value_best_upload">"2"</string>
+    <string name="tools_text_value_best_latency">"1"</string>
+    <string name="tools_text_value_best_packet_loss">"1"</string>
+    <string name="tools_text_value_best_jitter">"1"</string>
+
+    <string name="tools_text_value_sim_operator_code">"23410"</string>
+    <string name="tools_text_value_network_operator_code">"23410"</string>
+    <string name="tools_text_value_roaming_status">"fora"</string>
+    <string name="tools_text_value_cell_tower_id">1260999</string>
+    <string name="tools_text_value_sim_operator">giffgaff</string>
+    <string name="tools_text_value_network_operator">giffgaff</string>
+    <string name="tools_text_value_cell_tower_area_location_code">22019</string>
+    <string name="tools_text_value_signal_strength">-89dB</string>
+    <string name="tools_text_value_bearer">HSPA+</string>
+    <string name="tools_text_value_manufacturer">LG</string>
+    <string name="tools_text_value_model">Nexus 5</string>
+    <string name="tools_text_value_os">Android</string>
+    <string name="tools_text_value_os_version">19</string>
+    <string name="tools_text_value_phone_type">GSM</string>
+    <string name="tools_text_value_latitude">51.41995</string>
+    <string name="tools_text_value_longitude">-0.17638</string>
+    <string name="tools_text_value_accuracy">13.0 m</string>
+    <string name="tools_text_value_location_provider">GPS</string>
+    <string name="tools_text_value_network_type">"Rede móvel"</string>
+
+    <!-- MESSAGES, WARNINGS -->
+    <string name="data_cap_warning_already_exceeded">Limite de dados excedido</string>
+    <string name="data_cap_warning_might_be_exceeded">Limite de dados pode ter excedido</string>
+    <string name="gauge_message_start">Iniciar</string>
+    <!--  <string name="gauge_message_starting">Iniciando</string> -->
+    <string name="gauge_message_starting"></string>
+    <string name="advice_message_press_the_button">Pressione o botão Iniciar</string>
+    <string name="advice_message_press_the_button_run_again">Pressione o botão iniciar para executar novamente</string>
+    <string name="advice_message_running">Testes em andamento</string>
+    <string name="advice_message_stopping">Parando…</string>
+    <string name="label_message_ready_to_run">Pronto para executar</string>
+    <string name="label_message_tests_executed">Testes executados com sucesso</string>
+    <string name="label_message_starting_tests">Escolha do servidor</string>
+    <string name="label_message_download_test">Testando Download</string>
+    <string name="label_message_upload_test"> Testando Upload</string>
+    <string name="label_message_latency_loss_jitter_test">Latência / de pacote / Jitter</string>
+    <string name="no_internet_connection">Sem conexão com a internet no momento</string>
+    <string name="tests_running_title">Executando testes</string>
+    <string name="tests_running_message">Recomenda-se aguardar a conclusão dos testes. Deseja interromper os testes?</string>
+    
+    <!-- MENU ITEMS -->
+    <string name="menu_item_refresh">Atualizar</string>
+    <string name="menu_item_select_network">Selecionar rede</string>
+    <string name="menu_item_select_tests"> Selecionar Testes</string>
+    <string name="menu_item_share">Compartilhar</string>
+    
+    <!--  PAGE TITLES -->
+    <string name="title_test">Executar</string>
+    <string name="title_history">Resultados</string>
+    <string name="title_summary">Resumo</string>
+
+    <!-- PASSIVE METRICS -->
+    <string name="pm_your_ip_label">Seu IP</string>
+    <string name="pm_your_ip_example">89.105.103.193</string>
+    <string name="pm_reference_no_label">Número de referência</string>
+    <string name="pm_reference_no_example">00e2145198fc49e1fd5587d0b57db66</string>
+    
+        
+    <string name="Initial_Warning_Text"></string>
+    
+</resources>

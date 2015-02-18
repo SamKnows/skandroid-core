@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_speed_test_results_ll2"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fragment_archived_results_item_height"
+    android:background="@drawable/background_gradient_nonmain"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:visibility="visible" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/spacing_micro"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_micro"
+        android:background="@drawable/selector_summary_background_alpha"
+        android:baselineAligned="false"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_micro">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="top"
+                    android:paddingTop="2dp"
+                    android:contentDescription="@string/description_icon_download"
+                    android:src="@drawable/ic_download" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/downloadLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/download"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="vertical" >
+
+                <com.samknows.measurement.activity.components.LargeTextFontFitTextView
+                    android:id="@+id/archiveResultsListItemDownload"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:paddingRight="20dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:text="@string/nineninenine"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_peta" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/mbps_label_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:text="@string/units_Mbps"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="top"
+                    android:paddingTop="2dp"
+                    android:contentDescription="@string/description_icon_upload"
+                    android:src="@drawable/ic_upload" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/uploadLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="top"
+                    android:text="@string/upload"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small" />
+
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="vertical" >
+
+                <com.samknows.measurement.activity.components.LargeTextFontFitTextView
+                    android:id="@+id/archiveResultsListItemUpload"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:paddingRight="20dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:text="@string/nineninenine"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_peta" />
+
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/mbps_label_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:layout_gravity="bottom"
+                    android:text="@string/units_Mbps"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4.1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                  android:id="@+id/latency_panel"
+                  android:layout_height="fill_parent"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                  android:orientation="vertical" >
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                      android:id="@+id/latency_label"
+                      android:layout_width="fill_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      android:gravity="left|center_vertical"
+                      android:text="@string/latency"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_small" />
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/archiveResultsListItemLatency"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_medium"
+                    android:text="@string/nineninenine"/>
+                </LinearLayout>
+
+                <LinearLayout
+                  android:id="@+id/loss_panel"
+                  android:layout_height="fill_parent"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                  android:orientation="vertical" >
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                      android:id="@+id/loss_label"
+                      android:layout_width="fill_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      android:gravity="left|center_vertical"
+                      android:text="@string/loss"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_small" />
+                  
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/archiveResultsListItemPacketLoss"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_medium"
+                    android:text="@string/nineninenine"/>
+                  </LinearLayout>
+
+                <LinearLayout
+                  android:id="@+id/jitter_panel"
+                  android:layout_height="fill_parent"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                  android:orientation="vertical" >
+                  <com.samknows.measurement.activity.components.FontFitTextView
+                      android:id="@+id/jitter_label"
+                      android:layout_width="fill_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      android:gravity="left|center_vertical"
+                      android:text="@string/jitter"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_small" />
+                  
+                 <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/archiveResultsListItemJitter"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_medium"
+                    android:text="@string/nineninenine"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:layout_margin="@dimen/spacing_micro"
+                android:orientation="horizontal">
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="80"
+                    android:orientation="vertical" >
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/archiveResultsListItemDateDay"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/dummydateday"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.FontFitTextView
+                        android:id="@+id/archiveResultsListItemDateTime"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/dummydatetime"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/archiveResultsListItemNetworkType"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="20"
+                    android:contentDescription="@string/description_image_connectivity_type"
+                    android:gravity="right|center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_swifi" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
