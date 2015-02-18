@@ -80,7 +80,6 @@
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="HockeySDK-3.0.1" level="project" />
-    <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="facebook-android-sdk-3.23.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.5.87" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
@@ -88,9 +87,7 @@
     <orderEntry type="library" exported="" name="achartengine-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
     <orderEntry type="library" exported="" name="twitter4j-core-3.0.5" level="project" />
-    <orderEntry type="library" exported="" name="bolts-android-1.1.2" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.2" level="project" />
-    <orderEntry type="library" exported="" name="android-support-v13" level="project" />
   </component>
 </module>
 
