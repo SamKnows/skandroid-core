@@ -30,3 +30,8 @@ libcore/build/generated
 libcore/build/intermediates
 libcore/build/outputs
 libcore/build/tmp
+libcore/.gradle/2.2.1/taskArtifacts/fileHashes.bin
+libcore/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin
+libcore/.gradle/2.2.1/taskArtifacts/outputFileStates.bin
+libcore/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin
+libcore/.gradle/2.2.1/taskArtifacts
