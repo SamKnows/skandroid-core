@@ -21,3 +21,12 @@ libcoreStudio/build/intermediates
 libcoreStudio/build/generated
 libcoreStudio/build/outputs
 libcoreStudio/build/tmp
+libcoreStudio/.gradle/2.2.1/taskArtifacts/fileHashes.bin
+libcoreStudio/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin
+libcoreStudio/.gradle/2.2.1/taskArtifacts/outputFileStates.bin
+libcoreStudio/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin
+libcoreStudio/.gradle/2.2.1/taskArtifacts
+libcore/build/generated
+libcore/build/intermediates
+libcore/build/outputs
+libcore/build/tmp

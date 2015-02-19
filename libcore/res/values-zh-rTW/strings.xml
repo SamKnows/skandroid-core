@@ -42,7 +42,6 @@
 <string name="about_text">This app runs in the background, measuring your mobile provider\'s network performance whilst you are not using your device. You can view results by pressing the Test Results button.  Measurement results are transmitted back to Samknows for use in their projects with telecoms regulators worldwide.\n\nThe application has been optimised for efficient network usage, however it might be still too high for your data plan. If that\'s the case you may configure a monthly data cap in settings menu accessible via the Menu key.\n\nFor support or queries please contact us at community@samknows.com </string>
 <string name="about_upload">This should be indicative of the maximum speed your broadband connection will be able to transmit data to the Internet.  Results are recorded in Mbps (higher is better).</string>
 <string name="accept_terms">Please tick checkbox to confirm Terms and Conditions</string>
-<string name="accuracy">準確性</string>
 <string name="activated">已啟動</string>
 <string name="activating">正在啟動</string>
 <string name="activating_complete">Activating complete</string>
@@ -71,9 +70,7 @@
 <string name="area_code">Area Code</string>
 <string name="auto_testing">Auto Testing</string>
 <string name="available_tests">Available Tests</string>
-<string name="average">平均結果</string>
 <string name="average_results">平均結果</string>
-<string name="bearer">Bearer</string>
 <!-- Deprecated  <string name="best_server">Best server</string> -->
 <string name="best_time">Best time</string>
 <string name="bluetooth">bluetooth</string>
@@ -90,8 +87,6 @@
 <string name="cdma_network_id">CDMA network ID</string>
 <string name="cdma_system_id">CDMA system ID</string>
 <string name="cell_id">Cell ID</string>
-<string name="cell_tower_area_location_code">Cell Tower Area Location Code</string>
-<string name="cell_tower_id">Cell Tower ID</string>
 <string name="cell_tower_info">Current Cell Tower</string>
 <string name="choose_test">Choose Test</string>
 <string name="choose_time">Choose Time Period</string>
@@ -120,10 +115,8 @@
 <string name="date">日期</string>
 <string name="results_table_header_datetime">日期/時間</string>
 <string name="day_of_month">月: </string>
-<string name="device">設備</string>
 <string name="disabled">Disabled</string>
 <string name="dont_have_account">Need an account?</string>
-<string name="download">下載</string>
 <string name="downloaded">已下載: </string>
 <string name="download_complete">下載完成</string>
 <string name="download_configuration">下載設定檔</string>
@@ -170,23 +163,18 @@
 <string name="imsi">IMSI</string>
 <string name="init_settings_title">Data Consumption</string>
 <string name="is_roaming">Is Roaming</string>
-<string name="jitter">抖動</string>
 <string name="jitter_ms">抖動</string>
 <string name="last_known_location_info">最後所在位置資訊</string>
 <string name="last_run">Test Last Run:</string>
 <string name="last_run_never">Never</string>
-<string name="latency">網絡時延</string>
 <string name="latency_failed">網絡時延測試失敗</string>
 <string name="latency_ms">網絡時延</string>
 <string name="latency_run_confirmation">This test will use some your data plan. Do you wish to continue?</string>
 <string name="latency_success">網絡時延是 %1$s ms. 封包遺失是 %2$s %%. 抖動是 %3$s ms</string>
 <string name="latest">最後</string>
-<string name="latitude">緯度</string>
 <string name="line_break">Line Break</string>
-<string name="location_provider">Location Provider</string>
 <string name="location_type_summary">Select your preferred location service provider.  Note that GPS will consume more battery power.</string>
 <string name="location_type_title">Location service</string>
-<string name="longitude">經度</string>
 <string name="loss_percent">封包遺失</string>
 <string name="lte">LTE</string>
 <string name="manual_test_create_failed_1">Test cannot be initialized - cannot find the schedule configuration. Please re-activate!</string>
@@ -195,7 +183,6 @@
 <string name="manual_test_error">Unable to launch test, a background task is running. Please retry shortly.</string>
 <string name="must_wait_for_test_to_run">A background test is running. Please retry shortly.</string>
 <string name="unexpected_error">An unexpected error occurred.</string>
-<string name="manufacturer">Manufacturer</string>
 <string name="max_data_cap_message">Maximum amount limited to </string>
 <string name="mb">MB</string>
 <string name="menu_export_file_string">匯出結果</string>
@@ -231,14 +218,11 @@
 <string name="mobile_mms">mobile mms</string>
 <string name="mobile_supl">mobile supl</string>
 <string name="mobile_testing_disabled">Mobile testing disabled.</string>
-<string name="model">Model</string>
 <string name="month">一個月</string>
 <string name="month3">三個月</string>
 <string name="month6">六個月</string>
 <string name="more">More&#8230;</string>
 <string name="network_info">Network Info</string>
-<string name="network_operator">Network Operator</string>
-<string name="network_operator_code">Network operator code</string>
 <string name="network_type">Network Type</string>
 <string name="next">next</string>
 <string name="next_grid">Next Grid Page</string>
@@ -253,13 +237,9 @@
 <string name="ntf_checking_conditions">Checking test conditions</string>
 <string name="ntf_running_test">測試運行中: </string>
 <string name="of">of</string>
-<string name="ok">ok</string>
 <string name="ok_dialog">OK</string>
 <string name="onexrtt">1xRTT</string>
 <string name="open_panel">Open Panel</string>
-<string name="os">OS</string>
-<string name="os_version">OS version</string>
-<string name="packet_loss">封包遺失</string>
 <string name="page">page</string>
 <string name="page_turn">Page Turn</string>
 <string name="paper_clip">Paper Clip</string>
@@ -270,7 +250,6 @@
 <string name="password_reset_dialog">The system is resetting your password</string>
 <string name="phone">Phone</string>
 <string name="phone_info">Phone Info</string>
-<string name="phone_type">Phone Type</string>
 <string name="preparing_samknows_tests">Preparing SamKnows Tests&#8230;</string>
 <string name="previous_grid">Previous Grid Page</string>
 <string name="privacy_notice">Privacy Notice</string>
@@ -299,7 +278,6 @@
 <string name="results_for_2_weeks">兩星期</string>
 <string name="results_for_3_months">三個月</string>
 <string name="results_for_1_year">一年</string>
-<string name="roaming_status">Roaming status</string>
 <string name="running_test">Running Test</string>
 <string name="TEST_Label_Finding_Best_Target">Finding Best Target...</string>
 <string name="running_test_closest_target">"Best target: "</string>
@@ -315,8 +293,6 @@
 <string name="setting_up">設定中</string>
 <string name="set_default">Set Default</string>
 <string name="show_measurement">Show Measurement Details?</string>
-<string name="signal_strength">Signal Strength</string>
-<string name="sim_operator_code">Sim Operator Code</string>
 <string name="sim_operator_name">Sim Operator Name</string>
 <string name="sk_service_info">SamKnows Service Info</string>
 <string name="speed">速度</string>
@@ -367,7 +343,6 @@
 <string name="unit_id">Unit ID</string>
 <string name="unknown">不明</string>
 <string name="updated">Updated</string>
-<string name="upload">上載</string>
 <string name="uploaded">已上載: </string>
 <string name="upload_failed">上載測試失敗</string>
 <string name="upload_mbps">上載</string>
@@ -410,4 +385,220 @@
 <string name="Settings_ClearAllResults_Title">是否清除所有結果?</string>
 <string name="Settings_ClearAllResults_Message">你是否想清除所有結果?</string>
 <string name="Offline_message">网络连线中断，请连线并再试一次</string>
+
+    
+    <!-- FRAGMENT ARCHIVED RESULTS -->
+    <string name="no_archived_results_yet">還未有結果</string>
+    
+    <!-- FRAGMENT SUMMARY -->
+    <string name="average">平均</string>
+    <string name="best">最佳</string>
+    <string name="no_results_for_period_and_network">沒有測試紀錄</string>
+    
+    <!-- FRAGMENT RUN TEST -->    
+    <string name="running">運行中</string>
+    <string name="no_connectivity">檢查你的連線情況</string>    
+    <string name="slow_connectivity">連線</string>
+    
+    <!-- ACTIVITY SELECT TESTS -->
+    <string name="latency_loss_jitter">網絡時延 / 封包遺失 / 抖動</string>
+    <string name="ok">OK</string>
+    
+    <!-- ACTIVITY ABOUT -->
+    <string name="about_title">關於</string>
+    <string name="about_description_download">This should be indicative of the maximum speed your broadband connection will be able to download data from the Internet.  Results are recorded in Mbps (higher is better).</string>
+    <string name="about_description_upload">This should be indicative of the maximum speed your broadband connection will be able to transmit data to the Internet.  Results are recorded in Mbps (higher is better).</string>
+    <string name="about_description_latency">This test measures how long it takes one packet to be sent to one of our test servers, and then returned back to you.  Latency can be thought of as the responsiveness of the connection from your device and our servers on the Internet. Times are recorded here in milliseconds (lower is better).</string>
+    <string name="about_description_packet_loss">Packet loss occurs when the information sent by your device fails to reach its destination. When packet loss is high, you may find that time sensitive applications such as Voice over IP (VoIP) and online gaming will suffer. Packet loss is recorded here as a percentage (lower is better).</string>
+    <string name="about_description_jitter">This test measures the variation in the time it takes one packet to be sent to one of our test servers and then returned back to you. In other words, jitter represents the variation of latency. Jitter is usually an indication of network congestion and high levels of jitter would impact the performance of time sensitive applications such as VoIP, online gaming and video streaming. Jitter is recorded in milliseconds (lower is better).</string>
+    
+    <!-- COMMON TEXT -->
+    <string name="download">下載</string>
+    <string name="upload">上載</string>
+    <string name="latency">網絡時延</string>
+    <string name="packet_loss">封包遺失</string>
+    <string name="loss">遺失</string>
+    <string name="jitter">抖動</string>
+    <string name="slash">-</string>
+    <string name="dummytext">dummy</string>
+    <string name="nineninenine">999.99</string>
+    <string name="dummydate">4/3/12 9:35</string>
+    <string name="dummydateday">19/12/14</string>
+    <string name="dummydatetime">12:35:59</string>
+    <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
+
+    <!-- NETWORK TYPES -->
+    <string name="network_type_wifi">WiFi</string>
+    <string name="network_type_mobile">流動電話</string>
+    <string name="network_type_all">所有</string>
+    
+    <!--  Reported network type -->
+    <string name="network_type_noconnection">沒有網絡</string>
+    <string name="network_type_NETWORK_TYPE_1xRTT">"CDMA2000"</string> 
+    <string name="network_type_NETWORK_TYPE_CDMA">"CDMA"</string>
+    <string name="network_type_NETWORK_TYPE_EDGE">"EDGE"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_0">"EV-DO 0"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_A">"EV-DO A"</string>
+    <string name="network_type_NETWORK_TYPE_GPRS">"GPRS"</string>
+    <string name="network_type_NETWORK_TYPE_HSDPA">"HSDPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSPA">"HSPA"</string>
+    <string name="network_type_NETWORK_TYPE_HSUPA">"HSUPA"</string>
+    <string name="network_type_NETWORK_TYPE_UMTS">"UMTS"</string>
+    <string name="network_type_NETWORK_TYPE_EHRPD">"eHRPD"</string>
+    <string name="network_type_NETWORK_TYPE_EVDO_B">"EV-DO B"</string>
+    <string name="network_type_NETWORK_TYPE_HSPAP">"HSPA+"</string>
+    <string name="network_type_NETWORK_TYPE_IDEN">"iDEN"</string>
+    <string name="network_type_NETWORK_TYPE_LTE">"LTE"</string>
+    <string name="network_type_TYPE_WIMAX">"WiMax"</string>
+    <string name="network_type_TYPE_BLUETOOTH">"Bluetooth"</string>
+    <string name="network_type_TYPE_ETHERNET">"Ethernet"</string>
+    <string name="network_type_TYPE_DUMMY">"Dummy"</string>
+    <string name="network_type_TYPE_MOBILE_DUN">"Mobile DUN"</string>
+    <string name="network_type_TYPE_MOBILE_HIPRI">"Mobile HIPRI"</string>
+    <string name="network_type_TYPE_MOBILE_MMS">"Mobile MMS"</string>
+    <string name="network_type_TYPE_MOBILE_SUPL">"Mobile SUPL"</string>
+
+    <!-- TIME PERIOD -->
+    <string name="time_period">時期</string>
+    <string name="time_period_1_day">一日</string>
+    <string name="time_period_1_week">一星期</string>
+    <string name="time_period_1_month">一個月</string>
+    <string name="time_period_3_months">三個月</string>
+    <string name="time_period_1_year">一年</string>
+
+    <!-- ACTIVITY SHARE RESULT -->
+    <string name="share_image_using">分享圖像</string>
+    <string name="share_caption_mobile">流動電話</string>
+    <string name="share_caption_wifi">WiFi</string>
+    <string name="network_performance_test">網絡表現測試</string>
+    <string name="download_speed">下載速度</string>
+    <string name="upload_speed">上載速度</string>
+    <string name="latency_lowercase">網絡時延</string>
+    <string name="packet_loss_lowercase">封包遺失</string>
+    <string name="jitter_lowercase">抖動</string>
+    
+    <!-- ADAPTER ARCHIVED RESULTS LIST VIEW -->
+    <string name="not_available">NA</string>    
+    <string name="failed_test">失敗</string>
+    <string name="failed_test_short">F</string>
+
+    <!-- IMAGE DESCRIPTIONS -->
+    <string name="description_icon_clock">An image representing a clock</string>
+    <string name="description_wifi_icon">An icon representing a wifi signal</string>
+    <string name="description_icon_chart">Icon representing a chart</string>
+    <string name="description_image_connectivity_type">Image representing the connectivity type</string>
+    <string name="description_icon_download">This icon represents the download result</string>
+    <string name="description_icon_upload">This icon represents the upload result</string>
+    <string name="description_image_eaq_logo">Image with the SamKnows logo</string>
+
+    <!-- UNITS -->
+    <string name="units_Mbps">Mbps</string>
+    <string name="units_ms">ms</string>
+    <string name="units_s">s</string>
+    <string name="units_percent">%</string>
+
+    <!-- PASSIVE METRICS DETAILS -->
+    <!-- Sim and Network operators -->
+    <string name="sim_and_network_operators">Sim and Network Operators</string>
+    <string name="sim_operator">Sim Operator</string>
+    <string name="sim_operator_code">Sim Operator Code</string>
+    <string name="network_operator">Network Operator</string>
+    <string name="network_operator_code">Network Operator Code</string>
+    <string name="roaming_status">Roaming Status</string>
+
+    <!-- Signal Details -->
+    <string name="cell_tower_id">Cell Tower ID</string>
+    <string name="cell_tower_area_location_code">Cell Tower Area Location Code</string>
+    <string name="signal">Signal</string>
+    <string name="signal_strength">Signal Strength</string>
+    <string name="bearer">Bearer</string>
+
+    <!-- Device details -->
+    <string name="device">Device</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model">Model</string>
+    <string name="os">OS</string>
+    <string name="os_version">OS version</string>
+    <string name="phone_type">Phone Type</string>
+
+    <!-- Position -->
+    <string name="location">Location</string>
+    <string name="latitude">緯度</string>
+    <string name="longitude">經度</string>
+    <string name="accuracy">Accuracy</string>
+    <string name="location_provider">Location Provider</string>
+
+    <!-- TOOLS TEXT -->
+    <string name="tools_text_value_date">"4/4/2014"</string>
+    <string name="tools_text_value_average_download">"3"</string>
+    <string name="tools_text_value_average_upload">"1"</string>
+    <string name="tools_text_value_average_latency">"3"</string>
+    <string name="tools_text_value_average_packet_loss">"3"</string>
+    <string name="tools_text_value_average_jitter">"2"</string>
+
+    <string name="tools_text_value_best_download">"4"</string>
+    <string name="tools_text_value_best_upload">"2"</string>
+    <string name="tools_text_value_best_latency">"1"</string>
+    <string name="tools_text_value_best_packet_loss">"1"</string>
+    <string name="tools_text_value_best_jitter">"1"</string>
+
+    <string name="tools_text_value_sim_operator_code">"23410"</string>
+    <string name="tools_text_value_network_operator_code">"23410"</string>
+    <string name="tools_text_value_roaming_status">"off"</string>
+    <string name="tools_text_value_cell_tower_id">1260999</string>
+    <string name="tools_text_value_sim_operator">giffgaff</string>
+    <string name="tools_text_value_network_operator">giffgaff</string>
+    <string name="tools_text_value_cell_tower_area_location_code">22019</string>
+    <string name="tools_text_value_signal_strength">-89dB</string>
+    <string name="tools_text_value_bearer">HSPA+</string>
+    <string name="tools_text_value_manufacturer">LG</string>
+    <string name="tools_text_value_model">Nexus 5</string>
+    <string name="tools_text_value_os">Android</string>
+    <string name="tools_text_value_os_version">19</string>
+    <string name="tools_text_value_phone_type">GSM</string>
+    <string name="tools_text_value_latitude">51.41995</string>
+    <string name="tools_text_value_longitude">-0.17638</string>
+    <string name="tools_text_value_accuracy">13.0 m</string>
+    <string name="tools_text_value_location_provider">GPS</string>
+    <string name="tools_text_value_network_type">"Mobile Network"</string>
+
+    <!-- MESSAGES, WARNINGS -->
+    <string name="data_cap_warning_already_exceeded">Data cap exceeded</string>
+    <string name="data_cap_warning_might_be_exceeded">Data cap might be exceeded</string>
+    <string name="gauge_message_start">開始</string>
+    <string name="gauge_message_starting"></string>
+    <string name="advice_message_press_the_button">按 開始</string>
+    <string name="advice_message_press_the_button_run_again">按開始再進行測試</string>
+    <string name="advice_message_running">測試運行中</string>
+    <string name="advice_message_stopping">正在停止中..</string>
+    <string name="label_message_ready_to_run">準備運行</string>
+    <string name="label_message_tests_executed">已執行測試</string>
+    <string name="label_message_starting_tests">選擇目標</string>
+    <string name="label_message_download_test">下載測試中</string>
+    <string name="label_message_upload_test">上載測試中</string>
+    <string name="label_message_latency_loss_jitter_test">網絡時延 / 封包遺失 / 抖動</string>
+    <string name="no_internet_connection">沒有連線</string>
+    <string name="tests_running_title">Tests Running</string>
+    <string name="tests_running_message">我們建議你等待測試完成，你是否希望終止測試?</string>
+    
+    <!-- MENU ITEMS -->
+    <string name="menu_item_refresh">更新</string>
+    <string name="menu_item_select_network">Select Network</string>
+    <string name="menu_item_select_tests">Select Tests</string>
+    <string name="menu_item_share">Share</string>
+    
+    <!--  PAGE TITLES -->
+    <string name="title_test">測試</string>
+    <string name="title_history">結果</string>
+    <string name="title_summary">總結</string>
+
+    <!-- PASSIVE METRICS -->
+    <string name="pm_your_ip_label">你的IP</string>
+    <string name="pm_your_ip_example">89.105.103.193</string>
+    <string name="pm_reference_no_label">參考編號</string>
+    <string name="pm_reference_no_example">00e2145198fc49e1fd5587d0b57db66</string>
+    
+        
+    <string name="Initial_Warning_Text"></string>
+    
 </resources>

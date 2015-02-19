@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Holo.Light" />
 
@@ -40,9 +40,7 @@
     </style>
 
     <style name="h1">
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20dp</item>
-        <item name="android:layout_width">320dip</item>
         <item name="android:textColor">#0591c6</item>
     </style>
 
@@ -65,10 +63,10 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">2dp</item>
-        <item name="android:layout_marginTop">2px</item>
+        <item name="android:layout_marginTop">0px</item>
         <item name="android:layout_marginBottom">0px</item>
-        <item name="android:layout_marginLeft">2px</item>
-        <item name="android:layout_marginRight">2px</item>
+        <item name="android:layout_marginLeft">0px</item>
+        <item name="android:layout_marginRight">0px</item>
         <item name="android:background">@color/white</item>
         <item name="android:gravity">bottom|left</item>
         <item name="android:text"></item>
@@ -108,7 +106,7 @@
     <style name="column">
         <item name="android:textColor">#202020</item>
         <item name="android:textSize">14sp</item>
-        <!--  <item name="android:layout_width">90dip</item> -->
+        <item name="android:layout_width">90dip</item>
         <item name="android:gravity">right</item>
         <item name="android:paddingLeft">5dip</item>
     </style>
@@ -157,5 +155,77 @@
     </style>
 
     <dimen name="social_media_text_padding_left">20dp</dimen>
+   <!-- PABLO'S MODIFICATIONS -->
+        
+    <!-- the theme applied to the application or activity -->
+    <style
+        name="CustomActionBarTheme"
+        parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>        
+        <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>                       
+    </style> 
+    
+    <style
+        name="CustomActionBarThemeNoActionBar"
+        parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>        
+        <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>                       
+    </style> 
+    
+    <style
+        name="MyActionBarStyle"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:textColor">@color/white_dark</item>
+    	<item name="android:background">@drawable/actionbar_background</item>
+    	<item name="android:backgroundStacked">@color/blue_darker</item>
+    	<item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>  	
+	</style>
+	
+    <style
+        name="MyTheme.ActionBar.TitleTextStyle"
+        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    	<item name="android:textColor">@color/white_dark</item>    	
+  </style>
+    
+    <!-- ActionBar tabs styles -->
+    <style
+        name="MyActionBarTabs"
+        parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <!-- tab indicator -->
+        <item name="android:background">@drawable/actionbar_tab_indicator</item>"
+    </style>
+    
+    <!-- Floating activity style -->
+    <style name="MyFloatingWindow">	    
+	    <item name="android:windowBackground">@android:color/transparent</item>
+	    <item name="android:background">@android:color/transparent</item>
+	    <item name="android:windowCloseOnTouchOutside">false</item>
+	    <item name="android:colorBackgroundCacheHint">@null</item>
+	    <item name="android:backgroundDimEnabled">true</item>
+	    <item name="android:windowIsFloating">true</item>
+	    <item name="android:windowNoTitle">true</item>	        
+	</style>
+	
+    <style name="OverFlow"
+        parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow_white_new</item>
+    </style>
+	            
+    <style name="style_fragment_main">
+        <item name="android:background">@drawable/background_gradient_main</item>
+    </style>
+    
+    <style name="style_fragment_main_with_border">
+        <item name="android:background">@drawable/background_gradient_main_with_border</item>
+    </style>
+    
+    <style name="style_warning_panel">
+        <item name="android:background">@color/orange</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 </resources>
