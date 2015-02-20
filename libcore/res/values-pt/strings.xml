@@ -416,8 +416,8 @@
     <string name="download">Download</string>
     <string name="upload">Upload</string>
     <string name="latency">Latência</string>
-    <string name="packet_loss">de pacote</string>
-    <string name="loss">de pacote</string>
+    <string name="packet_loss">Perda de pacote</string>
+    <string name="loss">Perda de pacote</string>
     <string name="jitter">Jitter</string>
     <string name="slash">-</string>
     <string name="dummytext">dummy</string>

@@ -220,6 +220,9 @@ public class FragmentSettings extends Fragment{
 				SKAMainResultsActivity.sExportMenuItemSelected(FragmentSettings.this.getActivity(), getActivity().getCacheDir());
 			}
 		});	
+		if (SKApplication.getAppInstance().isExportMenuItemSupported() == false) {
+    		exportResultsButton.setVisibility(View.GONE);
+		}
 		
 		FontFitTextView locationServicesTypeButtonText = null;
 		try {

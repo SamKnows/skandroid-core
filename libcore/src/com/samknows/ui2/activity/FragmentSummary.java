@@ -571,21 +571,22 @@ public class FragmentSummary extends Fragment
 					@Override
 					public void onAnimationEnd(Animator animation)
 					{						
-						super.onAnimationEnd(animation);
-						// Set the position of the other rows to the initial position with an animation.
-						layout_ll_summary_section_download.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
-						layout_ll_summary_section_latency.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
-						layout_ll_summary_section_packet_loss.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
-						layout_ll_summary_section_jitter.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
-						
-						// Delete the listener of the row to avoid side effects
-						layout_ll_summary_section_upload.animate().setListener(null);
-						
-						// Enable click events
-						setLayoutsClickable(true);
-						
-						// Update toolbar/menu items!
-                     	doUpdateToolbar();
+					  super.onAnimationEnd(animation);
+					  // Set the position of the other rows to the initial position with an animation.
+					  layout_ll_summary_section_download.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
+					  layout_ll_summary_section_latency.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
+					  layout_ll_summary_section_packet_loss.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
+					  layout_ll_summary_section_jitter.animate().x(headerPositionX).setDuration(300).alpha(1.0f).setInterpolator(new OvershootInterpolator(1.2f));
+
+					  // Delete the listener of the row to avoid side effects
+					  layout_ll_summary_section_upload.animate().setListener(null);
+
+					  // Enable click events
+					  setLayoutsClickable(true);
+
+					  // Update toolbar/menu items!
+					  rowsHidden = false;
+					  doUpdateToolbar();
 					}
 				});
 			}
@@ -624,7 +625,8 @@ public class FragmentSummary extends Fragment
 						setLayoutsClickable(true);
 						
 						// Update toolbar/menu items!
-                     	doUpdateToolbar();
+						rowsHidden = false;
+            doUpdateToolbar();
 					};
 				});
 			}
@@ -663,7 +665,8 @@ public class FragmentSummary extends Fragment
 						setLayoutsClickable(true);
 						
 						// Update toolbar/menu items!
-                     	doUpdateToolbar();
+						rowsHidden = false;
+            doUpdateToolbar();
 					}
 				});	
 			}
@@ -703,7 +706,8 @@ public class FragmentSummary extends Fragment
 						setLayoutsClickable(true);
 						
 						// Update toolbar/menu items!
-                     	doUpdateToolbar();
+					  rowsHidden = false;
+            doUpdateToolbar();
 					}
 				});
 			}
@@ -771,626 +775,626 @@ public class FragmentSummary extends Fragment
 	 */
 	private void setUpResources(View pView)
 	{
-		final Context context = SKApplication.getAppInstance().getApplicationContext();
-		
-		// Create the dbHelper to query the data base
-		dbHelper = new DBHelper(context);
-		
-		// Report that this fragment would like to participate in populating the options menu by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
-    	setHasOptionsMenu(true);
-    	
-    	// Main layout
-    	layout_ll_summary_main = (LinearLayout)pView.findViewById(R.id.ll_summary_main);
-    	
-		// Header fields
-    	layout_ll_header = (LinearLayout)pView.findViewById(R.id.ll_header);
-		tv_label_average = (TextView)pView.findViewById(R.id.tv_label_average);
-		tv_label_best = (TextView)pView.findViewById(R.id.tv_label_best);
-		
-		mSummaryFilterButton = pView.findViewById(R.id.summary_filter_button);
-		mSummaryFilterButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showSelectNetwork();
-			}
-		});
-		mSummaryTimePeriodButton = pView.findViewById(R.id.summary_time_period_button);
-		mSummaryTimePeriodButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showSelectTimePeriod();
-			}
-		});
-		
-		// Set up the on click listener to perform a shake animation		
-		OnClickListener shakeOnClickListener = new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{				
-				if (getActivity() != null)
-				{
-					v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake));
-				}
-			}			
-		};
+	  final Context context = SKApplication.getAppInstance().getApplicationContext();
 
-		// Assign the on click listener to the header fields
-		tv_label_average.setOnClickListener(shakeOnClickListener);		
-		tv_label_best.setOnClickListener(shakeOnClickListener);		
+	  // Create the dbHelper to query the data base
+	  dbHelper = new DBHelper(context);
 
-		// Main sections of the layout
-		layout_ll_summary_section_download = (LinearLayout)pView.findViewById(R.id.ll_summary_section_download);
-		layout_ll_summary_section_upload = (LinearLayout)pView.findViewById(R.id.ll_summary_section_upload);
-		layout_ll_summary_section_latency = (LinearLayout)pView.findViewById(R.id.ll_summary_section_latency);
-		layout_ll_summary_section_packet_loss = (LinearLayout)pView.findViewById(R.id.ll_summary_section_loss);
-		layout_ll_summary_section_jitter = (LinearLayout)pView.findViewById(R.id.ll_summary_section_jitter);
-		
-		
-		if (SKApplication.getAppInstance().hideJitter()) {
-			layout_ll_summary_section_jitter.setVisibility(View.INVISIBLE);
-		}
-		if (SKApplication.getAppInstance().hideLoss()) {
-			layout_ll_summary_section_packet_loss.setVisibility(View.INVISIBLE);
-		}
-		
+	  // Report that this fragment would like to participate in populating the options menu by receiving a call to onCreateOptionsMenu(Menu, MenuInflater) and related methods.
+	  setHasOptionsMenu(true);
 
-		// Results layouts
-		layout_ll_summary_result_average_download = (LinearLayout)pView.findViewById(R.id.fragment_summary_download_ll_average);
-		layout_ll_summary_result_best_download = (LinearLayout)pView.findViewById(R.id.fragment_summary_download_ll_best);
-		layout_ll_summary_result_average_upload = (LinearLayout)pView.findViewById(R.id.fragment_summary_upload_ll_average);
-		layout_ll_summary_result_best_upload = (LinearLayout)pView.findViewById(R.id.fragment_summary_upload_ll_best);
-		layout_ll_summary_result_average_latency = (LinearLayout)pView.findViewById(R.id.fragment_summary_latency_ll_average);
-		layout_ll_summary_result_best_latency = (LinearLayout)pView.findViewById(R.id.fragment_summary_latency_ll_best);
-		layout_ll_summary_result_average_packet_loss = (LinearLayout)pView.findViewById(R.id.fragment_summary_packet_loss_ll_average);
-		layout_ll_summary_result_best_packet_loss = (LinearLayout)pView.findViewById(R.id.fragment_summary_packet_loss_ll_best);
-		layout_ll_summary_result_average_jitter = (LinearLayout)pView.findViewById(R.id.fragment_summary_jitter_ll_average);
-		layout_ll_summary_result_best_jitter = (LinearLayout)pView.findViewById(R.id.fragment_summary_jitter_ll_best);
-		
-		// Result fields
-		tv_summary_result_average_download = (TextView)pView.findViewById(R.id.tv_summary_result_average_download);
-		tv_summary_result_best_download = (TextView)pView.findViewById(R.id.tv_summary_result_best_download);
-		tv_summary_result_average_upload = (TextView)pView.findViewById(R.id.tv_summary_result_average_upload);
-		tv_summary_result_best_upload = (TextView)pView.findViewById(R.id.tv_summary_result_best_upload);
-		tv_summary_result_average_latency = (TextView)pView.findViewById(R.id.tv_summary_result_average_latency);
-		tv_summary_result_best_latency = (TextView)pView.findViewById(R.id.tv_summary_result_best_latency);
-		tv_summary_result_average_loss = (TextView)pView.findViewById(R.id.tv_summary_result_average_packet_loss);
-		tv_summary_result_best_loss = (TextView)pView.findViewById(R.id.tv_summary_result_best_packet_loss);
-		tv_summary_result_average_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_average_jitter);
-		tv_summary_result_best_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_best_jitter);
-		tv_summary_result_average_download.setText(R.string.slash);
-		tv_summary_result_best_download.setText(R.string.slash);
-		tv_summary_result_average_upload.setText(R.string.slash);
-		tv_summary_result_best_upload.setText(R.string.slash);
-		tv_summary_result_average_latency.setText(R.string.slash);
-		tv_summary_result_best_latency.setText(R.string.slash);
-		tv_summary_result_average_loss.setText(R.string.slash);
-		tv_summary_result_best_loss.setText(R.string.slash);
-		tv_summary_result_average_jitter.setText(R.string.slash);
-		tv_summary_result_best_jitter.setText(R.string.slash);
-		
-		// Set up the fonts to be used
-		typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_condensed_regular.ttf");
-		typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
-		typeface_Roboto_Thin = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_thin.ttf");
-		typeface_Roboto_Regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_regular.ttf");
-		
-		// Assign fonts the the layout text fields
-//		tv_summary_result_average_download.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_best_download.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_average_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_best_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_average_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_best_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_average_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_best_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_average_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_summary_result_best_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
-		
-		((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);		
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_packet_loss_label)).setTypeface(typeface_Roboto_Regular);
-		((TextView) pView.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Regular);
-		
-		// Chart elements
-		layout_ll_chart = (FrameLayout)pView.findViewById(R.id.fragment_summary_ll_chart);
-		mChartCaption = (TextView)pView.findViewById(R.id.download_caption);
-		
-		graphsSetup(pView);
-	
-		// Hide the chart layout for now!
-        mChartCaption.setAlpha(0.0F);
-		layout_ll_chart.setAlpha(0.0f);
-		layout_ll_chart.setVisibility(View.GONE);
-		
-		// Get the width of the screen in pixels
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		final int screenWidth = size.x;
-		
-		// Get the height of the header layout
-		layout_ll_header.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{			
-			@Override
-			public void onGlobalLayout()
-			{
-				header_section_height = layout_ll_header.getHeight();
-				
-				ViewTreeObserver observer = layout_ll_header.getViewTreeObserver();
-				if (observer != null) {
-					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-					try {
-						observer.removeOnGlobalLayoutListener(this);
-					} catch (NoSuchMethodError x) {
-						observer.removeGlobalOnLayoutListener(this);
-					}
-				}
-			}
-			
-			
-		});
-		
-		// Get the position of the header row when it's already drawn		
-		layout_ll_summary_section_download.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{			
-			@Override
-			public void onGlobalLayout()
-			{
-         	    //final int actionBarHeight = getActionBarHeight();
-						
-				headerPositionX = layout_ll_summary_section_download.getLeft();
-				headerPositionY = layout_ll_summary_section_download.getTop();
-				
-				ViewTreeObserver observer = layout_ll_summary_section_download.getViewTreeObserver();
-				if (observer != null) {
-					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-					try {
-						observer.removeOnGlobalLayoutListener(this);
-					} catch (NoSuchMethodError x) {
-						observer.removeGlobalOnLayoutListener(this);
-					}
-				}
-			}
-		});
-		
-		// Get the initial position of the upload row when it's already drawn
-		layout_ll_summary_section_upload.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{			
-			@Override
-			public void onGlobalLayout()
-			{
-				initialPositionUploadX = layout_ll_summary_section_upload.getLeft();
-				initialPositionUploadY = layout_ll_summary_section_upload.getTop();
-				
-				ViewTreeObserver observer = layout_ll_summary_section_upload.getViewTreeObserver();
-				if (observer != null) {
-					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-					try {
-						observer.removeOnGlobalLayoutListener(this);
-					} catch (NoSuchMethodError x) {
-						observer.removeGlobalOnLayoutListener(this);
-					}
-				}
-			}
-		});
-		
-		// Get the initial position of the latency row when it's already drawn
-		layout_ll_summary_section_latency.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{			
-			@Override
-			public void onGlobalLayout()
-			{
-				initialPositionLatencyX = layout_ll_summary_section_latency.getLeft();
-				initialPositionLatencyY = layout_ll_summary_section_latency.getTop();
-				
-				ViewTreeObserver observer = layout_ll_summary_section_latency.getViewTreeObserver();
-				if (observer != null) {
-					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-					try {
-						observer.removeOnGlobalLayoutListener(this);
-					} catch (NoSuchMethodError x) {
-						observer.removeGlobalOnLayoutListener(this);
-					}
-				}
-			}
-		});
-		
-		// Get the initial position of the packet loss row when it's already drawn
-		layout_ll_summary_section_packet_loss.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{			
-			@Override
-			public void onGlobalLayout()
-			{
-				initialPositionLossX = layout_ll_summary_section_packet_loss.getLeft();
-				initialPositionLossY = layout_ll_summary_section_packet_loss.getTop();
-				
-				ViewTreeObserver observer = layout_ll_summary_section_packet_loss.getViewTreeObserver();
-				if (observer != null) {
-					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-					try {
-						observer.removeOnGlobalLayoutListener(this);
-					} catch (NoSuchMethodError x) {
-						observer.removeGlobalOnLayoutListener(this);
-					}
-				}
-			}
-		});
-		
-		// Get the initial position of the packet loss row when it's already drawn
-				layout_ll_summary_section_jitter.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-				{			
-					@Override
-					public void onGlobalLayout()
-					{
-						initialPositionJitterX = layout_ll_summary_section_jitter.getLeft();
-						initialPositionJitterY = layout_ll_summary_section_jitter.getTop();
-						
-						ViewTreeObserver observer = layout_ll_summary_section_jitter.getViewTreeObserver();
-						if (observer != null) {
-							// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-							try {
-								observer.removeOnGlobalLayoutListener(this);
-							} catch (NoSuchMethodError x) {
-								observer.removeGlobalOnLayoutListener(this);
-							}
-						}
-					}
-				});
+	  // Main layout
+	  layout_ll_summary_main = (LinearLayout)pView.findViewById(R.id.ll_summary_main);
 
-		// Get the width of the linear layout hosting the charts
-		layout_ll_chart.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-		{
-			@Override
-			public void onGlobalLayout()
-			{
-				ViewTreeObserver observer = layout_ll_chart.getViewTreeObserver();
-				if (observer != null) {
-					// http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
-					try {
-						observer.removeOnGlobalLayoutListener(this);
-					} catch (NoSuchMethodError x) {
-						observer.removeGlobalOnLayoutListener(this);
-					}
-				}
-			}
-		});
-		
-		// Set the click listener for the download layout element (Download average and best result)
-		layout_ll_summary_section_download.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				if(!aList_SummaryResults_No_Empty_For_Download)
-				{
-					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
-				}
-				else
-				{
-					// Disable click events to avoid side effects
-					setLayoutsClickable(false);
-					
-					// If the rows are hidden (we are showing the graph)
-					if (rowsHidden)
-					{
-						// Hide the chart
-						hide_ll_chart_download();
-                    	//hide_ll_chart_generic(layout_ll_summary_section_download);
-					}
-					// If all the rows are showed (we are not showing the graph)
-					else
-					{
-						// Prepare chart for download test type
-						prepareChartEnvironment(0, getTimePeriodSelection());
-						
-						// Disable action bar filters
-						menu_item_seletcNetworkType.setVisible(false);
-						menu_Item_Select_Time_Period.setVisible(false);
-						// Move out of the screen the other rows
-						layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
-						{
-							// Enable click events on the rows when the animation ends.
-							@Override
-							public void onAnimationEnd(Animator animation)
-							{
-								super.onAnimationEnd(animation);
+	  // Header fields
+	  layout_ll_header = (LinearLayout)pView.findViewById(R.id.ll_header);
+	  tv_label_average = (TextView)pView.findViewById(R.id.tv_label_average);
+	  tv_label_best = (TextView)pView.findViewById(R.id.tv_label_best);
 
-								// Enable click events
-								setLayoutsClickable(true);
-								// Show the chart
-                        		mChartCaption.setAlpha(1.0F);
-								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
-								layout_ll_chart.setVisibility(View.VISIBLE);
-								
-								mShowingThisSection = layout_ll_summary_section_download;
-							}
-							
-						});					
-					}				
-					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-					rowsHidden = !rowsHidden;					
-					doUpdateToolbar();
-				}
-			}
+	  mSummaryFilterButton = pView.findViewById(R.id.summary_filter_button);
+	  mSummaryFilterButton.setOnClickListener(new OnClickListener() {
 
-		});
-		
-		// Set the click listener for the upload layout element (Upload average and best result)
-		layout_ll_summary_section_upload.setOnClickListener(new OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				if(!aList_SummaryResults_No_Empty_For_Upload)
-				{
-					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
-				}
-				else
-				{
-					// Disable click events to avoid side effects
-					setLayoutsClickable(false);
-					
-					// If the rows are hidden (we are showing the graph)
-					if (rowsHidden)
-					{
-						// Hide the chart
-						hide_ll_chart_upload();
-					}
-					// If all the rows are showed (we are not showing the graph)
-					else
-					{
-						// Prepare chart for upload test type
-						prepareChartEnvironment(1, getTimePeriodSelection());
-						
-						// Disable action bar filters
-						menu_item_seletcNetworkType.setVisible(false);
-						menu_Item_Select_Time_Period.setVisible(false);
-						// Move out of the screen the other rows
-						layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
-						{
-							// Executed at the end of the animation
-							@Override
-							public void onAnimationEnd(Animator animation)
-							{						
-								super.onAnimationEnd(animation);
-								
-								layout_ll_summary_section_upload.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
-								
-								// Delete the listener of the row to avoid side effects
-								layout_ll_summary_section_packet_loss.animate().setListener(null);
-								
-								// Enable click events
-								setLayoutsClickable(true);
-								// Show the chart
-                        		mChartCaption.setAlpha(1.0F);
-								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
-								layout_ll_chart.setVisibility(View.VISIBLE);
-								
-								mShowingThisSection = layout_ll_summary_section_upload;
-							}
-						});					
-					}				
-					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-					rowsHidden = !rowsHidden;
-					doUpdateToolbar();
-				}
-			}
-		});
-		
-		// Set the click listener for the latency layout element (Latency average and best result)
-		layout_ll_summary_section_latency.setOnClickListener(new OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				if(!aList_SummaryResults_No_Empty_For_Latency)
-				{
-					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
-				}
-				else
-				{
-					// Disable click events to avoid side effects
-					setLayoutsClickable(false);
-					
-					// If the rows are hidden (we are showing the graph)
-					if (rowsHidden)
-					{
-						// Hide the chart
-						hide_ll_chart_latency();
-					}
-					// If all the rows are showed (we are not showing the graph)
-					else
-					{
-						// Prepare chart for latency test type
-						prepareChartEnvironment(2, getTimePeriodSelection());
-						
-						// Disable action bar filters
-						menu_item_seletcNetworkType.setVisible(false);
-						menu_Item_Select_Time_Period.setVisible(false);
-						// Move out of the screen the other rows
-						layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);					
-						layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
-						{
-							// Executed at the end of the animation
-							@Override
-							public void onAnimationEnd(Animator animation)
-							{						
-								super.onAnimationEnd(animation);
-								
-								layout_ll_summary_section_latency.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
-								
-								layout_ll_summary_section_packet_loss.animate().setListener(null);		// Delete the listener of the row to avoid side effects
-								
-								// Enable click events
-								setLayoutsClickable(true);
-								// Show the chart
-                        		mChartCaption.setAlpha(1.0F);
-								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
-								layout_ll_chart.setVisibility(View.VISIBLE);
-								
-								mShowingThisSection = layout_ll_summary_section_latency;
-							}
-						});					
-					}				
-					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-					rowsHidden = !rowsHidden;					
-					doUpdateToolbar();
-				}
-			}
-		});
-		
-		// Set the click listener for the packet loss layout element (Packet loss average and best result)
-		layout_ll_summary_section_packet_loss.setOnClickListener(new OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				if(!aList_SummaryResults_No_Empty_For_Packet_Loss)
-				{
-					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
-				}
-				else
-				{
-					// Disable click events to avoid side effects
-					setLayoutsClickable(false);
-					
-					// If the rows are hidden (we are showing the graph)
-					if (rowsHidden)
-					{
-						// Hide the chart
-						hide_ll_chart_packetloss();
-					}
-					// If all the rows are showed (we are not showing the graph)
-					else
-					{
-						// Prepare chart for packet loss test type
-						prepareChartEnvironment(3, getTimePeriodSelection());
-						
-						// Disable action bar filters
-						menu_item_seletcNetworkType.setVisible(false);
-						menu_Item_Select_Time_Period.setVisible(false);
-						// Move out of the screen the other rows
-						layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
-						{
-							// Executed at the end of the animation
-							@Override
-							public void onAnimationEnd(Animator animation)
-							{
-								layout_ll_summary_section_packet_loss.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
-								
-								// Delete the listener of the row to avoid side effects
-								layout_ll_summary_section_latency.animate().setListener(null);
-								
-								// Enable click events
-								setLayoutsClickable(true);
-								// Show the chart
-                        		mChartCaption.setAlpha(1.0F);
-								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
-								layout_ll_chart.setVisibility(View.VISIBLE);
-								
-								mShowingThisSection = layout_ll_summary_section_packet_loss;
-							};						
-						});									
-					}			
-					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-					rowsHidden = !rowsHidden;					
-					doUpdateToolbar();
-				}
-			}
-		});
-		
-		// Set the click listener for the jitter layout element (Jitter average and best result)
-		layout_ll_summary_section_jitter.setOnClickListener(new OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				if(!aList_SummaryResults_No_Empty_For_Jitter)
-				{
-					Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
-				}
-				else
-				{
-					// Disable click events to avoid side effects
-					setLayoutsClickable(false);
-					
-					// If the rows are hidden (we are showing the graph)
-					if (rowsHidden)
-					{
-						// Hide the chart
-						hide_ll_chart_jitter();
+	    @Override
+	    public void onClick(View v) {
+	      showSelectNetwork();
+	    }
+	  });
+	  mSummaryTimePeriodButton = pView.findViewById(R.id.summary_time_period_button);
+	  mSummaryTimePeriodButton.setOnClickListener(new OnClickListener() {
 
-					}
-					// If all the rows are showed (we are not showing the graph)
-					else
-					{
-						// Prepare chart for upload test type
-						prepareChartEnvironment(4, getTimePeriodSelection());
-						
-						// Disable action bar filters
-						menu_item_seletcNetworkType.setVisible(false);
-						menu_Item_Select_Time_Period.setVisible(false);
-						// Move out of the screen the other rows
-						layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
-						layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
-						{
-							// Executed at the end of the animation
-							@Override
-							public void onAnimationEnd(Animator animation)
-							{						
-								super.onAnimationEnd(animation);
-								
-								layout_ll_summary_section_jitter.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
-								
-								// Delete the listener of the row to avoid side effects
-								layout_ll_summary_section_packet_loss.animate().setListener(null);
-								
-								// Enable click events
-								setLayoutsClickable(true);
-								// Show the chart
-                        		mChartCaption.setAlpha(1.0F);
-								layout_ll_chart.animate().setDuration(300).alpha(1.0f);
-								layout_ll_chart.setVisibility(View.VISIBLE);
-								
-								mShowingThisSection = layout_ll_summary_section_jitter;
-							}
-						});					
-					}				
-					// Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-					rowsHidden = !rowsHidden;
-					doUpdateToolbar();
-				}
-			}
-		});
-		
-        doUpdateToolbar();
+	    @Override
+	    public void onClick(View v) {
+	      showSelectTimePeriod();
+	    }
+	  });
+
+	  // Set up the on click listener to perform a shake animation		
+	  OnClickListener shakeOnClickListener = new OnClickListener()
+	  {
+	    @Override
+	    public void onClick(View v)
+	    {				
+	      if (getActivity() != null)
+	      {
+	        v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake));
+	      }
+	    }			
+	  };
+
+	  // Assign the on click listener to the header fields
+	  tv_label_average.setOnClickListener(shakeOnClickListener);		
+	  tv_label_best.setOnClickListener(shakeOnClickListener);		
+
+	  // Main sections of the layout
+	  layout_ll_summary_section_download = (LinearLayout)pView.findViewById(R.id.ll_summary_section_download);
+	  layout_ll_summary_section_upload = (LinearLayout)pView.findViewById(R.id.ll_summary_section_upload);
+	  layout_ll_summary_section_latency = (LinearLayout)pView.findViewById(R.id.ll_summary_section_latency);
+	  layout_ll_summary_section_packet_loss = (LinearLayout)pView.findViewById(R.id.ll_summary_section_loss);
+	  layout_ll_summary_section_jitter = (LinearLayout)pView.findViewById(R.id.ll_summary_section_jitter);
+
+
+	  if (SKApplication.getAppInstance().hideJitter()) {
+	    layout_ll_summary_section_jitter.setVisibility(View.INVISIBLE);
+	  }
+	  if (SKApplication.getAppInstance().hideLoss()) {
+	    layout_ll_summary_section_packet_loss.setVisibility(View.INVISIBLE);
+	  }
+
+
+	  // Results layouts
+	  layout_ll_summary_result_average_download = (LinearLayout)pView.findViewById(R.id.fragment_summary_download_ll_average);
+	  layout_ll_summary_result_best_download = (LinearLayout)pView.findViewById(R.id.fragment_summary_download_ll_best);
+	  layout_ll_summary_result_average_upload = (LinearLayout)pView.findViewById(R.id.fragment_summary_upload_ll_average);
+	  layout_ll_summary_result_best_upload = (LinearLayout)pView.findViewById(R.id.fragment_summary_upload_ll_best);
+	  layout_ll_summary_result_average_latency = (LinearLayout)pView.findViewById(R.id.fragment_summary_latency_ll_average);
+	  layout_ll_summary_result_best_latency = (LinearLayout)pView.findViewById(R.id.fragment_summary_latency_ll_best);
+	  layout_ll_summary_result_average_packet_loss = (LinearLayout)pView.findViewById(R.id.fragment_summary_packet_loss_ll_average);
+	  layout_ll_summary_result_best_packet_loss = (LinearLayout)pView.findViewById(R.id.fragment_summary_packet_loss_ll_best);
+	  layout_ll_summary_result_average_jitter = (LinearLayout)pView.findViewById(R.id.fragment_summary_jitter_ll_average);
+	  layout_ll_summary_result_best_jitter = (LinearLayout)pView.findViewById(R.id.fragment_summary_jitter_ll_best);
+
+	  // Result fields
+	  tv_summary_result_average_download = (TextView)pView.findViewById(R.id.tv_summary_result_average_download);
+	  tv_summary_result_best_download = (TextView)pView.findViewById(R.id.tv_summary_result_best_download);
+	  tv_summary_result_average_upload = (TextView)pView.findViewById(R.id.tv_summary_result_average_upload);
+	  tv_summary_result_best_upload = (TextView)pView.findViewById(R.id.tv_summary_result_best_upload);
+	  tv_summary_result_average_latency = (TextView)pView.findViewById(R.id.tv_summary_result_average_latency);
+	  tv_summary_result_best_latency = (TextView)pView.findViewById(R.id.tv_summary_result_best_latency);
+	  tv_summary_result_average_loss = (TextView)pView.findViewById(R.id.tv_summary_result_average_packet_loss);
+	  tv_summary_result_best_loss = (TextView)pView.findViewById(R.id.tv_summary_result_best_packet_loss);
+	  tv_summary_result_average_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_average_jitter);
+	  tv_summary_result_best_jitter = (TextView)pView.findViewById(R.id.tv_summary_result_best_jitter);
+	  tv_summary_result_average_download.setText(R.string.slash);
+	  tv_summary_result_best_download.setText(R.string.slash);
+	  tv_summary_result_average_upload.setText(R.string.slash);
+	  tv_summary_result_best_upload.setText(R.string.slash);
+	  tv_summary_result_average_latency.setText(R.string.slash);
+	  tv_summary_result_best_latency.setText(R.string.slash);
+	  tv_summary_result_average_loss.setText(R.string.slash);
+	  tv_summary_result_best_loss.setText(R.string.slash);
+	  tv_summary_result_average_jitter.setText(R.string.slash);
+	  tv_summary_result_best_jitter.setText(R.string.slash);
+
+	  // Set up the fonts to be used
+	  typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_condensed_regular.ttf");
+	  typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
+	  typeface_Roboto_Thin = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_thin.ttf");
+	  typeface_Roboto_Regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_regular.ttf");
+
+	  // Assign fonts the the layout text fields
+	  //		tv_summary_result_average_download.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_best_download.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_average_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_best_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_average_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_best_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_average_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_best_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_average_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+	  //		tv_summary_result_best_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+
+	  ((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);		
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_packet_loss_label)).setTypeface(typeface_Roboto_Regular);
+	  ((TextView) pView.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Regular);
+
+	  // Chart elements
+	  layout_ll_chart = (FrameLayout)pView.findViewById(R.id.fragment_summary_ll_chart);
+	  mChartCaption = (TextView)pView.findViewById(R.id.download_caption);
+
+	  graphsSetup(pView);
+
+	  // Hide the chart layout for now!
+	  mChartCaption.setAlpha(0.0F);
+	  layout_ll_chart.setAlpha(0.0f);
+	  layout_ll_chart.setVisibility(View.GONE);
+
+	  // Get the width of the screen in pixels
+	  Display display = getActivity().getWindowManager().getDefaultDisplay();
+	  Point size = new Point();
+	  display.getSize(size);
+	  final int screenWidth = size.x;
+
+	  // Get the height of the header layout
+	  layout_ll_header.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {			
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      header_section_height = layout_ll_header.getHeight();
+
+	      ViewTreeObserver observer = layout_ll_header.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+
+
+	  });
+
+	  // Get the position of the header row when it's already drawn		
+	  layout_ll_summary_section_download.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {			
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      //final int actionBarHeight = getActionBarHeight();
+
+	      headerPositionX = layout_ll_summary_section_download.getLeft();
+	      headerPositionY = layout_ll_summary_section_download.getTop();
+
+	      ViewTreeObserver observer = layout_ll_summary_section_download.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+	  });
+
+	  // Get the initial position of the upload row when it's already drawn
+	  layout_ll_summary_section_upload.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {			
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      initialPositionUploadX = layout_ll_summary_section_upload.getLeft();
+	      initialPositionUploadY = layout_ll_summary_section_upload.getTop();
+
+	      ViewTreeObserver observer = layout_ll_summary_section_upload.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+	  });
+
+	  // Get the initial position of the latency row when it's already drawn
+	  layout_ll_summary_section_latency.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {			
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      initialPositionLatencyX = layout_ll_summary_section_latency.getLeft();
+	      initialPositionLatencyY = layout_ll_summary_section_latency.getTop();
+
+	      ViewTreeObserver observer = layout_ll_summary_section_latency.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+	  });
+
+	  // Get the initial position of the packet loss row when it's already drawn
+	  layout_ll_summary_section_packet_loss.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {			
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      initialPositionLossX = layout_ll_summary_section_packet_loss.getLeft();
+	      initialPositionLossY = layout_ll_summary_section_packet_loss.getTop();
+
+	      ViewTreeObserver observer = layout_ll_summary_section_packet_loss.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+	  });
+
+	  // Get the initial position of the packet loss row when it's already drawn
+	  layout_ll_summary_section_jitter.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {			
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      initialPositionJitterX = layout_ll_summary_section_jitter.getLeft();
+	      initialPositionJitterY = layout_ll_summary_section_jitter.getTop();
+
+	      ViewTreeObserver observer = layout_ll_summary_section_jitter.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+	  });
+
+	  // Get the width of the linear layout hosting the charts
+	  layout_ll_chart.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+	  {
+	    @Override
+	    public void onGlobalLayout()
+	    {
+	      ViewTreeObserver observer = layout_ll_chart.getViewTreeObserver();
+	      if (observer != null) {
+	        // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
+	        try {
+	          observer.removeOnGlobalLayoutListener(this);
+	        } catch (NoSuchMethodError x) {
+	          observer.removeGlobalOnLayoutListener(this);
+	        }
+	      }
+	    }
+	  });
+
+	  // Set the click listener for the download layout element (Download average and best result)
+	  layout_ll_summary_section_download.setOnClickListener(new OnClickListener()
+	  {
+	    @Override
+	    public void onClick(View v)
+	    {
+	      if(!aList_SummaryResults_No_Empty_For_Download)
+	      {
+	        Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+	      }
+	      else
+	      {
+	        // Disable click events to avoid side effects
+	        setLayoutsClickable(false);
+
+	        // If the rows are hidden (we are showing the graph)
+	        if (rowsHidden)
+	        {
+	          // Hide the chart
+	          hide_ll_chart_download();
+	          //hide_ll_chart_generic(layout_ll_summary_section_download);
+	        }
+	        // If all the rows are showed (we are not showing the graph)
+	        else
+	        {
+	          // Prepare chart for download test type
+	          rowsHidden = true;
+	          prepareChartEnvironment(0, getTimePeriodSelection());
+
+	          // Disable action bar filters
+	          menu_item_seletcNetworkType.setVisible(false);
+	          menu_Item_Select_Time_Period.setVisible(false);
+	          // Move out of the screen the other rows
+	          layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
+	          {
+	            // Enable click events on the rows when the animation ends.
+	            @Override
+	            public void onAnimationEnd(Animator animation)
+	            {
+	              super.onAnimationEnd(animation);
+
+	              // Enable click events
+	              setLayoutsClickable(true);
+	              // Show the chart
+	              mChartCaption.setAlpha(1.0F);
+	              layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+	              layout_ll_chart.setVisibility(View.VISIBLE);
+
+	              mShowingThisSection = layout_ll_summary_section_download;
+	            }
+
+	          });					
+	        }				
+	        // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+	        doUpdateToolbar();
+	      }
+	    }
+
+	  });
+
+	  // Set the click listener for the upload layout element (Upload average and best result)
+	  layout_ll_summary_section_upload.setOnClickListener(new OnClickListener()
+	  {			
+	    @Override
+	    public void onClick(View v)
+	    {
+	      if(!aList_SummaryResults_No_Empty_For_Upload)
+	      {
+	        Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+	      }
+	      else
+	      {
+	        // Disable click events to avoid side effects
+	        setLayoutsClickable(false);
+
+	        // If the rows are hidden (we are showing the graph)
+	        if (rowsHidden)
+	        {
+	          // Hide the chart
+	          hide_ll_chart_upload();
+	        }
+	        // If all the rows are showed (we are not showing the graph)
+	        else
+	        {
+	          // Prepare chart for upload test type
+	          rowsHidden = true;
+	          prepareChartEnvironment(1, getTimePeriodSelection());
+
+	          // Disable action bar filters
+	          menu_item_seletcNetworkType.setVisible(false);
+	          menu_Item_Select_Time_Period.setVisible(false);
+	          // Move out of the screen the other rows
+	          layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
+	          {
+	            // Executed at the end of the animation
+	            @Override
+	            public void onAnimationEnd(Animator animation)
+	            {						
+	              super.onAnimationEnd(animation);
+
+	              layout_ll_summary_section_upload.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
+
+	              // Delete the listener of the row to avoid side effects
+	              layout_ll_summary_section_packet_loss.animate().setListener(null);
+
+	              // Enable click events
+	              setLayoutsClickable(true);
+	              // Show the chart
+	              mChartCaption.setAlpha(1.0F);
+	              layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+	              layout_ll_chart.setVisibility(View.VISIBLE);
+
+	              mShowingThisSection = layout_ll_summary_section_upload;
+	            }
+	          });					
+	        }				
+	        // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+	        doUpdateToolbar();
+	      }
+	    }
+	  });
+
+	  // Set the click listener for the latency layout element (Latency average and best result)
+	  layout_ll_summary_section_latency.setOnClickListener(new OnClickListener()
+	  {			
+	    @Override
+	    public void onClick(View v)
+	    {
+	      if(!aList_SummaryResults_No_Empty_For_Latency)
+	      {
+	        Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+	      }
+	      else
+	      {
+	        // Disable click events to avoid side effects
+	        setLayoutsClickable(false);
+
+	        // If the rows are hidden (we are showing the graph)
+	        if (rowsHidden)
+	        {
+	          // Hide the chart
+	          hide_ll_chart_latency();
+	        }
+	        // If all the rows are showed (we are not showing the graph)
+	        else
+	        {
+	          // Prepare chart for latency test type
+	          rowsHidden = true;
+	          prepareChartEnvironment(2, getTimePeriodSelection());
+
+	          // Disable action bar filters
+	          menu_item_seletcNetworkType.setVisible(false);
+	          menu_Item_Select_Time_Period.setVisible(false);
+	          // Move out of the screen the other rows
+	          layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);					
+	          layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
+	          {
+	            // Executed at the end of the animation
+	            @Override
+	            public void onAnimationEnd(Animator animation)
+	            {						
+	              super.onAnimationEnd(animation);
+
+	              layout_ll_summary_section_latency.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
+
+	              layout_ll_summary_section_packet_loss.animate().setListener(null);		// Delete the listener of the row to avoid side effects
+
+	              // Enable click events
+	              setLayoutsClickable(true);
+	              // Show the chart
+	              mChartCaption.setAlpha(1.0F);
+	              layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+	              layout_ll_chart.setVisibility(View.VISIBLE);
+
+	              mShowingThisSection = layout_ll_summary_section_latency;
+	            }
+	          });					
+	        }				
+	        // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+	        doUpdateToolbar();
+	      }
+	    }
+	  });
+
+	  // Set the click listener for the packet loss layout element (Packet loss average and best result)
+	  layout_ll_summary_section_packet_loss.setOnClickListener(new OnClickListener()
+	  {			
+	    @Override
+	    public void onClick(View v)
+	    {
+	      if(!aList_SummaryResults_No_Empty_For_Packet_Loss)
+	      {
+	        Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+	      }
+	      else
+	      {
+	        // Disable click events to avoid side effects
+	        setLayoutsClickable(false);
+
+	        // If the rows are hidden (we are showing the graph)
+	        if (rowsHidden)
+	        {
+	          // Hide the chart
+	          hide_ll_chart_packetloss();
+	        }
+	        // If all the rows are showed (we are not showing the graph)
+	        else
+	        {
+	          // Prepare chart for packet loss test type
+	          rowsHidden = true;
+	          prepareChartEnvironment(3, getTimePeriodSelection());
+
+	          // Disable action bar filters
+	          menu_item_seletcNetworkType.setVisible(false);
+	          menu_Item_Select_Time_Period.setVisible(false);
+	          // Move out of the screen the other rows
+	          layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_jitter.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
+	          {
+	            // Executed at the end of the animation
+	            @Override
+	            public void onAnimationEnd(Animator animation)
+	            {
+	              layout_ll_summary_section_packet_loss.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
+
+	              // Delete the listener of the row to avoid side effects
+	              layout_ll_summary_section_latency.animate().setListener(null);
+
+	              // Enable click events
+	              setLayoutsClickable(true);
+	              // Show the chart
+	              mChartCaption.setAlpha(1.0F);
+	              layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+	              layout_ll_chart.setVisibility(View.VISIBLE);
+
+	              mShowingThisSection = layout_ll_summary_section_packet_loss;
+	            };						
+	          });									
+	        }			
+	        // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+	        doUpdateToolbar();
+	      }
+	    }
+	  });
+
+	  // Set the click listener for the jitter layout element (Jitter average and best result)
+	  layout_ll_summary_section_jitter.setOnClickListener(new OnClickListener()
+	  {			
+	    @Override
+	    public void onClick(View v)
+	    {
+	      if(!aList_SummaryResults_No_Empty_For_Jitter)
+	      {
+	        Toast.makeText(context, getString(R.string.no_results_for_period_and_network), Toast.LENGTH_SHORT).show();
+	      }
+	      else
+	      {
+	        // Disable click events to avoid side effects
+	        setLayoutsClickable(false);
+
+	        // If the rows are hidden (we are showing the graph)
+	        if (rowsHidden)
+	        {
+	          // Hide the chart
+	          hide_ll_chart_jitter();
+
+	        }
+	        // If all the rows are showed (we are not showing the graph)
+	        else
+	        {
+	          // Prepare chart for upload test type
+	          rowsHidden = true;
+	          prepareChartEnvironment(4, getTimePeriodSelection());
+
+	          // Disable action bar filters
+	          menu_item_seletcNetworkType.setVisible(false);
+	          menu_Item_Select_Time_Period.setVisible(false);
+	          // Move out of the screen the other rows
+	          layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
+	          layout_ll_summary_section_packet_loss.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null).setListener(new AnimatorListenerAdapter()
+	          {
+	            // Executed at the end of the animation
+	            @Override
+	            public void onAnimationEnd(Animator animation)
+	            {						
+	              super.onAnimationEnd(animation);
+
+	              layout_ll_summary_section_jitter.animate().setDuration(300).x(headerPositionX).y(headerPositionY).setInterpolator(new OvershootInterpolator(1.2f));
+
+	              // Delete the listener of the row to avoid side effects
+	              layout_ll_summary_section_packet_loss.animate().setListener(null);
+
+	              // Enable click events
+	              setLayoutsClickable(true);
+	              // Show the chart
+	              mChartCaption.setAlpha(1.0F);
+	              layout_ll_chart.animate().setDuration(300).alpha(1.0f);
+	              layout_ll_chart.setVisibility(View.VISIBLE);
+
+	              mShowingThisSection = layout_ll_summary_section_jitter;
+	            }
+	          });					
+	        }				
+	        // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+	        doUpdateToolbar();
+	      }
+	    }
+	  });
+
+	  doUpdateToolbar();
 	}
 	
 	private void graphsSetup(View pView) {
