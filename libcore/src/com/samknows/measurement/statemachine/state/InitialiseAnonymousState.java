@@ -17,13 +17,13 @@ public class InitialiseAnonymousState extends BaseState {
 		DCSInitAnonymousAction action = new DCSInitAnonymousAction();
 		action.execute();
 		if (action.isSuccess()) {
-			SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
-			SKLogger.d(this, "retrived server base url: " + action.serverBaseUrl);
-			appSettings.saveServerBaseUrl(action.serverBaseUrl);
-			SKLogger.d(this, "save server base url: " + action.serverBaseUrl);
-			String config_path = appSettings.protocol_scheme+"://"+action.serverBaseUrl+"/"+appSettings.download_config_path;
-			appSettings.saveConfigPath(config_path);
-			SKLogger.d(this, "save config file url: " + config_path);
+//			SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
+//			SKLogger.d(this, "retrived server base url: " + action.serverBaseUrl);
+//			appSettings.saveServerBaseUrl(action.serverBaseUrl);
+//			SKLogger.d(this, "save server base url: " + action.serverBaseUrl);
+//			String config_path = appSettings.protocol_scheme+"://"+action.serverBaseUrl+"/"+appSettings.download_config_path;
+//			appSettings.saveConfigPath(config_path);
+//			SKLogger.d(this, "save config file url: " + config_path);
 			return StateResponseCode.OK;
 		}
 		return StateResponseCode.FAIL;

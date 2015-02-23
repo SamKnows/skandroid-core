@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.PhoneIdentityData;
 
 public class DCSActivateAction extends NetAction{
@@ -18,7 +19,7 @@ public class DCSActivateAction extends NetAction{
 		Uri.Builder uriActivate = new Uri.Builder();
 		uriActivate.
 		scheme("https")
-    	.authority(SK2AppSettings.getInstance().getServerBaseUrl())
+    	.authority(SKApplication.getAppInstance().getBaseUrlForUpload())
     	.path("mobile/activate")
     	.appendQueryParameter("IMEI", data.imei);
 		String brand = SK2AppSettings.getInstance().brand;

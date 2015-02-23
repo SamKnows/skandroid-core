@@ -98,7 +98,6 @@ public class SKConstants {
 	public static final String PREF_WAS_INTRO_SHOWN = "was_intro_shown";
 	public static final String PREF_KEY_USERNAME = "username";
 	public static final String PREF_KEY_PASSWORD = "password";
-	public static final String PREF_KEY_SERVICE_ACTIVATED = "service_activated2"; // Updated MPC 19/01/2015, to force re-activation after Terms agreed.
 	public static final String PREF_KEY_DEVICES = "devices";
 	
 	public static final String PREF_SERVICE_ENABLED = "enable_testing";
@@ -108,8 +107,6 @@ public class SKConstants {
 	public static final String PREF_ENABLE_WAKEUP = "enable_wakeup";
 	public static final String PREF_LOCATION_TYPE = "location_type";
 	public static String PREF_DATA_CAP_RESET_DAY = "data_cap_reset_day";
-	
-	public static String STATE_MACHINE_STATUS = "state_machine_status";
 	
 	public static final String TEST_TYPE_CLOSEST_TARGET = "closestTarget";
 	public static final String TEST_TYPE_DOWNLOAD = "downstreamthroughput";

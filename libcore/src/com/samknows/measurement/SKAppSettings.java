@@ -140,23 +140,13 @@ public class SKAppSettings {
 		saveString(SKConstants.PREF_KEY_UNIT_ID, unitId);
 	}
 
-	public String getServerBaseUrl() {
-		return getString(SKConstants.PREF_KEY_SERVER_BASE_URL);
-	}
+//	public String getServerBaseUrl() {
+//    return SKApplication.getAppInstance().getBaseUrlForUpload();
+//	}
 
-	public void saveServerBaseUrl(String url) {
-		saveString(SKConstants.PREF_KEY_SERVER_BASE_URL, url);
-	}
-
-
-	public boolean isServiceActivated() {
-	  return true;
-		//return getBoolean(SKConstants.PREF_KEY_SERVICE_ACTIVATED, false);
-	}
-
-	public void setServiceActivated(boolean activated) {
-		saveBoolean(SKConstants.PREF_KEY_SERVICE_ACTIVATED, activated);
-	}
+//	public void saveServerBaseUrl(String url) {
+//		saveString(SKConstants.PREF_KEY_SERVER_BASE_URL, url);
+//	}
 
 	private long getUsedBytesPrevTime() {
 		return getLong(SKConstants.PREF_KEY_USED_BYTES_MONTH, TimeUtils.getStartMonthTime());

@@ -291,11 +291,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		if (MainService.isExecuting()) {
 			value = getString(R.string.executing_now); 
 		} else {
-			if(SK2AppSettings.getInstance().isServiceActivated()){
-				value = getString(R.string.yes);
-			}else{
-				value = getString(R.string.no);
-			}
+			value = getString(R.string.yes);
 		}
 		
 		try {

@@ -56,24 +56,15 @@ public class UIUpdate {
 		String type = "";
 		switch(state){
 		case NONE:
-		case INITIALISE:
-		case ACTIVATE:
-			break;
-		case ASSOCIATE:
-			type = JSON_ACTIVATED;
-			break;
-		case CHECK_CONFIG_VERSION:
-		case DOWNLOAD_CONFIG:
+		case INITIALISE_ANONYMOUS:
+    case EXECUTE_QUEUE:
+    case SUBMIT_RESULTS:
+    case SHUTDOWN:
+    case SUBMIT_RESULTS_ANONYMOUS:
 			break;
 		case RUN_INIT_TESTS:
 			type = JSON_DOWNLOADED;
 			break;
-		case EXECUTE_QUEUE:
-		case SUBMIT_RESULTS:
-		case SHUTDOWN:
-		case DOWNLOAD_CONFIG_ANONYMOUS:
-		case INITIALISE_ANONYMOUS:
-		case SUBMIT_RESULTS_ANONYMOUS:
 		default:
 			break;
 		}
@@ -98,26 +89,8 @@ public class UIUpdate {
 			value = "10";
 			break;
 		case INITIALISE_ANONYMOUS:
-		case INITIALISE:
 			type = JSON_MAINPROGRESS;
 			value = "20";
-			break;
-		case ACTIVATE:
-			type = JSON_MAINPROGRESS;
-			value = "30";
-			break;
-		case ASSOCIATE:
-			type = JSON_MAINPROGRESS;
-			value = "40";
-			break;
-		case CHECK_CONFIG_VERSION:
-			type = JSON_MAINPROGRESS;
-			value = "50";
-			break;
-		case DOWNLOAD_CONFIG_ANONYMOUS:
-		case DOWNLOAD_CONFIG:
-			type = JSON_MAINPROGRESS;
-			value = "60";
 			break;
 		case RUN_INIT_TESTS:
 			type = JSON_MAINPROGRESS;

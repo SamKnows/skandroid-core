@@ -191,9 +191,19 @@ public class SubmitTestResultsAnonymousAction {
 	}
 
 	public String buildUrl() {
-		SK2AppSettings settings = SK2AppSettings.getSK2AppSettingsInstance();
-		return new Uri.Builder().scheme(settings.protocol_scheme)
-				.authority(settings.getServerBaseUrl())
-				.path(settings.submit_path).build().toString();
+
+    SK2AppSettings settings = SK2AppSettings.getSK2AppSettingsInstance();
+    //SKLogger.sAssert(getClass(), settings.protocol_scheme.length() > 0);
+    //Uri.Builder scheme = builder.scheme(settings.protocol_scheme);
+
+    Uri builtUri = Uri.parse(SKApplication.getAppInstance().getBaseUrlForUpload());
+
+    String urlString =  builtUri.buildUpon().path(settings.submit_path).toString();
+
+    return urlString;
+
+//		return new Uri.Builder().scheme(settings.protocol_scheme)
+//				.authority(settings.getServerBaseUrl())
+//				.path(settings.submit_path).build().toString();
 	}
 }

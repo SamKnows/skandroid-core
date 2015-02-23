@@ -50,7 +50,6 @@ public class ScheduledTestStateMachine {
 				state = t.getNextState(state, code);
 				appSettings.saveState(state);
 				SKLogger.d(this, "change service state to: " + state);
-				activation(state);
 			}
 			ctx.publish(UIUpdate.progress(state));
 			ctx.publish(UIUpdate.machineState(state));
@@ -62,17 +61,4 @@ public class ScheduledTestStateMachine {
 	
 		return accumulatedTestBytes;
 	}
-	
-	
-	
-	//used to set the service activate according to the state
-	private void activation(State state){
-		switch(state){
-		case RUN_INIT_TESTS:
-			SK2AppSettings.getInstance().setServiceActivated(true);
-			default:
-		}
-	}
-	
-	
 }

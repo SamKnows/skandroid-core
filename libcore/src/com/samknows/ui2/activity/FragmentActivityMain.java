@@ -82,15 +82,6 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity
 		
 		// Bind and set up the resources
 		setUpResources();
-		
-		final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
-		final Activity ctx = this;
-		
-		if (appSettings.isServiceActivated() == false)
-		{
-			MainService.poke(ctx);
-			SKAActivationActivity.sDoShowActivation(this);
-		}
 	}
 	
 	@Override

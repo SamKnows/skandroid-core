@@ -60,11 +60,9 @@ public class ContinuousTesting {
 		StateResponseCode response;
 		SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		mPreviousState = appSettings.getState();
-		State state  = State.DOWNLOAD_CONFIG_ANONYMOUS;;
+		State state  = State.RUN_INIT_TESTS;
 		appSettings.saveState(state);
 		try {
-			response = Transition.createState(state, mContext).executeState();
-			state = State.RUN_INIT_TESTS;
 			response = Transition.createState(state, mContext).executeState();
 		} catch (Exception e) {
 			SKLogger.e(this, "fail to execute " + state + " ");

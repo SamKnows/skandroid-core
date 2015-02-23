@@ -10,6 +10,7 @@ import android.net.Uri;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKAppSettings;
+import com.samknows.measurement.SKApplication;
 
 public class GetVersionNumberAction extends NetAction{
 	public InputStream content;
@@ -17,7 +18,7 @@ public class GetVersionNumberAction extends NetAction{
 	public GetVersionNumberAction(Context c, String currentVersion) {
 		super();
 		String request = new Uri.Builder().scheme("https")
-				.authority(SKAppSettings.getInstance().getServerBaseUrl())
+				.authority(SKApplication.getAppInstance().getBaseUrlForUpload())
 				.path("/mobile/version")
 				.appendQueryParameter("current", currentVersion).build().toString();
 

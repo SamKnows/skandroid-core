@@ -94,8 +94,6 @@ import com.samknows.ska.activity.components.StatView;
 public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		implements OnClickListener {
 
-	// use to decide when to show the state_machine_status_failure
-
 	SKGraphForResults graphHandlerDownload;
 	SKGraphForResults graphHandlerUpload;
 	SKGraphForResults graphHandlerLatency;
@@ -194,7 +192,6 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		 * List<DeviceDescription> devices = AppSettings.getInstance()
 		 * .getDevices(); String imei =
 		 * PhoneIdentityDataCollector.getImei(this); currentDevice = new
-		 * CurrentDeviceDescription(imei); OtherUtils.removeDeviceForImei(imei,
 		 * devices);
 		 */
 		
@@ -239,12 +236,6 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		final Activity ctx = this;
-
-		if (appSettings.isServiceActivated()) {
-		} else {
-			// Show the activation screen!
-			SKAActivationActivity.sDoShowActivation(this);
-		}
 	}
 	
 	void handleOnPageSelected(int page) {
@@ -2333,38 +2324,27 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				sc.addView(subview);
 
 				((ViewPager) view).addView(sc);
-				//if there is a problem with with the state machine display the 
+				//if there is a problem with with the Test Maagner, display the
 				//appropriate message
 
 				setContinuousTestingButton();
 
-//				if (!SK2AppSettings.getSK2AppSettingsInstance().stateMachineStatus()) {
-//					// We are NOT activated!
-//					TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
-//					tv.setText(R.string.activation_needed);
-//					 mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
-//				} else {
-					// We are activated!
+				if (total_archive_records == 0) {
+					// No data!
+					mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
+				} else {
+					// Data!
+					TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
+					ImageView iv = (ImageView) subview.findViewById(R.id.no_data_message_image);
+					tv.setVisibility(View.GONE);
+					iv.setVisibility(View.GONE);
+					// data icon
+					// & message
+					mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.VISIBLE);
+				}
 
-					if (total_archive_records == 0) {
-						// No data!
-						mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.INVISIBLE);
-					} else {
-						// Data!
-						TextView tv = (TextView) subview.findViewById(R.id.no_data_message_text);
-						ImageView iv = (ImageView) subview.findViewById(R.id.no_data_message_image);
-						tv.setVisibility(View.GONE);
-						iv.setVisibility(View.GONE);
-						// data icon
-						// & message
-						mMainResultsActivity.findViewById(R.id.test_last_run).setVisibility(View.VISIBLE);
-					}
-//				}
-
-				//in case there are results to display load it
-				//no matter if the state machine status
+                // If we have at least one test result, load the first item.
 				if(total_archive_records > 0){
-
 					adapter.readArchiveItem(0);
 				}
 

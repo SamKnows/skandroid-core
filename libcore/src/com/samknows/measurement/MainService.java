@@ -97,10 +97,10 @@ public class MainService extends IntentService {
 			
 			onBegin();
 			/* 
-			 * The state machine has to be executed when background test is set in the config file and the service
+			 * The tests have to be executed when background test is set in the config file and the service
 			 * is enabled in the app settings.
-			 * Moreover the state machine has to be executed whenever the user force the activation (force_execution = true)
-			 * In case the device is in roaming the state machine shouldn't run any test
+			 * Moreover the tests have executed whenever the app has forced the activation (force_execution = true)
+			 * In case the device is in roaming the, the test manager shouldn't run any test
 			 * 
 			 * if the intent contains the EXECUTE_CONTINUOUS_EXTRA  run the continuous testing procedure and ignore the rest.
 			 * 

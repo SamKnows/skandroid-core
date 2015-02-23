@@ -22,11 +22,12 @@ public class DCSInitAnonymousAction extends NetAction {
 			serverBaseUrl = null;
 			String resp = IOUtils.toString(response.getEntity().getContent()).trim();
 			
-			new URL(SK2AppSettings.getSK2AppSettingsInstance().protocol_scheme+"://"+ resp);
+			new URL("http://"+ resp);
 			serverBaseUrl = resp;
 			
 		} catch (Exception e) {
-			SKLogger.e(this, "failed to parse result", e);
+      SKLogger.e(this, "failed to parse result", e);
+      SKLogger.sAssert(getClass(), false);
 		}
 	}
 

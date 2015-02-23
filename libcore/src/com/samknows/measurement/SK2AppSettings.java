@@ -44,7 +44,7 @@ public class SK2AppSettings extends SKAppSettings {
 	public boolean anonymous;
 	
 	//protocol scheme used for comunicating with the dcs
-	public String protocol_scheme;
+	//public String protocol_scheme;
 	
 	//submit path used to send the results to the dcs
 	public String submit_path;
@@ -76,7 +76,6 @@ public class SK2AppSettings extends SKAppSettings {
 						
 			testStartWindowWakeup 	= Long.valueOf(p.getProperty(SKConstants.PROP_TEST_START_WINDOW_RTC_WAKEUP));
 			anonymous 				= Boolean.valueOf(p.getProperty(SKConstants.PROP_ANONYMOUS));
-			protocol_scheme 		= p.getProperty(SKConstants.PROP_PROTOCOL_SCHEME);
 			submit_path 			= p.getProperty(SKConstants.PROP_SUBMIT_PATH);
 			download_config_path 	= p.getProperty(SKConstants.PROP_DOWNLOAD_CONFIG_PATH);
 

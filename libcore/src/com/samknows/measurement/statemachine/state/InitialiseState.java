@@ -20,9 +20,9 @@ public class InitialiseState extends BaseState{
 		DCSInitAction action = new DCSInitAction(data);
 		action.execute();
 		if (action.isSuccess()) {
-			SKLogger.d(this, "retrived server base url: " + action.serverBaseUrl);
-			SK2AppSettings.getInstance().saveServerBaseUrl(action.serverBaseUrl);
-			SKLogger.d(this, "save server base url: " + action.serverBaseUrl);
+//			SKLogger.d(this, "retrived server base url: " + action.serverBaseUrl);
+//			SK2AppSettings.getInstance().saveServerBaseUrl(action.serverBaseUrl);
+//			SKLogger.d(this, "save server base url: " + action.serverBaseUrl);
 
 			return StateResponseCode.OK;
 		}

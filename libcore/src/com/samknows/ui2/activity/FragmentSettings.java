@@ -202,18 +202,18 @@ public class FragmentSettings extends Fragment{
 				}
 			});	
 		}
-		
-		ButtonWithRightArrow termsButton = (ButtonWithRightArrow) view.findViewById(R.id.settings_termsandconditions);
-		if (termsButton != null) {
-			termsButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					SKApplication.getAppInstance().showTermsAndConditions(FragmentSettings.this.getActivity());
-				}
-			});	
-		}
-		
-		ButtonWithRightArrow exportResultsButton = (ButtonWithRightArrow) view.findViewById(R.id.settings_exportresults_button);
+
+    ButtonWithRightArrow termsButton = (ButtonWithRightArrow) view.findViewById(R.id.settings_termsandconditions);
+    if (termsButton != null) {
+      termsButton.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          SKApplication.getAppInstance().showTermsAndConditions(FragmentSettings.this.getActivity());
+        }
+      });
+    }
+
+    ButtonWithRightArrow exportResultsButton = (ButtonWithRightArrow) view.findViewById(R.id.settings_exportresults_button);
 		exportResultsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -295,194 +295,215 @@ public class FragmentSettings extends Fragment{
 	}
 
 	private void populateInfo(View view) {
-		String value;
-		if (MainService.isExecuting()) {
-			value = getString(R.string.executing_now); 
-		} else {
-			if(SK2AppSettings.getInstance().isServiceActivated()){
-				value = getString(R.string.yes);
-			}else{
-				value = getString(R.string.no);
-			}
-		}
-		
-		try {
-			((TextView)view.findViewById(R.id.tv_service_activated_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		
-		if(SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
-			value = getString(R.string.enabled);
-		}else{
-			value = getString(R.string.disabled);
-		}
-		
-		try {
-			((TextView)view.findViewById(R.id.tv_service_autotesting_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		
-		try {
-			((TextView)view.findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
-		} catch (NoSuchFieldError e) { }
+    String value;
+    if (MainService.isExecuting()) {
+      value = getString(R.string.executing_now);
+    } else {
+      value = getString(R.string.yes);
+    }
 
-		ScheduleConfig config = CachingStorage.getInstance().loadScheduleConfig();
-		String schedule_version = config == null ? "" : config.getConfigVersion(); 
-		
-		try {
-			((TextView)view.findViewById(R.id.schedule_version)).setText(schedule_version);
-		} catch (NoSuchFieldError e) { }
+    try {
+      ((TextView) view.findViewById(R.id.tv_service_activated_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
 
-		String nextTestScheduled = "";
-		if (MainService.isExecuting()) {
-			nextTestScheduled = getString(R.string.executing_now);
-		} else {
-			long nextRunTime = SK2AppSettings.getInstance().getNextRunTime();
-			if (nextRunTime == SKConstants.NO_NEXT_RUN_TIME) {
-				nextTestScheduled = getString(R.string.none);
-			} else {
-				nextTestScheduled = new SKDateFormat(getActivity()).UITime(nextRunTime);
-			}
-		}
-		try {
-			((TextView)view.findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
-		} catch (NoSuchFieldError e) { }
+    if (SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()) {
+      value = getString(R.string.enabled);
+    } else {
+      value = getString(R.string.disabled);
+    }
 
-		if (SKApplication.getAppInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
-			// Background processing disabled in the schedule!
-			try {
-				view.findViewById(R.id.autotesting_row).setVisibility(View.GONE);
-			} catch (NoSuchFieldError e) { }
-			try {
-				view.findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);
-			} catch (NoSuchFieldError e) { }
-		}
+    try {
+      ((TextView) view.findViewById(R.id.tv_service_autotesting_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
 
-		PhoneIdentityData phoneData = new PhoneIdentityDataCollector(getActivity()).collect();
-		if (!SK2AppSettings.getSK2AppSettingsInstance().anonymous){
-			try {
-				((TextView)view.findViewById(R.id.tv_imei_value)).setText(phoneData.imei + "");
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_imsi_value)).setText(phoneData.imsi + "");
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_unitId_value)).setText(SK2AppSettings.getInstance().getUnitId());
-			} catch (NoSuchFieldError e) { }
-		}
+    try {
+      ((TextView) view.findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
+    } catch (NoSuchFieldError e) {
+    }
 
-		value = phoneData.manufacturer + "\n\r" + phoneData.model;
-		try {
-			((TextView)view.findViewById(R.id.tv_phone_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		value = phoneData.osType + " v" + phoneData.osVersion;
-		try {
-			((TextView)view.findViewById(R.id.tv_os_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
+    ScheduleConfig config = CachingStorage.getInstance().loadScheduleConfig();
+    String schedule_version = config == null ? "" : config.getConfigVersion();
 
-		NetworkData networkData = new NetworkDataCollector(getActivity()).collect();
-		value = DCSConvertorUtil.convertPhoneType(networkData.phoneType);
-		try {
-			((TextView)view.findViewById(R.id.tv_phone_type_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		value = getString(DCSConvertorUtil.networkTypeToStringId(networkData.networkType));
-		try {
-			((TextView)view.findViewById(R.id.tv_network_type_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		value = networkData.networkOperatorCode + "/" + networkData.networkOperatorName;
-		try {
-			((TextView)view.findViewById(R.id.tv_network_operator_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		
-		if(networkData.isRoaming){
-			value = getString(R.string.yes);
-		}else{
-			value = getString(R.string.no);
-		}
-		try {
-			((TextView)view.findViewById(R.id.tv_roaming_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
+    try {
+      ((TextView) view.findViewById(R.id.schedule_version)).setText(schedule_version);
+    } catch (NoSuchFieldError e) {
+    }
 
-		Location loc1 = ((LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		Location loc2 = ((LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		Location loc = null;
-		if (loc1 != null && loc2 != null) {
-			loc = loc1.getTime() > loc2.getTime() ? loc1 : loc2;
-		} else {
-			loc = loc1 == null ? loc2 : loc1;
-		}
-		if (loc != null) {
-			try {
-				((TextView)view.findViewById(R.id.tv_loc_date_value)).setText(new SKDateFormat(getActivity()).UITime(loc.getTime()));
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_loc_lat_value)).setText(String.format("%1.5f", loc.getLatitude()));
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
-			} catch (NoSuchFieldError e) { }
-		}
+    String nextTestScheduled = "";
+    if (MainService.isExecuting()) {
+      nextTestScheduled = getString(R.string.executing_now);
+    } else {
+      long nextRunTime = SK2AppSettings.getInstance().getNextRunTime();
+      if (nextRunTime == SKConstants.NO_NEXT_RUN_TIME) {
+        nextTestScheduled = getString(R.string.none);
+      } else {
+        nextTestScheduled = new SKDateFormat(getActivity()).UITime(nextRunTime);
+      }
+    }
+    try {
+      ((TextView) view.findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
+    } catch (NoSuchFieldError e) {
+    }
 
+    if (SKApplication.getAppInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
+      // Background processing disabled in the schedule!
+      try {
+        view.findViewById(R.id.autotesting_row).setVisibility(View.GONE);
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        view.findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);
+      } catch (NoSuchFieldError e) {
+      }
+    }
 
-		//Cells
-		CellTowersData cellData = new CellTowersDataCollector(getActivity()).collect();
-		if (cellData.getCellLocation() == null) {
-			// No location information currently available!
-		} else if (cellData.getCellLocation() instanceof GsmCellLocation) {
-			GsmCellLocation gsmLocation = (GsmCellLocation) cellData.getCellLocation();
-			try {
-				((TextView)view.findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
-			} catch (NoSuchFieldError e) { }
-			try {
-				((TextView)view.findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
-			} catch (NoSuchFieldError e) { }
-		} else if (cellData.getCellLocation() instanceof CdmaCellLocation) {
-			try {
-				((TextView)view.findViewById(R.id.tv_cell_tower_type_value)).setText("CDMA");
-			} catch (NoSuchFieldError e) { }
-			//			CdmaCellLocation cdmaLocation = (CdmaCellLocation) cellLocation;
-			//			builder.append(CDMA);
-			//			builder.append(time/1000);
-			//			builder.append(cdmaLocation.getBaseStationId());
-			//			builder.append(cdmaLocation.getBaseStationLatitude());
-			//			builder.append(cdmaLocation.getBaseStationLongitude());
-			//			builder.append(cdmaLocation.getNetworkId());
-			//			builder.append(cdmaLocation.getSystemId());
-		}
+    PhoneIdentityData phoneData = new PhoneIdentityDataCollector(getActivity()).collect();
+    if (!SK2AppSettings.getSK2AppSettingsInstance().anonymous) {
+      try {
+        ((TextView) view.findViewById(R.id.tv_imei_value)).setText(phoneData.imei + "");
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_imsi_value)).setText(phoneData.imsi + "");
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_unitId_value)).setText(SK2AppSettings.getInstance().getUnitId());
+      } catch (NoSuchFieldError e) {
+      }
+    }
+
+    value = phoneData.manufacturer + "\n\r" + phoneData.model;
+    try {
+      ((TextView) view.findViewById(R.id.tv_phone_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+    value = phoneData.osType + " v" + phoneData.osVersion;
+    try {
+      ((TextView) view.findViewById(R.id.tv_os_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+
+    NetworkData networkData = new NetworkDataCollector(getActivity()).collect();
+    value = DCSConvertorUtil.convertPhoneType(networkData.phoneType);
+    try {
+      ((TextView) view.findViewById(R.id.tv_phone_type_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+    value = getString(DCSConvertorUtil.networkTypeToStringId(networkData.networkType));
+    try {
+      ((TextView) view.findViewById(R.id.tv_network_type_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+    value = networkData.networkOperatorCode + "/" + networkData.networkOperatorName;
+    try {
+      ((TextView) view.findViewById(R.id.tv_network_operator_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+
+    if (networkData.isRoaming) {
+      value = getString(R.string.yes);
+    } else {
+      value = getString(R.string.no);
+    }
+    try {
+      ((TextView) view.findViewById(R.id.tv_roaming_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+
+    Location loc1 = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    Location loc2 = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    Location loc = null;
+    if (loc1 != null && loc2 != null) {
+      loc = loc1.getTime() > loc2.getTime() ? loc1 : loc2;
+    } else {
+      loc = loc1 == null ? loc2 : loc1;
+    }
+    if (loc != null) {
+      try {
+        ((TextView) view.findViewById(R.id.tv_loc_date_value)).setText(new SKDateFormat(getActivity()).UITime(loc.getTime()));
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_loc_lat_value)).setText(String.format("%1.5f", loc.getLatitude()));
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
+      } catch (NoSuchFieldError e) {
+      }
+    }
 
 
+    //Cells
+    CellTowersData cellData = new CellTowersDataCollector(getActivity()).collect();
+    if (cellData.getCellLocation() == null) {
+      // No location information currently available!
+    } else if (cellData.getCellLocation() instanceof GsmCellLocation) {
+      GsmCellLocation gsmLocation = (GsmCellLocation) cellData.getCellLocation();
+      try {
+        ((TextView) view.findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
+      } catch (NoSuchFieldError e) {
+      }
+      try {
+        ((TextView) view.findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
+      } catch (NoSuchFieldError e) {
+      }
+    } else if (cellData.getCellLocation() instanceof CdmaCellLocation) {
+      try {
+        ((TextView) view.findViewById(R.id.tv_cell_tower_type_value)).setText("CDMA");
+      } catch (NoSuchFieldError e) {
+      }
+      //			CdmaCellLocation cdmaLocation = (CdmaCellLocation) cellLocation;
+      //			builder.append(CDMA);
+      //			builder.append(time/1000);
+      //			builder.append(cdmaLocation.getBaseStationId());
+      //			builder.append(cdmaLocation.getBaseStationLatitude());
+      //			builder.append(cdmaLocation.getBaseStationLongitude());
+      //			builder.append(cdmaLocation.getNetworkId());
+      //			builder.append(cdmaLocation.getSystemId());
+    }
 
-		if (cellData.getSignal() == null) {
-			// No signal information currently available!
-		} else if (cellData.getSignal().isGsm()) {
-			int signalStrength = SKGsmSignalStrength.getGsmSignalStrength(cellData.getSignal());
-			value = DCSConvertorUtil.convertGsmSignalStrength(signalStrength);
-		} else {
-			value  = cellData.getSignal().getCdmaDbm() + " dBm";
-		}
 
-		try {
-			((TextView) view.findViewById(R.id.tv_signal_value)).setText(value);
-		} catch (NoSuchFieldError e) { }
-		// Note: neighbors might be NULL...
-		if (cellData.getNeighbors() != null) {
-			for (NeighboringCellInfo info : cellData.getNeighbors()) {
-				appendNeighborCellInfo(info);
-			}
-		}
+    if (cellData.getSignal() == null) {
+      // No signal information currently available!
+    } else if (cellData.getSignal().isGsm()) {
+      int signalStrength = SKGsmSignalStrength.getGsmSignalStrength(cellData.getSignal());
+      value = DCSConvertorUtil.convertGsmSignalStrength(signalStrength);
+    } else {
+      value = cellData.getSignal().getCdmaDbm() + " dBm";
+    }
 
-		Util.initializeFonts(getActivity());
-		Util.overrideFonts(getActivity(), view.findViewById(android.R.id.content));
-	}
-	
-	public void appendNeighborCellInfo(NeighboringCellInfo data) {
+    try {
+      ((TextView) view.findViewById(R.id.tv_signal_value)).setText(value);
+    } catch (NoSuchFieldError e) {
+    }
+    // Note: neighbors might be NULL...
+    if (cellData.getNeighbors() != null) {
+      for (NeighboringCellInfo info : cellData.getNeighbors()) {
+        appendNeighborCellInfo(info);
+      }
+    }
+
+    Util.initializeFonts(getActivity());
+    Util.overrideFonts(getActivity(), view.findViewById(android.R.id.content));
+  }
+
+  public void appendNeighborCellInfo(NeighboringCellInfo data) {
 		
 		View view = getView();
 		

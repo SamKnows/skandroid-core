@@ -228,6 +228,12 @@ public class SKApplication extends Application{
 		return "DCSInitUrl_UNKNOWN";
 	}
 
+  public String getBaseUrlForUpload() {
+    //return @"http://dcs-mobile-fcc.samknows.com";
+    SKLogger.sAssert(getClass(), false);
+    return "BaseUrlForUpload_UNKNOWN";
+  }
+
 	// Must be overridden!
 	public String getEnterpriseId() {
 		SKLogger.sAssert(getClass(), false);

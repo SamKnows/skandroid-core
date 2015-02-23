@@ -199,23 +199,7 @@ public class OtherUtils {
 		return false;
 	}
 
-	public static int getStateDescriptionRId(State state) {
-		switch(state) {
-		case NONE : return R.string.st_none_descr;
-		case INITIALISE : return R.string.st_initialise_descr;
-		case ACTIVATE : return R.string.st_activate_descr;
-		case ASSOCIATE : return R.string.st_assosiate_descr;
-		case CHECK_CONFIG_VERSION : return R.string.st_check_config_version_descr;
-		case DOWNLOAD_CONFIG : return R.string.st_download_config_descr;
-		case EXECUTE_QUEUE : return R.string.st_execute_queue_descr;
-		case RUN_INIT_TESTS : return R.string.st_run_init_test_descr;
-		case SUBMIT_RESULTS : return R.string.st_submit_results_descr;
-		case SHUTDOWN : return R.string.st_shutdown_descr;
-		default : throw new RuntimeException("no such state: " + state);
-		}
-	}
-
-	public static boolean isPhoneAssosiated(Context ctx) {
+  public static boolean isPhoneAssosiated(Context ctx) {
 		String imei = PhoneIdentityDataCollector.getImei(ctx);
 		for (DeviceDescription dd : SK2AppSettings.getInstance().getDevices()) {
 			if (dd.isCurrentDevice(imei)) return true;
@@ -223,17 +207,7 @@ public class OtherUtils {
 		return false;
 	}
 
-	public static void removeDeviceForImei(String imei, List<DeviceDescription> list) {
-		for (int i = 0; i < list.size(); i++) {
-			DeviceDescription dd = list.get(i);
-			if (dd.getMac().equals(imei)) {
-				list.remove(i);
-				return;
-			}
-		}
-	}
-
-	public static  String stringEncoding(String value){
+  public static  String stringEncoding(String value){
 		Pattern p = Pattern.compile("%u([a-zA-Z0-9]{4})");
 		Matcher m = p.matcher(value);
 		StringBuffer sb = new StringBuffer();
