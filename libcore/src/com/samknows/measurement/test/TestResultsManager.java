@@ -85,7 +85,7 @@ public class TestResultsManager {
 			// Debuggable build - so dump-out the JSON string!
 			// You can use web services such as http://jsonformatter.curiousconcept.com/#jsonformatter to prettify
 			// the output from this Log.d statement; assuming it isn't truncated.
-			Log.d("******** saveJSON result... ********", result);
+			Log.d("TestResultsManager", "******** saveJSON result... (" + result + ")");
 
 			// Enable the following if you want prettified JSON output for a very long JSON string;
 			// useful sometimes, as the standard Log.d has a limited buffer size that it will output.
