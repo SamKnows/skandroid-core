@@ -184,22 +184,6 @@ public class SK2AppSettings extends SKAppSettings {
 		return isWakeUpEnabled() ? testStartWindowWakeup : testStartWindow; 
 	}
 
-	
-	//if the state machine fails and the user want to run some test we ask for the activation
-	public void stateMachineFailure(){
-		saveBoolean(SKConstants.STATE_MACHINE_STATUS, false);
-	}
-	
-	public void stateMachineSuccess(){
-		saveBoolean(SKConstants.STATE_MACHINE_STATUS, true);
-		
-	}
-	
-	public boolean stateMachineStatus(){
-		return getBoolean(SKConstants.STATE_MACHINE_STATUS, true);
-	}
-	
-	
 	public void appendUsedBytes(long bytes) {
 		if(OtherUtils.isWifi(ctx)){
 			return;

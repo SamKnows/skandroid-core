@@ -42,13 +42,11 @@ public class ScheduledTestStateMachine {
 			SKLogger.d(this, "finished state, code: " + code); 
 			if (code == StateResponseCode.FAIL) {
 				appSettings.saveState(State.NONE);
-				appSettings.stateMachineFailure();
 				SKLogger.e(this, "fail to execute state: " + state + ", reschedule");
 				OtherUtils.rescheduleRTC(ctx, appSettings.rescheduleTime);
 				ctx.publish(UIUpdate.stateFailure());
 				return accumulatedTestBytes;
 			} else {
-				appSettings.stateMachineSuccess();
 				state = t.getNextState(state, code);
 				appSettings.saveState(state);
 				SKLogger.d(this, "change service state to: " + state);
