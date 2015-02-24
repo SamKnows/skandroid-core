@@ -529,15 +529,15 @@
 
     <!-- TOOLS TEXT -->
     <string name="tools_text_value_date">"4/4/2014"</string>
-    <string name="tools_text_value_average_download">"3"</string>
-    <string name="tools_text_value_average_upload">"1"</string>
-    <string name="tools_text_value_average_latency">"3"</string>
+    <string name="tools_text_value_average_download">"4,35"</string>
+    <string name="tools_text_value_average_upload">"1,23"</string>
+    <string name="tools_text_value_average_latency">"99"</string>
     <string name="tools_text_value_average_packet_loss">"3"</string>
     <string name="tools_text_value_average_jitter">"2"</string>
 
-    <string name="tools_text_value_best_download">"4"</string>
-    <string name="tools_text_value_best_upload">"2"</string>
-    <string name="tools_text_value_best_latency">"1"</string>
+    <string name="tools_text_value_best_download">"0,95"</string>
+    <string name="tools_text_value_best_upload">"2,76"</string>
+    <string name="tools_text_value_best_latency">"88"</string>
     <string name="tools_text_value_best_packet_loss">"1"</string>
     <string name="tools_text_value_best_jitter">"1"</string>
 

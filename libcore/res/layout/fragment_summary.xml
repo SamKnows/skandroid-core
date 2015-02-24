@@ -134,15 +134,15 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="70"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
+                            android:paddingBottom="2dp"
                     android:paddingRight="10dp"
-                    android:gravity="center_vertical"
                     android:textStyle="bold"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/text_size_peta"
-                            tools:text="@string/tools_text_value_average_download" />
+                            tools:text="@string/tools_text_value_average_download"
+                            android:gravity="center_vertical|right"
+                            android:paddingTop="0dp"/>
 
                         <com.samknows.measurement.activity.components.FontFitTextView
                             android:id="@+id/tv_summary_label_Mbps_1"
@@ -176,10 +176,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="70"
-                    android:paddingTop="2dp"
+                    android:paddingTop="0dp"
                     android:paddingBottom="2dp"
                     android:paddingRight="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|right"
                     android:textStyle="bold"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -260,15 +260,16 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="70"
-                    android:paddingTop="2dp"
+                    android:paddingTop="0dp"
                     android:paddingBottom="2dp"
                     android:paddingRight="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|right"
                     android:textStyle="bold"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/text_size_peta"
-                            tools:text="@string/tools_text_value_average_upload" />
+                            tools:text="@string/tools_text_value_average_upload"
+                            />
 
                         <com.samknows.measurement.activity.components.FontFitTextView
                             android:id="@+id/tv_summary_label_Mbps_3"
@@ -302,10 +303,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="70"
-                    android:paddingTop="2dp"
+                    android:paddingTop="0dp"
                     android:paddingBottom="2dp"
                     android:paddingRight="10dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|right"
                     android:textStyle="bold"
                             android:text="@string/nineninenine"
                             android:textColor="@android:color/white"
@@ -681,7 +682,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" >
+            android:layout_weight="3">
         </TextView>
 
         <TextView
