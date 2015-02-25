@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.TimeUtils;
+import com.samknows.ska.activity.SKAActivationActivity;
 
+import android.util.DebugUtils;
 import android.util.Log;
 
 
@@ -183,5 +187,37 @@ public class SKLogger {
 	public static void sAssert(Class clazz,  final boolean check) {
 			sAssert(clazz, "", check);
 	}
+
+  public static void sAssert(String message, final boolean check) {
+    if (check == false) {
+
+      if (OtherUtils.isDebuggable(SKApplication.getAppInstance().getApplicationContext())) {
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        String where = "?";
+        if (elements.length >= 4) {
+          where = elements[3].toString();
+        }
+        if (message.length() > 0) {
+          Log.e("SKLOGGER", "sAssertFailed (" + message + "): you can trap with a breakpoint in " + where);
+        } else {
+          Log.e("SKLOGGER", "sAssertFailed: you can trap with a breakpoint in " + where);
+        }
+      }
+    }
+  }
+
+  public static void sAssert(final boolean check) {
+    if (check == false) {
+
+      if (OtherUtils.isDebuggable(SKApplication.getAppInstance().getApplicationContext())) {
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        String where = "?";
+        if (elements.length >= 4) {
+          where = elements[3].toString();
+        }
+        Log.e("SKLOGGER", "sAssertFailed: you can trap with a breakpoint in " + where);
+      }
+    }
+  }
 
 }

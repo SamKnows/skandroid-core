@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -126,14 +127,6 @@ public class FragmentSummary extends Fragment {
 
     new RetrieveAverageAndBestResults().execute();    // Background process retrieving the data for the first time
 
-    // WE must DEFER the chart data loading (which actually happens on the main thread!) to prevent the UI blocking on start-up
-    new Handler().post(new Runnable() {
-
-      @Override
-      public void run() {
-        new PrepareChartData().execute();    // Prepare the chart data. This needs to be done here because a filter was triggered
-      }
-    });
 
     return view;            // Inflate the layout for this fragment
   }
@@ -148,6 +141,30 @@ public class FragmentSummary extends Fragment {
     // Register the local broadcast receiver listener to receive messages when the UI data needs to be refreshed.
     final Context context = SKApplication.getAppInstance().getApplicationContext();
     LocalBroadcastManager.getInstance(context).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
+  }
+
+  Activity mActivity = null;
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+
+    mActivity = activity;
+    // WE must DEFER the chart data loading (which actually happens on the main thread!) to prevent the UI blocking on start-up
+    // This cannot be done until we're attached to an activity!
+    new Handler().post(new Runnable() {
+
+      @Override
+      public void run() {
+        new PrepareChartData().execute();    // Prepare the chart data. This needs to be done here because a filter was triggered
+      }
+    });
+  }
+
+  @Override
+  public void onDetach() {
+    super.onDetach();
+
+    mActivity = null;
   }
 
   // Receive the result from a previous call to startActivityForResult(Intent, int)
@@ -429,7 +446,11 @@ public class FragmentSummary extends Fragment {
 
       // TODO - this CANNOT be run in the background - achartengine simply doesn't allow for it!
       // TODO - 0 is the DOWNLOAD etc. test id!
-      prepareChartEnvironment(0, getTimePeriodSelection());
+      if (mActivity == null) { // getActivity() == null) {
+        SKLogger.sAssert(getClass(), false);
+      } else {
+        prepareChartEnvironment(0, getTimePeriodSelection());
+      }
     }
 
     // Override this method to perform a computation on a background thread

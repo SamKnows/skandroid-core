@@ -164,6 +164,9 @@ public class FragmentRunTest extends Fragment {
     // Bind and initialise the resources
     setUpResources(view);
 
+    //SKLogger.sAssert("Hello!", false);
+    //SKLogger.sAssert(false);
+
     // Inflate the layout for this fragment
     return view;
   }
@@ -1359,7 +1362,6 @@ public class FragmentRunTest extends Fragment {
         public void run() {
           if (testsRunning == false) {
             Toast.makeText(context, getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();
-            tv_Gauge_TextView_PsuedoButton.setClickable(false);
           }
         }
       });
@@ -1370,17 +1372,6 @@ public class FragmentRunTest extends Fragment {
         @Override
         public void run() {
           Toast.makeText(context, getString(R.string.slow_connectivity), Toast.LENGTH_LONG).show();
-          tv_Gauge_TextView_PsuedoButton.setClickable(true);
-        }
-      });
-    } else {
-      // Hide connectivity warning if there is connectivity
-      safeRunOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          if (!testsRunning) {
-            tv_Gauge_TextView_PsuedoButton.setClickable(true);
-          }
         }
       });
     }
@@ -1401,7 +1392,6 @@ public class FragmentRunTest extends Fragment {
         public void run() {
           if (testsRunning == false) {
             Toast.makeText(context, getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();
-            tv_Gauge_TextView_PsuedoButton.setClickable(false);
           }
         }
       });
@@ -1415,13 +1405,6 @@ public class FragmentRunTest extends Fragment {
       });
     } else {
       // Good connectivity!
-      safeRunOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          tv_Gauge_TextView_PsuedoButton.setClickable(true);
-        }
-      });
-
     }
   }
 
@@ -1864,7 +1847,10 @@ public class FragmentRunTest extends Fragment {
   private void onStartButtonPressed() {
     if (MainService.isExecuting()) {
       showAlertCannotRunTestAsBackgroundTaskIsRunning();
-    } else if (testsRunning == true) {
+      return;
+    }
+
+    if (testsRunning == true) {
       if (manualTest == null) {
         SKLogger.sAssert(getClass(), false);
         // Should not happen - force a tidy-up!
@@ -1879,42 +1865,49 @@ public class FragmentRunTest extends Fragment {
         //
         testRunningAskUserIfTheyWantToCancelIt();
       }
-    } else {
-      //
-      // Tests are not running - start the test!
-      //
 
-      // If at least one test is selected
-      if (atLeastOneTestSelected()) {
-        initial_warning_text.setVisibility(View.GONE);
-        SKApplication.getAppInstance().mLastPublicIp = "";
-        SKApplication.getAppInstance().mLastSubmissionId = "";
-        publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
-        submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
+      return;
+    }
 
-        // Make sure that we display the correct image (for now!) in the Test results panel.
-        // This will be overridden by incoming passive metric data.
-        final Context context = SKApplication.getAppInstance().getApplicationContext();
-        if (Connectivity.isConnectedWifi(context)) {
-          setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-        } else {
-          setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-        }
+    //
+    // Tests are not running - start the test?
+    //
+    if (Connectivity.sGetIsConnected(getActivity()) == false) {
+      // Can't do anything, if we're not connected!
+      Toast.makeText(getActivity(), getString(R.string.no_connectivity), Toast.LENGTH_LONG).show();
+      return;
+    }
 
-        if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
-          mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);
-          mMeasurementText.setText("");
-        }
-        new InitTestAsyncTask().execute();
+    // If at least one test is selected
+    if (atLeastOneTestSelected()) {
+      initial_warning_text.setVisibility(View.GONE);
+      SKApplication.getAppInstance().mLastPublicIp = "";
+      SKApplication.getAppInstance().mLastSubmissionId = "";
+      publicIp.setText(SKApplication.getAppInstance().mLastPublicIp);
+      submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
+
+      // Make sure that we display the correct image (for now!) in the Test results panel.
+      // This will be overridden by incoming passive metric data.
+      final Context context = SKApplication.getAppInstance().getApplicationContext();
+      if (Connectivity.isConnectedWifi(context)) {
+        setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
       } else {
-        // No tests are selected: show the activity to select tests
-        if (getActivity() == null) {
-          SKLogger.sAssert(getClass(), false);
-          return;
-        }
-        Intent intent_select_tests = new Intent(getActivity(), ActivitySelectTests.class);
-        startActivity(intent_select_tests);
+        setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
       }
+
+      if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
+        mUnitText.setText(R.string.TEST_Label_Finding_Best_Target);
+        mMeasurementText.setText("");
+      }
+      new InitTestAsyncTask().execute();
+    } else {
+      // No tests are selected: show the activity to select tests
+      if (getActivity() == null) {
+        SKLogger.sAssert(getClass(), false);
+        return;
+      }
+      Intent intent_select_tests = new Intent(getActivity(), ActivitySelectTests.class);
+      startActivity(intent_select_tests);
     }
   }
 }

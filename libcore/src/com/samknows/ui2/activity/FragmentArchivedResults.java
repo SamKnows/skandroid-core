@@ -10,6 +10,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActionBar;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -548,8 +550,33 @@ public class FragmentArchivedResults extends Fragment {
     // If true, the list view is hidden, if false, the list view is shown.
     doUpdateToolbarSetIsListViewHidden(false);
 
-    // Retrieve from data base the data of the archived tests within 1 week (default time period)
-    new RefreshListViewData().execute();
+
+  }
+
+
+  Activity mActivity = null;
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+
+    mActivity = activity;
+    // WE must DEFER the chart data loading (which actually happens on the main thread!) to prevent the UI blocking on start-up
+    // This cannot be done until we're attached to an activity!
+    new Handler().post(new Runnable() {
+
+      @Override
+      public void run() {
+        // Retrieve from data base the data of the archived tests within 1 week (default time period)
+        new RefreshListViewData().execute();
+      }
+    });
+  }
+
+  @Override
+  public void onDetach() {
+    super.onDetach();
+
+    mActivity = null;
   }
 
 
