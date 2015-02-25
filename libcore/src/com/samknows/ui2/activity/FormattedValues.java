@@ -90,7 +90,7 @@ public class FormattedValues {
    * @param pValue
    * @return
    */
-  public static Pair<Float, String> getFormattedLatencyValue(String pValue) {
+  public static Pair<String, String> getFormattedLatencyValue(String pValue) {
     // pValue = "失敗"; // "Failed" - for testing against invalid strings.
 
     String values[] = pValue.split(" ");
@@ -102,15 +102,17 @@ public class FormattedValues {
 
     try {
       if (unit.equals("s")) {
-        return new Pair<Float, String>(1000 * Float.valueOf(new DecimalFormat("0.0").format(Float.valueOf(values[0]))), unit);
+        return new Pair<String, String>(new DecimalFormat("0.0").format(1000 * Float.valueOf(values[0])), unit);
       } else {
-        return new Pair<Float, String>(Float.valueOf(new DecimalFormat("000").format(Math.round(Float.valueOf(Float.valueOf(values[0]))))), unit);
+        DecimalFormat useFormat = new DecimalFormat("000");
+        useFormat.setMaximumFractionDigits(0);
+        return new Pair<String, String>(useFormat.format(Math.round(Float.valueOf(Float.valueOf(values[0])))), unit);
       }
     } catch (java.lang.NumberFormatException e) {
       // Things like "Failed" can result in an error - we must not allow these to crash the app!
       Log.d("SKCommon", "Warning: Value is not a number" + pValue);
       SKLogger.sAssert(FormattedValues.class, false);
-      return new Pair<Float, String>(0.0F, "");
+      return new Pair<String, String>("0", "");
     }
   }
 
@@ -140,7 +142,7 @@ public class FormattedValues {
    * @param pValue
    * @return
    */
-  public static Pair<Float, String> getFormattedJitter(String pValue) {
+  public static Pair<Integer, String> getFormattedJitter(String pValue) {
     String values[] = pValue.split(" ");
 
     String unit = "";
@@ -150,7 +152,7 @@ public class FormattedValues {
 
 
     double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(values[0]);
-    return new Pair<Float, String>((float) value, unit);
+    return new Pair<Integer, String>((int) value, unit);
     //return (int)Math.round(Float.valueOf(split[0]));
   }
 

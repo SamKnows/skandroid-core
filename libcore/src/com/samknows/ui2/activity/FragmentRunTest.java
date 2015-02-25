@@ -820,13 +820,12 @@ public class FragmentRunTest extends Fragment {
                 gaugeView.setKindOfTest(2);
                 changeUnitsInformationLabel(getString(R.string.units_ms), getString(R.string.latency));
 
-                valueUnits = FormattedValues.getFormattedLatencyValue(value);
-
                 if (statusComplete == 100) {
+                  Pair<String,String> theResult = FormattedValues.getFormattedLatencyValue(value);
                   tv_Gauge_TextView_PsuedoButton.setText("");
                   //updateCurrentLatencyValue("0");
                   gaugeView.setAngleByValue(0.0);
-                  changeFadingTextViewValue(tv_Result_Latency, value, 0);
+                  changeFadingTextViewValue(tv_Result_Latency, theResult.first, 0);
                   executingLatencyTest = false;
                 }
                 break;
@@ -843,10 +842,12 @@ public class FragmentRunTest extends Fragment {
                 break;
 
               case StorageTestResult.JITTER_TEST_ID:
-                // Jitter test results are processed
+                // Jitter test rsults are processed
 
                 if (statusComplete == 100) {
-                  changeFadingTextViewValue(tv_Result_Jitter, value, 0);
+                  // Display as Integer % in the correct format
+                  Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
+                  changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
                 }
             }
           }

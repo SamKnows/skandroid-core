@@ -181,8 +181,8 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
           //testLatency.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
           testLatency.setText(context.getString(R.string.failed_test));
         } else {
-          Pair<Float, String> valueUnits = FormattedValues.getFormattedLatencyValue(latencyResult);
-          testLatency.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
+          Pair<String, String> valueUnits = FormattedValues.getFormattedLatencyValue(latencyResult);
+          testLatency.setText(valueUnits.first + " " + valueUnits.second);
 //            		if (valueUnits.first < 1000)
 //            		{            			
 //            			testLatency.setText(new DecimalFormat("0").format(valueUnits.first) + " " + rowView.getContext().getString(R.string.units_ms));						
@@ -223,7 +223,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
         {
           String stringValue = String.valueOf(jitterResult);
 
-          Pair<Float, String> valueUnits = FormattedValues.getFormattedJitter(stringValue);
+          Pair<Integer, String> valueUnits = FormattedValues.getFormattedJitter(stringValue);
           testJitter.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
 //            		if (stringValue.substring(stringValue.length()-1, stringValue.length()).equals("0"))
 //            		{            			
