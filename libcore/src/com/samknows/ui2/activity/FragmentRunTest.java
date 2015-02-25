@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -507,7 +508,9 @@ public class FragmentRunTest extends Fragment {
           if (observer != null) {
             // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
             try {
-              observer.removeOnGlobalLayoutListener(this);
+              if (Build.VERSION.SDK_INT >= 16) {
+                observer.removeOnGlobalLayoutListener(this);
+              }
             } catch (NoSuchMethodError x) {
               observer.removeGlobalOnLayoutListener(this);
             }
@@ -700,7 +703,9 @@ public class FragmentRunTest extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -721,214 +726,218 @@ public class FragmentRunTest extends Fragment {
     });
 
     // Handler that is listening for test results and updates the UI
-    testResultsHandler = new Handler() {
-      // Subclasses must implement this to receive messages
+    testResultsHandler = new Handler()
+    {
       @Override
       public void handleMessage(Message msg) {
-        if (isAdded() == false) {
-          // This fragment is NOT attached to the activity.
-          // Don't do anything with the message, or we're likely to crash!
-          SKLogger.sAssert(getClass(), false);
-          return;
-        }
-
-        FormattedValues formattedValues = new FormattedValues();
-        JSONObject message_JSON = (JSONObject) msg.obj;
-        int success, testName, statusComplete;
-        String value;
-
-        try {
-          String messageType = message_JSON.getString(StorageTestResult.JSON_TYPE_ID);
-
-          // Tests are on progress
-          if (messageType == "test") {
-            statusComplete = message_JSON.getInt(StorageTestResult.JSON_STATUS_COMPLETE);
-            testName = message_JSON.getInt(StorageTestResult.JSON_TESTNUMBER);
-            value = message_JSON.getString(StorageTestResult.JSON_HRRESULT);
-
-
-            if (statusComplete == 100) {
-              if (value.length() == 0) {
-                // MPC - we're not *really* complete...
-                // we're never complete until we have a result, whatever
-                // the progress report might claim!
-                statusComplete = 99;
-              }
-            }
-
-            if (statusComplete == 100 && message_JSON.has(StorageTestResult.JSON_SUCCESS)) {
-              success = message_JSON.getInt(StorageTestResult.JSON_SUCCESS);
-
-              if (success == 0) {
-                value = getString(R.string.failed);
-              }
-            }
-
-            Pair<Float, String> valueUnits = null;
-
-            switch (testName) {
-              // Case download test
-              case StorageTestResult.DOWNLOAD_TEST_ID:
-                // Download test results are processed
-                updateProgressBar(statusComplete, 0);
-                changeLabelText(getString(R.string.label_message_download_test));
-                gaugeView.setKindOfTest(0);
-                changeUnitsInformationLabel(getString(R.string.units_Mbps), getString(R.string.download));
-
-                valueUnits = FormattedValues.getFormattedSpeedValue(value);
-
-                if (valueUnits.second.length() > 0) {
-                  Log.d(getClass().getName(), "gotResult for Download test ... at the end of the test - TODO - do this at the start!");
-                  tv_DownloadUnits.setText(valueUnits.second);
-                }
-
-                if (statusComplete == 100) {
-                  updateCurrentTestSpeedMbps(0.0);
-                  gaugeView.setAngleByValue(0.0);
-                  changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
-                }
-                break;
-
-              // Case upload test
-              case StorageTestResult.UPLOAD_TEST_ID:
-                // Upload test results are processed
-                updateProgressBar(statusComplete, 1);
-                changeLabelText(getString(R.string.label_message_upload_test));
-                gaugeView.setKindOfTest(1);
-                changeUnitsInformationLabel(getString(R.string.units_Mbps), getString(R.string.upload));
-
-                valueUnits = FormattedValues.getFormattedSpeedValue(value);
-                if (valueUnits.second.length() > 0) {
-                  Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the test - TODO - do this at the start!");
-                  tv_UploadUnits.setText(valueUnits.second);
-                }
-
-                if (statusComplete == 100) {
-                  updateCurrentTestSpeedMbps(0.0);
-                  gaugeView.setAngleByValue(0.0);
-
-                  changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
-                }
-                break;
-
-              // Case latency test
-              case StorageTestResult.LATENCY_TEST_ID:
-                // Latency test results are processed
-                executingLatencyTest = true;
-                updateProgressBar(statusComplete, 2);
-                changeLabelText(getString(R.string.label_message_latency_loss_jitter_test));
-                gaugeView.setKindOfTest(2);
-                changeUnitsInformationLabel(getString(R.string.units_ms), getString(R.string.latency));
-
-                if (statusComplete == 100) {
-                  Pair<String,String> theResult = FormattedValues.getFormattedLatencyValue(value);
-                  tv_Gauge_TextView_PsuedoButton.setText("");
-                  //updateCurrentLatencyValue("0");
-                  gaugeView.setAngleByValue(0.0);
-                  changeFadingTextViewValue(tv_Result_Latency, theResult.first, 0);
-                  executingLatencyTest = false;
-                }
-                break;
-
-              // Case packet loss test
-              case StorageTestResult.PACKETLOSS_TEST_ID:
-                // Loss test results are processed
-
-                if (statusComplete == 100) {
-                  // Display as Integer % (rather than Float %)
-                  Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
-                  changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
-                }
-                break;
-
-              case StorageTestResult.JITTER_TEST_ID:
-                // Jitter test rsults are processed
-
-                if (statusComplete == 100) {
-                  // Display as Integer % in the correct format
-                  Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
-                  changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
-                }
-            }
-          }
-          // Passive metric data process
-          else if (messageType == "passivemetric") {
-            String metricString = message_JSON.getString("metricString");
-            value = message_JSON.getString("value");
-
-            if (!metricString.equals("invisible")) {
-              if (metricString.equals("simoperatorname")) {
-                tv_result_sim_operator.setText(value);
-              } else if (metricString.equals("simoperatorcode")) {
-                tv_result_sim_operator_code.setText(value);
-              } else if (metricString.equals("networkoperatorname")) {
-                tv_result_network_operator.setText(value);
-              } else if (metricString.equals("networkoperatorcode")) {
-                tv_result_network_operator_code.setText(value);
-              } else if (metricString.equals("roamingstatus")) {
-                tv_result_roaming_status.setText(value);
-              } else if (metricString.equals("gsmcelltowerid")) {
-                tv_result_cell_tower_ID.setText(value);
-              } else if (metricString.equals("gsmlocationareacode")) {
-                tv_result_cell_tower_area_location_code.setText(value);
-              } else if (metricString.equals("gsmsignalstrength")) {
-                tv_result_signal_strength.setText(value);
-              } else if (metricString.equals("manufactor")) {
-                tv_result_manufacturer.setText(value);
-              } else if (metricString.equals("networktype")) {
-                tv_result_bearer.setText(value);
-              } else if (metricString.equals("model")) {
-                tv_result_model.setText(value);
-              } else if (metricString.equals("ostype")) {
-                tv_result_OS.setText(value);
-              } else if (metricString.equals("osversion")) {
-                tv_result_OS_version.setText(value);
-              } else if (metricString.equals("phonetype")) {
-                tv_result_phone_type.setText(value);
-              } else if (metricString.equals("latitude")) {
-                tv_result_latitude.setText(value);
-              } else if (metricString.equals("longitude")) {
-                tv_result_longitude.setText(value);
-              } else if (metricString.equals("accuracy")) {
-                tv_result_accuracy.setText(value);
-              } else if (metricString.equals("locationprovider")) {
-                tv_result_provider.setText(value);
-              } else if (metricString.equals("public_ip")) {
-                if (publicIp != null) {
-                  publicIp.setText(value);
-                }
-              } else if (metricString.equals("submission_id")) {
-                if (submissionId != null) {
-                  submissionId.setText(value);
-                }
-              } else if (metricString.equals("activenetworktype")) {
-                if (value.equals("WiFi")) {
-                  setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-                  //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-                } else if (value.equals("mobile")) {
-                  setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-                  //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-                } else {
-                  SKLogger.sAssert(getClass(), false);
-                }
-              } else {
-                //SKLogger.sAssert(getClass(),  false);
-              }
-            }
-          }
-          // The tests are completed
-          else if (messageType == "completed") {
-            onDidDetectTestCompleted();
-          }
-        } catch (JSONException e) {
-          Log.e(C_TAG_FRAGMENT_SPEED_TEST, "There was an error within the handler. " + e.getMessage());
-        }
+        handleTheMessage(msg);
       }
     };
 
     config = CachingStorage.getInstance().loadScheduleConfig();
     if (config == null) {
       config = new ScheduleConfig();
+    }
+  }
+
+  private void handleTheMessage(Message msg) {
+    if (isAdded() == false) {
+      // This fragment is NOT attached to the activity.
+      // Don't do anything with the message, or we're likely to crash!
+      SKLogger.sAssert(getClass(), false);
+      return;
+    }
+
+    FormattedValues formattedValues = new FormattedValues();
+    JSONObject message_JSON = (JSONObject) msg.obj;
+    int success, testName, statusComplete;
+    String value;
+
+    try {
+      String messageType = message_JSON.getString(StorageTestResult.JSON_TYPE_ID);
+
+      // Tests are on progress
+      if (messageType == "test") {
+        statusComplete = message_JSON.getInt(StorageTestResult.JSON_STATUS_COMPLETE);
+        testName = message_JSON.getInt(StorageTestResult.JSON_TESTNUMBER);
+        value = message_JSON.getString(StorageTestResult.JSON_HRRESULT);
+
+
+        if (statusComplete == 100) {
+          if (value.length() == 0) {
+            // MPC - we're not *really* complete...
+            // we're never complete until we have a result, whatever
+            // the progress report might claim!
+            statusComplete = 99;
+          }
+        }
+
+        if (statusComplete == 100 && message_JSON.has(StorageTestResult.JSON_SUCCESS)) {
+          success = message_JSON.getInt(StorageTestResult.JSON_SUCCESS);
+
+          if (success == 0) {
+            value = getString(R.string.failed);
+          }
+        }
+
+        Pair<Float, String> valueUnits = null;
+
+        switch (testName) {
+          // Case download test
+          case StorageTestResult.DOWNLOAD_TEST_ID:
+            // Download test results are processed
+            updateProgressBar(statusComplete, 0);
+            changeLabelText(getString(R.string.label_message_download_test));
+            gaugeView.setKindOfTest(0);
+            changeUnitsInformationLabel(getString(R.string.units_Mbps), getString(R.string.download));
+
+            valueUnits = FormattedValues.getFormattedSpeedValue(value);
+
+            if (valueUnits.second.length() > 0) {
+              Log.d(getClass().getName(), "gotResult for Download test ... at the end of the test - TODO - do this at the start!");
+              tv_DownloadUnits.setText(valueUnits.second);
+            }
+
+            if (statusComplete == 100) {
+              updateCurrentTestSpeedMbps(0.0);
+              gaugeView.setAngleByValue(0.0);
+              changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
+            }
+            break;
+
+          // Case upload test
+          case StorageTestResult.UPLOAD_TEST_ID:
+            // Upload test results are processed
+            updateProgressBar(statusComplete, 1);
+            changeLabelText(getString(R.string.label_message_upload_test));
+            gaugeView.setKindOfTest(1);
+            changeUnitsInformationLabel(getString(R.string.units_Mbps), getString(R.string.upload));
+
+            valueUnits = FormattedValues.getFormattedSpeedValue(value);
+            if (valueUnits.second.length() > 0) {
+              Log.d(getClass().getName(), "gotResult for Upload test ... at the end of the test - TODO - do this at the start!");
+              tv_UploadUnits.setText(valueUnits.second);
+            }
+
+            if (statusComplete == 100) {
+              updateCurrentTestSpeedMbps(0.0);
+              gaugeView.setAngleByValue(0.0);
+
+              changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
+            }
+            break;
+
+          // Case latency test
+          case StorageTestResult.LATENCY_TEST_ID:
+            // Latency test results are processed
+            executingLatencyTest = true;
+            updateProgressBar(statusComplete, 2);
+            changeLabelText(getString(R.string.label_message_latency_loss_jitter_test));
+            gaugeView.setKindOfTest(2);
+            changeUnitsInformationLabel(getString(R.string.units_ms), getString(R.string.latency));
+
+            if (statusComplete == 100) {
+              Pair<String, String> theResult = FormattedValues.getFormattedLatencyValue(value);
+              tv_Gauge_TextView_PsuedoButton.setText("");
+              //updateCurrentLatencyValue("0");
+              gaugeView.setAngleByValue(0.0);
+              changeFadingTextViewValue(tv_Result_Latency, theResult.first, 0);
+              executingLatencyTest = false;
+            }
+            break;
+
+          // Case packet loss test
+          case StorageTestResult.PACKETLOSS_TEST_ID:
+            // Loss test results are processed
+
+            if (statusComplete == 100) {
+              // Display as Integer % (rather than Float %)
+              Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
+              changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
+            }
+            break;
+
+          case StorageTestResult.JITTER_TEST_ID:
+            // Jitter test rsults are processed
+
+            if (statusComplete == 100) {
+              // Display as Integer % in the correct format
+              Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
+              changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
+            }
+        }
+      }
+      // Passive metric data process
+      else if (messageType == "passivemetric") {
+        String metricString = message_JSON.getString("metricString");
+        value = message_JSON.getString("value");
+
+        if (!metricString.equals("invisible")) {
+          if (metricString.equals("simoperatorname")) {
+            tv_result_sim_operator.setText(value);
+          } else if (metricString.equals("simoperatorcode")) {
+            tv_result_sim_operator_code.setText(value);
+          } else if (metricString.equals("networkoperatorname")) {
+            tv_result_network_operator.setText(value);
+          } else if (metricString.equals("networkoperatorcode")) {
+            tv_result_network_operator_code.setText(value);
+          } else if (metricString.equals("roamingstatus")) {
+            tv_result_roaming_status.setText(value);
+          } else if (metricString.equals("gsmcelltowerid")) {
+            tv_result_cell_tower_ID.setText(value);
+          } else if (metricString.equals("gsmlocationareacode")) {
+            tv_result_cell_tower_area_location_code.setText(value);
+          } else if (metricString.equals("gsmsignalstrength")) {
+            tv_result_signal_strength.setText(value);
+          } else if (metricString.equals("manufactor")) {
+            tv_result_manufacturer.setText(value);
+          } else if (metricString.equals("networktype")) {
+            tv_result_bearer.setText(value);
+          } else if (metricString.equals("model")) {
+            tv_result_model.setText(value);
+          } else if (metricString.equals("ostype")) {
+            tv_result_OS.setText(value);
+          } else if (metricString.equals("osversion")) {
+            tv_result_OS_version.setText(value);
+          } else if (metricString.equals("phonetype")) {
+            tv_result_phone_type.setText(value);
+          } else if (metricString.equals("latitude")) {
+            tv_result_latitude.setText(value);
+          } else if (metricString.equals("longitude")) {
+            tv_result_longitude.setText(value);
+          } else if (metricString.equals("accuracy")) {
+            tv_result_accuracy.setText(value);
+          } else if (metricString.equals("locationprovider")) {
+            tv_result_provider.setText(value);
+          } else if (metricString.equals("public_ip")) {
+            if (publicIp != null) {
+              publicIp.setText(value);
+            }
+          } else if (metricString.equals("submission_id")) {
+            if (submissionId != null) {
+              submissionId.setText(value);
+            }
+          } else if (metricString.equals("activenetworktype")) {
+            if (value.equals("WiFi")) {
+              setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+              //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+            } else if (value.equals("mobile")) {
+              setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+              //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+            } else {
+              SKLogger.sAssert(getClass(), false);
+            }
+          } else {
+            //SKLogger.sAssert(getClass(),  false);
+          }
+        }
+      }
+      // The tests are completed
+      else if (messageType == "completed") {
+        onDidDetectTestCompleted();
+      }
+    } catch (JSONException e) {
+      Log.e(C_TAG_FRAGMENT_SPEED_TEST, "There was an error within the handler. " + e.getMessage());
     }
   }
 
@@ -1475,7 +1484,8 @@ public class FragmentRunTest extends Fragment {
   /**
    * Set the contextual information label with an animation
    *
-   * @param second
+   * @param unitsLabel
+   * @param testLabel
    */
   private void changeUnitsInformationLabel(final String unitsLabel, final String testLabel) {
     if ((testsRunning == false) &&
