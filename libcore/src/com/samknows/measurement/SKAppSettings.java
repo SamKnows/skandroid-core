@@ -24,7 +24,6 @@ public class SKAppSettings {
 	static final String TAG = SKAppSettings.class.getName();
 
 	protected Context ctx;
-	public String dCSInitUrl;
 	public String reportingServerPath;
 	public long rescheduleTime;
 	public long rescheduleServiceTime;
@@ -47,7 +46,6 @@ public class SKAppSettings {
 		Properties p = new Properties();
 		try {
 			p.load(is);
-			dCSInitUrl = SKApplication.getAppInstance().getDCSInitUrl();
 			reportingServerPath = p.getProperty(SKConstants.PROP_REPORTING_PATH);
 			rescheduleTime = Long.valueOf(p.getProperty(SKConstants.PROP_RESCHEDULE_TIME));
 			testStartWindow = Long.valueOf(p.getProperty(SKConstants.PROP_TEST_START_WINDOW_RTC));

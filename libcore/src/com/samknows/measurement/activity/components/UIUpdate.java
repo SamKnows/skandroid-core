@@ -58,7 +58,6 @@ public class UIUpdate {
 		case NONE:
 		case INITIALISE_ANONYMOUS:
     case EXECUTE_QUEUE:
-    case SUBMIT_RESULTS:
     case SHUTDOWN:
     case SUBMIT_RESULTS_ANONYMOUS:
 			break;
@@ -98,7 +97,6 @@ public class UIUpdate {
 			break;
 		case EXECUTE_QUEUE:
 			type = JSON_COMPLETED;
-		case SUBMIT_RESULTS:
 		case SUBMIT_RESULTS_ANONYMOUS:
 		case SHUTDOWN:
 			break;
