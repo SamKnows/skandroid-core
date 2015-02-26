@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
@@ -151,6 +152,9 @@ public class FragmentSettings extends Fragment {
 
                   DBHelper db = new DBHelper(FragmentSettings.this.getActivity());
                   db.emptyTheDatabase();
+
+                  // Force the History etc. screen to re-query
+                  LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
 
                   dialog.dismiss();
                 }
