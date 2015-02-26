@@ -65,6 +65,7 @@ import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.tests.HttpTest;
 
 /**
  * This fragment is responsible for running the tests and managing the home screen.
@@ -288,10 +289,24 @@ public class FragmentRunTest extends Fragment {
               Pair<Double, String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
               //Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
               if (value.first.doubleValue() != lastPolledSpeedValueMbps) {
+
+                if ( (value.second.equals(HttpTest.cReasonResetUpload)) ||
+                     (value.second.equals(HttpTest.cReasonResetDownload))
+                   )
+                {
+                  // Don't display the first "0" for the download/upload test reset...
+                  //Log.d("MPCMPCMPC", "don't show first zero for download/upload test!");
+                } else {
+                  String message = String.valueOf(value);
+
+                  // Update the current result meter for download/upload
+                  updateCurrentTestSpeedMbps(value.first.doubleValue());
+
+                  // Update the gauge colour indicator (in Megabytes)
+                  gaugeView.setAngleByValue(value.first.doubleValue());
+                }
+
                 lastPolledSpeedValueMbps = value.first.doubleValue();
-                String message = String.valueOf(value);
-                updateCurrentTestSpeedMbps(value.first.doubleValue());                    // Update the current result meter for download/upload
-                gaugeView.setAngleByValue(value.first.doubleValue());          // Update the gauge colour indicator (in Megabytes)
                 lastTimeMillisCurrentSpeed = System.currentTimeMillis();        // Register the time of the last UI update
               }
             }
@@ -802,7 +817,9 @@ public class FragmentRunTest extends Fragment {
             }
 
             if (statusComplete == 100) {
-              updateCurrentTestSpeedMbps(0.0);
+              // Clear the central button test, ready for the first value to come through from the next test.
+              tv_Gauge_TextView_PsuedoButton.setText("");
+              //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
               changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
             }
@@ -823,7 +840,9 @@ public class FragmentRunTest extends Fragment {
             }
 
             if (statusComplete == 100) {
-              updateCurrentTestSpeedMbps(0.0);
+              // Clear the central button test, ready for the first value to come through from the next test.
+              tv_Gauge_TextView_PsuedoButton.setText("");
+              //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
 
               changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
@@ -841,6 +860,7 @@ public class FragmentRunTest extends Fragment {
 
             if (statusComplete == 100) {
               Pair<String, String> theResult = FormattedValues.getFormattedLatencyValue(value);
+              // Clear the central button test, ready for the first value to come through from the next test.
               tv_Gauge_TextView_PsuedoButton.setText("");
               //updateCurrentLatencyValue("0");
               gaugeView.setAngleByValue(0.0);
@@ -854,6 +874,8 @@ public class FragmentRunTest extends Fragment {
             // Loss test results are processed
 
             if (statusComplete == 100) {
+              // Clear the central button test, ready for the first value to come through from the next test.
+              tv_Gauge_TextView_PsuedoButton.setText("");
               // Display as Integer % (rather than Float %)
               Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
               changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
@@ -861,9 +883,11 @@ public class FragmentRunTest extends Fragment {
             break;
 
           case StorageTestResult.JITTER_TEST_ID:
-            // Jitter test rsults are processed
+            // Jitter test results are processed
 
             if (statusComplete == 100) {
+              // Clear the central button test, ready for the first value to come through from the next test.
+              tv_Gauge_TextView_PsuedoButton.setText("");
               // Display as Integer % in the correct format
               Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
               changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
@@ -975,7 +999,9 @@ public class FragmentRunTest extends Fragment {
     safeRunOnUiThread(new Runnable() {
       @Override
       public void run() {
-        tv_Gauge_TextView_PsuedoButton.setText(String.valueOf(df.format(pCurrentSpeed)));
+        String value = String.valueOf(df.format(pCurrentSpeed));
+        //SKLogger.sAssert(value.equals("0") == false);
+        tv_Gauge_TextView_PsuedoButton.setText(value);
       }
     });
   }

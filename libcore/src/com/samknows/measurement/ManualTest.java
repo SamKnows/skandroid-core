@@ -166,6 +166,40 @@ public class ManualTest implements Runnable {
 	private boolean mbUdpClosestTargetTestSucceeded = false;
 	public static final String kManualTest_UDPFailedSkipTests = "kManualTest_UDPFailedSkipTests";
 
+  private void sendTestProgressToUIHandler(JSONObject pm) {
+    Message msg = new Message();
+    msg.obj = pm;
+    mHandler.sendMessage(msg);
+  }
+
+  private void sendTestResultToUIHandler(JSONObject pm) {
+    Message msg = new Message();
+    msg.obj = pm;
+    mHandler.sendMessage(msg);
+  }
+
+  private void sendPassiveMetricToUIHandler(JSONObject o) {
+    Message msg = new Message();
+    msg.obj = PassiveMetric.passiveMetricToCurrentTest(o);
+    mHandler.sendMessage(msg);
+  }
+
+  private void sendCompletedMessageToUIHandler() {
+    Message msg = new Message();
+    JSONObject jtc = new JSONObject();
+    try {
+      Thread.sleep(1000);
+      jtc.put(StorageTestResult.JSON_TYPE_ID, "completed");
+      msg.obj = jtc;
+
+    } catch (JSONException je) {
+      SKLogger.sAssert(false);
+    } catch (InterruptedException e) {
+      SKLogger.sAssert(false);
+    }
+    mHandler.sendMessage(msg);
+  }
+
 	@Override
 	public void run() {
 		DBHelper db = new DBHelper(ctx);
@@ -183,7 +217,6 @@ public class ManualTest implements Runnable {
 		List<JSONObject> testsResults = new ArrayList<JSONObject>();
 		List<JSONObject> passiveMetrics = new ArrayList<JSONObject>();
 		manualTestExecutor.startInBackGround();
-		Message msg;
 		long testsBytes = 0;
 		for (TestDescription td : mTestDescription) {
 			// GIVEN:
@@ -217,12 +250,22 @@ public class ManualTest implements Runnable {
 					if (!t.isAlive())
 						break;
 				} catch (InterruptedException ie) {
-					SKLogger.e(this, ie.getMessage());
+          SKLogger.sAssert(false);
 				}
-				for (JSONObject pm : progressMessage(td, manualTestExecutor)) {
-					msg = new Message();
-					msg.obj = pm;
-					mHandler.sendMessage(msg);
+
+//        if (td.type.equals(SKConstants.TEST_TYPE_UPLOAD)) {
+//          // Upload test!
+//          // Could do, say, this...
+//          //HttpTest theTest = (HttpTest)manualTestExecutor.getExecutingTest();
+//          //theTest.doSomethingSpecificToUploadTest...()
+//        }
+
+        // For all test results, we send a progress percentage update Message instance...
+        // the JSON_STATUS_COMPLETE field contains the value from te.getProgress())
+        // Typically returns just 1 value - might be up to 3 for latency/loss/jitter!
+        List<JSONObject> testProgressList = progressMessage(td, manualTestExecutor);
+				for (JSONObject pm : testProgressList) {
+          sendTestProgressToUIHandler(pm);
 				}
 
 			}
@@ -253,11 +296,11 @@ public class ManualTest implements Runnable {
 					currResults.addAll(theResult);
 				}
 			}
+
+      // For all test results, we send a Message instance...
+      // the JSON_HRESULT field contains the value of interest!
 			for (JSONObject cr : currResults) {
-				// publish results
-				msg = new Message();
-				msg.obj = cr;
-				mHandler.sendMessage(msg);
+        sendTestResultToUIHandler(cr);
 			}
 			testsResults.addAll(currResults);
 		}
@@ -271,9 +314,7 @@ public class ManualTest implements Runnable {
 			if (collector.isEnabled) {
 				for (JSONObject o : collector.getPassiveMetric()) {
 					// update interface
-					msg = new Message();
-					msg.obj = PassiveMetric.passiveMetricToCurrentTest(o);
-					mHandler.sendMessage(msg);
+          sendPassiveMetricToUIHandler(o);
 					// save metric
 					passiveMetrics.add(o);
 				}
@@ -299,22 +340,7 @@ public class ManualTest implements Runnable {
 		manualTestExecutor.save("manual_test", batchId);
 
 		// Send completed message to the interface
-		msg = new Message();
-		JSONObject jtc = new JSONObject();
-		try {
-			Thread.sleep(1000);
-			jtc.put(StorageTestResult.JSON_TYPE_ID, "completed");
-			msg.obj = jtc;
-
-		} catch (JSONException je) {
-			SKLogger.e(this, "Error in creating json object: " + je.getMessage());
-		} catch (InterruptedException e) {
-			SKLogger.e(
-					this,
-					"Sleep interrupted in the manual test view: "
-							+ e.getMessage());
-		}
-		mHandler.sendMessage(msg);
+    sendCompletedMessageToUIHandler();
 
 		try {
 			// Submitting test results
@@ -360,6 +386,7 @@ public class ManualTest implements Runnable {
 	
 	}
 
+  // Typically returns just 1 value - might be up to 3 for latency/loss/jitter!
 	static private List<JSONObject> progressMessage(TestDescription td,
 			TestExecutor te) {
 		List<JSONObject> ret = new ArrayList<JSONObject>();
@@ -381,6 +408,7 @@ public class ManualTest implements Runnable {
 				c.put(StorageTestResult.JSON_TESTNUMBER, t);
 				c.put(StorageTestResult.JSON_STATUS_COMPLETE, te.getProgress());
 				c.put(StorageTestResult.JSON_HRRESULT, "");
+
 				ret.add(c);
 			}
 		} catch (JSONException je) {

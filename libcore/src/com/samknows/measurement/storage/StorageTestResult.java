@@ -81,6 +81,9 @@ public class StorageTestResult extends JSONObject{
 		setTime(dtime);
 		setLocation(location);
 		putLong(JSON_SUCCESS, success);
+
+    // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+    // by ManualTest:progressMessage
 		setResult(result);
 	}
 	
@@ -122,6 +125,8 @@ public class StorageTestResult extends JSONObject{
 		return ret;
 	}
 
+  // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+  // by ManualTest:progressMessage
 	private void setResult(double value) {
 		String hrresult = "";
 		switch (_test_id) {
@@ -144,6 +149,8 @@ public class StorageTestResult extends JSONObject{
 			break;
 		}
 		putDouble(JSON_RESULT, value);
+
+    // The FOLLOWING FIELD is the value extracted from the Message instance...
 		put(JSON_HRRESULT, hrresult);
 	}
 
@@ -212,13 +219,17 @@ public class StorageTestResult extends JSONObject{
 	public void setSuccess(int success){
 		put(JSON_SUCCESS, success+"");
 	}
-	
+
+  // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+  // by ManualTest:progressMessage
 	public static List<JSONObject> testOutput(String data, TestExecutor forTestExecutor){
 		SKLogger.d(StorageTestResult.class, data);
 		return testOutput(data.split(SKConstants.RESULT_LINE_SEPARATOR), forTestExecutor);
 	}
 
-	
+
+  // This writes the test results§ via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+  // by ManualTest:progressMessage
 	public static List<JSONObject> testOutput(String[] data, TestExecutor forTestExecutor){
 		List<JSONObject> ret = new ArrayList<JSONObject>();
 		if (data[0].equals("NETACTIVITY")) {
@@ -244,6 +255,8 @@ public class StorageTestResult extends JSONObject{
 		case JHTTPGET:
 		case JHTTPGETMT:
 		{
+      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+      // by ManualTest:progressMessage
 			StorageTestResult testResult = convertThroughputTest(DOWNLOAD_TEST_ID, data);
 			
 			ret.add(testResult);
@@ -252,6 +265,8 @@ public class StorageTestResult extends JSONObject{
 		case JHTTPPOST:
 		case JHTTPPOSTMT:
 		{
+      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+      // by ManualTest:progressMessage
 			StorageTestResult testResult = convertThroughputTest(UPLOAD_TEST_ID, data);
 			
 			ret.add(testResult);
@@ -259,6 +274,8 @@ public class StorageTestResult extends JSONObject{
 			break;
 		case JUDPLATENCY:
 		{
+      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+      // by ManualTest:progressMessage
 			List<StorageTestResult> testResults = convertLatencyTest(data);
 			
 			ret.addAll(testResults);
@@ -266,6 +283,8 @@ public class StorageTestResult extends JSONObject{
 			break;
 		case JUDPJITTER:
 		{
+      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+      // by ManualTest:progressMessage
 			StorageTestResult testResult = convertJitterTest(data);
 
 			ret.add(testResult);
@@ -283,7 +302,11 @@ public class StorageTestResult extends JSONObject{
 		Double metric = Double.parseDouble(data[12]);
 		ret.setTime(dtime);
 		ret.setLocation(target);
+
+    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+    // by ManualTest:progressMessage
 		ret.setResult(metric);
+
 		ret.putLong(JSON_SUCCESS, success);
 		ret.setTest(StorageTestResult.JITTER_TEST_ID);
 		ret.setComplete();
@@ -298,7 +321,11 @@ public class StorageTestResult extends JSONObject{
 		Double metric = Double.parseDouble(data[7]);
 		ret.setTime(dtime);
 		ret.setLocation(target);
+
+    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+    // by ManualTest:progressMessage
 		ret.setResult(metric*8);
+
 		ret.putLong(JSON_SUCCESS, success);
 		ret.setTest(test_id);
 		ret.setComplete();
@@ -321,14 +348,22 @@ public class StorageTestResult extends JSONObject{
 		}
 		lat.setTime(dtime);
 		lat.setLocation(target);
+
+    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+    // by ManualTest:progressMessage
 		lat.setResult(latencyResult);
+
 		lat.putLong(JSON_SUCCESS, success);
 		lat.setTest(StorageTestResult.LATENCY_TEST_ID);
 		lat.setComplete();
 		ret.add(lat);
 		StorageTestResult pl = new StorageTestResult(PACKETLOSS_TEST_ID);
 		pl.setTime(dtime);
+
+    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+    // by ManualTest:progressMessage
 		pl.setResult(packetLoss);
+
 		pl.setLocation(target);
 		pl.setTest(StorageTestResult.PACKETLOSS_TEST_ID);
 		pl.putLong(JSON_SUCCESS, success);

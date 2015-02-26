@@ -20,6 +20,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
 
 /*
@@ -207,9 +209,12 @@ public abstract class HttpTest extends Test {
 	protected long sGetMicroTime() {return System.nanoTime()/1000L;   }
 	protected long sGetMilliTime() {return System.nanoTime()/1000000L;}
 
+  public static final String cReasonResetDownload = "Reset Download";
+  public static final String cReasonResetUpload = "Reset Upload";
+
 	protected  HttpTest(String direction, List<Param> params) {					/* Constructor. Accepts list of Param objects, each representing a certain parameter read from settings XML file */	
 		setDirection(direction);											/* Legacy. To be removed */
-		sLatestSpeedReset();												/* Reset speed counter for external client (GUI, etc) */
+		sLatestSpeedReset(downstream ? cReasonResetDownload : cReasonResetUpload);
 		
 		setParams(params);													/* Initialisation */
 	}
@@ -415,8 +420,8 @@ public abstract class HttpTest extends Test {
 		o.add(Long.toString(getTotalTransferBytes()));
 		output.put(JsonData.JSON_TRANFERBYTES, getTotalTransferBytes());
 		// byets_sec
-		o.add(Integer.toString(getTransferBytesPerSecond()));
-		output.put(JsonData.JSON_BYTES_SEC, getTransferBytesPerSecond());
+		o.add(Integer.toString(Math.max(0, getTransferBytesPerSecond())));
+		output.put(JsonData.JSON_BYTES_SEC, Math.max(0, getTransferBytesPerSecond()));
 		// warmup time
 		o.add(Long.toString(getWarmUpTimeMicro()));	//TODO check
 		output.put(JsonData.JSON_WARMUPTIME, getWarmUpTimeMicro());
@@ -427,21 +432,23 @@ public abstract class HttpTest extends Test {
 		o.add(Integer.toString(nThreads));
 		output.put(JsonData.JSON_NUMBER_OF_THREADS, nThreads);
 
-//TODO remove in production
-		StringBuilder sb = new StringBuilder();
-		Iterator<Entry<String, Object>> iter = output.entrySet().iterator();
-		while (iter.hasNext()) {
-			Entry<String, Object> entry = iter.next();
-			sb.append(entry.getKey());
-			sb.append('=').append('"');
-			sb.append(entry.getValue());
-			sb.append('"');
-			if (iter.hasNext()) {
-				sb.append(',').append(' ');
-			}
-		}
+    // TODO: remove the following block in production?
+    if (OtherUtils.isDebuggable(SKApplication.getAppInstance())) {
+      StringBuilder sb = new StringBuilder();
+      Iterator<Entry<String, Object>> iter = output.entrySet().iterator();
+      while (iter.hasNext()) {
+        Entry<String, Object> entry = iter.next();
+        sb.append(entry.getKey());
+        sb.append('=').append('"');
+        sb.append(entry.getValue());
+        sb.append('"');
+        if (iter.hasNext()) {
+          sb.append(',').append(' ');
+        }
+      }
 
-		SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
+      SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
+    }
 
 		setOutput(o.toArray(new String[1]));
 		setJSONResult(output);
@@ -454,12 +461,14 @@ public abstract class HttpTest extends Test {
 	
 	static protected String sLatestSpeedForExternalMonitorTestId = "";
 	
-	public static void sLatestSpeedReset() {
+	public static void sLatestSpeedReset(String theReasonId) {
 		sLatestSpeedForExternalMonitorBytesPerSecond.set(0);
 		sBytesPerSecondLast.set(0);
+    sLatestSpeedForExternalMonitorTestId = theReasonId;
 	}
 
 	// Report-back a running average, to keep the UI moving...
+  // Returns -1 if sample time too short.
 	public static Pair<Double,String> sGetLatestSpeedForExternalMonitorAsMbps() {
 		// use moving average of the last 2 items!
 		double bytesPerSecondToUse = sBytesPerSecondLast.doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.doubleValue();
@@ -472,6 +481,7 @@ public abstract class HttpTest extends Test {
 	public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {
 		sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
 		sLatestSpeedForExternalMonitorBytesPerSecond.set(bytesPerSecond);
+    sLatestSpeedForExternalMonitorTestId = testId;
 	}
 	
 	final protected int extMonitorUpdateInterval = 500000;
@@ -895,10 +905,17 @@ public abstract class HttpTest extends Test {
 		return getBytesPerSecond(duration, btsTotal);
 	}
 
-	
+
+  // Returns -1 if not enough time has passed for sensible measurement.
 	protected int getTransferBytesPerSecond() {		
 		long btsTotal = getTotalTransferBytes();
 		long duration = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
+
+    if (duration < 1000000.0) // At least a second!
+    {
+      // Not yet possible to return a valid result!
+      return -1;
+    }
 
 		return getBytesPerSecond(duration, btsTotal);
 	}

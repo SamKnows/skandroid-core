@@ -21,7 +21,7 @@ public abstract class UploadTest extends HttpTest {
 	private String[] formValuesArr(){
 		String[] values = new String[1];			
 		values = new String[1];
-		values[0] = String.format("%.2f", (getTransferBytesPerSecond() * 8d / 1000000));
+		values[0] = String.format("%.2f", (Math.max(0,getTransferBytesPerSecond()) * 8d / 1000000));
 
 		return values;
 	}
@@ -93,7 +93,7 @@ public abstract class UploadTest extends HttpTest {
 		if (testStatus.equals("FAIL")) {
 			ret = String.format("The %s has failed.", direction);
 		} else {
-			ret = String.format(Locale.UK,"The %s %s test achieved %.2f Mbps.", type, direction, (getTransferBytesPerSecond() * 8d / 1000000));
+			ret = String.format(Locale.UK,"The %s %s test achieved %.2f Mbps.", type, direction, (Math.max(0, getTransferBytesPerSecond()) * 8d / 1000000));
 		}
 		return ret;
 	}

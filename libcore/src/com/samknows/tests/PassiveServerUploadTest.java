@@ -43,7 +43,10 @@ public class PassiveServerUploadTest extends UploadTest {
 				connOut.write(buff);																						/* Write buffer to output socket */
 				connOut.flush();
 
-				sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "runUp1Normal", bytesPerSecond );
+        if (bytesPerSecond.call() >= 0) {
+          // -1 would mean no result found (as not enough time yet spent measuring)
+          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Normal", bytesPerSecond);
+        }
 
 				//SKLogger.e(TAG(this), "DEBUG: speed in bytes per second" + getSpeedBytesPerSecond() + "<<<");
 				//SKLogger.e(TAG(this), "DEBUG: isTransferDone=" + isTransferDone + ", totalTransferBytesSent=>>>" + getTotalTransferBytes() + ", time" + (sGetMicroTime() - start) + "<<<");
@@ -56,7 +59,8 @@ public class PassiveServerUploadTest extends UploadTest {
 			return false;
 		}
 
-		int bytesPerSecondMeasurement = getTransferBytesPerSecond();
+		int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+    SKLogger.sAssert(bytesPerSecondMeasurement >= 0);
 		//hahaSKLogger.e(TAG(this), "Result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement= " + bytesPerSecondMeasurement + " thread: " + threadIndex);
 
 		sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, "UploadEnd");											/* Final external interface set up */

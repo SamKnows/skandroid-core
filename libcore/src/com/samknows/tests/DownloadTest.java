@@ -100,7 +100,11 @@ public final class DownloadTest extends HttpTest {
 		try {
 			do {
 				readBytes = connIn.read(buff, 0, buff.length);
-				sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "Download", bytesPerSecond);
+
+        if (bytesPerSecond.call() >= 0) {
+          // -1 would mean no result found (as not enough time yet spent measuring)
+          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "Download", bytesPerSecond);
+        }
 			} while (!transmissionDone.call());
 		} catch (Exception io) {
 			readBytes = BYTESREADERR;	
@@ -169,7 +173,7 @@ public final class DownloadTest extends HttpTest {
 		if (testStatus.equals("FAIL")) {
 			ret = String.format("The %s has failed.", direction);
 		} else {
-			ret = String.format(Locale.UK, "The %s %s test achieved %.2f Mbps.", type,	direction, (getTransferBytesPerSecond() * 8d / 1000000));
+			ret = String.format(Locale.UK, "The %s %s test achieved %.2f Mbps.", type,	direction, (Math.max(0,getTransferBytesPerSecond()) * 8d / 1000000));
 		}
 		return ret;
 	}
