@@ -76,6 +76,9 @@ public class SKApplication extends Application{
 		SK2AppSettings.create(this);
 		CachingStorage.create(this);
 
+    // Get the config!
+    CachingStorage.getInstance().loadScheduleConfig();
+
 		// Start monitoring for cell tower signal strength etc....
 		// We need to do this, as Android does not allow us to query this information synchronously.
 		CellTowersDataCollector.sStartToCaptureCellTowersData(this);

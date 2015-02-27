@@ -60,7 +60,7 @@ public class ContinuousTesting {
 		StateResponseCode response;
 		SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		mPreviousState = appSettings.getState();
-		State state  = State.RUN_INIT_TESTS;
+		State state  = State.EXECUTE_QUEUE;
 		appSettings.saveState(state);
 		try {
 			response = Transition.createState(state, mContext).executeState();

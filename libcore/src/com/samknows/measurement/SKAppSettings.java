@@ -233,7 +233,8 @@ public class SKAppSettings {
 	}
 
 	public long getNextRunTime() {
-		return getLong(SKConstants.PREF_NEXT_RUN_TIME, SKConstants.NO_NEXT_RUN_TIME);
+		long value = getLong(SKConstants.PREF_NEXT_RUN_TIME, SKConstants.NO_NEXT_RUN_TIME);
+    return value;
 	}
 
 	public String getConfigVersion() {

@@ -124,6 +124,7 @@ public class MainService extends IntentService {
 			}
 		} catch (Throwable th) {
 			//if an error happened we want to restart from State.NONE
+      SKLogger.sAssert(false);
 			appSettings.saveState(State.NONE);
 			SKLogger.d(this, "+++++DEBUG+++++ caught throwable, th=" + th.toString());
 			SKLogger.d(this, "+++++DEBUG+++++ call OtherUtils.rescheduleWakeup");

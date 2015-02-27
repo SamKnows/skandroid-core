@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
 
 import android.net.TrafficStats;
+import android.util.Log;
 
 public class TrafficData implements DCSData, Serializable {
 
@@ -69,7 +71,20 @@ public class TrafficData implements DCSData, Serializable {
 	}
 	
 	public boolean checkCondition(long bytesIn, long bytesOut){
-		return totalRxBytes <= bytesIn && totalTxBytes <= bytesOut;
+
+    boolean result =  (totalRxBytes <= bytesIn && totalTxBytes <= bytesOut);
+
+    if (result == false) {
+      if (OtherUtils.isThisDeviceAnEmulator() == true)
+      {
+        Log.w("TrafficData", "WARNING: TrafficData.checkCondition failed - but overriding to true as on emulator, to allow background test to!");
+        return true;
+      }
+
+      Log.w("TrafficData", "WARNING: TrafficData.checkCondition failed - background test will not run!");
+    }
+
+    return result;
 	}
 	
 	public static TrafficData extractList(List<TrafficData> list){

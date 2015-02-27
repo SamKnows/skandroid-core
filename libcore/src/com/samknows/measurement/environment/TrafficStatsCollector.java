@@ -44,6 +44,7 @@ public class TrafficStatsCollector extends BaseDataCollector implements Serializ
 		try {
 			Thread.sleep(SKConstants.NET_ACTIVITY_CONDITION_WAIT_TIME);
 		} catch (InterruptedException e1) {
+      SKLogger.sAssert(false);
 			e1.printStackTrace();
 		}
 		TrafficData a = collectTraffic();
@@ -53,6 +54,7 @@ public class TrafficStatsCollector extends BaseDataCollector implements Serializ
 		try {
 			Thread.sleep(interval);
 		} catch (InterruptedException e) {
+      SKLogger.sAssert(false);
 			e.printStackTrace();
 		}
 		

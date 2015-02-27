@@ -1,5 +1,7 @@
 package com.samknows.measurement.schedule;
 
+import android.util.Log;
+
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,7 +78,6 @@ public class ScheduleConfig implements Serializable {
 	public List<TestDescription> manual_tests = new ArrayList<TestDescription>();
 	public List<TestDescription> continuous_tests = new ArrayList<TestDescription>();
 	public String manual_test_condition_group_id ;
-	public List<String> initTestTypes = new ArrayList<String>();
 	public List<BaseDataCollector> dataCollectors = new ArrayList<BaseDataCollector>();
 	public HashMap<String, String> hosts = new HashMap<String, String>();
 	public HashMap<String, Communication> communications = new HashMap<String, Communication>();
@@ -110,13 +111,22 @@ public class ScheduleConfig implements Serializable {
 		return null;
 	}
 	
-	public TestGroup findTestGroup(long id){
+	public TestGroup findBackgroundTestGroup(long id){
 		for(TestGroup tg: backgroundTestGroups){
 			if(tg.id == id){
 				return tg;
 			}
 		}
-		return null;
+
+    // Nothing yet found, for some reason!
+    Log.w("ScheduleConfig", "WARNING: no schedule test group found, returning first item");
+    if (backgroundTestGroups.size() > 0) {
+      return backgroundTestGroups.get(0);
+    }
+
+    SKLogger.sAssert(false);
+
+    return null;
 	}
 	
 	public TestDescription findTestById(int id){

@@ -32,8 +32,8 @@ public class ScheduledTestStateMachine {
 			try {
 			  //code = Transition.createState(state, ctx).executeState();
 				BaseState baseState = Transition.createState(state, ctx);
-     			code = baseState.executeState();
-         		accumulatedTestBytes += baseState.getAccumulatedTestBytes();
+     		code = baseState.executeState();
+        accumulatedTestBytes += baseState.getAccumulatedTestBytes();
 			} catch (Exception e) {
 				SKLogger.d(this, "+++++DEBUG+++++ error calling executeState !" + e.toString());
 				// do NOT rethrow the exception!

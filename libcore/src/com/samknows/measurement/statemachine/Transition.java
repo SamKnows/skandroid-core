@@ -10,7 +10,6 @@ import com.samknows.measurement.statemachine.state.BaseState;
 import com.samknows.measurement.statemachine.state.ExecuteScheduledTestQueueState;
 import com.samknows.measurement.statemachine.state.InitialiseAnonymousState;
 import com.samknows.measurement.statemachine.state.NoneState;
-import com.samknows.measurement.statemachine.state.RunInitTestsState;
 import com.samknows.measurement.statemachine.state.SubmitResultsAnonymousState;
 
 public class Transition {
@@ -39,7 +38,6 @@ public class Transition {
 		switch (state) {
 		case NONE: return new NoneState(ctx);
 		case INITIALISE_ANONYMOUS: return new InitialiseAnonymousState(ctx);
-		case RUN_INIT_TESTS : return new RunInitTestsState(ctx);
 		case EXECUTE_QUEUE : return new ExecuteScheduledTestQueueState(ctx);
 		case SUBMIT_RESULTS_ANONYMOUS : return new SubmitResultsAnonymousState(ctx);
 		case SHUTDOWN:
@@ -50,11 +48,10 @@ public class Transition {
   private static final Map<State, String[]> transitionFunction;
   static {
     Map<State, String[]> tmp= new HashMap<State, String[]>();
-    tmp.put(State.NONE, new String[] {"OK:RUN_INIT_TESTS"});
-    tmp.put(State.RUN_INIT_TESTS, new String[] {"OK:EXECUTE_QUEUE"});
+    tmp.put(State.NONE, new String[] {"OK:EXECUTE_QUEUE"});
     tmp.put(State.EXECUTE_QUEUE, new String[] {"OK:SUBMIT_RESULTS_ANONYMOUS"});
     tmp.put(State.SUBMIT_RESULTS_ANONYMOUS, new String[] {"OK:SHUTDOWN"});
-    tmp.put(State.SHUTDOWN, new String[] {"OK:DOWNLOAD_CONFIG_ANONYMOUS"});
+    tmp.put(State.SHUTDOWN, new String[] {"OK:EXECUTE_QUEUE"});
     transitionFunction = Collections.unmodifiableMap(tmp);
   }
 

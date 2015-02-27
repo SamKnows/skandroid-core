@@ -149,7 +149,7 @@ public class SK2AppSettings extends SKAppSettings {
 		return ret;
 	}
 
-	public void setConfig(ScheduleConfig config){
+	public void ananlyzeConfig(ScheduleConfig config){
 		setWakeUpEnabledIfNull(config.testAlamType == TestAlarmType.WAKEUP);
 		setLocationTypeIfNull(config.locationType);
 	

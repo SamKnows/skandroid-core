@@ -7,10 +7,12 @@ import java.util.PriorityQueue;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.TestGroup;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.condition.DatacapCondition;
 import com.samknows.measurement.schedule.failaction.RetryFailAction;
+import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.TimeUtils;
 
 public class ScheduledTestExecutionQueue implements Serializable{
@@ -28,7 +30,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 	
 	public ScheduledTestExecutionQueue(TestContext tc) {
 		this.tc = tc;
-	    accumulatedTestBytes = 0L;
+    accumulatedTestBytes = 0L;
 		startTime = endTime = System.currentTimeMillis();
 		
 		long daysDiff = TimeUtils.daysToMillis(SKConstants.TEST_QUEUE_MAX_SIZE_IN_DAYS);
@@ -90,8 +92,9 @@ public class ScheduledTestExecutionQueue implements Serializable{
 	 * @return reschedule time duration in milliseconds
 	 */
 	public long executeReturnRescheduleDurationMilliseconds() {
-		
-	    SKLogger.sAssert(getClass(), (accumulatedTestBytes == 0L));
+
+    // TODO - is the following assertion something that should be re-activated?
+	  //SKLogger.sAssert(getClass(), (accumulatedTestBytes == 0L));
 	    
 		TestExecutor scheduledTestExecutor = new TestExecutor(tc);
 		long time = System.currentTimeMillis();
@@ -99,9 +102,9 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		//drop old tests 
 		while (true){
 			QueueEntry entry = entries.peek();
-			if (entry != null && !canExecute(entry, time) && entry.time < time) {
+			if (entry != null && !canExecute(entry, time) && entry.getSystemTimeMilliseconds() < time) {
 				entries.remove();
-				SKLogger.d(this, "removing test scheduled at: " + new SimpleDateFormat().format(entry.time));
+				SKLogger.d(this, "removing test scheduled at: " + entry.getSystemTimeAsDebugString());
 			} else {
 				break;
 			}
@@ -131,7 +134,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 				DatacapCondition dc = new DatacapCondition(dataCapSuccessFlag);
 
 				if (dc.isSuccess()) {
-					ConditionGroupResult tr = scheduledTestExecutor.executeGroup(entry.groupId);
+					ConditionGroupResult tr = scheduledTestExecutor.executeBackgroundTestGroup(entry.groupId);
 					accumulatedTestBytes += scheduledTestExecutor.getAccumulatedTestBytes();
 					result = tr.isSuccess;
 				} else {
@@ -191,9 +194,20 @@ public class ScheduledTestExecutionQueue implements Serializable{
 	}
 	
 	public boolean canExecute(QueueEntry entry, long time) {
-		boolean bResult =  SK2AppSettings.getSK2AppSettingsInstance().getTestStartWindow()/2 > Math.abs(entry.time - time);
+		long timeUntilEntry = Math.abs(entry.getSystemTimeMilliseconds() - time);
+    long timeWindow = SK2AppSettings.getSK2AppSettingsInstance().getTestStartWindow();
+    if (timeWindow == 60000) {
+      if (timeUntilEntry < timeWindow) {
+        return true;
+      }
+    }
+    timeWindow /= 2;
+    if (timeUntilEntry < timeWindow) {
+      return true;
+    }
+
 		// This allows us to override the value in the debugger...
-		return bResult;
+		return false;
 	}
 	
 	private long getSleepTimeDurationMilliseconds() {
@@ -201,38 +215,50 @@ public class ScheduledTestExecutionQueue implements Serializable{
 			return TimeUtils.daysToMillis(SKConstants.TEST_QUEUE_NORMAL_SIZE_IN_DAYS);
 		} else {
 			QueueEntry entry = entries.peek();
-			return entry.time - System.currentTimeMillis();
+			long value = entry.getSystemTimeMilliseconds() - System.currentTimeMillis();
+      return value;
 		}
 	}
-	
+
 	public int size() {
 		return entries.size();
 	}
 	
 	class QueueEntry implements Serializable, Comparable<QueueEntry>{
 		private static final long serialVersionUID = 1L;
-		long time;
+		private long systemTimeMilliseconds;
+    private String systemTimeAsDebugString;
 		long groupId;
 		int orderIdx;
-		
+
+    public long getSystemTimeMilliseconds() {
+      return systemTimeMilliseconds;
+    }
+
+    public String getSystemTimeAsDebugString() {
+      return systemTimeAsDebugString;
+    }
+
+
 		public QueueEntry(long time, long groupId, int orderIdx) {
 			super();
-			this.time = time;
+			this.systemTimeMilliseconds = time;
+      this.systemTimeAsDebugString = new SKDateFormat(SKApplication.getAppInstance()).UITime(systemTimeMilliseconds);
 			this.groupId = groupId;
 			this.orderIdx = orderIdx;
 		}
 
 		@Override
 		public int compareTo(QueueEntry another) {
-			if (time == another.time) { //if time is the same we want to the save original order from config
+			if (systemTimeMilliseconds == another.getSystemTimeMilliseconds()) { //if time is the same we want to the save original order from config
 				return Integer.valueOf(orderIdx).compareTo(another.orderIdx);
 			}
-			return Long.valueOf(time).compareTo(another.time);
+			return Long.valueOf(systemTimeMilliseconds).compareTo(another.getSystemTimeMilliseconds());
 		}
 
 		@Override
 		public String toString() {
-			return groupId + " : " + TimeUtils.logString(time);
+			return groupId + " : " + getSystemTimeAsDebugString();
 		}
 			
 	}

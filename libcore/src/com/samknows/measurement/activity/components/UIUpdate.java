@@ -61,9 +61,6 @@ public class UIUpdate {
     case SHUTDOWN:
     case SUBMIT_RESULTS_ANONYMOUS:
 			break;
-		case RUN_INIT_TESTS:
-			type = JSON_DOWNLOADED;
-			break;
 		default:
 			break;
 		}
@@ -90,10 +87,6 @@ public class UIUpdate {
 		case INITIALISE_ANONYMOUS:
 			type = JSON_MAINPROGRESS;
 			value = "20";
-			break;
-		case RUN_INIT_TESTS:
-			type = JSON_MAINPROGRESS;
-			value = "70";
 			break;
 		case EXECUTE_QUEUE:
 			type = JSON_COMPLETED;

@@ -180,7 +180,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		SKLogger.d(this, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onCreate...");
 		
 		/*
@@ -236,6 +236,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		final Activity ctx = this;
+
+    // Make sure the service is running - that allows background processing to work.
+    MainService.poke(this);
 	}
 	
 	void handleOnPageSelected(int page) {

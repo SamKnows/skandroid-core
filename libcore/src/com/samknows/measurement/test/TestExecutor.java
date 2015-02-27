@@ -583,10 +583,10 @@ public class TestExecutor {
 
 	}
 
-	public ConditionGroupResult executeGroup(long groupId) {
-		TestGroup tg = tc.config.findTestGroup(groupId);
+	public ConditionGroupResult executeBackgroundTestGroup(long groupId) {
+		TestGroup tg = tc.config.findBackgroundTestGroup(groupId);
 		if (tg == null) {
-			SKLogger.e(this, "can not find test for id: " + groupId);
+			SKLogger.e(this, "can not find background test group for id: " + groupId);
 		} else {
 			return executeGroup(tg);
 		}

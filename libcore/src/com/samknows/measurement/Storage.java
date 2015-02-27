@@ -13,7 +13,6 @@ import android.util.Log;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.environment.TrafficData;
-import com.samknows.measurement.net.RequestScheduleAnonymousAction;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 
@@ -59,12 +58,10 @@ public class Storage {
     ScheduleConfig config = null;
     try {
       config = ScheduleConfig.parseXml(SKApplication.getAppInstance().getScheduleXml());
+      SK2AppSettings.getSK2AppSettingsInstance().ananlyzeConfig(config);
     } catch (Exception e) {
       // Catch, and rethrow, the exception - as we'd seen this fail in some circumstances and needed to track it down.
       SKLogger.sAssert(getClass(),  false);
-      //throw(e);
-      // TODO: should we NOT rethrow the exception?
-      // config = null;
     }
     return config;
 

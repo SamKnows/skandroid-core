@@ -168,7 +168,7 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -177,18 +177,23 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:layout_gravity="center_vertical"
                             android:text="@string/schedule_version"
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/schedule_version"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
                     <TableRow
                         style="@style/column"
@@ -197,17 +202,19 @@
                         android:paddingLeft="10dp" >
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:paddingRight="5dp"
+                        android:paddingRight="5dp">
                         android:visibility="gone" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:layout_gravity="center_vertical"
                             android:text="@string/activated"
                             android:textColor="#000000"
@@ -215,13 +222,15 @@
 
                         <TextView
                             android:id="@+id/tv_service_activated_value"
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right"
                             android:textColor="#2a2a2a" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         android:id="@+id/autotesting_row"
                         style="@style/row"
                         android:layout_width="match_parent"
@@ -231,20 +240,25 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:layout_gravity="center_vertical"
                             android:text="@string/auto_testing"
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_service_autotesting_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -253,21 +267,26 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
                             android:text="@string/next_service_task"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_service_status_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="0.5"
                             android:gravity="center_vertical|right"
                             android:textSize="10sp" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         android:id="@+id/next_test_scheduled_for_row"
                         style="@style/row"
                         android:layout_width="match_parent"
@@ -277,20 +296,25 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
                             android:text="@string/next_test_scheduled_for"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_scheduledFor_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -300,18 +324,23 @@
                         android:visibility="gone" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
                             android:text="@string/unit_id"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_unitId_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -329,7 +358,7 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -339,19 +368,24 @@
                         android:visibility="gone" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/imei"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_imei_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -361,19 +395,24 @@
                         android:visibility="gone" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/imsi"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_imsi_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -382,19 +421,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/phone"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_phone_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -403,17 +447,22 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/os"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_os_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -431,7 +480,7 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -440,19 +489,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/phone_type"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_phone_type_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -461,19 +515,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/network_type"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_network_type_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -482,19 +541,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/network_operator"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_network_operator_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -503,17 +567,22 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/is_roaming"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_roaming_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -532,7 +601,7 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -541,19 +610,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/date"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_loc_date_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -562,19 +636,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/provider"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_loc_provider_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -583,19 +662,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/latitude"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_loc_lat_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -604,19 +688,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/longitude"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_loc_long_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -625,17 +714,22 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/accuracy"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_loc_acc_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -654,7 +748,7 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -663,19 +757,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/type"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_cell_tower_type_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -684,19 +783,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/cell_id"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_cell_id_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -705,19 +809,24 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:text="@string/area_code"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_area_code_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
 
-                    <TableRow
+                    <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -726,18 +835,23 @@
                         android:paddingRight="5dp" >
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             style="@style/normal"
                             android:gravity="center_vertical"
                             android:text="@string/signal_strength"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:layout_weight="50"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:id="@+id/tv_signal_value"
                             style="@style/normal"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:gravity="center_vertical|right" />
-                    </TableRow>
+                    </LinearLayout>
                 </TableLayout>
             </RelativeLayout>
         </LinearLayout>
