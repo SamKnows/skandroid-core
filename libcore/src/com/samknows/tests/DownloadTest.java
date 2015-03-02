@@ -1,5 +1,8 @@
 package com.samknows.tests;
 
+import android.support.v4.BuildConfig;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -106,6 +110,15 @@ public final class DownloadTest extends HttpTest {
           sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "Download", bytesPerSecond);
         }
 			} while (!transmissionDone.call());
+    } catch (SocketTimeoutException e) {
+      // This happens so often - that we just log it (but only when debugger in use)
+      //if (OtherUtils.isDebuggable(SKApplication.getAppInstance()))
+      if (BuildConfig.DEBUG) {
+        Log.e("DownloadTest", e.getMessage());
+      }
+      readBytes = BYTESREADERR;
+      //SKLogger.sAssert(getClass(),  false);
+      return false;
 		} catch (Exception io) {
 			readBytes = BYTESREADERR;	
 			SKLogger.sAssert(getClass(),  false);

@@ -601,5 +601,6 @@
     
         
     <string name="Initial_Warning_Text"></string>
+    <string name="result_working">Aguarde</string>
 
 </resources>
