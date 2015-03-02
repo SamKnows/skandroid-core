@@ -12,6 +12,7 @@ import com.samknows.measurement.environment.NetUsageCollector;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.util.DCSStringBuilder;
 
 public class EnvironmentDataCollector extends BaseDataCollector{
 	private static final long serialVersionUID = 1L;
@@ -62,18 +63,25 @@ public class EnvironmentDataCollector extends BaseDataCollector{
 		}
 	}
 
-	@Override
-	public List<String> getOutput() {
-		List<String> ret = new ArrayList<String>();
-		
-    	// This is synchronized, as data might mutate while we're enumerating!
-		synchronized (this) {
-			for(DCSData d:data){
-				ret.addAll(d.convert());
-			}
-		}
-		return ret;
-	}
+//	@Override
+//	public List<String> getOutput() {
+//		List<String> ret = new ArrayList<String>();
+//
+//    	// This is synchronized, as data might mutate while we're enumerating!
+//		synchronized (this) {
+//			for(DCSData d:data){
+//				ret.addAll(d.convert());
+//			}
+//
+////      DCSStringBuilder builder = new DCSStringBuilder();
+////      builder.append(ID_SIM_OP);
+////      builder.append(time/1000);
+////      builder.append(simOperatorCode);
+////      builder.append(simOperatorName);
+////      list.add(builder.build());
+//		}
+//		return ret;
+//	}
 
 	@Override
 	public List<JSONObject> getPassiveMetric() {

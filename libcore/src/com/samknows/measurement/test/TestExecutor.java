@@ -1,6 +1,8 @@
 package com.samknows.measurement.test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -15,6 +17,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Pair;
 
@@ -44,6 +52,7 @@ import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.util.DCSStringBuilder;
+import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Param;
 import com.samknows.tests.Test;
@@ -613,6 +622,17 @@ public class TestExecutor {
 //    	save(type);
 //	}
 
+  // http://stackoverflow.com/questions/5485759/android-how-to-determine-a-wifi-channel-number-used-by-wifi-ap-network
+  public static int convertFrequencyToChannel(int freq) {
+    if (freq >= 2412 && freq <= 2484) {
+      return (freq - 2412) / 5 + 1;
+    } else if (freq >= 5170 && freq <= 5825) {
+      return (freq - 5170) / 5 + 34;
+    }
+
+    return -1;
+  }
+
 	public void save(String type, long batchId) {
         //mBatchId = batchId;
 		
@@ -643,10 +663,48 @@ public class TestExecutor {
 				throttleResponseMetric.put("status", mpThrottleResponse);
 				rc.addMetric(throttleResponseMetric);
 			}
-		} catch (JSONException e) {
+
+
+      // Add WIFI metrics!
+      Context context = SKApplication.getAppInstance();
+      //TelephonyManager mTelManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+      ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+      WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+      if (connManager != null && wifiManager != null) {
+        NetworkInfo netInfo = connManager.getActiveNetworkInfo();
+        WifiInfo wifiInfo=wifiManager.getConnectionInfo();
+        if (netInfo != null && wifiInfo != null) {
+          if (netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+
+            JSONObject wifiStateMetric = new JSONObject();
+            wifiStateMetric.put("type", "wifistate");
+            Date now = new Date();
+            wifiStateMetric.put("datetime", SKDateFormat.sGetDateAsIso8601String(now));
+            wifiStateMetric.put("timestamp", String.valueOf(now.getTime()));
+            wifiStateMetric.put("rssi", wifiInfo.getRssi());
+            List<ScanResult> results=wifiManager.getScanResults();
+            if (results != null) {
+              boolean bFoundWifi = false;
+              for (ScanResult scanResult : results) {
+                if (scanResult.SSID.equals(wifiInfo.getSSID())) {
+                  bFoundWifi = true;
+                  wifiStateMetric.put("frequency", scanResult.frequency);
+                  wifiStateMetric.put("channel", convertFrequencyToChannel(scanResult.frequency));
+                  break;
+                }
+              }
+              SKLogger.sAssert(bFoundWifi);
+            }
+            wifiStateMetric.put("linkspeed", wifiInfo.getLinkSpeed());
+            rc.addMetric(wifiStateMetric);
+          }
+        }
+      }
+
+    } catch (JSONException e) {
 			SKLogger.sAssert(getClass(),  false);
 		}
-		
+
 		//SKLogger.sAssert(getClass(), mBatchId != -1);
 		TestResultsManager.saveResult(tc.getContext(), rc);
 	}

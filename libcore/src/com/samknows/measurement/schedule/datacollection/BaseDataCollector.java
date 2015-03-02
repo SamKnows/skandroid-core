@@ -20,7 +20,7 @@ public abstract class BaseDataCollector implements Serializable{
 		tc = ctx;
 	}
 	public void stop(TestContext ctx){}
-	public abstract List<String> getOutput();
+	//public abstract List<String> getOutput();
 	public abstract List<JSONObject> getJSONOutput();
 	public abstract List<JSONObject> getPassiveMetric();
 	public abstract void clearData();

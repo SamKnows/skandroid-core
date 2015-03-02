@@ -210,16 +210,16 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		}
 	}
 	
-	@Override
-	public List<String> getOutput() {
-		List<String> list = new ArrayList<String>();
-		synchronized(this) {
-			for(Location l: mLocations){
-				list.addAll(new LocationData(l,locationType).convert());
-			}
-		}
-		return list;
-	}
+//	@Override
+//	public List<String> getOutput() {
+//		List<String> list = new ArrayList<String>();
+//		synchronized(this) {
+//			for(Location l: mLocations){
+//				list.addAll(new LocationData(l,locationType).convert());
+//			}
+//		}
+//		return list;
+//	}
 	
 	@Override
 	public List<JSONObject> getPassiveMetric() {
