@@ -111,7 +111,7 @@ public class SubmitTestResultsAnonymousAction {
         isSuccess = sl.getStatusCode() == HttpStatus.SC_OK
             && sl.getReasonPhrase().equals("OK");
         int code = sl.getStatusCode();
-        SKLogger.d(this, "submiting test results to server: " + isSuccess);
+        SKLogger.d(this, "submitting test results to server: " + isSuccess);
 
         // http://stackoverflow.com/questions/15704715/getting-json-response-android
         HttpEntity entity = httpResponse.getEntity();

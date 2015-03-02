@@ -1,11 +1,17 @@
 package com.samknows.tests;
 
+import android.util.Log;
+
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.Callable;
+import android.support.v4.BuildConfig;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.activity.components.Util;
+import com.samknows.measurement.util.OtherUtils;
 
 public class PassiveServerUploadTest extends UploadTest {
 
@@ -52,6 +58,23 @@ public class PassiveServerUploadTest extends UploadTest {
 				//SKLogger.e(TAG(this), "DEBUG: isTransferDone=" + isTransferDone + ", totalTransferBytesSent=>>>" + getTotalTransferBytes() + ", time" + (sGetMicroTime() - start) + "<<<");
 			}while(!transmissionDone.call());
 
+    }catch(java.net.SocketException e){
+      if ( (e.getMessage().contains("EPIPE")) ||
+           (e.getMessage().contains("ECONNRESET"))
+         )
+      {
+        // This happens so often (EPIPE, ECONNRESET) that we don't trap it in the debugger - just log it (but only when debugger in use)
+        //if (OtherUtils.isDebuggable(SKApplication.getAppInstance()))
+        if (BuildConfig.DEBUG) {
+          Log.e("PassiveServerUploadTest", e.getMessage());
+        }
+      } else {
+        SKLogger.sAssert(getClass(), false);
+      }
+      sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "runUp1Err", bytesPerSecond);
+      //SKLogger.e(TAG(this), "loop - break 3");//haha
+      return false;
+
 		}catch(Exception e){
 			SKLogger.sAssert(getClass(), false);
 			sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "runUp1Err", bytesPerSecond);
@@ -63,7 +86,7 @@ public class PassiveServerUploadTest extends UploadTest {
     SKLogger.sAssert(bytesPerSecondMeasurement >= 0);
 		//hahaSKLogger.e(TAG(this), "Result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement= " + bytesPerSecondMeasurement + " thread: " + threadIndex);
 
-		sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, "UploadEnd");											/* Final external interface set up */
+		sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, cReasonUploadEnd);											/* Final external interface set up */
 		return true;
 	}
 	

@@ -291,11 +291,12 @@ public class FragmentRunTest extends Fragment {
               if (value.first.doubleValue() != lastPolledSpeedValueMbps) {
 
                 if ( (value.second.equals(HttpTest.cReasonResetUpload)) ||
-                     (value.second.equals(HttpTest.cReasonResetDownload))
+                     (value.second.equals(HttpTest.cReasonResetDownload)) ||
+                     (value.second.equals(HttpTest.cReasonUploadEnd))
                    )
                 {
                   // Don't display the first "0" for the download/upload test reset...
-                  //Log.d("MPCMPCMPC", "don't show first zero for download/upload test!");
+                  tv_Gauge_TextView_PsuedoButton.setText(R.string.result_working);
                 } else {
                   String message = String.valueOf(value);
 
@@ -818,7 +819,8 @@ public class FragmentRunTest extends Fragment {
 
             if (statusComplete == 100) {
               // Clear the central button test, ready for the first value to come through from the next test.
-              tv_Gauge_TextView_PsuedoButton.setText("");
+              //tv_Gauge_TextView_PsuedoButton.setText("");
+              tv_Gauge_TextView_PsuedoButton.setText(R.string.result_working);
               //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
               changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
@@ -842,6 +844,7 @@ public class FragmentRunTest extends Fragment {
             if (statusComplete == 100) {
               // Clear the central button test, ready for the first value to come through from the next test.
               tv_Gauge_TextView_PsuedoButton.setText("");
+              //tv_Gauge_TextView_PsuedoButton.setText(R.string.result_working);
               //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
 

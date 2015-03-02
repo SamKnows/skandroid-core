@@ -66,7 +66,7 @@ public class ClosestTarget extends Test {
 	private final int DELAYTIMEOUTMIN = 1000000;
 	private final int DELAYTIMEOUTMAX = 5000000;
 	private final int NUMBEROFTARGETSMAX = 50;
-	private final int NUMBEROFTARGETSMIN = 2;
+	private final int NUMBEROFTARGETSMIN = 1;
 	
 	public static final String JSON_CLOSETTARGET = "closest_target";
 	public static final String JSON_IPCLOSESTTARGET = "ip_closest_target";

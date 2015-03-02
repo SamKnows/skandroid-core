@@ -211,6 +211,7 @@ public abstract class HttpTest extends Test {
 
   public static final String cReasonResetDownload = "Reset Download";
   public static final String cReasonResetUpload = "Reset Upload";
+  public static final String cReasonUploadEnd = "Upload End";
 
 	protected  HttpTest(String direction, List<Param> params) {					/* Constructor. Accepts list of Param objects, each representing a certain parameter read from settings XML file */	
 		setDirection(direction);											/* Legacy. To be removed */
@@ -480,6 +481,9 @@ public abstract class HttpTest extends Test {
 
 	public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {
 		sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
+    if (bytesPerSecond == 0) {
+      SKLogger.sAssert(testId.equals(cReasonUploadEnd));
+    }
 		sLatestSpeedForExternalMonitorBytesPerSecond.set(bytesPerSecond);
     sLatestSpeedForExternalMonitorTestId = testId;
 	}
