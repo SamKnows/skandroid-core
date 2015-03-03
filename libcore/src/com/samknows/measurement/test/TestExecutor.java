@@ -348,7 +348,7 @@ public class TestExecutor {
 					JSONObject jsonResult = executingTest.getJSONResult();
 					SKLogger.d("", jsonResult.toString());//TODO remove in production
 					sAddPassiveLocationMetricForTestResult(jsonResult);
-		         	sAddPassiveNetworkTypeMetricForTestResult(jsonResult);
+		      sAddPassiveNetworkTypeMetricForTestResult(jsonResult);
 					rc.addTest(jsonResult);
 					
 					// HACK TO INCLUDE THE JUDPJITTER RESULTS
