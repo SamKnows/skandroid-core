@@ -53,8 +53,12 @@ public class PhoneIdentityData implements DCSData{
 		List<JSONObject> ret = new ArrayList<JSONObject>();
 		long time = System.currentTimeMillis();
 		if(!SK2AppSettings.getSK2AppSettingsInstance().anonymous){
-			ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.IMEI, time, imei));
-			ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.IMSI, time, imsi));
+      if (imei != null) {
+        ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.IMEI, time, imei));
+      }
+      if (imsi != null) {
+        ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.IMSI, time, imsi));
+      }
 		}
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.MANUFACTOR, time, manufacturer));
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.MODEL, time, model));
@@ -82,8 +86,12 @@ public class PhoneIdentityData implements DCSData{
 	
 	private void collectSensitiveData(Map<String, Object> j){
 		if(!SK2AppSettings.getSK2AppSettingsInstance().anonymous){
-			j.put(JSON_IMEI, imei);
-			j.put(JSON_IMSI, imsi);
+      if (imei != null) {
+        j.put(JSON_IMEI, imei);
+      }
+      if (imsi != null) {
+        j.put(JSON_IMSI, imsi);
+      }
 		}
 		
 	}
