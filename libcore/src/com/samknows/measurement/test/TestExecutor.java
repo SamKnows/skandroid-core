@@ -301,7 +301,6 @@ public class TestExecutor {
 
 			executingTest = TestFactory.create(td.type, params);
 			if (executingTest != null) {
-				getPartialResult();
 				SKLogger.d(TestExecutor.class, "start to execute test: " + td.displayName);
 			
 				String displayName = td.displayName;
@@ -414,55 +413,6 @@ public class TestExecutor {
 			return executingTest.getProgress();
 		}
 		return -1;
-	}
-
-	public void getPartialResult() {
-		if (executingTest instanceof ClosestTarget) {
-			final ClosestTarget ct = (ClosestTarget) executingTest;
-			Runnable r = new Runnable() {
-				public void run() {
-					SKLogger.d(TestExecutor.class, "getPartialResult started");
-					while (true) {
-						ClosestTarget.Result r = ct.getPartialResults();
-						if (r == null) {
-							break;
-						}
-						
-						// This translates the target (e.g. "samknows1.da1.level3.net")
-						// to a host name (e.g. "Dallas, USA")
-						String hostName = tc.config.findHostName(r.currbest_target);
-						r.currbest_target = hostName;
-						
-						JSONObject p = UIUpdate.sGetThisClosestTargetPartialResultAsJSONObject(r);
-						tc.publish(p);
-						SKLogger.d(TestExecutor.class, "closestTarget.getPartialResults as JSONString = " + p.toString());
-						
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							SKLogger.sAssert(getClass(), false);
-						}
-					}
-				}
-			};
-			new Thread(r).start();
-		}
-
-	}
-
-/*	public Test.HumanReadable getHumanReadable() {
-		if (executingTest == null) {
-			return null;
-		}
-		return executingTest.getHumanReadable();
-	}*/
-
-	public String getHumanReadableResult() {
-		if (executingTest != null) {
-			return executingTest.getHumanReadableResult();
-		} else {
-			return "failed to find test!";
-		}
 	}
 
 	@SuppressWarnings("deprecation")

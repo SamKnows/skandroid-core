@@ -8,7 +8,6 @@ import com.samknows.measurement.MainService;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.statemachine.state.BaseState;
 import com.samknows.measurement.statemachine.state.ExecuteScheduledTestQueueState;
-import com.samknows.measurement.statemachine.state.InitialiseAnonymousState;
 import com.samknows.measurement.statemachine.state.NoneState;
 import com.samknows.measurement.statemachine.state.SubmitResultsAnonymousState;
 
@@ -37,7 +36,6 @@ public class Transition {
 	public static BaseState createState(State state, MainService ctx) {
 		switch (state) {
 		case NONE: return new NoneState(ctx);
-		case INITIALISE_ANONYMOUS: return new InitialiseAnonymousState(ctx);
 		case EXECUTE_QUEUE : return new ExecuteScheduledTestQueueState(ctx);
 		case SUBMIT_RESULTS_ANONYMOUS : return new SubmitResultsAnonymousState(ctx);
 		case SHUTDOWN:

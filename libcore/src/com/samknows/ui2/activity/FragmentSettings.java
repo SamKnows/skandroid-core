@@ -53,7 +53,6 @@ import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.util.DCSConvertorUtil;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.SKGsmSignalStrength;
-import com.samknows.ska.activity.SKAActivationActivity;
 import com.samknows.ska.activity.SKAMainResultsActivity;
 import com.samknows.ska.activity.SKAPreferenceActivity;
 
@@ -175,14 +174,6 @@ public class FragmentSettings extends Fragment {
     ButtonWithRightArrow activateButton = (ButtonWithRightArrow) view.findViewById(R.id.settings_activate_button);
     if (activateButton != null) {
       activateButton.setVisibility(View.GONE);
-      activateButton.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          if (FragmentSettings.this.checkIfIsConnectedAndIfNotShowAnAlert() == true) {
-            SKAActivationActivity.sDoShowActivation(FragmentSettings.this.getActivity());
-          }
-        }
-      });
     }
 
     ButtonWithRightArrow preferencesButton = (ButtonWithRightArrow) view.findViewById(R.id.settings_preferences_button);
@@ -323,10 +314,10 @@ public class FragmentSettings extends Fragment {
     } catch (NoSuchFieldError e) {
     }
 
-    try {
-      ((TextView) view.findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
-    } catch (NoSuchFieldError e) {
-    }
+//    try {
+//      //((TextView) view.findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
+//    } catch (NoSuchFieldError e) {
+//    }
 
     ScheduleConfig config = CachingStorage.getInstance().loadScheduleConfig();
     String schedule_version = config == null ? "" : config.getConfigVersion();

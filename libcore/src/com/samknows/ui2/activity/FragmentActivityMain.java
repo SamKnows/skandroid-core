@@ -2,11 +2,6 @@ package com.samknows.ui2.activity;
 
 import android.animation.LayoutTransition;
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,24 +10,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.samknows.measurement.MainService;
-import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
-import com.samknows.ska.activity.SKAAboutActivity;
-import com.samknows.ska.activity.SKAActivationActivity;
 import com.samknows.ska.activity.SKAMainResultsActivity;
-import com.samknows.ska.activity.SKASettingsActivity;
-import com.samknows.ska.activity.SKATermsOfUseActivity;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 

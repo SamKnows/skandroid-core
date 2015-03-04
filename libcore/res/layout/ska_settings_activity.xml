@@ -208,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:paddingRight="5dp">
+                        android:paddingRight="5dp"
                         android:visibility="gone" >
 
                         <TextView
@@ -260,11 +260,13 @@
 
                     <LinearLayout
                         style="@style/row"
+                        android:id="@+id/next_service_task"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:paddingRight="5dp" >
+                        android:paddingRight="5dp"
+                        android:visibility="gone" >
 
                         <TextView
                             android:layout_weight="50"

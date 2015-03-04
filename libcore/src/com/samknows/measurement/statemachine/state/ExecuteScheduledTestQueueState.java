@@ -32,26 +32,20 @@ public class ExecuteScheduledTestQueueState extends BaseState{
 		Storage storage = CachingStorage.getInstance();
 		TestContext tc = TestContext.createBackgroundTestContext(ctx);
 		
-		ScheduledTestExecutionQueue queue = null;
-		if (ScheduledTestExecutionQueue.sbForceCanExecuteNow == true) {
-			// Forcing execution now - requires a new queue!
-			queue = new ScheduledTestExecutionQueue(tc);
-		} else {
-			queue = storage.loadQueue();
+    ScheduledTestExecutionQueue queue = storage.loadQueue();
 
-			if (queue == null) {
-				Log.w(getClass().getName(), "fail to load execution queue, creating new...");
-				queue = new ScheduledTestExecutionQueue(tc);
-			} else {
-				queue.setTestContext(tc);
-			}
-		}
-		
+    if (queue == null) {
+      Log.w(getClass().getName(), "fail to load execution queue, creating new...");
+      queue = new ScheduledTestExecutionQueue(tc);
+    } else {
+      queue.setTestContext(tc);
+    }
+
 		long testRun = queue.executeReturnRescheduleDurationMilliseconds();
 		accumulatedTestBytes = queue.getAccumulatedTestBytes();
-		
-		storage.saveExecutionQueue(queue);
-		storage.saveTestParamsManager(tc.paramsManager);
+
+    storage.saveExecutionQueue(queue);
+    storage.saveTestParamsManager(tc.paramsManager);
 		
 		// schedule from Queue or from config refresh
 		OtherUtils.reschedule(ctx, testRun);

@@ -89,13 +89,6 @@ public class TestGroup implements Serializable{
 		long time = startInterval;
 		while(time <= endInterval){
 			for(TestTime tt: times){
-				if (ScheduledTestExecutionQueue.sbForceCanExecuteNow == true) {
-					if (ret.size() == 0) {
-     					ret.add(startInterval); // ??  + 100); // Delay by 100ms!
-     					continue;
-					}
-				}
-				
 				if(tt.getNextStart(time) > startInterval && tt.getNextEnd(time) < endInterval){
 					ret.add(tt.getNextTime(time));
 				}

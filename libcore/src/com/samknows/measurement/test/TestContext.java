@@ -75,11 +75,4 @@ public class TestContext {
 		}
 		return null;
 	}
-	
-	public void publish(JSONObject obj){
-		if(ctx instanceof MainService){
-			((MainService) ctx).publish(obj);
-		}
-	}
-
 }

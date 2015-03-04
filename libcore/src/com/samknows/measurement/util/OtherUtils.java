@@ -100,11 +100,6 @@ public class OtherUtils {
 
 		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ rescheduleRTC time=" + time);
 
-		if (ScheduledTestExecutionQueue.sGetDebugOnlyForceBackgroundTestingToBeFrequent()) {
-			time = 5L * 60L * 1000L; SKLogger.d(OtherUtils.class.getName(), "+++++DEBUG+++++ rescheduleRTC sGetDebugOnlyForceBackgroundTestingToBeFrequent forced time to time=" + time);
-			SKLogger.sAssert(OtherUtils.class, false);
-		}
-
 		time = checkRescheduleTime(time);
 		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ schedule RTC for " + time/1000 + "s from now");
 		PendingIntent intent = PendingIntent.getService(ctx, 0, new Intent(ctx, MainService.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -134,11 +129,6 @@ public class OtherUtils {
 		time = checkRescheduleTime(time);
 		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ time immediately overridden (by) = checkRescheduleTime to " + time);
 
-		if (ScheduledTestExecutionQueue.sGetDebugOnlyForceBackgroundTestingToBeFrequent()) {
-			time = 5L * 60L * 1000L; SKLogger.d(OtherUtils.class.getName(), "+++++DEBUG+++++ rescheduleWakeup sGetDebugOnlyForceBackgroundTestingToBeFrequent forced time to time=" + time);
-			SKLogger.sAssert(OtherUtils.class, false);
-		}
-
 		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ schedule RTC_WAKEUP for " + time/1000 + "s from now");
 		PendingIntent intent = PendingIntent.getService(ctx, 0, new Intent(ctx, MainService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager manager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
@@ -157,11 +147,6 @@ public class OtherUtils {
 		
 		long ret = time;
 
-		if (ScheduledTestExecutionQueue.sGetDebugOnlyForceBackgroundTestingToBeFrequent()) {
-			SKLogger.sAssert(OtherUtils.class, false);
-			return ret;
-		}
-		
 		if(time <= a.getTestStartWindow()){
 			SKLogger.w(OtherUtils.class, "reschedule time less than testStartWindow ("+a.getTestStartWindow()+"), changing it to: "+ a.rescheduleTime/1000+"s.");
 			ret = a.rescheduleTime;

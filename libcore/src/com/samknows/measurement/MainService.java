@@ -30,7 +30,6 @@ public class MainService extends IntentService {
 	private SK2AppSettings appSettings;
 	private static boolean isExecuting;
 	private static boolean isExecutingContinuous;
-	private static Handler mActivationHandler = null;
 	private static Handler mContinuousHandler = null;
 	private static Object sync = new Object();
 	public MainService() {
@@ -81,11 +80,6 @@ public class MainService extends IntentService {
 		boolean force_execution = intent.getBooleanExtra(FORCE_EXECUTION_EXTRA, false);
 		isExecutingContinuous = intent.getBooleanExtra(EXECUTE_CONTINUOUS_EXTRA, false);
 		
-		boolean force_execution_NOW = intent.getBooleanExtra(FORCE_EXECUTION_NOW_EXTRA, false);
-		if (force_execution_NOW == true) {
-			ScheduledTestExecutionQueue.sbForceCanExecuteNow = true;
-		}
-		
 		try {
 			appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 			
@@ -131,7 +125,6 @@ public class MainService extends IntentService {
 			OtherUtils.rescheduleWakeup(this, appSettings.rescheduleTime);
 			SKLogger.e(this, "failed in service ", th);
 		} finally {
-			ScheduledTestExecutionQueue.sbForceCanExecuteNow = false;
 			onEnd();
 		}
 	}
@@ -193,7 +186,6 @@ public class MainService extends IntentService {
 			OtherUtils.cancelAlarm(this);
 		}
 		synchronized(sync){
-			publish(UIUpdate.completed());
 			isExecuting = false;
 		}
 		continuousStopped();
@@ -272,38 +264,5 @@ public class MainService extends IntentService {
 	public static void stopContinuousExecution(){
 		isExecutingContinuous = false;
 	}
-	
-	
-	//Register the handler to update the UI
-	public static boolean registerActivationHandler(Context ctx, Handler handler){
-		// The Main Service MUST be running for activation to work.
-		// However, there is a delay from the request to start the activity, to 
-		// actually registering the activity.
-		
-		synchronized(sync){
-			mActivationHandler = handler;
-			force_poke(ctx);
-		}
-		
-		return true;
-	}
-	
-	//Unregister current handler
-	public static void unregisterActivationHandler(){
-		synchronized(sync){
-			mActivationHandler = null;
-		}
-	}
-	
-	//Send a JSONObject to the registered handler, if any
-	public void publish(JSONObject jobj){
-		synchronized(sync){
-			if(mActivationHandler != null && jobj != null){
-				Message msg = new Message();
-				msg.obj = jobj;
-				mActivationHandler.sendMessage(msg);
-			}
-		}
-	}
-	
+
 }

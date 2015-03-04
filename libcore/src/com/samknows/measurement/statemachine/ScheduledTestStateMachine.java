@@ -6,6 +6,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.activity.components.UIUpdate;
 import com.samknows.measurement.statemachine.state.BaseState;
+import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 import com.samknows.measurement.util.OtherUtils;
 
 public class ScheduledTestStateMachine {
@@ -22,10 +23,9 @@ public class ScheduledTestStateMachine {
 		Transition t = Transition.create(appSettings);
 		State state = appSettings.getState();
 		SKLogger.d(this, "starting routine from state: " + state);
-		ctx.publish(UIUpdate.machineState(state));
-		
+
 		long accumulatedTestBytes = 0;
-		
+
 		while (state != State.SHUTDOWN) {
 			SKLogger.d(this, "executing state: " + state);
 			StateResponseCode code;
@@ -44,15 +44,12 @@ public class ScheduledTestStateMachine {
 				appSettings.saveState(State.NONE);
 				SKLogger.e(this, "fail to execute state: " + state + ", reschedule");
 				OtherUtils.rescheduleRTC(ctx, appSettings.rescheduleTime);
-				ctx.publish(UIUpdate.stateFailure());
 				return accumulatedTestBytes;
 			} else {
 				state = t.getNextState(state, code);
 				appSettings.saveState(state);
 				SKLogger.d(this, "change service state to: " + state);
 			}
-			ctx.publish(UIUpdate.progress(state));
-			ctx.publish(UIUpdate.machineState(state));
 		}
 		
 		state = t.getNextState(state, StateResponseCode.OK);

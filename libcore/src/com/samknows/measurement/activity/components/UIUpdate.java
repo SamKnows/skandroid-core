@@ -29,15 +29,9 @@ public class UIUpdate {
 	public static final String JSON_FINISHED = "finished";
 	public static final String JSON_CURRENTBEST = "currentbest";
 	public static final String JSON_BESTTIME = "besttime";
-	
-	
+
 	public UIUpdate(){}
-	
-	
-	public static JSONObject stateFailure(){
-		return completed();
-	}
-	
+
 	public static JSONObject completed(){
 		JSONObject ret = new JSONObject();
 		try{
@@ -47,98 +41,5 @@ public class UIUpdate {
 		}
 		return ret;
 	}
-	
-	
-	
-	//Generates the a JSONObject used to update the the SamKnowsActivating interface
-	public static JSONObject machineState(State state){
-		JSONObject ret = new JSONObject();
-		String type = "";
-		switch(state){
-		case NONE:
-		case INITIALISE_ANONYMOUS:
-    case EXECUTE_QUEUE:
-    case SHUTDOWN:
-    case SUBMIT_RESULTS_ANONYMOUS:
-			break;
-		default:
-			break;
-		}
-		try{
-			ret.put(JSON_TYPE, type);
-		}catch(JSONException je){
-			SKLogger.e(UIUpdate.class, "Error in creating JSONObject: " + je.getMessage());
-		}
-		return ret;
-	}
-	
-	
 
-	//Generates the a JSONObject used to update the progress bar in the SamKnowsActivating interface
-	public static JSONObject progress(State state){
-		JSONObject ret = new JSONObject();
-		String type = "";
-		String value = "";
-		switch(state){
-		case NONE:
-			type = JSON_MAINPROGRESS;
-			value = "10";
-			break;
-		case INITIALISE_ANONYMOUS:
-			type = JSON_MAINPROGRESS;
-			value = "20";
-			break;
-		case EXECUTE_QUEUE:
-			type = JSON_COMPLETED;
-		case SUBMIT_RESULTS_ANONYMOUS:
-		case SHUTDOWN:
-			break;
-		}
-		
-		try{
-			ret.put(JSON_TYPE, type);
-			ret.put(JSON_VALUE, value);
-		}catch(JSONException je){
-			SKLogger.e(UIUpdate.class, "Error in creating JSONObject: "+ je.getMessage());
-		}
-		
-		return ret;
-	}
-	
-	public static JSONObject sGetThisClosestTargetPartialResultAsJSONObject(ClosestTarget.Result res){
-		if(res== null){
-			return null;
-		}
-		JSONObject ret = new JSONObject();
-		try{
-			ret.put(JSON_TYPE, JSON_INITTESTS);
-			ret.put(JSON_TOTAL, res.total);
-			ret.put(JSON_FINISHED, Math.min(res.completed, res.total));
-			
-			// MPC 13/05/2013 - on rare occasions, currbest_target can be null
-			// ... we should trap this where possible in the debugger...
-			//SKLogger.sAssert(UIUpdate.class, (res.currbest_target != null));
-			// MPC 07/04/2014 - remove the assertion, as it is irritating when we fall-back to HTTP-based testing.
-			if (res.currbest_target == null) {
-				Log.d(UIUpdate.class.getName(), "DEBUG: Warning - currbest_target == null");
-			}
-			
-			if ( (res.currbest_target == null) ||
-				 (res.currbest_target.equals(""))
-			   )
-			{
-				ret.put(JSON_CURRENTBEST, "-");
-				ret.put(JSON_BESTTIME, "-");
-			} else {
-				ret.put(JSON_CURRENTBEST, res.currbest_target);
-				ret.put(JSON_BESTTIME, StorageTestResult.timeMicrosecondsToString(res.curr_best_timeNanoseconds/1000));
-			}
-		} catch(JSONException je){
-			SKLogger.e(UIUpdate.class,"Error in creating JSONObject: "+ je.getMessage());
-			ret = null;
-		}
-		return ret;
-	}
-	
-	
 }

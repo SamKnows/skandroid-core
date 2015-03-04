@@ -26,7 +26,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 	
 	private long accumulatedTestBytes = 0L;
 	
-	private ScheduledTestExecutionQueue() {};
+	private ScheduledTestExecutionQueue() {}
 	
 	public ScheduledTestExecutionQueue(TestContext tc) {
 		this.tc = tc;
@@ -84,10 +84,6 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		return accumulatedTestBytes;
 	}
 
-	// This is used when we want to FORCE a test to run NOW, via the "Run Background Test" menu item!
-	// Typically used for debugging only...
-	public static boolean sbForceCanExecuteNow = false;
-	
 	/**
 	 * @return reschedule time duration in milliseconds
 	 */
@@ -99,7 +95,8 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		TestExecutor scheduledTestExecutor = new TestExecutor(tc);
 		long time = System.currentTimeMillis();
 		
-		//drop old tests 
+    // The events in the queue are run through, until all are processed.
+    // So, we must start by clearing-out all tests that pre-date the current time.
 		while (true){
 			QueueEntry entry = entries.peek();
 			if (entry != null && !canExecute(entry, time) && entry.getSystemTimeMilliseconds() < time) {
@@ -112,15 +109,11 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		
 		boolean result = true;
 		boolean fail = false;
-		if ( canExecute(time) ||
-			 sGetDebugOnlyForceBackgroundTestingToBeFrequent()
-		   )
+		if (canExecute(time))
 		{
 			scheduledTestExecutor.start();
 			
-			while (canExecute(time)  ||
-			       sGetDebugOnlyForceBackgroundTestingToBeFrequent()
-			      )
+			while (canExecute(time))
 			{
 				QueueEntry entry = entries.remove();
 				long maximumTestUsage = tc.config == null ? 0: tc.config.maximumTestUsage;
@@ -142,13 +135,9 @@ public class ScheduledTestExecutionQueue implements Serializable{
 					scheduledTestExecutor.getResultsContainer().addFailedCondition(DatacapCondition.JSON_DATACAP);
 				}
 				scheduledTestExecutor.getResultsContainer().addCondition(dc.getCondition());
-
-				if (sGetDebugOnlyForceBackgroundTestingToBeFrequent() ) {
-					break;
-				}
 			}
-			
-			
+
+
 			scheduledTestExecutor.stop();
 			scheduledTestExecutor.save("scheduled_tests", -1);
 		}
@@ -168,7 +157,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		return getSleepTimeDurationMilliseconds();
 	}
 	
-	public boolean canExecute(long time) {
+	private boolean canExecute(long time) {
 		QueueEntry entry = entries.peek();
 		if (entry == null) {
 			return false;
@@ -177,22 +166,8 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		}
 	}
 
-	//
-	// You can set this true to force easier debugging of background tests - do NOT ship
-	// with the value set to true.
-	//
-	// When set to true, it makes the system FAR faster to debug background tests;
-	// they will run every 5 minutes or so until the data cap limit is close to being reached.
-	//
-	// NB: the libCore unit tests assert that this value is false; so, if you remember to
-	// run the unit test before cutting a new build, you shouldn't get caught out by this.
-	//
-	private static boolean sbDebugOnlyForceBackgroundTestingToBeFrequent = false;
-	
-	static public boolean sGetDebugOnlyForceBackgroundTestingToBeFrequent() {
-		return sbDebugOnlyForceBackgroundTestingToBeFrequent;
-	}
-	
+  // The queue is populated with all events for a given day.
+  // The events in the queue are run through, until all are processed.
 	public boolean canExecute(QueueEntry entry, long time) {
 		long timeUntilEntry = Math.abs(entry.getSystemTimeMilliseconds() - time);
     long timeWindow = SK2AppSettings.getSK2AppSettingsInstance().getTestStartWindow();
@@ -250,7 +225,8 @@ public class ScheduledTestExecutionQueue implements Serializable{
 
 		@Override
 		public int compareTo(QueueEntry another) {
-			if (systemTimeMilliseconds == another.getSystemTimeMilliseconds()) { //if time is the same we want to the save original order from config
+			if (systemTimeMilliseconds == another.getSystemTimeMilliseconds()) {
+			//if time is the same we want to the save original order from config
 				return Integer.valueOf(orderIdx).compareTo(another.orderIdx);
 			}
 			return Long.valueOf(systemTimeMilliseconds).compareTo(another.getSystemTimeMilliseconds());

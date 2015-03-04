@@ -10,9 +10,7 @@ import java.io.StringWriter;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.TimeUtils;
-import com.samknows.ska.activity.SKAActivationActivity;
 
-import android.util.DebugUtils;
 import android.util.Log;
 
 
