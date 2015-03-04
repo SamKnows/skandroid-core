@@ -51,7 +51,7 @@ public class Transition {
     tmp.put(State.NONE, new String[] {"OK:EXECUTE_QUEUE"});
     tmp.put(State.EXECUTE_QUEUE, new String[] {"OK:SUBMIT_RESULTS_ANONYMOUS"});
     tmp.put(State.SUBMIT_RESULTS_ANONYMOUS, new String[] {"OK:SHUTDOWN"});
-    tmp.put(State.SHUTDOWN, new String[] {"OK:EXECUTE_QUEUE"});
+    tmp.put(State.SHUTDOWN, new String[] {"OK:NONE"});
     transitionFunction = Collections.unmodifiableMap(tmp);
   }
 
