@@ -1361,7 +1361,10 @@ public class FragmentRunTest extends Fragment {
     testTime = System.currentTimeMillis();
     //SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
     //String currentDateandTime = sdf.format(new Date());
-    String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yyyy");
+//    String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yyyy");
+//    if (tv_Result_Jitter.getVisibility() != View.GONE) {
+      String currentDateandTimeDay = new FormattedValues().getDate(testTime, "dd/MM/yy");
+//    }
     String currentDateandTimeTime = new FormattedValues().getDate(testTime, "HH:mm:ss");
     //tv_Result_Date.setText(currentDateandTime);
     tv_Result_DateDay.setText(currentDateandTimeDay);  // Set the gauge main text to STARTING

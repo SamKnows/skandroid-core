@@ -422,7 +422,7 @@
     <string name="dummytext">dummy</string>
     <string name="nineninenine">999.99</string>
     <string name="dummydate">19/12/14 12:35</string>
-    <string name="dummydateday">19/12/14</string>
+    <string name="dummydateday">19/12/2014</string>
     <string name="dummydatetime">12:35:59</string>
     <string name="sharedPreferencesIdentifier">SamknowsSKSpeedTest</string>    
 

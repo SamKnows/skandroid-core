@@ -261,7 +261,7 @@
                     android:layout_weight="80"
                     android:orientation="vertical" >
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/archiveResultsListItemDateDay"
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"
@@ -271,7 +271,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_small" />
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/archiveResultsListItemDateTime"
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"

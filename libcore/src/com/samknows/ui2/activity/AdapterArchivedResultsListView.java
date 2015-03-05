@@ -113,7 +113,15 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
 
       // Set the test time
       long resultDate = archivedResultsList.get(position).getDtime();
-      testDateDay.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "dd/MM/yyyy") : rowView.getContext().getString(R.string.not_available));
+      if (resultDate == 0) {
+        testDateDay.setText(rowView.getContext().getString(R.string.not_available));
+      } else {
+//        String value = new FormattedValues().getDate(resultDate, "dd/MM/yyyy");
+//        if (testJitter.getVisibility() != View.GONE) {
+        String  value = new FormattedValues().getDate(resultDate, "dd/MM/yy");
+//        }
+        testDateDay.setText(value);
+      }
       testDateTime.setText(resultDate != 0 ? new FormattedValues().getDate(resultDate, "HH:mm:ss") : rowView.getContext().getString(R.string.not_available));
 
       // Set the test network type icon
