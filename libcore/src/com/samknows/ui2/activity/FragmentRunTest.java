@@ -62,6 +62,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.FontFitTextView;
+import com.samknows.measurement.activity.components.SimpleFontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
@@ -135,7 +136,8 @@ public class FragmentRunTest extends Fragment {
       tv_result_manufacturer, tv_result_model, tv_result_OS, tv_result_OS_version, tv_result_phone_type, tv_result_latitude, tv_result_longitude,
       tv_result_accuracy, tv_result_provider;
   // Text views showing another additional information
-  private TextView tv_Advice_Message, tv_Gauge_TextView_PsuedoButton, tv_Status_Label_1, tv_Status_Label_2;
+  private TextView tv_Gauge_TextView_PsuedoButton;
+  private TextView tv_Advice_Message, tv_Status_Label_1, tv_Status_Label_2;
   private ImageView iv_Result_NetworkType;                              // Image showing the network type icon (Mobile or WiFi)
   private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin;    // Type faces to be used in this fragment UI
   private Typeface typeface_Roboto_Bold;
@@ -202,7 +204,9 @@ public class FragmentRunTest extends Fragment {
     startTimer();
 
     // Add the listener to the telephonyManager to listen for changes in the data connectivity
-    telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+    if (telephonyManager != null) {
+      telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+    }
     super.onResume();
   }
 
@@ -223,7 +227,9 @@ public class FragmentRunTest extends Fragment {
     stopTimer();
 
     //Remove the telephonyManager listener
-    telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+    if (telephonyManager != null) {
+      telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+    }
   }
 
   /// *** BROADCASTER RECEIVERS **** ///
@@ -296,7 +302,8 @@ public class FragmentRunTest extends Fragment {
                    )
                 {
                   // Don't display the first "0" for the download/upload test reset...
-                  tv_Gauge_TextView_PsuedoButton.setText(R.string.result_working);
+                  String workingString = getString(R.string.result_working);
+                  tv_Gauge_TextView_PsuedoButton.setText(workingString);
                 } else {
                   String message = String.valueOf(value);
 
@@ -820,7 +827,8 @@ public class FragmentRunTest extends Fragment {
             if (statusComplete == 100) {
               // Clear the central button test, ready for the first value to come through from the next test.
               //tv_Gauge_TextView_PsuedoButton.setText("");
-              tv_Gauge_TextView_PsuedoButton.setText(R.string.result_working);
+              String workingString = getString(R.string.result_working);
+              tv_Gauge_TextView_PsuedoButton.setText(workingString);
               //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
               changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
@@ -867,7 +875,8 @@ public class FragmentRunTest extends Fragment {
               tv_Gauge_TextView_PsuedoButton.setText("");
               //updateCurrentLatencyValue("0");
               gaugeView.setAngleByValue(0.0);
-              changeFadingTextViewValue(tv_Result_Latency, theResult.first, 0);
+              //changeFadingTextViewValue(tv_Result_Latency, theResult.first, 0);
+              changeFadingTextViewValue(tv_Result_Latency, String.valueOf(theResult.first) + " " + theResult.second, 0);
               executingLatencyTest = false;
             }
             break;

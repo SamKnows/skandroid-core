@@ -61,24 +61,33 @@ public class SKDateFormat  {
 	}
 	
 	private String dateFormat(){
-		char[] order = DateFormat.getDateFormatOrder(mCtx);
-		StringBuilder sb = new StringBuilder();
-		for(int i =0; i< order.length; i++){
-			if(i!=0){
-				sb.append("/");
-			}
-			switch(order[i]){
-			case DateFormat.DATE:
-				sb.append("dd");
-				break;
-			case DateFormat.MONTH:
-				sb.append("MM");
-				break;
-			case DateFormat.YEAR:
-				sb.append("yyyy");
-				break;
-			}
-		}
+    StringBuilder sb = new StringBuilder();
+    try {
+      char[] order = DateFormat.getDateFormatOrder(mCtx);
+      for(int i =0; i< order.length; i++){
+        if(i!=0){
+          sb.append("/");
+        }
+        switch(order[i]){
+        case DateFormat.DATE:
+          sb.append("dd");
+          break;
+        case DateFormat.MONTH:
+          sb.append("MM");
+          break;
+        case DateFormat.YEAR:
+          sb.append("yyyy");
+          break;
+        }
+      }
+    } catch (Exception e) {
+      // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in yyyy年 MMM d日, E
+      // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in E, d MMM yyyy
+      SKLogger.sAssert(false);
+      sb.append("yyyy");
+      sb.append("MM");
+      sb.append("dd");
+    }
 		return sb.toString();
 		
 	}

@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -192,7 +193,9 @@ public class ActivityShareResult extends Activity {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }

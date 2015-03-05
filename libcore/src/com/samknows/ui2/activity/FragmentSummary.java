@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -446,7 +447,7 @@ public class FragmentSummary extends Fragment {
 
       // TODO - this CANNOT be run in the background - achartengine simply doesn't allow for it!
       // TODO - 0 is the DOWNLOAD etc. test id!
-      if (mActivity == null) { // getActivity() == null) {
+      if ((mActivity == null) || (isAdded() == false) || (getActivity() == null)) {
         SKLogger.sAssert(getClass(), false);
       } else {
         prepareChartEnvironment(0, getTimePeriodSelection());
@@ -909,7 +910,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -932,7 +935,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -951,7 +956,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -970,7 +977,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -989,7 +998,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -1008,7 +1019,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
@@ -1024,7 +1037,9 @@ public class FragmentSummary extends Fragment {
         if (observer != null) {
           // http://stackoverflow.com/questions/15162821/why-does-removeongloballayoutlistener-throw-a-nosuchmethoderror
           try {
-            observer.removeOnGlobalLayoutListener(this);
+            if (Build.VERSION.SDK_INT >= 16) {
+              observer.removeOnGlobalLayoutListener(this);
+            }
           } catch (NoSuchMethodError x) {
             observer.removeGlobalOnLayoutListener(this);
           }
