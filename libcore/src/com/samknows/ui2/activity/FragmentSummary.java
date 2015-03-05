@@ -79,7 +79,7 @@ public class FragmentSummary extends Fragment {
   // The initial position of each or the rows
   private float headerPositionX, headerPositionY, initialPositionUploadX, initialPositionUploadY, initialPositionLatencyX, initialPositionLatencyY, initialPositionLossX, initialPositionLossY,
       initialPositionJitterX, initialPositionJitterY;
-  private boolean rowsHidden = false;    // If true, some of the rows are hidden (we are showing the graph), if false we are showing all the rows (not showing the graphs)
+  private boolean isListviewHidden = false;    // If true, the list view is hidden, if false, the list view is shown.
   private long startTime;
 
   private ArrayList<SummaryResult> aList_SummaryResults = new ArrayList<SummaryResult>();  // List of the summary results
@@ -521,20 +521,23 @@ public class FragmentSummary extends Fragment {
             setLayoutsClickable(true);
 
             // Update toolbar/menu items!
-            doUpdateToolbar();
+            doUpdateToolbarSetIsListViewHidden(false);
           }
         });
       }
     });
   }
 
-  private void doUpdateToolbar() {
+  void doUpdateToolbarSetIsListViewHidden(boolean value) {
+    isListviewHidden = value;
+
     mSummaryFilterButton.setVisibility(View.GONE);
     mSummaryTimePeriodButton.setVisibility(View.GONE);
 
-    if (rowsHidden == true) {
-      // We are showing the graph...
+    if (isListviewHidden == true) {
+      // Showing result details...
     } else {
+      // Not showing result details. Show the button.
       mSummaryFilterButton.setVisibility(View.VISIBLE);
       mSummaryTimePeriodButton.setVisibility(View.VISIBLE);
     }
@@ -573,8 +576,7 @@ public class FragmentSummary extends Fragment {
             setLayoutsClickable(true);
 
             // Update toolbar/menu items!
-            rowsHidden = false;
-            doUpdateToolbar();
+            doUpdateToolbarSetIsListViewHidden(false);
           }
         });
       }
@@ -609,8 +611,7 @@ public class FragmentSummary extends Fragment {
             setLayoutsClickable(true);
 
             // Update toolbar/menu items!
-            rowsHidden = false;
-            doUpdateToolbar();
+            doUpdateToolbarSetIsListViewHidden(false);
           }
 
           ;
@@ -647,8 +648,7 @@ public class FragmentSummary extends Fragment {
             setLayoutsClickable(true);
 
             // Update toolbar/menu items!
-            rowsHidden = false;
-            doUpdateToolbar();
+            doUpdateToolbarSetIsListViewHidden(false);
           }
         });
       }
@@ -684,8 +684,7 @@ public class FragmentSummary extends Fragment {
             setLayoutsClickable(true);
 
             // Update toolbar/menu items!
-            rowsHidden = false;
-            doUpdateToolbar();
+            doUpdateToolbarSetIsListViewHidden(false);
           }
         });
       }
@@ -702,7 +701,7 @@ public class FragmentSummary extends Fragment {
       public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
           // TODO - should we handle this ourselves, or not?!
-          if (rowsHidden == false) {
+          if (isListviewHidden == false) {
             // Don't handle it...
             return false;
           }
@@ -1058,7 +1057,7 @@ public class FragmentSummary extends Fragment {
           setLayoutsClickable(false);
 
           // If the rows are hidden (we are showing the graph)
-          if (rowsHidden) {
+          if (isListviewHidden) {
             // Hide the chart
             hide_ll_chart_download();
             //hide_ll_chart_generic(layout_ll_summary_section_download);
@@ -1066,7 +1065,6 @@ public class FragmentSummary extends Fragment {
           // If all the rows are showed (we are not showing the graph)
           else {
             // Prepare chart for download test type
-            rowsHidden = true;
             prepareChartEnvironment(0, getTimePeriodSelection());
 
             // Disable action bar filters
@@ -1090,12 +1088,11 @@ public class FragmentSummary extends Fragment {
                 layout_ll_chart.setVisibility(View.VISIBLE);
 
                 mShowingThisSection = layout_ll_summary_section_download;
+                // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+                doUpdateToolbarSetIsListViewHidden(true);
               }
-
             });
           }
-          // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-          doUpdateToolbar();
         }
       }
 
@@ -1112,14 +1109,13 @@ public class FragmentSummary extends Fragment {
           setLayoutsClickable(false);
 
           // If the rows are hidden (we are showing the graph)
-          if (rowsHidden) {
+          if (isListviewHidden) {
             // Hide the chart
             hide_ll_chart_upload();
           }
           // If all the rows are showed (we are not showing the graph)
           else {
             // Prepare chart for upload test type
-            rowsHidden = true;
             prepareChartEnvironment(1, getTimePeriodSelection());
 
             // Disable action bar filters
@@ -1148,11 +1144,11 @@ public class FragmentSummary extends Fragment {
                 layout_ll_chart.setVisibility(View.VISIBLE);
 
                 mShowingThisSection = layout_ll_summary_section_upload;
+                // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
+                doUpdateToolbarSetIsListViewHidden(true);
               }
             });
           }
-          // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-          doUpdateToolbar();
         }
       }
     });
@@ -1168,14 +1164,13 @@ public class FragmentSummary extends Fragment {
           setLayoutsClickable(false);
 
           // If the rows are hidden (we are showing the graph)
-          if (rowsHidden) {
+          if (isListviewHidden) {
             // Hide the chart
             hide_ll_chart_latency();
           }
           // If all the rows are showed (we are not showing the graph)
           else {
             // Prepare chart for latency test type
-            rowsHidden = true;
             prepareChartEnvironment(2, getTimePeriodSelection());
 
             // Disable action bar filters
@@ -1203,11 +1198,11 @@ public class FragmentSummary extends Fragment {
                 layout_ll_chart.setVisibility(View.VISIBLE);
 
                 mShowingThisSection = layout_ll_summary_section_latency;
+                doUpdateToolbarSetIsListViewHidden(true);
               }
             });
           }
           // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-          doUpdateToolbar();
         }
       }
     });
@@ -1223,14 +1218,13 @@ public class FragmentSummary extends Fragment {
           setLayoutsClickable(false);
 
           // If the rows are hidden (we are showing the graph)
-          if (rowsHidden) {
+          if (isListviewHidden) {
             // Hide the chart
             hide_ll_chart_packetloss();
           }
           // If all the rows are showed (we are not showing the graph)
           else {
             // Prepare chart for packet loss test type
-            rowsHidden = true;
             prepareChartEnvironment(3, getTimePeriodSelection());
 
             // Disable action bar filters
@@ -1257,13 +1251,13 @@ public class FragmentSummary extends Fragment {
                 layout_ll_chart.setVisibility(View.VISIBLE);
 
                 mShowingThisSection = layout_ll_summary_section_packet_loss;
+                doUpdateToolbarSetIsListViewHidden(true);
               }
 
               ;
             });
           }
           // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-          doUpdateToolbar();
         }
       }
     });
@@ -1279,7 +1273,7 @@ public class FragmentSummary extends Fragment {
           setLayoutsClickable(false);
 
           // If the rows are hidden (we are showing the graph)
-          if (rowsHidden) {
+          if (isListviewHidden) {
             // Hide the chart
             hide_ll_chart_jitter();
 
@@ -1287,7 +1281,6 @@ public class FragmentSummary extends Fragment {
           // If all the rows are showed (we are not showing the graph)
           else {
             // Prepare chart for upload test type
-            rowsHidden = true;
             prepareChartEnvironment(4, getTimePeriodSelection());
 
             // Disable action bar filters
@@ -1316,16 +1309,14 @@ public class FragmentSummary extends Fragment {
                 layout_ll_chart.setVisibility(View.VISIBLE);
 
                 mShowingThisSection = layout_ll_summary_section_jitter;
+                doUpdateToolbarSetIsListViewHidden(true);
               }
             });
           }
           // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.
-          doUpdateToolbar();
         }
       }
     });
-
-    doUpdateToolbar();
   }
 
   private void graphsSetup(View pView) {
@@ -1661,7 +1652,7 @@ public class FragmentSummary extends Fragment {
     menu_Item_Refresh_Spinner.setActionView(R.layout.actionbar_indeterminate_progress);
 
     // If the rows are hidden, hide the menu filters
-    if (rowsHidden) {
+    if (isListviewHidden) {
       menu_item_seletcNetworkType.setVisible(false);
       menu_Item_Select_Time_Period.setVisible(false);
     }
