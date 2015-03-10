@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
-import com.samknows.measurement.ManualTest;
+import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.schedule.condition.ConditionGroup;
 import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
 import com.samknows.measurement.schedule.failaction.RetryFailAction;
@@ -402,7 +402,7 @@ public class ScheduleConfig implements Serializable {
 				TestDescription theTest = tests.get(i);
 				if (theTest.type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
 					theTests.add(0, theTest);
-             		SKLogger.sAssert (ManualTest.class, theTests.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
+             		SKLogger.sAssert (ManualTestRunner.class, theTests.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
 					break;
 				}
 			}

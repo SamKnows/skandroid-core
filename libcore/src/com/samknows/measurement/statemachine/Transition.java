@@ -1,5 +1,7 @@
 package com.samknows.measurement.statemachine;
 
+import android.content.Context;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +35,7 @@ public class Transition {
 		
 	}
 	
-	public static BaseState createState(State state, MainService ctx) {
+	public static BaseState createState(State state, Context ctx) {
 		switch (state) {
 		case NONE: return new NoneState(ctx);
 		case EXECUTE_QUEUE : return new ExecuteScheduledTestQueueState(ctx);

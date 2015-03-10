@@ -1,4 +1,4 @@
-package com.samknows.measurement;
+package com.samknows.measurement.TestRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ import org.json.JSONObject;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.CachingStorage;
+import com.samknows.measurement.MainService;
+import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.Storage;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
@@ -34,32 +38,32 @@ import android.os.Message;
  * implements a runnable interface and and uses an Handler in order to publish
  * the tests results to the interface
  */
-public class ManualTest implements Runnable {
+public class ManualTestRunner implements Runnable {
 	private Handler mHandler;
 	private List<TestDescription> mTestDescription;
 	private Context ctx;
 	private AtomicBoolean run = new AtomicBoolean(true);
 	public static boolean isExecuting = false;
 
-	ManualTest(Context ctx, Handler handler, List<TestDescription> td) {
+	ManualTestRunner(Context ctx, Handler handler, List<TestDescription> td) {
 		mHandler = handler;
 		mTestDescription = td;
 		this.ctx = ctx;
 	}
 
 	/*
-	 * Returns a ManualTest object that runs only the test with id test_id
+	 * Returns a ManualTestRunner object that runs only the test with id test_id
 	 */
 
-	public static ManualTest create(Context ctx, Handler handler, int test_id, StringBuilder errorDescription) {
-		ManualTest ret = create(ctx, handler, errorDescription);
+	public static ManualTestRunner create(Context ctx, Handler handler, int test_id, StringBuilder errorDescription) {
+		ManualTestRunner ret = create(ctx, handler, errorDescription);
 		if (ret == null) {
 			return ret;
 		}
 		
 		// We must ALWAYS add the closest target test - 29/04/2014 ...
 		ArrayList<TestDescription> filteredArrayOfTestDescriptions = new ArrayList<TestDescription>();
-		SKLogger.sAssert(ManualTest.class, ret.mTestDescription.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
+		SKLogger.sAssert(ManualTestRunner.class, ret.mTestDescription.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
 		filteredArrayOfTestDescriptions.add(ret.mTestDescription.get(0));
 		
 		boolean bFound = false;
@@ -72,8 +76,8 @@ public class ManualTest implements Runnable {
 		}
 		
 		if (bFound == false) {
-			SKLogger.e(ManualTest.class,
-					"ManualTest cannot be initialized because there is no manual test with id: "
+			SKLogger.e(ManualTestRunner.class,
+					"ManualTestRunner cannot be initialized because there is no manual test with id: "
 							+ test_id);
 			return null;
 		}
@@ -85,12 +89,12 @@ public class ManualTest implements Runnable {
 	
 	/*
      * Pablo's modifications
-     * Returns a ManualTest object that runs only the tests in the list
+     * Returns a ManualTestRunner object that runs only the tests in the list
      */
 
-    public static ManualTest create(Context ctx, Handler handler, List<Integer> test_ids, StringBuilder errorDescription)
+    public static ManualTestRunner create(Context ctx, Handler handler, List<Integer> test_ids, StringBuilder errorDescription)
     {
-        ManualTest ret = create(ctx, handler, errorDescription);
+        ManualTestRunner ret = create(ctx, handler, errorDescription);
         
         if (ret == null)
         {
@@ -116,35 +120,35 @@ public class ManualTest implements Runnable {
     // End's Pablo's modification
 
 	/*
-	 * Returns a ManualTest object if the manual_tests list of the schedule
+	 * Returns a ManualTestRunner object if the manual_tests list of the schedule
 	 * config is not empty and the MainService is not executing
 	 */
-	public static ManualTest create(Context ctx, Handler handler, StringBuilder RErrorDescription) {
+	public static ManualTestRunner create(Context ctx, Handler handler, StringBuilder RErrorDescription) {
 		Storage storage = CachingStorage.getInstance();
 		ScheduleConfig config = storage.loadScheduleConfig();
 		if (config == null) {
 			RErrorDescription.append(ctx.getString(R.string.manual_test_create_failed_1));
-			SKLogger.e( ManualTest.class, RErrorDescription.toString());
+			SKLogger.e( ManualTestRunner.class, RErrorDescription.toString());
 			return null;
 		}
 		if (config.manual_tests.size() == 0) {
 			RErrorDescription.append(ctx.getString(R.string.manual_test_create_failed_2));
-			SKLogger.e( ManualTest.class, RErrorDescription.toString());
+			SKLogger.e( ManualTestRunner.class, RErrorDescription.toString());
 			return null;
 		}
 		if (MainService.isExecuting()) {
 			RErrorDescription.append(ctx.getString(R.string.manual_test_create_failed_3));
-			SKLogger.e(ManualTest.class, RErrorDescription.toString());
+			SKLogger.e(ManualTestRunner.class, RErrorDescription.toString());
 			return null;
 		}
 		
 		//
 		// Change required 29/04/2014 - always enforce that we run a closest target test FIRST for a manual test!
-		// Code very similar to this is in ContinuousTesting.java.
+		// Code very similar to this is in ContinuousTestRunner.java.
 		//
 		config.forManualOrContinuousTestEnsureClosestTargetIsRunAtStart(config.manual_tests);
 		
-		return new ManualTest(ctx, handler, config.manual_tests);
+		return new ManualTestRunner(ctx, handler, config.manual_tests);
 	}
 
 	// returns the maximum amount of bytes used by the manual test
@@ -413,7 +417,7 @@ public class ManualTest implements Runnable {
 			}
 		} catch (JSONException je) {
 			SKLogger.e(
-					ManualTest.class,
+					ManualTestRunner.class,
 					"Error in creating JSON progress object: "
 							+ je.getMessage());
 		}

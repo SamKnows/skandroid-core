@@ -22,9 +22,9 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
-import com.samknows.measurement.ManualTest;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.Storage;
 import com.samknows.libcore.R;
@@ -42,7 +42,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 	private Context cxt;
 	public Handler handler;
 	private ProgressWheel pw;
-	private ManualTest mt;
+	private ManualTestRunner mt;
 	int page;
 	int result = 0;
 	
@@ -591,7 +591,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		  // We are registering an observer (mMessageReceiver) to receive Intents
 		  // with actions named "custom-event-name".
 		  LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).registerReceiver(mMessageReceiver,
-		      new IntentFilter(ManualTest.kManualTest_UDPFailedSkipTests));
+		      new IntentFilter(ManualTestRunner.kManualTest_UDPFailedSkipTests));
 	}
 
     @Override
@@ -649,7 +649,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		boolean run = true;
 		// create a new thread
 		if (testID != -1) {
-			mt = ManualTest.create(this, handler, testID, errorDescription);
+			mt = ManualTestRunner.create(this, handler, testID, errorDescription);
 
 			if (testID == 2) { // download
 				// hide others
@@ -680,7 +680,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 			}
 
 		} else {
-			mt = ManualTest.create(this, handler, errorDescription);
+			mt = ManualTestRunner.create(this, handler, errorDescription);
 		}
 
 		if (mt == null) {
@@ -748,7 +748,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		startTest(mt);
 	}
 
-	private void startTest(ManualTest mt) {
+	private void startTest(ManualTestRunner mt) {
 		new Thread(mt).start();
 	}
 

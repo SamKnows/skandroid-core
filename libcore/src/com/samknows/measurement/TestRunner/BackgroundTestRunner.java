@@ -1,18 +1,20 @@
-package com.samknows.measurement.statemachine;
+package com.samknows.measurement.TestRunner;
 
+
+import android.content.Context;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.MainService;
-import com.samknows.measurement.activity.components.UIUpdate;
+import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.StateResponseCode;
+import com.samknows.measurement.statemachine.Transition;
 import com.samknows.measurement.statemachine.state.BaseState;
-import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 import com.samknows.measurement.util.OtherUtils;
 
-public class ScheduledTestStateMachine {
-	private MainService ctx;
+public class BackgroundTestRunner {
+	private Context ctx;
 	
-	public ScheduledTestStateMachine(MainService ctx) {
+	public BackgroundTestRunner(Context ctx) {
 		super();
 		this.ctx = ctx;
 	}

@@ -1,6 +1,7 @@
 package com.samknows.measurement.statemachine.state;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
@@ -17,7 +18,7 @@ public class ExecuteScheduledTestQueueState extends BaseState{
 
 	private long accumulatedTestBytes = 0L;
 	
-	public ExecuteScheduledTestQueueState(MainService ctx) {
+	public ExecuteScheduledTestQueueState(Context ctx) {
 		super(ctx);
 	}
 

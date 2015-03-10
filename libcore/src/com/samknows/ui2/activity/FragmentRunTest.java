@@ -57,14 +57,11 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
-import com.samknows.measurement.ManualTest;
+import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
-import com.samknows.measurement.activity.components.FontFitTextView;
-import com.samknows.measurement.activity.components.SimpleFontFitTextView;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.tests.HttpTest;
 
@@ -151,7 +148,7 @@ public class FragmentRunTest extends Fragment {
 
   // Background tasks
   private Thread threadRunningTests;        // Thread that run the tests
-  private ManualTest manualTest;          // Object containing the ManualTest class object
+  private ManualTestRunner manualTest;          // Object containing the ManualTestRunner class object
   public Handler testResultsHandler;        // Handler that listen for the test results
   private ScheduleConfig config;
 
@@ -1198,7 +1195,7 @@ public class FragmentRunTest extends Fragment {
   }
 
   /**
-   * Create the ManualTest object depending on which tests are selected
+   * Create the ManualTestRunner object depending on which tests are selected
    */
   private void createManualTest() {
     List<Integer> testIDs;
@@ -1213,11 +1210,11 @@ public class FragmentRunTest extends Fragment {
 
     // Perform the selected tests
     if (!testIDs.contains(-1)) {
-      manualTest = ManualTest.create(getActivity(), testResultsHandler, testIDs, errorDescription);
+      manualTest = ManualTestRunner.create(getActivity(), testResultsHandler, testIDs, errorDescription);
     }
     // Perform all tests
     else {
-      manualTest = ManualTest.create(getActivity(), testResultsHandler, errorDescription);
+      manualTest = ManualTestRunner.create(getActivity(), testResultsHandler, errorDescription);
 
       if (manualTest == null) {
         if (errorDescription.toString().contains(getString(R.string.manual_test_create_failed_3))) {

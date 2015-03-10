@@ -24,7 +24,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,7 +63,7 @@ import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.MainService.ContinuousState;
-import com.samknows.measurement.ManualTest;
+import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.DeviceDescription;
@@ -2783,7 +2782,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 					// Create a manual test (which we do NOT run!), to allow us to measure if we might
 					// exceed the test limit!
 					StringBuilder errorDescription = new StringBuilder();
-					ManualTest mt = ManualTest.create(this, new Handler(), errorDescription);
+					ManualTestRunner mt = ManualTestRunner.create(this, new Handler(), errorDescription);
 					if (mt == null) {
 						String theErrorString = errorDescription.toString();
 						if (theErrorString.length() == 0) {

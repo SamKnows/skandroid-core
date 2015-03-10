@@ -1,4 +1,4 @@
-package com.samknows.measurement.statemachine;
+package com.samknows.measurement.TestRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +20,9 @@ import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.environment.BaseDataCollector;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.datacollection.LocationDataCollector;
+import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.StateResponseCode;
+import com.samknows.measurement.statemachine.Transition;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.TestBatch;
@@ -27,7 +30,7 @@ import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.test.TestExecutor;
 
 
-public class ContinuousTesting {
+public class ContinuousTestRunner {
 	private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
 	private MainService mContext;
 	private State mPreviousState;
@@ -38,7 +41,7 @@ public class ContinuousTesting {
 	ScheduleConfig mConfig;
 	ResultsContainer mResultsContainer;
 	DBHelper mDBHelper;
-	public ContinuousTesting(MainService ctx){
+	public ContinuousTestRunner(MainService ctx){
 		mContext = ctx;
 		mListDCSData = new ArrayList<DCSData>();
 		mTestContext = TestContext.createBackgroundTestContext(mContext);
@@ -77,7 +80,7 @@ public class ContinuousTesting {
 		
 		//
 		// Change required 29/04/2014 - always enforce that we run a closest target test FIRST for a continuous test!
-		// Code very similar to this is in ManualTest.java.
+		// Code very similar to this is in ManualTestRunner.java.
 		// If we don't do this, then the continuous tests always fail unless you have *first*
 		// already remembered to run a manual test!
 		mConfig.forManualOrContinuousTestEnsureClosestTargetIsRunAtStart(mConfig.continuous_tests);

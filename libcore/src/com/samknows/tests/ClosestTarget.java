@@ -28,10 +28,9 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.ManualTest;
+import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.SKDateFormat;
-import com.samknows.tests.LatencyTest;
 
 public class ClosestTarget extends Test {
 	
@@ -512,7 +511,7 @@ public class ClosestTarget extends Test {
 			// - notify the app to display test test as UDP skipped
 			// NOTE: Doesn't actually matter if we're running a manual test or not - if we're not running a manual test,
 			// the user interface will ignore this event.
-			Intent intent = new Intent(ManualTest.kManualTest_UDPFailedSkipTests);
+			Intent intent = new Intent(ManualTestRunner.kManualTest_UDPFailedSkipTests);
 			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(intent);
 			
 			ret = blockingTryHttpClosestTargetTestIfUdpTestFails();

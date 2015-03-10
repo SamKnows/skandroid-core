@@ -1,6 +1,5 @@
 package com.samknows.measurement;
 
-import org.json.JSONObject;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +11,11 @@ import android.os.PowerManager;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
-import com.samknows.measurement.activity.components.UIUpdate;
 import com.samknows.measurement.environment.TrafficStatsCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.statemachine.ContinuousTesting;
+import com.samknows.measurement.TestRunner.BackgroundTestRunner;
+import com.samknows.measurement.TestRunner.ContinuousTestRunner;
 import com.samknows.measurement.statemachine.State;
-import com.samknows.measurement.statemachine.ScheduledTestStateMachine;
-import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 import com.samknows.measurement.util.OtherUtils;
 
 public class MainService extends IntentService {
@@ -101,11 +98,11 @@ public class MainService extends IntentService {
 			 */
 			if(isExecutingContinuous){
 				continuousStarted();
-				new ContinuousTesting(this).execute();
+				new ContinuousTestRunner(this).execute();
 			}
 			else if((backgroundTest && SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()) || force_execution ) {
 				if (appSettings.run_in_roaming || !OtherUtils.isRoaming(this)) {
-         			accumulatedTestBytes = new ScheduledTestStateMachine(this).executeRoutine();
+         			accumulatedTestBytes = new BackgroundTestRunner(this).executeRoutine();
 				} else {
 					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(roaming), exiting.");
 					OtherUtils.reschedule(this,	SKConstants.SERVICE_RESCHEDULE_IF_ROAMING_OR_DATACAP);
