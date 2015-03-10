@@ -20,7 +20,7 @@ public class BackgroundTestRunner {
 	}
 
 	// Returns the number of test bytes!
-	public long executeRoutine() { 
+	public long startTestRunning_RunToEndBlocking_ReturnNumberOfTestBytes() {
 		SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		Transition t = Transition.create(appSettings);
 		State state = appSettings.getState();
@@ -44,7 +44,7 @@ public class BackgroundTestRunner {
 			SKLogger.d(this, "finished state, code: " + code); 
 			if (code == StateResponseCode.FAIL) {
 				appSettings.saveState(State.NONE);
-				SKLogger.e(this, "fail to execute state: " + state + ", reschedule");
+				SKLogger.e(this, "fail to startTestRunning_RunToEndBlocking state: " + state + ", reschedule");
 				OtherUtils.rescheduleRTC(ctx, appSettings.rescheduleTime);
 				return accumulatedTestBytes;
 			} else {

@@ -1,5 +1,11 @@
 package com.samknows.measurement.TestRunner;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +36,9 @@ import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.test.TestExecutor;
 
 
-public class ContinuousTestRunner {
+public class ContinuousTestRunner implements Runnable {
 	private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
-	private MainService mContext;
+	private Context mContext;
 	private State mPreviousState;
 	List<BaseDataCollector> mCollectors;
 	LocationDataCollector mLocationDataCollector;
@@ -41,13 +47,17 @@ public class ContinuousTestRunner {
 	ScheduleConfig mConfig;
 	ResultsContainer mResultsContainer;
 	DBHelper mDBHelper;
-	public ContinuousTestRunner(MainService ctx){
+  private static Object sync = new Object();
+
+	public ContinuousTestRunner(Context ctx){
 		mContext = ctx;
 		mListDCSData = new ArrayList<DCSData>();
 		mTestContext = TestContext.createBackgroundTestContext(mContext);
 		mResultsContainer = new ResultsContainer();
 		mDBHelper = new DBHelper(mContext);
 	}
+
+
 	/*
 	 * execute the continuous testing
 	 * these steps are followed
@@ -59,7 +69,11 @@ public class ContinuousTestRunner {
 	 * 		submit data
 	 * 		
 	 */
-	public void execute(){
+  @Override
+  public void run() {
+
+    Looper.prepare();
+
 		StateResponseCode response;
 		SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		mPreviousState = appSettings.getState();
@@ -76,6 +90,9 @@ public class ContinuousTestRunner {
 			onEnd();
 			throw new NullPointerException("null schedule config!");
 		}
+
+    isExecutingContinuous = true;
+    continuousStarted();
 		
 		
 		//
@@ -86,8 +103,8 @@ public class ContinuousTestRunner {
 		mConfig.forManualOrContinuousTestEnsureClosestTargetIsRunAtStart(mConfig.continuous_tests);
 		
 		startCollectors();
-		
-		while(mContext.isExecutingContinuous()){
+
+		while(isExecutingContinuous()){
 		
 			executeBatch();
 			try {
@@ -106,8 +123,9 @@ public class ContinuousTestRunner {
 //			}
 		}
 		stopCollectors();
-			
-		
+
+
+    continuousStopped();
 	}
 	
 	private void executeBatch(){
@@ -181,4 +199,47 @@ public class ContinuousTestRunner {
 		SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		appSettings.saveState(mPreviousState)
 ;	}
+
+
+
+  //
+  // Properties and methods to get and modify the execution status of continuous testing
+  //
+  private static boolean isExecutingContinuous = false;
+  private static Handler mContinuousHandler = null;
+  public boolean isExecutingContinuous(){
+    return isExecutingContinuous;
+  }
+  public enum  ContinuousState{ STOPPED, STARTING, EXECUTING, STOPPING};
+
+  // Start continuous testing
+  public void startTestRunning_RunInBackground (Context ctx, Handler handler){
+    mContinuousHandler = handler;
+
+    new Thread(this).start();
+  }
+
+  private void continuousStarted(){
+    synchronized(sync){
+      if(mContinuousHandler !=null){
+        Message msg = new Message();
+        msg.obj = ContinuousState.EXECUTING;
+        mContinuousHandler.sendMessage(msg);
+      }
+    }
+  }
+
+  private void continuousStopped(){
+    synchronized(sync){
+      if(mContinuousHandler !=null){
+        Message msg = new Message();
+        msg.obj = ContinuousState.STOPPED;
+        mContinuousHandler.sendMessage(msg);
+      }
+    }
+  }
+
+  public void stopContinuousExecution(){
+    isExecutingContinuous = false;
+  }
 }

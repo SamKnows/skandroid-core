@@ -62,7 +62,8 @@ import com.samknows.libcore.ExportFileProvider;
 import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.MainService.ContinuousState;
+import com.samknows.measurement.TestRunner.ContinuousTestRunner;
+import com.samknows.measurement.TestRunner.ContinuousTestRunner.ContinuousState;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
@@ -1484,7 +1485,6 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		inflater.inflate(R.menu.ska_main_results_activity_menu, menu);
 		menu.findItem(R.id.menu_export_file).setVisible(SKApplication.getAppInstance().isExportMenuItemSupported());
 
-		menu.findItem(R.id.menu_force_background_test).setVisible(SKApplication.getAppInstance().isForceBackgroundMenuItemSupported());
 		menu.findItem(R.id.menu_share_averages).setVisible(SKApplication.getAppInstance().isSocialMediaExportSupported());
 	
 		// postponeEnterTransition();
@@ -1541,11 +1541,6 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		} else if (R.id.menu_export_file == itemId) {
 			sExportMenuItemSelected(this, getCacheDir());
 			ret = true;
-		} else if (R.id.menu_force_background_test == itemId) {
-
-			MainService.sForceBackgroundTest(SKAMainResultsActivity.this);
-			
-			return true;
 		} else if (R.id.menu_share_averages == itemId) {
 			
 			if (SKApplication.getAppInstance().isSocialMediaExportSupported() == false) {
@@ -2732,8 +2727,11 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		AlertDialog alert = builder.create();
 		alert.show();
   }
-	
-	
+
+  private ContinuousTestRunner mContinuousTestRunner = null;
+  private ContinuousState mContinuousState = ContinuousState.STOPPED;
+  private Handler mContinuousHandler;
+
 	void startContinuousTestAfterCheckingForDataCap() {
 
 		Button b = (Button) findViewById(R.id.btnRunContinuousTests);
@@ -2752,16 +2750,15 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				}
 			}
 		};
-		MainService.registerContinuousHandler(this ,mContinuousHandler);
+    mContinuousTestRunner = new ContinuousTestRunner(this);
+    mContinuousTestRunner.startTestRunning_RunInBackground(this, mContinuousHandler);
 		mContinuousState = ContinuousState.STARTING;
 
 		b.setText(R.string.starting_continuous);
 	}
 	
-	private ContinuousState mContinuousState = ContinuousState.STOPPED;
-	private Handler mContinuousHandler;
 	private void ContinuousToggle(View v){
-		
+
 		//CONTINUOUS TESTING
 
 		if (mContinuousState == ContinuousState.STOPPED) {
@@ -2840,8 +2837,13 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 
 		} else if (mContinuousState == ContinuousState.EXECUTING) {
-			
-			MainService.stopContinuousExecution();
+
+      if (mContinuousTestRunner == null) {
+        SKLogger.sAssert(false);
+      } else {
+        mContinuousTestRunner.stopContinuousExecution();
+        mContinuousTestRunner = null;
+      }
 
 			((Button) v).setText(R.string.stopping_continuous);
 		}

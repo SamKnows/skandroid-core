@@ -729,7 +729,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,
 							int id) {
-						startTest(mt);
+            mt.startTestRunning_RunInBackground();
 					}
 				})
 				.setNegativeButton(R.string.no_dialog, new DialogInterface.OnClickListener() {
@@ -741,17 +741,13 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 						overridePendingTransition(0, 0);
 					}
 				}).show();
+
 				return;
 			}
 		}
 		
-		startTest(mt);
+    mt.startTestRunning_RunInBackground();
 	}
-
-	private void startTest(ManualTestRunner mt) {
-		new Thread(mt).start();
-	}
-
 
 	@Override
 	public void onBackPressed() {

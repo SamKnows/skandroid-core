@@ -21,13 +21,10 @@ import com.samknows.measurement.util.OtherUtils;
 public class MainService extends IntentService {
 	public static final String FORCE_EXECUTION_EXTRA	= "force_execution";		
 	public static final String EXECUTE_CONTINUOUS_EXTRA	= "execute_continuous";
-	public static final String FORCE_EXECUTION_NOW_EXTRA	= "force_execution_NOW";		
-	private PowerManager.WakeLock wakeLock;
+  private PowerManager.WakeLock wakeLock;
 	private TrafficStatsCollector collector;
 	private SK2AppSettings appSettings;
 	private static boolean isExecuting;
-	private static boolean isExecutingContinuous;
-	private static Handler mContinuousHandler = null;
 	private static Object sync = new Object();
 	public MainService() {
 		super(MainService.class.getName());
@@ -75,8 +72,7 @@ public class MainService extends IntentService {
 		SKLogger.d(this, "+++++DEBUG+++++ MainService onHandleIntent" + intent.toString());
 		
 		boolean force_execution = intent.getBooleanExtra(FORCE_EXECUTION_EXTRA, false);
-		isExecutingContinuous = intent.getBooleanExtra(EXECUTE_CONTINUOUS_EXTRA, false);
-		
+
 		try {
 			appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 			
@@ -96,13 +92,10 @@ public class MainService extends IntentService {
 			 * if the intent contains the EXECUTE_CONTINUOUS_EXTRA  run the continuous testing procedure and ignore the rest.
 			 * 
 			 */
-			if(isExecutingContinuous){
-				continuousStarted();
-				new ContinuousTestRunner(this).execute();
-			}
-			else if((backgroundTest && SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()) || force_execution ) {
+			if((backgroundTest && SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()) || force_execution ) {
 				if (appSettings.run_in_roaming || !OtherUtils.isRoaming(this)) {
-         			accumulatedTestBytes = new BackgroundTestRunner(this).executeRoutine();
+          BackgroundTestRunner backgroundTestRunner = new BackgroundTestRunner(this);
+         	accumulatedTestBytes = backgroundTestRunner.startTestRunning_RunToEndBlocking_ReturnNumberOfTestBytes();
 				} else {
 					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(roaming), exiting.");
 					OtherUtils.reschedule(this,	SKConstants.SERVICE_RESCHEDULE_IF_ROAMING_OR_DATACAP);
@@ -185,81 +178,12 @@ public class MainService extends IntentService {
 		synchronized(sync){
 			isExecuting = false;
 		}
-		continuousStopped();
 		SKLogger.d(this, "+++++DEBUG+++++ MainService onEnd... (end)");
 	}
-	
-	//methods to get and modify the execution status of continuous testing
-	public boolean isExecutingContinuous(){
-		return isExecutingContinuous;
-	}
-	
-	
-	
+
 	//Start service
 	public static void poke(Context ctx) {
 		ctx.startService(new Intent(ctx, MainService.class));
-	}
-	
-	public static void force_poke(Context ctx){
-		Intent intent = new Intent(ctx, MainService.class);
-		intent.putExtra(FORCE_EXECUTION_EXTRA,true);
-		ctx.startService(intent);
-	}
-
-	// Debug time, use this to force a background test...
-	public static void sForceBackgroundTest(Context ctx){
-		Intent intent = new Intent(ctx, MainService.class);
-		intent.putExtra(FORCE_EXECUTION_EXTRA,true);
-		intent.putExtra(FORCE_EXECUTION_NOW_EXTRA,true);
-		ctx.startService(intent);
-	}	
-	
-	public enum  ContinuousState{ STOPPED, STARTING, EXECUTING, STOPPING};
-	//start continuous testing
-	public static void poke_continuous(Context ctx){
-		SKLogger.d(MainService.class, "poke_continous");
-		Intent intent = new Intent(ctx, MainService.class);
-		intent.putExtra(EXECUTE_CONTINUOUS_EXTRA, true);
-		ctx.startService(intent);
-	}
-	
-	public static void registerContinuousHandler(Context ctx, Handler handler){
-		synchronized(sync){
-			mContinuousHandler = handler;
-			poke_continuous(ctx);
-			
-		}
-	}
-	
-	public static void unregisterContinuousHandler(){
-		synchronized(sync){
-			mContinuousHandler = null;
-		}
-	}
-	
-	public void continuousStarted(){
-		synchronized(sync){
-			if(mContinuousHandler !=null){
-				Message msg = new Message();
-				msg.obj = ContinuousState.EXECUTING;
-				mContinuousHandler.sendMessage(msg);
-			}
-		}
-	}
-	
-	private void continuousStopped(){
-		synchronized(sync){
-			if(mContinuousHandler !=null){
-				Message msg = new Message();
-				msg.obj = ContinuousState.STOPPED;
-				mContinuousHandler.sendMessage(msg);
-			}
-		}
-	}
-	
-	public static void stopContinuousExecution(){
-		isExecutingContinuous = false;
 	}
 
 }

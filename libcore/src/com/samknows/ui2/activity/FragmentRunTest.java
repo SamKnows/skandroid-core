@@ -1698,11 +1698,6 @@ public class FragmentRunTest extends Fragment {
       return true;
     }
 
-    if (itemId == R.id.menu_force_background_test) {
-      MainService.sForceBackgroundTest(getActivity());
-      return true;
-    }
-
     return true;
   }
 

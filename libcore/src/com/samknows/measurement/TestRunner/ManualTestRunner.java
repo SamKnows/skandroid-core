@@ -151,6 +151,10 @@ public class ManualTestRunner implements Runnable {
 		return new ManualTestRunner(ctx, handler, config.manual_tests);
 	}
 
+  public void startTestRunning_RunInBackground() {
+    new Thread(this).start();
+  }
+
 	// returns the maximum amount of bytes used by the manual test
 	// This value is generally *MUCH* higher than the *actually* used value.
 	// e.g. 40+MB, compared to 4MB. The reason is that the value is from SCHEDULE.xml, and specifies the absolute
@@ -353,10 +357,6 @@ public class ManualTestRunner implements Runnable {
 			SKLogger.e(this, "Submit result. ", t);
 		}
 
-		// MPC 21/11/2014 - Ipp w can see NO REASON for this... except, to start the traffic stat collector - which then stops immediately!
-//		if(!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
-//			MainService.force_poke(ctx);
-//		}
 		SKLogger.d(this, "Exiting manual test");
 		
 		sSetIsExecuting(false);
