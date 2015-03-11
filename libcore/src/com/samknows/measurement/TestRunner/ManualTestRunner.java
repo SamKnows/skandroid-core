@@ -215,13 +215,16 @@ public class ManualTestRunner implements Runnable {
 
     // Start collectors for the passive metrics
     // Start tests
-    long startTime = System.currentTimeMillis();
-    JSONObject batch = new JSONObject();
     TestContext tc = TestContext.createManualTestContext(ctx);
-    TestExecutor manualTestExecutor = new TestExecutor(tc);
+    long startTime = System.currentTimeMillis();
+
     List<JSONObject> testsResults = new ArrayList<JSONObject>();
     List<JSONObject> passiveMetrics = new ArrayList<JSONObject>();
-    manualTestExecutor.startInBackGround();
+
+    JSONObject batch = new JSONObject();
+    TestExecutor te = new TestExecutor(tc);
+
+    te.startInBackGround();
     long testsBytes = 0;
     for (TestDescription td : mTestDescription) {
       // GIVEN:
@@ -238,15 +241,15 @@ public class ManualTestRunner implements Runnable {
         }
       }
 
-      manualTestExecutor.addRequestedTest(td);
+      te.addRequestedTest(td);
       // check if a stop command has been received
       if (!run.get()) {
-        manualTestExecutor.cancelNotification();
+        te.cancelNotification();
         SKLogger.d(this, "Manual test interrupted by the user.");
         break;
       }
       ConditionGroupResult tr = new ConditionGroupResult();
-      ObservableExecutor oe = new ObservableExecutor(manualTestExecutor, td, tr);
+      ObservableExecutor oe = new ObservableExecutor(te, td, tr);
       Thread t = new Thread(oe);
       t.start();
       while (true) {
@@ -261,14 +264,14 @@ public class ManualTestRunner implements Runnable {
 //        if (td.type.equals(SKConstants.TEST_TYPE_UPLOAD)) {
 //          // Upload test!
 //          // Could do, say, this...
-//          //HttpTest theTest = (HttpTest)manualTestExecutor.getExecutingTest();
+//          //HttpTest theTest = (HttpTest)te.getExecutingTest();
 //          //theTest.doSomethingSpecificToUploadTest...()
 //        }
 
         // For all test results, we send a progress percentage update Message instance...
         // the JSON_STATUS_COMPLETE field contains the value from te.getProgress())
         // Typically returns just 1 value - might be up to 3 for latency/loss/jitter!
-        List<JSONObject> testProgressList = progressMessage(td, manualTestExecutor);
+        List<JSONObject> testProgressList = progressMessage(td, te);
         for (JSONObject pm : testProgressList) {
           sendTestProgressToUIHandler(pm);
         }
@@ -276,16 +279,16 @@ public class ManualTestRunner implements Runnable {
       }
 
       if (td.type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
-        SKLogger.sAssert(getClass(), manualTestExecutor.getExecutingTest() != null);
-        if (manualTestExecutor.getExecutingTest() != null) {
-          SKLogger.sAssert(getClass(), manualTestExecutor.getExecutingTest().getClass() == ClosestTarget.class);
+        SKLogger.sAssert(getClass(), te.getExecutingTest() != null);
+        if (te.getExecutingTest() != null) {
+          SKLogger.sAssert(getClass(), te.getExecutingTest().getClass() == ClosestTarget.class);
 
-          ClosestTarget closestTargetTest = (ClosestTarget) manualTestExecutor.getExecutingTest();
+          ClosestTarget closestTargetTest = (ClosestTarget) te.getExecutingTest();
           mbUdpClosestTargetTestSucceeded = closestTargetTest.getUdpClosestTargetTestSucceeded();
         }
       }
 
-      testsBytes += manualTestExecutor.getLastTestByte();
+      testsBytes += te.getLastTestByte();
 
 //			Test theTestThatWasRun = oe.getTheExecutedTestPostRun();
 //			if (theTestThatWasRun != null) {
@@ -296,7 +299,7 @@ public class ManualTestRunner implements Runnable {
 
       List<JSONObject> currResults = new ArrayList<JSONObject>();
       for (String out : tr.results) {
-        List<JSONObject> theResult = StorageTestResult.testOutput(out, manualTestExecutor);
+        List<JSONObject> theResult = StorageTestResult.testOutput(out, te);
         if (theResult != null) {
           currResults.addAll(theResult);
         }
@@ -312,7 +315,7 @@ public class ManualTestRunner implements Runnable {
     SKLogger.d(this, "bytes used by the tests: " + testsBytes);
     SK2AppSettings.getInstance().appendUsedBytes(testsBytes);
     // stops collectors
-    manualTestExecutor.stop();
+    te.stop();
 
     // Gather data from collectors
     for (BaseDataCollector collector : tc.config.dataCollectors) {
@@ -342,7 +345,7 @@ public class ManualTestRunner implements Runnable {
     }
 
     // And now upload the test (this will get a submission id etc., so *must* have a batch id to save to the database...)
-    manualTestExecutor.save("manual_test", batchId);
+    te.save("manual_test", batchId);
 
     // Send completed message to the interface
     sendCompletedMessageToUIHandler();
@@ -422,7 +425,7 @@ public class ManualTestRunner implements Runnable {
   }
 
   // It stops the test from being executed
-  public void stop() {
+  public void stopTestRunning() {
 
     run.set(false);
   }

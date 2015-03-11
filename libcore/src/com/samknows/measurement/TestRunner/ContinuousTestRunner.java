@@ -33,6 +33,7 @@ import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.test.TestExecutor;
 
+
 public class ContinuousTestRunner implements Runnable {
   private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
   private Context mContext;
@@ -43,7 +44,6 @@ public class ContinuousTestRunner implements Runnable {
   private TestContext mTestContext;
   private ScheduleConfig mConfig;
   private DBHelper mDBHelper;
-  private static Object sync = new Object();
 
   public ContinuousTestRunner(Context ctx) {
     mContext = ctx;
@@ -85,7 +85,8 @@ public class ContinuousTestRunner implements Runnable {
     }
 
     isExecutingContinuous = true;
-    continuousStarted();
+
+    OnChangedStateTo(ContinuousState.EXECUTING);
 
 
     //
@@ -118,19 +119,23 @@ public class ContinuousTestRunner implements Runnable {
     }
     stopCollectors();
 
-    continuousStopped();
+    OnChangedStateTo(ContinuousState.STOPPED);
 
     onEnd();
   }
 
   private void executeBatch() {
-    long batchTime = System.currentTimeMillis();
+    TestContext tc = mTestContext;
+    long startTime = System.currentTimeMillis();
+
     List<JSONObject> testsResults = new ArrayList<JSONObject>();
     List<JSONObject> passiveMetrics = new ArrayList<JSONObject>();
+
     HashMap<String, Object> batch = new HashMap<String, Object>();
-    TestExecutor te = new TestExecutor(mTestContext);
-    batch.put(TestBatch.JSON_DTIME, batchTime);
+    TestExecutor te = new TestExecutor(tc);
+    batch.put(TestBatch.JSON_DTIME, startTime);
     batch.put(TestBatch.JSON_RUNMANUALLY, "0");
+
     ConditionGroupResult tr = new ConditionGroupResult();
     for (TestDescription td : mConfig.continuous_tests) {
       te.executeTest(td, tr);
@@ -191,8 +196,7 @@ public class ContinuousTestRunner implements Runnable {
 
   private void onEnd() {
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
-    appSettings.saveState(mPreviousState)
-    ;
+    appSettings.saveState(mPreviousState);
   }
 
 
@@ -200,7 +204,6 @@ public class ContinuousTestRunner implements Runnable {
   // Properties and methods to get and modify the execution status of continuous testing
   //
   private static boolean isExecutingContinuous = false;
-  private static Handler mContinuousHandler = null;
 
   public boolean isExecutingContinuous() {
     return isExecutingContinuous;
@@ -208,36 +211,17 @@ public class ContinuousTestRunner implements Runnable {
 
   public enum ContinuousState {STOPPED, STARTING, EXECUTING, STOPPING}
 
-  ;
-
   // Start continuous testing
-  public void startTestRunning_RunInBackground(Context ctx, Handler handler) {
-    mContinuousHandler = handler;
-
+  public void startTestRunning_RunInBackground() {
     new Thread(this).start();
   }
 
-  private void continuousStarted() {
-    synchronized (sync) {
-      if (mContinuousHandler != null) {
-        Message msg = new Message();
-        msg.obj = ContinuousState.EXECUTING;
-        mContinuousHandler.sendMessage(msg);
-      }
-    }
-  }
-
-  private void continuousStopped() {
-    synchronized (sync) {
-      if (mContinuousHandler != null) {
-        Message msg = new Message();
-        msg.obj = ContinuousState.STOPPED;
-        mContinuousHandler.sendMessage(msg);
-      }
-    }
-  }
-
-  public void stopContinuousExecution() {
+  public void stopTestRunning() {
     isExecutingContinuous = false;
   }
+
+  public void OnChangedStateTo(ContinuousState newState) {
+    // Override this, to have state updated!
+  }
+
 }

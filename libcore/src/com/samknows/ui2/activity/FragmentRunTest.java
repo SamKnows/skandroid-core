@@ -1870,7 +1870,7 @@ public class FragmentRunTest extends Fragment {
             // against that.
             if (manualTest != null) {
               changeAdviceMessageTo(getString(R.string.advice_message_stopping));
-              manualTest.stop();
+              manualTest.stopTestRunning();
             }
           }
         });

@@ -767,7 +767,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 								if (mt == null) {
 					              // Log.d(this.getClass().getName(), "Avoided null pointer exception!");
 								} else {
-									mt.stop();
+									mt.stopTestRunning();
 								}
 								SKARunningTestActivity.this.finish();
 								overridePendingTransition(0, 0);
