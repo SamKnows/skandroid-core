@@ -200,7 +200,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
     adapter_ViewPager = new MyAdapter(getSupportFragmentManager());
     viewPager = (ViewPager) findViewById(R.id.viewpager);
     viewPager.setAdapter(adapter_ViewPager);
-    viewPager.setOffscreenPageLimit(2);
+    viewPager.setOffscreenPageLimit(3); // NOTE: If this is ever too small, fragments will be thrown-away without you realising!
 
     mRunImageViewText = (TextView) findViewById(R.id.main_Fragment_Toolbar_Button_Run_Text);
     mHistoryImageViewText = (TextView) findViewById(R.id.main_Fragment_Toolbar_Button_Results_Text);

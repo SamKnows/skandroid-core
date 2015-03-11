@@ -278,7 +278,7 @@
 <string name="results_for_2_weeks">两星期</string>
 <string name="results_for_3_months">三个月</string>
 <string name="results_for_1_year">一年</string>
-<string name="running_test">Running Test</string>
+<string name="running_test">测试运行中</string>
 <string name="TEST_Label_Finding_Best_Target">Finding Best Target...</string>
 <string name="running_test_closest_target">"Best target: "</string>
 <string name="run_now">运行中</string>

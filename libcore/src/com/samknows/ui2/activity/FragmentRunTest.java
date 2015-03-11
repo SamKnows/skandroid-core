@@ -97,8 +97,6 @@ public class FragmentRunTest extends Fragment {
   private boolean test_selected_upload = true;
   private boolean test_selected_latency_and_packet_loss_and_jitter = true;
 
-  private boolean onChangeLabelTextSemaphore = false;                // Semaphore to allow or not to enter a loop
-  private boolean onContextualInformationLabelAnimationSemaphore = false;      // Semaphore to allow or not to enter a loop
   private boolean gaugeVisible = true;                      // Whether the gauge is visible or not
   private boolean executingLatencyTest = false;
 
@@ -112,8 +110,7 @@ public class FragmentRunTest extends Fragment {
   private TextView mMeasurementText;
   private View initial_warning_text;
   // Text views showing the test result labels
-  private TextView tv_Label_Download, tv_Label_Upload; //  tv_Label_Mbps_1, tv_Label_Mbps_2;
-  private TextView tv_Label_Latency, tv_Label_Loss, tv_Label_Jitter;
+  private TextView tv_Label_Loss, tv_Label_Jitter;
   private TextView tv_TopTextNetworkType;
   // Text views showing the test result information
   private TextView tv_Result_Download, tv_Result_Upload, tv_Result_Latency, tv_Result_Packet_Loss, tv_Result_Jitter;
@@ -257,7 +254,13 @@ public class FragmentRunTest extends Fragment {
           changeFadingTextViewValue(mUnitText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
           changeFadingTextViewValue(mMeasurementText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
 
-          changeAdviceMessageTo(getString(R.string.running_test_closest_target) + nameOfTheServer);
+          if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
+            // Show "Best Target - myserver" as the text.
+            changeAdviceMessageTo(getString(R.string.running_test_closest_target) + nameOfTheServer);
+          } else {
+// Show "Running Test"
+            changeAdviceMessageTo(getString(R.string.running_test));
+          }
         }
       }
     }
@@ -575,9 +578,6 @@ public class FragmentRunTest extends Fragment {
     tv_Result_Jitter = (TextView) pView.findViewById(R.id.archiveResultsListItemJitter);
     tv_Result_Jitter.setText(R.string.slash);
 
-    tv_Label_Download = (TextView) pView.findViewById(R.id.downloadLabel);
-    tv_Label_Upload = (TextView) pView.findViewById(R.id.uploadLabel);
-    tv_Label_Latency = (TextView) pView.findViewById(R.id.latency_label);
     tv_Label_Loss = (TextView) pView.findViewById(R.id.loss_label);
     tv_Label_Jitter = (TextView) pView.findViewById(R.id.jitter_label);
     //tv_Label_Mbps_1 = (TextView)pView.findViewById(R.id.mbps_label_1);
@@ -680,9 +680,6 @@ public class FragmentRunTest extends Fragment {
 //		tv_Result_Jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
 //		
 //		// Test result labels
-//		tv_Label_Download.setTypeface(typeface_Roboto_Light);
-//		tv_Label_Upload.setTypeface(typeface_Roboto_Light);
-//		tv_Label_Latency.setTypeface(typeface_Roboto_Light);
 //		tv_Label_Loss.setTypeface(typeface_Roboto_Light);
 //		tv_Label_Jitter.setTypeface(typeface_Roboto_Light);
 //		tv_Label_Mbps_1.setTypeface(typeface_Roboto_Thin);

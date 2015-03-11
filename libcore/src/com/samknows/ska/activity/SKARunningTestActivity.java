@@ -51,6 +51,8 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 	Storage storage;
 	ScheduleConfig config;
 
+  TextView runningTestWithClosestTarget = null;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
 		LinearLayout passiveMetricsLayout = (LinearLayout) findViewById(R.id.passive_metrics);
 		TextView activeMetricsTextView = (TextView) findViewById(R.id.active_metrics_textview);
-		final TextView runningTestWithClosestTarget = (TextView) findViewById(R.id.running_test_with_closest_target);
+		runningTestWithClosestTarget = (TextView) findViewById(R.id.running_test_with_closest_target);
 
 		if (SKApplication.getAppInstance().hideJitter() == true) {
 			// Hide some elements!
@@ -112,426 +114,433 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
 				@Override
 				public void handleMessage(Message msg) {
-					TextView tv = null;
-					FontFitTextView fftv = null;
-
-					JSONObject message_json;
-					message_json = (JSONObject) msg.obj;
-					String value;
-					int success;
-					int testname;
-					int status_complete;
-					int metric;
-				
-					String hostUrl = ClosestTarget.sGetClosestTarget();
-					if (hostUrl.length() != 0) {
-						String name = config.hosts.get(hostUrl);
-						if (name == null) {
-							name = hostUrl;
-						}
-						
-						if (name.length() <= 1) {
-							// For now, just show the "Finding..." message as the text.
-							runningTestWithClosestTarget.setText(R.string.TEST_Label_Finding_Best_Target);
-						} else {
-							// Show "Best Target - myserver" as the text.
-    						runningTestWithClosestTarget.setText(getString(R.string.running_test_closest_target) + name);
-						}
-
-					}
-
-					try {
-
-						String type = message_json.getString(StorageTestResult.JSON_TYPE_ID);
-
-						if (type == "completed") {
-							
-							result = 1;
-							
-							if (SKARunningTestActivity.this.checkIfIsConnectedAndIfNotShowAnAlertThenFinish() == false)
-							{
-								// The alert that is shown, handles the "finish()"
-							} else {
-								SKARunningTestActivity.this.finish();
-								overridePendingTransition(0, 0);
-							}
-						}
-
-						if (type == "test") {
-							testname = message_json
-									.getInt(StorageTestResult.JSON_TESTNUMBER);
-							status_complete = message_json
-									.getInt(StorageTestResult.JSON_STATUS_COMPLETE);
-							value = message_json.getString(StorageTestResult.JSON_HRRESULT);
-							if (status_complete == 100 && message_json.has(StorageTestResult.JSON_SUCCESS)) {
-
-								success = message_json
-										.getInt(StorageTestResult.JSON_SUCCESS);
-								if (success == 0) {
-									value = getString(R.string.failed);
-								}
-							}
-
-							switch (testname) {
-							// active metrics
-							case StorageTestResult.DOWNLOAD_TEST_ID:
-								pw = (ProgressWheel) findViewById(R.id.ProgressWheel1);
-								fftv = (FontFitTextView) findViewById(R.id.download_result);
-								pw.setProgress((int) (status_complete * 3.6));
-								pw.setContentDescription("Status "
-										+ status_complete + "%");
-								if (status_complete == 100) {
-									pw.setVisibility(View.GONE);
-									fftv.setText(value);
-									fftv.setContentDescription(getString(R.string.download)
-											+ " " + value);
-									fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
-								} else {
-									pw.setVisibility(View.VISIBLE);
-									fftv.setText("");
-								}
-								break;
-							case StorageTestResult.UPLOAD_TEST_ID:
-								pw = (ProgressWheel) findViewById(R.id.ProgressWheel2);
-								fftv = (FontFitTextView) findViewById(R.id.upload_result);
-								pw.setProgress((int) (status_complete * 3.6));
-								pw.setContentDescription("Status "
-										+ status_complete + "%");
-								if (status_complete == 100) {
-									pw.setVisibility(View.GONE);
-
-									fftv.setText(value);
-									fftv.setContentDescription(getString(R.string.upload)
-											+ " " + value);
-									fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
-								} else {
-									pw.setVisibility(View.VISIBLE);
-									fftv.setText("");
-								}
-								break;
-							case StorageTestResult.PACKETLOSS_TEST_ID:
-								pw = (ProgressWheel) findViewById(R.id.ProgressWheel3);
-								fftv = (FontFitTextView) findViewById(R.id.packetloss_result);
-								pw.setProgress((int) (status_complete * 3.6));
-								pw.setContentDescription("Status " + status_complete + "%");
-								if (status_complete == 100) {
-									// We MUST restore the packet loss result field after the progress spinner has finished,
-									// otherwise, we can see "Perda de pacote" truncated to just "Perda da"...
-									fftv.setVisibility(View.VISIBLE);
-									pw.setVisibility(View.GONE);
-									fftv.setText(value);
-									fftv.setContentDescription(getString(R.string.packet_loss)
-											+ " " + value);
-									fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
-								} else {
-									pw.setVisibility(View.VISIBLE);
-									// We MUST hide the packet loss result field while the progress spinner is present,
-									// otherwise, we can see "Perda de pacote" truncated to just "Perda da"
-									fftv.setVisibility(View.GONE);
-									fftv.setText("");
-								}
-								break;
-							case StorageTestResult.LATENCY_TEST_ID:
-								pw = (ProgressWheel) findViewById(R.id.ProgressWheel4);
-								fftv = (FontFitTextView) findViewById(R.id.latency_result);
-								pw.setProgress((int) (status_complete * 3.6));
-								pw.setContentDescription("Status "
-										+ status_complete + "%");
-								if (status_complete == 100) {
-									pw.setVisibility(View.GONE);
-									fftv.setText(value);
-									fftv.setContentDescription(getString(R.string.latency)
-											+ " " + value);
-									fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
-								} else {
-									pw.setVisibility(View.VISIBLE);
-									fftv.setText("");
-								}
-								break;
-							case StorageTestResult.JITTER_TEST_ID:
-								pw = (ProgressWheel) findViewById(R.id.JitterProgressWheel);
-								fftv = (FontFitTextView) findViewById(R.id.jitter_result);
-								pw.setProgress((int) (status_complete * 3.6));
-								pw.setContentDescription("Status "
-										+ status_complete + "%");
-								if (status_complete == 100) {
-									pw.setVisibility(View.GONE);
-									fftv.setText(value);
-									fftv.setContentDescription(getString(R.string.jitter)
-											+ " " + value);
-									fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
-								} else {
-									pw.setVisibility(View.VISIBLE);
-									fftv.setText("");
-								}
-								break;
-
-							}
-						}
-
-						if (type == "passivemetric") {
-							metric = message_json.getInt("metric");
-							String metricString = message_json.getString("metricString");
-							value = message_json.getString("value");
-
-							if (metricString.equals("invisible")) {
-							} else {
-								// There is a complete disconnect between the integer metric value
-								// returned from the PassiveMetric class, and the layout "passive metric" identifiers
-								// such as R.id.passivemetric20.
-								// The only safe thing to do, is to look at the metricString value,
-								// to determine which resource id to use.
-								Log.d(this.getClass().getName(), "metric=" + metric + ", metricString=" + metricString + ", value=" + value);
-								if (metricString.equals("connected")) { // connected
-									metric = 1;
-								} else if (metricString.equals("connectivitytype")) { // connectivity
-									metric = 2;
-								} else if (metricString.equals("gsmcelltowerid")) { // cell tower id
-									metric = 3;
-								} else if (metricString.equals("gsmlocationareacode")) { // cell tower
-									metric = 4;
-								} else if (metricString.equals("gsmsignalstrength")) { // signal strength
-									metric = 5;
-								} else if (metricString.equals("networktype")) { // bearer
-									metric = 6;
-								} else if (metricString.equals("networkoperatorname")) { // network operator name
-									metric = 7;
-								} else if (metricString.equals("latitude")) { // latitude
-									metric = 8;
-								} else if (metricString.equals("longitude")) { // longitude
-									metric = 9;
-								} else if (metricString.equals("accuracy")) { // accuracy
-									metric = 10;
-								} else if (metricString.equals("locationprovider")) { // location
-									metric = 11;
-								} else if (metricString.equals("simoperatorcode")) { // sim operator code
-									metric = 12;
-								} else if (metricString.equals("simoperatorname")) { // sim operator name
-									metric = 13;
-								} else if (metricString.equals("imei")) { // imei
-									metric = 14;
-								} else if (metricString.equals("imsi")) { // imsi
-									metric = 15;
-								} else if (metricString.equals("manufactor")) { // manufacter
-									metric = 16;
-								} else if (metricString.equals("model")) { // model
-									metric = 17;
-								} else if (metricString.equals("ostype")) { // os type
-									metric = 18;
-								} else if (metricString.equals("osversion")) { // os version
-									metric = 19;
-								} else if (metricString.equals("gsmbiterrorrate")) { // gsmbiterrorrate
-									metric = 20;
-								} else if (metricString.equals("cdmaecio")) { // cdmaecio
-									metric = 21;
-								} else if (metricString.equals("phonetype")) { // phone type
-									metric = 22;
-								} else if (metricString.equals("activenetworktype")) { // active network
-									metric = 23;
-									mActiveNetworkType = value;
-								} else if (metricString.equals("connectionstatus")) { // connection
-									metric = 24;
-								} else if (metricString.equals("roamingstatus")) { // roaming status
-									metric = 25;
-								} else if (metricString.equals("networkoperatorcode")) { // network
-									metric = 26;
-								} else if (metricString.equals("cdmasignalstrength")) { // cdmasignalstrength
-									metric = 27;
-								} else if (metricString.equals("cdmabasestationid")) { // cdmabasestationid
-									metric = 28;
-								} else if (metricString.equals("cdmabasestationlatitude")) { // cdmabasestationlatitude
-									metric = 29;
-								} else if (metricString.equals("cdmabasestationlongitude")) { // cdmabasestationlongitude
-									metric = 30;
-								} else if (metricString.equals("cdmanetworkid")) { // cdmanetworkid
-									metric = 31;
-								} else if (metricString.equals("cdmasystemid")) { // cdmasystemid
-									metric = 32;
-								} else {
-									Log.d(this.getClass().getName(), "WARNING - unsupported metric (" + metric +")");
-								}
-
-								// Prevent them display at ALL in the test view; to prevent
-								// weird flickering!
-								metric = -99;
-							}
-
-
-							switch (metric) {
-
-							// passive metrics
-							case 1:
-								tv = (TextView) findViewById(R.id.passivemetric1);
-								tv.setText(value);
-								break;
-
-							case 2:
-								tv = (TextView) findViewById(R.id.passivemetric2);
-								tv.setText(value);
-								break;
-
-							case 3:
-								tv = (TextView) findViewById(R.id.passivemetric3);
-								tv.setText(value);
-								break;
-
-							case 4:
-								tv = (TextView) findViewById(R.id.passivemetric4);
-								tv.setText(value);
-								break;
-
-							case 5:
-								tv = (TextView) findViewById(R.id.passivemetric5);
-								tv.setText(value);
-								break;
-
-							case 6:
-								tv = (TextView) findViewById(R.id.passivemetric6);
-								tv.setText(value);
-								break;
-
-							case 7:
-								tv = (TextView) findViewById(R.id.passivemetric7_networkoperatorname);
-								tv.setText(value);
-								break;
-
-							case 8:
-								tv = (TextView) findViewById(R.id.passivemetric8);
-								tv.setText(value);
-								break;
-
-							case 9:
-								tv = (TextView) findViewById(R.id.passivemetric9);
-								tv.setText(value);
-								break;
-
-							case 10:
-								tv = (TextView) findViewById(R.id.passivemetric10);
-								tv.setText(value);
-								break;
-
-							case 11:
-								tv = (TextView) findViewById(R.id.passivemetric11);
-								tv.setText(value);
-								break;
-							case 12:
-								tv = (TextView) findViewById(R.id.passivemetric12);
-								tv.setText(value);
-								break;
-							case 13:
-								tv = (TextView) findViewById(R.id.passivemetric13);
-								tv.setText(value);
-								break;
-							case 14:
-								tv = (TextView) findViewById(R.id.passivemetric14);
-								tv.setText(value);
-								break;
-							case 15:
-								tv = (TextView) findViewById(R.id.passivemetric15);
-								tv.setText(value);
-								break;
-							case 16:
-								tv = (TextView) findViewById(R.id.passivemetric16);
-								tv.setText(value);
-								break;
-							case 17:
-								tv = (TextView) findViewById(R.id.passivemetric17);
-								tv.setText(value);
-								break;
-							case 18:
-								tv = (TextView) findViewById(R.id.passivemetric18);
-								tv.setText(value);
-								break;
-							case 19:
-								tv = (TextView) findViewById(R.id.passivemetric19);
-								tv.setText(value);
-								break;
-							case 20:
-								tv = (TextView) findViewById(R.id.passivemetric20);
-								tv.setText(value);
-								break;
-							case 21:
-								tv = (TextView) findViewById(R.id.passivemetric21);
-								tv.setText(value);
-								break;
-							case 22:
-								tv = (TextView) findViewById(R.id.passivemetric22);
-								tv.setText(value);
-								break;
-							case 23:
-								tv = (TextView) findViewById(R.id.passivemetric23);
-								tv.setText(value);
-								break;
-							case 24:
-								tv = (TextView) findViewById(R.id.passivemetric24);
-								tv.setText(value);
-								break;
-							case 25:
-								tv = (TextView) findViewById(R.id.passivemetric25);
-								tv.setText(value);
-								break;
-							case 26:
-								tv = (TextView) findViewById(R.id.passivemetric26);
-								tv.setText(value);
-								break;
-							case 27:
-								tv = (TextView) findViewById(R.id.passivemetric27);
-								tv.setText(value);
-								break;
-							case 28:
-								tv = (TextView) findViewById(R.id.passivemetric28);
-								tv.setText(value);
-								break;
-							case 29:
-								tv = (TextView) findViewById(R.id.passivemetric29);
-								tv.setText(value);
-								break;
-							case 30:
-								tv = (TextView) findViewById(R.id.passivemetric30);
-								tv.setText(value);
-								break;
-							case 31:
-								tv = (TextView) findViewById(R.id.passivemetric31);
-								tv.setText(value);
-								break;
-							case 32:
-								tv = (TextView) findViewById(R.id.passivemetric32);
-								tv.setText(value);
-								break;
-							default:
-								//
-
-							}
-							if (!value.equals("") && tv != null) {
-
-								TableLayout tl1 = (TableLayout) findViewById(R.id.passive_metrics_status);
-								tl1.setVisibility(View.GONE);
-								TableLayout tl = (TableLayout) tv.getParent()
-										.getParent();
-								tl.setVisibility(View.VISIBLE);
-							}
-
-							if (value.equals("") && tv != null) {
-								TableLayout tl = (TableLayout) tv.getParent()
-										.getParent();
-								tl.setVisibility(View.GONE);
-							}
-
-						}
-
-					} catch (JSONException e) {
-						SKLogger.e(this, e.getMessage());
-					}
+          doHandleMessage(msg);
 				}
-			};
+
+      };
 
 			launchTest(testID);
 		}catch(Throwable t){
 			SKLogger.e(this, "handler or test failure", t);
 		}
 	}
-	
-	
+
+  private void doHandleMessage(Message msg) {
+    TextView tv = null;
+    FontFitTextView fftv = null;
+
+    JSONObject message_json;
+    message_json = (JSONObject) msg.obj;
+    String value;
+    int success;
+    int testname;
+    int status_complete;
+    int metric;
+
+    String hostUrl = ClosestTarget.sGetClosestTarget();
+    if (hostUrl.length() != 0) {
+      String name = config.hosts.get(hostUrl);
+      if (name == null) {
+        name = hostUrl;
+      }
+
+      if (name.length() <= 1) {
+        // For now, just show the "Finding..." message as the text.
+        runningTestWithClosestTarget.setText(R.string.TEST_Label_Finding_Best_Target);
+      } else if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
+        // Show "Best Target - myserver" as the text.
+        runningTestWithClosestTarget.setText(getString(R.string.running_test_closest_target) + name);
+      } else {
+// Show "Running Test"
+        runningTestWithClosestTarget.setText(R.string.running_test);
+      }
+
+    }
+
+    try {
+
+      String type = message_json.getString(StorageTestResult.JSON_TYPE_ID);
+
+      if (type == "completed") {
+
+        result = 1;
+
+        if (SKARunningTestActivity.this.checkIfIsConnectedAndIfNotShowAnAlertThenFinish() == false)
+        {
+          // The alert that is shown, handles the "finish()"
+        } else {
+          SKARunningTestActivity.this.finish();
+          overridePendingTransition(0, 0);
+        }
+      }
+
+      if (type == "test") {
+        testname = message_json
+            .getInt(StorageTestResult.JSON_TESTNUMBER);
+        status_complete = message_json
+            .getInt(StorageTestResult.JSON_STATUS_COMPLETE);
+        value = message_json.getString(StorageTestResult.JSON_HRRESULT);
+        if (status_complete == 100 && message_json.has(StorageTestResult.JSON_SUCCESS)) {
+
+          success = message_json
+              .getInt(StorageTestResult.JSON_SUCCESS);
+          if (success == 0) {
+            value = getString(R.string.failed);
+          }
+        }
+
+        switch (testname) {
+          // active metrics
+          case StorageTestResult.DOWNLOAD_TEST_ID:
+            pw = (ProgressWheel) findViewById(R.id.ProgressWheel1);
+            fftv = (FontFitTextView) findViewById(R.id.download_result);
+            pw.setProgress((int) (status_complete * 3.6));
+            pw.setContentDescription("Status "
+                + status_complete + "%");
+            if (status_complete == 100) {
+              pw.setVisibility(View.GONE);
+              fftv.setText(value);
+              fftv.setContentDescription(getString(R.string.download)
+                  + " " + value);
+              fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+            } else {
+              pw.setVisibility(View.VISIBLE);
+              fftv.setText("");
+            }
+            break;
+          case StorageTestResult.UPLOAD_TEST_ID:
+            pw = (ProgressWheel) findViewById(R.id.ProgressWheel2);
+            fftv = (FontFitTextView) findViewById(R.id.upload_result);
+            pw.setProgress((int) (status_complete * 3.6));
+            pw.setContentDescription("Status "
+                + status_complete + "%");
+            if (status_complete == 100) {
+              pw.setVisibility(View.GONE);
+
+              fftv.setText(value);
+              fftv.setContentDescription(getString(R.string.upload)
+                  + " " + value);
+              fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+            } else {
+              pw.setVisibility(View.VISIBLE);
+              fftv.setText("");
+            }
+            break;
+          case StorageTestResult.PACKETLOSS_TEST_ID:
+            pw = (ProgressWheel) findViewById(R.id.ProgressWheel3);
+            fftv = (FontFitTextView) findViewById(R.id.packetloss_result);
+            pw.setProgress((int) (status_complete * 3.6));
+            pw.setContentDescription("Status " + status_complete + "%");
+            if (status_complete == 100) {
+              // We MUST restore the packet loss result field after the progress spinner has finished,
+              // otherwise, we can see "Perda de pacote" truncated to just "Perda da"...
+              fftv.setVisibility(View.VISIBLE);
+              pw.setVisibility(View.GONE);
+              fftv.setText(value);
+              fftv.setContentDescription(getString(R.string.packet_loss)
+                  + " " + value);
+              fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+            } else {
+              pw.setVisibility(View.VISIBLE);
+              // We MUST hide the packet loss result field while the progress spinner is present,
+              // otherwise, we can see "Perda de pacote" truncated to just "Perda da"
+              fftv.setVisibility(View.GONE);
+              fftv.setText("");
+            }
+            break;
+          case StorageTestResult.LATENCY_TEST_ID:
+            pw = (ProgressWheel) findViewById(R.id.ProgressWheel4);
+            fftv = (FontFitTextView) findViewById(R.id.latency_result);
+            pw.setProgress((int) (status_complete * 3.6));
+            pw.setContentDescription("Status "
+                + status_complete + "%");
+            if (status_complete == 100) {
+              pw.setVisibility(View.GONE);
+              fftv.setText(value);
+              fftv.setContentDescription(getString(R.string.latency)
+                  + " " + value);
+              fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+            } else {
+              pw.setVisibility(View.VISIBLE);
+              fftv.setText("");
+            }
+            break;
+          case StorageTestResult.JITTER_TEST_ID:
+            pw = (ProgressWheel) findViewById(R.id.JitterProgressWheel);
+            fftv = (FontFitTextView) findViewById(R.id.jitter_result);
+            pw.setProgress((int) (status_complete * 3.6));
+            pw.setContentDescription("Status "
+                + status_complete + "%");
+            if (status_complete == 100) {
+              pw.setVisibility(View.GONE);
+              fftv.setText(value);
+              fftv.setContentDescription(getString(R.string.jitter)
+                  + " " + value);
+              fftv.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+            } else {
+              pw.setVisibility(View.VISIBLE);
+              fftv.setText("");
+            }
+            break;
+
+        }
+      }
+
+      if (type == "passivemetric") {
+        metric = message_json.getInt("metric");
+        String metricString = message_json.getString("metricString");
+        value = message_json.getString("value");
+
+        if (metricString.equals("invisible")) {
+        } else {
+          // There is a complete disconnect between the integer metric value
+          // returned from the PassiveMetric class, and the layout "passive metric" identifiers
+          // such as R.id.passivemetric20.
+          // The only safe thing to do, is to look at the metricString value,
+          // to determine which resource id to use.
+          Log.d(this.getClass().getName(), "metric=" + metric + ", metricString=" + metricString + ", value=" + value);
+          if (metricString.equals("connected")) { // connected
+            metric = 1;
+          } else if (metricString.equals("connectivitytype")) { // connectivity
+            metric = 2;
+          } else if (metricString.equals("gsmcelltowerid")) { // cell tower id
+            metric = 3;
+          } else if (metricString.equals("gsmlocationareacode")) { // cell tower
+            metric = 4;
+          } else if (metricString.equals("gsmsignalstrength")) { // signal strength
+            metric = 5;
+          } else if (metricString.equals("networktype")) { // bearer
+            metric = 6;
+          } else if (metricString.equals("networkoperatorname")) { // network operator name
+            metric = 7;
+          } else if (metricString.equals("latitude")) { // latitude
+            metric = 8;
+          } else if (metricString.equals("longitude")) { // longitude
+            metric = 9;
+          } else if (metricString.equals("accuracy")) { // accuracy
+            metric = 10;
+          } else if (metricString.equals("locationprovider")) { // location
+            metric = 11;
+          } else if (metricString.equals("simoperatorcode")) { // sim operator code
+            metric = 12;
+          } else if (metricString.equals("simoperatorname")) { // sim operator name
+            metric = 13;
+          } else if (metricString.equals("imei")) { // imei
+            metric = 14;
+          } else if (metricString.equals("imsi")) { // imsi
+            metric = 15;
+          } else if (metricString.equals("manufactor")) { // manufacter
+            metric = 16;
+          } else if (metricString.equals("model")) { // model
+            metric = 17;
+          } else if (metricString.equals("ostype")) { // os type
+            metric = 18;
+          } else if (metricString.equals("osversion")) { // os version
+            metric = 19;
+          } else if (metricString.equals("gsmbiterrorrate")) { // gsmbiterrorrate
+            metric = 20;
+          } else if (metricString.equals("cdmaecio")) { // cdmaecio
+            metric = 21;
+          } else if (metricString.equals("phonetype")) { // phone type
+            metric = 22;
+          } else if (metricString.equals("activenetworktype")) { // active network
+            metric = 23;
+            mActiveNetworkType = value;
+          } else if (metricString.equals("connectionstatus")) { // connection
+            metric = 24;
+          } else if (metricString.equals("roamingstatus")) { // roaming status
+            metric = 25;
+          } else if (metricString.equals("networkoperatorcode")) { // network
+            metric = 26;
+          } else if (metricString.equals("cdmasignalstrength")) { // cdmasignalstrength
+            metric = 27;
+          } else if (metricString.equals("cdmabasestationid")) { // cdmabasestationid
+            metric = 28;
+          } else if (metricString.equals("cdmabasestationlatitude")) { // cdmabasestationlatitude
+            metric = 29;
+          } else if (metricString.equals("cdmabasestationlongitude")) { // cdmabasestationlongitude
+            metric = 30;
+          } else if (metricString.equals("cdmanetworkid")) { // cdmanetworkid
+            metric = 31;
+          } else if (metricString.equals("cdmasystemid")) { // cdmasystemid
+            metric = 32;
+          } else {
+            Log.d(this.getClass().getName(), "WARNING - unsupported metric (" + metric +")");
+          }
+
+          // Prevent them display at ALL in the test view; to prevent
+          // weird flickering!
+          metric = -99;
+        }
+
+
+        switch (metric) {
+
+          // passive metrics
+          case 1:
+            tv = (TextView) findViewById(R.id.passivemetric1);
+            tv.setText(value);
+            break;
+
+          case 2:
+            tv = (TextView) findViewById(R.id.passivemetric2);
+            tv.setText(value);
+            break;
+
+          case 3:
+            tv = (TextView) findViewById(R.id.passivemetric3);
+            tv.setText(value);
+            break;
+
+          case 4:
+            tv = (TextView) findViewById(R.id.passivemetric4);
+            tv.setText(value);
+            break;
+
+          case 5:
+            tv = (TextView) findViewById(R.id.passivemetric5);
+            tv.setText(value);
+            break;
+
+          case 6:
+            tv = (TextView) findViewById(R.id.passivemetric6);
+            tv.setText(value);
+            break;
+
+          case 7:
+            tv = (TextView) findViewById(R.id.passivemetric7_networkoperatorname);
+            tv.setText(value);
+            break;
+
+          case 8:
+            tv = (TextView) findViewById(R.id.passivemetric8);
+            tv.setText(value);
+            break;
+
+          case 9:
+            tv = (TextView) findViewById(R.id.passivemetric9);
+            tv.setText(value);
+            break;
+
+          case 10:
+            tv = (TextView) findViewById(R.id.passivemetric10);
+            tv.setText(value);
+            break;
+
+          case 11:
+            tv = (TextView) findViewById(R.id.passivemetric11);
+            tv.setText(value);
+            break;
+          case 12:
+            tv = (TextView) findViewById(R.id.passivemetric12);
+            tv.setText(value);
+            break;
+          case 13:
+            tv = (TextView) findViewById(R.id.passivemetric13);
+            tv.setText(value);
+            break;
+          case 14:
+            tv = (TextView) findViewById(R.id.passivemetric14);
+            tv.setText(value);
+            break;
+          case 15:
+            tv = (TextView) findViewById(R.id.passivemetric15);
+            tv.setText(value);
+            break;
+          case 16:
+            tv = (TextView) findViewById(R.id.passivemetric16);
+            tv.setText(value);
+            break;
+          case 17:
+            tv = (TextView) findViewById(R.id.passivemetric17);
+            tv.setText(value);
+            break;
+          case 18:
+            tv = (TextView) findViewById(R.id.passivemetric18);
+            tv.setText(value);
+            break;
+          case 19:
+            tv = (TextView) findViewById(R.id.passivemetric19);
+            tv.setText(value);
+            break;
+          case 20:
+            tv = (TextView) findViewById(R.id.passivemetric20);
+            tv.setText(value);
+            break;
+          case 21:
+            tv = (TextView) findViewById(R.id.passivemetric21);
+            tv.setText(value);
+            break;
+          case 22:
+            tv = (TextView) findViewById(R.id.passivemetric22);
+            tv.setText(value);
+            break;
+          case 23:
+            tv = (TextView) findViewById(R.id.passivemetric23);
+            tv.setText(value);
+            break;
+          case 24:
+            tv = (TextView) findViewById(R.id.passivemetric24);
+            tv.setText(value);
+            break;
+          case 25:
+            tv = (TextView) findViewById(R.id.passivemetric25);
+            tv.setText(value);
+            break;
+          case 26:
+            tv = (TextView) findViewById(R.id.passivemetric26);
+            tv.setText(value);
+            break;
+          case 27:
+            tv = (TextView) findViewById(R.id.passivemetric27);
+            tv.setText(value);
+            break;
+          case 28:
+            tv = (TextView) findViewById(R.id.passivemetric28);
+            tv.setText(value);
+            break;
+          case 29:
+            tv = (TextView) findViewById(R.id.passivemetric29);
+            tv.setText(value);
+            break;
+          case 30:
+            tv = (TextView) findViewById(R.id.passivemetric30);
+            tv.setText(value);
+            break;
+          case 31:
+            tv = (TextView) findViewById(R.id.passivemetric31);
+            tv.setText(value);
+            break;
+          case 32:
+            tv = (TextView) findViewById(R.id.passivemetric32);
+            tv.setText(value);
+            break;
+          default:
+            //
+
+        }
+        if (!value.equals("") && tv != null) {
+
+          TableLayout tl1 = (TableLayout) findViewById(R.id.passive_metrics_status);
+          tl1.setVisibility(View.GONE);
+          TableLayout tl = (TableLayout) tv.getParent()
+              .getParent();
+          tl.setVisibility(View.VISIBLE);
+        }
+
+        if (value.equals("") && tv != null) {
+          TableLayout tl = (TableLayout) tv.getParent()
+              .getParent();
+          tl.setVisibility(View.GONE);
+        }
+
+      }
+
+    } catch (JSONException e) {
+      SKLogger.e(this, e.getMessage());
+    }
+  }
+
 	private boolean checkIfIsConnectedAndIfNotShowAnAlertThenFinish() {
 		
 		if (NetworkDataCollector.sGetIsConnected() == true) {
