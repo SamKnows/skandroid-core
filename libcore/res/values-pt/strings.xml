@@ -576,8 +576,8 @@
     <string name="label_message_tests_executed">Testes executados com sucesso</string>
     <string name="label_message_starting_tests">Escolha do servidor</string>
     <string name="label_message_download_test">Testando Download</string>
-    <string name="label_message_upload_test"> Testando Upload</string>
-    <string name="label_message_latency_loss_jitter_test">Latência / de pacote / Jitter</string>
+    <string name="label_message_upload_test">Testando Upload</string>
+    <string name="label_message_latency_loss_jitter_test">Latência, etc.</string>
     <string name="no_internet_connection">Sem conexão com a internet no momento</string>
     <string name="tests_running_title">Executando testes</string>
     <string name="tests_running_message">Recomenda-se aguardar a conclusão dos testes. Deseja interromper os testes?</string>

@@ -4,6 +4,7 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -26,6 +27,16 @@ public class ActivityInitiate extends BaseLogoutActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // http://stackoverflow.com/questions/2280361/app-always-starts-fresh-from-root-activity-instead-of-resuming-background-state
+    if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+      // Activity was brought to front and not created,
+      // Thus finishing this will get us to the last viewed activity
+      finish();
+      return;
+    }
+
+    // Regular activity creation code...
 
     Log.d(this.getClass().toString(), "*** onCreate ***");
 
