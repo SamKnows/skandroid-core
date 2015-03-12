@@ -23,6 +23,8 @@ public class SKLogger {
 	private static boolean isStderrOutput = false; 
 	
 	private static void appendLog(String severety, String tag, String text) {
+    Log.d("SKLogger - appendLog", tag + ":" + text);
+
 		if (SKConstants.LOG_TO_FILE) {
 			File logFile = new File(folder, "log.file");
 			if (!logFile.exists()) {

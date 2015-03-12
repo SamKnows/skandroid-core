@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_your_ip_label"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"

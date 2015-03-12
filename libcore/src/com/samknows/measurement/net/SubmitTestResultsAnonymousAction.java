@@ -1,6 +1,7 @@
 package com.samknows.measurement.net;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,35 @@ public class SubmitTestResultsAnonymousAction {
     context = _context;
   }
 
+  // http://stackoverflow.com/questions/6198986/how-can-i-replace-non-printable-unicode-characters-in-java
+  private String getStringWithControlsStripped(String myString) {
+    StringBuilder newString = new StringBuilder(myString.length());
+    for (int offset = 0; offset < myString.length();)
+    {
+      int codePoint = myString.codePointAt(offset);
+      offset += Character.charCount(codePoint);
+
+      // Replace invisible control characters and unused code points
+      switch (Character.getType(codePoint))
+      {
+        case Character.CONTROL:     // \p{Cc}
+        case Character.FORMAT:      // \p{Cf}
+        case Character.PRIVATE_USE: // \p{Co}
+        case Character.SURROGATE:   // \p{Cs}
+        case Character.UNASSIGNED:  // \p{Cn}
+          newString.append('?');
+          break;
+        default:
+          newString.append(Character.toChars(codePoint));
+          break;
+      }
+    }
+
+    String result = newString.toString();
+
+    return result;
+  }
+
   public void execute() {
 
     DBHelper dbHelper = new DBHelper(context);
@@ -49,7 +79,14 @@ public class SubmitTestResultsAnonymousAction {
     String[] results = TestResultsManager.getJSONDataAsStringArray(context);
     List<Integer> fail = new ArrayList<Integer>();
     for (int i = 0; i < results.length; i++) {
-      byte[] data = results[i].getBytes();
+      byte[] data = new byte[0];
+      try {
+        // Deal with corrupted UTF-8 data...!
+        results[i] = getStringWithControlsStripped(results[i]);
+        data = results[i].getBytes("UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        SKLogger.sAssert(false);
+      }
       if (data == null) {
         SKLogger.d(SubmitTestResultsAnonymousAction.class,
             "no results to be submitted");

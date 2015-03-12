@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
 import android.content.Context;
@@ -104,7 +106,7 @@ public class TestResultsManager {
 			return;
 		}
 		try {
-			dos.writeBytes(result);
+			dos.write(result.getBytes("UTF-8"));
 			dos.writeBytes("\r\n");
 		} catch (IOException ioe) {
 			SKLogger.e(TestResultsManager.class, "Error while saving results: " + ioe.getMessage());
@@ -159,12 +161,8 @@ public class TestResultsManager {
 		
 		verifyReduceSize(logFile);
 	}
-	
-	public static File getSubmitedLogsFile(Context c) {
-		return new File(storage, SKConstants.TEST_RESULTS_SUBMITTED_FILE_NAME);
-	}
 
-	private static void verifyReduceSize(File logFile) {
+  private static void verifyReduceSize(File logFile) {
 		if (logFile.length() > SKConstants.SUBMITED_LOGS_MAX_SIZE) {
 			File temp = new File(logFile.getAbsolutePath() + "_tmp");
 			BufferedReader reader = null;
@@ -196,7 +194,13 @@ public class TestResultsManager {
 		if(data == null){
 			return new String[] {};
 		}
-		String results = new String(data);
-		return results.split("\r\n");
+    String results = null;
+    try {
+      results = new String(data, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      SKLogger.sAssert(false);
+      results = new String(data);
+    }
+    return results.split("\r\n");
 	}
 }	

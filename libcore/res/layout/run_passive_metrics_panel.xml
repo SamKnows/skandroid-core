@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_speed_test_passive_metric_label_your_ip_label"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
@@ -40,7 +40,8 @@
                         android:gravity="left|center_vertical"
                         android:text="@string/pm_your_ip_label"
                         android:textColor="@color/MetricsTextColour"
-                        android:textSize="@dimen/text_size_small_medium" />
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:layout_marginRight="10dp"/>
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/fragment_speed_test_passive_metric_result_your_ip_value"
@@ -57,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_speed_test_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/visual_rhythm_half"
@@ -65,7 +66,8 @@
                         android:gravity="left|center_vertical"
                         android:text="@string/pm_reference_no_label"
                         android:textColor="@color/MetricsTextColour"
-                        android:textSize="@dimen/text_size_small_medium" />
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:layout_marginRight="10dp"/>
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/fragment_speed_test_passive_metric_result_reference_number_value"
