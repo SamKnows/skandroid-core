@@ -38,12 +38,13 @@
                     <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_your_ip_label"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
                         android:text="@string/pm_your_ip_label"
                         android:textColor="@color/MetricsTextColour"
-                        android:textSize="@dimen/text_size_small_medium" />
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:layout_marginRight="5dp"/>
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_result_your_ip_value"
@@ -65,12 +66,13 @@
                     <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
                         android:text="@string/pm_reference_no_label"
                         android:textColor="@color/MetricsTextColour"
-                        android:textSize="@dimen/text_size_small_medium" />
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:layout_marginRight="5dp"/>
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_result_reference_number_value"
