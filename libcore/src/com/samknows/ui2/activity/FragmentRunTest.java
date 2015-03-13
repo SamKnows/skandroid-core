@@ -292,6 +292,17 @@ public class FragmentRunTest extends Fragment {
 
             @Override
             public void run() {
+              // Defend against "java.lang.IllegalStateException: Fragment FragmentRunTest{...} not attached to Activity"
+              // http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+              if (isAdded() == false) {
+                SKLogger.sAssert(getClass(), false);
+                return;
+              }
+              if (getActivity() == null) {
+                SKLogger.sAssert(getClass(), false);
+                return;
+              }
+
               Pair<Double, String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
               //Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
               if (value.first.doubleValue() != lastPolledSpeedValueMbps) {

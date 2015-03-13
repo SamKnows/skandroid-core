@@ -305,6 +305,17 @@ public class FragmentSummary extends Fragment {
     }
 
     private void ExtractSummaryValues() {
+      // Defend against "java.lang.IllegalStateException: Fragment FragmentRunTest{...} not attached to Activity"
+      // http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+      if (isAdded() == false) {
+        SKLogger.sAssert(getClass(), false);
+        return;
+      }
+      if (getActivity() == null) {
+        SKLogger.sAssert(getClass(), false);
+        return;
+      }
+
       // Get the summary values from the data base
       aList_SummaryResults = dbHelper.getSummaryValues(getNetworkTypeSelection(), calculateTimePeriodStart());
 
