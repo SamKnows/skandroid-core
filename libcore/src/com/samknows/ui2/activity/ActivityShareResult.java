@@ -73,11 +73,9 @@ public class ActivityShareResult extends Activity {
         fos.close();
         path = MediaStore.Images.Media.insertImage(getContentResolver(), b, "Screen", "screen");
       } catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        SKLogger.sAssert(false);
       } catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        SKLogger.sAssert(false);
       }
 
       return null;
@@ -211,6 +209,10 @@ public class ActivityShareResult extends Activity {
    * Start the intent to share the image
    */
   private void shareImage() {
+    if (path == null) {
+      SKLogger.sAssert(false);
+      return;
+    }
     Uri URI_Image = Uri.parse(path);
     Intent intent_Share_Image = new Intent(Intent.ACTION_SEND);
     intent_Share_Image.putExtra(Intent.EXTRA_STREAM, URI_Image);
