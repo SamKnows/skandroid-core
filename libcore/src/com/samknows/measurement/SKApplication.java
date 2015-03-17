@@ -136,7 +136,7 @@ public class SKApplication extends Application{
 		return getApplicationContext().getString(R.string.about);
 	}
 	
-	public boolean getDoesNewAppMainScreenRevealResultsPanel() {
+	public boolean getRevealPassiveMetricsFromPanel() {
 	  return true;
 	}
 

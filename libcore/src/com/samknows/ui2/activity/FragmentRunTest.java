@@ -222,7 +222,11 @@ public class FragmentRunTest extends Fragment {
 
     //Remove the telephonyManager listener
     if (telephonyManager != null) {
-      telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+      try {
+        telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+      } catch (NullPointerException e) {
+        SKLogger.sAssert(false);
+      }
     }
   }
 
@@ -556,7 +560,7 @@ public class FragmentRunTest extends Fragment {
       }
     });
 
-    if (SKApplication.getAppInstance().getDoesNewAppMainScreenRevealResultsPanel()) {
+    if (SKApplication.getAppInstance().getRevealPassiveMetricsFromPanel()) {
       // Set a listener to the results layout to move it to the top and show the passive metrics
       layout_ll_results.setOnClickListener(new OnClickListener() {
         @Override
@@ -1728,7 +1732,7 @@ public class FragmentRunTest extends Fragment {
     gaugeView.setKindOfTest(-1);
     setNetworkTypeInformation();
     sendRefreshUIMessage();
-    if (SKApplication.getAppInstance().getDoesNewAppMainScreenRevealResultsPanel()) {
+    if (SKApplication.getAppInstance().getRevealPassiveMetricsFromPanel()) {
       layout_ll_results.setClickable(true);
     }
     setUpPassiveMetricsLayout(connectivityType);

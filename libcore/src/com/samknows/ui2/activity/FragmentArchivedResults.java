@@ -526,15 +526,17 @@ public class FragmentArchivedResults extends Fragment {
     lv_archived_results.setAdapter(adapter_Archived_Results);                        // Assign the adapter to the list view
 
     // Set the listener to show the passive metrics/details about an specific archived test
-    lv_archived_results.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // If the list view is not hidden (i.e. it is visible!)
-        if (isListviewHidden == false) {
-          showDetailedMetricsHideList(screenWidth, view, position);
+    if (SKApplication.getAppInstance().getRevealPassiveMetricsFromPanel()) {
+      lv_archived_results.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+          // If the list view is not hidden (i.e. it is visible!)
+          if (isListviewHidden == false) {
+            showDetailedMetricsHideList(screenWidth, view, position);
+          }
         }
-      }
-    });
+      });
+    }
 
     // On click listener that set the list view to the origin position
     rl_main.setOnClickListener(new OnClickListener() {
