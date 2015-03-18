@@ -1,39 +1,40 @@
 package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
-import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.Storage;
+import com.samknows.measurement.environment.BaseDataCollector;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.environment.DCSData;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
-import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.schedule.TestDescription;
-import com.samknows.measurement.environment.BaseDataCollector;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.datacollection.LocationDataCollector;
+import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.schedule.TestDescription;
+import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.statemachine.Transition;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.TestBatch;
+import com.samknows.measurement.Storage;
 import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.test.TestExecutor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import org.json.JSONObject;
 
 
+
+/*  
+ * This class is used to run the the tests when they are executed manually
+ * as a continuous test.
+ * The class is simply created, started, and stopped.
+ * Test results are not reported while the tests are running.
+ */
 public class ContinuousTestRunner implements Runnable {
   private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
   private Context mContext;

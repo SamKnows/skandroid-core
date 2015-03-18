@@ -7,7 +7,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.samknows.measurement.test.ScheduledTestExecutionQueue;
+import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.util.IdGenerator;
 import com.samknows.measurement.util.TimeUtils;
 import com.samknows.measurement.util.XmlUtils;
@@ -24,7 +24,7 @@ public class TestGroup implements Serializable{
 	public List<TestTime> times;
 	
 	//List of tests ids belonging to the test group
-	public List<Integer> testIds;
+	public List<SCHEDULE_TEST_ID> testIds;
 	
 	public static TestGroup parseXml(Element node){
 		TestGroup ret = new TestGroup();
@@ -49,11 +49,13 @@ public class TestGroup implements Serializable{
 		
 		
 		//get the list of test belonging to the test group
-		ret.testIds = new ArrayList<Integer>();
+		ret.testIds = new ArrayList<SCHEDULE_TEST_ID>();
 		NodeList test_ids = node.getElementsByTagName(ScheduleConfig.TEST);
 		for(int i=0; i < test_ids.getLength(); i++){
 			Element ep = (Element) test_ids.item(i);
-			ret.testIds.add(Integer.parseInt(ep.getAttribute(ScheduleConfig.ID)));
+			int testIdAsInteger = Integer.parseInt(ep.getAttribute(ScheduleConfig.ID));
+      SCHEDULE_TEST_ID testId = SCHEDULE_TEST_ID.sGetTestIdForInt(testIdAsInteger);
+      ret.testIds.add(testId);
 		}
 		return ret;
 	}

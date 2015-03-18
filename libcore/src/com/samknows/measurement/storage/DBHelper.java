@@ -22,6 +22,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_1w1m3m1y;
+import com.samknows.measurement.storage.StorageTestResult.*;
 
 //Helper class for accessing the data stored in the SQLite DB
 //It Exposes only the methods to populate the Interface
@@ -132,20 +133,23 @@ public class DBHelper {
 	}
 
 	// converter
-	private static String testValueToGraph(int test_type_id, double value) {
+	private static String testValueToGraph(DETAIL_TEST_ID test_type_id, double value) {
 		String ret = value + "";
 		switch (test_type_id) {
-		case StorageTestResult.UPLOAD_TEST_ID:
-		case StorageTestResult.DOWNLOAD_TEST_ID:
+		case UPLOAD_TEST_ID:
+		case DOWNLOAD_TEST_ID:
 			ret = ((double) value / 1000000) + "";
 			break;
-		case StorageTestResult.LATENCY_TEST_ID:
-		case StorageTestResult.JITTER_TEST_ID:
+		case LATENCY_TEST_ID:
+		case JITTER_TEST_ID:
 			ret = ((long) value / 1000) + "";
 			break;
-		case StorageTestResult.PACKETLOSS_TEST_ID:
+		case PACKETLOSS_TEST_ID:
 			ret = String.format("%.2f", value);
 			break;
+    default:
+      SKLogger.sAssert(false);
+      break;
 		}
 		return ret;
 	}
@@ -156,13 +160,13 @@ public class DBHelper {
 		JSONObject ret = new JSONObject();
 		try {
 			String test_type = tr.getString(SKSQLiteHelper.TR_COLUMN_TYPE);
-			int test_type_id = StorageTestResult.testStringToId(test_type);
+			DETAIL_TEST_ID test_type_id = StorageTestResult.testStringToId(test_type);
 			long dtime = tr.getLong(SKSQLiteHelper.TR_COLUMN_DTIME);
 			String location = tr.getString(SKSQLiteHelper.TR_COLUMN_LOCATION);
 			int success = tr.getInt(SKSQLiteHelper.TR_COLUMN_SUCCESS);
 			double result = tr.getDouble(SKSQLiteHelper.TR_COLUMN_RESULT);
 			String hrresult = StorageTestResult.hrResult(test_type_id, result);
-			ret.put(ARCHIVEDATA_ACTIVEMETRICS_TEST, test_type_id);
+			ret.put(ARCHIVEDATA_ACTIVEMETRICS_TEST, test_type_id.getValueAsInt());
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_DTIME, dtime);
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_SUCCESS, success + "");
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_LOCATION, location);
@@ -180,7 +184,7 @@ public class DBHelper {
 		JSONObject ret = new JSONObject();
 		try {
 			String test_type = tr.getString(SKSQLiteHelper.TR_COLUMN_TYPE);
-			int test_type_id = StorageTestResult.testStringToId(test_type);
+			DETAIL_TEST_ID test_type_id = StorageTestResult.testStringToId(test_type);
 			long dtime = tr.getLong(SKSQLiteHelper.TR_COLUMN_DTIME);
 			String location = tr.getString(SKSQLiteHelper.TR_COLUMN_LOCATION);
 			int success = tr.getInt(SKSQLiteHelper.TR_COLUMN_SUCCESS);
@@ -199,12 +203,11 @@ public class DBHelper {
 
 	// Translate an entry in the test result table results entry if a JSONObject
 	// for graphdata
-	private static JSONObject testResultToGraphData(int test_type_id,
+	private static JSONObject testResultToGraphData(DETAIL_TEST_ID test_type_id,
 			JSONObject tr) {
 		JSONObject ret = new JSONObject();
 		try {
-			String value = testValueToGraph(test_type_id,
-					tr.getDouble(SKSQLiteHelper.TR_COLUMN_RESULT));
+			String value = testValueToGraph(test_type_id, tr.getDouble(SKSQLiteHelper.TR_COLUMN_RESULT));
 			//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
 			long dtime = tr.getLong(SKSQLiteHelper.TR_COLUMN_DTIME);
 			ret.put(GRAPHDATA_RESULTS_DATETIME, "" + dtime);
@@ -233,20 +236,23 @@ public class DBHelper {
 	}
 
 	// Translatror
-	private static String testIdToGraphLabel(int test_type_id) {
+	private static String testIdToGraphLabel(DETAIL_TEST_ID test_type_id) {
 		String ret = "";
 		switch (test_type_id) {
-		case StorageTestResult.UPLOAD_TEST_ID:
-		case StorageTestResult.DOWNLOAD_TEST_ID:
+		case UPLOAD_TEST_ID:
+		case DOWNLOAD_TEST_ID:
 			ret = "Mbps";
 			break;
-		case StorageTestResult.LATENCY_TEST_ID:
-		case StorageTestResult.JITTER_TEST_ID:
+		case LATENCY_TEST_ID:
+		case JITTER_TEST_ID:
 			ret = "ms";
 			break;
-		case StorageTestResult.PACKETLOSS_TEST_ID:
+		case PACKETLOSS_TEST_ID:
 			ret = "%";
 			break;
+    default:
+      SKLogger.sAssert(false);
+      break;
 		}
 		return ret;
 	}
@@ -255,7 +261,7 @@ public class DBHelper {
 	// of type test_type_id between startdtime and enddtime
 	// Whereas on iOS, the equivalent search would average all data by day;
 	// on Android, this returns all the point data in the specified period.
-	public JSONObject fetchGraphData(int test_type_id, long startdtime,
+	public JSONObject fetchGraphData(DETAIL_TEST_ID test_type_id, long startdtime,
 			long enddtime, DATERANGE_1w1m3m1y dateRange) {
 
 		JSONObject ret = new JSONObject();
@@ -290,7 +296,7 @@ public class DBHelper {
 	// Returns the JSONObject containing the data to populate a grid for a
 	// specific test
 	// with id test_type_id, returns offset entry starting from index
-	public JSONObject getGridData(int test_type_id, int index, int offset, long startdtime,
+	public JSONObject getGridData(DETAIL_TEST_ID test_type_id, int index, int offset, long startdtime,
 			long enddtime) {
 		JSONObject ret = new JSONObject();
 		String test_type = StorageTestResult.testIdToString(test_type_id);
@@ -904,9 +910,8 @@ public class DBHelper {
 
 				JSONObject curr = new JSONObject();
 				try {
-					int test_type_id = StorageTestResult.testStringToId(cursor
-							.getString(0));
-					curr.put(AVERAGEDATA_TYPE, test_type_id + "");
+					DETAIL_TEST_ID test_type_id = StorageTestResult.testStringToId(cursor .getString(0));
+					curr.put(AVERAGEDATA_TYPE, test_type_id.getValueAsInt() + "");
 					
 					String value = StorageTestResult.hrResult(test_type_id, cursor.getDouble(1));
         			//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
@@ -1161,7 +1166,7 @@ public class DBHelper {
 			{			
 				Cursor cursor = database.rawQuery(query, null);
 
-				int testType = 0;
+				DETAIL_TEST_ID testType = DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 				float max = 0;
 				float min = 0;
 				float average = 0;
@@ -1175,35 +1180,35 @@ public class DBHelper {
 					{
 						if (cursor.getString(0).equals("download"))
 						{
-							testType = 0;						
+							testType = DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 							average = cursor.getFloat(1) / 1000000;
 							max = cursor.getFloat(2) / 1000000;
 							min = cursor.getFloat(3) / 1000000;
 						}
 						else if (cursor.getString(0).equals("upload"))
 						{
-							testType = 1;
+							testType = DETAIL_TEST_ID.UPLOAD_TEST_ID;
 							average = cursor.getFloat(1) / 1000000;
 							max = cursor.getFloat(2) / 1000000;
 							min = cursor.getFloat(3) / 1000000;
 						}
 						else if (cursor.getString(0).equals("latency"))
 						{
-							testType = 2;
+              testType = DETAIL_TEST_ID.LATENCY_TEST_ID;
 							average = cursor.getFloat(1) / 1000;
 							max = cursor.getFloat(2) / 1000;
 							min = cursor.getFloat(3) / 1000;
 						}
 						else if (cursor.getString(0).equals("packetloss"))
 						{
-							testType = 3;
+              testType = DETAIL_TEST_ID.PACKETLOSS_TEST_ID;
 							average = cursor.getFloat(1);
 							max = cursor.getFloat(2);
 							min = cursor.getFloat(3);
 						}
 						else if (cursor.getString(0).endsWith("jitter"))
 						{
-							testType = 4;
+              testType = DETAIL_TEST_ID.JITTER_TEST_ID;
 							average = cursor.getFloat(1) / 1000;
 							max = cursor.getFloat(2) / 1000;
 							min = cursor.getFloat(3) / 1000;						

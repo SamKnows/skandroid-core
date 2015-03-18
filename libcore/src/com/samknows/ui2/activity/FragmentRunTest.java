@@ -62,7 +62,9 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.measurement.storage.StorageTestResult.*;
 import com.samknows.tests.HttpTest;
 
 /**
@@ -785,7 +787,8 @@ public class FragmentRunTest extends Fragment {
 
     FormattedValues formattedValues = new FormattedValues();
     JSONObject message_JSON = (JSONObject) msg.obj;
-    int success, testName, statusComplete;
+    int success, statusComplete;
+    int testNameAsInt = 0;
     String value;
 
     try {
@@ -794,7 +797,7 @@ public class FragmentRunTest extends Fragment {
       // Tests are on progress
       if (messageType == "test") {
         statusComplete = message_JSON.getInt(StorageTestResult.JSON_STATUS_COMPLETE);
-        testName = message_JSON.getInt(StorageTestResult.JSON_TESTNUMBER);
+        testNameAsInt = message_JSON.getInt(StorageTestResult.JSON_TESTNUMBER);
         value = message_JSON.getString(StorageTestResult.JSON_HRRESULT);
 
 
@@ -817,9 +820,10 @@ public class FragmentRunTest extends Fragment {
 
         Pair<Float, String> valueUnits = null;
 
-        switch (testName) {
+        DETAIL_TEST_ID testId = DETAIL_TEST_ID.sGetTestIdForInt(testNameAsInt);
+        switch (testId) {
           // Case download test
-          case StorageTestResult.DOWNLOAD_TEST_ID:
+          case DOWNLOAD_TEST_ID:
             // Download test results are processed
             updateProgressBar(statusComplete, 0);
             changeLabelText(getString(R.string.label_message_download_test));
@@ -845,7 +849,7 @@ public class FragmentRunTest extends Fragment {
             break;
 
           // Case upload test
-          case StorageTestResult.UPLOAD_TEST_ID:
+          case UPLOAD_TEST_ID:
             // Upload test results are processed
             updateProgressBar(statusComplete, 1);
             changeLabelText(getString(R.string.label_message_upload_test));
@@ -870,7 +874,7 @@ public class FragmentRunTest extends Fragment {
             break;
 
           // Case latency test
-          case StorageTestResult.LATENCY_TEST_ID:
+          case LATENCY_TEST_ID:
             // Latency test results are processed
             executingLatencyTest = true;
             updateProgressBar(statusComplete, 2);
@@ -891,7 +895,7 @@ public class FragmentRunTest extends Fragment {
             break;
 
           // Case packet loss test
-          case StorageTestResult.PACKETLOSS_TEST_ID:
+          case PACKETLOSS_TEST_ID:
             // Loss test results are processed
 
             if (statusComplete == 100) {
@@ -903,7 +907,7 @@ public class FragmentRunTest extends Fragment {
             }
             break;
 
-          case StorageTestResult.JITTER_TEST_ID:
+          case JITTER_TEST_ID:
             // Jitter test results are processed
 
             if (statusComplete == 100) {
@@ -1210,7 +1214,7 @@ public class FragmentRunTest extends Fragment {
    * Create the ManualTestRunner object depending on which tests are selected
    */
   private void createManualTest() {
-    List<Integer> testIDs;
+    List<SCHEDULE_TEST_ID> testIDs;
     StringBuilder errorDescription = new StringBuilder();
 
     testIDs = findOutTestIDs();
@@ -1220,12 +1224,12 @@ public class FragmentRunTest extends Fragment {
       return;
     }
 
-    // Perform the selected tests
-    if (!testIDs.contains(-1)) {
+    if (testIDs.contains(SCHEDULE_TEST_ID.ALL_TESTS) == false) {
+      // Perform the selected tests
       manualTest = ManualTestRunner.create(getActivity(), testResultsHandler, testIDs, errorDescription);
     }
-    // Perform all tests
     else {
+      // Perform all tests
       manualTest = ManualTestRunner.create(getActivity(), testResultsHandler, errorDescription);
 
       if (manualTest == null) {
@@ -1272,62 +1276,62 @@ public class FragmentRunTest extends Fragment {
    *
    * @return a list of tests
    */
-  private List<Integer> findOutTestIDs() {
+  private List<SCHEDULE_TEST_ID> findOutTestIDs() {
     // Get the selected tests from shared preferences
     restoreWhichTestsToRun();
 
-    List<Integer> testIDs = new ArrayList<Integer>();
+    List<SCHEDULE_TEST_ID> testIDs = new ArrayList<SCHEDULE_TEST_ID>();
 
     // Create the list of tests to be performed
     // All tests
     if (test_selected_download && test_selected_upload && test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(0);
-      testIDs.add(-1);
+      testIDs.add(SCHEDULE_TEST_ID.CLOSEST_TARGET_TEST);
+      testIDs.add(SCHEDULE_TEST_ID.ALL_TESTS);
       numberOfTestsToBePerformed = 3;
       return testIDs;
     }
     // Just Download test
     if (test_selected_download && !test_selected_upload && !test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(2);
+      testIDs.add(SCHEDULE_TEST_ID.DOWNLOAD_TEST);
       numberOfTestsToBePerformed = 1;
       return testIDs;
     }
     // Just Upload test
     if (!test_selected_download && test_selected_upload && !test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(3);
+      testIDs.add(SCHEDULE_TEST_ID.UPLOAD_TEST);
       numberOfTestsToBePerformed = 1;
       return testIDs;
     }
     // Just latency and loss
     if (!test_selected_download && !test_selected_upload && test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(4);
+      testIDs.add(SCHEDULE_TEST_ID.LATENCY_TEST);
       numberOfTestsToBePerformed = 1;
       return testIDs;
     }
     // Download and upload
     if (test_selected_download && test_selected_upload && !test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(2);
-      testIDs.add(3);
+      testIDs.add(SCHEDULE_TEST_ID.DOWNLOAD_TEST);
+      testIDs.add(SCHEDULE_TEST_ID.UPLOAD_TEST);
       numberOfTestsToBePerformed = 2;
       return testIDs;
     }
     // Download and latency and loss
     if (test_selected_download && !test_selected_upload && test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(2);
-      testIDs.add(4);
+      testIDs.add(SCHEDULE_TEST_ID.DOWNLOAD_TEST);
+      testIDs.add(SCHEDULE_TEST_ID.LATENCY_TEST);
       numberOfTestsToBePerformed = 2;
       return testIDs;
     }
     // Upload and latency and loss
     if (!test_selected_download && test_selected_upload && test_selected_latency_and_packet_loss_and_jitter) {
-      testIDs.add(3);
-      testIDs.add(4);
+      testIDs.add(SCHEDULE_TEST_ID.UPLOAD_TEST);
+      testIDs.add(SCHEDULE_TEST_ID.LATENCY_TEST);
       numberOfTestsToBePerformed = 2;
       return testIDs;
     }
 
     // Default case
-    testIDs.add(-1);
+    testIDs.add(SCHEDULE_TEST_ID.ALL_TESTS);
     numberOfTestsToBePerformed = 3;
 
     return testIDs;

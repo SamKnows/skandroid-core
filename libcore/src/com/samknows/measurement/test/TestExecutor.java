@@ -1,7 +1,6 @@
 package com.samknows.measurement.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Pair;
 
@@ -35,7 +33,7 @@ import com.samknows.libcore.SKOperators.SKThrottledQueryResult;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
-import com.samknows.measurement.activity.components.UIUpdate;
+import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.environment.DCSData;
 import com.samknows.measurement.environment.LocationData;
 import com.samknows.measurement.environment.NetworkData;
@@ -53,7 +51,6 @@ import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.SKDateFormat;
-import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Param;
 import com.samknows.tests.Test;
 import com.samknows.tests.TestFactory;
@@ -486,7 +483,7 @@ public class TestExecutor {
 	public ConditionGroupResult executeGroup(TestGroup tg) {
 		long startTime = System.currentTimeMillis();
 		List<TestDescription> tds = new ArrayList<TestDescription>();
-		for (int test_id : tg.testIds) {
+		for (SCHEDULE_TEST_ID test_id : tg.testIds) {
 			tds.add(tc.config.findTestById(test_id));
 		}
 		ConditionGroup cg = tc.config.getConditionGroup(tg.conditionGroupId);

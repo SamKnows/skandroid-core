@@ -34,6 +34,8 @@ import com.samknows.measurement.activity.components.ProgressWheel;
 import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.storage.StorageTestResult.*;
+import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.tests.ClosestTarget;
 
@@ -53,6 +55,8 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
   TextView runningTestWithClosestTarget = null;
 
+  public final static String cTestIdToRunMinusOneMeansAll = "cTestIdToRunMinusOneMeansAll";
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,10 +64,11 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		cxt = this;
 
 		Bundle b = getIntent().getExtras();
-		int testID = -1;
+		SCHEDULE_TEST_ID testIdToRunMinusOneMeansAll = SCHEDULE_TEST_ID.ALL_TESTS;
 
 		if (b != null) {
-			testID = b.getInt("testID");
+			int testIdAsInt = b.getInt(cTestIdToRunMinusOneMeansAll);
+      testIdToRunMinusOneMeansAll = SCHEDULE_TEST_ID.sGetTestIdForInt(testIdAsInt);
 		}
 
 		storage = CachingStorage.getInstance();
@@ -108,7 +113,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
-		try{
+		try {
 
 			handler = new Handler() {
 
@@ -119,8 +124,8 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
       };
 
-			launchTest(testID);
-		}catch(Throwable t){
+			launchTest(testIdToRunMinusOneMeansAll);
+		} catch (Throwable t) {
 			SKLogger.e(this, "handler or test failure", t);
 		}
 	}
@@ -133,7 +138,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
     message_json = (JSONObject) msg.obj;
     String value;
     int success;
-    int testname;
+    int testnameAsInt;
     int status_complete;
     int metric;
 
@@ -175,8 +180,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
       }
 
       if (type == "test") {
-        testname = message_json
-            .getInt(StorageTestResult.JSON_TESTNUMBER);
+        testnameAsInt = message_json .getInt(StorageTestResult.JSON_TESTNUMBER);
         status_complete = message_json
             .getInt(StorageTestResult.JSON_STATUS_COMPLETE);
         value = message_json.getString(StorageTestResult.JSON_HRRESULT);
@@ -189,9 +193,11 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
           }
         }
 
-        switch (testname) {
+        DETAIL_TEST_ID testId = DETAIL_TEST_ID.sGetTestIdForInt(testnameAsInt);
+
+        switch (testId) {
           // active metrics
-          case StorageTestResult.DOWNLOAD_TEST_ID:
+          case DOWNLOAD_TEST_ID:
             pw = (ProgressWheel) findViewById(R.id.ProgressWheel1);
             fftv = (FontFitTextView) findViewById(R.id.download_result);
             pw.setProgress((int) (status_complete * 3.6));
@@ -208,7 +214,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
               fftv.setText("");
             }
             break;
-          case StorageTestResult.UPLOAD_TEST_ID:
+          case UPLOAD_TEST_ID:
             pw = (ProgressWheel) findViewById(R.id.ProgressWheel2);
             fftv = (FontFitTextView) findViewById(R.id.upload_result);
             pw.setProgress((int) (status_complete * 3.6));
@@ -226,7 +232,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
               fftv.setText("");
             }
             break;
-          case StorageTestResult.PACKETLOSS_TEST_ID:
+          case PACKETLOSS_TEST_ID:
             pw = (ProgressWheel) findViewById(R.id.ProgressWheel3);
             fftv = (FontFitTextView) findViewById(R.id.packetloss_result);
             pw.setProgress((int) (status_complete * 3.6));
@@ -248,7 +254,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
               fftv.setText("");
             }
             break;
-          case StorageTestResult.LATENCY_TEST_ID:
+          case LATENCY_TEST_ID:
             pw = (ProgressWheel) findViewById(R.id.ProgressWheel4);
             fftv = (FontFitTextView) findViewById(R.id.latency_result);
             pw.setProgress((int) (status_complete * 3.6));
@@ -265,7 +271,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
               fftv.setText("");
             }
             break;
-          case StorageTestResult.JITTER_TEST_ID:
+          case JITTER_TEST_ID:
             pw = (ProgressWheel) findViewById(R.id.JitterProgressWheel);
             fftv = (FontFitTextView) findViewById(R.id.jitter_result);
             pw.setProgress((int) (status_complete * 3.6));
@@ -650,79 +656,72 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
 	}
 
-	private void launchTest(int testID) {
+	private void launchTest(SCHEDULE_TEST_ID testIdToRunMinusOneMeansAll) {
 
-	
 		StringBuilder errorDescription = new StringBuilder();
-		
-		boolean run = true;
-		// create a new thread
-		if (testID != -1) {
-			mt = ManualTestRunner.create(this, handler, testID, errorDescription);
 
-			if (testID == 2) { // download
-				// hide others
-				TableLayout tl = (TableLayout) findViewById(R.id.upload_test_panel);
-				tl.setVisibility(View.GONE);
-				TableLayout tl2 = (TableLayout) findViewById(R.id.latency_test_panel);
-				tl2.setVisibility(View.GONE);
-				TableLayout tl3 = (TableLayout) findViewById(R.id.packetloss_test_panel);
-				tl3.setVisibility(View.GONE);
-			}
+    // Create the test runner.
+    // Note that this will always include a closest target test that precedes the test(s)
+    mt = ManualTestRunner.create(this, handler, testIdToRunMinusOneMeansAll, errorDescription);
+    if (mt == null) {
+      String theErrorString = errorDescription.toString();
+      if (theErrorString.length() == 0) {
+        theErrorString = getString(R.string.manual_test_error);
+      }
 
-			if (testID == 4) { // loss / latency
-				// hide others
-				TableLayout tl = (TableLayout) findViewById(R.id.download_test_panel);
-				tl.setVisibility(View.GONE);
-				TableLayout tl2 = (TableLayout) findViewById(R.id.upload_test_panel);
-				tl2.setVisibility(View.GONE);
-			}
+      SKLogger.d(SKARunningTestActivity.class,
+          "Impossible to run manual tests");
+      new AlertDialog.Builder(this)
+          .setMessage(theErrorString)
+          .setPositiveButton(R.string.ok_dialog,
+              new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog,
+                                    int id) {
+                  result = 0;
+                  SKARunningTestActivity.this.finish();
+                  overridePendingTransition(0, 0);
+                }
+              }).show();
 
-			if (testID == 3) { // upload
-				// hide others
-				TableLayout tl = (TableLayout) findViewById(R.id.download_test_panel);
-				tl.setVisibility(View.GONE);
-				TableLayout tl2 = (TableLayout) findViewById(R.id.latency_test_panel);
-				tl2.setVisibility(View.GONE);
-				TableLayout tl3 = (TableLayout) findViewById(R.id.packetloss_test_panel);
-				tl3.setVisibility(View.GONE);
-			}
+      return;
+    }
 
+		if (testIdToRunMinusOneMeansAll == SCHEDULE_TEST_ID.ALL_TESTS) {
+      // Nothing special to do!
+    } else  if (testIdToRunMinusOneMeansAll == SCHEDULE_TEST_ID.DOWNLOAD_TEST) { // download
+			// hide others
+			TableLayout tl = (TableLayout) findViewById(R.id.upload_test_panel);
+			tl.setVisibility(View.GONE);
+			TableLayout tl2 = (TableLayout) findViewById(R.id.latency_test_panel);
+			tl2.setVisibility(View.GONE);
+			TableLayout tl3 = (TableLayout) findViewById(R.id.packetloss_test_panel);
+			tl3.setVisibility(View.GONE);
+		} else if (testIdToRunMinusOneMeansAll == SCHEDULE_TEST_ID.LATENCY_TEST) { // loss / latency
+			// hide others
+			TableLayout tl = (TableLayout) findViewById(R.id.download_test_panel);
+			tl.setVisibility(View.GONE);
+			TableLayout tl2 = (TableLayout) findViewById(R.id.upload_test_panel);
+			tl2.setVisibility(View.GONE);
+		} else if (testIdToRunMinusOneMeansAll == SCHEDULE_TEST_ID.UPLOAD_TEST) { // upload
+			// hide others
+			TableLayout tl = (TableLayout) findViewById(R.id.download_test_panel);
+			tl.setVisibility(View.GONE);
+			TableLayout tl2 = (TableLayout) findViewById(R.id.latency_test_panel);
+			tl2.setVisibility(View.GONE);
+			TableLayout tl3 = (TableLayout) findViewById(R.id.packetloss_test_panel);
+			tl3.setVisibility(View.GONE);
 		} else {
-			mt = ManualTestRunner.create(this, handler, errorDescription);
+      SKLogger.sAssert(false);
 		}
 
-		if (mt == null) {
-			String theErrorString = errorDescription.toString();
-			if (theErrorString.length() == 0) {
-				theErrorString = getString(R.string.manual_test_error);
-			}
-			
-			SKLogger.d(SKARunningTestActivity.class,
-					"Impossible to run manual tests");
-			new AlertDialog.Builder(this)
-					.setMessage(theErrorString)
-					.setPositiveButton(R.string.ok_dialog,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									result = 0;
-									SKARunningTestActivity.this.finish();
-									overridePendingTransition(0, 0);
-								}
-							}).show();
-			
-			return;
-		}
-		
 		if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
 
 			String showWithMessage = "";
 
-		    if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapAlreadyReached()) {
-			    SKLogger.d(SKARunningTestActivity.class, "Data cap exceeded");
-    			showWithMessage = getString(R.string.data_cap_exceeded);
-	    	} else if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapLikelyToBeReached(mt.getNetUsage())) {
+		  if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapAlreadyReached()) {
+			  SKLogger.d(SKARunningTestActivity.class, "Data cap exceeded");
+    		showWithMessage = getString(R.string.data_cap_exceeded);
+	    } else if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapLikelyToBeReached(mt.getNetUsage())) {
 				// Data cap exceeded - but only ask the user if they want to continue, if the app is configured
 				// to work like that...
 				SKLogger.d(SKARunningTestActivity.class, "Data cap likely to be exceeded");
@@ -754,7 +753,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 				return;
 			}
 		}
-		
+
     mt.startTestRunning_RunInBackground();
 	}
 

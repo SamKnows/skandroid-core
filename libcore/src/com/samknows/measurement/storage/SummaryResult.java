@@ -1,5 +1,7 @@
 package com.samknows.measurement.storage;
 
+import com.samknows.measurement.storage.StorageTestResult.*;
+
 /**
  * All rights reserved SamKnows
  * Written by pablo@samknows.com
@@ -13,7 +15,7 @@ package com.samknows.measurement.storage;
 
 public class SummaryResult
 {
-	private int testType;
+	private DETAIL_TEST_ID testType;
 	private float max, min, average;
 	
 	public SummaryResult()
@@ -21,7 +23,7 @@ public class SummaryResult
 		
 	}
 	
-	public SummaryResult(int pTestType, float pAverage, float pMax, float pMin)
+	public SummaryResult(DETAIL_TEST_ID pTestType, float pAverage, float pMax, float pMin)
 	{
 		this.testType = pTestType;
 		this.max = pMax;
@@ -29,12 +31,12 @@ public class SummaryResult
 		this.average = pAverage;
 	}
 	
-	public int getTestType()
+	public DETAIL_TEST_ID getTestType()
 	{
 		return testType;
 	}
 	
-	public void setTestType(int testType)
+	public void setTestType(DETAIL_TEST_ID testType)
 	{
 		this.testType = testType;
 	}

@@ -28,7 +28,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.Parcelable;
 //import android.os.Trace;
 import android.support.v4.view.PagerAdapter;
@@ -69,6 +68,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.DeviceDescription;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.libcore.R;
@@ -88,6 +88,7 @@ import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.measurement.storage.StorageTestResult.*;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.ska.activity.components.StatView;
 
@@ -173,7 +174,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
   List<TestDescription> testList;
   ArrayList<String> array_spinner = new ArrayList<String>();
-  ArrayList<Integer> array_spinner_int = new ArrayList<Integer>();
+  ArrayList<SCHEDULE_TEST_ID> array_spinner_int = new ArrayList<SCHEDULE_TEST_ID>();
 
   TextView tvHeader = null;
 
@@ -524,10 +525,10 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         String value = json_data.getString("value");
         String type = json_data.getString("type");
 
-        if (type.equals("" + StorageTestResult.DOWNLOAD_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt())) {
           download = "" + value;
         }
-        if (type.equals("" + StorageTestResult.UPLOAD_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt())) {
           upload = "" + value;
         }
       } catch (JSONException e) {
@@ -567,23 +568,23 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         String value = json_data.getString("value");
         String type = json_data.getString("type");
 
-        if (type.equals("" + StorageTestResult.DOWNLOAD_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt())) {
           ((TextView) subview.findViewById(R.id.download_average))
               .setText("" + value);
         }
-        if (type.equals("" + StorageTestResult.UPLOAD_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt())) {
           ((TextView) subview.findViewById(R.id.upload_average))
               .setText("" + value);
         }
-        if (type.equals("" + StorageTestResult.LATENCY_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt())) {
           ((TextView) subview.findViewById(R.id.latency_average))
               .setText("" + value);
         }
-        if (type.equals("" + StorageTestResult.PACKETLOSS_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt())) {
           ((TextView) subview.findViewById(R.id.packetloss_average))
               .setText("" + value);
         }
-        if (type.equals("" + StorageTestResult.JITTER_TEST_ID)) {
+        if (type.equals("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt())) {
           ((TextView) subview.findViewById(R.id.jitter_average))
               .setText("" + value);
         }
@@ -623,9 +624,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 
     try {
-      if (results.has("" + StorageTestResult.DOWNLOAD_TEST_ID)) {
-        total_download_archive_records = results.getInt(""
-            + StorageTestResult.DOWNLOAD_TEST_ID);
+      if (results.has("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt())) {
+        total_download_archive_records = results.getInt("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt());
       }
     } catch (JSONException e) {
       e.printStackTrace();
@@ -637,36 +637,32 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     }
 
     try {
-      if (results.has("" + StorageTestResult.UPLOAD_TEST_ID)) {
-        total_upload_archive_records = results.getInt(""
-            + StorageTestResult.UPLOAD_TEST_ID);
+      if (results.has("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt())) {
+        total_upload_archive_records = results.getInt("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt());
       }
     } catch (JSONException e) {
       e.printStackTrace();
     }
 
     try {
-      if (results.has("" + StorageTestResult.LATENCY_TEST_ID)) {
-        total_latency_archive_records = results.getInt(""
-            + StorageTestResult.LATENCY_TEST_ID);
+      if (results.has("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt())) {
+        total_latency_archive_records = results.getInt("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt());
       }
     } catch (JSONException e) {
       e.printStackTrace();
     }
 
     try {
-      if (results.has("" + StorageTestResult.JITTER_TEST_ID)) {
-        total_jitter_archive_records = results.getInt(""
-            + StorageTestResult.JITTER_TEST_ID);
+      if (results.has("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt())) {
+        total_jitter_archive_records = results.getInt("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt());
       }
     } catch (JSONException e) {
       e.printStackTrace();
     }
 
     try {
-      if (results.has("" + StorageTestResult.PACKETLOSS_TEST_ID)) {
-        total_packetloss_archive_records = results.getInt(""
-            + StorageTestResult.PACKETLOSS_TEST_ID);
+      if (results.has("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt())) {
+        total_packetloss_archive_records = results.getInt("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt());
       }
     } catch (JSONException e) {
       e.printStackTrace();
@@ -694,7 +690,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     return result;
   }
 
-  private void loadDownloadGrid(int testnumber, int grid, int offset, int rowsPerPage) {
+  private void loadDownloadGrid(DETAIL_TEST_ID testnumber, int grid, int offset, int rowsPerPage) {
 
     //Trace.beginSection("loadDownloadGrid");
 
@@ -727,19 +723,19 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       availableRowsForThisGrid = resultsIfNotPaged.length();
     } else {
       switch (testnumber) {
-        case StorageTestResult.DOWNLOAD_TEST_ID:
+        case DOWNLOAD_TEST_ID:
           availableRowsForThisGrid = (double) total_download_archive_records;
           break;
-        case StorageTestResult.UPLOAD_TEST_ID:
+        case UPLOAD_TEST_ID:
           availableRowsForThisGrid = (double) total_upload_archive_records;
           break;
-        case StorageTestResult.LATENCY_TEST_ID:
+        case LATENCY_TEST_ID:
           availableRowsForThisGrid = (double) total_latency_archive_records;
           break;
-        case StorageTestResult.PACKETLOSS_TEST_ID:
+        case PACKETLOSS_TEST_ID:
           availableRowsForThisGrid = (double) total_packetloss_archive_records;
           break;
-        case StorageTestResult.JITTER_TEST_ID:
+        case JITTER_TEST_ID:
           availableRowsForThisGrid = (double) total_jitter_archive_records;
           break;
         default:
@@ -761,27 +757,27 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     TextView tv;
 
     switch (testnumber) {
-      case StorageTestResult.DOWNLOAD_TEST_ID:
+      case DOWNLOAD_TEST_ID:
         tv = (TextView) subview.findViewById(R.id.download_pagenumber);
         tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
         break;
 
-      case StorageTestResult.UPLOAD_TEST_ID:
+      case UPLOAD_TEST_ID:
         tv = (TextView) subview.findViewById(R.id.upload_pagenumber);
         tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
         break;
 
-      case StorageTestResult.LATENCY_TEST_ID:
+      case LATENCY_TEST_ID:
         tv = (TextView) subview.findViewById(R.id.latency_pagenumber);
         tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
         break;
 
-      case StorageTestResult.PACKETLOSS_TEST_ID:
+      case PACKETLOSS_TEST_ID:
         tv = (TextView) subview.findViewById(R.id.packetloss_pagenumber);
         tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
         break;
 
-      case StorageTestResult.JITTER_TEST_ID:
+      case JITTER_TEST_ID:
         tv = (TextView) subview.findViewById(R.id.jitter_pagenumber);
         tv.setText(getString(R.string.page) + " " + page_number + " " + getString(R.string.of) + " " + pages);
         break;
@@ -1125,7 +1121,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
 
         clearGrid(R.id.download_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.DOWNLOAD_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.DOWNLOAD_TEST_ID,
             R.id.download_results_tablelayout, download_page_index,
             ITEMS_PER_PAGE);
 
@@ -1145,7 +1141,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           download_page_index = download_page_index - ITEMS_PER_PAGE;
         }
         clearGrid(R.id.download_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.DOWNLOAD_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.DOWNLOAD_TEST_ID,
             R.id.download_results_tablelayout, download_page_index,
             ITEMS_PER_PAGE);
 
@@ -1165,7 +1161,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
 
         clearGrid(R.id.upload_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.UPLOAD_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.UPLOAD_TEST_ID,
             R.id.upload_results_tablelayout, upload_page_index,
             ITEMS_PER_PAGE);
 
@@ -1183,7 +1179,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           upload_page_index = upload_page_index - ITEMS_PER_PAGE;
         }
         clearGrid(R.id.upload_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.UPLOAD_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.UPLOAD_TEST_ID,
             R.id.upload_results_tablelayout, upload_page_index,
             ITEMS_PER_PAGE);
 
@@ -1203,7 +1199,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
 
         clearGrid(R.id.latency_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.LATENCY_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.LATENCY_TEST_ID,
             R.id.latency_results_tablelayout, latency_page_index,
             ITEMS_PER_PAGE);
 
@@ -1221,7 +1217,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           latency_page_index = latency_page_index - ITEMS_PER_PAGE;
         }
         clearGrid(R.id.latency_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.LATENCY_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.LATENCY_TEST_ID,
             R.id.latency_results_tablelayout, latency_page_index,
             ITEMS_PER_PAGE);
 
@@ -1242,7 +1238,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
 
         clearGrid(R.id.packetloss_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.PACKETLOSS_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.PACKETLOSS_TEST_ID,
             R.id.packetloss_results_tablelayout, packetloss_page_index,
             ITEMS_PER_PAGE);
 
@@ -1261,7 +1257,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
               - ITEMS_PER_PAGE;
         }
         clearGrid(R.id.packetloss_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.PACKETLOSS_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.PACKETLOSS_TEST_ID,
             R.id.packetloss_results_tablelayout, packetloss_page_index,
             ITEMS_PER_PAGE);
 
@@ -1281,7 +1277,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
 
         clearGrid(R.id.jitter_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.JITTER_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.JITTER_TEST_ID,
             R.id.jitter_results_tablelayout, jitter_page_index,
             ITEMS_PER_PAGE);
 
@@ -1299,7 +1295,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           jitter_page_index = jitter_page_index - ITEMS_PER_PAGE;
         }
         clearGrid(R.id.jitter_results_tablelayout);
-        loadDownloadGrid(StorageTestResult.JITTER_TEST_ID,
+        loadDownloadGrid(DETAIL_TEST_ID.JITTER_TEST_ID,
             R.id.jitter_results_tablelayout, jitter_page_index,
             ITEMS_PER_PAGE);
 
@@ -2022,31 +2018,31 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
                 hrresult = getString(R.string.failed);
               }
 
-              if (testnumber.equals("" + StorageTestResult.UPLOAD_TEST_ID)) {
+              if (testnumber.equals("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt())) {
                 statRecords.get(archiveItemIndex + 1).tests_location = location;
                 statRecords.get(archiveItemIndex + 1).upload_location = location;
                 statRecords.get(archiveItemIndex + 1).upload_result = hrresult;
 
               }
-              if (testnumber.equals("" + StorageTestResult.DOWNLOAD_TEST_ID)) {
+              if (testnumber.equals("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt())) {
                 statRecords.get(archiveItemIndex + 1).tests_location = location;
                 statRecords.get(archiveItemIndex + 1).download_location = location;
                 statRecords.get(archiveItemIndex + 1).download_result = hrresult;
               }
 
-              if (testnumber.equals("" + StorageTestResult.LATENCY_TEST_ID)) {
+              if (testnumber.equals("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt())) {
                 statRecords.get(archiveItemIndex + 1).tests_location = location;
                 statRecords.get(archiveItemIndex + 1).latency_location = location;
                 statRecords.get(archiveItemIndex + 1).latency_result = hrresult;
               }
 
-              if (testnumber.equals("" + StorageTestResult.PACKETLOSS_TEST_ID)) {
+              if (testnumber.equals("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt())) {
                 statRecords.get(archiveItemIndex + 1).tests_location = location;
                 statRecords.get(archiveItemIndex + 1).packetloss_location = location;
                 statRecords.get(archiveItemIndex + 1).packetloss_result = hrresult;
               }
 
-              if (testnumber.equals("" + StorageTestResult.JITTER_TEST_ID)) {
+              if (testnumber.equals("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt())) {
                 statRecords.get(archiveItemIndex + 1).tests_location = location;
                 statRecords.get(archiveItemIndex + 1).jitter_location = location;
                 statRecords.get(archiveItemIndex + 1).jitter_result = hrresult;
@@ -2474,15 +2470,15 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
     public void loadGrids() {
 
-      loadDownloadGrid(StorageTestResult.DOWNLOAD_TEST_ID,
+      loadDownloadGrid(DETAIL_TEST_ID.DOWNLOAD_TEST_ID,
           R.id.download_results_tablelayout, 0, ITEMS_PER_PAGE);
-      loadDownloadGrid(StorageTestResult.UPLOAD_TEST_ID,
+      loadDownloadGrid(DETAIL_TEST_ID.UPLOAD_TEST_ID,
           R.id.upload_results_tablelayout, 0, ITEMS_PER_PAGE);
-      loadDownloadGrid(StorageTestResult.LATENCY_TEST_ID,
+      loadDownloadGrid(DETAIL_TEST_ID.LATENCY_TEST_ID,
           R.id.latency_results_tablelayout, 0, ITEMS_PER_PAGE);
-      loadDownloadGrid(StorageTestResult.PACKETLOSS_TEST_ID,
+      loadDownloadGrid(DETAIL_TEST_ID.PACKETLOSS_TEST_ID,
           R.id.packetloss_results_tablelayout, 0, ITEMS_PER_PAGE);
-      loadDownloadGrid(StorageTestResult.JITTER_TEST_ID,
+      loadDownloadGrid(DETAIL_TEST_ID.JITTER_TEST_ID,
           R.id.jitter_results_tablelayout, 0, ITEMS_PER_PAGE);
 
       LinearLayout l = (LinearLayout) findViewById(R.id.download_content);
@@ -2600,11 +2596,11 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     loadAverage();
 
     // Update charts - this might make them invisible, if there is no data!
-    setGraphDataForColumnIdAndHideIfNoResultsFound(StorageTestResult.DOWNLOAD_TEST_ID);
-    setGraphDataForColumnIdAndHideIfNoResultsFound(StorageTestResult.UPLOAD_TEST_ID);
-    setGraphDataForColumnIdAndHideIfNoResultsFound(StorageTestResult.LATENCY_TEST_ID);
-    setGraphDataForColumnIdAndHideIfNoResultsFound(StorageTestResult.PACKETLOSS_TEST_ID);
-    setGraphDataForColumnIdAndHideIfNoResultsFound(StorageTestResult.JITTER_TEST_ID);
+    setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID.DOWNLOAD_TEST_ID);
+    setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID.UPLOAD_TEST_ID);
+    setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID.LATENCY_TEST_ID);
+    setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID.PACKETLOSS_TEST_ID);
+    setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID.JITTER_TEST_ID);
   }
 
   final int cRunTestActivityRequestCode = 99999999;
@@ -2649,10 +2645,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       // Many app variants - always run all tests.
       // This is identified by setting testID to -1 ...!
       //
-      Intent intent = new Intent(SKAMainResultsActivity.this,
-          SKARunningTestActivity.class);
+      Intent intent = new Intent(SKAMainResultsActivity.this, SKARunningTestActivity.class);
       Bundle b = new Bundle();
-      b.putInt("testID", -1);
+      b.putInt(SKARunningTestActivity.cTestIdToRunMinusOneMeansAll, -1);
       intent.putExtras(b);
       startActivityForResult(intent, cRunTestActivityRequestCode);
       overridePendingTransition(R.anim.transition_in, R.anim.transition_out);
@@ -2675,8 +2670,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         // Ignore it!
       } else {
         TestDescription td = testList.get(i);
+        Log.d(TAG, "TEST NAME=" + td.displayName + ", testID=" + td.testId.getValueAsInt());
         array_spinner.add(td.displayName);
-        array_spinner_int.add(Integer.valueOf(td.testId));
+        array_spinner_int.add(td.testId);
       }
     }
     SKLogger.sAssert(getClass(), array_spinner.size() > 0);
@@ -2687,7 +2683,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     // dropdown setup
 
     array_spinner.add(getString(R.string.all));
-    array_spinner_int.add(Integer.valueOf(-1));
+    array_spinner_int.add(SCHEDULE_TEST_ID.ALL_TESTS);
 
     String theItems[] = new String[array_spinner.size()];
     i = 0;
@@ -2706,7 +2702,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
             SKAMainResultsActivity.this,
             SKARunningTestActivity.class);
         Bundle b = new Bundle();
-        b.putInt("testID", array_spinner_int.get(which));
+        b.putInt(SKARunningTestActivity.cTestIdToRunMinusOneMeansAll, array_spinner_int.get(which).getValueAsInt());
         intent.putExtras(b);
         startActivityForResult(intent, cRunTestActivityRequestCode);
         overridePendingTransition(R.anim.transition_in,
@@ -2901,7 +2897,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 	// This method will query the data synchronously, for the specified column.
 
-	private JSONObject fetchGraphDataForColumnId(int PColumnId) {
+	private JSONObject fetchGraphDataForColumnId(DETAIL_TEST_ID PColumnId) {
 		Calendar fromCal = Calendar.getInstance();
 		
 		lookBackwardInTime(fromCal);
@@ -2927,7 +2923,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	// WHEN: there are NO results in the response data
 	// THEN: the graph layout will be made invisible (GONE)
 	
-	private boolean setGraphDataForColumnIdAndHideIfNoResultsFound(int PColumnId) {
+	private boolean setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID PColumnId) {
 		boolean buttonFound = false;
 		
 		JSONObject data = null;
@@ -2942,23 +2938,23 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		LinearLayout l = null;
 
 		switch (PColumnId) {
-		case StorageTestResult.DOWNLOAD_TEST_ID:
+		case DOWNLOAD_TEST_ID:
 			l = (LinearLayout) findViewById(R.id.download_content);
 			graphHandlerDownload.updateGraphWithTheseResults(data, mDateRange);
 			break;
-		case StorageTestResult.UPLOAD_TEST_ID:
+		case UPLOAD_TEST_ID:
 			l = (LinearLayout) findViewById(R.id.upload_content);
 			graphHandlerUpload.updateGraphWithTheseResults(data, mDateRange);
 			break;
-		case StorageTestResult.LATENCY_TEST_ID:
+		case LATENCY_TEST_ID:
 			l = (LinearLayout) findViewById(R.id.latency_content);
 			graphHandlerLatency.updateGraphWithTheseResults(data, mDateRange);
 			break;
-		case StorageTestResult.PACKETLOSS_TEST_ID:
+		case PACKETLOSS_TEST_ID:
 			l = (LinearLayout) findViewById(R.id.packetloss_content);
 			graphHandlerPacketLoss.updateGraphWithTheseResults(data, mDateRange);
 			break;
-		case StorageTestResult.JITTER_TEST_ID:
+		case JITTER_TEST_ID:
 			l = (LinearLayout) findViewById(R.id.jitter_content);
 			graphHandlerJitter.updateGraphWithTheseResults(data, mDateRange);
 			break;
@@ -2996,11 +2992,11 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		boolean buttonfound = false;
 		ImageView button = null;
 		LinearLayout l = null;
-		int testid = 0;
+		DETAIL_TEST_ID testid = DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 
 		int id = v.getId();
 		if (id == R.id.download_header || id == R.id.btn_download_toggle) {
-   		    testid = StorageTestResult.DOWNLOAD_TEST_ID;
+   		testid = DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 			buttonfound = setGraphDataForColumnIdAndHideIfNoResultsFound(testid);
 			button = (ImageView) findViewById(R.id.btn_download_toggle);
 			l = (LinearLayout) findViewById(R.id.download_content);
@@ -3008,7 +3004,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		}
 
 		if (id == R.id.upload_header || id == R.id.btn_upload_toggle) {
-   		    testid = StorageTestResult.UPLOAD_TEST_ID;
+   		testid = DETAIL_TEST_ID.UPLOAD_TEST_ID;
 			buttonfound = setGraphDataForColumnIdAndHideIfNoResultsFound(testid);
 			button = (ImageView) findViewById(R.id.btn_upload_toggle);
 			l = (LinearLayout) findViewById(R.id.upload_content);
@@ -3016,7 +3012,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		}
 
 		if (id == R.id.latency_header || id == R.id.btn_latency_toggle) {
-   		    testid = StorageTestResult.LATENCY_TEST_ID;
+   		testid = DETAIL_TEST_ID.LATENCY_TEST_ID;
 			buttonfound = setGraphDataForColumnIdAndHideIfNoResultsFound(testid);
 			button = (ImageView) findViewById(R.id.btn_latency_toggle);
 			l = (LinearLayout) findViewById(R.id.latency_content);
@@ -3024,7 +3020,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		}
 
 		if (id == R.id.packetloss_header || id == R.id.btn_packetloss_toggle) {
-   		    testid = StorageTestResult.PACKETLOSS_TEST_ID;
+   		testid = DETAIL_TEST_ID.PACKETLOSS_TEST_ID;
 			buttonfound = setGraphDataForColumnIdAndHideIfNoResultsFound(testid);
 			button = (ImageView) findViewById(R.id.btn_packetloss_toggle);
 			l = (LinearLayout) findViewById(R.id.packetloss_content);
@@ -3032,7 +3028,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		}
 
 		if (id == R.id.jitter_header || id == R.id.btn_jitter_toggle) {
-   		    testid = StorageTestResult.JITTER_TEST_ID;
+   		testid = DETAIL_TEST_ID.JITTER_TEST_ID;
 			buttonfound = setGraphDataForColumnIdAndHideIfNoResultsFound(testid);
 			button = (ImageView) findViewById(R.id.btn_jitter_toggle);
 			l = (LinearLayout) findViewById(R.id.jitter_content);

@@ -49,6 +49,7 @@ import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.measurement.storage.StorageTestResult.*;
 
 /**
  * This fragment is responsible for:
@@ -716,7 +717,7 @@ public class FragmentArchivedResults extends Fragment {
             hrresult = getString(R.string.failed);
           }
 
-          if (testnumber.equals(String.valueOf(StorageTestResult.DOWNLOAD_TEST_ID))) {
+          if (testnumber.equals(String.valueOf(DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt()))) {
             if (!hrresult.equalsIgnoreCase("failed")) {
               testResult.setDownloadResult(hrresult);
             } else {
@@ -724,7 +725,7 @@ public class FragmentArchivedResults extends Fragment {
             }
           }
 
-          if (testnumber.equals(String.valueOf(StorageTestResult.UPLOAD_TEST_ID))) {
+          if (testnumber.equals(String.valueOf(DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt()))) {
             if (!hrresult.equalsIgnoreCase("failed")) {
               testResult.setUploadResult(hrresult);
             } else {
@@ -732,7 +733,7 @@ public class FragmentArchivedResults extends Fragment {
             }
           }
 
-          if (testnumber.equals(String.valueOf(StorageTestResult.LATENCY_TEST_ID))) {
+          if (testnumber.equals(String.valueOf(DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt()))) {
             if (!hrresult.equalsIgnoreCase("failed")) {
               testResult.setLatencyResult(hrresult);
             } else {
@@ -740,7 +741,7 @@ public class FragmentArchivedResults extends Fragment {
             }
           }
 
-          if (testnumber.equals(String.valueOf(StorageTestResult.PACKETLOSS_TEST_ID))) {
+          if (testnumber.equals(String.valueOf(DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt()))) {
             if (!hrresult.equalsIgnoreCase("failed")) {
               testResult.setPacketLossResult(hrresult);
             } else {
@@ -748,7 +749,7 @@ public class FragmentArchivedResults extends Fragment {
             }
           }
 
-          if (testnumber.equals(String.valueOf(StorageTestResult.JITTER_TEST_ID))) {
+          if (testnumber.equals(String.valueOf(DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt()))) {
             if (!hrresult.equalsIgnoreCase("failed")) {
               testResult.setJitterResult(hrresult);
             } else {

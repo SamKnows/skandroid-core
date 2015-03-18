@@ -18,6 +18,44 @@ import com.samknows.measurement.util.SKDateFormat;
 
 //Model for the test_result table in the SQLite database 
 public class StorageTestResult extends JSONObject{
+
+  // These are DETAILED test ids.
+  // They are ONLY referenced INTERNALLY.
+  public enum DETAIL_TEST_ID {
+
+    DOWNLOAD_TEST_ID(0),
+    UPLOAD_TEST_ID(1),
+    LATENCY_TEST_ID(2),
+    PACKETLOSS_TEST_ID(3),
+    JITTER_TEST_ID(4);
+
+    private int value;
+
+    private DETAIL_TEST_ID(int value) {
+      this.value = value;
+    }
+
+    public int getValueAsInt() {
+      return value;
+    }
+
+    public static DETAIL_TEST_ID sGetTestIdForInt(int value) {
+      if (value ==  DETAIL_TEST_ID.DOWNLOAD_TEST_ID.value) {
+        return DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
+      } else if (value ==  DETAIL_TEST_ID.UPLOAD_TEST_ID.value) {
+        return DETAIL_TEST_ID.UPLOAD_TEST_ID;
+      } else if (value ==  DETAIL_TEST_ID.LATENCY_TEST_ID.value) {
+        return DETAIL_TEST_ID.LATENCY_TEST_ID;
+      } else if (value ==  DETAIL_TEST_ID.PACKETLOSS_TEST_ID.value) {
+        return DETAIL_TEST_ID.PACKETLOSS_TEST_ID;
+      } else if (value ==  DETAIL_TEST_ID.JITTER_TEST_ID.value) {
+        return DETAIL_TEST_ID.JITTER_TEST_ID;
+      } else {
+        SKLogger.sAssert(false);
+        return DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
+      }
+    }
+  }
 	
 	//Test Result JSONObject implementation
 	public static final String JSON_TYPE_ID = "type";
@@ -30,13 +68,9 @@ public class StorageTestResult extends JSONObject{
 	public static final String JSON_RESULT = "result";
 	public static final String JSON_SUCCESS = "success";
 	public static final String JSON_HRRESULT = "hrresult";
-	
-	
-	public static final int DOWNLOAD_TEST_ID = 0;
-	public static final int UPLOAD_TEST_ID = 1;
-	public static final int LATENCY_TEST_ID = 2;
-	public static final int PACKETLOSS_TEST_ID = 3;
-	public static final int JITTER_TEST_ID = 4;
+
+
+
 	public static final String UPLOAD_TEST_STRING = "upload";
 	public static final String DOWNLOAD_TEST_STRING = "download";
 	public static final String LATENCY_TEST_STRING = "latency";
@@ -48,9 +82,9 @@ public class StorageTestResult extends JSONObject{
 	
 	
 	
-	private int _test_id;
+	private DETAIL_TEST_ID _test_id;
 	
-	private StorageTestResult(int test_id){
+	private StorageTestResult(DETAIL_TEST_ID test_id){
 		_test_id = test_id;
 		put(JSON_TYPE_ID, _test_id+"");
 		put(JSON_TYPE_NAME, testIdToString(_test_id));
@@ -60,7 +94,7 @@ public class StorageTestResult extends JSONObject{
 		return testIdToString(_test_id);
 	}
 	
-	public static String testIdToString(int test_id) {
+	public static String testIdToString(DETAIL_TEST_ID test_id) {
 		switch (test_id) {
 		case UPLOAD_TEST_ID:
 			return UPLOAD_TEST_STRING;
@@ -87,27 +121,28 @@ public class StorageTestResult extends JSONObject{
 		setResult(result);
 	}
 	
-	public static int testStringToId(String testString) {
-		int ret = -1;
+	public static DETAIL_TEST_ID testStringToId(String testString) {
 		if (UPLOAD_TEST_STRING.equals(testString)) {
-			ret = UPLOAD_TEST_ID;
+			return DETAIL_TEST_ID.UPLOAD_TEST_ID;
 		} else if (DOWNLOAD_TEST_STRING.equals(testString)) {
-			ret = DOWNLOAD_TEST_ID;
+			return DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 		} else if (LATENCY_TEST_STRING.equals(testString)) {
-			ret = LATENCY_TEST_ID;
+			return DETAIL_TEST_ID.LATENCY_TEST_ID;
 		} else if (PACKETLOSS_TEST_STRING.equals(testString)) {
-			ret = PACKETLOSS_TEST_ID;
+			return DETAIL_TEST_ID.PACKETLOSS_TEST_ID;
 		} else if (JITTER_TEST_STRING.equals(testString)) {
-			ret = JITTER_TEST_ID;
+			return DETAIL_TEST_ID.JITTER_TEST_ID;
 		}
-		return ret;
+
+    SKLogger.sAssert(false);
+    return DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 	}
 	
-	public static String hrResult(String test_type, double value){
-		return hrResult(testStringToId(test_type),value);
-	}
+//	public static String hrResult(String test_type, double value){
+//		return hrResult(testStringToId(test_type),value);
+//	}
 	
-	public static String hrResult(int test_type_id, double value){
+	public static String hrResult(DETAIL_TEST_ID test_type_id, double value){
 		String ret = value +"";
 		switch (test_type_id) {
 		case UPLOAD_TEST_ID:
@@ -257,7 +292,7 @@ public class StorageTestResult extends JSONObject{
 		{
       // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
       // by ManualTestRunner:progressMessage
-			StorageTestResult testResult = convertThroughputTest(DOWNLOAD_TEST_ID, data);
+			StorageTestResult testResult = convertThroughputTest(DETAIL_TEST_ID.DOWNLOAD_TEST_ID, data);
 			
 			ret.add(testResult);
 		}
@@ -267,7 +302,7 @@ public class StorageTestResult extends JSONObject{
 		{
       // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
       // by ManualTestRunner:progressMessage
-			StorageTestResult testResult = convertThroughputTest(UPLOAD_TEST_ID, data);
+			StorageTestResult testResult = convertThroughputTest(DETAIL_TEST_ID.UPLOAD_TEST_ID, data);
 			
 			ret.add(testResult);
 		}
@@ -295,7 +330,7 @@ public class StorageTestResult extends JSONObject{
 	}
 	
 	private static StorageTestResult convertJitterTest(String[] data){
-		StorageTestResult ret = new StorageTestResult(JITTER_TEST_ID);
+		StorageTestResult ret = new StorageTestResult(DETAIL_TEST_ID.JITTER_TEST_ID);
 		long dtime = Long.parseLong(data[1])*1000;
 		long success = data[2].equals("OK") ? 1 : 0;
 		String target = data[3];
@@ -308,12 +343,12 @@ public class StorageTestResult extends JSONObject{
 		ret.setResult(metric);
 
 		ret.putLong(JSON_SUCCESS, success);
-		ret.setTest(StorageTestResult.JITTER_TEST_ID);
+		ret.setTest(StorageTestResult.DETAIL_TEST_ID.JITTER_TEST_ID);
 		ret.setComplete();
 		return ret;
 	}
 	
-	private static StorageTestResult convertThroughputTest(int test_id, String[] data){
+	private static StorageTestResult convertThroughputTest(DETAIL_TEST_ID test_id, String[] data){
 		StorageTestResult ret = new StorageTestResult(test_id);
 		long dtime = Long.parseLong(data[1])*1000;
 		long success = data[2].equals("OK") ? 1 : 0;
@@ -334,7 +369,7 @@ public class StorageTestResult extends JSONObject{
 	
 	private static List<StorageTestResult> convertLatencyTest(String[] data){
 		List<StorageTestResult> ret = new ArrayList<StorageTestResult>();
-		StorageTestResult lat = new StorageTestResult(LATENCY_TEST_ID);
+		StorageTestResult lat = new StorageTestResult(DETAIL_TEST_ID.LATENCY_TEST_ID);
 		long dtime = Long.parseLong(data[1])*1000;
 		long success = data[2].equals("OK") ? 1 : 0;
 		String target = data[3];
@@ -354,10 +389,10 @@ public class StorageTestResult extends JSONObject{
 		lat.setResult(latencyResult);
 
 		lat.putLong(JSON_SUCCESS, success);
-		lat.setTest(StorageTestResult.LATENCY_TEST_ID);
+		lat.setTest(DETAIL_TEST_ID.LATENCY_TEST_ID);
 		lat.setComplete();
 		ret.add(lat);
-		StorageTestResult pl = new StorageTestResult(PACKETLOSS_TEST_ID);
+		StorageTestResult pl = new StorageTestResult(DETAIL_TEST_ID.PACKETLOSS_TEST_ID);
 		pl.setTime(dtime);
 
     // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
@@ -365,16 +400,16 @@ public class StorageTestResult extends JSONObject{
 		pl.setResult(packetLoss);
 
 		pl.setLocation(target);
-		pl.setTest(StorageTestResult.PACKETLOSS_TEST_ID);
+		pl.setTest(DETAIL_TEST_ID.PACKETLOSS_TEST_ID);
 		pl.putLong(JSON_SUCCESS, success);
 		pl.setComplete();
 		ret.add(pl);
 		return ret;
 	}
 	
-	private void setTest(int test_number){
+	private void setTest(DETAIL_TEST_ID test_number){
 		put(JSON_TYPE_ID, "test");
-		put(JSON_TESTNUMBER, ""+test_number);
+		put(JSON_TESTNUMBER, ""+test_number.getValueAsInt());
 	}
 	
 	private void setComplete(){

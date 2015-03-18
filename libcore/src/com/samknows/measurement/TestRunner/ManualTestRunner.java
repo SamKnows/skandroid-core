@@ -1,44 +1,43 @@
 package com.samknows.measurement.TestRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
-import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.Storage;
+import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
-import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
+import com.samknows.measurement.schedule.ScheduleConfig;
+import com.samknows.measurement.schedule.TestDescription;
+import com.samknows.measurement.storage.StorageTestResult.*;
+import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.PassiveMetric;
-import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.measurement.storage.TestBatch;
+import com.samknows.measurement.Storage;
 import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.test.TestExecutor;
 import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Test;
 import com.samknows.tests.TestFactory;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /*  
  * This class is used to run the the tests when they are executed manually
- * implements a runnable interface and and uses an Handler in order to publish
- * the tests results to the interface
+ * The class is created, started, and stopped.
+ * Test results are not reported through a handler, as messages, while the tests are running.
  */
+
 public class ManualTestRunner implements Runnable {
   private Handler mHandler;
   private List<TestDescription> mTestDescription;
@@ -46,7 +45,7 @@ public class ManualTestRunner implements Runnable {
   private AtomicBoolean run = new AtomicBoolean(true);
   public static boolean isExecuting = false;
 
-  ManualTestRunner(Context ctx, Handler handler, List<TestDescription> td) {
+  private ManualTestRunner(Context ctx, Handler handler, List<TestDescription> td) {
     mHandler = handler;
     mTestDescription = td;
     this.ctx = ctx;
@@ -56,19 +55,27 @@ public class ManualTestRunner implements Runnable {
    * Returns a ManualTestRunner object that runs only the test with id test_id
 	 */
 
-  public static ManualTestRunner create(Context ctx, Handler handler, int test_id, StringBuilder errorDescription) {
+  public static ManualTestRunner create(Context ctx, Handler handler, SCHEDULE_TEST_ID test_id, StringBuilder errorDescription) {
     ManualTestRunner ret = create(ctx, handler, errorDescription);
     if (ret == null) {
       return ret;
     }
 
-    // We must ALWAYS add the closest target test - 29/04/2014 ...
-    ArrayList<TestDescription> filteredArrayOfTestDescriptions = new ArrayList<TestDescription>();
+    // We must ALWAYS start with the closest target test - 29/04/2014 ...
     SKLogger.sAssert(ManualTestRunner.class, ret.mTestDescription.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
+
+    if (test_id == SCHEDULE_TEST_ID.ALL_TESTS) {
+      return ret;
+    }
+
+    //
+    // We're told to run just a specific test... find it, and use it.
+    //
+    ArrayList<TestDescription> filteredArrayOfTestDescriptions = new ArrayList<TestDescription>();
+    // We must ALWAYS start with the closest target test - 29/04/2014 ...
     filteredArrayOfTestDescriptions.add(ret.mTestDescription.get(0));
 
     boolean bFound = false;
-
     for (TestDescription td : ret.mTestDescription) {
       if (td.testId == test_id) {
         bFound = true;
@@ -77,8 +84,8 @@ public class ManualTestRunner implements Runnable {
     }
 
     if (bFound == false) {
-      SKLogger.e(ManualTestRunner.class,
-          "ManualTestRunner cannot be initialized because there is no manual test with id: "
+      SKLogger.sAssert(false);
+      SKLogger.e(ManualTestRunner.class, "ManualTestRunner cannot be initialized because there is no manual test with id: "
               + test_id);
       return null;
     }
@@ -89,11 +96,10 @@ public class ManualTestRunner implements Runnable {
   }
 	
 	/*
-     * Pablo's modifications
-     * Returns a ManualTestRunner object that runs only the tests in the list
-     */
+   * Return a ManualTestRunner object that runs only the tests in the list
+   */
 
-  public static ManualTestRunner create(Context ctx, Handler handler, List<Integer> test_ids, StringBuilder errorDescription) {
+  public static ManualTestRunner create(Context ctx, Handler handler, List<SCHEDULE_TEST_ID> test_ids, StringBuilder errorDescription) {
     ManualTestRunner ret = create(ctx, handler, errorDescription);
 
     if (ret == null) {
@@ -114,10 +120,9 @@ public class ManualTestRunner implements Runnable {
 
     return ret;
   }
-  // End's Pablo's modification
 
   /*
-   * Returns a ManualTestRunner object if the manual_tests list of the schedule
+   * Return a ManualTestRunner object if the manual_tests list of the schedule
    * config is not empty and the MainService is not executing
    */
   public static ManualTestRunner create(Context ctx, Handler handler, StringBuilder RErrorDescription) {
@@ -397,13 +402,13 @@ public class ManualTestRunner implements Runnable {
     List<String> tests = new ArrayList<String>();
 
     if (td.type.equals(TestFactory.DOWNSTREAMTHROUGHPUT)) {
-      tests.add("" + StorageTestResult.DOWNLOAD_TEST_ID);
+      tests.add("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt());
     } else if (td.type.equals(TestFactory.UPSTREAMTHROUGHPUT)) {
-      tests.add("" + StorageTestResult.UPLOAD_TEST_ID);
+      tests.add("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt());
     } else if (td.type.equals(TestFactory.LATENCY)) {
-      tests.add("" + StorageTestResult.LATENCY_TEST_ID);
-      tests.add("" + StorageTestResult.PACKETLOSS_TEST_ID);
-      tests.add("" + StorageTestResult.JITTER_TEST_ID);
+      tests.add("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt());
+      tests.add("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt());
+      tests.add("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt());
     }
     try {
       for (String t : tests) {

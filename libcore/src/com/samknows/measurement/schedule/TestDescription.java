@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.samknows.libcore.SKConstants;
+import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.TestParamsManager;
 import com.samknows.measurement.util.IdGenerator;
@@ -19,7 +20,45 @@ import com.samknows.tests.TestFactory;
 
 
 public class TestDescription implements Serializable{
-	private static final long serialVersionUID = 1L;
+
+  // The test ids... as used in the SCHEDULE.XML
+  // These are GROUPED tests...
+  public enum SCHEDULE_TEST_ID {
+    ALL_TESTS(-1), // Used ONLY when selecting a filter of tests to run.
+    CLOSEST_TARGET_TEST(1),
+    DOWNLOAD_TEST(2),
+    UPLOAD_TEST(3),
+    LATENCY_TEST(4); // This contains Jitter, Latency, Loss...
+
+    private int value;
+
+    private SCHEDULE_TEST_ID(int value) {
+      this.value = value;
+    }
+
+    public int getValueAsInt() {
+      return value;
+    }
+
+    public static SCHEDULE_TEST_ID sGetTestIdForInt(int value) {
+      if (value ==  SCHEDULE_TEST_ID.ALL_TESTS.value) {
+        return SCHEDULE_TEST_ID.ALL_TESTS;
+      } else if (value ==  SCHEDULE_TEST_ID.CLOSEST_TARGET_TEST.value) {
+        return SCHEDULE_TEST_ID.CLOSEST_TARGET_TEST;
+      } else if (value ==  SCHEDULE_TEST_ID.DOWNLOAD_TEST.value) {
+        return SCHEDULE_TEST_ID.DOWNLOAD_TEST;
+      } else if (value ==  SCHEDULE_TEST_ID.UPLOAD_TEST.value) {
+        return SCHEDULE_TEST_ID.UPLOAD_TEST;
+      } else if (value ==  SCHEDULE_TEST_ID.LATENCY_TEST.value) {
+        return SCHEDULE_TEST_ID.LATENCY_TEST;
+      } else {
+        SKLogger.sAssert(false);
+        return SCHEDULE_TEST_ID.CLOSEST_TARGET_TEST;
+      }
+    }
+  }
+
+  private static final long serialVersionUID = 1L;
 	
 	//xml tag definition
 	public static final String XML_TYPE = "type";
@@ -41,7 +80,7 @@ public class TestDescription implements Serializable{
 	
 	public long id = IdGenerator.generate();
 
-	public int testId;
+	public SCHEDULE_TEST_ID testId;
 	public String type;//todo change to enum
 	public boolean isPrimary = false;
 	public String displayName;
@@ -57,9 +96,12 @@ public class TestDescription implements Serializable{
 		TestDescription td = new TestDescription();
 		td.type = node.getAttribute(XML_TYPE);
 		String string_test_id = node.getAttribute(XML_TEST_ID);
+
 		if(string_test_id != null && !string_test_id.equals("") ){
-			td.testId = Integer.parseInt(string_test_id);
+			int testIdAsInt = Integer.parseInt(string_test_id);
+      td.testId = SCHEDULE_TEST_ID.sGetTestIdForInt(testIdAsInt);
 		}
+
 		td.conditionGroupId = node.getAttribute(XML_CONDITION_GROUP_ID);
 		td.displayName = OtherUtils.stringEncoding(node.getAttribute(XML_DISPLAY_NAME));
 		try {

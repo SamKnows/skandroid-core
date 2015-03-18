@@ -56,6 +56,7 @@ import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.SummaryResult;
+import com.samknows.measurement.storage.StorageTestResult.*;
 
 /**
  * This fragment is responsible for:
@@ -325,7 +326,7 @@ public class FragmentSummary extends Fragment {
       for (final SummaryResult summaryResult : aList_SummaryResults) {
         switch (summaryResult.getTestType()) {
           // Summary result is download type
-          case 0:
+          case DOWNLOAD_TEST_ID:
             aList_SummaryResults_No_Empty_For_Download = true;
 
             safeRunOnUiThread(new Runnable()    // UI modifications must be executed in the UI thread
@@ -343,7 +344,7 @@ public class FragmentSummary extends Fragment {
             });
             break;
           // Summary result is upload type
-          case 1:
+          case UPLOAD_TEST_ID:
             aList_SummaryResults_No_Empty_For_Upload = true;
 
             safeRunOnUiThread(new Runnable()    // UI modifications must be executed in the UI thread
@@ -361,7 +362,7 @@ public class FragmentSummary extends Fragment {
             });
             break;
           // Summary result is latency type
-          case 2:
+          case LATENCY_TEST_ID:
             aList_SummaryResults_No_Empty_For_Latency = true;
 
             safeRunOnUiThread(new Runnable()    // UI modifications must be executed in the UI thread
@@ -377,7 +378,7 @@ public class FragmentSummary extends Fragment {
             });
             break;
           // Summary result is packet loss type
-          case 3:
+          case PACKETLOSS_TEST_ID:
             aList_SummaryResults_No_Empty_For_Packet_Loss = true;
 
             safeRunOnUiThread(new Runnable()    // UI modifications must be executed in the UI thread
@@ -394,7 +395,7 @@ public class FragmentSummary extends Fragment {
             break;
 
           // Summary result is jitter type
-          case 4:
+          case JITTER_TEST_ID:
             aList_SummaryResults_No_Empty_For_Jitter = true;
 
             safeRunOnUiThread(new Runnable()    // UI modifications must be executed in the UI thread
@@ -1353,7 +1354,7 @@ public class FragmentSummary extends Fragment {
 
   private SKGraphForResults graphHandlerDownload;
 
-  private void setGraphDataForColumnIdAndHideIfNoResultsFound(int PColumnId) {
+  private void setGraphDataForColumnIdAndHideIfNoResultsFound(DETAIL_TEST_ID PColumnId) {
 
     // Switch depending on the network type currently selected - this affects the underlying query.
     switch (getNetworkTypeSelection()) {
@@ -1405,7 +1406,7 @@ public class FragmentSummary extends Fragment {
     return SKApplication.getAppInstance().getApplicationContext().getResources().getColor(R.color.GraphColourBottomAreaFill);
   }
 
-  private JSONObject fetchGraphDataForColumnId(int PColumnId) {
+  private JSONObject fetchGraphDataForColumnId(DETAIL_TEST_ID PColumnId) {
     Calendar fromCal = Calendar.getInstance();
 
     lookBackwardInTime(fromCal);
@@ -1598,31 +1599,31 @@ public class FragmentSummary extends Fragment {
    */
   private void prepareChartEnvironment(int pChartType, int pDataPeriod) {
     // Prepare data for the download chart
-    int chartType = StorageTestResult.DOWNLOAD_TEST_ID;
+    DETAIL_TEST_ID chartType = DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
     switch (pChartType) {
       case 0:
         // Case download
-        chartType = StorageTestResult.DOWNLOAD_TEST_ID;
+        chartType = DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
         mChartCaption.setText(R.string.units_Mbps);
         break;
       case 1:
         // Case upload
-        chartType = StorageTestResult.UPLOAD_TEST_ID;
+        chartType = DETAIL_TEST_ID.UPLOAD_TEST_ID;
         mChartCaption.setText(R.string.units_Mbps);
         break;
       case 2:
         // Case latency
-        chartType = StorageTestResult.LATENCY_TEST_ID;
+        chartType = DETAIL_TEST_ID.LATENCY_TEST_ID;
         mChartCaption.setText(R.string.units_ms);
         break;
       case 3:
         // Case packet loss
-        chartType = StorageTestResult.PACKETLOSS_TEST_ID;
+        chartType = DETAIL_TEST_ID.PACKETLOSS_TEST_ID;
         mChartCaption.setText(R.string.units_percent);
         break;
       case 4:
         // Case jitter
-        chartType = StorageTestResult.JITTER_TEST_ID;
+        chartType = DETAIL_TEST_ID.JITTER_TEST_ID;
         mChartCaption.setText(R.string.units_percent);
         break;
       default:
