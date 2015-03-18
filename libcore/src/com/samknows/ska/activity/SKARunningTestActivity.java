@@ -28,6 +28,7 @@ import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.Storage;
 import com.samknows.libcore.R;
+import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.ProgressWheel;
@@ -42,7 +43,6 @@ import com.samknows.tests.ClosestTarget;
 public class SKARunningTestActivity extends BaseLogoutActivity {
 
 	private Context cxt;
-	public Handler handler;
 	private ProgressWheel pw;
 	private ManualTestRunner mt;
 	int page;
@@ -114,28 +114,16 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		Util.initializeFonts(this);
 		Util.overrideFonts(this, findViewById(android.R.id.content));
 		try {
-
-			handler = new Handler() {
-
-				@Override
-				public void handleMessage(Message msg) {
-          doHandleMessage(msg);
-				}
-
-      };
-
 			launchTest(testIdToRunMinusOneMeansAll);
 		} catch (Throwable t) {
 			SKLogger.e(this, "handler or test failure", t);
 		}
 	}
 
-  private void doHandleMessage(Message msg) {
+  private void doHandleMessage(JSONObject message_json) {
     TextView tv = null;
     FontFitTextView fftv = null;
 
-    JSONObject message_json;
-    message_json = (JSONObject) msg.obj;
     String value;
     int success;
     int testnameAsInt;
@@ -165,19 +153,6 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
     try {
 
       String type = message_json.getString(StorageTestResult.JSON_TYPE_ID);
-
-      if (type == "completed") {
-
-        result = 1;
-
-        if (SKARunningTestActivity.this.checkIfIsConnectedAndIfNotShowAnAlertThenFinish() == false)
-        {
-          // The alert that is shown, handles the "finish()"
-        } else {
-          SKARunningTestActivity.this.finish();
-          overridePendingTransition(0, 0);
-        }
-      }
 
       if (type == "test") {
         testnameAsInt = message_json .getInt(StorageTestResult.JSON_TESTNUMBER);
@@ -639,19 +614,17 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		// make passive metrics invisible
 
 		for (int x = 1; x < 33; x = x + 1) {
-			Message msg = new Message();
 			JSONObject jtc = new JSONObject();
 			try {
 				jtc.put("type", "passivemetric");
 				jtc.put("metric", "" + x);
 				jtc.put("metricString", "invisible");
 				jtc.put("value", "");
-				msg.obj = jtc;
 			} catch (JSONException je) {
 				SKLogger.e(this,
 						"Error in creating JSONObject:" + je.getMessage());
 			}
-			handler.sendMessage(msg);
+			this.doHandleMessage(jtc);
 		}
 
 	}
@@ -662,7 +635,37 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
     // Create the test runner.
     // Note that this will always include a closest target test that precedes the test(s)
-    mt = ManualTestRunner.create(this, handler, testIdToRunMinusOneMeansAll, errorDescription);
+    SKTestRunner.SKTestRunnerObserver observer = new SKTestRunner.SKTestRunnerObserver() {
+      @Override
+      public void onTestProgress(JSONObject pm) {
+        SKARunningTestActivity.this.doHandleMessage(pm);
+      }
+
+      @Override
+      public void onTestResult(JSONObject pm) {
+        SKARunningTestActivity.this.doHandleMessage(pm);
+      }
+
+      @Override
+      public void onPassiveMetric(JSONObject o) {
+        SKARunningTestActivity.this.doHandleMessage(o);
+      }
+
+      @Override
+      public void OnChangedStateTo(SKTestRunner.TestRunnerState state) {
+
+        if (state == SKTestRunner.TestRunnerState.STOPPED) {
+          if (SKARunningTestActivity.this.checkIfIsConnectedAndIfNotShowAnAlertThenFinish() == false) {
+            // The alert that is shown, handles the "finish()"
+          } else {
+            SKARunningTestActivity.this.finish();
+            overridePendingTransition(0, 0);
+          }
+        }
+      }
+    };
+
+    mt = ManualTestRunner.create(observer, testIdToRunMinusOneMeansAll, errorDescription);
     if (mt == null) {
       String theErrorString = errorDescription.toString();
       if (theErrorString.length() == 0) {

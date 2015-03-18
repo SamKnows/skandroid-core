@@ -61,6 +61,7 @@ import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
+import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.storage.StorageTestResult;
@@ -148,7 +149,6 @@ public class FragmentRunTest extends Fragment {
   // Background tasks
   private Thread threadRunningTests;        // Thread that run the tests
   private ManualTestRunner manualTest;          // Object containing the ManualTestRunner class object
-  public Handler testResultsHandler;        // Handler that listen for the test results
   private ScheduleConfig config;
 
   private TextView publicIp;
@@ -762,22 +762,13 @@ public class FragmentRunTest extends Fragment {
 
     });
 
-    // Handler that is listening for test results and updates the UI
-    testResultsHandler = new Handler()
-    {
-      @Override
-      public void handleMessage(Message msg) {
-        handleTheMessage(msg);
-      }
-    };
-
     config = CachingStorage.getInstance().loadScheduleConfig();
     if (config == null) {
       config = new ScheduleConfig();
     }
   }
 
-  private void handleTheMessage(Message msg) {
+  private void handleTheMessage(JSONObject message_JSON) {
     if (isAdded() == false) {
       // This fragment is NOT attached to the activity.
       // Don't do anything with the message, or we're likely to crash!
@@ -786,7 +777,6 @@ public class FragmentRunTest extends Fragment {
     }
 
     FormattedValues formattedValues = new FormattedValues();
-    JSONObject message_JSON = (JSONObject) msg.obj;
     int success, statusComplete;
     int testNameAsInt = 0;
     String value;
@@ -983,10 +973,6 @@ public class FragmentRunTest extends Fragment {
             //SKLogger.sAssert(getClass(),  false);
           }
         }
-      }
-      // The tests are completed
-      else if (messageType == "completed") {
-        onDidDetectTestCompleted();
       }
     } catch (JSONException e) {
       Log.e(C_TAG_FRAGMENT_SPEED_TEST, "There was an error within the handler. " + e.getMessage());
@@ -1224,13 +1210,38 @@ public class FragmentRunTest extends Fragment {
       return;
     }
 
+    SKTestRunner.SKTestRunnerObserver observer = new SKTestRunner.SKTestRunnerObserver() {
+      @Override
+      public void onTestProgress(JSONObject pm) {
+        FragmentRunTest.this.handleTheMessage(pm);
+      }
+
+      @Override
+      public void onTestResult(JSONObject pm) {
+        FragmentRunTest.this.handleTheMessage(pm);
+      }
+
+      @Override
+      public void onPassiveMetric(JSONObject o) {
+        FragmentRunTest.this.handleTheMessage(o);
+      }
+
+      @Override
+      public void OnChangedStateTo(SKTestRunner.TestRunnerState state) {
+
+        if (state == SKTestRunner.TestRunnerState.STOPPED) {
+          onDidDetectTestCompleted();
+        }
+      }
+    };
+
     if (testIDs.contains(SCHEDULE_TEST_ID.ALL_TESTS) == false) {
       // Perform the selected tests
-      manualTest = ManualTestRunner.create(getActivity(), testResultsHandler, testIDs, errorDescription);
+      manualTest = ManualTestRunner.create(observer, testIDs, errorDescription);
     }
     else {
       // Perform all tests
-      manualTest = ManualTestRunner.create(getActivity(), testResultsHandler, errorDescription);
+      manualTest = ManualTestRunner.create(observer, errorDescription);
 
       if (manualTest == null) {
         if (errorDescription.toString().contains(getString(R.string.manual_test_create_failed_3))) {

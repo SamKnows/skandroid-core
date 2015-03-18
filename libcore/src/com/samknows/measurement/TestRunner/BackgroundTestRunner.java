@@ -4,22 +4,25 @@ import android.content.Context;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.statemachine.Transition;
 import com.samknows.measurement.statemachine.state.BaseState;
 import com.samknows.measurement.util.OtherUtils;
 
-public class BackgroundTestRunner {
+public class BackgroundTestRunner  extends SKTestRunner  {
   private Context ctx;
 
-  public BackgroundTestRunner(Context ctx) {
-    super();
-    this.ctx = ctx;
+  public BackgroundTestRunner(SKTestRunnerObserver observer) {
+    super(observer);
+    this.ctx = SKApplication.getAppInstance().getApplicationContext();
   }
 
   // Returns the number of test bytes!
   public long startTestRunning_RunToEndBlocking_ReturnNumberOfTestBytes() {
+    setStateChangeToUIHandler(TestRunnerState.EXECUTING);
+
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
     Transition t = Transition.create(appSettings);
     State state = appSettings.getState();
@@ -45,6 +48,7 @@ public class BackgroundTestRunner {
         appSettings.saveState(State.NONE);
         SKLogger.e(this, "fail to startTestRunning_RunToEndBlocking state: " + state + ", reschedule");
         OtherUtils.rescheduleRTC(ctx, appSettings.rescheduleTime);
+        setStateChangeToUIHandler(TestRunnerState.STOPPED);
         return accumulatedTestBytes;
       } else {
         state = t.getNextState(state, code);
@@ -57,6 +61,7 @@ public class BackgroundTestRunner {
     appSettings.saveState(state);
     SKLogger.d(this, "shutdown state, stop execution and setup state for next time: " + state);
 
+    setStateChangeToUIHandler(TestRunnerState.STOPPED);
     return accumulatedTestBytes;
   }
 }

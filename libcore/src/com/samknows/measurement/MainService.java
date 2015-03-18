@@ -11,6 +11,7 @@ import android.os.PowerManager;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
+import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.environment.TrafficStatsCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.TestRunner.BackgroundTestRunner;
@@ -94,7 +95,8 @@ public class MainService extends IntentService {
 			 */
 			if((backgroundTest && SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()) || force_execution ) {
 				if (appSettings.run_in_roaming || !OtherUtils.isRoaming(this)) {
-          BackgroundTestRunner backgroundTestRunner = new BackgroundTestRunner(this);
+          SKTestRunner.SKTestRunnerObserver observerNull = null;
+          BackgroundTestRunner backgroundTestRunner = new BackgroundTestRunner(observerNull);
          	accumulatedTestBytes = backgroundTestRunner.startTestRunning_RunToEndBlocking_ReturnNumberOfTestBytes();
 				} else {
 					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(roaming), exiting.");

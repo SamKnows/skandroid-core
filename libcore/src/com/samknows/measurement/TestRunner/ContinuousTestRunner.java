@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Looper;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.BaseDataCollector;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.environment.DCSData;
@@ -35,7 +36,7 @@ import org.json.JSONObject;
  * The class is simply created, started, and stopped.
  * Test results are not reported while the tests are running.
  */
-public class ContinuousTestRunner implements Runnable {
+public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
   private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
   private Context mContext;
   private State mPreviousState;
@@ -46,8 +47,10 @@ public class ContinuousTestRunner implements Runnable {
   private ScheduleConfig mConfig;
   private DBHelper mDBHelper;
 
-  public ContinuousTestRunner(Context ctx) {
-    mContext = ctx;
+  public ContinuousTestRunner(SKTestRunnerObserver observer) {
+    super(observer);
+
+    mContext = SKApplication.getAppInstance().getApplicationContext();
     mListDCSData = new ArrayList<DCSData>();
     mTestContext = TestContext.createBackgroundTestContext(mContext);
     mDBHelper = new DBHelper(mContext);
@@ -65,6 +68,8 @@ public class ContinuousTestRunner implements Runnable {
    */
   @Override
   public void run() {
+
+    super.setStateChangeToUIHandler(TestRunnerState.STARTING);
 
     Looper.prepare();
 
@@ -87,7 +92,7 @@ public class ContinuousTestRunner implements Runnable {
 
     isExecutingContinuous = true;
 
-    OnChangedStateTo(ContinuousState.EXECUTING);
+    super.setStateChangeToUIHandler(TestRunnerState.EXECUTING);
 
 
     //
@@ -120,7 +125,7 @@ public class ContinuousTestRunner implements Runnable {
     }
     stopCollectors();
 
-    OnChangedStateTo(ContinuousState.STOPPED);
+    super.setStateChangeToUIHandler(TestRunnerState.STOPPED);
 
     onEnd();
   }
@@ -210,7 +215,6 @@ public class ContinuousTestRunner implements Runnable {
     return isExecutingContinuous;
   }
 
-  public enum ContinuousState {STOPPED, STARTING, EXECUTING, STOPPING}
 
   // Start continuous testing
   public void startTestRunning_RunInBackground() {
@@ -218,11 +222,7 @@ public class ContinuousTestRunner implements Runnable {
   }
 
   public void stopTestRunning() {
+    super.setStateChangeToUIHandler(TestRunnerState.STOPPING);
     isExecutingContinuous = false;
   }
-
-  public void OnChangedStateTo(ContinuousState newState) {
-    // Override this, to have state updated!
-  }
-
 }

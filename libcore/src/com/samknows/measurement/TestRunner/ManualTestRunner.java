@@ -8,6 +8,7 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
@@ -38,25 +39,24 @@ import org.json.JSONObject;
  * Test results are not reported through a handler, as messages, while the tests are running.
  */
 
-public class ManualTestRunner implements Runnable {
-  private Handler mHandler;
+public class ManualTestRunner extends SKTestRunner implements Runnable {
   private List<TestDescription> mTestDescription;
   private Context ctx;
   private AtomicBoolean run = new AtomicBoolean(true);
-  public static boolean isExecuting = false;
 
-  private ManualTestRunner(Context ctx, Handler handler, List<TestDescription> td) {
-    mHandler = handler;
+  private ManualTestRunner(SKTestRunnerObserver observer, List<TestDescription> td) {
+    super(observer);
+
     mTestDescription = td;
-    this.ctx = ctx;
+    this.ctx = SKApplication.getAppInstance().getApplicationContext();
   }
 
 	/*
    * Returns a ManualTestRunner object that runs only the test with id test_id
 	 */
 
-  public static ManualTestRunner create(Context ctx, Handler handler, SCHEDULE_TEST_ID test_id, StringBuilder errorDescription) {
-    ManualTestRunner ret = create(ctx, handler, errorDescription);
+  public static ManualTestRunner create(SKTestRunnerObserver observer, SCHEDULE_TEST_ID test_id, StringBuilder errorDescription) {
+    ManualTestRunner ret = create(observer, errorDescription);
     if (ret == null) {
       return ret;
     }
@@ -99,8 +99,8 @@ public class ManualTestRunner implements Runnable {
    * Return a ManualTestRunner object that runs only the tests in the list
    */
 
-  public static ManualTestRunner create(Context ctx, Handler handler, List<SCHEDULE_TEST_ID> test_ids, StringBuilder errorDescription) {
-    ManualTestRunner ret = create(ctx, handler, errorDescription);
+  public static ManualTestRunner create(SKTestRunnerObserver observer, List<SCHEDULE_TEST_ID> test_ids, StringBuilder errorDescription) {
+    ManualTestRunner ret = create(observer, errorDescription);
 
     if (ret == null) {
       return ret;
@@ -125,7 +125,10 @@ public class ManualTestRunner implements Runnable {
    * Return a ManualTestRunner object if the manual_tests list of the schedule
    * config is not empty and the MainService is not executing
    */
-  public static ManualTestRunner create(Context ctx, Handler handler, StringBuilder RErrorDescription) {
+  public static ManualTestRunner create(SKTestRunnerObserver observer, StringBuilder RErrorDescription) {
+
+    Context ctx = SKApplication.getAppInstance().getApplicationContext();
+
     Storage storage = CachingStorage.getInstance();
     ScheduleConfig config = storage.loadScheduleConfig();
     if (config == null) {
@@ -150,7 +153,7 @@ public class ManualTestRunner implements Runnable {
     //
     config.forManualOrContinuousTestEnsureClosestTargetIsRunAtStart(config.manual_tests);
 
-    return new ManualTestRunner(ctx, handler, config.manual_tests);
+    return new ManualTestRunner(observer, config.manual_tests);
   }
 
   public void startTestRunning_RunInBackground() {
@@ -176,47 +179,13 @@ public class ManualTestRunner implements Runnable {
   private boolean mbUdpClosestTargetTestSucceeded = false;
   public static final String kManualTest_UDPFailedSkipTests = "kManualTest_UDPFailedSkipTests";
 
-  private void sendTestProgressToUIHandler(JSONObject pm) {
-    Message msg = new Message();
-    msg.obj = pm;
-    mHandler.sendMessage(msg);
-  }
-
-  private void sendTestResultToUIHandler(JSONObject pm) {
-    Message msg = new Message();
-    msg.obj = pm;
-    mHandler.sendMessage(msg);
-  }
-
-  private void sendPassiveMetricToUIHandler(JSONObject o) {
-    Message msg = new Message();
-    msg.obj = PassiveMetric.passiveMetricToCurrentTest(o);
-    mHandler.sendMessage(msg);
-  }
-
-  private void sendCompletedMessageToUIHandler() {
-    Message msg = new Message();
-    JSONObject jtc = new JSONObject();
-    try {
-      Thread.sleep(1000);
-      jtc.put(StorageTestResult.JSON_TYPE_ID, "completed");
-      msg.obj = jtc;
-
-    } catch (JSONException je) {
-      SKLogger.sAssert(false);
-    } catch (InterruptedException e) {
-      SKLogger.sAssert(false);
-    }
-    mHandler.sendMessage(msg);
-  }
-
   @Override
   public void run() {
+    setStateChangeToUIHandler(TestRunnerState.EXECUTING);
+
     DBHelper db = new DBHelper(ctx);
 
     mbUdpClosestTargetTestSucceeded = false;
-
-    sSetIsExecuting(true);
 
     // Start collectors for the passive metrics
     // Start tests
@@ -278,7 +247,7 @@ public class ManualTestRunner implements Runnable {
         // Typically returns just 1 value - might be up to 3 for latency/loss/jitter!
         List<JSONObject> testProgressList = progressMessage(td, te);
         for (JSONObject pm : testProgressList) {
-          sendTestProgressToUIHandler(pm);
+          super.sendTestProgressToUIHandler(pm);
         }
 
       }
@@ -313,7 +282,7 @@ public class ManualTestRunner implements Runnable {
       // For all test results, we send a Message instance...
       // the JSON_HRESULT field contains the value of interest!
       for (JSONObject cr : currResults) {
-        sendTestResultToUIHandler(cr);
+        super.sendTestResultToUIHandler(cr);
       }
       testsResults.addAll(currResults);
     }
@@ -327,7 +296,7 @@ public class ManualTestRunner implements Runnable {
       if (collector.isEnabled) {
         for (JSONObject o : collector.getPassiveMetric()) {
           // update interface
-          sendPassiveMetricToUIHandler(o);
+          super.sendPassiveMetricToUIHandler(o);
           // save metric
           passiveMetrics.add(o);
         }
@@ -352,9 +321,6 @@ public class ManualTestRunner implements Runnable {
     // And now upload the test (this will get a submission id etc., so *must* have a batch id to save to the database...)
     te.save("manual_test", batchId);
 
-    // Send completed message to the interface
-    sendCompletedMessageToUIHandler();
-
     try {
       // Submitting test results
       new SubmitTestResultsAnonymousAction(ctx).execute();
@@ -364,11 +330,8 @@ public class ManualTestRunner implements Runnable {
 
     SKLogger.d(this, "Exiting manual test");
 
-    sSetIsExecuting(false);
-  }
-
-  private static void sSetIsExecuting(boolean bValue) {
-    isExecuting = bValue;
+    // Send completed message to the interface - after a short delay
+    super.sendCompletedMessageToUIHandlerWithMilliDelay(1000);
   }
 
   private class ObservableExecutor implements Runnable {

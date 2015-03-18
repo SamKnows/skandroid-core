@@ -62,12 +62,12 @@ import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.TestRunner.ContinuousTestRunner;
-import com.samknows.measurement.TestRunner.ContinuousTestRunner.ContinuousState;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.DeviceDescription;
 import com.samknows.measurement.MainService;
+import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
@@ -87,7 +87,6 @@ import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.ExportFile;
-import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.StorageTestResult.*;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.ska.activity.components.StatView;
@@ -2721,16 +2720,16 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
   }
 
   private ContinuousTestRunner mContinuousTestRunner = null;
-  private ContinuousState mContinuousState = ContinuousState.STOPPED;
+  private ContinuousTestRunner.TestRunnerState mContinuousState = ContinuousTestRunner.TestRunnerState.STOPPED;
   private Handler mContinuousHandler;
 
-  private void continuousStateChanged(ContinuousState newState) {
+  private void continuousStateChanged(ContinuousTestRunner.TestRunnerState newState) {
 
     mContinuousState=newState;
 
     setContinuousTestingButton();
 
-    if(mContinuousState==ContinuousState.STOPPED)
+    if(mContinuousState== ContinuousTestRunner.TestRunnerState.STOPPED)
     {
       adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
       setTotalArchiveRecords();
@@ -2744,22 +2743,29 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		Button b = (Button) findViewById(R.id.btnRunContinuousTests);
 
-    mContinuousHandler = new Handler();
-    mContinuousTestRunner = new ContinuousTestRunner(this) {
+    SKTestRunner.SKTestRunnerObserver observer = new SKTestRunner.SKTestRunnerObserver() {
       @Override
-      public void OnChangedStateTo(ContinuousState newState) {
-        final ContinuousState theNewState = newState;
-        mContinuousHandler.post(
-            new Runnable() {
-              @Override
-              public void run() {
-                SKAMainResultsActivity.this.continuousStateChanged(theNewState);
-              }
-            }
-        );
+      public void onTestProgress(JSONObject pm) {
+
+      }
+
+      @Override
+      public void onTestResult(JSONObject pm) {
+
+      }
+
+      @Override
+      public void onPassiveMetric(JSONObject o) {
+
+      }
+
+      @Override
+      public void OnChangedStateTo(SKTestRunner.TestRunnerState state) {
+        SKAMainResultsActivity.this.continuousStateChanged(state);
       }
     };
-    mContinuousState = ContinuousState.STARTING;
+
+    mContinuousTestRunner = new ContinuousTestRunner(observer);
     mContinuousTestRunner.startTestRunning_RunInBackground();
 
 		b.setText(R.string.starting_continuous);
@@ -2769,7 +2775,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 		//CONTINUOUS TESTING
 
-		if (mContinuousState == ContinuousState.STOPPED) {
+		if (mContinuousState == ContinuousTestRunner.TestRunnerState.STOPPED) {
 		
 			// Only allow this to continue, if we're connected!
     		if (checkIfIsConnectedAndIfNotShowAnAlert() == false) {
@@ -2787,7 +2793,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 					// Create a manual test (which we do NOT run!), to allow us to measure if we might
 					// exceed the test limit!
 					StringBuilder errorDescription = new StringBuilder();
-					ManualTestRunner mt = ManualTestRunner.create(this, new Handler(), errorDescription);
+
+          SKTestRunner.SKTestRunnerObserver observerNull = null;
+					ManualTestRunner mt = ManualTestRunner.create(observerNull, errorDescription);
 					if (mt == null) {
 						String theErrorString = errorDescription.toString();
 						if (theErrorString.length() == 0) {
@@ -2844,7 +2852,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			}
 
 
-		} else if (mContinuousState == ContinuousState.EXECUTING) {
+		} else if (mContinuousState == ContinuousTestRunner.TestRunnerState.EXECUTING) {
 
       if (mContinuousTestRunner == null) {
         SKLogger.sAssert(false);
