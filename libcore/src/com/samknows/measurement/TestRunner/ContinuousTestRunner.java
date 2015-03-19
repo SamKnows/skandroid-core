@@ -56,6 +56,15 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     mDBHelper = new DBHelper(mContext);
   }
 
+  // Start continuous testing
+  public void startTestRunning_RunInBackground() {
+    new Thread(this).start();
+  }
+
+  public void stopTestRunning() {
+    super.setStateChangeToUIHandler(TestRunnerState.STOPPING);
+    isExecutingContinuous = false;
+  }
 
   /*
    * Execute continuous testing:
@@ -215,14 +224,4 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     return isExecutingContinuous;
   }
 
-
-  // Start continuous testing
-  public void startTestRunning_RunInBackground() {
-    new Thread(this).start();
-  }
-
-  public void stopTestRunning() {
-    super.setStateChangeToUIHandler(TestRunnerState.STOPPING);
-    isExecutingContinuous = false;
-  }
 }

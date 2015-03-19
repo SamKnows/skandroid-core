@@ -192,10 +192,6 @@ public class FragmentRunTest extends Fragment {
     Context context = SKApplication.getAppInstance().getApplicationContext();
     context.registerReceiver(broadcastReceiverConnectivityChanges, mIntentFilter);
 
-    // Register the local broadcast receiver listener to receive messages within the application (Listen for current values while performing tests)
-    LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentClosestTarget, new IntentFilter("currentClosestTarget"));      // Current closest target server
-    LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiverCurrentLatency, new IntentFilter("currentLatencyIntent"));      // Current latency value
-
     // Start the periodic timer!
     startTimer();
 
@@ -214,10 +210,6 @@ public class FragmentRunTest extends Fragment {
     // Unregister the broadcast receiver listener. The listener listen for connectivity changes
     Context context = SKApplication.getAppInstance().getApplicationContext();
     context.unregisterReceiver(broadcastReceiverConnectivityChanges);
-
-    // Unregister the local broadcasts
-    LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentClosestTarget);
-    LocalBroadcastManager.getInstance(context).unregisterReceiver(messageReceiverCurrentLatency);
 
     // Stop the periodic timer!
     stopTimer();
@@ -241,34 +233,6 @@ public class FragmentRunTest extends Fragment {
       checkOutDataCap();
       // Check out connectivity status
       checkConnectivity(intent);
-    }
-  };
-
-  // Broadcast receiver listening for changes in the closest target (server) value
-  private BroadcastReceiver messageReceiverCurrentClosestTarget = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      if (testsRunning) {
-        String hostUrl = intent.getStringExtra("currentClosestTarget");  // Get extra data included in the Intent
-
-        if (hostUrl.length() != 0) {
-          String nameOfTheServer = config.hosts.get(hostUrl);
-
-          if (nameOfTheServer == null) {
-            nameOfTheServer = hostUrl;
-          }
-          changeFadingTextViewValue(mUnitText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
-          changeFadingTextViewValue(mMeasurementText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
-
-          if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
-            // Show "Best Target - myserver" as the text.
-            changeAdviceMessageTo(getString(R.string.running_test_closest_target) + nameOfTheServer);
-          } else {
-// Show "Running Test"
-            changeAdviceMessageTo(getString(R.string.running_test));
-          }
-        }
-      }
     }
   };
 
@@ -342,29 +306,10 @@ public class FragmentRunTest extends Fragment {
     }, 0, C_UPDATE_INTERVAL_IN_MS);
   }
 
-  // Broadcast receiver listening for changes in current latency value measurement
-  private BroadcastReceiver messageReceiverCurrentLatency = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      if (testsRunning) {
-        // Update the UI data only few times a second
-        if (executingLatencyTest && System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS) {
-          String message = intent.getStringExtra("currentLatencyValue");  // Get extra data included in the Intent
-          updateCurrentLatencyValue(message);                // Update the current result meter for latency
-          gaugeView.setAngleByValue(Double.valueOf(message));          // Update the gauge colour indicator
-
-          lastTimeMillisCurrentSpeed = System.currentTimeMillis();    // Register the time of the last UI update
-        }
-      }
-    }
-  };
-
   // *** INNER CLASSES *** //
 
   /**
-   * @author pablo
-   *         <p/>
-   *         Just when the button is clicked it checks if we have real internet connection before start the tests.
+   * Just when the button is clicked it checks if we have real internet connection before start the tests.
    */
   private class InitTestAsyncTask extends AsyncTask<Void, Void, Boolean> {
     @Override
@@ -1020,10 +965,10 @@ public class FragmentRunTest extends Fragment {
   /**
    * Update the UI current latency indicator (in milliseconds)
    *
-   * @param pLatencyValue
+   * @param pLatencyValueMilli
    */
-  private void updateCurrentLatencyValue(final String pLatencyValue) {
-    final double formattedValue = Integer.valueOf(pLatencyValue);
+  private void updateCurrentLatencyValue(long pLatencyValueMilli) {
+    final double formattedValue = pLatencyValueMilli;
     final DecimalFormat df = new DecimalFormat("#.##");
 
     safeRunOnUiThread(new Runnable() {
@@ -1231,6 +1176,47 @@ public class FragmentRunTest extends Fragment {
 
         if (state == SKTestRunner.TestRunnerState.STOPPED) {
           onDidDetectTestCompleted();
+        }
+      }
+
+      @Override
+      public void OnUDPFailedSkipTests() {
+
+      }
+
+      @Override
+      public void OnClosestTargetSelected(String closestTarget) {
+        String hostUrl = closestTarget;
+
+        if (hostUrl.length() != 0) {
+          String nameOfTheServer = config.hosts.get(hostUrl);
+
+          if (nameOfTheServer == null) {
+            nameOfTheServer = hostUrl;
+          }
+          changeFadingTextViewValue(mUnitText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
+          changeFadingTextViewValue(mMeasurementText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
+
+          if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo()) {
+            // Show "Best Target - myserver" as the text.
+            changeAdviceMessageTo(getString(R.string.running_test_closest_target) + nameOfTheServer);
+          } else {
+// Show "Running Test"
+            changeAdviceMessageTo(getString(R.string.running_test));
+          }
+        }
+      }
+
+      @Override
+      public void OnCurrentLatencyCalculated(long latencyMilli) {
+        if (testsRunning) {
+          // Update the UI data only few times a second
+          if (executingLatencyTest && System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS) {
+            updateCurrentLatencyValue(latencyMilli);                // Update the current result meter for latency
+            gaugeView.setAngleByValue(Double.valueOf(latencyMilli));          // Update the gauge colour indicator
+
+            lastTimeMillisCurrentSpeed = System.currentTimeMillis();    // Register the time of the last UI update
+          }
         }
       }
     };

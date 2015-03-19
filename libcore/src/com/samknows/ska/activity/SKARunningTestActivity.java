@@ -543,52 +543,16 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		return false;
 	}
 
-	// https://stackoverflow.com/questions/3947641/android-equivalent-to-nsnotificationcenter
-	
-	// Our handler for received Intents. This will be called whenever an Intent
-	// with an action named "custom-event-name" is broadcasted.
-	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// Get extra data included in the Intent
-			String message = intent.getStringExtra("message");
-			Log.d("receiver", "Got message: " + message);
-
-			// Mark the tests as "UDP blocked"
-			//SKARunningTestActivity.this.
-			FontFitTextView fftv = (FontFitTextView) findViewById(R.id.latency_result);
-			if (fftv != null) {
-				fftv.setText(getString(R.string.udp_blocked_not_running));
-			}
-			fftv = (FontFitTextView) findViewById(R.id.packetloss_result);
-			if (fftv != null) {
-				fftv.setText(getString(R.string.udp_blocked_not_running));
-			}
-			fftv = (FontFitTextView) findViewById(R.id.jitter_result);
-			if (fftv != null) {
-				fftv.setText(getString(R.string.udp_blocked_not_running));
-			}
-		}
-	};
-
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
-		  // Register to receive messages.
-		  // This is just like [[NSNotificationCenter defaultCenter] addObserver:...]
-		  // We are registering an observer (mMessageReceiver) to receive Intents
-		  // with actions named "custom-event-name".
-		  LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).registerReceiver(mMessageReceiver,
-		      new IntentFilter(ManualTestRunner.kManualTest_UDPFailedSkipTests));
 	}
 
     @Override
 	public void onDestroy() {
       // Unregister since the activity is about to be closed.
       // This is somewhat like [[NSNotificationCenter defaultCenter] removeObserver:name:object:] 
-      LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
       super.onDestroy();
     }
 
@@ -662,6 +626,34 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
             overridePendingTransition(0, 0);
           }
         }
+      }
+
+      @Override
+      public void OnUDPFailedSkipTests() {
+        // Mark the tests as "UDP blocked"
+        //SKARunningTestActivity.this.
+        FontFitTextView fftv = (FontFitTextView) findViewById(R.id.latency_result);
+        if (fftv != null) {
+          fftv.setText(getString(R.string.udp_blocked_not_running));
+        }
+        fftv = (FontFitTextView) findViewById(R.id.packetloss_result);
+        if (fftv != null) {
+          fftv.setText(getString(R.string.udp_blocked_not_running));
+        }
+        fftv = (FontFitTextView) findViewById(R.id.jitter_result);
+        if (fftv != null) {
+          fftv.setText(getString(R.string.udp_blocked_not_running));
+        }
+      }
+
+      @Override
+      public void OnClosestTargetSelected(String closestTarget) {
+
+      }
+
+      @Override
+      public void OnCurrentLatencyCalculated(long latencyMilli) {
+
       }
     };
 

@@ -160,27 +160,20 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     new Thread(this).start();
   }
 
-  // returns the maximum amount of bytes used by the manual test
-  // This value is generally *MUCH* higher than the *actually* used value.
-  // e.g. 40+MB, compared to 4MB. The reason is that the value is from SCHEDULE.xml, and specifies the absolute
-  // maximum that a test is allowed to use; in practise, the test runs for a capped amount of time (also in the schedule data),
-  // and processes far less data that the defined maximum number of bytes to use.
-  public long getNetUsage() {
-    long ret = 0;
-    for (TestDescription td : mTestDescription) {
-      ret += td.maxUsageBytes;
-    }
-    return ret;
+  // It stops the test from being executed
+  public void stopTestRunning() {
+
+    run.set(false);
   }
 
   /*
    * Runs all the test in manual tests
    */
   private boolean mbUdpClosestTargetTestSucceeded = false;
-  public static final String kManualTest_UDPFailedSkipTests = "kManualTest_UDPFailedSkipTests";
 
   @Override
   public void run() {
+    setStateChangeToUIHandler(TestRunnerState.STARTING);
     setStateChangeToUIHandler(TestRunnerState.EXECUTING);
 
     DBHelper db = new DBHelper(ctx);
@@ -331,7 +324,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     SKLogger.d(this, "Exiting manual test");
 
     // Send completed message to the interface - after a short delay
-    super.sendCompletedMessageToUIHandlerWithMilliDelay(1000);
+    super.sendCompletedMessageToUIHandlerWithMilliDelay(1000); // TestRunnerState.STOPPED
   }
 
   private class ObservableExecutor implements Runnable {
@@ -392,9 +385,16 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     return ret;
   }
 
-  // It stops the test from being executed
-  public void stopTestRunning() {
-
-    run.set(false);
+  // returns the maximum amount of bytes used by the manual test
+  // This value is generally *MUCH* higher than the *actually* used value.
+  // e.g. 40+MB, compared to 4MB. The reason is that the value is from SCHEDULE.xml, and specifies the absolute
+  // maximum that a test is allowed to use; in practise, the test runs for a capped amount of time (also in the schedule data),
+  // and processes far less data that the defined maximum number of bytes to use.
+  public long getNetUsage() {
+    long ret = 0;
+    for (TestDescription td : mTestDescription) {
+      ret += td.maxUsageBytes;
+    }
+    return ret;
   }
 }

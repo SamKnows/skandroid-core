@@ -12,15 +12,23 @@ import com.samknows.measurement.statemachine.state.BaseState;
 import com.samknows.measurement.util.OtherUtils;
 
 public class BackgroundTestRunner  extends SKTestRunner  {
-  private Context ctx;
+  private Context mContext;
 
   public BackgroundTestRunner(SKTestRunnerObserver observer) {
     super(observer);
-    this.ctx = SKApplication.getAppInstance().getApplicationContext();
+
+    // if this is NOT null, then we will need to put in place code that prevents us emitting
+    // lots of unwanted latency observer calls; we'd also want any such calls not to be made
+    // in the main user interface thread (via the private Handler instance owned by the
+    // SKTestRunner superclass)...
+    SKLogger.sAssert(observer == null);
+
+    mContext = SKApplication.getAppInstance().getApplicationContext();
   }
 
   // Returns the number of test bytes!
   public long startTestRunning_RunToEndBlocking_ReturnNumberOfTestBytes() {
+    setStateChangeToUIHandler(TestRunnerState.STARTING);
     setStateChangeToUIHandler(TestRunnerState.EXECUTING);
 
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
@@ -34,8 +42,8 @@ public class BackgroundTestRunner  extends SKTestRunner  {
       SKLogger.d(this, "executing state: " + state);
       StateResponseCode code;
       try {
-        //code = Transition.createState(state, ctx).executeState();
-        BaseState baseState = Transition.createState(state, ctx);
+        //code = Transition.createState(state, mContext).executeState();
+        BaseState baseState = Transition.createState(state, mContext);
         code = baseState.executeState();
         accumulatedTestBytes += baseState.getAccumulatedTestBytes();
       } catch (Exception e) {
@@ -47,7 +55,7 @@ public class BackgroundTestRunner  extends SKTestRunner  {
       if (code == StateResponseCode.FAIL) {
         appSettings.saveState(State.NONE);
         SKLogger.e(this, "fail to startTestRunning_RunToEndBlocking state: " + state + ", reschedule");
-        OtherUtils.rescheduleRTC(ctx, appSettings.rescheduleTime);
+        OtherUtils.rescheduleRTC(mContext, appSettings.rescheduleTime);
         setStateChangeToUIHandler(TestRunnerState.STOPPED);
         return accumulatedTestBytes;
       } else {

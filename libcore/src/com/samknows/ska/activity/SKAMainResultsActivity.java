@@ -2763,6 +2763,21 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       public void OnChangedStateTo(SKTestRunner.TestRunnerState state) {
         SKAMainResultsActivity.this.continuousStateChanged(state);
       }
+
+      @Override
+      public void OnUDPFailedSkipTests() {
+
+      }
+
+      @Override
+      public void OnClosestTargetSelected(String closestTarget) {
+
+      }
+
+      @Override
+      public void OnCurrentLatencyCalculated(long latencyMilli) {
+
+      }
     };
 
     mContinuousTestRunner = new ContinuousTestRunner(observer);

@@ -30,137 +30,140 @@ import android.util.Pair;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.util.SKDateFormat;
 
 public class ClosestTarget extends Test {
-	
-	/*
-	 * constants for creating a ClosestTarget test
-	 */
-	private final String NUMBEROFPACKETS = "numberOfPackets";
-	private final String DELAYTIMEOUT = "delayTimeout";
-	private final String INTERPACKETTIME = "interPacketTime";
-		
-	private final static String VALUE_NOT_KNOWN = "-";
 
-	public static final String TESTSTRING = "CLOSESTTARGET";
-		
-	/*
-	 * Default values for the LatencyTest
-	 */
-	private final int _NPACKETS = 5;
-	private final int _INTERPACKETTIME = 1000000;
-	private final int _DELAYTIMEOUT = 2000000;
-	private final int _PORT = 6000;
+  /*
+   * constants for creating a ClosestTarget test
+   */
+  private final String NUMBEROFPACKETS = "numberOfPackets";
+  private final String DELAYTIMEOUT = "delayTimeout";
+  private final String INTERPACKETTIME = "interPacketTime";
 
-	/*
-	 * Constraints for the test parameters This values are needed to avoid to
-	 * misconfigure the latency test and hence to make the test useless or worst
-	 * to get stuck with the closest target test execution
-	 */
-	private final int NUMBEROFPACKETSMAX = 100;
-	private final int NUMBEROFPACKETSMIN = 5;
-	private final int INTERPACKETIMEMAX = 60000000;
-	private final int INTERPACKETIMEMIN = 10000;
-	private final int DELAYTIMEOUTMIN = 1000000;
-	private final int DELAYTIMEOUTMAX = 5000000;
-	private final int NUMBEROFTARGETSMAX = 50;
-	private final int NUMBEROFTARGETSMIN = 1;
-	
-	public static final String JSON_CLOSETTARGET = "closest_target";
-	public static final String JSON_IPCLOSESTTARGET = "ip_closest_target";
-	
-	public class Result{
-		public int total;
-		public int completed;
-		public String currbest_target;
-		public long curr_best_timeNanoseconds;
-	}
-	
-	//Used to collect the results from the individual LatencyTests as soon as the finish
-	public BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<LatencyTest.Result>();
-	
-	//public ClosestTarget() {
-	//	synchronized (ClosestTarget.this) {	
-	//		sClosestTarget = "";
-	//	}
-	//}
-	
-	public ClosestTarget(List<Param> params) {
-		synchronized (ClosestTarget.this) {	
-			sClosestTarget = "";
-			setParams(params);
-		}
-	}
+  private final static String VALUE_NOT_KNOWN = "-";
 
-	private boolean between(int x, int a, int b) {	return (x >= a && x <= b);	}
-	
-	@Override
-	public boolean isReady() {
-		if (!between(nPackets, NUMBEROFPACKETSMIN, NUMBEROFPACKETSMAX)) {
-			SKLogger.sAssert(getClass(),  false);
-			return false;
-		}
-		if (!between(interPacketTime, INTERPACKETIMEMIN, INTERPACKETIMEMAX)) {
-			SKLogger.sAssert(getClass(),  false);
-			return false;
-		}
-		if (!between(delayTimeout, DELAYTIMEOUTMIN, DELAYTIMEOUTMAX)) {
-			SKLogger.sAssert(getClass(),  false);
-			return false;
-		}
-		if (!between(targets.size(), NUMBEROFTARGETSMIN, NUMBEROFTARGETSMAX)) {
-			SKLogger.sAssert(getClass(),  false);
-			return false;
-		}
-		
-		return true;
-	}
+  public static final String TESTSTRING = "CLOSESTTARGET";
 
-	@Override
-	public void execute() {
-		find();
-	}
+  /*
+   * Default values for the LatencyTest
+   */
+  private final int _NPACKETS = 5;
+  private final int _INTERPACKETTIME = 1000000;
+  private final int _DELAYTIMEOUT = 2000000;
+  private final int _PORT = 6000;
 
-	@Override
-	public void run() {
-		find();
-	}
+  /*
+   * Constraints for the test parameters This values are needed to avoid to
+   * misconfigure the latency test and hence to make the test useless or worst
+   * to get stuck with the closest target test execution
+   */
+  private final int NUMBEROFPACKETSMAX = 100;
+  private final int NUMBEROFPACKETSMIN = 5;
+  private final int INTERPACKETIMEMAX = 60000000;
+  private final int INTERPACKETIMEMIN = 10000;
+  private final int DELAYTIMEOUTMIN = 1000000;
+  private final int DELAYTIMEOUTMAX = 5000000;
+  private final int NUMBEROFTARGETSMAX = 50;
+  private final int NUMBEROFTARGETSMIN = 1;
 
-	@Override
-	public int getNetUsage() {
-		return 0;
-	}
+  public static final String JSON_CLOSETTARGET = "closest_target";
+  public static final String JSON_IPCLOSESTTARGET = "ip_closest_target";
 
-	@Override
-	public boolean isSuccessful() {
-		return success;
-	}
+  public class Result {
+    public int total;
+    public int completed;
+    public String currbest_target;
+    public long curr_best_timeNanoseconds;
+  }
 
-	public void setNumberOfDatagrams(int n) {
-		nPackets = n;
-	}
+  //Used to collect the results from the individual LatencyTests as soon as the finish
+  public BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<LatencyTest.Result>();
 
-	public void setInterPacketTime(int t) {
-		interPacketTime = t;
-	}
+  //public ClosestTarget() {
+  //	synchronized (ClosestTarget.this) {
+  //		sClosestTarget = "";
+  //	}
+  //}
 
-	public void setDelayTimeout(int t) {
-		delayTimeout = t;
-	}
+  public ClosestTarget(List<Param> params) {
+    synchronized (ClosestTarget.this) {
+      sClosestTarget = "";
+      setParams(params);
+    }
+  }
 
-	public void setPort(int p) {
-		port = p;
-	}
+  private boolean between(int x, int a, int b) {
+    return (x >= a && x <= b);
+  }
 
-	public void addTarget(String target) {
-		targets.add(target);
-	}
+  @Override
+  public boolean isReady() {
+    if (!between(nPackets, NUMBEROFPACKETSMIN, NUMBEROFPACKETSMAX)) {
+      SKLogger.sAssert(getClass(), false);
+      return false;
+    }
+    if (!between(interPacketTime, INTERPACKETIMEMIN, INTERPACKETIMEMAX)) {
+      SKLogger.sAssert(getClass(), false);
+      return false;
+    }
+    if (!between(delayTimeout, DELAYTIMEOUTMIN, DELAYTIMEOUTMAX)) {
+      SKLogger.sAssert(getClass(), false);
+      return false;
+    }
+    if (!between(targets.size(), NUMBEROFTARGETSMIN, NUMBEROFTARGETSMAX)) {
+      SKLogger.sAssert(getClass(), false);
+      return false;
+    }
 
-	public void setTargetListEmpty() {
-		targets = new ArrayList<String>();
-	}
-	
+    return true;
+  }
+
+  @Override
+  public void execute() {
+    find();
+  }
+
+  @Override
+  public void run() {
+    find();
+  }
+
+  @Override
+  public int getNetUsage() {
+    return 0;
+  }
+
+  @Override
+  public boolean isSuccessful() {
+    return success;
+  }
+
+  public void setNumberOfDatagrams(int n) {
+    nPackets = n;
+  }
+
+  public void setInterPacketTime(int t) {
+    interPacketTime = t;
+  }
+
+  public void setDelayTimeout(int t) {
+    delayTimeout = t;
+  }
+
+  public void setPort(int p) {
+    port = p;
+  }
+
+  public void addTarget(String target) {
+    targets.add(target);
+  }
+
+  public void setTargetListEmpty() {
+    targets = new ArrayList<String>();
+  }
+
 
      /*
      Some networks block UDP traffic; and some might even block raw TCP traffic!
@@ -174,556 +177,548 @@ public class ClosestTarget extends Test {
         (not an average of the three requests - just take the one with the absolute lowest)
      */
 
-	static final int CHttpQueryTimeoutSeconds = 2;
-	
-	// Query the specified URL, and return <status,latency>
-	static Pair<Boolean,Long> sGetHttpResponseAndReturnLatencyMilliseconds(String urlString) {
-		//AsyncHttpClient client = new AsyncHttpClient();
-		//client.setTimeout(5000); // This is in milliseconds!
+  static final int CHttpQueryTimeoutSeconds = 2;
 
- 		Log.d(ClosestTarget.sGetTAG(), "DEBUG: fire http closest target query at (" + urlString + ")");
- 		
- 		// https://stackoverflow.com/questions/3000214/java-http-client-request-with-defined-timeout
-    	HttpParams httpParams = new BasicHttpParams();
- 	    HttpConnectionParams.setConnectionTimeout(httpParams, CHttpQueryTimeoutSeconds * 1000);
- 	    HttpConnectionParams.setSoTimeout(httpParams, CHttpQueryTimeoutSeconds * 1000);
- 	    
- 	    HttpClient httpclient = new DefaultHttpClient(httpParams);
- 	
- 		HttpGet httpGet = new HttpGet(urlString);
- 		HttpResponse response;
- 	
-		// Fire the query!
- 		final Date startTime = new Date();
- 		
- 		try {
- 			response = httpclient.execute(httpGet);
+  // Query the specified URL, and return <status,latency>
+  static Pair<Boolean, Long> sGetHttpResponseAndReturnLatencyMilliseconds(String urlString) {
+    //AsyncHttpClient client = new AsyncHttpClient();
+    //client.setTimeout(5000); // This is in milliseconds!
 
- 			// Check if server response is valid
- 			StatusLine status = response.getStatusLine();
- 			if (status.getStatusCode() != 200) {
- 				Log.d("TAG", "Invalid response from server: " + status.toString());
- 				SKLogger.sAssert(ClosestTarget.class,  false);
- 			} else {
- 				// Successful query, handle the response!
- 				final Date timeNow = new Date();
+    Log.d(ClosestTarget.sGetTAG(), "DEBUG: fire http closest target query at (" + urlString + ")");
 
- 				long measuredLatencyMilliseconds = timeNow.getTime() - startTime.getTime();
- 				SKLogger.sAssert(ClosestTarget.class,  measuredLatencyMilliseconds > 0);
+    // https://stackoverflow.com/questions/3000214/java-http-client-request-with-defined-timeout
+    HttpParams httpParams = new BasicHttpParams();
+    HttpConnectionParams.setConnectionTimeout(httpParams, CHttpQueryTimeoutSeconds * 1000);
+    HttpConnectionParams.setSoTimeout(httpParams, CHttpQueryTimeoutSeconds * 1000);
 
- 				Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - success - measuredLatencyMilliseconds = " + measuredLatencyMilliseconds);
- 				
- 				return new Pair<Boolean, Long>(Boolean.valueOf(true), Long.valueOf(measuredLatencyMilliseconds));
- 			}
+    HttpClient httpclient = new DefaultHttpClient(httpParams);
 
- 		} catch (SocketTimeoutException ste) {
- 			// Don't fire a debug-time assertion if we have a simple timeout!
- 			Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - SocketTimeoutException");
- 		} catch (ConnectTimeoutException cte) {
- 			// Don't fire a debug-time assertion if we have a simple timeout!
- 			Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - ConnectTimeoutException");
- 		} catch (UnknownHostException uhe) {
- 			// Don't fire a debug-time assertion if the host cannot be found - it might just be down.
- 			Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - UnknownHostException");
- 		} catch (Exception e) {
- 			// This might show up if e.g. all network connections are disabled.
- 	    	SKLogger.sAssert(ClosestTarget.class,  false);
- 	    }
- 		
- 		return new Pair<Boolean, Long>(Boolean.valueOf(false), Long.valueOf(-100L));
-	}
+    HttpGet httpGet = new HttpGet(urlString);
+    HttpResponse response;
 
-	private static final String TAG = ClosestTarget.class.getName();
-	private static String sGetTAG() {
-		return TAG;
-	}
-	
-	final int cQueryCountPerServer = 3;
-	ArrayList<Integer> finishedTestsPerServer = new ArrayList<Integer>();
+    // Fire the query!
+    final Date startTime = new Date();
 
-	private boolean mbInHttpTestingFallbackMode = false;
-	private boolean mbUdpClosestTargetTestSucceeded = false;
-	
-	public boolean getUdpClosestTargetTestSucceeded () {
-    	return mbUdpClosestTargetTestSucceeded;
-	}
-	
-	// http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
-	class WorkerRunner extends Thread {
-		private int serverIndex;
-		private String target;
-		private String urlString;
+    try {
+      response = httpclient.execute(httpGet);
 
-		private CountDownLatch startSignal;
-		private CountDownLatch doneSignal;
+      // Check if server response is valid
+      StatusLine status = response.getStatusLine();
+      if (status.getStatusCode() != 200) {
+        Log.d("TAG", "Invalid response from server: " + status.toString());
+        SKLogger.sAssert(ClosestTarget.class, false);
+      } else {
+        // Successful query, handle the response!
+        final Date timeNow = new Date();
 
-		private long measuredLatencyMilliseconds = -100L;
-		
-		LatencyTest latencyTest = null;
+        long measuredLatencyMilliseconds = timeNow.getTime() - startTime.getTime();
+        SKLogger.sAssert(ClosestTarget.class, measuredLatencyMilliseconds > 0);
 
-		public long getMeasuredLatencyMilliseconds() {return measuredLatencyMilliseconds;}
+        Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - success - measuredLatencyMilliseconds = " + measuredLatencyMilliseconds);
 
+        return new Pair<Boolean, Long>(Boolean.valueOf(true), Long.valueOf(measuredLatencyMilliseconds));
+      }
 
-		WorkerRunner (int inServerIndex, String inTarget, String inUrlString, CountDownLatch inStartSignal, CountDownLatch inDoneSignal) {
-			super();
+    } catch (SocketTimeoutException ste) {
+      // Don't fire a debug-time assertion if we have a simple timeout!
+      Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - SocketTimeoutException");
+    } catch (ConnectTimeoutException cte) {
+      // Don't fire a debug-time assertion if we have a simple timeout!
+      Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - ConnectTimeoutException");
+    } catch (UnknownHostException uhe) {
+      // Don't fire a debug-time assertion if the host cannot be found - it might just be down.
+      Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - UnknownHostException");
+    } catch (Exception e) {
+      // This might show up if e.g. all network connections are disabled.
+      SKLogger.sAssert(ClosestTarget.class, false);
+    }
 
-			serverIndex = inServerIndex;
-			target = inTarget;
-			urlString = inUrlString;
-			startSignal = inStartSignal;
-			doneSignal = inDoneSignal;
-			
-			latencyTest = (LatencyTest)(latencyTests[serverIndex]);
-			SKLogger.sAssert(getClass(), latencyTest.getTarget().equals(target));
-		}
+    return new Pair<Boolean, Long>(Boolean.valueOf(false), Long.valueOf(-100L));
+  }
+
+  private static final String TAG = ClosestTarget.class.getName();
+
+  private static String sGetTAG() {
+    return TAG;
+  }
+
+  final int cQueryCountPerServer = 3;
+  ArrayList<Integer> finishedTestsPerServer = new ArrayList<Integer>();
+
+  private boolean mbInHttpTestingFallbackMode = false;
+  private boolean mbUdpClosestTargetTestSucceeded = false;
+
+  public boolean getUdpClosestTargetTestSucceeded() {
+    return mbUdpClosestTargetTestSucceeded;
+  }
+
+  // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
+  class WorkerRunner extends Thread {
+    private int serverIndex;
+    private String target;
+    private String urlString;
+
+    private CountDownLatch startSignal;
+    private CountDownLatch doneSignal;
+
+    private long measuredLatencyMilliseconds = -100L;
+
+    LatencyTest latencyTest = null;
+
+    public long getMeasuredLatencyMilliseconds() {
+      return measuredLatencyMilliseconds;
+    }
 
 
-		@Override
-		public void run() {
-			try {
-				startSignal.await();
-				doWork();
+    WorkerRunner(int inServerIndex, String inTarget, String inUrlString, CountDownLatch inStartSignal, CountDownLatch inDoneSignal) {
+      super();
 
-			} catch (InterruptedException ex)
-			{
-				SKLogger.sAssert(getClass(),  false);
-			}
+      serverIndex = inServerIndex;
+      target = inTarget;
+      urlString = inUrlString;
+      startSignal = inStartSignal;
+      doneSignal = inDoneSignal;
 
-			Log.d("RUN()", "Finished run() in WorkerRunner!");
-		}
-
-		void doWork() { 
-
-			Pair<Boolean,Long> latencyQueryResult = ClosestTarget.sGetHttpResponseAndReturnLatencyMilliseconds(urlString);
-			if (latencyQueryResult.first.booleanValue()) {
-				// Succeeded!
-				measuredLatencyMilliseconds = latencyQueryResult.second.longValue();
-				SKLogger.sAssert(getClass(),  measuredLatencyMilliseconds > 0L);
-			} else {
-				// Failed to get a latency measurement!
-				measuredLatencyMilliseconds = -100L;
-			}
-
-			doneSignal.countDown();
-
-			synchronized (ClosestTarget.this) {
-				// This allows the UI to update itself, according to our current best guess...
-
-				// used for UI reporting!
-				if (measuredLatencyMilliseconds > 0) {
-					if (measuredLatencyMilliseconds * 1000000 < curr_best_Nanoseconds) {
-						curr_best_Nanoseconds = measuredLatencyMilliseconds * 1000000;
-						curr_best_target = target;
-                     	closestTarget = target;
-					}
-				}
-
-				// Increment "finished" only when the last async test for the server is completed.
-				int value = finishedTestsPerServer.get(serverIndex);
-				value++;
-				finishedTestsPerServer.set(serverIndex, Integer.valueOf(value));
-
-				if (value == cQueryCountPerServer) {
-					finished++;
-				}
-
-				latencyTest.status = Test.STATUS.DONE;
-				latencyTest.finished = true;
-
-				// Add a new result to the queue for display...
-				// Will be ignored if not the best yet!
-				LatencyTest.sCreateAndPushLatencyResultNanoseconds(bq_results, closestTarget, (long) curr_best_Nanoseconds);
-			}
-		}
-	}
-		
-	// This only returns when done...
-	private boolean blockingTryHttpClosestTargetTestIfUdpTestFails() {
-		
-    	mbInHttpTestingFallbackMode = true;
-    	mbUdpClosestTargetTestSucceeded = false;
-    	
-    	long timeAtStart = new Date().getTime();
-	
-		// Prevent weird warnings from the outer UI query thread...
-		success = false;
-		finished = 0;
-		closestTarget = VALUE_NOT_KNOWN;
-		
-		String TAG = getClass().getName();
-
-		Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails");
+      latencyTest = (LatencyTest) (latencyTests[serverIndex]);
+      SKLogger.sAssert(getClass(), latencyTest.getTarget().equals(target));
+    }
 
 
-		// 3 Threads per server!
-		int serverCount = targets.size();
+    @Override
+    public void run() {
+      try {
+        startSignal.await();
+        doWork();
 
-		Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - serverCount=" +  serverCount);
+      } catch (InterruptedException ex) {
+        SKLogger.sAssert(getClass(), false);
+      }
 
-		{
-			int tempIndex;
-			for (tempIndex = 0; tempIndex < serverCount; tempIndex++) {
-				Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - targets[" + tempIndex + "]=" + targets.get(tempIndex));
-            	finishedTestsPerServer.add(Integer.valueOf(0));
-			}
-		}
+      Log.d("RUN()", "Finished run() in WorkerRunner!");
+    }
 
-		int queriesToRun = serverCount * cQueryCountPerServer;
-		Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - queriesToRun=" +  queriesToRun);
+    void doWork() {
 
-		// http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
-		CountDownLatch startSignal = new CountDownLatch(1);
-		CountDownLatch queryCompleteCountdown = new CountDownLatch(queriesToRun);
-		//queryCompleteCountdown = queriesToRun;
-		ArrayList<Long> bestLatencyMillisecondsPerServer = new ArrayList<Long>();
+      Pair<Boolean, Long> latencyQueryResult = ClosestTarget.sGetHttpResponseAndReturnLatencyMilliseconds(urlString);
+      if (latencyQueryResult.first.booleanValue()) {
+        // Succeeded!
+        measuredLatencyMilliseconds = latencyQueryResult.second.longValue();
+        SKLogger.sAssert(getClass(), measuredLatencyMilliseconds > 0L);
+      } else {
+        // Failed to get a latency measurement!
+        measuredLatencyMilliseconds = -100L;
+      }
 
-		//
-		// Fire this off in separate async tasks, and block waiting for them all to complete!
-		//
+      doneSignal.countDown();
 
-		int serverIndex;
-		for (serverIndex=0; serverIndex < serverCount; serverIndex++)
-		{
-			// -100 means - no successful response - yet!
-			bestLatencyMillisecondsPerServer.add(Long.valueOf(-100L));
-		}
+      synchronized (ClosestTarget.this) {
+        // This allows the UI to update itself, according to our current best guess...
 
-		ArrayList<WorkerRunner> workerRunnableArray = new ArrayList<WorkerRunner>();
+        // used for UI reporting!
+        if (measuredLatencyMilliseconds > 0) {
+          if (measuredLatencyMilliseconds * 1000000 < curr_best_Nanoseconds) {
+            curr_best_Nanoseconds = measuredLatencyMilliseconds * 1000000;
+            curr_best_target = target;
+            closestTarget = target;
+          }
+        }
 
-		for (serverIndex=0; serverIndex < serverCount; serverIndex++)
-		{
-			String target = targets.get(serverIndex);
-			String urlString = "http://" + target + "/";
+        // Increment "finished" only when the last async test for the server is completed.
+        int value = finishedTestsPerServer.get(serverIndex);
+        value++;
+        finishedTestsPerServer.set(serverIndex, Integer.valueOf(value));
 
-			int queryIndexForServer;
-			for (queryIndexForServer=0; queryIndexForServer < cQueryCountPerServer; queryIndexForServer++)
-			{
-				// http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
-				WorkerRunner workerRunnable = new WorkerRunner(serverIndex, target, urlString, startSignal, queryCompleteCountdown);
-				workerRunnableArray.add(workerRunnable);
-				workerRunnable.start();
-			}
-		}
+        if (value == cQueryCountPerServer) {
+          finished++;
+        }
 
-		//
-		// Block until all the async task queries have completed!
-		//
-		
-		// Tell the async tasks to start working!
-		startSignal.countDown();
+        latencyTest.status = Test.STATUS.DONE;
+        latencyTest.finished = true;
 
-		// Block, waiting for all the async task queries to complete.
-		try {
-			queryCompleteCountdown.await();
-		} catch (InterruptedException e) {
-			SKLogger.sAssert(getClass(),  false);
-		}
+        // Add a new result to the queue for display...
+        // Will be ignored if not the best yet!
+        LatencyTest.sCreateAndPushLatencyResultNanoseconds(bq_results, closestTarget, (long) curr_best_Nanoseconds);
+      }
+    }
+  }
 
-		//
-		// We have finished the tests, for all servers!
-		//
-    	long now = new Date().getTime();
-    	Log.d("HTTPClosestTarget", "time in seconds taken to run all HTTP tests = " + ((double)(now - timeAtStart)) / 1000.0);
+  // This only returns when done...
+  private boolean blockingTryHttpClosestTargetTestIfUdpTestFails() {
 
-		// Return true if we succeed - in which case :
-		// closestTarget = set to the right target
-		// ipClosestTarget = the ip address of the closest target
-		if (closestTarget.equals(VALUE_NOT_KNOWN)) {
-			// This can happen e.g. if all networking is off... but it is quite unlikely.
-			SKLogger.sAssert(getClass(), false);
-		} else {
-         	success = true;
-         	
-			InetAddress address = null;
-			try {
-				address = InetAddress.getByName(closestTarget);
-				ipClosestTarget = address.getHostAddress();
-			} catch (UnknownHostException e) {
-				SKLogger.sAssert(getClass(),  false);
-			}
-		}
+    mbInHttpTestingFallbackMode = true;
+    mbUdpClosestTargetTestSucceeded = false;
 
-		// This tells the UI monitor thread to finish.
-		finished = targets.size() + 1;
+    long timeAtStart = new Date().getTime();
 
-		return success;
-	}
+    // Prevent weird warnings from the outer UI query thread...
+    success = false;
+    finished = 0;
+    closestTarget = VALUE_NOT_KNOWN;
+
+    String TAG = getClass().getName();
+
+    Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails");
 
 
+    // 3 Threads per server!
+    int serverCount = targets.size();
 
-	public boolean find() {
-		boolean ret = false;
-		if (targets.size() == 0) {
-			output();
-			return ret;
-		}
-		ArrayList<Thread> threads = new ArrayList<Thread>();
-		latencyTests = new LatencyTest[targets.size()];
-		
-		for (int i = 0; i < targets.size(); i++) {
-			LatencyTest lt = new LatencyTest(targets.get(i), port, nPackets,
-					interPacketTime, delayTimeout);
-			lt.setBlockingQueueResult(bq_results);
-			latencyTests[i] = lt;
-			if (latencyTests[i].isReady()) {
-				Thread t = new Thread(latencyTests[i]);
-				threads.add(t);
-				t.start();
-			}
-		}
+    Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - serverCount=" + serverCount);
 
-		for (int i = 0; i < targets.size(); i++) {
-			try {
-				threads.get(i).join();
+    {
+      int tempIndex;
+      for (tempIndex = 0; tempIndex < serverCount; tempIndex++) {
+        Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - targets[" + tempIndex + "]=" + targets.get(tempIndex));
+        finishedTestsPerServer.add(Integer.valueOf(0));
+      }
+    }
 
-			} catch (InterruptedException ie) {
-				ie.printStackTrace();
-			    SKLogger.sAssert(getClass(),  false);
-			}
-		}
-		int minDist = Integer.MAX_VALUE;
-		for (int i = 0; i < targets.size(); i++) {
-			
-			if (latencyTests[i].getOutputField(LatencyTest.STATUSFIELD).equals(
-					"OK")) {
-				success = true;
-				int avg = Integer.parseInt(latencyTests[i]
-						.getOutputField(LatencyTest.AVERAGEFIELD));
-				if (avg < minDist) {
-					closestTarget = targets.get(i);
-					ipClosestTarget = latencyTests[i]
-							.getOutputField(LatencyTest.IPTARGETFIELD);
-					minDist = avg;
-				}
-			}
-		}
-		
-		
-		if (closestTarget.equals(VALUE_NOT_KNOWN)) {
-			// Run the Http-based Closest Target test as a fall-back condition!
-			// This will return only when fully done...
-        	mbUdpClosestTargetTestSucceeded = false;
-			finished = 0;
-			
-			// WHEN:
-			// - if closest target UDP test failed (NB: this is ALWAYS run first in manual testing)
-			// THEN:
-			// - notify the app to display test test as UDP skipped
-			// NOTE: Doesn't actually matter if we're running a manual test or not - if we're not running a manual test,
-			// the user interface will ignore this event.
-			Intent intent = new Intent(ManualTestRunner.kManualTest_UDPFailedSkipTests);
-			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(intent);
-			
-			ret = blockingTryHttpClosestTargetTestIfUdpTestFails();
-			
-			// HTTP (blocking) test succeeded!
-         	mbFinishedSelectingClosestTarget = true;
-		} else {
-			// UDP test succeeded!
-        	mbUdpClosestTargetTestSucceeded = true;
-         	mbFinishedSelectingClosestTarget = true;
-			ret = true;
-		}
-		output();
-		return ret;
-	}
-	
-	public String getClosest() {
-		if (closestTarget.equals(VALUE_NOT_KNOWN)) {
-			return null;
-		}
-		return closestTarget;
-	}
+    int queriesToRun = serverCount * cQueryCountPerServer;
+    Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - queriesToRun=" + queriesToRun);
 
-	public String getHumanReadableResult(){
-		String ret ="";
-		if (closestTarget.equals(VALUE_NOT_KNOWN)) {
-			ret = "Impossible to find the Best Target.";
-		} else {
-			ret = String.format("The Best Target is %s.", closestTarget);
-		}
-		return ret;
-	}
-	
-	private void output() {
-		ArrayList<String> o = new ArrayList<String>();
-		Map<String, Object> output= new HashMap<String,Object>();
-		//string id
-		o.add(TESTSTRING);
-		output.put(JsonData.JSON_TYPE, TESTSTRING);
-		//TIME
-		long time_stamp = unixTimeStamp();
-		o.add(time_stamp+"");
-		output.put(JsonData.JSON_TIMESTAMP, time_stamp);
-		output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp*1000)));
-		//status
-		boolean status = true;
-		if (closestTarget.equals(VALUE_NOT_KNOWN)) {
-			status = false;
-		}
-	
-		synchronized (ClosestTarget.class) {
-			sClosestTarget = closestTarget;
-		}
-		
-		o.add(status ? "OK" : "FAIL");
-		output.put(JsonData.JSON_SUCCESS, status);
-		//closest target - might be VALUE_NOT_KNOWN...
-		o.add(closestTarget);
-		output.put(JSON_CLOSETTARGET, closestTarget);
-		//ip closest target
-		o.add(ipClosestTarget);
-		output.put(JSON_IPCLOSESTTARGET, ipClosestTarget);
-		
-		setOutput(o.toArray(new String[1]));
-		setJSONResult(output);
-	}
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
+    CountDownLatch startSignal = new CountDownLatch(1);
+    CountDownLatch queryCompleteCountdown = new CountDownLatch(queriesToRun);
+    //queryCompleteCountdown = queriesToRun;
+    ArrayList<Long> bestLatencyMillisecondsPerServer = new ArrayList<Long>();
 
-	private Test[] latencyTests = null;
-	private ArrayList<String> targets = new ArrayList<String>();
-	private int nPackets = _NPACKETS;
-	private int interPacketTime = _INTERPACKETTIME;
-	private int delayTimeout = _DELAYTIMEOUT;
-	private int port = _PORT;
-	private String closestTarget = VALUE_NOT_KNOWN;
-	boolean success = false;
-	private String ipClosestTarget = VALUE_NOT_KNOWN;
-	
-	// This is used purely by the UI, to display a count-down of the target servers latency test.
-	// it is accessed via getPartialResults()...
-	private int finished = 0;
-	
-	private boolean mbFinishedSelectingClosestTarget = false;
-	
-	private long curr_best_Nanoseconds = Long.MAX_VALUE;
-	private String curr_best_target;
+    //
+    // Fire this off in separate async tasks, and block waiting for them all to complete!
+    //
 
-	static String sClosestTarget = VALUE_NOT_KNOWN;
+    int serverIndex;
+    for (serverIndex = 0; serverIndex < serverCount; serverIndex++) {
+      // -100 means - no successful response - yet!
+      bestLatencyMillisecondsPerServer.add(Long.valueOf(-100L));
+    }
 
-	public static String sGetClosestTarget() {
-		synchronized (ClosestTarget.class) {
-			return sClosestTarget;
-		}
-	}
+    ArrayList<WorkerRunner> workerRunnableArray = new ArrayList<WorkerRunner>();
 
-	public static void sSetClosestTarget(String inTarget) {
-		synchronized (ClosestTarget.class) {
-			sClosestTarget = inTarget;
-			
-			// *** Pablo's modifications *** //
-			// Local Broadcast receiver to inform about the current speed to the speedTestActivity
-			Intent intent = new Intent("currentClosestTarget");
-			intent.putExtra("currentClosestTarget", inTarget);
-			LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getBaseContext()).sendBroadcast(intent);
-			// *** End Pablo's modifications *** //
-		}
-	}
-	
-	@Override
-	public boolean isProgressAvailable() {
-		return true;
-	}
+    for (serverIndex = 0; serverIndex < serverCount; serverIndex++) {
+      String target = targets.get(serverIndex);
+      String urlString = "http://" + target + "/";
 
-	@Override
-	public int getProgress() {
-		if(latencyTests == null){
-			return 0;
-		}
-		int min = 100;
-		for(Test t: latencyTests){
-			if(t != null){
-				int curr = t.getProgress();
-				min = curr < min ? curr : min;
-			}
-		}
-		return min;
-	}
+      int queryIndexForServer;
+      for (queryIndexForServer = 0; queryIndexForServer < cQueryCountPerServer; queryIndexForServer++) {
+        // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
+        WorkerRunner workerRunnable = new WorkerRunner(serverIndex, target, urlString, startSignal, queryCompleteCountdown);
+        workerRunnableArray.add(workerRunnable);
+        workerRunnable.start();
+      }
+    }
 
-	public Result getPartialResults(){
-		//first result when no test is finished yet
-		if(finished == 0 ){
-			Result ret = new Result();
-			ret.completed = 0;
-			ret.total = targets.size();
-			ret.curr_best_timeNanoseconds = 0;
-			ret.currbest_target = "";
-		
-			if (mbInHttpTestingFallbackMode == false) {
-				finished++; // Do this ONLY if no in HTTP-based testing!
-			}
-			
-			return ret;
-		}
-		
-		if (mbFinishedSelectingClosestTarget == true) { // (finished == targets.size() + 1){
-			// This tells the UI monitor to finish!
-			return null;
-		}
-		
-		Result ret = new Result();
-		try{
-			LatencyTest.Result r = bq_results.take();
-			ret.completed = finished;
-			
-			if (mbInHttpTestingFallbackMode == false) {
-				finished++; // Do this ONLY if no in HTTP-based testing!
-			}
-			
-			ret.total = targets.size();
-			if(r.rttMicroseconds > 0 && (r.rttMicroseconds * 1000L) < curr_best_Nanoseconds ){
-				curr_best_Nanoseconds = (r.rttMicroseconds * 1000L);
-				curr_best_target = r.target;
-			}
-			ret.curr_best_timeNanoseconds = curr_best_Nanoseconds;
-			ret.currbest_target = curr_best_target;
-		}catch(InterruptedException ie){
-			ie.printStackTrace();
-			ret = null;
-		}
-		
-		return ret;
-	}
-	
+    //
+    // Block until all the async task queries have completed!
+    //
+
+    // Tell the async tasks to start working!
+    startSignal.countDown();
+
+    // Block, waiting for all the async task queries to complete.
+    try {
+      queryCompleteCountdown.await();
+    } catch (InterruptedException e) {
+      SKLogger.sAssert(getClass(), false);
+    }
+
+    //
+    // We have finished the tests, for all servers!
+    //
+    long now = new Date().getTime();
+    Log.d("HTTPClosestTarget", "time in seconds taken to run all HTTP tests = " + ((double) (now - timeAtStart)) / 1000.0);
+
+    // Return true if we succeed - in which case :
+    // closestTarget = set to the right target
+    // ipClosestTarget = the ip address of the closest target
+    if (closestTarget.equals(VALUE_NOT_KNOWN)) {
+      // This can happen e.g. if all networking is off... but it is quite unlikely.
+      SKLogger.sAssert(getClass(), false);
+    } else {
+      success = true;
+
+      InetAddress address = null;
+      try {
+        address = InetAddress.getByName(closestTarget);
+        ipClosestTarget = address.getHostAddress();
+      } catch (UnknownHostException e) {
+        SKLogger.sAssert(getClass(), false);
+      }
+    }
+
+    // This tells the UI monitor thread to finish.
+    finished = targets.size() + 1;
+
+    return success;
+  }
+
+
+  public boolean find() {
+    boolean ret = false;
+    if (targets.size() == 0) {
+      output();
+      return ret;
+    }
+    ArrayList<Thread> threads = new ArrayList<Thread>();
+    latencyTests = new LatencyTest[targets.size()];
+
+    for (int i = 0; i < targets.size(); i++) {
+      LatencyTest lt = new LatencyTest(targets.get(i), port, nPackets,
+          interPacketTime, delayTimeout);
+      lt.setBlockingQueueResult(bq_results);
+      latencyTests[i] = lt;
+      if (latencyTests[i].isReady()) {
+        Thread t = new Thread(latencyTests[i]);
+        threads.add(t);
+        t.start();
+      }
+    }
+
+    for (int i = 0; i < targets.size(); i++) {
+      try {
+        threads.get(i).join();
+
+      } catch (InterruptedException ie) {
+        ie.printStackTrace();
+        SKLogger.sAssert(getClass(), false);
+      }
+    }
+    int minDist = Integer.MAX_VALUE;
+    for (int i = 0; i < targets.size(); i++) {
+
+      if (latencyTests[i].getOutputField(LatencyTest.STATUSFIELD).equals(
+          "OK")) {
+        success = true;
+        int avg = Integer.parseInt(latencyTests[i]
+            .getOutputField(LatencyTest.AVERAGEFIELD));
+        if (avg < minDist) {
+          closestTarget = targets.get(i);
+          ipClosestTarget = latencyTests[i]
+              .getOutputField(LatencyTest.IPTARGETFIELD);
+          minDist = avg;
+        }
+      }
+    }
+
+
+    if (closestTarget.equals(VALUE_NOT_KNOWN)) {
+      // Run the Http-based Closest Target test as a fall-back condition!
+      // This will return only when fully done...
+      mbUdpClosestTargetTestSucceeded = false;
+      finished = 0;
+
+      // WHEN:
+      // - if closest target UDP test failed (NB: this is ALWAYS run first in manual testing)
+      // THEN:
+      // - notify the app to display test test as UDP skipped
+      // NOTE: Doesn't actually matter if we're running a manual test or not - if we're not running a manual test,
+      // the user interface will ignore this event.
+      SKTestRunner.sDoReportUDPFailedSkipTests();
+
+      ret = blockingTryHttpClosestTargetTestIfUdpTestFails();
+
+      // HTTP (blocking) test succeeded!
+      mbFinishedSelectingClosestTarget = true;
+    } else {
+      // UDP test succeeded!
+      mbUdpClosestTargetTestSucceeded = true;
+      mbFinishedSelectingClosestTarget = true;
+      ret = true;
+    }
+    output();
+    return ret;
+  }
+
+  public String getClosest() {
+    if (closestTarget.equals(VALUE_NOT_KNOWN)) {
+      return null;
+    }
+    return closestTarget;
+  }
+
+  public String getHumanReadableResult() {
+    String ret = "";
+    if (closestTarget.equals(VALUE_NOT_KNOWN)) {
+      ret = "Impossible to find the Best Target.";
+    } else {
+      ret = String.format("The Best Target is %s.", closestTarget);
+    }
+    return ret;
+  }
+
+  private void output() {
+    ArrayList<String> o = new ArrayList<String>();
+    Map<String, Object> output = new HashMap<String, Object>();
+    //string id
+    o.add(TESTSTRING);
+    output.put(JsonData.JSON_TYPE, TESTSTRING);
+    //TIME
+    long time_stamp = unixTimeStamp();
+    o.add(time_stamp + "");
+    output.put(JsonData.JSON_TIMESTAMP, time_stamp);
+    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp * 1000)));
+    //status
+    boolean status = true;
+    if (closestTarget.equals(VALUE_NOT_KNOWN)) {
+      status = false;
+    }
+
+    synchronized (ClosestTarget.class) {
+      sClosestTarget = closestTarget;
+    }
+
+    o.add(status ? "OK" : "FAIL");
+    output.put(JsonData.JSON_SUCCESS, status);
+    //closest target - might be VALUE_NOT_KNOWN...
+    o.add(closestTarget);
+    output.put(JSON_CLOSETTARGET, closestTarget);
+    //ip closest target
+    o.add(ipClosestTarget);
+    output.put(JSON_IPCLOSESTTARGET, ipClosestTarget);
+
+    setOutput(o.toArray(new String[1]));
+    setJSONResult(output);
+  }
+
+  private Test[] latencyTests = null;
+  private ArrayList<String> targets = new ArrayList<String>();
+  private int nPackets = _NPACKETS;
+  private int interPacketTime = _INTERPACKETTIME;
+  private int delayTimeout = _DELAYTIMEOUT;
+  private int port = _PORT;
+  private String closestTarget = VALUE_NOT_KNOWN;
+  boolean success = false;
+  private String ipClosestTarget = VALUE_NOT_KNOWN;
+
+  // This is used purely by the UI, to display a count-down of the target servers latency test.
+  // it is accessed via getPartialResults()...
+  private int finished = 0;
+
+  private boolean mbFinishedSelectingClosestTarget = false;
+
+  private long curr_best_Nanoseconds = Long.MAX_VALUE;
+  private String curr_best_target;
+
+  static String sClosestTarget = VALUE_NOT_KNOWN;
+
+  public static String sGetClosestTarget() {
+    synchronized (ClosestTarget.class) {
+      return sClosestTarget;
+    }
+  }
+
+  public static void sSetClosestTarget(String inTarget) {
+    synchronized (ClosestTarget.class) {
+      sClosestTarget = inTarget;
+
+      SKTestRunner.sDoReportClosestTargetSelected(inTarget);
+    }
+  }
+
+  @Override
+  public boolean isProgressAvailable() {
+    return true;
+  }
+
+  @Override
+  public int getProgress() {
+    if (latencyTests == null) {
+      return 0;
+    }
+    int min = 100;
+    for (Test t : latencyTests) {
+      if (t != null) {
+        int curr = t.getProgress();
+        min = curr < min ? curr : min;
+      }
+    }
+    return min;
+  }
+
+  public Result getPartialResults() {
+    //first result when no test is finished yet
+    if (finished == 0) {
+      Result ret = new Result();
+      ret.completed = 0;
+      ret.total = targets.size();
+      ret.curr_best_timeNanoseconds = 0;
+      ret.currbest_target = "";
+
+      if (mbInHttpTestingFallbackMode == false) {
+        finished++; // Do this ONLY if no in HTTP-based testing!
+      }
+
+      return ret;
+    }
+
+    if (mbFinishedSelectingClosestTarget == true) { // (finished == targets.size() + 1){
+      // This tells the UI monitor to finish!
+      return null;
+    }
+
+    Result ret = new Result();
+    try {
+      LatencyTest.Result r = bq_results.take();
+      ret.completed = finished;
+
+      if (mbInHttpTestingFallbackMode == false) {
+        finished++; // Do this ONLY if no in HTTP-based testing!
+      }
+
+      ret.total = targets.size();
+      if (r.rttMicroseconds > 0 && (r.rttMicroseconds * 1000L) < curr_best_Nanoseconds) {
+        curr_best_Nanoseconds = (r.rttMicroseconds * 1000L);
+        curr_best_target = r.target;
+      }
+      ret.curr_best_timeNanoseconds = curr_best_Nanoseconds;
+      ret.currbest_target = curr_best_target;
+    } catch (InterruptedException ie) {
+      ie.printStackTrace();
+      ret = null;
+    }
+
+    return ret;
+  }
+
 //	@Override
 //	public HumanReadable getHumanReadable() {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
 
-	@Override
-	public String getStringID() {
-		return TESTSTRING;
-	}
-	
-	
-	@Override
-	public HashMap<String, String> getResults() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public String getStringID() {
+    return TESTSTRING;
+  }
 
 
-	final private void setParams(List<Param> params) {
-		try {
-			for (Param param : params) {
-				String value = param.getValue();
-				if (param.contains( TARGET)) {
-					addTarget(value);
-				} else if (param.contains( PORT)) {
-					setPort(Integer.parseInt(value));
-				} else if (param.contains(NUMBEROFPACKETS)) {
-					setNumberOfDatagrams(Integer.parseInt(value));
-				} else if (param.contains(DELAYTIMEOUT)) {
-					setDelayTimeout(Integer.parseInt(value));
-				} else if (param.contains(INTERPACKETTIME)) {
-					setInterPacketTime(Integer.parseInt(value));
-				} else {
-					initialised = false;
-					break;
-				}
-			}
-		} catch (NumberFormatException nfe) {
-			initialised = false;
-		}
-	}
+  @Override
+  public HashMap<String, String> getResults() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  final private void setParams(List<Param> params) {
+    try {
+      for (Param param : params) {
+        String value = param.getValue();
+        if (param.contains(TARGET)) {
+          addTarget(value);
+        } else if (param.contains(PORT)) {
+          setPort(Integer.parseInt(value));
+        } else if (param.contains(NUMBEROFPACKETS)) {
+          setNumberOfDatagrams(Integer.parseInt(value));
+        } else if (param.contains(DELAYTIMEOUT)) {
+          setDelayTimeout(Integer.parseInt(value));
+        } else if (param.contains(INTERPACKETTIME)) {
+          setInterPacketTime(Integer.parseInt(value));
+        } else {
+          initialised = false;
+          break;
+        }
+      }
+    } catch (NumberFormatException nfe) {
+      initialised = false;
+    }
+  }
 }
