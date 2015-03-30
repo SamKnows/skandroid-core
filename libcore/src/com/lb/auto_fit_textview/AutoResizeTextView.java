@@ -13,6 +13,8 @@ import android.util.SparseIntArray;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKLogger;
+
 /**
  * a textView that is able to self-adjust its font size depending on the min and max size of the font, and its own size.<br/>
  * code is heavily based on this StackOverflow thread:
@@ -69,6 +71,11 @@ public class AutoResizeTextView extends TextView{
       @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
       @Override
       public int onTestSize(final int suggestedSize,final RectF availableSPace){
+        if (paint == null) {
+          // We expect this to have been handled in setTypeface!
+          SKLogger.sAssert(false);
+          paint = new TextPaint(getPaint());
+        }
         paint.setTextSize(suggestedSize);
         final String text=getText().toString();
         final boolean singleline=getMaxLines()==1;
@@ -99,9 +106,10 @@ public class AutoResizeTextView extends TextView{
   }
 
   @Override
-  public void setTypeface(final Typeface tf){
-    if(paint==null)
-      paint=new TextPaint(getPaint());
+  public void setTypeface(final Typeface tf) {
+    if (paint == null) {
+      paint = new TextPaint(getPaint());
+    }
     paint.setTypeface(tf);
     super.setTypeface(tf);
   }

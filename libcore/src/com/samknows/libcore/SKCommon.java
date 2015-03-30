@@ -8,6 +8,7 @@ import java.util.Locale;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -212,4 +213,14 @@ public class SKCommon {
 	{
 		Toast.makeText( context, messageResourceId, Toast.LENGTH_LONG ).show();
 	}
+
+  public static boolean sGetIsMainThread() {
+    // http://stackoverflow.com/questions/11411022/how-to-check-if-current-thread-is-not-main-thread
+    if(Looper.getMainLooper().getThread() == Thread.currentThread()) {
+      // Current Thread is Main Thread.
+      return true;
+    }
+
+    return false;
+  }
 }

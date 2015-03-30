@@ -42,6 +42,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 import com.samknows.measurement.SKApplication;
@@ -265,6 +266,8 @@ public class FragmentArchivedResults extends Fragment {
    * This is the background task that update the values of the list view
    */
   private class RefreshListViewData extends AsyncTask<Void, Void, Void> {
+    eNetworkTypeResults mSelectedNetworkType;
+
     @Override
     protected void onPreExecute() {
       super.onPreExecute();
@@ -275,6 +278,10 @@ public class FragmentArchivedResults extends Fragment {
       if (menu_Item_Refresh_Spinner != null) {
         menu_Item_Refresh_Spinner.setVisible(true);
       }
+
+      // This must be determined BEFORE doing the background task;
+      // we use it to populate the list.
+      mSelectedNetworkType = getNetworkTypeSelection();
     }
 
     // Override this method to perform a computation on a background thread
@@ -285,7 +292,7 @@ public class FragmentArchivedResults extends Fragment {
       aList_TemporaryArchivedTests = new ArrayList<TestResult>();
       //aList_TemporaryArchivedTests.clear();
       // Fill the temporary list
-      populateEmptyArchivedTestsList(getNetworkTypeSelection(), aList_TemporaryArchivedTests);
+      populateEmptyArchivedTestsList(mSelectedNetworkType, aList_TemporaryArchivedTests);
 
       return null;
     }
@@ -645,6 +652,13 @@ public class FragmentArchivedResults extends Fragment {
    * @return
    */
   private eNetworkTypeResults getNetworkTypeSelection() {
+    SKLogger.sAssert(SKCommon.sGetIsMainThread());
+
+    if (getActivity() == null) {
+      SKLogger.sAssert(false);
+      return eNetworkTypeResults.eNetworkTypeResults_Any;
+    }
+
     // Get shared preferences
     SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesIdentifier), Context.MODE_PRIVATE);
     // Recover the state of the download button
@@ -691,7 +705,8 @@ public class FragmentArchivedResults extends Fragment {
    * @return
    */
   private void populateEmptyArrayList(ArrayList<TestResult> pTemporaryArchivedTestsList) {
-    DBHelper dbHelper = new DBHelper(getActivity());
+    Context context = SKApplication.getAppInstance();
+    DBHelper dbHelper = new DBHelper(context);
     JSONArray archivedResultArray = dbHelper.getArchiveData(-1);
 
     try {
