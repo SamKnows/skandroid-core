@@ -149,7 +149,7 @@ abstract public class Test implements Runnable {
 	}
 	
 	protected boolean setErrorIfEmpty(String error, Exception e) {
-		String exErr = e.getMessage() == null ? "No expetion message" : e.getMessage();
+		String exErr = e.getMessage() == null ? "No exception message" : e.getMessage();
 		return setErrorIfEmpty(error + " " + exErr);
 	}
 	protected boolean setErrorIfEmpty(String error) {

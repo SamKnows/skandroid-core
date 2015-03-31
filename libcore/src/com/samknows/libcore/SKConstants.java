@@ -6,8 +6,7 @@ public class SKConstants {
 	public static final String RESULT_LINE_SEPARATOR = ";";
 
 	// The following requires android.permission.WRITE_EXTERNAL_STORAGE... otherwise, it'll crash silently!
-	public static boolean LOG_TO_FILE = false;
-	
+
 	public static final String ENABLE_MULTIPLE_TABS = "enable_multiple_tabs";
 
 	// These must all be set by the application at start-up.

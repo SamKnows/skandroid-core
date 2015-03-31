@@ -145,293 +145,322 @@ MEASUR_SESSION 10 0 15000000\n
  */
 
 public abstract class HttpTest extends Test {
-	// @property (weak) SKTransferOperation *mpParentTransferOperation;
-	// @property int mSocketFd;
-	
-	public enum UploadStrategy { ACTIVE, PASSIVE}; 
+  // @property (weak) SKTransferOperation *mpParentTransferOperation;
+  // @property int mSocketFd;
 
-	/* Socket timeout parameters */
-	protected final int CONNECTIONTIMEOUT = 10000; 							/* 10 seconds connection timeout */
-	protected final int READTIMEOUT = 10000; 								/* 10 seconds read timeout */
-	protected final int WRITETIMEOUT = 10000; 								/* 10 seconds write timeout */
-	
-	/* Http Status codes */
-	protected final int HTTPOK = 200;
-	protected final int HTTPCONTINUE = 100;
-	
-	/* error codes and constraints */
-	protected final int BYTESREADERR = -1;									/* Error occurred while reading from socket */
-	private final int MAXNTHREADS = 100;									/* Max number of threads */
-	
-	/* Parameters name for the setParameter function */
-	protected final static String _DOWNSTREAM = "downstream";				/* HTTP test types. Static because called from constructors */
-	protected final static String _UPSTREAM = "upstream";
-	
-	/* Parameters names for use in Settings XML files */
-	//private static final String DOWNSTREAM = "downStream";
-	//private static final String UPSTREAM = "upStream";
-	private final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
-	private final String WARMUPMAXTIME = "warmupMaxTime";					/* Max warmup time in uSecs */
-	private final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
-	private final String TRANSFERMAXTIME = "transferMaxTime";				/* Max transfer time in uSecs. Metrics, measured during this time period contribute to final result */
-	private final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
-	private final String NTHREADS = "numberOfThreads";						/* Max number of threads allowed */
-	private final String BUFFERSIZE = "bufferSize";							/* Socket receive buffer size */
-	private final String SENDBUFFERSIZE = "sendBufferSize";					/* Socket send buffer size */
-	private final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
-	private final String POSTDATALENGTH = "postDataLength";					/* ??? */
-	private final String SENDDATACHUNK = "sendDataChunk";					/* Application send buffer size */
+  public enum UploadStrategy {ACTIVE, PASSIVE}
 
-	/* Messages regarding the status of the test */
-	private final String HTTPGETRUN = "Running download test";
-	private final String HTTPGETDONE = "Download test completed";
-	private final String HTTPPOSTRUN = "Running upload test";
-	private final String HTTPPOSTDONE = "Upload completed";
-	
-	protected String TAG(Object param){ 
-		return param.getClass().getSimpleName();}							/* TAG is to be passed to SKLogger class. It outputs the human readable class name of the message logger */
-	
-	/* Test strings for public use. JSON related */ 
-	public static final String DOWNSTREAMSINGLE = "JHTTPGET";
-	public static final String DOWNSTREAMMULTI = "JHTTPGETMT";
-	public static final String UPSTREAMSINGLE = "JHTTPPOST";
-	public static final String UPSTREAMMULTI = "JHTTPPOSTMT";
-	
-	/* Abstract methods to be implemented in derived classes */
-	protected abstract boolean transfer(Socket socket, int threadIndex);	/* Generate main traffic for metrics measurements */
-	protected abstract boolean  warmup(Socket socket, int threadIndex);		/* Generate initial traffic for setting optimal TCP parameters */
-	//protected abstract int getWarmupBytesPerSecond();						/* Initial traffic speed */
-	//protected abstract int getTransferBytesPerSecond();						/* Main traffic speed */
-		
-	private	Thread[] mThreads = null;										/* Array of all running threads */
-	
-	/* Time helper functions */
-	protected long sGetMicroTime() {return System.nanoTime()/1000L;   }
-	protected long sGetMilliTime() {return System.nanoTime()/1000000L;}
+  ;
+
+  /* Socket timeout parameters */
+  protected final int CONNECTIONTIMEOUT = 10000; 							/* 10 seconds connection timeout */
+  protected final int READTIMEOUT = 10000; 								/* 10 seconds read timeout */
+  protected final int WRITETIMEOUT = 10000; 								/* 10 seconds write timeout */
+
+  /* Http Status codes */
+  protected final int HTTPOK = 200;
+  protected final int HTTPCONTINUE = 100;
+
+  /* error codes and constraints */
+  protected final int BYTESREADERR = -1;									/* Error occurred while reading from socket */
+  private final int MAXNTHREADS = 100;									/* Max number of threads */
+
+  /* Parameters name for the setParameter function */
+  protected final static String _DOWNSTREAM = "downstream";				/* HTTP test types. Static because called from constructors */
+  protected final static String _UPSTREAM = "upstream";
+
+  /* Parameters names for use in Settings XML files */
+  //private static final String DOWNSTREAM = "downStream";
+  //private static final String UPSTREAM = "upStream";
+  private final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
+  private final String WARMUPMAXTIME = "warmupMaxTime";					/* Max warmup time in uSecs */
+  private final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
+  private final String TRANSFERMAXTIME = "transferMaxTime";				/* Max transfer time in uSecs. Metrics, measured during this time period contribute to final result */
+  private final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
+  private final String NTHREADS = "numberOfThreads";						/* Max number of threads allowed */
+  private final String BUFFERSIZE = "bufferSize";							/* Socket receive buffer size */
+  private final String SENDBUFFERSIZE = "sendBufferSize";					/* Socket send buffer size */
+  private final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
+  private final String POSTDATALENGTH = "postDataLength";					/* ??? */
+  private final String SENDDATACHUNK = "sendDataChunk";					/* Application send buffer size */
+
+  /* Messages regarding the status of the test */
+  private final String HTTPGETRUN = "Running download test";
+  private final String HTTPGETDONE = "Download test completed";
+  private final String HTTPPOSTRUN = "Running upload test";
+  private final String HTTPPOSTDONE = "Upload completed";
+
+  protected String TAG(Object param) {
+    return param.getClass().getSimpleName();
+  }							/* TAG is to be passed to SKLogger class. It outputs the human readable class name of the message logger */
+
+  /* Test strings for public use. JSON related */
+  public static final String DOWNSTREAMSINGLE = "JHTTPGET";
+  public static final String DOWNSTREAMMULTI = "JHTTPGETMT";
+  public static final String UPSTREAMSINGLE = "JHTTPPOST";
+  public static final String UPSTREAMMULTI = "JHTTPPOSTMT";
+
+  /* Abstract methods to be implemented in derived classes */
+  protected abstract boolean transfer(Socket socket, int threadIndex);	/* Generate main traffic for metrics measurements */
+
+  protected abstract boolean warmup(Socket socket, int threadIndex);		/* Generate initial traffic for setting optimal TCP parameters */
+  //protected abstract int getWarmupBytesPerSecond();						/* Initial traffic speed */
+  //protected abstract int getTransferBytesPerSecond();						/* Main traffic speed */
+
+  private Thread[] mThreads = null;										/* Array of all running threads */
+
+  /* Time helper functions */
+  protected long sGetMicroTime() {
+    return System.nanoTime() / 1000L;
+  }
+
+  protected long sGetMilliTime() {
+    return System.nanoTime() / 1000000L;
+  }
 
   public static final String cReasonResetDownload = "Reset Download";
   public static final String cReasonResetUpload = "Reset Upload";
   public static final String cReasonUploadEnd = "Upload End";
 
-	protected  HttpTest(String direction, List<Param> params) {					/* Constructor. Accepts list of Param objects, each representing a certain parameter read from settings XML file */	
-		setDirection(direction);											/* Legacy. To be removed */
-		sLatestSpeedReset(downstream ? cReasonResetDownload : cReasonResetUpload);
-		
-		setParams(params);													/* Initialisation */
-	}
+  protected HttpTest(String direction, List<Param> params) {					/* Constructor. Accepts list of Param objects, each representing a certain parameter read from settings XML file */
+    setDirection(direction);											/* Legacy. To be removed */
+    sLatestSpeedReset(downstream ? cReasonResetDownload : cReasonResetUpload);
 
-	private void setParams(List<Param> params){								/* Initialisation helper function */
-		initialised = true;
-		try {
-			for (Param param : params) {
-				String value = param.getValue();
-				if (param.contains(TARGET)) {
-					target = value;
-				} else if (param.contains( PORT)) {
-					port = Integer.parseInt(value);
-				} else if (param.contains( FILE)) {
-					file = value;
-				} else if (param.contains( WARMUPMAXTIME)) {
-					mWarmupMaxTimeMicro  = Integer.parseInt(value);
-				} else if (param.contains( WARMUPMAXBYTES)) {
-					mWarmupMaxBytes  = Integer.parseInt(value);
-				} else if (param.contains( TRANSFERMAXTIME)) {
-					mTransferMaxTimeMicro = Integer.parseInt(value);
-				} else if (param.contains( TRANSFERMAXBYTES)) {
-					mTransferMaxBytes  = Integer.parseInt(value);
-				} else if (param.contains( NTHREADS)) {
-					nThreads = Integer.parseInt(value);
-				} else if (param.contains( UPLOADSTRATEGY)){
-					uploadStrategyServerBased = UploadStrategy.ACTIVE;		/* If strategy parameter is present ActiveServerload class is used */
-				}else if (param.contains( BUFFERSIZE)) {
-					downloadBufferSize  = Integer.parseInt(value);
-				} else if (param.contains( SENDBUFFERSIZE)) {
-					socketBufferSize  = Integer.parseInt(value);
-				} else if (param.contains( RECEIVEBUFFERSIZE)) {
-					desiredReceiveBufferSize = Integer.parseInt(value);
-					downloadBufferSize = Integer.parseInt(value);
-				} else if (param.contains( SENDDATACHUNK)) {
-					uploadBufferSize  = Integer.parseInt(value);
-				} else if (param.contains( POSTDATALENGTH)) {
-					postDataLength = Integer.parseInt(value);
-				} else {
-					SKLogger.sAssert(TestFactory.class, false);
-					initialised = false;
-					break;
-				}
-			}
-		} catch (NumberFormatException nfe) {
-			initialised = false;
-		}
-	}
-		
-	@Override
-	public int getNetUsage() {												/* Total number of bytes transfered */
-		return (int)(getTotalTransferBytes() + getTotalWarmUpBytes());
-	}
+    setParams(params);													/* Initialisation */
 
-	// @SuppressLint("NewApi")
-	@Override
-	public boolean isReady() {												/* Test sanity checker. Virtual */
-		if( !initialised )
-			return false;
-		
-		if (target.length() == 0) {
-			setError("Target empty");
-			return false;
-		}
-		if (port == 0) {
-			setError("Port is zero");
-			return false;
-		}
-		if (mWarmupMaxTimeMicro == 0 && mWarmupMaxBytes == 0) {
-			setError("No warmup parameter defined");
-			return false;
-		}
-		if (mTransferMaxTimeMicro == 0 && mTransferMaxBytes == 0) {
-			setError("No transfer parameter defined");
-			return false;
-		}
-		if (downstream && downloadBufferSize == 0) {
-			setError("Buffer size missing for download");
-			return false;
-		}
-		if (nThreads < 1 && nThreads > MAXNTHREADS) {
-			setError("Number of threads error, current is: " + nThreads
-					+ ". Min " + 1 + " Max " + MAXNTHREADS + ".");
-			return false;
-		}
-		return true;
-	}
+    SKLogger.d(this, "CREATING HTTP TEST - LOG TEST!");
+  }
 
-	@Override
-	public boolean isSuccessful() { return testStatus.equals("OK");  }		/* Returns test run result */
+  private void setParams(List<Param> params) {								/* Initialisation helper function */
+    initialised = true;
+    try {
+      for (Param param : params) {
+        String value = param.getValue();
+        if (param.contains(TARGET)) {
+          target = value;
+        } else if (param.contains(PORT)) {
+          port = Integer.parseInt(value);
+        } else if (param.contains(FILE)) {
+          file = value;
+        } else if (param.contains(WARMUPMAXTIME)) {
+          mWarmupMaxTimeMicro = Integer.parseInt(value);
+        } else if (param.contains(WARMUPMAXBYTES)) {
+          mWarmupMaxBytes = Integer.parseInt(value);
+        } else if (param.contains(TRANSFERMAXTIME)) {
+          mTransferMaxTimeMicro = Integer.parseInt(value);
+        } else if (param.contains(TRANSFERMAXBYTES)) {
+          mTransferMaxBytes = Integer.parseInt(value);
+        } else if (param.contains(NTHREADS)) {
+          nThreads = Integer.parseInt(value);
+        } else if (param.contains(UPLOADSTRATEGY)) {
+          uploadStrategyServerBased = UploadStrategy.ACTIVE;		/* If strategy parameter is present ActiveServerload class is used */
+        } else if (param.contains(BUFFERSIZE)) {
+          downloadBufferSize = Integer.parseInt(value);
+        } else if (param.contains(SENDBUFFERSIZE)) {
+          socketBufferSize = Integer.parseInt(value);
+        } else if (param.contains(RECEIVEBUFFERSIZE)) {
+          desiredReceiveBufferSize = Integer.parseInt(value);
+          downloadBufferSize = Integer.parseInt(value);
+        } else if (param.contains(SENDDATACHUNK)) {
+          uploadBufferSize = Integer.parseInt(value);
+        } else if (param.contains(POSTDATALENGTH)) {
+          postDataLength = Integer.parseInt(value);
+        } else {
+          SKLogger.e(this, "setParams()");
+          initialised = false;
+          break;
+        }
+      }
+    } catch (NumberFormatException nfe) {
+      initialised = false;
+    }
+  }
+
+  @Override
+  public int getNetUsage() {												/* Total number of bytes transfered */
+    return (int) (getTotalTransferBytes() + getTotalWarmUpBytes());
+  }
+
+  // @SuppressLint("NewApi")
+  @Override
+  public boolean isReady() {												/* Test sanity checker. Virtual */
+    if (!initialised)
+      return false;
+
+    if (target.length() == 0) {
+      setError("Target empty");
+      return false;
+    }
+    if (port == 0) {
+      setError("Port is zero");
+      return false;
+    }
+    if (mWarmupMaxTimeMicro == 0 && mWarmupMaxBytes == 0) {
+      setError("No warmup parameter defined");
+      return false;
+    }
+    if (mTransferMaxTimeMicro == 0 && mTransferMaxBytes == 0) {
+      setError("No transfer parameter defined");
+      return false;
+    }
+    if (downstream && downloadBufferSize == 0) {
+      setError("Buffer size missing for download");
+      return false;
+    }
+    if (nThreads < 1 && nThreads > MAXNTHREADS) {
+      setError("Number of threads error, current is: " + nThreads
+          + ". Min " + 1 + " Max " + MAXNTHREADS + ".");
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public boolean isSuccessful() {
+    return testStatus.equals("OK");
+  }		/* Returns test run result */
 
 //	public int getSendBufferSize() 	  {	return sendBufferSize;		}
 //	public int getReceiveBufferSize() { return receiveBufferSize;	}
 //	public String getInfo() 		  {	return infoString; 			}
 
-	@Override
-	public void execute() {													/* Execute test */
-	//smDebugSocketSendTimeMicroseconds.clear();
-	//Context context = SKApplication.getAppInstance().getBaseContext();
+  @Override
+  public void execute() {													/* Execute test */
+    //smDebugSocketSendTimeMicroseconds.clear();
+    //Context context = SKApplication.getAppInstance().getBaseContext();
 
-		if (downstream) {
-			infoString = HTTPGETRUN;
-		} else {
-			infoString = HTTPPOSTRUN;
-		}
-		start();
-		mThreads = new Thread[nThreads];
-		for (int i = 0; i < nThreads; i++) {
-			mThreads[i] = new Thread(this);
-		}
-		for (int i = 0; i < nThreads; i++) {
-			mThreads[i].start();
-		}
-		try {
-			for (int i = 0; i < nThreads; i++) {
-				mThreads[i].join();
-			}
-		} catch (Exception e) {
-			setErrorIfEmpty("Thread join exception: ", e);
-			SKLogger.sAssert(getClass(),  false);
-			testStatus = "FAIL";
-		}
+    if (downstream) {
+      SKLogger.d(this, "DOWNLOAD HTTP TEST - execute()");
+      infoString = HTTPGETRUN;
+    } else {
+      SKLogger.d(this, "UPLOAD HTTP TEST - execute()");
+      infoString = HTTPPOSTRUN;
+    }
+    start();
+    mThreads = new Thread[nThreads];
+    for (int i = 0; i < nThreads; i++) {
+      mThreads[i] = new Thread(this);
+    }
+    for (int i = 0; i < nThreads; i++) {
+      mThreads[i].start();
+    }
+    try {
+      for (int i = 0; i < nThreads; i++) {
+        mThreads[i].join();
+      }
+    } catch (Exception e) {
+      setErrorIfEmpty("Thread join exception: ", e);
+      SKLogger.e(this, "Thread join exception()");
+      testStatus = "FAIL";
+    }
 
-		if (downstream) {
-			infoString = HTTPGETDONE;
-		} else {
-			infoString = HTTPPOSTDONE;
-		}
+    if (downstream) {
+      infoString = HTTPGETDONE;
+    } else {
+      infoString = HTTPPOSTDONE;
+    }
 
-		output();
-		finish();
-	}
+    output();
+    finish();
+  }
 
-	protected Socket getSocket() {															/* Socket initialiser */
-		Socket ret = null;
-		try {
-			InetSocketAddress sockAddr = new InetSocketAddress(target, port);
-			ipAddress = sockAddr.getAddress().getHostAddress();
-			ret = new Socket();
-			ret.setTcpNoDelay(noDelay);
+  protected Socket getSocket() {															/* Socket initialiser */
+    SKLogger.d(this, "HTTP TEST - getSocket()");
 
-			if (0 != desiredReceiveBufferSize) {
-				ret.setReceiveBufferSize(desiredReceiveBufferSize);
-			}
-			receiveBufferSize = ret.getReceiveBufferSize();
+    Socket ret = null;
+    try {
+      InetSocketAddress sockAddr = new InetSocketAddress(target, port);
+      ipAddress = sockAddr.getAddress().getHostAddress();
+      ret = new Socket();
+      ret.setTcpNoDelay(noDelay);
 
-			// Experimentation shows a *much* better settling-down on upload speed,
-			// if we force a 32K send buffer size in bytes, rather than relying
-			// on the default send buffer size.
+      if (0 != desiredReceiveBufferSize) {
+        ret.setReceiveBufferSize(desiredReceiveBufferSize);
+      }
+      receiveBufferSize = ret.getReceiveBufferSize();
 
-			// When forcing value in bytes, you must actually divide by two!
-			// https://code.google.com/p/android/issues/detail?id=13898
-			// desiredSendBufferSize = 32768 / 2; // (2 ^ 15) / 2
-			if (0 != socketBufferSize) {
-				ret.setSendBufferSize(socketBufferSize);
-			}
-			sendBufferSize = ret.getSendBufferSize();
+      // Experimentation shows a *much* better settling-down on upload speed,
+      // if we force a 32K send buffer size in bytes, rather than relying
+      // on the default send buffer size.
 
-			if (downstream) {
-				// Read / download
-				ret.setSoTimeout(READTIMEOUT);
-			} else {
-				ret.setSoTimeout(CONNECTIONTIMEOUT / 10); // Just 10 times less then connection timeout while polling server for upload test response!
-			}
+      // When forcing value in bytes, you must actually divide by two!
+      // https://code.google.com/p/android/issues/detail?id=13898
+      // desiredSendBufferSize = 32768 / 2; // (2 ^ 15) / 2
+      if (0 != socketBufferSize) {
+        ret.setSendBufferSize(socketBufferSize);
+      }
+      sendBufferSize = ret.getSendBufferSize();
 
-			ret.connect(sockAddr, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
-		} catch (Exception e) {
-			SKLogger.sAssert(getClass(),  false);
-			ret = null;
-		}
-		return ret;
-	}
+      if (downstream) {
+        // Read / download
+        ret.setSoTimeout(READTIMEOUT);
+      } else {
+        ret.setSoTimeout(CONNECTIONTIMEOUT / 10); // Just 10 times less then connection timeout while polling server for upload test response!
+      }
 
-	private void output() {
-		ArrayList<String> o = new ArrayList<String>();
-		Map<String, Object> output = new HashMap<String, Object>();
-		// string id
-		o.add(getStringID());
-		output.put(JsonData.JSON_TYPE, getStringID());
-		// time
-		long time_stamp = unixTimeStamp();
-		o.add(time_stamp + "");
-		output.put(JsonData.JSON_TIMESTAMP, time_stamp);
-		output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp*1000)));
-		// status
-		if (error.get()) {
-			o.add("FAIL");
-			output.put(JsonData.JSON_SUCCESS, false);
-		} else {
-			o.add("OK");
-			output.put(JsonData.JSON_SUCCESS, true);
-		}
-		// target
-		o.add(target);
-		output.put(JsonData.JSON_TARGET, target);
-		// target ip address
-		o.add(ipAddress);
-		output.put(JsonData.JSON_TARGET_IPADDRESS, ipAddress);
-		// transfer time
-		o.add(Long.toString( getTransferTimeMicro()));//TODO check
-		output.put(JsonData.JSON_TRANFERTIME, getTransferTimeMicro());
-		// transfer bytes
-		o.add(Long.toString(getTotalTransferBytes()));
-		output.put(JsonData.JSON_TRANFERBYTES, getTotalTransferBytes());
-		// byets_sec
-		o.add(Integer.toString(Math.max(0, getTransferBytesPerSecond())));
-		output.put(JsonData.JSON_BYTES_SEC, Math.max(0, getTransferBytesPerSecond()));
-		// warmup time
-		o.add(Long.toString(getWarmUpTimeMicro()));	//TODO check
-		output.put(JsonData.JSON_WARMUPTIME, getWarmUpTimeMicro());
-		// warmup bytes
-		o.add(Long.toString( getTotalWarmUpBytes()));
-		output.put(JsonData.JSON_WARMUPBYTES,  getTotalWarmUpBytes());
-		// number of threads
-		o.add(Integer.toString(nThreads));
-		output.put(JsonData.JSON_NUMBER_OF_THREADS, nThreads);
+      ret.connect(sockAddr, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
+
+      SKLogger.d(this, "HTTP TEST - getSocket() completed OK");
+    } catch (Exception e) {
+      SKLogger.e(this, "getSocket()", e);
+      ret = null;
+    }
+    return ret;
+  }
+
+  private void output() {
+    SKLogger.d(this, "HTTP TEST - output()");
+
+    ArrayList<String> o = new ArrayList<String>();
+    Map<String, Object> output = new HashMap<String, Object>();
+    // string id
+    o.add(getStringID());
+    output.put(JsonData.JSON_TYPE, getStringID());
+    // time
+    long time_stamp = unixTimeStamp();
+    o.add(time_stamp + "");
+    output.put(JsonData.JSON_TIMESTAMP, time_stamp);
+    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp * 1000)));
+
+    long transferBytes = getTotalTransferBytes();
+    SKLogger.d(this, "HTTP TEST - output(), transferBytes=" + transferBytes);
+    if (transferBytes == 0) {
+      // 30/03/2015 - note that if transferBytes is ZERO, we must also tag this with "success": false
+      error.set(true);
+    }
+
+    // status
+    if (error.get()) {
+      o.add("FAIL");
+      output.put(JsonData.JSON_SUCCESS, false);
+    } else {
+      o.add("OK");
+      output.put(JsonData.JSON_SUCCESS, true);
+    }
+    // target
+    o.add(target);
+    output.put(JsonData.JSON_TARGET, target);
+    // target ip address
+    o.add(ipAddress);
+    output.put(JsonData.JSON_TARGET_IPADDRESS, ipAddress);
+    // transfer time
+    o.add(Long.toString(getTransferTimeMicro()));//TODO check
+    output.put(JsonData.JSON_TRANFERTIME, getTransferTimeMicro());
+    // transfer bytes
+    o.add(Long.toString(getTotalTransferBytes()));
+    output.put(JsonData.JSON_TRANFERBYTES, totalTransferBytes);
+    // byets_sec
+    o.add(Integer.toString(Math.max(0, getTransferBytesPerSecond())));
+    output.put(JsonData.JSON_BYTES_SEC, Math.max(0, getTransferBytesPerSecond()));
+    // warmup time
+    o.add(Long.toString(getWarmUpTimeMicro()));  //TODO check
+    output.put(JsonData.JSON_WARMUPTIME, getWarmUpTimeMicro());
+    // warmup bytes
+    o.add(Long.toString(getTotalWarmUpBytes()));
+    output.put(JsonData.JSON_WARMUPBYTES, getTotalWarmUpBytes());
+    // number of threads
+    o.add(Integer.toString(nThreads));
+    output.put(JsonData.JSON_NUMBER_OF_THREADS, nThreads);
 
     // TODO: remove the following block in production?
     if (OtherUtils.isDebuggable(SKApplication.getAppInstance())) {
@@ -451,469 +480,529 @@ public abstract class HttpTest extends Test {
       SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
     }
 
-		setOutput(o.toArray(new String[1]));
-		setJSONResult(output);
-	}
+    setOutput(o.toArray(new String[1]));
+    setJSONResult(output);
+  }
 
 /* The following set of methods relates to a  communication with the external UI TODO move prototypes to test */
 
-	static private AtomicLong sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicLong(0);
-	static private AtomicLong sBytesPerSecondLast = new AtomicLong(0);
-	
-	static protected String sLatestSpeedForExternalMonitorTestId = "";
-	
-	public static void sLatestSpeedReset(String theReasonId) {
-		sLatestSpeedForExternalMonitorBytesPerSecond.set(0);
-		sBytesPerSecondLast.set(0);
+  static private AtomicLong sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicLong(0);
+  static private AtomicLong sBytesPerSecondLast = new AtomicLong(0);
+
+  static protected String sLatestSpeedForExternalMonitorTestId = "";
+
+  public static void sLatestSpeedReset(String theReasonId) {
+    sLatestSpeedForExternalMonitorBytesPerSecond.set(0);
+    sBytesPerSecondLast.set(0);
     sLatestSpeedForExternalMonitorTestId = theReasonId;
-	}
+  }
 
-	// Report-back a running average, to keep the UI moving...
+  // Report-back a running average, to keep the UI moving...
   // Returns -1 if sample time too short.
-	public static Pair<Double,String> sGetLatestSpeedForExternalMonitorAsMbps() {
-		// use moving average of the last 2 items!
-		double bytesPerSecondToUse = sBytesPerSecondLast.doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.doubleValue();
-		bytesPerSecondToUse /= 2;
+  public static Pair<Double, String> sGetLatestSpeedForExternalMonitorAsMbps() {
+    // use moving average of the last 2 items!
+    double bytesPerSecondToUse = sBytesPerSecondLast.doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.doubleValue();
+    bytesPerSecondToUse /= 2;
 
-		double mbps = (bytesPerSecondToUse * 8.0) / 1000000.0;
-		return new Pair<Double,String>(mbps, sLatestSpeedForExternalMonitorTestId);
-	}
+    double mbps = (bytesPerSecondToUse * 8.0) / 1000000.0;
+    return new Pair<Double, String>(mbps, sLatestSpeedForExternalMonitorTestId);
+  }
 
-	public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {
-		sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
+  public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {
+    sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
     if (bytesPerSecond == 0) {
       SKLogger.sAssert(testId.equals(cReasonUploadEnd));
     }
-		sLatestSpeedForExternalMonitorBytesPerSecond.set(bytesPerSecond);
+    sLatestSpeedForExternalMonitorBytesPerSecond.set(bytesPerSecond);
     sLatestSpeedForExternalMonitorTestId = testId;
-	}
-	
-	final protected int extMonitorUpdateInterval = 500000;
-	protected void sSetLatestSpeedForExternalMonitorInterval( long pause, String id, Callable<Integer> transferSpeed ){
-		long updateTime = 0L;
-		
-		synchronized(timeElapsedSinceLastExternalMonitorUpdate) {
-			updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
-		
-			if (timeElapsedSinceLastExternalMonitorUpdate.get() == 0) {
-				timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime()); 										/* record update time */
-			}
-		}
-				
-		if( sGetMicroTime() - timeElapsedSinceLastExternalMonitorUpdate.get() > updateTime/*uSec*/ ){				/* update should be called only if 'pause' is expired */
-			int currentSpeed;
+  }
 
-			try {
-				currentSpeed = transferSpeed.call();																/* current speed could be for warm up, transfer or possibly others processes */
-			} catch (Exception e) {
-				currentSpeed = 0;
-			}
-			
-			sSetLatestSpeedForExternalMonitor((long) ( currentSpeed /*/ 1000000.0*/)  , id);							/* update speed parameter + indicative ID */
+  final protected int extMonitorUpdateInterval = 500000;
 
-			timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime());											/* set new update time */
-			
+  protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Callable<Integer> transferSpeed) {
+    long updateTime = 0L;
+
+    synchronized (timeElapsedSinceLastExternalMonitorUpdate) {
+      updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
+
+      if (timeElapsedSinceLastExternalMonitorUpdate.get() == 0) {
+        timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime()); 										/* record update time */
+      }
+    }
+
+    if (sGetMicroTime() - timeElapsedSinceLastExternalMonitorUpdate.get() > updateTime/*uSec*/) {				/* update should be called only if 'pause' is expired */
+      int currentSpeed;
+
+      try {
+        currentSpeed = transferSpeed.call();																/* current speed could be for warm up, transfer or possibly others processes */
+      } catch (Exception e) {
+        currentSpeed = 0;
+      }
+
+      sSetLatestSpeedForExternalMonitor((long) (currentSpeed /*/ 1000000.0*/), id);							/* update speed parameter + indicative ID */
+
+      timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime());											/* set new update time */
+
 //			SKLogger.d(TAG(this), "External Monitor updated at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) + 
 //					" as " +  ( currentSpeed / 1000000.0) +
 //					" thread: " + getThreadIndex());//haha remove in production
-		}
-	}
+    }
+  }
 
 /* This is the end of the block related to communication with UI */
-	
-	
-	protected boolean isWarmupDone(int bytes) {
-		boolean timeExceeded = false;
-		boolean bytesExceeded = false;
 
-		if (bytes == BYTESREADERR) {													/* if there is an error the test must stop and report it */
-			setErrorIfEmpty("read error");
-			bytes = 0; 																	/* do not modify the bytes counters ??? */
-			error.set(true);
-			return true;
-		}
 
-		if ( mWarmupMicroDuration.get() != 0 )											/* if some other thread has already finished warmup there is no need to proceed */
-			return true;
-		
-		addTotalWarmUpBytes(bytes);														/* increment atomic total bytes counter */
+  protected boolean isWarmupDone(int bytes) {
+    SKLogger.d(this, "isWarmupDone("+ bytes+")");
 
-		if (mStartWarmupMicro.get() == 0) {
-			mStartWarmupMicro.set(sGetMicroTime()); 									/* record start up time should be recorded only by one thread */
-		}
+    boolean timeExceeded = false;
+    boolean bytesExceeded = false;
 
-		setWarmUpTimeMicro(sGetMicroTime() - mStartWarmupMicro.get());					/* current warm up time should be atomic*/
-					
-		if (mWarmupMaxTimeMicro > 0) {													/*if warmup max time is set and time has exceeded its values set time warmup to true */
-			timeExceeded = (mWarmupTimeMicro.get() >= mWarmupMaxTimeMicro);
-		}
+    if (bytes == BYTESREADERR) {													/* if there is an error the test must stop and report it */
+      setErrorIfEmpty("read error");
+      bytes = 0; 																	/* do not modify the bytes counters ??? */
+      error.set(true);
+      return true;
+    }
 
-		if (mWarmupMaxBytes > 0) {														/* if warmup max bytes is set and bytes counter exceeded its value set bytesWarmup to true */
-			bytesExceeded = (getTotalWarmUpBytes() >= mWarmupMaxBytes);
-		}
+    if (mWarmupMicroDuration.get() != 0)											/* if some other thread has already finished warmup there is no need to proceed */
+      return true;
 
-		if (timeExceeded) {																/* if maximum warmup time is reached */
-			if (mWarmupMicroDuration.get() == 0) {
-				mWarmupMicroDuration.set(sGetMicroTime() - mStartWarmupMicro.get());	/* Register the time duration up to this moment */
-			}
-			warmupDoneCounter.addAndGet(1);												/* and increment warmup counter */
-			return true;
-		}
+    addTotalWarmUpBytes(bytes);														/* increment atomic total bytes counter */
 
-		if (bytesExceeded) {																/* if max warmup bytes transferred */
-			if (mWarmupMicroDuration.get() == 0) {
-				mWarmupMicroDuration.set(sGetMicroTime() - mStartWarmupMicro.get());	/* Register the time duration up to this moment */
-			}
-			warmupDoneCounter.addAndGet(1);												/* and increment warmup counter */
-			return true;
-		}
-		
-		return false;
-	}
+    if (mStartWarmupMicro.get() == 0) {
+      mStartWarmupMicro.set(sGetMicroTime()); 									/* record start up time should be recorded only by one thread */
+    }
 
-	protected boolean isTransferDone(int bytes) {
-		boolean timeExceeded = false;
-		boolean bytesExceeded = false;
-		
-		//boolean ret = false;
-		if (bytes == BYTESREADERR) {														/* if there is an error the test must stop and report it */
-			setErrorIfEmpty("read error");
-			bytes = 0; 																		/* do not modify the bytes counters ??? */
-			error.set(true);
-			return true;
-		}
+    setWarmUpTimeMicro(sGetMicroTime() - mStartWarmupMicro.get());					/* current warm up time should be atomic*/
 
-		if ( mTransferMicroDuration.get() != 0 )											/* if some other thread has already finished warmup there is no need to proceed */
-			return true;
-		
-		addTotalTransferBytes(bytes);														/* increment atomic total bytes counter */
-		
-		synchronized(mStartTransferMicro){
-			if (mStartTransferMicro.get() == 0) {
-				SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
-				mStartTransferMicro.set(sGetMicroTime());										/* record start up time should be recorded only by one thread */
-			}
-		}
-		
-		setTransferTimeMicro(sGetMicroTime() - mStartTransferMicro.get());					/* How much time transfer took up to now */
-		
-		if (mTransferMaxTimeMicro > 0) {													/* If transfer time is more than max time, then transfer is done */
-			timeExceeded = (getTransferTimeMicro() >= mTransferMaxTimeMicro);
-		}
-		
-		if (mTransferMaxBytes > 0) {
-			bytesExceeded = (getTotalTransferBytes() >= mTransferMaxBytes );
-		}
+    if (mWarmupMaxTimeMicro > 0) {													/*if warmup max time is set and time has exceeded its values set time warmup to true */
+      timeExceeded = (mWarmupTimeMicro.get() >= mWarmupMaxTimeMicro);
+    }
 
-		if (getTotalTransferBytes() > 0)
-			testStatus = "OK";
+    if (mWarmupMaxBytes > 0) {														/* if warmup max bytes is set and bytes counter exceeded its value set bytesWarmup to true */
+      bytesExceeded = (getTotalWarmUpBytes() >= mWarmupMaxBytes);
+    }
 
-		if (timeExceeded) {																	/* if maximum transfer time is reached */
-			synchronized(mTransferMicroDuration){
-				if (mTransferMicroDuration.get() == 0) {
-					SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
-					mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
-				}
-			}
-			transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
-			return true;
-		}
+    if (timeExceeded) {																/* if maximum warmup time is reached */
+      if (mWarmupMicroDuration.get() == 0) {
+        mWarmupMicroDuration.set(sGetMicroTime() - mStartWarmupMicro.get());	/* Register the time duration up to this moment */
+      }
+      warmupDoneCounter.addAndGet(1);												/* and increment warmup counter */
+      return true;
+    }
 
-		if (bytesExceeded) {																/* if max transfer bytes transferred */
-			synchronized(mTransferMicroDuration){
-				if (mTransferMicroDuration.get() == 0) {
-					SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
-					mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
-				}
-			}
-			transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
-			return true;
-		}
-		return false;
-	}
+    if (bytesExceeded) {																/* if max warmup bytes transferred */
+      if (mWarmupMicroDuration.get() == 0) {
+        mWarmupMicroDuration.set(sGetMicroTime() - mStartWarmupMicro.get());	/* Register the time duration up to this moment */
+      }
+      warmupDoneCounter.addAndGet(1);												/* and increment warmup counter */
+      return true;
+    }
 
-	
-	protected int getThreadIndex(){
-		int threadIndex = 0;
+    return false;
+  }
 
-		synchronized (mThreads) {
+  protected boolean isTransferDone(int bytes) {
+    boolean timeExceeded = false;
+    boolean bytesExceeded = false;
 
-			boolean bFound = false;
+    SKLogger.d(this, "isTransferDone("+ bytes+")");
 
-			int i;
-			for (i = 0; i < mThreads.length; i++) {
-				if (Thread.currentThread() == mThreads[i]) {
-					threadIndex = i;
-					bFound = true;
-					break;
-				}
-			}
-			SKLogger.sAssert(getClass(), bFound);
-		}
-		return threadIndex;
-	}
+    //boolean ret = false;
+    if (bytes == BYTESREADERR) {														/* if there is an error the test must stop and report it */
+      setErrorIfEmpty("read error");
+      bytes = 0; 																		/* do not modify the bytes counters ??? */
+      error.set(true);
+      SKLogger.e(this, "isTransferDone, bytes == BYTESREADERR!");
+      return true;
+    }
 
-	
-	protected OutputStream getOutput(Socket socket){
-		OutputStream conn = null;
-		boolean err = false;								/*Initially there is not error */
-		
-		if (socket != null) {
-			try {
-				conn = socket.getOutputStream();			/* Try to get output stream */
-			} catch (IOException io) {
-				err = true;									/* Fails */
-				SKLogger.sAssert(getClass(),  false);
-			}
-		} else {											/* if socket is null - fails */
-			err = true;
-			SKLogger.sAssert(getClass(),  false);
-		}
-		
-		if ( err ) {										/* return null if there is an error */
-			SKLogger.e(TAG(this), "Error occurred while getting output conection, returning null... thread: " + this.getThreadIndex());
-			return null;
-		}
-		
-		return conn;										/* return output stream */
-	}
+    if (mTransferMicroDuration.get() != 0) {
+    	/* if some other thread has already finished warmup there is no need to proceed */
+      SKLogger.d(this, "isTransferDone, mTransferMicroDuration != 0");
+      return true;
+    }
 
-	protected InputStream getInput(Socket socket){
-		InputStream conn = null;
-		boolean err = false;								/*Initially there is not error */
-		
-		if (socket != null) {
-			try {
-				conn = socket.getInputStream();			/* Try to get output stream */
-			} catch (IOException io) {
-				err = true;									/* Fails */
-				SKLogger.sAssert(getClass(),  false);
-			}
-		} else {											/* if socket is null - fails */
-			err = true;
-			SKLogger.sAssert(getClass(),  false);
-		}
-		
-		if ( err ) {										/* return null if there is an error */
-			SKLogger.e(TAG(this), "Error occurred while getting intput conection, returning null... thread: " + this.getThreadIndex());
-			return null;
-		}
-		
-		return conn;										/* return output stream */
-	}
-	
-	
-	//public void setDownstream() {								downstream = true;				}
-	//public void setUpstream() {									downstream = false;				}
 
-	private void setDirection(String d) {
-		if ( d.equalsIgnoreCase(_DOWNSTREAM)) {
-			downstream = true;
-		} else if (d.equalsIgnoreCase( _UPSTREAM)) {
-			downstream = false;
-		}
-	}
+    addTotalTransferBytes(bytes);														/* increment atomic total bytes counter */
 
-	public boolean isProgressAvailable() {//TODO check with new interface
-		boolean ret = false;
-		if (mTransferMaxTimeMicro > 0) {
-			ret = true;
-		} else if (mTransferMaxBytes > 0) {
-			ret = true;
-		}
-		return ret;
-	}
+    synchronized (mStartTransferMicro) {
+      if (mStartTransferMicro.get() == 0) {
+        SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
+        mStartTransferMicro.set(sGetMicroTime());										/* record start up time should be recorded only by one thread */
+      }
+    }
 
-	public int getProgress() {//TODO check with new interface
-		double ret = 0;
+    setTransferTimeMicro(sGetMicroTime() - mStartTransferMicro.get());					/* How much time transfer took up to now */
 
-		//synchronized (this) {
-			if (mStartWarmupMicro.get() == 0) {
-				ret = 0;
-			} else if (mTransferMaxTimeMicro != 0) {
-				long currTime = sGetMicroTime() - mStartWarmupMicro.get();
-				ret = (double) currTime / (mWarmupMaxTimeMicro + mTransferMaxTimeMicro);
+    if (mTransferMaxTimeMicro > 0) {													/* If transfer time is more than max time, then transfer is done */
+      SKLogger.d(this, "transfer Time so far milli =" + getTransferTimeMicro()/1000);
 
-			} else {
-				long currBytes = getTotalWarmUpBytes() + getTotalTransferBytes();
-				ret = (double) currBytes / (mWarmupMaxBytes + mTransferMaxBytes);
-			}
-		//}
-		ret = ret < 0 ? 0 : ret;
-		ret = ret >= 1 ? 0.99 : ret;
-		return (int) (ret * 100);
-	}
+      timeExceeded = (getTransferTimeMicro() >= mTransferMaxTimeMicro);
+    }
 
-	protected void closeConnection(Socket socket){											/* Closes connections  and winds socket out*/
-		/*
+    SKLogger.d(this, "transfer Bytes so far =" + getTotalTransferBytes());
+    if (mTransferMaxBytes > 0) {
+      bytesExceeded = (getTotalTransferBytes() >= mTransferMaxBytes);
+    }
+
+    if (getTotalTransferBytes() > 0) {
+      testStatus = "OK";
+    }
+
+    if (timeExceeded) {																	/* if maximum transfer time is reached */
+      synchronized (mTransferMicroDuration) {
+        if (mTransferMicroDuration.get() == 0) {
+          SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
+          mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
+        }
+      }
+      transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
+      SKLogger.d(this, "isTransferDone, timeExceeded");
+      return true;
+    }
+
+    if (bytesExceeded) {																/* if max transfer bytes transferred */
+      synchronized (mTransferMicroDuration) {
+        if (mTransferMicroDuration.get() == 0) {
+          SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
+          mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
+        }
+      }
+      SKLogger.d(this, "isTransferDone, bytesExceeded");
+      transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
+      return true;
+    }
+
+    SKLogger.d(this, "isTransferDone, still waiting...");
+    return false;
+  }
+
+
+  protected int getThreadIndex() {
+    int threadIndex = 0;
+
+    synchronized (mThreads) {
+
+      boolean bFound = false;
+
+      int i;
+      for (i = 0; i < mThreads.length; i++) {
+        if (Thread.currentThread() == mThreads[i]) {
+          threadIndex = i;
+          bFound = true;
+          break;
+        }
+      }
+
+      if (bFound == false) {
+        SKLogger.e(this, "getThreadIndex()");
+      }
+    }
+    return threadIndex;
+  }
+
+
+  protected OutputStream getOutput(Socket socket) {
+    OutputStream conn = null;
+    boolean err = false;								/*Initially there is not error */
+
+    if (socket != null) {
+      try {
+        conn = socket.getOutputStream();			/* Try to get output stream */
+      } catch (IOException io) {
+        err = true;									/* Fails */
+        SKLogger.e(this, "getOutput() ... thread: " + this.getThreadIndex(), io);
+      }
+    } else {											/* if socket is null - fails */
+      err = true;
+      SKLogger.e(this, "getOutput(), socket is null! ... thread: " + this.getThreadIndex());
+    }
+
+    if (err) {										/* return null if there is an error */
+      SKLogger.e(this, "Error occurred while getting output connection, returning null... thread: " + this.getThreadIndex());
+      return null;
+    }
+
+    return conn;										/* return output stream */
+  }
+
+  protected InputStream getInput(Socket socket) {
+    InputStream conn = null;
+    boolean err = false;								/*Initially there is not error */
+
+    if (socket != null) {
+      try {
+        conn = socket.getInputStream();			/* Try to get output stream */
+      } catch (IOException io) {
+        err = true;									/* Fails */
+        SKLogger.e(this, "getInput() ... thread: " + this.getThreadIndex(), io);
+      }
+    } else {											/* if socket is null - fails */
+      err = true;
+      SKLogger.e(this, "getOutput(), socket is null! ... thread: " + this.getThreadIndex());
+    }
+
+    if (err) {										/* return null if there is an error */
+      SKLogger.e(this, "Error occurred while getting input connection, returning null... thread: " + this.getThreadIndex());
+      return null;
+    }
+
+    return conn;										/* return output stream */
+  }
+
+
+  //public void setDownstream() {								downstream = true;				}
+  //public void setUpstream() {									downstream = false;				}
+
+  private void setDirection(String d) {
+    if (d.equalsIgnoreCase(_DOWNSTREAM)) {
+      downstream = true;
+    } else if (d.equalsIgnoreCase(_UPSTREAM)) {
+      downstream = false;
+    }
+  }
+
+  public boolean isProgressAvailable() {//TODO check with new interface
+    boolean ret = false;
+    if (mTransferMaxTimeMicro > 0) {
+      ret = true;
+    } else if (mTransferMaxBytes > 0) {
+      ret = true;
+    }
+    return ret;
+  }
+
+  public int getProgress() {//TODO check with new interface
+    double ret = 0;
+
+    //synchronized (this) {
+    if (mStartWarmupMicro.get() == 0) {
+      ret = 0;
+    } else if (mTransferMaxTimeMicro != 0) {
+      long currTime = sGetMicroTime() - mStartWarmupMicro.get();
+      ret = (double) currTime / (mWarmupMaxTimeMicro + mTransferMaxTimeMicro);
+
+    } else {
+      long currBytes = getTotalWarmUpBytes() + getTotalTransferBytes();
+      ret = (double) currBytes / (mWarmupMaxBytes + mTransferMaxBytes);
+    }
+    //}
+    ret = ret < 0 ? 0 : ret;
+    ret = ret >= 1 ? 0.99 : ret;
+    return (int) (ret * 100);
+  }
+
+  protected void closeConnection(Socket socket) {											/* Closes connections  and winds socket out*/
+    SKLogger.d(this, "closeConnection()");
+
+    /*
 		 * Should be run inside thread
 		 */
-		if ( socket != null ){	
-			OutputStream outputStream = null;
-			InputStream inputStream = null;
-			try {
-				outputStream = socket.getOutputStream();
-				inputStream = socket.getInputStream();
-			} catch (IOException e) {
-				SKLogger.sAssert(OutputStream.class, false);
-			}
+    if (socket != null) {
+      OutputStream outputStream = null;
+      InputStream inputStream = null;
+      try {
+        outputStream = socket.getOutputStream();
+        inputStream = socket.getInputStream();
+      } catch (IOException e) {
+        SKLogger.e(this, "closeConnection(), e", e);
+      }
 
 
-			if(inputStream != null){
-				try {
-					inputStream.close();
-				} catch (IOException ioe) {
-					SKLogger.sAssert(getClass(),  false);
-				}
-			}
+      if (inputStream != null) {
+        SKLogger.d(this, "inputStream.close()");
+        try {
+          inputStream.close();
+        } catch (IOException ioe) {
+          SKLogger.e(this, "closeConnection(), ioe", ioe);
+        }
+      }
 
-			if(outputStream != null){
-				try {
-					outputStream.close();
-				} catch (IOException ioe) {
-					SKLogger.sAssert(getClass(),  false);
-				}
-			}				
+      if (outputStream != null) {
+        SKLogger.d(this, "outputStream.close()");
+        try {
+          outputStream.close();
+        } catch (IOException ioe2) {
+          SKLogger.e(this, "closeConnection(), ioe2", ioe2);
+        }
+      }
 
-			try {
-				socket.close();
-			} catch (IOException ioe) {
-				SKLogger.sAssert(getClass(),  false);
-			}
-		}
-	}
-		
-	@Override
-	public void run() {
-		boolean result = false;
-		int threadIndex = getThreadIndex();
-		
-		Socket socket = getSocket();
-		
-		if( socket == null ){
-			SKLogger.d(TAG(this), "Socket initiation failed, thread: " + threadIndex);//TODO remove in production
-			return;
-		}
-			
-		result = warmup(socket, threadIndex);
-		
-		if( !result )
-			return;
-		
-		result = transfer(socket, threadIndex);	
-		
-		closeConnection(socket);
-	}
+      try {
+        SKLogger.d(this, "socket.close()");
+        socket.close();
+      } catch (IOException ioe3) {
+        SKLogger.e(this, "closeConnection(), ioe2", ioe3);
+      }
+    }
+  }
 
-	/*
-	 * Atomic variables used as aggregate counters or (errors, etc. ) indicators updated from concurrently running threads 
-	 */
-	private AtomicLong totalWarmUpBytes = new AtomicLong(0);												/* Total num of bytes transmitted during warmup period */
-	private AtomicLong totalTransferBytes = new AtomicLong(0);												/* Total num of bytes transmitted during trnasfer period */
-	protected AtomicBoolean error = new AtomicBoolean(false);												/* Global error indicator */
+  @Override
+  public void run() {
+    boolean result = false;
+    int threadIndex = getThreadIndex();
 
-	/*
-	 * Accessors to atomic variables
-	 */
-	protected long getTotalWarmUpBytes(){ 				return totalWarmUpBytes.get();		}	
-	protected long getTotalTransferBytes(){				return totalTransferBytes.get();	}	
-	protected long getWarmUpTimeMicro(){				return mWarmupTimeMicro.get();		}
-	protected long getWarmUpTimeDurationMicro(){		return mWarmupMicroDuration.get();	}
-	protected long getTransferTimeMicro(){				return transferTimeMicroseconds.get();	}
-	protected long getTransferTimeDurationMicro(){		return mTransferMicroDuration.get();	}
-	protected long getStartTransferMicro(){				return mStartTransferMicro.get();	}	
-	protected long getStartWarmupMicro(){				return mStartWarmupMicro.get();	}
-	
-	protected void addTotalTransferBytes(long bytes) {	totalTransferBytes.addAndGet(bytes); }	
-	protected void addTotalWarmUpBytes(long bytes) {	totalWarmUpBytes.addAndGet(bytes);	}
+    Socket socket = getSocket();
 
-	protected void setWarmUpTimeMicro(long uTime){		mWarmupTimeMicro.set(uTime);	}
-	protected void setTransferTimeMicro(long uTime){	transferTimeMicroseconds.set(uTime);	}
+    if (socket == null) {
+      SKLogger.d(TAG(this), "Socket initiation failed, thread: " + threadIndex);//TODO remove in production
+      return;
+    }
 
-	private String infoString = "";
-	private String ipAddress = "";
+    result = warmup(socket, threadIndex);
 
-	boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
-	//boolean warmUpDone = false;
+    if (!result) {
+      closeConnection(socket);
+      return;
+    }
 
-	protected int postDataLength = 0;
+    result = transfer(socket, threadIndex);
 
-	// warmup variables
-	private AtomicLong mStartWarmupMicro = new AtomicLong(0);												/* Point in time when warm up process starts, uSecs */
-	private AtomicLong mWarmupMicroDuration = new AtomicLong(0);											/* Total duration of warm up period, uSecs */
-	private AtomicLong mWarmupTimeMicro = new AtomicLong(0);												/* Time elapsed since warm up process started, uSecs */
-	private AtomicInteger warmupDoneCounter = new AtomicInteger(0);											/* Counter shows how many threads completed warm up process */
-	protected long mWarmupMaxTimeMicro = 0;																	/* Max time warm up is allowed to continue, uSecs */
-	protected int mWarmupMaxBytes = 0;																		/* Max bytes warm up is allowed to send */
+    closeConnection(socket);
+  }
+
+  /*
+   * Atomic variables used as aggregate counters or (errors, etc. ) indicators updated from concurrently running threads
+   */
+  private AtomicLong totalWarmUpBytes = new AtomicLong(0);												/* Total num of bytes transmitted during warmup period */
+  private AtomicLong totalTransferBytes = new AtomicLong(0);												/* Total num of bytes transmitted during trnasfer period */
+  protected AtomicBoolean error = new AtomicBoolean(false);												/* Global error indicator */
+
+  /*
+   * Accessors to atomic variables
+   */
+  protected long getTotalWarmUpBytes() {
+    return totalWarmUpBytes.get();
+  }
+
+  protected long getTotalTransferBytes() {
+    return totalTransferBytes.get();
+  }
+
+  protected long getWarmUpTimeMicro() {
+    return mWarmupTimeMicro.get();
+  }
+
+  protected long getWarmUpTimeDurationMicro() {
+    return mWarmupMicroDuration.get();
+  }
+
+  protected long getTransferTimeMicro() {
+    return transferTimeMicroseconds.get();
+  }
+
+  protected long getTransferTimeDurationMicro() {
+    return mTransferMicroDuration.get();
+  }
+
+  protected long getStartTransferMicro() {
+    return mStartTransferMicro.get();
+  }
+
+  protected long getStartWarmupMicro() {
+    return mStartWarmupMicro.get();
+  }
+
+  protected void addTotalTransferBytes(long bytes) {
+    totalTransferBytes.addAndGet(bytes);
+  }
+
+  protected void addTotalWarmUpBytes(long bytes) {
+    totalWarmUpBytes.addAndGet(bytes);
+  }
+
+  protected void setWarmUpTimeMicro(long uTime) {
+    mWarmupTimeMicro.set(uTime);
+  }
+
+  protected void setTransferTimeMicro(long uTime) {
+    transferTimeMicroseconds.set(uTime);
+  }
+
+  private String infoString = "";
+  private String ipAddress = "";
+
+  boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
+  //boolean warmUpDone = false;
+
+  protected int postDataLength = 0;
+
+  // warmup variables
+  private AtomicLong mStartWarmupMicro = new AtomicLong(0);												/* Point in time when warm up process starts, uSecs */
+  private AtomicLong mWarmupMicroDuration = new AtomicLong(0);											/* Total duration of warm up period, uSecs */
+  private AtomicLong mWarmupTimeMicro = new AtomicLong(0);												/* Time elapsed since warm up process started, uSecs */
+  private AtomicInteger warmupDoneCounter = new AtomicInteger(0);											/* Counter shows how many threads completed warm up process */
+  protected long mWarmupMaxTimeMicro = 0;																	/* Max time warm up is allowed to continue, uSecs */
+  protected int mWarmupMaxBytes = 0;																		/* Max bytes warm up is allowed to send */
 
 
-	// transfer variables
-	private AtomicLong mStartTransferMicro = new AtomicLong(0);												/* Point in time when transfer process starts, uSecs */
-	private AtomicLong mTransferMicroDuration = new AtomicLong(0);											/* Total duration of transfer period, uSecs */
-	private AtomicLong transferTimeMicroseconds = new AtomicLong(0);										/* Time elapsed since transfer process started, uSecs */
-	private AtomicInteger transferDoneCounter = new AtomicInteger(0);										/* Counter shows how many threads completed trnasfer process */
-	protected long mTransferMaxTimeMicro = 0;																/* Max time transfer is allowed to continue, uSecs*/
-	protected int mTransferMaxBytes = 0;																	/* Max bytes transfer is allowed to send */
-	
-	//external monitor variables
-	private AtomicLong timeElapsedSinceLastExternalMonitorUpdate = new AtomicLong(0);						/* Time elapsed since external monitor counter was updated last time, uSecs */
+  // transfer variables
+  private AtomicLong mStartTransferMicro = new AtomicLong(0);												/* Point in time when transfer process starts, uSecs */
+  private AtomicLong mTransferMicroDuration = new AtomicLong(0);											/* Total duration of transfer period, uSecs */
+  private AtomicLong transferTimeMicroseconds = new AtomicLong(0);										/* Time elapsed since transfer process started, uSecs */
+  private AtomicInteger transferDoneCounter = new AtomicInteger(0);										/* Counter shows how many threads completed trnasfer process */
+  protected long mTransferMaxTimeMicro = 0;																/* Max time transfer is allowed to continue, uSecs*/
+  protected int mTransferMaxBytes = 0;																	/* Max bytes transfer is allowed to send */
 
-	// Various HTTP tests variables
-	private int nThreads;																					/* Number of send/receive threads */
-	
-	//various buffers
-	protected int downloadBufferSize = 0;
-	protected int desiredReceiveBufferSize = 0;
-	private int socketBufferSize = 0;
-	protected int uploadBufferSize = 0;
+  //external monitor variables
+  private AtomicLong timeElapsedSinceLastExternalMonitorUpdate = new AtomicLong(0);						/* Time elapsed since external monitor counter was updated last time, uSecs */
 
-	//private int connectionCounter = 0;
-	private int receiveBufferSize = 0;
-	private int sendBufferSize = 0;
+  // Various HTTP tests variables
+  private int nThreads;																					/* Number of send/receive threads */
 
-	protected int getThreadsNum(){ return nThreads; }														/* Accessor for number of threads */
+  //various buffers
+  protected int downloadBufferSize = 0;
+  protected int desiredReceiveBufferSize = 0;
+  private int socketBufferSize = 0;
+  protected int uploadBufferSize = 0;
 
-	boolean noDelay = false;
+  //private int connectionCounter = 0;
+  private int receiveBufferSize = 0;
+  private int sendBufferSize = 0;
 
-	protected String testStatus = "FAIL";																	/* Test status, could be 'OK' or 'FAIL' */
+  protected int getThreadsNum() {
+    return nThreads;
+  }														/* Accessor for number of threads */
 
-	// Connection variables
-	protected String target = "";
-	protected String file = "";
-	protected int port = 0;
-	protected UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;							/* Upload type selection strategy: simple upload or with server side measurements */
+  boolean noDelay = false;
 
-	boolean downstream = true;
+  protected String testStatus = "FAIL";																	/* Test status, could be 'OK' or 'FAIL' */
 
-	
-	
-	
-	private int getBytesPerSecond(long duration, long btsTotal) {
-		int btsPerSec = 0;
+  // Connection variables
+  protected String target = "";
+  protected String file = "";
+  protected int port = 0;
+  protected UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;							/* Upload type selection strategy: simple upload or with server side measurements */
 
-		if ( duration != 0) {
-			double timeSeconds = ((double) duration) / 1000000.0;			
-			btsPerSec = (int) (((double)btsTotal) / timeSeconds);
-		}
+  boolean downstream = true;
 
-		//SKLogger.d(TAG(this), "getWarmupSpeedBytesPerSecond, using CLIENT value = " + btsPerSec);//HAHA remove in production
-		return btsPerSec;
-	}
-	
 
-	
-	protected int getWarmupBytesPerSecond() {
-		long btsTotal = getTotalWarmUpBytes();
-		long duration = getWarmUpTimeDurationMicro() == 0   ? (sGetMicroTime() - getStartWarmupMicro())   : getWarmUpTimeDurationMicro();
+  private int getBytesPerSecond(long duration, long btsTotal) {
+    int btsPerSec = 0;
 
-		return getBytesPerSecond(duration, btsTotal);
-	}
+    if (duration != 0) {
+      double timeSeconds = ((double) duration) / 1000000.0;
+      btsPerSec = (int) (((double) btsTotal) / timeSeconds);
+    }
+
+    //SKLogger.d(TAG(this), "getWarmupSpeedBytesPerSecond, using CLIENT value = " + btsPerSec);//HAHA remove in production
+    return btsPerSec;
+  }
+
+
+  protected int getWarmupBytesPerSecond() {
+    long btsTotal = getTotalWarmUpBytes();
+    long duration = getWarmUpTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartWarmupMicro()) : getWarmUpTimeDurationMicro();
+
+    return getBytesPerSecond(duration, btsTotal);
+  }
 
 
   // Returns -1 if not enough time has passed for sensible measurement.
-	protected int getTransferBytesPerSecond() {		
-		long btsTotal = getTotalTransferBytes();
-		long duration = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
+  protected int getTransferBytesPerSecond() {
+    long btsTotal = getTotalTransferBytes();
+    long duration = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
 
     if (duration < 1000000.0) // At least a second!
     {
@@ -921,10 +1010,10 @@ public abstract class HttpTest extends Test {
       return -1;
     }
 
-		return getBytesPerSecond(duration, btsTotal);
-	}
+    return getBytesPerSecond(duration, btsTotal);
+  }
 
-	
+
 }
 
 
@@ -948,7 +1037,6 @@ if (testStatus.equals("FAIL")) {
 }
 return ret;
 }*/
-
 
 
 //For debug timings!

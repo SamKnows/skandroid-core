@@ -20,34 +20,40 @@ public class SKLogger {
 	private static final String WARNING = "Warning";
 	private static final String DEBUG = "Debug";
 	
-	private static boolean isStderrOutput = false; 
-	
-	private static void appendLog(String severety, String tag, String text) {
+	private static boolean isStderrOutput = false;
+
+  // TODO - turn this OFF for production builds!
+  private static boolean LOG_TO_FILE = true;
+
+	private static void appendLog(String severity, String tag, String text) {
     Log.d("SKLogger - appendLog", tag + ":" + text);
 
-		if (SKConstants.LOG_TO_FILE) {
-			File logFile = new File(folder, "log.file");
-			if (!logFile.exists()) {
-				try {
-					logFile.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			try {
-				// BufferedWriter for performance, true to set append to file
-				// flag
-				BufferedWriter buf = new BufferedWriter(new FileWriter(logFile,
-						true));
-				buf.append(TimeUtils.logString(System.currentTimeMillis()) + " : ");
-				buf.append(severety +" : ");
-				buf.append(tag + " : ");
-				buf.append(text);
-				buf.newLine();
-				buf.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (LOG_TO_FILE) {
+      // This MUST be synchronized, as multiple threads might try to write at once!
+      synchronized (SKLogger.class) {
+        File logFile = new File(folder, "log.file");
+        if (!logFile.exists()) {
+          try {
+            logFile.createNewFile();
+          } catch (IOException e) {
+            SKLogger.sAssert(false);
+          }
+        }
+        try {
+          // BufferedWriter for performance, true to set append to file
+          // flag
+          BufferedWriter buf = new BufferedWriter(new FileWriter(logFile,
+              true));
+          buf.append(TimeUtils.logString(System.currentTimeMillis()) + " : ");
+          buf.append(severity + " : ");
+          buf.append(tag + " : ");
+          buf.append(text);
+          buf.newLine();
+          buf.close();
+        } catch (IOException e) {
+          SKLogger.sAssert(false);
+        }
+      }
 		}
 	}
 	
@@ -63,7 +69,20 @@ public class SKLogger {
 	}
 	
 	public static void setStorageFolder(File f) {
-		folder = f;
+    // IGNORE the supplied folder, as it is in the CACHE area ... unless we have an exception!
+    try {
+      File storage = android.os.Environment.getExternalStorageDirectory();
+      String subFolderName = SKApplication.getAppInstance().getAppName();
+      File storageSubFolder = new File(storage, subFolderName);
+      storageSubFolder.mkdir();
+
+      folder = storageSubFolder;
+    } catch (Exception e) {
+      SKLogger.sAssert(false);
+      folder = f;
+    }
+//    File writeHere = new File(storageSubFolder, fileName);
+//    folder = f;
 	}
 
 	// This can dump-out a string longer than the build-in limit to Log.d!
