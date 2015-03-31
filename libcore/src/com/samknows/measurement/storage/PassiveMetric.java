@@ -1,5 +1,7 @@
 package com.samknows.measurement.storage;
 
+import android.util.Log;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,8 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.DCSConvertorUtil;
 
 public class PassiveMetric extends JSONObject{
+  static final String TAG = "PassiveMetric";
+
 	public static final String JSON_METRIC_NAME = "metric_name";
 	public static final String JSON_METRIC = "metric";
 	public static final String JSON_DTIME= "dtime";
@@ -166,7 +170,7 @@ public class PassiveMetric extends JSONObject{
 			ret.put("metricString", pm.getString(PassiveMetric.JSON_METRIC_NAME));
 			ret.put("value", pm.getString("value"));
 		}catch(JSONException je){
-			SKLogger.d(PassiveMetric.class, "Error in creating json obj: " + je);
+			Log.d(TAG, "Error in creating json obj: " + je);
 		}
 		return ret;
 	}

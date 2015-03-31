@@ -1,5 +1,7 @@
 package com.samknows.measurement.schedule.condition;
 
+import android.util.Log;
+
 import org.w3c.dom.Element;
 
 import com.samknows.libcore.SKLogger;
@@ -8,6 +10,8 @@ import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.util.XmlUtils;
 
 public class LocationAvailableCondition extends Condition{
+  static final String TAG = "LocationAvailableCond";
+
 	private static final long serialVersionUID = 1L;
 	private long waitTime;
 	
@@ -17,7 +21,7 @@ public class LocationAvailableCondition extends Condition{
 		boolean result = false;
 		String explanation = null;
 		if (collector != null) {
-			SKLogger.d(this, "start waiting for location: " + waitTime/1000 + "s");
+			Log.d(TAG, "start waiting for location: " + waitTime / 1000 + "s");
 			result = collector.waitForLocation(waitTime);
 			if (!result) {
 				explanation = "TIMEOUT";
@@ -28,7 +32,7 @@ public class LocationAvailableCondition extends Condition{
 		}
 		ConditionResult res = new ConditionResult(result, failQuiet);
 		res.generateOut("LOCATIONAVAILABLE", explanation);
-		SKLogger.d(this, "stop waiting for location");
+		Log.d(TAG, "stop waiting for location");
 		return res;
 	}
 

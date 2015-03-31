@@ -228,7 +228,7 @@ public abstract class HttpTest extends Test {
 
     setParams(params);													/* Initialisation */
 
-    SKLogger.d(this, "CREATING HTTP TEST - LOG TEST!");
+    //SKLogger.d(this, "CREATING HTTP TEST - LOG TEST!");
   }
 
   private void setParams(List<Param> params) {								/* Initialisation helper function */
@@ -330,10 +330,10 @@ public abstract class HttpTest extends Test {
     //Context context = SKApplication.getAppInstance().getBaseContext();
 
     if (downstream) {
-      SKLogger.d(this, "DOWNLOAD HTTP TEST - execute()");
+      //SKLogger.d(this, "DOWNLOAD HTTP TEST - execute()");
       infoString = HTTPGETRUN;
     } else {
-      SKLogger.d(this, "UPLOAD HTTP TEST - execute()");
+      //SKLogger.d(this, "UPLOAD HTTP TEST - execute()");
       infoString = HTTPPOSTRUN;
     }
     start();
@@ -365,7 +365,7 @@ public abstract class HttpTest extends Test {
   }
 
   protected Socket getSocket() {															/* Socket initialiser */
-    SKLogger.d(this, "HTTP TEST - getSocket()");
+    //SKLogger.d(this, "HTTP TEST - getSocket()");
 
     Socket ret = null;
     try {
@@ -400,7 +400,7 @@ public abstract class HttpTest extends Test {
 
       ret.connect(sockAddr, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
 
-      SKLogger.d(this, "HTTP TEST - getSocket() completed OK");
+      //SKLogger.d(this, "HTTP TEST - getSocket() completed OK");
     } catch (Exception e) {
       SKLogger.e(this, "getSocket()", e);
       ret = null;
@@ -409,7 +409,7 @@ public abstract class HttpTest extends Test {
   }
 
   private void output() {
-    SKLogger.d(this, "HTTP TEST - output()");
+    //SKLogger.d(this, "HTTP TEST - output()");
 
     ArrayList<String> o = new ArrayList<String>();
     Map<String, Object> output = new HashMap<String, Object>();
@@ -423,7 +423,7 @@ public abstract class HttpTest extends Test {
     output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp * 1000)));
 
     long transferBytes = getTotalTransferBytes();
-    SKLogger.d(this, "HTTP TEST - output(), transferBytes=" + transferBytes);
+    //SKLogger.d(this, "HTTP TEST - output(), transferBytes=" + transferBytes);
     if (transferBytes == 0) {
       // 30/03/2015 - note that if transferBytes is ZERO, we must also tag this with "success": false
       error.set(true);
@@ -477,7 +477,7 @@ public abstract class HttpTest extends Test {
         }
       }
 
-      SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
+      //SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
     }
 
     setOutput(o.toArray(new String[1]));
@@ -553,7 +553,7 @@ public abstract class HttpTest extends Test {
 
 
   protected boolean isWarmupDone(int bytes) {
-    SKLogger.d(this, "isWarmupDone("+ bytes+")");
+    //SKLogger.d(this, "isWarmupDone("+ bytes+")");
 
     boolean timeExceeded = false;
     boolean bytesExceeded = false;
@@ -607,7 +607,7 @@ public abstract class HttpTest extends Test {
     boolean timeExceeded = false;
     boolean bytesExceeded = false;
 
-    SKLogger.d(this, "isTransferDone("+ bytes+")");
+    //SKLogger.d(this, "isTransferDone("+ bytes+")");
 
     //boolean ret = false;
     if (bytes == BYTESREADERR) {														/* if there is an error the test must stop and report it */
@@ -620,7 +620,7 @@ public abstract class HttpTest extends Test {
 
     if (mTransferMicroDuration.get() != 0) {
     	/* if some other thread has already finished warmup there is no need to proceed */
-      SKLogger.d(this, "isTransferDone, mTransferMicroDuration != 0");
+      //SKLogger.d(this, "isTransferDone, mTransferMicroDuration != 0");
       return true;
     }
 
@@ -629,7 +629,7 @@ public abstract class HttpTest extends Test {
 
     synchronized (mStartTransferMicro) {
       if (mStartTransferMicro.get() == 0) {
-        SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
+        //SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
         mStartTransferMicro.set(sGetMicroTime());										/* record start up time should be recorded only by one thread */
       }
     }
@@ -637,12 +637,12 @@ public abstract class HttpTest extends Test {
     setTransferTimeMicro(sGetMicroTime() - mStartTransferMicro.get());					/* How much time transfer took up to now */
 
     if (mTransferMaxTimeMicro > 0) {													/* If transfer time is more than max time, then transfer is done */
-      SKLogger.d(this, "transfer Time so far milli =" + getTransferTimeMicro()/1000);
+      //SKLogger.d(this, "transfer Time so far milli =" + getTransferTimeMicro()/1000);
 
       timeExceeded = (getTransferTimeMicro() >= mTransferMaxTimeMicro);
     }
 
-    SKLogger.d(this, "transfer Bytes so far =" + getTotalTransferBytes());
+    //SKLogger.d(this, "transfer Bytes so far =" + getTotalTransferBytes());
     if (mTransferMaxBytes > 0) {
       bytesExceeded = (getTotalTransferBytes() >= mTransferMaxBytes);
     }
@@ -654,28 +654,28 @@ public abstract class HttpTest extends Test {
     if (timeExceeded) {																	/* if maximum transfer time is reached */
       synchronized (mTransferMicroDuration) {
         if (mTransferMicroDuration.get() == 0) {
-          SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
+          //SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
           mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
         }
       }
       transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
-      SKLogger.d(this, "isTransferDone, timeExceeded");
+      //SKLogger.d(this, "isTransferDone, timeExceeded");
       return true;
     }
 
     if (bytesExceeded) {																/* if max transfer bytes transferred */
       synchronized (mTransferMicroDuration) {
         if (mTransferMicroDuration.get() == 0) {
-          SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
+          //SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
           mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
         }
       }
-      SKLogger.d(this, "isTransferDone, bytesExceeded");
+      //SKLogger.d(this, "isTransferDone, bytesExceeded");
       transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
       return true;
     }
 
-    SKLogger.d(this, "isTransferDone, still waiting...");
+    //SKLogger.d(this, "isTransferDone, still waiting...");
     return false;
   }
 
@@ -795,7 +795,7 @@ public abstract class HttpTest extends Test {
   }
 
   protected void closeConnection(Socket socket) {											/* Closes connections  and winds socket out*/
-    SKLogger.d(this, "closeConnection()");
+    //SKLogger.d(this, "closeConnection()");
 
     /*
 		 * Should be run inside thread
@@ -812,7 +812,7 @@ public abstract class HttpTest extends Test {
 
 
       if (inputStream != null) {
-        SKLogger.d(this, "inputStream.close()");
+        //SKLogger.d(this, "inputStream.close()");
         try {
           inputStream.close();
         } catch (IOException ioe) {
@@ -821,7 +821,7 @@ public abstract class HttpTest extends Test {
       }
 
       if (outputStream != null) {
-        SKLogger.d(this, "outputStream.close()");
+        //SKLogger.d(this, "outputStream.close()");
         try {
           outputStream.close();
         } catch (IOException ioe2) {
@@ -830,7 +830,7 @@ public abstract class HttpTest extends Test {
       }
 
       try {
-        SKLogger.d(this, "socket.close()");
+        //SKLogger.d(this, "socket.close()");
         socket.close();
       } catch (IOException ioe3) {
         SKLogger.e(this, "closeConnection(), ioe2", ioe3);
@@ -846,7 +846,7 @@ public abstract class HttpTest extends Test {
     Socket socket = getSocket();
 
     if (socket == null) {
-      SKLogger.d(TAG(this), "Socket initiation failed, thread: " + threadIndex);//TODO remove in production
+      SKLogger.e(TAG(this), "Socket initiation failed, thread: " + threadIndex);
       return;
     }
 

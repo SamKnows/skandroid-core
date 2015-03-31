@@ -54,7 +54,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
   private boolean transmit(Socket socket, int threadIndex, boolean isWarmup) {
 
-    SKLogger.d(this, "PassiveServerUploadTest, transmit(), isWarmup=" + isWarmup + ", thread: " + threadIndex);
+    //SKLogger.d(this, "PassiveServerUploadTest, transmit(), isWarmup=" + isWarmup + ", thread: " + threadIndex);
 //    InputStream connIn = null;
 //
 //    try {
@@ -105,11 +105,11 @@ public class PassiveServerUploadTest extends UploadTest {
     try {
       byte headerByteArray[] = getPostHeaderRequestStringAsByteArray(threadIndex);
       if (headerByteArray.length > 0) {
-        SKLogger.d(this, "transmit() header write() ... thread:" + threadIndex);
+        //SKLogger.d(this, "transmit() header write() ... thread:" + threadIndex);
         connOut.write(headerByteArray);
-        SKLogger.d(this, "transmit() header flush() ... thread:" + threadIndex);
+        //SKLogger.d(this, "transmit() header flush() ... thread:" + threadIndex);
         connOut.flush();
-        SKLogger.d(this, "transmit() header flush()! ... thread:" + threadIndex);
+        //SKLogger.d(this, "transmit() header flush()! ... thread:" + threadIndex);
       }
 
       do {
@@ -118,11 +118,11 @@ public class PassiveServerUploadTest extends UploadTest {
         }
 
         // Write buffer to output socket
-        SKLogger.d(this, "transmit() calling write() ... thread:" + threadIndex);
+        //SKLogger.d(this, "transmit() calling write() ... thread:" + threadIndex);
         connOut.write(buff);
-        SKLogger.d(this, "transmit() calling flush() ... thread:" + threadIndex);
+        //SKLogger.d(this, "transmit() calling flush() ... thread:" + threadIndex);
         connOut.flush();
-        SKLogger.d(this, "transmit() called flush()! ... thread:" + threadIndex);
+        //SKLogger.d(this, "transmit() called flush()! ... thread:" + threadIndex);
 
 //        if (connIn != null) {
 //          while (true) {
@@ -136,7 +136,7 @@ public class PassiveServerUploadTest extends UploadTest {
 //              buffer[bytes] = '\0';
 //
 //              String bufferAsUtf8String = (new String(buffer, "UTF-8")).substring(0, bytes);
-//              SKLogger.d(this, "READ BUFFER:" + bufferAsUtf8String);
+//              //SKLogger.d(this, "READ BUFFER:" + bufferAsUtf8String);
 //            }
 //          }
 //        }
@@ -196,7 +196,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
   @Override
   protected boolean warmup(Socket socket, int threadIndex) {
-    SKLogger.d(this, "PassiveServerUploadTest, warmup()... thread: " + threadIndex);
+    //SKLogger.d(this, "PassiveServerUploadTest, warmup()... thread: " + threadIndex);
 
     boolean isWarmup = true;
     boolean result = false;
@@ -213,7 +213,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
   @Override
   protected boolean transfer(Socket socket, int threadIndex) {
-    SKLogger.d(this, "PassiveServerUploadTest, transfer()... thread: " + threadIndex);
+    //SKLogger.d(this, "PassiveServerUploadTest, transfer()... thread: " + threadIndex);
 
     boolean isWarmup = false;
     return transmit(socket, threadIndex, isWarmup);

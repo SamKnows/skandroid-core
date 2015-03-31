@@ -3,6 +3,8 @@ package com.samknows.measurement.TestRunner;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
@@ -40,6 +42,10 @@ import org.json.JSONObject;
  */
 
 public class ManualTestRunner extends SKTestRunner implements Runnable {
+
+  static final String TAG = "ManualTestRunner";
+
+
   private List<TestDescription> mTestDescription;
   private Context ctx;
   private AtomicBoolean run = new AtomicBoolean(true);
@@ -212,7 +218,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       // check if a stop command has been received
       if (!run.get()) {
         te.cancelNotification();
-        SKLogger.d(this, "Manual test interrupted by the user.");
+        Log.d(TAG, "Manual test interrupted by the user.");
         break;
       }
       ConditionGroupResult tr = new ConditionGroupResult();
@@ -279,7 +285,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       }
       testsResults.addAll(currResults);
     }
-    SKLogger.d(this, "bytes used by the tests: " + testsBytes);
+    Log.d(TAG, "bytes used by the tests: " + testsBytes);
     SK2AppSettings.getInstance().appendUsedBytes(testsBytes);
     // stops collectors
     te.stop();
@@ -321,7 +327,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       SKLogger.e(this, "Submit result. ", t);
     }
 
-    SKLogger.d(this, "Exiting manual test");
+    Log.d(TAG, "Exiting manual test");
 
     // Send completed message to the interface - after a short delay
     super.sendCompletedMessageToUIHandlerWithMilliDelay(1000); // TestRunnerState.STOPPED

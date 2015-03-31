@@ -8,8 +8,11 @@ import com.samknows.measurement.util.OtherUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class StartupReceiver extends BroadcastReceiver{
+
+  static final String TAG = "StartupReceiver";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -18,7 +21,7 @@ public class StartupReceiver extends BroadcastReceiver{
 		//if the nextRunTime is in the past or too close restart the state machne
 		if(nextRunTime < System.currentTimeMillis() - a.getTestStartWindow()){
 			a.saveState(State.NONE);
-			SKLogger.d(this, "State saved, None");
+			Log.d(TAG, "State saved, None");
 			MainService.poke(context);
 		}else{
 			//in this case we just set the alarm

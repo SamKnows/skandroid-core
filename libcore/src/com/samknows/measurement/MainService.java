@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
+import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
@@ -20,6 +21,8 @@ import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.util.OtherUtils;
 
 public class MainService extends IntentService {
+  static final String TAG = "MainService";
+
 	public static final String FORCE_EXECUTION_EXTRA	= "force_execution";		
 	public static final String EXECUTE_CONTINUOUS_EXTRA	= "execute_continuous";
   private PowerManager.WakeLock wakeLock;
@@ -46,7 +49,7 @@ public class MainService extends IntentService {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onBind");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onBind");
 		return mMainServiceBinder;
 		
 	}
@@ -54,13 +57,13 @@ public class MainService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onCreate");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onCreate");
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onDestroy");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onDestroy");
 	}
 
 	long accumulatedTestBytes = 0L;
@@ -70,7 +73,7 @@ public class MainService extends IntentService {
 		
 		accumulatedTestBytes = 0L;
 		
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onHandleIntent" + intent.toString());
+		Log.d(TAG, "+++++DEBUG+++++ MainService onHandleIntent" + intent.toString());
 		
 		boolean force_execution = intent.getBooleanExtra(FORCE_EXECUTION_EXTRA, false);
 
@@ -99,21 +102,21 @@ public class MainService extends IntentService {
           BackgroundTestRunner backgroundTestRunner = new BackgroundTestRunner(observerNull);
          	accumulatedTestBytes = backgroundTestRunner.startTestRunning_RunToEndBlocking_ReturnNumberOfTestBytes();
 				} else {
-					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(roaming), exiting.");
+					Log.d(TAG, "+++++DEBUG+++++ Service disabled(roaming), exiting.");
 					OtherUtils.reschedule(this,	SKConstants.SERVICE_RESCHEDULE_IF_ROAMING_OR_DATACAP);
 				}
 			} else {
 				if(!backgroundTest)
-					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(config file), exiting.");
+					Log.d(TAG, "+++++DEBUG+++++ Service disabled(config file), exiting.");
 				if (!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences())
-					SKLogger.d(this, "+++++DEBUG+++++ Service disabled(manual), exiting.");
+					Log.d(TAG, "+++++DEBUG+++++ Service disabled(manual), exiting.");
 			}
 		} catch (Throwable th) {
 			//if an error happened we want to restart from State.NONE
       SKLogger.sAssert(false);
 			appSettings.saveState(State.NONE);
-			SKLogger.d(this, "+++++DEBUG+++++ caught throwable, th=" + th.toString());
-			SKLogger.d(this, "+++++DEBUG+++++ call OtherUtils.rescheduleWakeup");
+			Log.d(TAG, "+++++DEBUG+++++ caught throwable, th=" + th.toString());
+			Log.d(TAG, "+++++DEBUG+++++ call OtherUtils.rescheduleWakeup");
 			OtherUtils.rescheduleWakeup(this, appSettings.rescheduleTime);
 			SKLogger.e(this, "failed in service ", th);
 		} finally {
@@ -129,7 +132,7 @@ public class MainService extends IntentService {
 	}
 	
 	public void onBegin() {
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onBegin (begin)");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onBegin (begin)");
 		
 		synchronized(sync){
 			isExecuting = true;
@@ -145,14 +148,14 @@ public class MainService extends IntentService {
 		// killed.
 		OtherUtils.rescheduleRTC(this, appSettings.rescheduleServiceTime);
 		
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onBegin - create collector and call start()");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onBegin - create collector and call start()");
 		collector = new TrafficStatsCollector(this);
 		collector.start();
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onBegin (end)");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onBegin (end)");
 	}
 
 	private void onEnd() {
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onEnd (begin)");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onEnd (begin)");
 	
 		if (wakeLock != null) {
 			synchronized (this) {
@@ -174,13 +177,13 @@ public class MainService extends IntentService {
 		appSettings.appendUsedBytes(bytes);
 		
 		if(!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
-			SKLogger.d(this, "+++++DEBUG+++++ MainService onEnd, service not enabled - cancelling alarm");
+			Log.d(TAG, "+++++DEBUG+++++ MainService onEnd, service not enabled - cancelling alarm");
 			OtherUtils.cancelAlarm(this);
 		}
 		synchronized(sync){
 			isExecuting = false;
 		}
-		SKLogger.d(this, "+++++DEBUG+++++ MainService onEnd... (end)");
+		Log.d(TAG, "+++++DEBUG+++++ MainService onEnd... (end)");
 	}
 
 	//Start service

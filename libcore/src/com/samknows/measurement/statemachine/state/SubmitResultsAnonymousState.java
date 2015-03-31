@@ -1,6 +1,7 @@
 package com.samknows.measurement.statemachine.state;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
@@ -11,6 +12,8 @@ import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.util.OtherUtils;
 
 public class SubmitResultsAnonymousState extends BaseState{
+  static final String TAG = "SubmitResultsAnonymousS";
+
 	public SubmitResultsAnonymousState(Context c){
 		super(c);
 	}
@@ -22,7 +25,7 @@ public class SubmitResultsAnonymousState extends BaseState{
 		  	 (OtherUtils.isWifi(ctx) == false)
 			 )
     {
-			SKLogger.d(this, "Results have not been submitted because the data cap is reached");
+			Log.d(TAG, "Results have not been submitted because the data cap is reached");
 		} else {
 			new SubmitTestResultsAnonymousAction(ctx).execute();
 		}

@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
@@ -26,6 +27,8 @@ import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.XmlUtils;
 
 public class LocationDataCollector extends BaseDataCollector implements LocationListener{
+  static final String TAG = "LocationDataCollector";
+
 	private static final long serialVersionUID = 1L;
 
 	private long time;
@@ -129,11 +132,10 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		// We must not allow that behavior to cause the app to crash.
 		try {
 			
-			manager.requestLocationUpdates(provider, 0, 0,
-					LocationDataCollector.this, Looper.getMainLooper());
+			manager.requestLocationUpdates(provider, 0, 0, LocationDataCollector.this, Looper.getMainLooper());
 	
 			
-			SKLogger.d(this, "start collecting location data from: " + provider);
+			Log.d(TAG, "start collecting location data from: " + provider);
 		
 		} catch (java.lang.IllegalArgumentException ex) {
 			
@@ -142,7 +144,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		}
 		
 		try {
-			SKLogger.d(this, "sleeping: " + time);
+			Log.d(TAG, "sleeping: " + time);
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -185,17 +187,17 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 			manager.removeUpdates(this);
 			
 			lastReceivedTime = -1;
-			SKLogger.d(this, "location datas: " + mLocations.size());
-			SKLogger.d(this, "stop collecting location data");
+			Log.d(TAG, "location datas: " + mLocations.size());
+			Log.d(TAG, "stop collecting location data");
 		}else{
-			SKLogger.d(this, "LocationDataCollector is not enabled");
+			Log.d(TAG, "LocationDataCollector is not enabled");
 		}
 	}
 	
 	private long lastReceivedTime=-1;
 	@Override
 	public synchronized void onLocationChanged(Location location) {
-		//SKLogger.d(this, "received new location");
+		//Log.d(TAG, "received new location");
 		if (location != null) {
 			long timeDiff = System.currentTimeMillis() - lastReceivedTime;
 			if (lastReceivedTime == -1 || timeDiff > listenerDelay) {
@@ -264,12 +266,12 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		SKLogger.d(this, "onProviderEnabled: "+provider);
+		Log.d(TAG, "onProviderEnabled: " + provider);
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		SKLogger.d(this, "onProviderDisabled: "+provider);
+		Log.d(TAG, "onProviderDisabled: "+provider);
 	}
 	
 	//---------------------------------------------------------

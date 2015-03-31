@@ -42,6 +42,8 @@ import com.samknows.tests.ClosestTarget;
 
 public class SKARunningTestActivity extends BaseLogoutActivity {
 
+  static final String TAG = "SKARunningTestActivity";
+
 	private Context cxt;
 	private ProgressWheel pw;
 	private ManualTestRunner mt;
@@ -664,8 +666,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
         theErrorString = getString(R.string.manual_test_error);
       }
 
-      SKLogger.d(SKARunningTestActivity.class,
-          "Impossible to run manual tests");
+      Log.d(TAG, "Impossible to run manual tests");
       new AlertDialog.Builder(this)
           .setMessage(theErrorString)
           .setPositiveButton(R.string.ok_dialog,
@@ -714,18 +715,18 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 			String showWithMessage = "";
 
 		  if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapAlreadyReached()) {
-			  SKLogger.d(SKARunningTestActivity.class, "Data cap exceeded");
+			  Log.d(TAG, "Data cap exceeded");
     		showWithMessage = getString(R.string.data_cap_exceeded);
 	    } else if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapLikelyToBeReached(mt.getNetUsage())) {
 				// Data cap exceeded - but only ask the user if they want to continue, if the app is configured
 				// to work like that...
-				SKLogger.d(SKARunningTestActivity.class, "Data cap likely to be exceeded");
+				Log.d(TAG, "Data cap likely to be exceeded");
 				showWithMessage = getString(R.string.data_cap_might_be_exceeded);
 			}
 			
 			if (showWithMessage.length() > 0) {
 
-				SKLogger.d(SKARunningTestActivity.class, "Data cap exceeded");
+				Log.d(TAG, "Data cap exceeded");
 				new AlertDialog.Builder(this)
 				.setMessage(showWithMessage)
 				.setPositiveButton(R.string.ok_dialog,

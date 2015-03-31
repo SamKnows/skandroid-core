@@ -8,8 +8,11 @@ import com.samknows.measurement.util.TimeUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class PowerReceiver extends BroadcastReceiver{
+
+  static final String TAG = "PowerReceiver";
 
 	@Override
 	//Simply checks if the next scheduled event is in past
@@ -18,9 +21,9 @@ public class PowerReceiver extends BroadcastReceiver{
 	public void onReceive(Context context, Intent intent) {
 		SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 		Long nextEvent = appSettings.getNextRunTime();
-		SKLogger.d(this, "next event due to :"+TimeUtils.logString(nextEvent));
+		Log.d(TAG, "next event due to :" + TimeUtils.logString(nextEvent));
 		if(nextEvent == SKConstants.NO_NEXT_RUN_TIME){
-			SKLogger.d(this, "App is not activated yet");
+			Log.d(TAG, "App is not activated yet");
 			return;
 		}
 		if(nextEvent <= System.currentTimeMillis() && ! MainService.isExecuting()){

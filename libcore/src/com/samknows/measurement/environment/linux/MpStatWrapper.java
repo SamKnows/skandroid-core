@@ -1,10 +1,14 @@
 package com.samknows.measurement.environment.linux;
 
+import android.util.Log;
+
 import org.apache.commons.io.IOUtils;
 
 import com.samknows.libcore.SKLogger;
 
 public class MpStatWrapper {
+  static final String TAG = "MpStatWrapper";
+
 	/**
 	 * works only on rooted devices
 	 * @param timePeriod in millis
@@ -12,7 +16,7 @@ public class MpStatWrapper {
 	 */
 	@Deprecated
 	public static float getCPULoad(long timePeriod) {
-		SKLogger.d(MpStatWrapper.class, "start cpu test for " + timePeriod/1000 + "s");
+		Log.d(TAG, "start cpu test for " + timePeriod / 1000 + "s");
 		float idle = 100;
 		try {
 			//mpstat uses seconds
@@ -28,7 +32,7 @@ public class MpStatWrapper {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		SKLogger.d(MpStatWrapper.class, "finished cpu test");
+		Log.d(TAG, "finished cpu test");
 		
 		
 		return 100 - idle;

@@ -23,6 +23,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.util.Log;
+
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -42,6 +44,8 @@ import com.samknows.measurement.storage.Conversions;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 
 public class OtherUtils {
+  static final String TAG = "OtherUtils";
+
 	public static String formatToBytes(long bytes) {
 		double data = bytes;
 		if (data > 1024*1024) { 
@@ -93,15 +97,15 @@ public class OtherUtils {
 		}else{
 			actualSystemTimeMilliseconds = rescheduleRTC(ctx, timeDurationMilliseconds);
 		}
-		SKLogger.d(ctx,  "Rescheduled to " + TimeUtils.logString(actualSystemTimeMilliseconds) + ", "+ (actualSystemTimeMilliseconds - System.currentTimeMillis()) +" ms from now...");
+		Log.d(TAG,  "Rescheduled to " + TimeUtils.logString(actualSystemTimeMilliseconds) + ", "+ (actualSystemTimeMilliseconds - System.currentTimeMillis()) +" ms from now...");
 	}
 
 	public static long rescheduleRTC(Context ctx, long time) {
 
-		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ rescheduleRTC time=" + time);
+		Log.d(TAG, "+++++DEBUG+++++ rescheduleRTC time=" + time);
 
 		time = checkRescheduleTime(time);
-		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ schedule RTC for " + time/1000 + "s from now");
+		Log.d(TAG, "+++++DEBUG+++++ schedule RTC for " + time/1000 + "s from now");
 		PendingIntent intent = PendingIntent.getService(ctx, 0, new Intent(ctx, MainService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager manager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		long systemTimeMilliseconds = System.currentTimeMillis() + time;
@@ -113,11 +117,11 @@ public class OtherUtils {
 	}
 
 	public static void cancelAlarm(Context ctx){
-		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ cancelAlarm");
+		Log.d(TAG, "+++++DEBUG+++++ cancelAlarm");
 
 		AlarmManager manager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		if(PendingIntent.getService(ctx,0, new Intent(ctx, MainService.class), PendingIntent.FLAG_NO_CREATE) == null){
-			SKLogger.d(ctx, "There is no pending intent for the service");
+			Log.d(TAG, "There is no pending intent for the service");
 		}
 		PendingIntent intent = PendingIntent.getService(ctx, 0, new Intent(ctx, MainService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		manager.cancel(intent);
@@ -125,11 +129,11 @@ public class OtherUtils {
 	}
 
 	public static long rescheduleWakeup(Context ctx, long time) {
-		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ rescheduleWakeup time=" + time);
+		Log.d(TAG, "+++++DEBUG+++++ rescheduleWakeup time=" + time);
 		time = checkRescheduleTime(time);
-		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ time immediately overridden (by) = checkRescheduleTime to " + time);
+		Log.d(TAG, "+++++DEBUG+++++ time immediately overridden (by) = checkRescheduleTime to " + time);
 
-		SKLogger.d(OtherUtils.class, "+++++DEBUG+++++ schedule RTC_WAKEUP for " + time/1000 + "s from now");
+		Log.d(TAG, "+++++DEBUG+++++ schedule RTC_WAKEUP for " + time/1000 + "s from now");
 		PendingIntent intent = PendingIntent.getService(ctx, 0, new Intent(ctx, MainService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager manager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		long systemTimeMilliseconds = System.currentTimeMillis() + time;
@@ -148,7 +152,7 @@ public class OtherUtils {
 		long ret = time;
 
 		if(time <= a.getTestStartWindow()){
-			SKLogger.w(OtherUtils.class, "reschedule time less than testStartWindow ("+a.getTestStartWindow()+"), changing it to: "+ a.rescheduleTime/1000+"s.");
+			Log.w(TAG, "reschedule time less than testStartWindow ("+a.getTestStartWindow()+"), changing it to: "+ a.rescheduleTime/1000+"s.");
 			ret = a.rescheduleTime;
 		}
 		return ret;

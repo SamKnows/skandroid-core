@@ -16,6 +16,8 @@ import android.view.MenuItem;
 
 public class SamKnowsBaseFragmentActivity extends FragmentActivity {
 
+  static final String TAG = "SamKnowsBaseFragmentAct";
+
   public SamKnowsBaseFragmentActivity() {
     // TODO Auto-generated constructor stub
     super();
@@ -40,17 +42,17 @@ public class SamKnowsBaseFragmentActivity extends FragmentActivity {
               // root task!
               SamKnowsBaseFragmentActivity.this.finish();
 
-              SKLogger.d(this, "+++++DEBUG+++++ closing the application!");
+              Log.d(TAG, "+++++DEBUG+++++ closing the application!");
 
               // http://stackoverflow.com/questions/2033914/quitting-an-application-is-that-frowned-upon?lq=1
               // Exit the application cleanly... with all destructors called properly.
               // This is to try to resolve battery draining issues.
               System.runFinalizersOnExit(true);
 
-              SKLogger.d(this, "+++++DEBUG+++++ about to call exit(0)...");
+              Log.d(TAG, "+++++DEBUG+++++ about to call exit(0)...");
               System.exit(0);
 
-              SKLogger.d(this, "+++++DEBUG+++++ exit(0) called!");
+              Log.d(TAG, "+++++DEBUG+++++ exit(0) called!");
             }
 
           })

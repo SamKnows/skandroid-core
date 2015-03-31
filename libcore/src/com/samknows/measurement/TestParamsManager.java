@@ -14,11 +14,13 @@ import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Param;
 
 public class TestParamsManager implements Serializable {
+  static final String TAG = "TestParamsManager";
+
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, TestParam> map = new HashMap<String, TestParam>();
 	
 	public void put(String name, String value) {
-		SKLogger.d(this, "saving param: " + name + " with value: " + value);
+		Log.d(TAG, "saving param: " + name + " with value: " + value);
 		map.put(name, new TestParam(name, value));
 	}
 	
@@ -34,7 +36,7 @@ public class TestParamsManager implements Serializable {
 					if (p.getValue().equals("$closest")) {
 						ClosestTarget.sSetClosestTarget(newParam.value);
 					}
-					SKLogger.d(this, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
+					Log.d(TAG, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
 					result.add(new Param(p.getName(), newParam.value));
 				} else {
 					SKLogger.e(this, "can't replace param: " + p.getName() + " with value: " + p.getValue(), new RuntimeException());
@@ -43,7 +45,7 @@ public class TestParamsManager implements Serializable {
 				result.add(p);
 			}
 		}
-		SKLogger.d(this, "Test params are: "+sb.toString());
+		Log.d(TAG, "Test params are: "+sb.toString());
 		return result;
 	}
 	

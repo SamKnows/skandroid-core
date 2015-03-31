@@ -28,6 +28,8 @@ import com.samknows.libcore.SKConstants;
 
 
 public class NetAction {
+  static final String TAG = "NetAction";
+
 	private String request, errorString;
 	private List<Header> headers = new ArrayList<Header>();
 	private HttpParams params = new BasicHttpParams();
@@ -67,7 +69,7 @@ public class NetAction {
 		}
 		
 		try{
-			SKLogger.d(this, "net request: " + request);
+			Log.d(TAG, "net request: " + request);
 			response = httpclient.execute(mess);
 		} catch (Exception e) {
 			Log.e("NetAction", "failed to execute request: " + request + ", exception=" + e.toString());

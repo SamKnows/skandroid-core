@@ -161,7 +161,7 @@ public class SKAppSettings {
 		editor.putLong(SKConstants.PREF_KEY_USED_BYTES, bytes);
 		editor.putLong(SKConstants.PREF_KEY_USED_BYTES_MONTH, time);
 		editor.commit();
-		SKLogger.d(TAG, "saved used bytes: " + bytes);
+		Log.d(TAG, "saved used bytes: " + bytes);
 	}
 
 	public long getUsedBytes() {

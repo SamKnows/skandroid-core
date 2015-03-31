@@ -631,9 +631,13 @@ public class TestExecutor {
             wifiStateMetric.put("rssi", wifiInfo.getRssi());
             List<ScanResult> results=wifiManager.getScanResults();
             if (results != null) {
+
+              // The SSID might be returned with "" around it!
+              String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
               boolean bFoundWifi = false;
               for (ScanResult scanResult : results) {
-                if (scanResult.SSID.equals(wifiInfo.getSSID())) {
+                String scanResultSSID = scanResult.SSID;
+                if (scanResultSSID.equals(wifiInfoSSID)) {
                   bFoundWifi = true;
                   wifiStateMetric.put("frequency", scanResult.frequency);
                   wifiStateMetric.put("channel", convertFrequencyToChannel(scanResult.frequency));

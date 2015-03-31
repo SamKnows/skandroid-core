@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 
 public class CpuUsageReader {
+  static final String TAG = "CpuUsageReader";
+
 	private long idle1, cpu1;
 	
 	public void start() {
@@ -66,12 +69,12 @@ public class CpuUsageReader {
 	public static float read(long time) {
 		long startTime = System.currentTimeMillis();
 		CpuUsageReader reader = new CpuUsageReader();
-		SKLogger.d(CpuUsageReader.class, "start cpu test for " + time/1000 + "s");
+		Log.d(TAG, "start cpu test for " + time/1000 + "s");
 		reader.start();
 		
 		SystemClock.sleep(time);
 
-	    SKLogger.d(CpuUsageReader.class, "finished cpu test in: " + (System.currentTimeMillis() - startTime)/1000 + "s");
+	    Log.d(TAG, "finished cpu test in: " + (System.currentTimeMillis() - startTime) / 1000 + "s");
 	    return reader.getUsageFromStart();
 	}
 }

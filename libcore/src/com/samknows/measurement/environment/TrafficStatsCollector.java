@@ -5,11 +5,14 @@ import java.io.Serializable;
 import android.content.Context;
 import android.net.TrafficStats;
 import android.os.Process;
+import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 
 public class TrafficStatsCollector extends BaseDataCollector implements Serializable {
+
+  static final String TAG = "TrafficStatsCollection";
 	
 	/**
 	 * 
@@ -49,7 +52,7 @@ public class TrafficStatsCollector extends BaseDataCollector implements Serializ
 		}
 		TrafficData a = collectTraffic();
 		
-		SKLogger.d(TrafficStatsCollector.class, "start collecting netData for " + interval/1000 + "s");
+		Log.d(TAG, "start collecting netData for " + interval / 1000 + "s");
 		
 		try {
 			Thread.sleep(interval);
@@ -59,7 +62,8 @@ public class TrafficStatsCollector extends BaseDataCollector implements Serializ
 		}
 		
 		TrafficData b = collectTraffic();
-		SKLogger.d(TrafficStatsCollector.class, "finished collecting netData in: " + (b.time - a.time)/1000 + "s");
+
+		Log.d(TAG, "finished collecting netData in: " + (b.time - a.time)/1000 + "s");
 		
 		return TrafficData.interval(a, b);
 	}

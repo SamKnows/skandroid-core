@@ -33,8 +33,11 @@ import android.content.Intent;
 import android.net.ParseException;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 public class SubmitTestResultsAnonymousAction {
+  static final String TAG = "SubmitTestResultsAnonymousAction";
+
   protected Context context;
   protected boolean isSuccess = false;
 
@@ -88,8 +91,7 @@ public class SubmitTestResultsAnonymousAction {
         SKLogger.sAssert(false);
       }
       if (data == null) {
-        SKLogger.d(SubmitTestResultsAnonymousAction.class,
-            "no results to be submitted");
+        Log.d(TAG, "no results to be submitted");
         break;
       }
 
@@ -148,7 +150,7 @@ public class SubmitTestResultsAnonymousAction {
         isSuccess = sl.getStatusCode() == HttpStatus.SC_OK
             && sl.getReasonPhrase().equals("OK");
         int code = sl.getStatusCode();
-        SKLogger.d(this, "submitting test results to server: " + isSuccess);
+        Log.d(TAG, "submitting test results to server: " + isSuccess);
 
         // http://stackoverflow.com/questions/15704715/getting-json-response-android
         HttpEntity entity = httpResponse.getEntity();
@@ -156,7 +158,7 @@ public class SubmitTestResultsAnonymousAction {
           try {
             String jsonString = EntityUtils.toString(entity);
             // e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}
-            SKLogger.d(this, "Process response from server as string, to extract data from the JSON!: " + jsonString);
+            Log.d(TAG, "Process response from server as string, to extract data from the JSON!: " + jsonString);
 
             JSONObject jsonResponse = new JSONObject(jsonString);
 

@@ -115,14 +115,14 @@ public class SK2AppSettings extends SKAppSettings {
 //		boolean ret = false;
 //		ScheduleConfig savedConfig = CachingStorage.getInstance().loadScheduleConfig();
 //		if(savedConfig == null ){
-//			SKLogger.d(this, "Saved Config is null");
+//			Log.d(TAG, "Saved Config is null");
 //			ret = true;
 //		}else if(savedConfig.toUpdate(newConfig)){
-//			SKLogger.d(this, "Config versions don't match");
+//			Log.d(TAG, "Config versions don't match");
 //			ret = true;
 //		}
 //		if(getForceDownload()){
-//			SKLogger.d(this, "Force update config");
+//			Log.d(TAG, "Force update config");
 //			ret = true;
 //		}
 //		return ret;
@@ -192,7 +192,7 @@ public class SK2AppSettings extends SKAppSettings {
 		saveLong(SKConstants.PREF_KEY_USED_BYTES,newBytes);
 		long newTime = System.currentTimeMillis();
 		saveLong(SKConstants.PREF_KEY_USED_BYTES_LAST_TIME, newTime);
-		SKLogger.d(TAG, "appendUsedBytes=" + bytes + ", saved new as newBytes " + newBytes + " at time "+ newTime);
+		Log.d(TAG, "appendUsedBytes=" + bytes + ", saved new as newBytes " + newBytes + " at time "+ newTime);
 	}
 	
 	public long getUsedBytes() {
@@ -234,7 +234,7 @@ public class SK2AppSettings extends SKAppSettings {
 		int currDayReset = PreferenceManager.getDefaultSharedPreferences(ctx).getInt(SKConstants.PREF_KEY_DATA_CAP_DAY_IN_MONTH_RESET, 1);
 		long timeReset = TimeUtils.getPreviousDayInMonth(currDayReset);
 		if( startDayLastTime < timeReset && startToday >= timeReset){
-			SKLogger.d(this, "Data usage has been reset to 0 for the month useage. Reset time: "+timeReset+" last time: "+ startDayLastTime+" now: "+startToday);
+			Log.d(TAG, "Data usage has been reset to 0 for the month useage. Reset time: "+timeReset+" last time: "+ startDayLastTime+" now: "+startToday);
 			resetDataUsage();
 		}
 	}
@@ -246,7 +246,7 @@ public class SK2AppSettings extends SKAppSettings {
 		resetDataUsageIfTime();
 		long usedBytes = getUsedBytes();
 		long dataCapBytes = getDataCapBytes();
-		SKLogger.d(this, "Currently used bytes "+usedBytes+", DataCap is "+dataCapBytes+", bytes to be used ");
+		Log.d(TAG, "Currently used bytes "+usedBytes+", DataCap is "+dataCapBytes+", bytes to be used ");
 		if (usedBytes >= dataCapBytes) {
 			if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
 				// Datacap Enabled (the default case)
@@ -266,7 +266,7 @@ public class SK2AppSettings extends SKAppSettings {
 		resetDataUsageIfTime();
 		long usedBytes = getUsedBytes();
 		long dataCapBytes = getDataCapBytes();
-		SKLogger.d(this, "Currently used bytes "+usedBytes+", DataCap is "+dataCapBytes+", bytes to be used "+ bytesToBeUsed +"." );
+		Log.d(TAG, "Currently used bytes "+usedBytes+", DataCap is "+dataCapBytes+", bytes to be used "+ bytesToBeUsed +"." );
 		
 		// The value of "bytesToBeUsed" is generally *MUCH* higher than the *actually* used value.
 		// e.g. 40+MB, compared to 4MB. The reason is that the value is from SCHEDULE.xml, and specifies the absolute

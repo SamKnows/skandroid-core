@@ -181,7 +181,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    SKLogger.d(this, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onCreate...");
+    Log.d(TAG, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onCreate...");
 		
 		/*
 		 * device = (DeviceDescription) getIntent().getSerializableExtra(
@@ -294,7 +294,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
   @Override
   public void onDestroy() {
     super.onDestroy();
-    SKLogger.d(this, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onDestroy...");
+    Log.d(TAG, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onDestroy...");
   }
 	
 	/*
@@ -340,7 +340,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
   public void onResume() {
     super.onResume(); // Always call the superclass method first
 
-    SKLogger.d(this, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onResume...");
+    Log.d(TAG, "+++++DEBUG+++++ SamKnowsAggregateStatViewerActivity onResume...");
 
     if (mbHandlingOnActivityResult == true) {
       // Already handled on the activity result... which has taken us to the archived results screen.
@@ -2801,7 +2801,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 			if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
 				if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapReached()) {
-					SKLogger.d(SKARunningTestActivity.class, "Data cap exceeded");
+					Log.d(TAG, "Data cap exceeded");
 					showWithMessage = getString(R.string.data_cap_exceeded);
 				} else {
 
@@ -2817,7 +2817,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 							theErrorString = getString(R.string.unexpected_error);
 						}
 
-						SKLogger.d(SKARunningTestActivity.class,
+						Log.d(TAG,
 								"Impossible to run continuous tests");
 						new AlertDialog.Builder(this)
 						.setMessage(theErrorString)
@@ -2833,7 +2833,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
 						// Data cap exceeded - but only ask the user if they want to continue, if the app is configured
 						// to work like that...
-						SKLogger.d(SKARunningTestActivity.class, "Data cap likely to be exceeded");
+						Log.d(TAG, "Data cap likely to be exceeded");
 						showWithMessage = getString(R.string.data_cap_might_be_exceeded);
 					}
 				}
@@ -2843,7 +2843,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		
 				// Data cap exceeded limit hit, or will be hit!
 
-				SKLogger.d(SKARunningTestActivity.class, "Data cap exceeded");
+				Log.d(TAG, "Data cap exceeded");
 				new AlertDialog.Builder(this)
 				.setMessage(showWithMessage)
 				.setPositiveButton(R.string.ok_dialog,
