@@ -36,7 +36,7 @@ public class TestParamsManager implements Serializable {
 					if (p.getValue().equals("$closest")) {
 						ClosestTarget.sSetClosestTarget(newParam.value);
 					}
-					Log.d(TAG, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
+					SKLogger.d(TAG, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
 					result.add(new Param(p.getName(), newParam.value));
 				} else {
 					SKLogger.e(this, "can't replace param: " + p.getName() + " with value: " + p.getValue(), new RuntimeException());
@@ -45,7 +45,7 @@ public class TestParamsManager implements Serializable {
 				result.add(p);
 			}
 		}
-		Log.d(TAG, "Test params are: "+sb.toString());
+		SKLogger.d(TAG, "Test params are: "+sb.toString());
 		return result;
 	}
 	

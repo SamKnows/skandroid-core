@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -124,59 +125,66 @@ public class PassiveServerUploadTest extends UploadTest {
         connOut.flush();
         //SKLogger.d(this, "transmit() called flush()! ... thread:" + threadIndex);
 
-//        if (connIn != null) {
-//          while (true) {
-//            byte[] buffer = new byte[4000];
-//
-//            if (connIn.available() > 0) {
-//              int bytes = connIn.read(buffer, 0, buffer.length - 1);
-//              if (bytes <= 0) {
-//                break;
-//              }
-//              buffer[bytes] = '\0';
-//
-//              String bufferAsUtf8String = (new String(buffer, "UTF-8")).substring(0, bytes);
-//              //SKLogger.d(this, "READ BUFFER:" + bufferAsUtf8String);
-//            }
-//          }
-//        }
-
         if (bytesPerSecond.call() >= 0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
           sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Normal", bytesPerSecond);
         }
 
+        //// DEBUG TESTING!
+        //throw new SocketException();
+        // break; // DEBUG force effective error, just one buffer!
+
         //SKLogger.e(TAG(this), "DEBUG: speed in bytes per second" + getSpeedBytesPerSecond() + "<<<");
         //SKLogger.e(TAG(this), "DEBUG: isTransferDone=" + isTransferDone + ", totalTransferBytesSent=>>>" + getTotalTransferBytes() + ", time" + (sGetMicroTime() - start) + "<<<");
       } while (!transmissionDone.call());
 
-    } catch (java.net.SocketException e) {
-      String theMessage = e.getMessage();
-      SKLogger.e(this, "SocketException [" + theMessage +"] in transmit(), exiting... thread: " + threadIndex, e);
-
-      if ((theMessage.contains("EPIPE")) ||
-          (theMessage.contains("ECONNRESET"))
-          )
-      {
-        // This happens so often (EPIPE, ECONNRESET) that we don't trap it in the debugger - just log it (but only when debugger in use)
-        //if (OtherUtils.isDebuggable(SKApplication.getAppInstance()))
-        if (BuildConfig.DEBUG) {
-          Log.e("PassiveServerUploadTest", e.getMessage());
-        }
-      } else {
-        SKLogger.sAssert(getClass(), false);
-      }
-      sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", bytesPerSecond);
-      //SKLogger.e(TAG(this), "loop - break 3");//haha
-      return false;
-
     } catch (Exception e) {
       SKLogger.e(this, "Exception in setting up output stream, exiting... thread: " + threadIndex, e);
+
+      // EXCEPTION: RECORD ERROR, AND SET BYTES TO 0!!!
+      resetTotalTransferBytesToZero();
+      error.set(true);
+
+      // Verify thta we've set everything to zero properly!
+      SKLogger.sAssert(getTotalTransferBytes() == 0L);
+      try {
+        SKLogger.sAssert(bytesPerSecond.call() == 0);
+      } catch (Exception e1) {
+        SKLogger.sAssert(false);
+      }
+      int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+      SKLogger.sAssert(bytesPerSecondMeasurement == 0);
+
       sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", bytesPerSecond);
       //SKLogger.e(TAG(this), "loop - break 3");//haha
       return false;
     }
 
+    //
+    // If only 1 buffer "SENT": treat this as an error...
+    //
+    long btsTotal = getTotalTransferBytes();
+    if (btsTotal == buff.length) {
+      // ONLY 1 BUFFER "SENT": TREAT THIS AS AN ERROR, AND SET BYTES TO 0!!!
+      SKLogger.e(this, "Only one buffer sent - treat this as an upload failure");
+      resetTotalTransferBytesToZero();
+      error.set(true);
+
+      // Verify thta we've set everything to zero properly!
+      SKLogger.sAssert(getTotalTransferBytes() == 0L);
+      try {
+        SKLogger.sAssert(bytesPerSecond.call() == 0);
+      } catch (Exception e1) {
+        SKLogger.sAssert(false);
+      }
+      int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+      SKLogger.sAssert(bytesPerSecondMeasurement == 0);
+      return false;
+    }
+
+    //
+    // To get here, the test ran OK!
+    //
     int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
     SKLogger.sAssert(bytesPerSecondMeasurement >= 0);
     //hahaSKLogger.e(TAG(this), "Result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement= " + bytesPerSecondMeasurement + " thread: " + threadIndex);

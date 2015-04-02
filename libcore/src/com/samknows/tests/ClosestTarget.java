@@ -509,7 +509,7 @@ public class ClosestTarget extends Test {
       // WHEN:
       // - if closest target UDP test failed (NB: this is ALWAYS run first in manual testing)
       // THEN:
-      // - notify the app to display test test as UDP skipped
+      // - notify the app to display test as UDP skipped
       // NOTE: Doesn't actually matter if we're running a manual test or not - if we're not running a manual test,
       // the user interface will ignore this event.
       SKTestRunner.sDoReportUDPFailedSkipTests();

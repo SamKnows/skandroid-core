@@ -258,7 +258,7 @@ public class StorageTestResult extends JSONObject{
   // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
   // by ManualTestRunner:progressMessage
 	public static List<JSONObject> testOutput(String data, TestExecutor forTestExecutor){
-		SKLogger.d(StorageTestResult.class, data);
+		SKLogger.d(StorageTestResult.class, "testOutput: " + data);
 		return testOutput(data.split(SKConstants.RESULT_LINE_SEPARATOR), forTestExecutor);
 	}
 

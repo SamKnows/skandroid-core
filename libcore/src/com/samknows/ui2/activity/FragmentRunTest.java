@@ -745,10 +745,12 @@ public class FragmentRunTest extends Fragment {
           }
         }
 
+        boolean bFailed = false;
         if (statusComplete == 100 && message_JSON.has(StorageTestResult.JSON_SUCCESS)) {
           success = message_JSON.getInt(StorageTestResult.JSON_SUCCESS);
 
           if (success == 0) {
+            bFailed = true;
             value = getString(R.string.failed);
           }
         }
@@ -804,7 +806,11 @@ public class FragmentRunTest extends Fragment {
               //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
 
-              changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
+              if (bFailed == true) {
+                changeFadingTextViewValue(tv_Result_Upload, value, 0);
+              } else {
+                changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
+              }
             }
             break;
 
@@ -824,7 +830,11 @@ public class FragmentRunTest extends Fragment {
               //updateCurrentLatencyValue("0");
               gaugeView.setAngleByValue(0.0);
               //changeFadingTextViewValue(tv_Result_Latency, theResult.first, 0);
-              changeFadingTextViewValue(tv_Result_Latency, String.valueOf(theResult.first) + " " + theResult.second, 0);
+              if (bFailed == true) {
+                changeFadingTextViewValue(tv_Result_Upload, value, 0);
+              } else {
+                changeFadingTextViewValue(tv_Result_Latency, String.valueOf(theResult.first) + " " + theResult.second, 0);
+              }
               executingLatencyTest = false;
             }
             break;
@@ -836,9 +846,13 @@ public class FragmentRunTest extends Fragment {
             if (statusComplete == 100) {
               // Clear the central button test, ready for the first value to come through from the next test.
               tv_Gauge_TextView_PsuedoButton.setText("");
-              // Display as Integer % (rather than Float %)
-              Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
-              changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
+              if (bFailed == true) {
+                changeFadingTextViewValue(tv_Result_Upload, value, 0);
+              } else {
+                // Display as Integer % (rather than Float %)
+                Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
+                changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
+              }
             }
             break;
 
@@ -848,9 +862,13 @@ public class FragmentRunTest extends Fragment {
             if (statusComplete == 100) {
               // Clear the central button test, ready for the first value to come through from the next test.
               tv_Gauge_TextView_PsuedoButton.setText("");
-              // Display as Integer % in the correct format
-              Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
-              changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
+              if (bFailed == true) {
+                changeFadingTextViewValue(tv_Result_Upload, value, 0);
+              } else {
+                // Display as Integer % in the correct format
+                Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
+                changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
+              }
             }
         }
       }

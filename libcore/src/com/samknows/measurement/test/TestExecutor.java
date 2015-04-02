@@ -283,7 +283,7 @@ public class TestExecutor {
 			cg.release(tc);
 		}
 
-		SKLogger.d(this, rc.getJSON().toString());
+		SKLogger.d(this, "conditionGroup:execute - rc.getJSON()=" + rc.getJSON().toString());
 
 		// TestResultsManager.saveResult(tc.getServiceContext(),
 		// result.results);

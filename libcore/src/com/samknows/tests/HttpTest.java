@@ -395,7 +395,8 @@ public abstract class HttpTest extends Test {
         // Read / download
         ret.setSoTimeout(READTIMEOUT);
       } else {
-        ret.setSoTimeout(CONNECTIONTIMEOUT / 10); // Just 10 times less then connection timeout while polling server for upload test response!
+        ret.setSoTimeout(WRITETIMEOUT);
+        //ret.setSoTimeout(1);
       }
 
       ret.connect(sockAddr, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
@@ -520,14 +521,10 @@ public abstract class HttpTest extends Test {
   final protected int extMonitorUpdateInterval = 500000;
 
   protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Callable<Integer> transferSpeed) {
-    long updateTime = 0L;
+    long updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
 
-    synchronized (timeElapsedSinceLastExternalMonitorUpdate) {
-      updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
-
-      if (timeElapsedSinceLastExternalMonitorUpdate.get() == 0) {
-        timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime()); 										/* record update time */
-      }
+    if (timeElapsedSinceLastExternalMonitorUpdate.get() == 0) {
+      timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime()); 										/* record update time */
     }
 
     if (sGetMicroTime() - timeElapsedSinceLastExternalMonitorUpdate.get() > updateTime/*uSec*/) {				/* update should be called only if 'pause' is expired */
@@ -627,12 +624,9 @@ public abstract class HttpTest extends Test {
 
     addTotalTransferBytes(bytes);														/* increment atomic total bytes counter */
 
-    synchronized (mStartTransferMicro) {
-      if (mStartTransferMicro.get() == 0) {
-        //SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
-        mStartTransferMicro.set(sGetMicroTime());										/* record start up time should be recorded only by one thread */
-      }
-    }
+    /* record start up time should be recorded only by one thread */
+    mStartTransferMicro.compareAndSet(0,  sGetMicroTime());
+    //SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
 
     setTransferTimeMicro(sGetMicroTime() - mStartTransferMicro.get());					/* How much time transfer took up to now */
 
@@ -652,25 +646,16 @@ public abstract class HttpTest extends Test {
     }
 
     if (timeExceeded) {																	/* if maximum transfer time is reached */
-      synchronized (mTransferMicroDuration) {
-        if (mTransferMicroDuration.get() == 0) {
-          //SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
-          mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
-        }
-      }
+      /* Register the time duration up to this moment */
+      mTransferMicroDuration.compareAndSet(0, sGetMicroTime() - mStartTransferMicro.get());
       transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
-      //SKLogger.d(this, "isTransferDone, timeExceeded");
+      SKLogger.d(this, "isTransferDone, timeExceeded");
       return true;
     }
 
     if (bytesExceeded) {																/* if max transfer bytes transferred */
-      synchronized (mTransferMicroDuration) {
-        if (mTransferMicroDuration.get() == 0) {
-          //SKLogger.d(TAG(this), "Setting transfer duration while duration == " + mTransferMicroDuration.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
-          mTransferMicroDuration.set(sGetMicroTime() - mStartTransferMicro.get());	/* Register the time duration up to this moment */
-        }
-      }
-      //SKLogger.d(this, "isTransferDone, bytesExceeded");
+      mTransferMicroDuration.compareAndSet(0, sGetMicroTime() - mStartTransferMicro.get());
+      SKLogger.d(this, "isTransferDone, bytesExceeded");
       transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
       return true;
     }
@@ -777,7 +762,6 @@ public abstract class HttpTest extends Test {
   public int getProgress() {//TODO check with new interface
     double ret = 0;
 
-    //synchronized (this) {
     if (mStartWarmupMicro.get() == 0) {
       ret = 0;
     } else if (mTransferMaxTimeMicro != 0) {
@@ -908,6 +892,10 @@ public abstract class HttpTest extends Test {
     totalTransferBytes.addAndGet(bytes);
   }
 
+  protected void resetTotalTransferBytesToZero() {
+    totalTransferBytes.set(0L);
+  }
+
   protected void addTotalWarmUpBytes(long bytes) {
     totalWarmUpBytes.addAndGet(bytes);
   }
@@ -978,7 +966,7 @@ public abstract class HttpTest extends Test {
   boolean downstream = true;
 
 
-  private int getBytesPerSecond(long duration, long btsTotal) {
+  private static int sGetBytesPerSecond(long duration, long btsTotal) {
     int btsPerSec = 0;
 
     if (duration != 0) {
@@ -995,7 +983,7 @@ public abstract class HttpTest extends Test {
     long btsTotal = getTotalWarmUpBytes();
     long duration = getWarmUpTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartWarmupMicro()) : getWarmUpTimeDurationMicro();
 
-    return getBytesPerSecond(duration, btsTotal);
+    return sGetBytesPerSecond(duration, btsTotal);
   }
 
 
@@ -1010,39 +998,14 @@ public abstract class HttpTest extends Test {
       return -1;
     }
 
-    return getBytesPerSecond(duration, btsTotal);
+    return sGetBytesPerSecond(duration, btsTotal);
   }
 
 
 }
 
-
-/*	public synchronized int getTransferBytes() {
-return mWarmupBytesAcrossAllTestThreads + transferBytesAcrossAllTestThreads;
-}
-
-public synchronized int getWarmupBytes() {
-return mWarmupBytesAcrossAllTestThreads;
-}*/
-
-/*	public String getHumanReadableResult() {
-String ret = "";
-String direction = downstream ? "download" : "upload";
-String type = nThreads == 1 ? "single connection" : "multiple connection";
-if (testStatus.equals("FAIL")) {
-	ret = String.format("The %s has failed.", direction);
-} else {
-	ret = String.format("The %s %s test achieved %.2f Mbps.", type,
-			direction, (getSpeedBytesPerSecond() * 8d / 1000000));
-}
-return ret;
-}*/
-
-
 //For debug timings!
 //	private static ArrayList<DebugTiming> smDebugSocketSendTimeMicroseconds = new ArrayList<DebugTiming>();
-
-
 
 /*		private class DebugTiming {
 public String description;
