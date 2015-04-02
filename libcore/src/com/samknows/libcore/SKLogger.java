@@ -21,7 +21,7 @@ public class SKLogger {
   private static final String DEBUG = "Debug";
 
   // This must be turned OFF for production builds!
-  private static boolean LOG_TO_FILE = true;
+  private static boolean LOG_TO_FILE = false;
 
   private static void appendLog(String severity, String tag, String text) {
     Log.d("SKLogger - appendLog", tag + ":" + text);
