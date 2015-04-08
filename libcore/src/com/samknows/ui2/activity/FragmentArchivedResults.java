@@ -188,14 +188,21 @@ public class FragmentArchivedResults extends Fragment {
     }
 
     if (clickedPosition != -1) {
-      switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
 
-        case eNetworkTypeResults_Mobile: {
-          mArchiveShareButton.setVisibility(View.VISIBLE);
-        }
-        break;
-        default:
+      try {
+
+        switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
+
+          case eNetworkTypeResults_Mobile: {
+            mArchiveShareButton.setVisibility(View.VISIBLE);
+          }
           break;
+          default:
+            break;
+        }
+      } catch (java.lang.IndexOutOfBoundsException e) {
+        // This is a rare error that has been seen to occur!
+        SKLogger.sAssert(false);
       }
     }
 

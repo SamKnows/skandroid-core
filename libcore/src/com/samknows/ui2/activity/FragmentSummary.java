@@ -1566,7 +1566,6 @@ public class FragmentSummary extends Fragment {
   /**
    * Calculate the initial date of the period of time in milliseconds
    *
-   * @param pTimePeriodSelection time to subtract to the current time
    * @return the time in milliseconds equals to the current time minus the time passed as parameter
    */
   private long calculateTimePeriodStart() {
