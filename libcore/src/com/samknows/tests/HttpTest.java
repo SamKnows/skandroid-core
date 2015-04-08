@@ -649,13 +649,13 @@ public abstract class HttpTest extends Test {
       /* Register the time duration up to this moment */
       mTransferMicroDuration.compareAndSet(0, sGetMicroTime() - mStartTransferMicro.get());
       transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
-      SKLogger.d(this, "isTransferDone, timeExceeded");
+      //SKLogger.d(this, "isTransferDone, timeExceeded");
       return true;
     }
 
     if (bytesExceeded) {																/* if max transfer bytes transferred */
       mTransferMicroDuration.compareAndSet(0, sGetMicroTime() - mStartTransferMicro.get());
-      SKLogger.d(this, "isTransferDone, bytesExceeded");
+      //SKLogger.d(this, "isTransferDone, bytesExceeded");
       transferDoneCounter.addAndGet(1);												/* and increment transfer counter */
       return true;
     }
