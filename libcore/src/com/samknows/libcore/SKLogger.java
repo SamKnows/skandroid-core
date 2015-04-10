@@ -21,7 +21,7 @@ public class SKLogger {
   private static final String DEBUG = "Debug";
 
   // This must be turned OFF for production builds!
-  private static boolean LOG_TO_FILE = false;
+  private static final boolean LOG_TO_FILE = false;
 
   private static void appendLog(String severity, String tag, String text) {
     Log.d("SKLogger - appendLog", tag + ":" + text);
@@ -66,7 +66,11 @@ public class SKLogger {
       File storage = android.os.Environment.getExternalStorageDirectory();
       String subFolderName = SKApplication.getAppInstance().getAppName();
       File storageSubFolder = new File(storage, subFolderName);
-      storageSubFolder.mkdir();
+
+      if (LOG_TO_FILE == true) {
+        // Only make the folder, if we have logging enabled!
+        storageSubFolder.mkdir();
+      }
 
       folder = storageSubFolder;
     } catch (Exception e) {
