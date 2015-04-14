@@ -159,31 +159,5 @@ public class MySSLSocketFactory extends SSLSocketFactory {
         }
         return socketFactory;
     }
-    
-    /**
-     * Gets a DefaultHttpClient which trusts a set of certificates specified by the KeyStore
-     * 
-     * @param keyStore
-     * @return
-     */
-	public static DefaultHttpClient getNewHttpClient(KeyStore keyStore) {
-		
-	    try {
-		    SSLSocketFactory sf = new MySSLSocketFactory(keyStore);
-		    SchemeRegistry registry = new SchemeRegistry();
-		    registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-		    registry.register(new Scheme("https", sf, 443));
- 
-	        HttpParams params = new BasicHttpParams();
-	        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-	        HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
- 
-	        ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
- 
-	        return new DefaultHttpClient(ccm, params);
-	    } catch (Exception e) {
-	        return new DefaultHttpClient();
-	    }
-	}
 
 }

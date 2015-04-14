@@ -21,6 +21,8 @@ package com.loopj.android.http;
 import android.content.Context;
 import android.util.Log;
 
+import com.samknows.libcore.SKLogger;
+
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
@@ -159,6 +161,7 @@ public class AsyncHttpClient {
     private static SchemeRegistry getDefaultSchemeRegistry(boolean fixNoHttpResponseException, int httpPort, int httpsPort) {
         if (fixNoHttpResponseException) {
             Log.d(LOG_TAG, "Beware! Using the fix is insecure, as it doesn't verify SSL certificates.");
+            SKLogger.sAssert(false);
         }
 
         if (httpPort < 1) {
@@ -174,10 +177,10 @@ public class AsyncHttpClient {
         // Fix to SSL flaw in API < ICS
         // See https://code.google.com/p/android/issues/detail?id=13117
         SSLSocketFactory sslSocketFactory;
-        if (fixNoHttpResponseException)
-            sslSocketFactory = MySSLSocketFactory.getFixedSocketFactory();
-        else
-            sslSocketFactory = SSLSocketFactory.getSocketFactory();
+//        if (fixNoHttpResponseException)
+//            sslSocketFactory = MySSLSocketFactory.getFixedSocketFactory();
+//        else
+        sslSocketFactory = SSLSocketFactory.getSocketFactory();
 
         SchemeRegistry schemeRegistry = new SchemeRegistry();
         schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), httpPort));
