@@ -959,10 +959,14 @@ public class FragmentRunTest extends Fragment {
   private void updateCurrentTestSpeedMbps(final double pCurrentSpeed) {
     final DecimalFormat df;
 
-    if (pCurrentSpeed < 10) {
-      df = new DecimalFormat("#.##");
+    final double showSpeed = pCurrentSpeed;
+    // The following can be used for testing, to help verify that the values are displayed properly for different value ranges.
+    //final double showSpeed = pCurrentSpeed + 5.0;
+    //final double showSpeed = pCurrentSpeed + 100.0;
+    if (showSpeed < 10) {
+      df = new DecimalFormat("0.00");
     } else {
-      df = new DecimalFormat("##.#");
+      df = new DecimalFormat("00.0");
     }
 
     if (getActivity() == null) {
@@ -973,7 +977,7 @@ public class FragmentRunTest extends Fragment {
     safeRunOnUiThread(new Runnable() {
       @Override
       public void run() {
-        String value = String.valueOf(df.format(pCurrentSpeed));
+        String value = String.valueOf(df.format(showSpeed));
         //SKLogger.sAssert(value.equals("0") == false);
         tv_Gauge_TextView_PsuedoButton.setText(value);
       }
