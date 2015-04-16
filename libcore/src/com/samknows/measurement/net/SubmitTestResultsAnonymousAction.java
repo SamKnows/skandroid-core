@@ -36,7 +36,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 public class SubmitTestResultsAnonymousAction {
-  static final String TAG = "SubmitTestResultsAnonymousAction";
+  static final String TAG = "SubmitTestResAnymAct";
 
   protected Context context;
   protected boolean isSuccess = false;
