@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +24,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -1504,6 +1509,37 @@ public class FragmentRunTest extends Fragment {
     }
   }
 
+  static private String sCurrentWifiSSID() {
+    Context context = SKApplication.getAppInstance().getApplicationContext();
+
+    //ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+    //if (connManager != null && wifiManager != null) {
+    if (wifiManager != null) {
+      //NetworkInfo netInfo = connManager.getActiveNetworkInfo();
+      WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+      //if (netInfo != null && wifiInfo != null) {
+      if (wifiInfo != null) {
+        String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
+        return wifiInfoSSID;
+      }
+    }
+
+    return null;
+  }
+
+  private String getWiFiStringForUIWithSSIDIfAvailable() {
+
+    String wifiString = SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi);
+
+    String currentSSID = sCurrentWifiSSID();
+    if (currentSSID != null && currentSSID.length() > 0) {
+      return wifiString + " (" + currentSSID + ")";
+    }
+
+    return wifiString;
+  }
+
   /**
    * Get the type of network and set it on the information label
    */
@@ -1518,22 +1554,12 @@ public class FragmentRunTest extends Fragment {
         SKLogger.sAssert(getClass(), false);
       }
 
-      final String theNetworkType = networkType;
-
-      if (!networkType.equals(tv_TopTextNetworkType.getText())) {
-        if (gaugeVisible) {
-          tv_TopTextNetworkType.animate().alpha(0.0f).setDuration(300).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-              tv_TopTextNetworkType.setText(theNetworkType);
-              tv_TopTextNetworkType.animate().alpha(1.0f).setDuration(300);
-              tv_TopTextNetworkType.animate().setListener(null);
-            }
-          });
-        } else {
-          tv_TopTextNetworkType.setText(networkType);
-        }
+      if (networkType.equals(SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi))) {
+        networkType = getWiFiStringForUIWithSSIDIfAvailable();
       }
+
+      tv_TopTextNetworkType.setText(networkType);
+      tv_TopTextNetworkType.setVisibility(gaugeVisible ?  View.VISIBLE : View.INVISIBLE);
     }
   }
 
@@ -1798,7 +1824,7 @@ public class FragmentRunTest extends Fragment {
     submissionId.setText(SKApplication.getAppInstance().mLastSubmissionId);
 
     tv_Advice_Message.animate().setDuration(300).alpha(0.0f);
-    tv_TopTextNetworkType.animate().setDuration(300).alpha(0.0f);
+    tv_TopTextNetworkType.setVisibility(View.INVISIBLE);
     tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(0.0f);
     layout_layout_Shining_Labels.animate().setDuration(300).alpha(0.0f);
     mUnitText.animate().setDuration(300).alpha(0.0f);
@@ -1812,8 +1838,8 @@ public class FragmentRunTest extends Fragment {
         gaugeViewContainer.animate().setListener(null);    // Remove listener to avoid side effects
 
         // Hide all the gauge elements
-        tv_Advice_Message.setVisibility(View.GONE);
-        tv_TopTextNetworkType.setVisibility(View.GONE);
+        //tv_Advice_Message.setVisibility(View.GONE);
+        tv_TopTextNetworkType.setVisibility(View.INVISIBLE);
         tv_Gauge_TextView_PsuedoButton.setVisibility(View.GONE);
         layout_layout_Shining_Labels.setVisibility(View.GONE);
         gaugeViewContainer.setVisibility(View.GONE);
@@ -1861,7 +1887,7 @@ public class FragmentRunTest extends Fragment {
 
             gaugeViewContainer.animate().setDuration(300).alpha(1.0f);
             tv_Advice_Message.animate().setDuration(300).alpha(1.0f);
-            tv_TopTextNetworkType.animate().setDuration(300).alpha(1.0f);
+            //tv_TopTextNetworkType.animate().setDuration(300).alpha(1.0f);
             tv_Gauge_TextView_PsuedoButton.animate().setDuration(300).alpha(1.0f);
             layout_layout_Shining_Labels.animate().setDuration(300).alpha(1.0f);
             mUnitText.animate().setDuration(300).alpha(1.0f);
