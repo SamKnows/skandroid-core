@@ -10,7 +10,8 @@
     android:layout_marginTop="@dimen/activity_margin"
     android:layout_weight="1"
     android:orientation="vertical"
-    tools:visibility="visible" >
+    tools:visibility="visible"
+    >
 
     <LinearLayout
         android:id="@+id/top_panel"
@@ -27,7 +28,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:scaleType="fitStart"
-		android:visibility="gone"
+		android:visibility="invisible"
                 android:src="@drawable/icon" >
             </ImageView>
 
@@ -35,7 +36,7 @@
                 android:id="@+id/fragment_speed_gauge_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"/>
 
             <!-- Left to Right: Blank | TopMidBottom | Blank -->
 
@@ -59,9 +60,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2"
+                    android:layout_weight="4"
                     android:gravity="center"
                     android:orientation="vertical" >
+
+                    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
 
                     <com.samknows.measurement.activity.components.SimpleFontFitTextView
                         android:id="@+id/top_text_network_type_label"
@@ -69,22 +80,25 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:lines="2"
                         android:text="@string/tools_text_value_bearer"
                         android:textAlignment="center"
                         android:textColor="@color/MainColourDialTopText"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold" />
 
-                    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_speed_test_gauge_textview_pseudobutton"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|bottom"
+                        android:layout_height="100dp"
+                        android:gravity="center"
+                        android:lines="1"
                         android:maxLines="1"
-                        android:text="@string/gauge_message_start"
+                        android:minHeight="40dp"
+                        android:text="@string/result_working"
                         android:textAlignment="center"
                         android:textColor="@color/MainColourDialCenterText"
-                        android:textSize="@dimen/text_size_peta" />
+                        android:textSize="55dp"/>
 
                     <com.samknows.measurement.activity.components.SimpleFontFitTextView
                         android:id="@+id/unit_text_label"
@@ -96,6 +110,16 @@
                         android:textAlignment="center"
                         android:textColor="@color/MainColourPressTheStartButtonText"
                         android:textSize="@dimen/text_size_small_medium" />
+
+                    <com.samknows.measurement.activity.components.SimpleFontFitTextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- blank right -->
@@ -139,9 +163,9 @@
         <com.samknows.measurement.activity.components.FontFitTextView
             android:id="@+id/press_the_start_button_label"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:gravity="center|bottom"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@string/advice_message_press_the_button"
             android:textColor="@color/MainColourStatusText"
             android:textSize="@dimen/text_size_mega" />
@@ -151,20 +175,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/status_label_1"
+                android:maxLines="2"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:gravity="center"
                 android:text="@string/label_message_ready_to_run"
                 android:textColor="@color/MainColourStatusText"
                 android:textSize="@dimen/text_size_large"
                 tools:visibility="visible" />
 
-            <TextView
+            <com.samknows.measurement.activity.components.FontFitTextView
                 android:id="@+id/status_label_2"
+                android:maxLines="2"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:gravity="center"
                 android:text="@string/label_message_ready_to_run"
                 android:textColor="@color/MainColourStatusText"

@@ -184,6 +184,7 @@ public class FragmentRunTest extends Fragment {
   // Called when the fragment is visible to the user and actively running
   @Override
   public void onResume() {
+
     // Restore any previously saved data...
     restoreWhichTestsToRun();
 
@@ -1521,6 +1522,7 @@ public class FragmentRunTest extends Fragment {
       //if (netInfo != null && wifiInfo != null) {
       if (wifiInfo != null) {
         String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
+        //wifiInfoSSID = "A test network";
         return wifiInfoSSID;
       }
     }
@@ -1534,7 +1536,7 @@ public class FragmentRunTest extends Fragment {
 
     String currentSSID = sCurrentWifiSSID();
     if (currentSSID != null && currentSSID.length() > 0) {
-      return wifiString + " (" + currentSSID + ")";
+      return wifiString + "\n(" + currentSSID + ")";
     }
 
     return wifiString;
