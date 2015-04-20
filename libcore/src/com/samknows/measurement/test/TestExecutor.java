@@ -629,7 +629,16 @@ public class TestExecutor {
             wifiStateMetric.put("datetime", SKDateFormat.sGetDateAsIso8601String(now));
             wifiStateMetric.put("timestamp", String.valueOf(now.getTime()));
             wifiStateMetric.put("rssi", wifiInfo.getRssi());
-            List<ScanResult> results=wifiManager.getScanResults();
+
+            List<ScanResult> results=null;
+
+            try {
+              results = wifiManager.getScanResults();
+            } catch (SecurityException e) {
+              // This has been seen on a very small set of devices...
+              SKLogger.sAssert(false);
+            }
+
             if (results != null) {
 
               // The SSID might be returned with "" around it!
