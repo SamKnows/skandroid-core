@@ -114,8 +114,8 @@ public class FragmentSummary extends Fragment {
   private boolean asyncTask_PrepareChart_Running = false;    // Whether or not the asynchronous task is running
   private boolean aList_SummaryResults_No_Empty_For_Download, aList_SummaryResults_No_Empty_For_Upload, aList_SummaryResults_No_Empty_For_Latency, aList_SummaryResults_No_Empty_For_Packet_Loss, aList_SummaryResults_No_Empty_For_Jitter;
 
-  private View mSummaryFilterButton = null;
-  private View mSummaryTimePeriodButton = null;
+  private TextView mSummaryFilterButton = null;
+  private TextView mSummaryTimePeriodButton = null;
 
   // Database
   private DBHelper dbHelper;
@@ -543,16 +543,16 @@ public class FragmentSummary extends Fragment {
   void doUpdateToolbarSetIsListViewHidden(boolean value) {
     isListviewHidden = value;
 
-    mSummaryFilterButton.setVisibility(View.GONE);
-    mSummaryTimePeriodButton.setVisibility(View.GONE);
-
-    if (isListviewHidden == true) {
-      // Showing result details...
-    } else {
-      // Not showing result details. Show the button.
-      mSummaryFilterButton.setVisibility(View.VISIBLE);
-      mSummaryTimePeriodButton.setVisibility(View.VISIBLE);
-    }
+//    mSummaryFilterButton.setVisibility(View.GONE);
+//    mSummaryTimePeriodButton.setVisibility(View.GONE);
+//
+//    if (isListviewHidden == true) {
+//      // Showing result details...
+//    } else {
+//      // Not showing result details. Show the button.
+//      mSummaryFilterButton.setVisibility(View.VISIBLE);
+//      mSummaryTimePeriodButton.setVisibility(View.VISIBLE);
+//    }
 
     if (getActivity() != null) {
       getActivity().invalidateOptionsMenu();
@@ -779,7 +779,7 @@ public class FragmentSummary extends Fragment {
     tv_label_average = (TextView) pView.findViewById(R.id.tv_label_average);
     tv_label_best = (TextView) pView.findViewById(R.id.tv_label_best);
 
-    mSummaryFilterButton = pView.findViewById(R.id.summary_filter_button);
+    mSummaryFilterButton = (TextView)pView.findViewById(R.id.summary_filter_button);
     mSummaryFilterButton.setOnClickListener(new OnClickListener() {
 
       @Override
@@ -787,7 +787,7 @@ public class FragmentSummary extends Fragment {
         showSelectNetwork();
       }
     });
-    mSummaryTimePeriodButton = pView.findViewById(R.id.summary_time_period_button);
+    mSummaryTimePeriodButton = (TextView)pView.findViewById(R.id.summary_time_period_button);
     mSummaryTimePeriodButton.setOnClickListener(new OnClickListener() {
 
       @Override
@@ -796,19 +796,22 @@ public class FragmentSummary extends Fragment {
       }
     });
 
-    // Set up the on click listener to perform a shake animation
-    OnClickListener shakeOnClickListener = new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (getActivity() != null) {
-          v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake));
-        }
-      }
-    };
+    setNetworkTypeButtonText();
+    setTimePeriodButtonText();
 
-    // Assign the on click listener to the header fields
-    tv_label_average.setOnClickListener(shakeOnClickListener);
-    tv_label_best.setOnClickListener(shakeOnClickListener);
+//    // Set up the on click listener to perform a shake animation
+//    OnClickListener shakeOnClickListener = new OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        if (getActivity() != null) {
+//          v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake));
+//        }
+//      }
+//    };
+//
+//    // Assign the on click listener to the header fields
+//    tv_label_average.setOnClickListener(shakeOnClickListener);
+//    tv_label_best.setOnClickListener(shakeOnClickListener);
 
     // Main sections of the layout
     layout_ll_summary_section_download = (LinearLayout) pView.findViewById(R.id.ll_summary_section_download);
@@ -1480,6 +1483,61 @@ public class FragmentSummary extends Fragment {
     }
   }
 
+  private void setNetworkTypeButtonText() {
+    String text = "";
+    switch(getNetworkTypeSelection()) {
+      case eNetworkTypeResults_Any:
+        text = getString(R.string.network_type_all);
+        break;
+      case eNetworkTypeResults_Mobile:
+        text = getString(R.string.network_type_mobile);
+        break;
+      case eNetworkTypeResults_WiFi:
+        text = getString(R.string.network_type_wifi);
+        break;
+      default:
+        SKLogger.sAssert(false);
+        text = getString(R.string.network_type_all);
+        break;
+    }
+
+    mSummaryFilterButton.setText(text);
+  }
+
+  private void setTimePeriodButtonText() {
+
+    String text = "";
+    switch(getTimePeriodSelection()) {
+      // 1 Day
+      case 0:
+        text = getString(R.string.time_period_1_day); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_DAY;
+        break;
+      // 1 Week
+      case 1:
+        text = getString(R.string.time_period_1_week); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
+        break;
+      // 1 Month
+      case 2:
+        text = getString(R.string.time_period_1_month); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_MONTH;
+        break;
+      // 3 Months
+      case 3:
+        text = getString(R.string.time_period_3_months); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_THREE_MONTHS;
+        break;
+      // 1 Year
+      case 4:
+        text = getString(R.string.time_period_1_year); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_YEAR;
+        break;
+      // Default: 1 Week
+      default:
+        SKLogger.sAssert(getClass(), false);
+        text = getString(R.string.time_period_1_week); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
+        break;
+    }
+
+    mSummaryTimePeriodButton.setText(text);
+  }
+
   /**
    * Save the state of the network type filter in shared preferences
    *
@@ -1509,6 +1567,8 @@ public class FragmentSummary extends Fragment {
 
     // Verify that the value was saved properly.
     SKLogger.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
+
+    setNetworkTypeButtonText();
   }
 
   /**
@@ -1548,6 +1608,8 @@ public class FragmentSummary extends Fragment {
 
     editor.putInt("timePeriodSummary", pTimePeriod);    // Save the state of the time period filter
     editor.commit();    // Commit changes
+
+    setTimePeriodButtonText();
   }
 
   /**

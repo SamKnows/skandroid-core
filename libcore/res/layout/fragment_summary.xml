@@ -16,47 +16,90 @@
             android:background="@drawable/background_gradient_nonmain"
             android:orientation="vertical"
             android:paddingTop="@dimen/activity_margin_half" >
-            
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize" >
-
-            <!-- Could not get layout_alignToLeftOf working! -->
-            <ImageButton
-                android:id="@+id/summary_filter_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:paddingRight="?android:attr/actionBarSize"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_action_filter" />
-            <ImageButton
-                android:id="@+id/summary_time_period_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_action_clock" />
-        </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/ll_header"
+                android:id="@+id/ll_networktype_timeperiod"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/visual_rhythm"
+                android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/selector_summary_background_alpha"
+                android:layout_marginBottom="8dp"
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/tv_label_average"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/background_gradient_nonmain"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:id="@+id/summary_filter_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="@drawable/selector_summary_background_alpha"
+                    android:gravity="center"
+                    android:text="@string/network_type_all"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+
+
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/background_gradient_nonmain"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:id="@+id/summary_time_period_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_summary_background_alpha"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/time_period_1_month"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/background_gradient_nonmain"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/ll_header"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:background="@drawable/selector_summary_background_alpha"
+                android:clickable="false"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_gradient_nonmain"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:id="@+id/tv_label_average"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
                     android:gravity="center"
                     android:text="@string/average"
                     android:textColor="@color/white"
@@ -66,10 +109,18 @@
                     android:id="@+id/tv_label_best"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:gravity="center"
                     android:text="@string/best"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_gradient_nonmain"
+                    android:gravity="center"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
 
@@ -134,7 +185,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="70"
-                            android:paddingBottom="2dp"
+                    android:paddingBottom="2dp"
                     android:paddingRight="10dp"
                     android:textStyle="bold"
                             android:text="@string/nineninenine"
