@@ -10,7 +10,7 @@ public class Util {
 	private static Typeface FONT_REGULAR;
 
 	public static void initializeFonts(final Context context) {
-		FONT_REGULAR=Typeface.createFromAsset(context.getAssets(), "typewriter.ttf");   
+		//FONT_REGULAR=Typeface.createFromAsset(context.getAssets(), "typewriter.ttf");
 	}
 	
 	public static void overrideFonts(final Context context, final View v) {
@@ -22,7 +22,7 @@ public class Util {
 	                overrideFonts(context, child);
 	            }
 	        } else if (v instanceof TextView) {
-	            ((TextView)v).setTypeface(FONT_REGULAR);
+	            //((TextView)v).setTypeface(FONT_REGULAR);
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
