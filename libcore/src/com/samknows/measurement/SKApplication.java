@@ -248,6 +248,12 @@ public class SKApplication extends Application{
 		return "CrashManagerId_UNKNOWN";
 	}
 
+  // Must be overridden!
+  public boolean getAnonymous() {
+    SKLogger.sAssert(getClass(), false);
+    return true;
+  }
+
 	private static boolean sbUpdateAllDataOnScreen = false;
 
 	public static void sSetUpdateAllDataOnScreen(boolean value) {

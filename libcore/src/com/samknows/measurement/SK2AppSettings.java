@@ -75,7 +75,7 @@ public class SK2AppSettings extends SKAppSettings {
 			p.load(is);
 						
 			testStartWindowWakeup 	= Long.valueOf(p.getProperty(SKConstants.PROP_TEST_START_WINDOW_RTC_WAKEUP));
-			anonymous 				= Boolean.valueOf(p.getProperty(SKConstants.PROP_ANONYMOUS));
+			anonymous 				=  SKApplication.getAppInstance().getAnonymous();
 			submit_path 			= p.getProperty(SKConstants.PROP_SUBMIT_PATH);
 			download_config_path 	= p.getProperty(SKConstants.PROP_DOWNLOAD_CONFIG_PATH);
 

@@ -64,7 +64,7 @@ public class SKConstants {
 	
 	
 	//Entries in the properties file
-	public static final String PROP_ANONYMOUS 								= "anonymous";
+	//public static final String PROP_ANONYMOUS 								= "anonymous";
 	public static final String PROP_BRAND 									= "brand";
 
 	public static final String PROP_RUN_TEST_POPUP 							= "run_test_pop_up";
