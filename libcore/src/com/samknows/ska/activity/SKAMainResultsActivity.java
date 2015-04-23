@@ -231,8 +231,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     });
 
 
-    SKTypeface.initializeFonts();
-    SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
 
     final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
     final Activity ctx = this;
@@ -866,7 +865,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     }
     table.getParent().requestLayout();
 
-    SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
     //Trace.endSection(); // theRest
 
     //Trace.endSection();
@@ -2460,7 +2459,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
       }
 
-      SKTypeface.overrideFonts(SKAMainResultsActivity.this, sc);
+      SKTypeface.sChangeChildrenToDefaultFontTypeface(sc);
 
       //Trace.endSection();
 

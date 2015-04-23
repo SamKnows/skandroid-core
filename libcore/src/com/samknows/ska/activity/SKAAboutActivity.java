@@ -45,7 +45,6 @@ public class SKAAboutActivity extends BaseLogoutActivity {
 			findViewById(R.id.TextViewJitter2).setVisibility(View.GONE);
 		}
 		
-		SKTypeface.initializeFonts();
-		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
+		SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
 	}
 }

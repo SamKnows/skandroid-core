@@ -107,8 +107,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 
 		setContentView(R.layout.ska_settings_activity);
 
-    SKTypeface.initializeFonts();
-		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
+		SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
 		
 		String versionName="";
 		try {
@@ -457,8 +456,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			}
 		}
 
-    SKTypeface.initializeFonts();
-		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
+		SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
 	}
 	
 	public void appendNeighborCellInfo(NeighboringCellInfo data) {

@@ -108,8 +108,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 			activeMetricsTextView.setText(getString(R.string.active_metrics_wifi));
 		}
 
-    SKTypeface.initializeFonts();
-		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
+		SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
 		try {
 			launchTest(testIdToRunMinusOneMeansAll);
 		} catch (Throwable t) {

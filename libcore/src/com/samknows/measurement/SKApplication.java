@@ -157,9 +157,10 @@ public class SKApplication extends Application{
 		return hideJitter() & hideLatency() & hideLoss();
 	}
 
-  // Return null if not overridden.
+  // Return null, but can be overridden.
+  // Otherwise, SKTypeface will use Typeface.DEFAULT
   public Typeface getDefaultTypeface() {
-    return Typeface.DEFAULT;
+    return null;
   }
 
 	public boolean allowUserToSelectTestToRun() {

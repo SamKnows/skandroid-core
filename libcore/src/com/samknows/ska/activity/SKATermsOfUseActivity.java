@@ -54,8 +54,7 @@ public class SKATermsOfUseActivity extends BaseLogoutActivity {
 				}
 			});
 
-			SKTypeface.overrideFonts(SKATermsOfUseActivity.this,
-          findViewById(android.R.id.content));
+			SKTypeface.sChangeChildrenToDefaultFontTypeface(findViewById(android.R.id.content));
 
 			alertDialog.show();
 

@@ -45,6 +45,7 @@ import android.widget.TextView;
 import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.FontFitTextView;
@@ -129,6 +130,56 @@ public class FragmentArchivedResults extends Fragment {
     // Register the local broadcast receiver listener to receive messages when the UI data needs to be refreshed.
     Context context = SKApplication.getAppInstance().getApplicationContext();
     LocalBroadcastManager.getInstance(context).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
+
+    View view = getView();
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+    // Set fonts
+    // Header labels fonts
+    tv_warning_no_results_yet.setTypeface(typeface_Roboto_Light);
+    tv_hader_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
+    tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
+    tv_header_label_device.setTypeface(typeface_Roboto_Thin);
+    tv_header_label_location.setTypeface(typeface_Roboto_Thin);
+    // Labels fonts
+    tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
+    tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_label_network_operator.setTypeface(typeface_Roboto_Light);
+    tv_label_network_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_label_roaming_status.setTypeface(typeface_Roboto_Light);
+    tv_label_cell_tower_ID.setTypeface(typeface_Roboto_Light);
+    tv_label_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
+    tv_label_signal_strength.setTypeface(typeface_Roboto_Light);
+    tv_label_bearer.setTypeface(typeface_Roboto_Light);
+    tv_label_manufacturer.setTypeface(typeface_Roboto_Light);
+    tv_label_model.setTypeface(typeface_Roboto_Light);
+    tv_label_OS.setTypeface(typeface_Roboto_Light);
+    tv_label_OS_version.setTypeface(typeface_Roboto_Light);
+    tv_label_phone_type.setTypeface(typeface_Roboto_Light);
+    tv_label_latitude.setTypeface(typeface_Roboto_Light);
+    tv_label_longitude.setTypeface(typeface_Roboto_Light);
+    tv_label_accuracy.setTypeface(typeface_Roboto_Light);
+    tv_label_provider.setTypeface(typeface_Roboto_Light);
+    // Results fonts
+    tv_result_sim_operator.setTypeface(typeface_Roboto_Light);
+    tv_result_sim_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_result_network_operator.setTypeface(typeface_Roboto_Light);
+    tv_result_network_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_result_roaming_status.setTypeface(typeface_Roboto_Light);
+    tv_result_cell_tower_ID.setTypeface(typeface_Roboto_Light);
+    tv_result_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
+    tv_result_signal_strength.setTypeface(typeface_Roboto_Light);
+    tv_result_bearer.setTypeface(typeface_Roboto_Light);
+    tv_result_manufacturer.setTypeface(typeface_Roboto_Light);
+    tv_result_model.setTypeface(typeface_Roboto_Light);
+    tv_result_OS.setTypeface(typeface_Roboto_Light);
+    tv_result_OS_version.setTypeface(typeface_Roboto_Light);
+    tv_result_phone_type.setTypeface(typeface_Roboto_Light);
+    tv_result_latitude.setTypeface(typeface_Roboto_Light);
+    tv_result_longitude.setTypeface(typeface_Roboto_Light);
+    tv_result_accuracy.setTypeface(typeface_Roboto_Light);
+    tv_result_provider.setTypeface(typeface_Roboto_Light);
+
+
   }
 
   // Receive the result from a previous call to startActivityForResult(Intent, int)
@@ -389,7 +440,6 @@ public class FragmentArchivedResults extends Fragment {
 
     // Set the warning message
     tv_warning_no_results_yet = (TextView) pView.findViewById(R.id.fragment_archived_results_warning_no_results_yet);
-    tv_warning_no_results_yet.setTypeface(typeface_Roboto_Light);
 
     // Passive metrics fields
     // Header labels
@@ -447,51 +497,6 @@ public class FragmentArchivedResults extends Fragment {
 
     // Initialise fonts
     typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
-
-    // Set fonts
-    // Header labels fonts
-    tv_hader_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_device.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_location.setTypeface(typeface_Roboto_Thin);
-    // Labels fonts
-    tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
-    tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_label_network_operator.setTypeface(typeface_Roboto_Light);
-    tv_label_network_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_label_roaming_status.setTypeface(typeface_Roboto_Light);
-    tv_label_cell_tower_ID.setTypeface(typeface_Roboto_Light);
-    tv_label_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
-    tv_label_signal_strength.setTypeface(typeface_Roboto_Light);
-    tv_label_bearer.setTypeface(typeface_Roboto_Light);
-    tv_label_manufacturer.setTypeface(typeface_Roboto_Light);
-    tv_label_model.setTypeface(typeface_Roboto_Light);
-    tv_label_OS.setTypeface(typeface_Roboto_Light);
-    tv_label_OS_version.setTypeface(typeface_Roboto_Light);
-    tv_label_phone_type.setTypeface(typeface_Roboto_Light);
-    tv_label_latitude.setTypeface(typeface_Roboto_Light);
-    tv_label_longitude.setTypeface(typeface_Roboto_Light);
-    tv_label_accuracy.setTypeface(typeface_Roboto_Light);
-    tv_label_provider.setTypeface(typeface_Roboto_Light);
-    // Results fonts
-    tv_result_sim_operator.setTypeface(typeface_Roboto_Light);
-    tv_result_sim_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_result_network_operator.setTypeface(typeface_Roboto_Light);
-    tv_result_network_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_result_roaming_status.setTypeface(typeface_Roboto_Light);
-    tv_result_cell_tower_ID.setTypeface(typeface_Roboto_Light);
-    tv_result_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
-    tv_result_signal_strength.setTypeface(typeface_Roboto_Light);
-    tv_result_bearer.setTypeface(typeface_Roboto_Light);
-    tv_result_manufacturer.setTypeface(typeface_Roboto_Light);
-    tv_result_model.setTypeface(typeface_Roboto_Light);
-    tv_result_OS.setTypeface(typeface_Roboto_Light);
-    tv_result_OS_version.setTypeface(typeface_Roboto_Light);
-    tv_result_phone_type.setTypeface(typeface_Roboto_Light);
-    tv_result_latitude.setTypeface(typeface_Roboto_Light);
-    tv_result_longitude.setTypeface(typeface_Roboto_Light);
-    tv_result_accuracy.setTypeface(typeface_Roboto_Light);
-    tv_result_provider.setTypeface(typeface_Roboto_Light);
 
     // Now - what items to show?
     LinearLayout ip_and_reference_metrics = (LinearLayout) pView.findViewById(R.id.ip_and_reference_metrics);

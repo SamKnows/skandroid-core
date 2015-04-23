@@ -207,6 +207,82 @@ public class FragmentRunTest extends Fragment {
       telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
     super.onResume();
+
+    View view = getView();
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
+    // Other labels
+    tv_TopTextNetworkType.setTypeface(typeface_Roboto_Bold);
+    tv_Gauge_TextView_PsuedoButton.setTypeface(typeface_Din_Condensed_Cyrillic);
+    tv_Advice_Message.setTypeface(typeface_Roboto_Light);
+    mUnitText.setTypeface(typeface_Roboto_Light);
+    mMeasurementText.setTypeface(typeface_Roboto_Light);
+
+    // Initialise the type face of the shining labels
+    tv_Status_Label_1.setTypeface(typeface_Roboto_Light);
+    tv_Status_Label_2.setTypeface(typeface_Roboto_Light);
+
+    // Assign fonts
+    // Passive metrics headers
+    tv_header_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
+    tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
+    tv_header_label_device.setTypeface(typeface_Roboto_Thin);
+    tv_header_label_location.setTypeface(typeface_Roboto_Thin);
+
+    // Passive metrics labels
+    tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
+    tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_label_network_operator.setTypeface(typeface_Roboto_Light);
+    tv_label_network_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_label_roaming_status.setTypeface(typeface_Roboto_Light);
+    tv_label_cell_tower_ID.setTypeface(typeface_Roboto_Light);
+    tv_label_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
+    tv_label_signal_strength.setTypeface(typeface_Roboto_Light);
+    tv_label_bearer.setTypeface(typeface_Roboto_Light);
+    tv_label_manufacturer.setTypeface(typeface_Roboto_Light);
+    tv_label_model.setTypeface(typeface_Roboto_Light);
+    tv_label_OS.setTypeface(typeface_Roboto_Light);
+    tv_label_OS_version.setTypeface(typeface_Roboto_Light);
+    tv_label_phone_type.setTypeface(typeface_Roboto_Light);
+    tv_label_latitude.setTypeface(typeface_Roboto_Light);
+    tv_label_longitude.setTypeface(typeface_Roboto_Light);
+    tv_label_accuracy.setTypeface(typeface_Roboto_Light);
+    tv_label_provider.setTypeface(typeface_Roboto_Light);
+
+    // Passive metrics results
+    tv_result_sim_operator.setTypeface(typeface_Roboto_Light);
+    tv_result_sim_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_result_network_operator.setTypeface(typeface_Roboto_Light);
+    tv_result_network_operator_code.setTypeface(typeface_Roboto_Light);
+    tv_result_roaming_status.setTypeface(typeface_Roboto_Light);
+    tv_result_cell_tower_ID.setTypeface(typeface_Roboto_Light);
+    tv_result_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
+    tv_result_signal_strength.setTypeface(typeface_Roboto_Light);
+    tv_result_bearer.setTypeface(typeface_Roboto_Light);
+    tv_result_manufacturer.setTypeface(typeface_Roboto_Light);
+    tv_result_model.setTypeface(typeface_Roboto_Light);
+    tv_result_OS.setTypeface(typeface_Roboto_Light);
+    tv_result_OS_version.setTypeface(typeface_Roboto_Light);
+    tv_result_phone_type.setTypeface(typeface_Roboto_Light);
+    tv_result_latitude.setTypeface(typeface_Roboto_Light);
+    tv_result_longitude.setTypeface(typeface_Roboto_Light);
+    tv_result_accuracy.setTypeface(typeface_Roboto_Light);
+    tv_result_provider.setTypeface(typeface_Roboto_Light);
+
+//		// Test result fields
+//		tv_Result_Download.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Packet_Loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+//		tv_Result_Jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+//
+//		// Test result labels
+//		tv_Label_Loss.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Jitter.setTypeface(typeface_Roboto_Light);
+//		tv_Label_Mbps_1.setTypeface(typeface_Roboto_Thin);
+//		tv_Label_Mbps_2.setTypeface(typeface_Roboto_Thin);
+//		tv_Result_Date.setTypeface(typeface_Roboto_Light);
+
   }
 
   // Called when the fragment is no longer resumed
@@ -594,67 +670,6 @@ public class FragmentRunTest extends Fragment {
     typeface_Roboto_Thin = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
     typeface_Roboto_Bold = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_bold.ttf");
 
-    // Assign fonts
-    // Passive metrics headers
-    tv_header_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_device.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_location.setTypeface(typeface_Roboto_Thin);
-
-    // Passive metrics labels
-    tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
-    tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_label_network_operator.setTypeface(typeface_Roboto_Light);
-    tv_label_network_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_label_roaming_status.setTypeface(typeface_Roboto_Light);
-    tv_label_cell_tower_ID.setTypeface(typeface_Roboto_Light);
-    tv_label_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
-    tv_label_signal_strength.setTypeface(typeface_Roboto_Light);
-    tv_label_bearer.setTypeface(typeface_Roboto_Light);
-    tv_label_manufacturer.setTypeface(typeface_Roboto_Light);
-    tv_label_model.setTypeface(typeface_Roboto_Light);
-    tv_label_OS.setTypeface(typeface_Roboto_Light);
-    tv_label_OS_version.setTypeface(typeface_Roboto_Light);
-    tv_label_phone_type.setTypeface(typeface_Roboto_Light);
-    tv_label_latitude.setTypeface(typeface_Roboto_Light);
-    tv_label_longitude.setTypeface(typeface_Roboto_Light);
-    tv_label_accuracy.setTypeface(typeface_Roboto_Light);
-    tv_label_provider.setTypeface(typeface_Roboto_Light);
-
-    // Passive metrics results
-    tv_result_sim_operator.setTypeface(typeface_Roboto_Light);
-    tv_result_sim_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_result_network_operator.setTypeface(typeface_Roboto_Light);
-    tv_result_network_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_result_roaming_status.setTypeface(typeface_Roboto_Light);
-    tv_result_cell_tower_ID.setTypeface(typeface_Roboto_Light);
-    tv_result_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
-    tv_result_signal_strength.setTypeface(typeface_Roboto_Light);
-    tv_result_bearer.setTypeface(typeface_Roboto_Light);
-    tv_result_manufacturer.setTypeface(typeface_Roboto_Light);
-    tv_result_model.setTypeface(typeface_Roboto_Light);
-    tv_result_OS.setTypeface(typeface_Roboto_Light);
-    tv_result_OS_version.setTypeface(typeface_Roboto_Light);
-    tv_result_phone_type.setTypeface(typeface_Roboto_Light);
-    tv_result_latitude.setTypeface(typeface_Roboto_Light);
-    tv_result_longitude.setTypeface(typeface_Roboto_Light);
-    tv_result_accuracy.setTypeface(typeface_Roboto_Light);
-    tv_result_provider.setTypeface(typeface_Roboto_Light);
-
-//		// Test result fields
-//		tv_Result_Download.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_Result_Upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_Result_Latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_Result_Packet_Loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		tv_Result_Jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
-//		
-//		// Test result labels
-//		tv_Label_Loss.setTypeface(typeface_Roboto_Light);
-//		tv_Label_Jitter.setTypeface(typeface_Roboto_Light);
-//		tv_Label_Mbps_1.setTypeface(typeface_Roboto_Thin);
-//		tv_Label_Mbps_2.setTypeface(typeface_Roboto_Thin);
-//		tv_Result_Date.setTypeface(typeface_Roboto_Light);		
-
     if (SKApplication.getAppInstance().hideJitter()) {
       tv_Label_Jitter.setVisibility(View.GONE);
       pView.findViewById(R.id.jitter_panel).setVisibility(View.GONE);
@@ -664,16 +679,6 @@ public class FragmentRunTest extends Fragment {
       pView.findViewById(R.id.loss_panel).setVisibility(View.GONE);
     }
 
-    // Other labels
-    tv_TopTextNetworkType.setTypeface(typeface_Roboto_Bold);
-    tv_Gauge_TextView_PsuedoButton.setTypeface(typeface_Din_Condensed_Cyrillic);
-    tv_Advice_Message.setTypeface(typeface_Roboto_Light);
-    mUnitText.setTypeface(typeface_Roboto_Light);
-    mMeasurementText.setTypeface(typeface_Roboto_Light);
-
-    // Initialise the type face of the shining labels
-    tv_Status_Label_1.setTypeface(typeface_Roboto_Light);
-    tv_Status_Label_2.setTypeface(typeface_Roboto_Light);
 
     // Layout containing the main screen
     layout_ll_Speed_Test_Layout = (LinearLayout) pView.findViewById(R.id.new_speed_test_layout);

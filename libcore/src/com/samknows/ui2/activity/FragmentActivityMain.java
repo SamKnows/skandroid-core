@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.ska.activity.SKAMainResultsActivity;
 import com.samknows.libcore.SKLogger;
@@ -73,6 +74,9 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
   @Override
   protected void onResume() {
     super.onResume();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
 
     // Hide action bar, which is shown ONLY on the Settings screen!
     final ActionBar actionBar = getActionBar();

@@ -22,7 +22,7 @@ public class SKTypeface {
     } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_condensed_regular.ttf")) {
-//    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
+    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
 //      Log.d("SKTypefaceUtil", "typewriter.ttf!");
 //      SKLogger.sAssert(false);
     } else {
@@ -44,62 +44,9 @@ public class SKTypeface {
     return result;
   }
 
-  // http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application
-  public static void sChangeChildrenFont(ViewGroup v, Typeface font) {
-    for (int i = 0; i < v.getChildCount(); i++) {
 
-      // For the ViewGroup, we'll have to use recursivity
-      if (v.getChildAt(i) instanceof ViewGroup) {
-        sChangeChildrenFont((ViewGroup) v.getChildAt(i), font);
-      } else {
-        try {
-          Object[] nullArgs = null;
-          //Test wether setTypeface and getTypeface methods exists
-          Method methodTypeFace = v.getChildAt(i).getClass().getMethod("setTypeface", new Class[]{Typeface.class, Integer.TYPE});
-          //With getTypefaca we'll get back the style (Bold, Italic...) set in XML
-          Method methodGetTypeFace = v.getChildAt(i).getClass().getMethod("getTypeface", new Class[]{});
-          Typeface typeFace = ((Typeface) methodGetTypeFace.invoke(v.getChildAt(i), nullArgs));
-          //Invoke the method and apply the new font with the defined style to the view if the method exists (textview,...)
-          methodTypeFace.invoke(v.getChildAt(i), new Object[]{font, typeFace == null ? 0 : typeFace.getStyle()});
-        }
-        //Will catch the view with no such methods (listview...)
-        catch (Exception e) {
-          SKLogger.sAssert(false);
-        }
-      }
-    }
-  }
-
-  private static Typeface FONT_REGULAR = null;
-
-  public static void initializeFonts() {
-    //FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
-    FONT_REGULAR = SKApplication.getAppInstance().getDefaultTypeface();
-
-//    if (FONT_REGULAR == null) {
-//      // By default, we allow overriding from typewriter.ttf ..!
-//      FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
-//    }
-
-    if (FONT_REGULAR == null) {
-      FONT_REGULAR = Typeface.DEFAULT;
-    }
-  }
-
-  public static Typeface sGetDefaultTypeface() {
-    if (FONT_REGULAR == null) {
-      initializeFonts();
-    }
-    return FONT_REGULAR;
-  }
-
-  public static void sChangeChildrenToDefaultFontTypeface(ViewGroup v) {
-
-    Typeface typeface = FONT_REGULAR;
-    sChangeChildrenFont(v, typeface);
-  }
-
-  public static void overrideFonts(final Context context, final View v) {
+  // Deprecated method
+  private static void overrideFonts(final Context context, final View v) {
     Typeface defaultTypeface = sGetDefaultTypeface();
 
     try {
@@ -116,4 +63,72 @@ public class SKTypeface {
       SKLogger.sAssert(false);
     }
   }
+
+  private static void setTypefaceForViewIfPossible(View theView, Typeface font) {
+    try {
+      Object[] nullArgs = null;
+      Method methodTypeFace = theView.getClass().getMethod("setTypeface", new Class[]{Typeface.class, Integer.TYPE});
+      //With getTypefaca we'll get back the style (Bold, Italic...) set in XML
+      Method methodGetTypeFace = theView.getClass().getMethod("getTypeface", new Class[]{});
+      Typeface typeFace = ((Typeface) methodGetTypeFace.invoke(theView, nullArgs));
+      //Invoke the method and apply the new font with the defined style to the view if the method exists (textview,...)
+      methodTypeFace.invoke(theView, new Object[]{font, typeFace == null ? 0 : typeFace.getStyle()});
+    } catch (Exception e) {
+      //  Ignore!
+    }
+  }
+
+  // http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application
+  public static void sChangeChildrenFont(View view, Typeface font) {
+
+    if (view instanceof ViewGroup) {
+      // Iterate through the view group!
+      ViewGroup vg = (ViewGroup) view;
+
+      for (int i = 0; i < vg.getChildCount(); i++) {
+        // For the ViewGroup, use recursion.
+        sChangeChildrenFont(vg.getChildAt(i), font);
+      }
+    } else {
+      // Simply a view (e.g. TextView etc. ...) - try setting DIRECTLY.
+      setTypefaceForViewIfPossible(view, font);
+      return;
+    }
+  }
+
+  private static Typeface FONT_REGULAR = null;
+
+  public static void sInitializeFonts() {
+    //FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
+
+    if (FONT_REGULAR != null) {
+      // Already got it!
+      return;
+    }
+
+    // This call will return null *if* the app doesn't provide a specific override.
+    FONT_REGULAR = SKApplication.getAppInstance().getDefaultTypeface();
+
+    if (FONT_REGULAR == null) {
+      FONT_REGULAR = Typeface.DEFAULT;
+    }
+  }
+
+  public static Typeface sGetDefaultTypeface() {
+    if (FONT_REGULAR == null) {
+      sInitializeFonts();
+    }
+    return FONT_REGULAR;
+  }
+
+  public static void sChangeChildrenToDefaultFontTypeface(View v) {
+
+    SKLogger.sAssert(v != null);
+
+    //overrideFonts(SKApplication.getAppInstance().getApplicationContext(), v);
+
+    Typeface defaultTypeface = sGetDefaultTypeface();
+    sChangeChildrenFont(v, defaultTypeface);
+  }
+
 }

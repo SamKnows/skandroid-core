@@ -49,6 +49,7 @@ import android.widget.Toast;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.SKGraphForResults;
@@ -143,6 +144,37 @@ public class FragmentSummary extends Fragment {
     // Register the local broadcast receiver listener to receive messages when the UI data needs to be refreshed.
     final Context context = SKApplication.getAppInstance().getApplicationContext();
     LocalBroadcastManager.getInstance(context).registerReceiver(updateScreenMessageReceiver, new IntentFilter("refreshUIMessage"));
+
+    View view = getView();
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+    // Assign fonts the the layout text fields
+    		tv_summary_result_average_download.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_best_download.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_average_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_best_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_average_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_best_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_average_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_best_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_average_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+    		tv_summary_result_best_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
+
+    ((TextView) view.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_packet_loss_label)).setTypeface(typeface_Roboto_Regular);
+    ((TextView) view.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Regular);
+
   }
 
   Activity mActivity = null;
@@ -869,33 +901,6 @@ public class FragmentSummary extends Fragment {
     typeface_Roboto_Thin = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_thin.ttf");
     typeface_Roboto_Regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_regular.ttf");
 
-    // Assign fonts the the layout text fields
-    //		tv_summary_result_average_download.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_best_download.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_average_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_best_upload.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_average_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_best_latency.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_average_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_best_loss.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_average_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
-    //		tv_summary_result_best_jitter.setTypeface(typeface_Din_Condensed_Cyrillic);
-
-    ((TextView) pView.findViewById(R.id.tv_label_average)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_label_best)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_1)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_2)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_3)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_Mbps_4)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_ms_1)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_ms_2)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_ms_3)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_label_ms_4)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_download_label)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_upload_label)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_latency_label)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_packet_loss_label)).setTypeface(typeface_Roboto_Regular);
-    ((TextView) pView.findViewById(R.id.tv_summary_jitter_label)).setTypeface(typeface_Roboto_Regular);
 
     // Chart elements
     layout_ll_chart = (FrameLayout) pView.findViewById(R.id.fragment_summary_ll_chart);

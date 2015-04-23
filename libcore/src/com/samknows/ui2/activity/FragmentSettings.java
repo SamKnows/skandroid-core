@@ -491,9 +491,10 @@ public class FragmentSettings extends Fragment {
       }
     }
 
-    SKTypeface.initializeFonts();
-    SKTypeface.overrideFonts(getActivity(), view.findViewById(android.R.id.content));
+    View contentView = view; // view.findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(contentView);
   }
+
 
   public void appendNeighborCellInfo(NeighboringCellInfo data) {
 

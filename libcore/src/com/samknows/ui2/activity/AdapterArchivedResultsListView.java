@@ -92,21 +92,24 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
     Typeface robotoCondensedTypeface = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_condensed_regular.ttf");
 
     // Assign the fonts
-//    	((TextView)rowView.findViewById(R.id.mbps_label_1)).setTypeface(robotoThinTypeFace);
-//    	((TextView)rowView.findViewById(R.id.mbps_label_2)).setTypeface(robotoThinTypeFace);
-//    	((TextView)rowView.findViewById(R.id.downloadLabel)).setTypeface(robotoLightTypeFace);
-//    	((TextView)rowView.findViewById(R.id.uploadLabel)).setTypeface(robotoLightTypeFace);
-//    	((TextView)rowView.findViewById(R.id.latency_label)).setTypeface(robotoLightTypeFace);
-//    	((TextView)rowView.findViewById(R.id.loss_label)).setTypeface(robotoLightTypeFace);
-//    	((TextView)rowView.findViewById(R.id.jitter_label)).setTypeface(robotoLightTypeFace);
+    //((TextView)rowView.findViewById(R.id.mbps_label_1)).setTypeface(robotoThinTypeFace);
+    //((TextView)rowView.findViewById(R.id.mbps_label_2)).setTypeface(robotoThinTypeFace);
+    ((TextView) rowView.findViewById(R.id.mbps_label_1)).setTypeface(robotoLightTypeFace);
+    ((TextView) rowView.findViewById(R.id.mbps_label_2)).setTypeface(robotoLightTypeFace);
+    ((TextView) rowView.findViewById(R.id.downloadLabel)).setTypeface(robotoLightTypeFace);
+    ((TextView) rowView.findViewById(R.id.uploadLabel)).setTypeface(robotoLightTypeFace);
+    ((TextView) rowView.findViewById(R.id.latency_label)).setTypeface(robotoLightTypeFace);
+    ((TextView) rowView.findViewById(R.id.loss_label)).setTypeface(robotoLightTypeFace);
+    ((TextView) rowView.findViewById(R.id.jitter_label)).setTypeface(robotoLightTypeFace);
 //
-//        testDate.setTypeface(robotoLightTypeFace); 
+    testDateDay.setTypeface(robotoLightTypeFace);
+    testDateTime.setTypeface(robotoLightTypeFace);
     // If we override the font, the text doesn't display with the correct alignment!
-//        testDownload.setTypeface(robotoCondensedTypeface);
-//        testUpload.setTypeface(robotoCondensedTypeface);
-//        testLatency.setTypeface(robotoCondensedTypeface);
-//        testPacketLoss.setTypeface(robotoCondensedTypeface);
-//        testJitter.setTypeface(robotoCondensedTypeface);
+    tv_Result_Download.setTypeface(robotoCondensedTypeface);
+    tv_Result_Upload.setTypeface(robotoCondensedTypeface);
+    testLatency.setTypeface(robotoCondensedTypeface);
+    testPacketLoss.setTypeface(robotoCondensedTypeface);
+    testJitter.setTypeface(robotoCondensedTypeface);
 
     // If we have any result to show
     if (archivedResultsList.size() > 0) {
@@ -119,7 +122,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
       } else {
 //        String value = new FormattedValues().getDate(resultDate, "dd/MM/yyyy");
 //        if (testJitter.getVisibility() != View.GONE) {
-        String  value = new FormattedValues().getDate(resultDate, "dd/MM/yy");
+        String value = new FormattedValues().getDate(resultDate, "dd/MM/yy");
 //        }
         testDateDay.setText(value);
       }
