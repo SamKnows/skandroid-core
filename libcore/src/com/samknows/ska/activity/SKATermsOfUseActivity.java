@@ -7,8 +7,8 @@ import android.webkit.WebView;
 
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.activity.BaseLogoutActivity;
-import com.samknows.measurement.activity.components.Util;
 
 public class SKATermsOfUseActivity extends BaseLogoutActivity {
 	WebView mWebView;
@@ -54,8 +54,8 @@ public class SKATermsOfUseActivity extends BaseLogoutActivity {
 				}
 			});
 
-			Util.overrideFonts(SKATermsOfUseActivity.this,
-					findViewById(android.R.id.content));
+			SKTypeface.overrideFonts(SKATermsOfUseActivity.this,
+          findViewById(android.R.id.content));
 
 			alertDialog.show();
 

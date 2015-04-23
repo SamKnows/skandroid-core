@@ -1,21 +1,12 @@
 package com.samknows.tests;
 
-import android.util.Log;
-
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import android.support.v4.BuildConfig;
-
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.activity.components.Util;
-import com.samknows.measurement.util.OtherUtils;
 
 public class PassiveServerUploadTest extends UploadTest {
 

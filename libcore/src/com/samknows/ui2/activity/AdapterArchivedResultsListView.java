@@ -18,6 +18,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
+import com.samknows.libcore.SKTypeface;
 
 /**
  * This class represents the custom adapter to the archive results list view.
@@ -86,9 +87,9 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
 
 
     // Set up fonts
-    Typeface robotoThinTypeFace = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
-    Typeface robotoLightTypeFace = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
-    Typeface robotoCondensedTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_condensed_regular.ttf");
+    Typeface robotoThinTypeFace = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
+    Typeface robotoLightTypeFace = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
+    Typeface robotoCondensedTypeface = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_condensed_regular.ttf");
 
     // Assign the fonts
 //    	((TextView)rowView.findViewById(R.id.mbps_label_1)).setTypeface(robotoThinTypeFace);

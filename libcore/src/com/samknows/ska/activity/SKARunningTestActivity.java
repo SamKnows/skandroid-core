@@ -3,17 +3,12 @@ package com.samknows.ska.activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
@@ -22,6 +17,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
@@ -32,7 +28,6 @@ import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.ProgressWheel;
-import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult.*;
@@ -113,8 +108,8 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 			activeMetricsTextView.setText(getString(R.string.active_metrics_wifi));
 		}
 
-		Util.initializeFonts(this);
-		Util.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.initializeFonts();
+		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
 		try {
 			launchTest(testIdToRunMinusOneMeansAll);
 		} catch (Throwable t) {

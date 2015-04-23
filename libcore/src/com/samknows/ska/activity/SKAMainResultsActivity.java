@@ -61,6 +61,7 @@ import com.samknows.libcore.ExportFileProvider;
 import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.TestRunner.ContinuousTestRunner;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
@@ -81,7 +82,6 @@ import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_
 import com.samknows.measurement.activity.components.StatModel;
 import com.samknows.measurement.activity.components.StatRecord;
 import com.samknows.measurement.activity.components.UpdatedTextView;
-import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
@@ -231,8 +231,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     });
 
 
-    Util.initializeFonts(this);
-    Util.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.initializeFonts();
+    SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
 
     final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
     final Activity ctx = this;
@@ -866,7 +866,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     }
     table.getParent().requestLayout();
 
-    Util.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
     //Trace.endSection(); // theRest
 
     //Trace.endSection();
@@ -2460,7 +2460,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         }
       }
 
-      Util.overrideFonts(SKAMainResultsActivity.this, sc);
+      SKTypeface.overrideFonts(SKAMainResultsActivity.this, sc);
 
       //Trace.endSection();
 

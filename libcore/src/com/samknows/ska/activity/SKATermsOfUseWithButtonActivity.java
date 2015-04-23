@@ -2,26 +2,18 @@ package com.samknows.ska.activity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.widget.Button;
 
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
-import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.util.LoginHelper;
 

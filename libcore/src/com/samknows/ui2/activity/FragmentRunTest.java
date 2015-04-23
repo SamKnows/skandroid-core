@@ -60,6 +60,7 @@ import android.widget.Toast;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
@@ -588,10 +589,10 @@ public class FragmentRunTest extends Fragment {
     tv_Advice_Message = (TextView) pView.findViewById(R.id.press_the_start_button_label);
 
     // Initialise fonts
-    typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_condensed_regular.ttf");
-    typeface_Roboto_Light = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
-    typeface_Roboto_Thin = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
-    typeface_Roboto_Bold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
+    typeface_Din_Condensed_Cyrillic = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_condensed_regular.ttf");
+    typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
+    typeface_Roboto_Thin = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
+    typeface_Roboto_Bold = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_bold.ttf");
 
     // Assign fonts
     // Passive metrics headers

@@ -1,7 +1,6 @@
 package com.samknows.ui2.activity;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -13,7 +12,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -24,7 +22,6 @@ import android.telephony.gsm.GsmCellLocation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -32,16 +29,15 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 
-import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.ButtonWithRightArrow;
 import com.samknows.measurement.activity.components.FontFitTextView;
-import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.CellTowersData;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.environment.NetworkData;
@@ -495,8 +491,8 @@ public class FragmentSettings extends Fragment {
       }
     }
 
-    Util.initializeFonts(getActivity());
-    Util.overrideFonts(getActivity(), view.findViewById(android.R.id.content));
+    SKTypeface.initializeFonts();
+    SKTypeface.overrideFonts(getActivity(), view.findViewById(android.R.id.content));
   }
 
   public void appendNeighborCellInfo(NeighboringCellInfo data) {

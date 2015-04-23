@@ -18,7 +18,6 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
@@ -35,7 +35,6 @@ import com.samknows.libcore.R;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.ButtonWithRightArrow;
 import com.samknows.measurement.activity.components.FontFitTextView;
-import com.samknows.measurement.activity.components.Util;
 import com.samknows.measurement.environment.CellTowersData;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.environment.NetworkData;
@@ -108,8 +107,8 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 
 		setContentView(R.layout.ska_settings_activity);
 
-		Util.initializeFonts(this);
-		Util.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.initializeFonts();
+		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
 		
 		String versionName="";
 		try {
@@ -458,8 +457,8 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			}
 		}
 
-		Util.initializeFonts(this);
-		Util.overrideFonts(this, findViewById(android.R.id.content));
+    SKTypeface.initializeFonts();
+		SKTypeface.overrideFonts(this, findViewById(android.R.id.content));
 	}
 	
 	public void appendNeighborCellInfo(NeighboringCellInfo data) {
