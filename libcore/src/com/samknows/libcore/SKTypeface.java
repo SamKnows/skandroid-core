@@ -22,9 +22,9 @@ public class SKTypeface {
     } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_condensed_regular.ttf")) {
-    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
-      Log.d("SKTypefaceUtil", "typewriter.ttf!");
-      SKLogger.sAssert(false);
+//    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
+//      Log.d("SKTypefaceUtil", "typewriter.ttf!");
+//      SKLogger.sAssert(false);
     } else {
       Log.d("SKTypefaceUtil", "Unexpected font path " + typefacePathInAssets);
       SKLogger.sAssert(false);
@@ -64,7 +64,7 @@ public class SKTypeface {
         }
         //Will catch the view with no such methods (listview...)
         catch (Exception e) {
-          e.printStackTrace();
+          SKLogger.sAssert(false);
         }
       }
     }
@@ -73,7 +73,17 @@ public class SKTypeface {
   private static Typeface FONT_REGULAR = null;
 
   public static void initializeFonts() {
-    FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
+    //FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
+    FONT_REGULAR = SKApplication.getAppInstance().getDefaultTypeface();
+
+//    if (FONT_REGULAR == null) {
+//      // By default, we allow overriding from typewriter.ttf ..!
+//      FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
+//    }
+
+    if (FONT_REGULAR == null) {
+      FONT_REGULAR = Typeface.DEFAULT;
+    }
   }
 
   public static Typeface sGetDefaultTypeface() {

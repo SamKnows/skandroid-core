@@ -18,6 +18,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 
 public class SKApplication extends Application{
@@ -155,6 +156,11 @@ public class SKApplication extends Application{
 	public boolean hideJitterLatencyAndPacketLoss() {
 		return hideJitter() & hideLatency() & hideLoss();
 	}
+
+  // Return null if not overridden.
+  public Typeface getDefaultTypeface() {
+    return Typeface.DEFAULT;
+  }
 
 	public boolean allowUserToSelectTestToRun() {
 		// Run all tests!
