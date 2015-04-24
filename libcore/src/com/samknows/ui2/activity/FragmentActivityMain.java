@@ -75,9 +75,6 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
   protected void onResume() {
     super.onResume();
 
-    View view = findViewById(android.R.id.content);
-    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
-
     // Hide action bar, which is shown ONLY on the Settings screen!
     final ActionBar actionBar = getActionBar();
     actionBar.hide();
@@ -179,7 +176,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
    */
   private void setUpResources() {
     // Set the font type to the action bat title
-    typeface_Roboto_Regular = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+    typeface_Roboto_Regular = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_regular.ttf");
 
     int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
     TextView tv_actionbar_title = (TextView) findViewById(titleId);

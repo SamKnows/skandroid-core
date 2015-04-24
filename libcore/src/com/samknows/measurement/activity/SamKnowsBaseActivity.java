@@ -6,6 +6,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 //import com.samknows.measurement.Logger;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class SamKnowsBaseActivity extends Activity {
 
@@ -175,6 +177,9 @@ public class SamKnowsBaseActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
 		
 		Log.d(this.getClass().toString(), ">>> onResume " + this.getClass().toString());
 	}

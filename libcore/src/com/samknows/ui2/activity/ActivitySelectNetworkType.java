@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 
 /**
  * This activity is responsible for the select network activity. It's started from different places in the application with startActivityForResult.
@@ -48,6 +49,19 @@ public class ActivitySelectNetworkType extends Activity {
     setUpResources();
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
+    // Set up fonts
+    tv_network_wifi.setTypeface(typeface_Roboto_Light);
+    tv_network_mobile.setTypeface(typeface_Roboto_Light);
+    button_network_all.setTypeface(typeface_Roboto_Light);
+  }
+
   // *** CUSTOM METHODS *** //
 
   /**
@@ -62,13 +76,7 @@ public class ActivitySelectNetworkType extends Activity {
     tv_network_mobile = (TextView) findViewById(R.id.tv_select_network_mobile);
 
     // Initialise fonts
-    typeface_Roboto_Light = Typeface.createFromAsset(getAssets(), "fonts/roboto_light.ttf");
-
-    // Set up fonts
-    tv_network_wifi.setTypeface(typeface_Roboto_Light);
-    tv_network_mobile.setTypeface(typeface_Roboto_Light);
-    button_network_all.setTypeface(typeface_Roboto_Light);
-
+    typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
 
     // Switch taking actions depending on the fragment this activity was called from
     switch (getIntent().getIntExtra("currentFragment", 1)) {

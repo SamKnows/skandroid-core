@@ -86,6 +86,10 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
     }
 
 
+
+    View view = rowView; // findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
     // Set up fonts
     Typeface robotoThinTypeFace = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
     Typeface robotoLightTypeFace = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");

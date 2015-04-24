@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 
 /**
@@ -62,10 +63,12 @@ class GaugeView extends View {
    */
   private void setUpResources() {
     // Set up the fonts
+    View view = this; // findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
 
     // The createFromAsset call will fail in Edit mode in Eclipse!
     if (isInEditMode() == false) {
-      robotoCondensedTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/roboto_condensed_regular.ttf");
+      robotoCondensedTypeface = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_condensed_regular.ttf");
     }
 
     // Draw Paint

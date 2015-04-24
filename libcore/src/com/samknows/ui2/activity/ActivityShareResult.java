@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.components.FontFitTextView;
 
@@ -53,6 +54,34 @@ public class ActivityShareResult extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_share_result);
     setUpResources();
+  }
+
+
+  protected void onResume() {
+    super.onResume();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
+
+    // Initialise fonts
+    Typeface typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
+    Typeface typeface_Roboto_Thin = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
+    Typeface typeface_DIN_Condensed = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_condensed_regular.ttf");
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_download)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_upload)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_latency)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_packet_loss)).setTypeface(typeface_Roboto_Thin);
+//		((TextView)findViewById(R.id.activity_share_result_tv_label_jitter)).setTypeface(typeface_Roboto_Thin);
+    ((TextView) findViewById(R.id.activity_share_result_tv_title)).setTypeface(typeface_Roboto_Light);
+
+    tv_Download_Result.setTypeface(typeface_DIN_Condensed);
+    tv_Upload_Result.setTypeface(typeface_DIN_Condensed);
+    tv_Latency_Result.setTypeface(typeface_DIN_Condensed);
+    tv_Packet_Loss_Result.setTypeface(typeface_DIN_Condensed);
+    tv_Jitter_Result.setTypeface(typeface_DIN_Condensed);
+    tv_Date_Result.setTypeface(typeface_Roboto_Light);
+    tv_Connectivity_Result.setTypeface(typeface_Roboto_Light);
   }
 
   // *** INNER CLASSES *** //
@@ -106,25 +135,8 @@ public class ActivityShareResult extends Activity {
     tv_Connectivity_Result = (TextView) findViewById(R.id.activity_share_result_tv_connectivity_text);
     iv_Connectivity_Icon = (ImageView) findViewById(R.id.activity_share_result_iv_connectivity_icon);
 
-    // Initialise fonts
-    Typeface typeface_Roboto_Light = Typeface.createFromAsset(getAssets(), "fonts/roboto_light.ttf");
-    Typeface typeface_Roboto_Thin = Typeface.createFromAsset(getAssets(), "fonts/roboto_thin.ttf");
-    Typeface typeface_DIN_Condensed = Typeface.createFromAsset(getAssets(), "fonts/roboto_condensed_regular.ttf");
 
-//		((TextView)findViewById(R.id.activity_share_result_tv_label_download)).setTypeface(typeface_Roboto_Thin);
-//		((TextView)findViewById(R.id.activity_share_result_tv_label_upload)).setTypeface(typeface_Roboto_Thin);
-//		((TextView)findViewById(R.id.activity_share_result_tv_label_latency)).setTypeface(typeface_Roboto_Thin);
-//		((TextView)findViewById(R.id.activity_share_result_tv_label_packet_loss)).setTypeface(typeface_Roboto_Thin);
-//		((TextView)findViewById(R.id.activity_share_result_tv_label_jitter)).setTypeface(typeface_Roboto_Thin);
-    ((TextView) findViewById(R.id.activity_share_result_tv_title)).setTypeface(typeface_Roboto_Light);
 
-    tv_Download_Result.setTypeface(typeface_DIN_Condensed);
-    tv_Upload_Result.setTypeface(typeface_DIN_Condensed);
-    tv_Latency_Result.setTypeface(typeface_DIN_Condensed);
-    tv_Packet_Loss_Result.setTypeface(typeface_DIN_Condensed);
-    tv_Jitter_Result.setTypeface(typeface_DIN_Condensed);
-    tv_Date_Result.setTypeface(typeface_Roboto_Light);
-    tv_Connectivity_Result.setTypeface(typeface_Roboto_Light);
 
     String downloadResult = getIntent().getExtras().getString("downloadResult");
     if (downloadResult.equals("-1")) {

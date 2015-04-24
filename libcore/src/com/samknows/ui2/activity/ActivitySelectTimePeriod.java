@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 
 /**
  * This activity is responsible for the select network activity. Is used in different places in the application and returns a value.
@@ -42,6 +43,20 @@ public class ActivitySelectTimePeriod extends Activity {
     setUpResources();
   }
 
+  protected void onResume() {
+    super.onResume();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
+    // Set up fonts
+    button_time_period_1_year.setTypeface(typeface_Roboto_Light);
+    button_time_period_3_months.setTypeface(typeface_Roboto_Light);
+    button_time_period_1_month.setTypeface(typeface_Roboto_Light);
+    button_time_period_1_week.setTypeface(typeface_Roboto_Light);
+    button_time_period_1_day.setTypeface(typeface_Roboto_Light);
+  }
+
   // *** CUSTOM METHODS *** //
 
   /**
@@ -59,14 +74,9 @@ public class ActivitySelectTimePeriod extends Activity {
     layout_rl_main = (RelativeLayout) findViewById(R.id.rl_activity_select_time_period_main);
 
     // Initialise fonts
-    typeface_Roboto_Light = Typeface.createFromAsset(getAssets(), "fonts/roboto_light.ttf");
+    typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
 
-    // Set up fonts
-    button_time_period_1_year.setTypeface(typeface_Roboto_Light);
-    button_time_period_3_months.setTypeface(typeface_Roboto_Light);
-    button_time_period_1_month.setTypeface(typeface_Roboto_Light);
-    button_time_period_1_week.setTypeface(typeface_Roboto_Light);
-    button_time_period_1_day.setTypeface(typeface_Roboto_Light);
+
 
     // Set up listener for "1 Day" button
     button_time_period_1_day.setOnClickListener(new OnClickListener() {

@@ -496,7 +496,7 @@ public class FragmentArchivedResults extends Fragment {
     submissionId.setText("");
 
     // Initialise fonts
-    typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
+    typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets( "fonts/roboto_light.ttf");
 
     // Now - what items to show?
     LinearLayout ip_and_reference_metrics = (LinearLayout) pView.findViewById(R.id.ip_and_reference_metrics);

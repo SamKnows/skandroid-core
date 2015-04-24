@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKTypeface;
 
+import android.app.ActionBar;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -13,6 +15,7 @@ import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 public class SamKnowsBaseFragmentActivity extends FragmentActivity {
 
@@ -21,6 +24,15 @@ public class SamKnowsBaseFragmentActivity extends FragmentActivity {
   public SamKnowsBaseFragmentActivity() {
     // TODO Auto-generated constructor stub
     super();
+  }
+
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
   }
 
   @Override

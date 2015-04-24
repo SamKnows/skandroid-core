@@ -2,6 +2,7 @@ package com.samknows.ui2.activity;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.activity.SamKnowsBaseActivity;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -31,8 +32,8 @@ public class ActivityAbout extends SamKnowsBaseActivity {
   // *** CUSTOM METHODS *** //
   private void setUpResources() {
     // Initialise fonts
-    Typeface typeface_Roboto_Light = Typeface.createFromAsset(getAssets(), "fonts/roboto_light.ttf");
-    Typeface typeface_Roboto_Thin = Typeface.createFromAsset(getAssets(), "fonts/roboto_thin.ttf");
+    Typeface typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
+    Typeface typeface_Roboto_Thin = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
 
     // Assign fonts
     ((TextView) findViewById(R.id.activity_about_label_download)).setTypeface(typeface_Roboto_Light);

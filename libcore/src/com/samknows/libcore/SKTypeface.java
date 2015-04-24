@@ -21,7 +21,7 @@ public class SKTypeface {
     } else if (typefacePathInAssets.equals("fonts/roboto_light.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_condensed_regular.ttf")) {
+    } else if (typefacePathInAssets.equals("fonts/roboto_regular.ttf")) {
     } else if (typefacePathInAssets.equals("typewriter.ttf")) {
 //      Log.d("SKTypefaceUtil", "typewriter.ttf!");
 //      SKLogger.sAssert(false);
@@ -33,8 +33,9 @@ public class SKTypeface {
     // e.g. could override here! typefacePathInAssets = "typewriter.ttf";
 
     try {
-      Context context = SKApplication.getAppInstance().getApplicationContext();
-      result = Typeface.createFromAsset(context.getAssets(), typefacePathInAssets);
+      result = SKApplication.getAppInstance().createTypefaceFromAsset(typefacePathInAssets);
+//      Context context = SKApplication.getAppInstance().getApplicationContext();
+//      result = Typeface.createFromAsset(context.getAssets(), typefacePathInAssets);
 
     } catch (Exception e) {
       Log.d("SKTypefaceUtil", "Cannot find custom font " + typefacePathInAssets);

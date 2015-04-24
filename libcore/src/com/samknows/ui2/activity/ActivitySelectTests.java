@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKTypeface;
 
 /**
  * This activity is responsible for the select tests activity.
@@ -46,8 +47,18 @@ public class ActivitySelectTests extends Activity {
   @Override
   protected void onResume() {
     super.onResume();
+
     // Restore the selection to the last selected tests
     restoreTestsState();
+
+    View view = findViewById(android.R.id.content);
+    SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
+    // Set the fonts to the UI elements
+    button_test_download.setTypeface(typeface_Roboto_Light);
+    button_test_upload.setTypeface(typeface_Roboto_Light);
+    button_test_latency_and_packet_loss.setTypeface(typeface_Roboto_Light);
+    tv_ok.setTypeface(typeface_Roboto_Regular);
   }
 
   // *** CUSTOM METHODS *** //
@@ -63,16 +74,11 @@ public class ActivitySelectTests extends Activity {
     tv_ok = (TextView) findViewById(R.id.button_select_test_ok);
 
     // Initialise fonts
-    typeface_Roboto_Light = Typeface.createFromAsset(getAssets(), "fonts/roboto_light.ttf");
-    typeface_Roboto_Thin = Typeface.createFromAsset(getAssets(), "fonts/roboto_thin.ttf");
-    typeface_Roboto_Bold = Typeface.createFromAsset(getAssets(), "fonts/roboto_bold.ttf");
-    typeface_Roboto_Regular = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.ttf");
+    typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_light.ttf");
+    typeface_Roboto_Thin = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_thin.ttf");
+    typeface_Roboto_Bold = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_bold.ttf");
+    typeface_Roboto_Regular = SKTypeface.sGetTypefaceWithPathInAssets("fonts/roboto_regular.ttf");
 
-    // Set the fonts to the UI elements
-    button_test_download.setTypeface(typeface_Roboto_Light);
-    button_test_upload.setTypeface(typeface_Roboto_Light);
-    button_test_latency_and_packet_loss.setTypeface(typeface_Roboto_Light);
-    tv_ok.setTypeface(typeface_Roboto_Regular);
 
     // Listener for the test buttons. Changes between pressed or normal the button state
     OnClickListener select_tests_listener = new OnClickListener() {

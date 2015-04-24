@@ -15,11 +15,13 @@ import com.samknows.ska.activity.SKATermsOfUseActivity;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class SKApplication extends Application{
 
@@ -373,4 +375,36 @@ public class SKApplication extends Application{
 	  return null;
 	}
 
+  // If the app needs to override the detailed fonts specified by the base app, this method can be overridden;
+  // this can look at the path, and attempt to override.
+  // If there is no need to override, or in event of failure, call the super class implementation!
+
+  public Typeface createTypefaceFromAsset (String typefacePathInAssets) {
+    Context context = getApplicationContext();
+
+    if (typefacePathInAssets.equals("fonts/roboto_condensed_regular.ttf")) {
+    } else if (typefacePathInAssets.equals("fonts/roboto_light.ttf")) {
+    } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
+    } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
+    } else if (typefacePathInAssets.equals("fonts/roboto_regular.ttf")) {
+    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
+//      Log.d("SKTypefaceUtil", "typewriter.ttf!");
+//      SKLogger.sAssert(false);
+    } else {
+      Log.d("SKTypefaceUtil", "Unexpected font path " + typefacePathInAssets);
+      SKLogger.sAssert(false);
+    }
+
+    Typeface result = null;
+
+    try {
+      result = Typeface.createFromAsset(context.getAssets(), typefacePathInAssets);
+    } catch (Exception e) {
+      SKLogger.sAssert(false);
+    }
+
+    SKLogger.sAssert(result != null);
+
+    return result;
+  }
 }

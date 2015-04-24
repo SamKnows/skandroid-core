@@ -896,10 +896,10 @@ public class FragmentSummary extends Fragment {
     tv_summary_result_best_jitter.setText(R.string.slash);
 
     // Set up the fonts to be used
-    typeface_Din_Condensed_Cyrillic = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_condensed_regular.ttf");
-    typeface_Roboto_Light = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_light.ttf");
-    typeface_Roboto_Thin = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_thin.ttf");
-    typeface_Roboto_Regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/roboto_regular.ttf");
+    typeface_Din_Condensed_Cyrillic = SKTypeface.sGetTypefaceWithPathInAssets( "fonts/roboto_condensed_regular.ttf");
+    typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets( "fonts/roboto_light.ttf");
+    typeface_Roboto_Thin = SKTypeface.sGetTypefaceWithPathInAssets( "fonts/roboto_thin.ttf");
+    typeface_Roboto_Regular = SKTypeface.sGetTypefaceWithPathInAssets( "fonts/roboto_regular.ttf");
 
 
     // Chart elements
