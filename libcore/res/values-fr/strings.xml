@@ -146,6 +146,7 @@
 <string name="executing_now">Executing now</string>
 <string name="executing_test">Executing tests: </string>
 <string name="failed">Failed</string>
+<string name="failed_0MBPS">&lt;0.01</string>
 <string name="failed_to_load_config">Failed to load config!</string>
 <string name="false_string">False</string>
 <string name="finished_test">Finished test: </string>

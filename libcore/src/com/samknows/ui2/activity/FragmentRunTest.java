@@ -763,7 +763,8 @@ public class FragmentRunTest extends Fragment {
 
           if (success == 0) {
             bFailed = true;
-            value = getString(R.string.failed);
+            //value = getString(R.string.failed);
+            value = getString(R.string.failed_0MBPS);
           }
         }
 
@@ -793,7 +794,12 @@ public class FragmentRunTest extends Fragment {
               tv_Gauge_TextView_PsuedoButton.setText(workingString);
               //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
-              changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
+
+              if (bFailed == true ||valueUnits.first <= 0.01F) {
+                changeFadingTextViewValue(tv_Result_Download, getString(R.string.failed_0MBPS), 0);
+              } else {
+                changeFadingTextViewValue(tv_Result_Download, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
+              }
             }
             break;
 
@@ -818,8 +824,8 @@ public class FragmentRunTest extends Fragment {
               //updateCurrentTestSpeedMbps(0.0);
               gaugeView.setAngleByValue(0.0);
 
-              if (bFailed == true) {
-                changeFadingTextViewValue(tv_Result_Upload, value, 0);
+              if (bFailed == true ||valueUnits.first <= 0.01F) {
+                changeFadingTextViewValue(tv_Result_Upload, getString(R.string.failed_0MBPS), 0);
               } else {
                 changeFadingTextViewValue(tv_Result_Upload, String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first)), 0);
               }

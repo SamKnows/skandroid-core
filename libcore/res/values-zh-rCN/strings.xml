@@ -146,6 +146,7 @@
 <string name="executing_now">运行中</string>
 <string name="executing_test">运行测试: </string>
 <string name="failed">失败</string>
+<string name="failed_0MBPS">&lt;0.01</string>
 <string name="failed_to_load_config">载入设定档失败!</string>
 <string name="false_string">False</string>
 <string name="finished_test">完成测试: </string>
