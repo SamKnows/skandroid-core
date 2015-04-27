@@ -84,6 +84,8 @@ import com.samknows.tests.HttpTest;
 
 
 public class FragmentRunTest extends Fragment {
+  static final String TAG = FragmentRunTest.class.getSimpleName();
+
   // *** CONSTANTS *** //
   private final static String C_TAG_FRAGMENT_SPEED_TEST = "Fragment SpeedTest";  // Tag for this fragment
   private final static int C_UPDATE_INTERVAL_IN_MS = 250;              // Time threshold in milliseconds to refresh the UI data
@@ -1401,6 +1403,7 @@ public class FragmentRunTest extends Fragment {
       } else  // If the data cap wasn't reached and won't be reached in the next run, hide the warning (maybe is not showed anyway)
       {
       }
+
     }
   }
 
@@ -1986,6 +1989,51 @@ public class FragmentRunTest extends Fragment {
       return;
     }
 
+    String showWithMessage = "";
+    if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
+      if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapReached()) {
+        Log.d(TAG, "Data cap exceeded");
+        showWithMessage = getString(R.string.data_cap_exceeded);
+      } else {
+
+        if (manualTest != null) {
+          if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapLikelyToBeReached(manualTest.getNetUsage())) {
+
+            // Data cap exceeded - but only ask the user if they want to continue, if the app is configured
+            // to work like that...
+            showWithMessage = getString(R.string.data_cap_might_be_exceeded);
+          }
+        }
+      }
+    }
+
+    if (showWithMessage.length() > 0) {
+
+      // Data cap exceeded limit hit, or will be hit!
+
+      Log.d(TAG, "Data cap exceeded");
+      new AlertDialog.Builder(getActivity())
+          .setMessage(showWithMessage)
+          .setPositiveButton(R.string.ok_dialog,
+              new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                  doRunTestAfterAllPreStartChecksCompleted();
+                }
+              })
+          .setNegativeButton(R.string.no_dialog,
+              new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+              }).show();
+      return;
+    } else {
+      doRunTestAfterAllPreStartChecksCompleted();
+    }
+  }
+
+  private void doRunTestAfterAllPreStartChecksCompleted() {
     // If at least one test is selected
     if (atLeastOneTestSelected()) {
       initial_warning_text.setVisibility(View.GONE);
