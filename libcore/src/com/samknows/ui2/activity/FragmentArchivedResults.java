@@ -133,6 +133,7 @@ public class FragmentArchivedResults extends Fragment {
 
     View view = getView();
     SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
+
     // Set fonts
     // Header labels fonts
     tv_warning_no_results_yet.setTypeface(typeface_Roboto_Light);

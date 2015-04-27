@@ -85,8 +85,6 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
       rowView.findViewById(R.id.loss_panel).setVisibility(View.GONE);
     }
 
-
-
     View view = rowView; // findViewById(android.R.id.content);
     SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
 
@@ -164,14 +162,17 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
       } else if (downloadResult.equals("-1"))    // The test failed
       {
         //testDownload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-        tv_Result_Download.setText(rowView.getContext().getString(R.string.failed_test));
-        testDownloadUnits.setVisibility(View.INVISIBLE);
+        //tv_Result_Download.setText(rowView.getContext().getString(R.string.failed_test));
+        //testDownloadUnits.setVisibility(View.INVISIBLE);
+        tv_Result_Download.setText(failed0MBPS);
+        testDownloadUnits.setText("Mbps");
       } else    // The test was OK
       {
         Pair<Float, String> valueUnits = FormattedValues.getFormattedSpeedValue(downloadResult);
         String theText = String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first));
         String textForZero = String.valueOf(0.0);
-        if (theText.equals(textForZero)) {
+        String textForFailed = getContext().getString(R.string.failed);
+        if (theText.equals(textForZero) || theText.equals(textForFailed)) {
           theText = rowView.getContext().getString(R.string.failed_0MBPS);
           tv_Result_Download.setText(theText);
           testDownloadUnits.setText("Mbps");
@@ -190,14 +191,17 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
         tv_Result_Upload.setText(rowView.getContext().getString(R.string.slash));
       } else if (uploadResult.equals("-1")) {
         //testUpload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-        tv_Result_Upload.setText(rowView.getContext().getString(R.string.failed_test));
-        testUploadUnits.setVisibility(View.INVISIBLE);
+//        tv_Result_Upload.setText(rowView.getContext().getString(R.string.failed_test));
+//        testUploadUnits.setVisibility(View.INVISIBLE);
+        tv_Result_Upload.setText(failed0MBPS);
+        testUploadUnits.setText("Mbps");
       } else    // The test was OK
       {
         Pair<Float, String> valueUnits = FormattedValues.getFormattedSpeedValue(uploadResult);
         String theText = String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first));
         String textForZero = String.valueOf(0.0);
-        if (theText.equals(textForZero)) {
+        String textForFailed = getContext().getString(R.string.failed);
+        if (theText.equals(textForZero) || theText.equals(textForFailed)) {
           theText = rowView.getContext().getString(R.string.failed_0MBPS);
           tv_Result_Upload.setText(theText);
           testUploadUnits.setText("Mbps");

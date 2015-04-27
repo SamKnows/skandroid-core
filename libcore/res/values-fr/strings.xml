@@ -489,7 +489,7 @@
     <string name="description_image_connectivity_type">Image representing the connectivity type</string>
     <string name="description_icon_download">This icon represents the download result</string>
     <string name="description_icon_upload">This icon represents the upload result</string>
-    <string name="description_image_bell_logo">Image with the Bell logo</string>
+    <string name="description_image_logo">Image with the application icon</string>
 
     <!-- UNITS -->
     <string name="units_Mbps">Mbps</string>

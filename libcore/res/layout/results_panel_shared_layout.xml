@@ -69,7 +69,7 @@
                     android:textStyle="bold"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_peta" />
+                    android:textSize="@dimen/text_size_giga" />
 
                 <com.samknows.measurement.activity.components.CustomFontFitTextView
                     android:id="@+id/mbps_label_1"
@@ -132,7 +132,7 @@
                     android:textStyle="bold"
                     android:text="@string/nineninenine"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_peta" />
+                    android:textSize="@dimen/text_size_giga" />
 
                 <com.samknows.measurement.activity.components.CustomFontFitTextView
                     android:id="@+id/mbps_label_2"
