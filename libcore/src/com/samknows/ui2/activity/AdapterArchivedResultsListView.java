@@ -155,8 +155,8 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
       String downloadResult = archivedResultsList.get(position).getDownloadResult();
 
       if (downloadResult.equals(failed)) {
-        tv_Result_Download.setText(failed0MBPS);
-        testDownloadUnits.setText("Mbps");
+        tv_Result_Download.setText(failed);
+        testDownloadUnits.setText("");
       } else if (downloadResult.equals("0")) {
         tv_Result_Download.setText(rowView.getContext().getString(R.string.slash));
       } else if (downloadResult.equals("-1"))    // The test failed
@@ -164,13 +164,13 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
         //testDownload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
         //tv_Result_Download.setText(rowView.getContext().getString(R.string.failed_test));
         //testDownloadUnits.setVisibility(View.INVISIBLE);
-        tv_Result_Download.setText(failed0MBPS);
-        testDownloadUnits.setText("Mbps");
+        tv_Result_Download.setText(failed);
+        testDownloadUnits.setText("");
       } else    // The test was OK
       {
         Pair<Float, String> valueUnits = FormattedValues.getFormattedSpeedValue(downloadResult);
         String theText = String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first));
-        String textForZero = String.valueOf(0.0);
+        String textForZero = String.valueOf(FormattedValues.sGet3DigitsNumber(0.0F));
         String textForFailed = getContext().getString(R.string.failed);
         if (theText.equals(textForZero) || theText.equals(textForFailed)) {
           theText = rowView.getContext().getString(R.string.failed_0MBPS);
@@ -185,21 +185,21 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
       String uploadResult = archivedResultsList.get(position).getUploadResult();
 
       if (uploadResult.equals(failed)) {
-        tv_Result_Upload.setText(failed0MBPS);
-        testUploadUnits.setText("Mbps");
+        tv_Result_Upload.setText(failed);
+        testUploadUnits.setText("");
       } else if (uploadResult.equals("0")) {
         tv_Result_Upload.setText(rowView.getContext().getString(R.string.slash));
       } else if (uploadResult.equals("-1")) {
         //testUpload.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
 //        tv_Result_Upload.setText(rowView.getContext().getString(R.string.failed_test));
 //        testUploadUnits.setVisibility(View.INVISIBLE);
-        tv_Result_Upload.setText(failed0MBPS);
-        testUploadUnits.setText("Mbps");
+        tv_Result_Upload.setText(failed);
+        testUploadUnits.setText("");
       } else    // The test was OK
       {
         Pair<Float, String> valueUnits = FormattedValues.getFormattedSpeedValue(uploadResult);
         String theText = String.valueOf(FormattedValues.sGet3DigitsNumber(valueUnits.first));
-        String textForZero = String.valueOf(0.0);
+        String textForZero = String.valueOf(FormattedValues.sGet3DigitsNumber(0.0F));
         String textForFailed = getContext().getString(R.string.failed);
         if (theText.equals(textForZero) || theText.equals(textForFailed)) {
           theText = rowView.getContext().getString(R.string.failed_0MBPS);
