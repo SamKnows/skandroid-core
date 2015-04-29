@@ -92,8 +92,8 @@ public class FragmentArchivedResults extends Fragment {
       tv_warning_no_results_yet;
   private Typeface typeface_Roboto_Light, typeface_Roboto_Thin;
   private MenuItem menu_Item_Network_Type_Filter, menu_Item_Refresh_Spinner, menu_Item_Share_Result;
-  private FontFitTextView publicIp;
-  private FontFitTextView submissionId;
+  private TextView publicIp;
+  private TextView submissionId;
 
   // Complex variables
   // Hosts the archived results
@@ -491,8 +491,8 @@ public class FragmentArchivedResults extends Fragment {
     tv_result_accuracy = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_accuracy);
     tv_result_provider = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_location_provider);
 
-    publicIp = (FontFitTextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
-    submissionId = (FontFitTextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
+    publicIp = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
+    submissionId = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
     publicIp.setText("");
     submissionId.setText("");
 

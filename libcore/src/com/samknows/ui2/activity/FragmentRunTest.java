@@ -1232,6 +1232,14 @@ public class FragmentRunTest extends Fragment {
 
       @Override
       public void OnClosestTargetSelected(String closestTarget) {
+
+        // http://stackoverflow.com/questions/28672883/java-lang-illegalstateexception-fragment-not-attached-to-activity
+        if ((isAdded() == false) || (FragmentRunTest.this.getActivity() == null)) {
+          // Not attached to Activity!
+          SKLogger.sAssert(false);
+          return;
+        }
+
         String hostUrl = closestTarget;
 
         if (hostUrl.length() != 0) {
@@ -1994,18 +2002,21 @@ public class FragmentRunTest extends Fragment {
     }
 
     String showWithMessage = "";
-    if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
-      if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapReached()) {
-        Log.d(TAG, "Data cap exceeded");
-        showWithMessage = getString(R.string.data_cap_exceeded);
-      } else {
+    // IF we're on mobile network (i.e. not on WiFi network...) do a datacap check!
+    if (Connectivity.isConnectedMobile(getActivity())) {
+      if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
+        if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapReached()) {
+          Log.d(TAG, "Data cap exceeded");
+          showWithMessage = getString(R.string.data_cap_exceeded);
+        } else {
 
-        if (manualTest != null) {
-          if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapLikelyToBeReached(manualTest.getNetUsage())) {
+          if (manualTest != null) {
+            if (SK2AppSettings.getSK2AppSettingsInstance().isDataCapLikelyToBeReached(manualTest.getNetUsage())) {
 
-            // Data cap exceeded - but only ask the user if they want to continue, if the app is configured
-            // to work like that...
-            showWithMessage = getString(R.string.data_cap_might_be_exceeded);
+              // Data cap exceeded - but only ask the user if they want to continue, if the app is configured
+              // to work like that...
+              showWithMessage = getString(R.string.data_cap_might_be_exceeded);
+            }
           }
         }
       }

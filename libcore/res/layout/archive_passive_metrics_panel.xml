@@ -63,16 +63,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                    <!-- <com.samknows.measurement.activity.components.CustomFontFitTextView -->
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:lines="1"
+                        android:maxLines="1"
                         android:gravity="left|center_vertical"
                         android:text="@string/pm_reference_no_label"
                         android:textColor="@color/MetricsTextColour"
-                        android:textSize="@dimen/text_size_small_medium"
-                        android:layout_marginRight="5dp"/>
+                        android:textSize="@dimen/text_size_small" />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_result_reference_number_value"
