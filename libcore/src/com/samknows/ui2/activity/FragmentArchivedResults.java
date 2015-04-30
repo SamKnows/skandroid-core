@@ -246,7 +246,9 @@ public class FragmentArchivedResults extends Fragment {
         switch (aList_ArchivedResults.get(clickedPosition).getNetworkType()) {
 
           case eNetworkTypeResults_Mobile: {
-            mArchiveShareButton.setVisibility(View.VISIBLE);
+            if (SKApplication.getAppInstance().isSocialMediaExportSupported() == true) {
+              mArchiveShareButton.setVisibility(View.VISIBLE);
+            }
           }
           break;
           default:
