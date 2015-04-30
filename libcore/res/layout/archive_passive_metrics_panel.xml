@@ -11,10 +11,12 @@
     android:orientation="vertical"
     tools:visibility="visible" >
 
+    <!-- Note: the margin values are critical to allow for the panel to display in the right place when activated! -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone" >
+        tools:visibility="visible" >
 
         <LinearLayout
             android:id="@+id/all_metrics"
@@ -38,52 +40,60 @@
                     <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_your_ip_label"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:gravity="left|top"
                         android:text="@string/pm_your_ip_label"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium"
-                        android:layout_marginRight="5dp"/>
+                        />
 
                     <com.samknows.measurement.activity.components.FontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_result_your_ip_value"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:gravity="left|center_vertical"
+                        android:layout_weight="5"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:gravity="left|top"
                         android:text="@string/pm_your_ip_example"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <!-- <com.samknows.measurement.activity.components.CustomFontFitTextView -->
-                    <me.grantland.widget.AutofitTextView
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:gravity="left|center_vertical"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
                         android:text="@string/pm_reference_no_label"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small" />
 
-                    <com.samknows.measurement.activity.components.FontFitTextView
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_result_reference_number_value"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_weight="5"
                         android:lines="1"
                         android:maxLines="1"
-                        android:gravity="left|center_vertical"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
                         android:text="@string/pm_reference_no_example"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium" />
