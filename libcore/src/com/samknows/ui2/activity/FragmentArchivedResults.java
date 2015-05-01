@@ -48,9 +48,7 @@ import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
-import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.storage.DBHelper;
-import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.StorageTestResult.*;
 
 /**

@@ -5,6 +5,7 @@ import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * This class represents a test result.
@@ -635,6 +636,7 @@ public class TestResult implements Parcelable {
    * @param pJitterResult
    */
   public void setJitterResult(String pJitterResult) {
+    Log.d("MPC TESTRESULT", "JITTER pJitterResult=" + pJitterResult);
     this.jitterResult = pJitterResult;
   }
 }

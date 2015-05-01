@@ -14,9 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-//import android.os.Trace;
 import android.util.Log;
-import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;

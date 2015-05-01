@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -38,11 +37,9 @@ import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -404,8 +401,11 @@ public class FragmentSummary extends Fragment {
                 layout_ll_summary_result_average_latency.setGravity(Gravity.LEFT);
                 layout_ll_summary_result_best_latency.setGravity(Gravity.RIGHT);
 
-                tv_summary_result_average_latency.setText(String.format("%.0f", summaryResult.getAverage()));
-                tv_summary_result_best_latency.setText(String.format("%.0f", summaryResult.getMin()));
+                String toShowAverage = StorageTestResult.timeMicrosecondsToMillisecondsStringNoUnits(summaryResult.getAverage() * 1000.0);
+                tv_summary_result_average_latency.setText(toShowAverage);
+
+                String toShowMin = StorageTestResult.timeMicrosecondsToMillisecondsStringNoUnits(summaryResult.getMin() * 1000.0);
+                tv_summary_result_best_latency.setText(toShowMin);
               }
             });
             break;
@@ -437,8 +437,11 @@ public class FragmentSummary extends Fragment {
                 layout_ll_summary_result_average_jitter.setGravity(Gravity.LEFT);
                 layout_ll_summary_result_best_jitter.setGravity(Gravity.RIGHT);
 
-                tv_summary_result_average_jitter.setText(String.format("%d", (int)summaryResult.getAverage()));
-                tv_summary_result_best_jitter.setText(String.format("%d", (int)summaryResult.getMin()));
+                String toShowAverage = StorageTestResult.timeMicrosecondsToMillisecondsStringNoUnits(summaryResult.getAverage() * 1000.0);
+                tv_summary_result_average_jitter.setText(toShowAverage);
+
+                String toShowMin = StorageTestResult.timeMicrosecondsToMillisecondsStringNoUnits(summaryResult.getMin() * 1000.0);
+                tv_summary_result_best_jitter.setText(toShowMin);
               }
             });
             break;

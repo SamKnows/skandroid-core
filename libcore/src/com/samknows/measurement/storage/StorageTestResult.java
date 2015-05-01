@@ -206,6 +206,13 @@ public class StorageTestResult extends JSONObject{
 		return ret;
 	}
 
+  // Use this method from the Summary screen; it is like timeMicrosecondsToString,
+  // but without the units; and ALWAYS in milliseconds.
+  public static String timeMicrosecondsToMillisecondsStringNoUnits(double valueMicroseconds) {
+    String ret = String.format("%.0f", valueMicroseconds/1000);
+    return ret;
+  }
+
 	public static String timeMicrosecondsToString(double valueMicroseconds) {
 		String ret = "";
 		if (valueMicroseconds < 1000) {
