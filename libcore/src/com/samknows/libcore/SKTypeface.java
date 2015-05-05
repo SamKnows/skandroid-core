@@ -1,6 +1,7 @@
 package com.samknows.libcore;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
@@ -26,8 +27,7 @@ public class SKTypeface {
 //      Log.d("SKTypefaceUtil", "typewriter.ttf!");
 //      SKLogger.sAssert(false);
     } else {
-      Log.d("SKTypefaceUtil", "Unexpected font path " + typefacePathInAssets);
-      SKLogger.sAssert(false);
+      Log.d("SKTypefaceUtil", "App requested custom font path (" + typefacePathInAssets + ")");
     }
 
     // e.g. could override here! typefacePathInAssets = "typewriter.ttf";
@@ -43,6 +43,12 @@ public class SKTypeface {
     }
 
     return result;
+  }
+
+  public static void sSetTypefaceForTextView(TextView textView, Typeface typeface) {
+    //textView.setPaintFlags(textView.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+    textView.getPaint().setSubpixelText(true);
+    textView.setTypeface(typeface);
   }
 
 
