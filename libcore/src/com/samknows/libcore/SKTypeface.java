@@ -114,10 +114,15 @@ public class SKTypeface {
     }
 
     // This call will return null *if* the app doesn't provide a specific override.
-    FONT_REGULAR = SKApplication.getAppInstance().getDefaultTypeface();
 
-    if (FONT_REGULAR == null) {
+    if (SKApplication.getAppInstance() == null) {
       FONT_REGULAR = Typeface.DEFAULT;
+    } else {
+      FONT_REGULAR = SKApplication.getAppInstance().getDefaultTypeface();
+
+      if (FONT_REGULAR == null) {
+        FONT_REGULAR = Typeface.DEFAULT;
+      }
     }
   }
 
