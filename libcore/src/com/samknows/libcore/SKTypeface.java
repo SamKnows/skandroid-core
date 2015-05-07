@@ -1,7 +1,5 @@
 package com.samknows.libcore;
 
-import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
@@ -52,25 +50,6 @@ public class SKTypeface {
   }
 
 
-  // Deprecated method
-  private static void overrideFonts(final Context context, final View v) {
-    Typeface defaultTypeface = sGetDefaultTypeface();
-
-    try {
-      if (v instanceof ViewGroup) {
-        ViewGroup vg = (ViewGroup) v;
-        for (int i = 0; i < vg.getChildCount(); i++) {
-          View child = vg.getChildAt(i);
-          overrideFonts(context, child);
-        }
-      } else if (v instanceof TextView) {
-        ((TextView) v).setTypeface(defaultTypeface);
-      }
-    } catch (Exception e) {
-      SKLogger.sAssert(false);
-    }
-  }
-
   private static void setTypefaceForViewIfPossible(View theView, Typeface font) {
     try {
       Object[] nullArgs = null;
@@ -86,7 +65,7 @@ public class SKTypeface {
   }
 
   // http://stackoverflow.com/questions/2711858/is-it-possible-to-set-font-for-entire-application
-  public static void sChangeChildrenFont(View view, Typeface font) {
+  private static void sChangeChildrenFont(View view, Typeface font) {
 
     if (view instanceof ViewGroup) {
       // Iterate through the view group!
@@ -105,7 +84,7 @@ public class SKTypeface {
 
   private static Typeface FONT_REGULAR = null;
 
-  public static void sInitializeFonts() {
+  private static void sInitializeFonts() {
     //FONT_REGULAR = SKTypeface.sGetTypefaceWithPathInAssets("typewriter.ttf");
 
     if (FONT_REGULAR != null) {
