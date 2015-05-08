@@ -143,6 +143,10 @@ public class SKApplication extends Application{
 	  return true;
 	}
 
+  public boolean getRevealGraphFromSettings() {
+    return true;
+  }
+
 	public boolean hideJitter() {
 		return false;
 	}
@@ -195,6 +199,10 @@ public class SKApplication extends Application{
 		SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		return p.getBoolean(SKConstants.PREF_DATA_CAP_ENABLED, true);
 	}
+
+  public boolean canViewLocationInSettings () {
+    return true;
+  }
 
 	public boolean isSocialMediaExportSupported() {
 		return false;

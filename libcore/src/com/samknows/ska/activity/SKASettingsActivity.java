@@ -268,6 +268,10 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 				}
 			});	
 		}
+
+    if (SKApplication.getAppInstance().canViewLocationInSettings() == false) {
+      findViewById(R.id.LocationServiceButtonFrame).setVisibility(View.GONE);
+    }
 	}
 	
 	@Override

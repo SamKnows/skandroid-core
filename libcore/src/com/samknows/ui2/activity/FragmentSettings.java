@@ -19,10 +19,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -274,6 +276,13 @@ public class FragmentSettings extends Fragment {
           alert.show();
         }
       });
+    }
+
+    if (SKApplication.getAppInstance().canViewLocationInSettings() == false) {
+      View locationInfoView =  view.findViewById(R.id.settings_location_info);
+      if (locationInfoView != null) {
+        locationInfoView.setVisibility(View.GONE);
+      }
     }
 
     return view;

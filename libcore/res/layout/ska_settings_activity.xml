@@ -595,6 +595,7 @@
 
                 <com.samknows.measurement.activity.components.FontFitTextView
                             style="@style/h1"
+                            android:id="@+id/settings_location_info"
                             android:layout_width="fill_parent"
                             android:layout_marginBottom="10dp"
                             android:gravity="left"
