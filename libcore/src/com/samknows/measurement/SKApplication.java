@@ -143,7 +143,7 @@ public class SKApplication extends Application{
 	  return true;
 	}
 
-  public boolean getRevealGraphFromSettings() {
+  public boolean getRevealGraphFromSummary() {
     return true;
   }
 

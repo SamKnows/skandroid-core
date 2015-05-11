@@ -1070,7 +1070,7 @@ public class FragmentSummary extends Fragment {
     });
 
     // Set the click listener for the download layout element (Download average and best result)
-    if (SKApplication.getAppInstance().getRevealGraphFromSettings()) {
+    if (SKApplication.getAppInstance().getRevealGraphFromSummary()) {
       layout_ll_summary_section_download.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -1124,7 +1124,7 @@ public class FragmentSummary extends Fragment {
     }
 
     // Set the click listener for the upload layout element (Upload average and best result)
-    if (SKApplication.getAppInstance().getRevealGraphFromSettings()) {
+    if (SKApplication.getAppInstance().getRevealGraphFromSummary()) {
       layout_ll_summary_section_upload.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -1181,7 +1181,7 @@ public class FragmentSummary extends Fragment {
     }
 
     // Set the click listener for the latency layout element (Latency average and best result)
-    if (SKApplication.getAppInstance().getRevealGraphFromSettings()) {
+    if (SKApplication.getAppInstance().getRevealGraphFromSummary()) {
       layout_ll_summary_section_latency.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -1237,7 +1237,7 @@ public class FragmentSummary extends Fragment {
     }
 
     // Set the click listener for the packet loss layout element (Packet loss average and best result)
-    if (SKApplication.getAppInstance().getRevealGraphFromSettings()) {
+    if (SKApplication.getAppInstance().getRevealGraphFromSummary()) {
       layout_ll_summary_section_packet_loss.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -1294,7 +1294,7 @@ public class FragmentSummary extends Fragment {
     }
 
     // Set the click listener for the jitter layout element (Jitter average and best result)
-    if (SKApplication.getAppInstance().getRevealGraphFromSettings()) {
+    if (SKApplication.getAppInstance().getRevealGraphFromSummary()) {
       layout_ll_summary_section_jitter.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View v) {
