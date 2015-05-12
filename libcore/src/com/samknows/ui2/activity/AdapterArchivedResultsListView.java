@@ -173,7 +173,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
         String textForZero = String.valueOf(FormattedValues.sGet3DigitsNumber(0.0F));
         String textForFailed = getContext().getString(R.string.failed);
         if (theText.equals(textForZero) || theText.equals(textForFailed)) {
-          theText = rowView.getContext().getString(R.string.failed_0MBPS);
+          theText = failed0MBPS;
           tv_Result_Download.setText(theText);
           testDownloadUnits.setText("Mbps");
         }
@@ -202,7 +202,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
         String textForZero = String.valueOf(FormattedValues.sGet3DigitsNumber(0.0F));
         String textForFailed = getContext().getString(R.string.failed);
         if (theText.equals(textForZero) || theText.equals(textForFailed)) {
-          theText = rowView.getContext().getString(R.string.failed_0MBPS);
+          theText = failed0MBPS;
           tv_Result_Upload.setText(theText);
           testUploadUnits.setText("Mbps");
         } else {
