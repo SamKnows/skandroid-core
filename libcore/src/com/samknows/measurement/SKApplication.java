@@ -260,6 +260,7 @@ public class SKApplication extends Application{
 		return "EnterpriseId_UNKNOWN";
 	}
 
+  // This must be overridden to return the HockeyApp id ...
 	public String getCrashManagerId() {
 		SKLogger.sAssert(getClass(), false);
 		return "CrashManagerId_UNKNOWN";
