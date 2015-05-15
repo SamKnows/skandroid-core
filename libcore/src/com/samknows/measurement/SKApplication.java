@@ -119,6 +119,10 @@ public class SKApplication extends Application{
 		sNetworkTypeResults = networkTypeResults;
 	}
 
+	public boolean getShouldTestResultsBeUploadedToTestSpecificServer() {
+		return false;
+	}
+
 	// Override this, if you want your application to support a 1-day result view.
 	public boolean supportOneDayResultView() {
 		return false;

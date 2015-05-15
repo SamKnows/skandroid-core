@@ -95,125 +95,8 @@ public class SubmitTestResultsAnonymousAction {
         break;
       }
 
-      long batchId = -1;
       String dataAsString = results[i];
-      JSONObject jObject = null;
-      try {
-        if (dataAsString.length() > 0) {
-          jObject = new JSONObject(dataAsString);
-        }
-        if (jObject != null) {
-          if (jObject.has("batch_id")) {
-            try {
-              String batchIdAsString = jObject.getString("batch_id");
-              long thisBatchId = Long.valueOf(batchIdAsString).longValue();
-
-              //    					long timeStamp = jObject.getLong("timestamp");
-              //    					// Finally - do we have have an entry in the database for this?
-              //    					// select id from test_batch where dtime = 1385458870802
-              //
-              if (batches != null) {
-                int theCount = batches.size();
-                int theIndex;
-                for (theIndex = 0; theIndex < theCount; theIndex++) {
-                  JSONObject theBatch = batches.get(theIndex);
-                  Long theBatchId = theBatch.getLong("_id");
-                  if (theBatchId == thisBatchId) {
-                    // Got it!
-                    batchId = thisBatchId;
-                    break;
-                  }
-                }
-
-              }
-            } catch (JSONException e) {
-              SKLogger.sAssert(getClass(), false);
-            }
-          }
-        }
-      } catch (JSONException e) {
-        SKLogger.sAssert(getClass(), false);
-        jObject = null;
-      }
-
-      // If this is OLD data, it will NOT have a batch id...
-      //SKLogger.sAssert(getClass(), batchId != -1);
-
-      HttpContext httpContext = new BasicHttpContext();
-      HttpClient httpClient = new DefaultHttpClient();
-      HttpPost httpPost = new HttpPost(buildUrl());
-      httpPost.setEntity(new ByteArrayEntity(data));
-      httpContext.setAttribute("Content-Length", data.length);
-      try {
-        HttpResponse httpResponse = httpClient.execute(httpPost);
-        StatusLine sl = httpResponse.getStatusLine();
-        isSuccess = sl.getStatusCode() == HttpStatus.SC_OK
-            && sl.getReasonPhrase().equals("OK");
-        int code = sl.getStatusCode();
-        Log.d(TAG, "submitting test results to server: " + isSuccess);
-
-        // http://stackoverflow.com/questions/15704715/getting-json-response-android
-        HttpEntity entity = httpResponse.getEntity();
-        if (entity != null) {
-          try {
-            String jsonString = EntityUtils.toString(entity);
-            // e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}
-            Log.d(TAG, "Process response from server as string, to extract data from the JSON!: " + jsonString);
-
-            JSONObject jsonResponse = new JSONObject(jsonString);
-
-            if (batchId != -1) {
-
-              JSONObject item1 = new JSONObject();
-              try {
-                item1.put(PassiveMetric.JSON_METRIC_NAME, "public_ip");
-                item1.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
-                item1.put(PassiveMetric.JSON_VALUE, jsonResponse.get("public_ip"));
-                item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.PUBLICIP);
-              } catch (JSONException e) {
-                SKLogger.sAssert(getClass(), false);
-              }
-
-
-              JSONObject item2 = new JSONObject();
-              try {
-                item2.put(PassiveMetric.JSON_METRIC_NAME, "submission_id");
-                item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
-                item2.put(PassiveMetric.JSON_VALUE, jsonResponse.get("submission_id"));
-                item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.SUBMISSIONID);
-
-                SKApplication.getAppInstance().mLastPublicIp = jsonResponse.get("public_ip").toString();
-                SKApplication.getAppInstance().mLastSubmissionId = jsonResponse.get("submission_id").toString();
-              } catch (JSONException e) {
-                SKLogger.sAssert(getClass(), false);
-              }
-
-//							metric_type = metric.getString(PassiveMetric.JSON_METRIC_NAME);
-//							dtime = metric.getLong(PassiveMetric.JSON_DTIME);
-//							value = metric.getString(PassiveMetric.JSON_VALUE);
-//							type = metric.getString(PassiveMetric.JSON_TYPE);
-//							insertPassiveMetric(metric_type, type, dtime, value
-
-              JSONArray jsonArray = new JSONArray();
-
-              jsonArray.put(item1);
-              jsonArray.put(item2);
-              dbHelper.insertPassiveMetric(jsonArray, batchId);
-
-              // Force the History screen to re-query, so it can show the submission id/public ip
-              LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
-            }
-
-          } catch (ParseException e) {
-            SKLogger.sAssert(getClass(), false);
-          } catch (IOException e) {
-            SKLogger.sAssert(getClass(), false);
-          }
-        }
-      } catch (Exception e) {
-        SKLogger.e(this, "failed to submit results to server", e);
-        isSuccess = false;
-      }
+      uploadJsonData(dbHelper, batches, data, dataAsString);
 
       if (!isSuccess) {
         fail.add(i);
@@ -227,7 +110,180 @@ public class SubmitTestResultsAnonymousAction {
     }
   }
 
-  public String buildUrl() {
+  private boolean uploadJsonData(DBHelper dbHelper, List<JSONObject> batches,  byte[] data, String dataAsString) {
+
+    long batchId = -1;
+    JSONObject jObject = null;
+    try {
+      if (dataAsString.length() > 0) {
+        jObject = new JSONObject(dataAsString);
+      }
+      if (jObject != null) {
+        if (jObject.has("batch_id")) {
+          try {
+            String batchIdAsString = jObject.getString("batch_id");
+            long thisBatchId = Long.valueOf(batchIdAsString).longValue();
+
+            //    					long timeStamp = jObject.getLong("timestamp");
+            //    					// Finally - do we have have an entry in the database for this?
+            //    					// select id from test_batch where dtime = 1385458870802
+            //
+            if (batches != null) {
+              int theCount = batches.size();
+              int theIndex;
+              for (theIndex = 0; theIndex < theCount; theIndex++) {
+                JSONObject theBatch = batches.get(theIndex);
+                Long theBatchId = theBatch.getLong("_id");
+                if (theBatchId == thisBatchId) {
+                  // Got it!
+                  batchId = thisBatchId;
+                  break;
+                }
+              }
+
+            }
+          } catch (JSONException e) {
+            SKLogger.sAssert(getClass(), false);
+          }
+        }
+      }
+    } catch (JSONException e) {
+      SKLogger.sAssert(getClass(), false);
+      jObject = null;
+    }
+
+    // If this is OLD data, it will NOT have a batch id...
+    //SKLogger.sAssert(getClass(), batchId != -1);
+
+    SK2AppSettings settings = SK2AppSettings.getSK2AppSettingsInstance();
+    Uri builtUri = Uri.parse(SKApplication.getAppInstance().getBaseUrlForUpload());
+    String fullUploadUrl = builtUri.buildUpon().path(settings.submit_path).toString();
+
+    if (SKApplication.getAppInstance().getShouldTestResultsBeUploadedToTestSpecificServer() == true) {
+      // TODO: For SOME systems, we need to determine the server to use FROM THE DATA!
+      if (jObject == null) {
+        SKLogger.sAssert(false);
+      } else {
+        try {
+
+          String targetServerUrl = null;
+          JSONArray testArray = jObject.getJSONArray("tests");
+          int count = testArray.length();
+          int index;
+          for (index = 0; index < count; index++) {
+            JSONObject theTestDict = testArray.getJSONObject(index);
+            //NSLog(@"DEBUG: description = %@", jsonObject.description);
+            if (theTestDict.has("target")) {
+                targetServerUrl = theTestDict.getString("target");
+                break;
+            }
+          }
+
+          if (targetServerUrl == null) {
+            SKLogger.sAssert(false);
+          } else {
+            Log.d(TAG, "targetServerUrl=" + targetServerUrl);
+
+            if (targetServerUrl.startsWith("http:"))  {
+              // Already starts http
+            } else {
+              // Need to add http:// prefix!
+              targetServerUrl = String.format("http://%s", targetServerUrl);
+              SKLogger.sAssert(targetServerUrl.startsWith("http://"));
+
+              // Use this overriding server URL!
+              targetServerUrl =String.format("%s/log/receive_mobile.php", targetServerUrl);
+              fullUploadUrl = targetServerUrl;
+              Log.d(TAG, "overriding fullUploadUrl=" + fullUploadUrl);
+            }
+          }
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    HttpPost httpPost = new HttpPost(fullUploadUrl);
+    httpPost.setEntity(new ByteArrayEntity(data));
+
+    HttpContext httpContext = new BasicHttpContext();
+    httpContext.setAttribute("Content-Length", data.length);
+    try {
+      HttpClient httpClient = new DefaultHttpClient();
+      HttpResponse httpResponse = httpClient.execute(httpPost);
+      StatusLine sl = httpResponse.getStatusLine();
+      isSuccess = sl.getStatusCode() == HttpStatus.SC_OK
+          && sl.getReasonPhrase().equals("OK");
+      int code = sl.getStatusCode();
+      Log.d(TAG, "submitting test results to server: " + isSuccess);
+
+      // http://stackoverflow.com/questions/15704715/getting-json-response-android
+      HttpEntity entity = httpResponse.getEntity();
+      if (entity != null) {
+        try {
+          String jsonString = EntityUtils.toString(entity);
+          // e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}
+          Log.d(TAG, "Process response from server as string, to extract data from the JSON!: " + jsonString);
+
+          JSONObject jsonResponse = new JSONObject(jsonString);
+
+          if (batchId != -1) {
+
+            JSONObject item1 = new JSONObject();
+            try {
+              item1.put(PassiveMetric.JSON_METRIC_NAME, "public_ip");
+              item1.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
+              item1.put(PassiveMetric.JSON_VALUE, jsonResponse.get("public_ip"));
+              item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.PUBLICIP);
+            } catch (JSONException e) {
+              SKLogger.sAssert(getClass(), false);
+            }
+
+
+            JSONObject item2 = new JSONObject();
+            try {
+              item2.put(PassiveMetric.JSON_METRIC_NAME, "submission_id");
+              item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
+              item2.put(PassiveMetric.JSON_VALUE, jsonResponse.get("submission_id"));
+              item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.SUBMISSIONID);
+
+              SKApplication.getAppInstance().mLastPublicIp = jsonResponse.get("public_ip").toString();
+              SKApplication.getAppInstance().mLastSubmissionId = jsonResponse.get("submission_id").toString();
+            } catch (JSONException e) {
+              SKLogger.sAssert(getClass(), false);
+            }
+
+//							metric_type = metric.getString(PassiveMetric.JSON_METRIC_NAME);
+//							dtime = metric.getLong(PassiveMetric.JSON_DTIME);
+//							value = metric.getString(PassiveMetric.JSON_VALUE);
+//							type = metric.getString(PassiveMetric.JSON_TYPE);
+//							insertPassiveMetric(metric_type, type, dtime, value
+
+            JSONArray jsonArray = new JSONArray();
+
+            jsonArray.put(item1);
+            jsonArray.put(item2);
+            dbHelper.insertPassiveMetric(jsonArray, batchId);
+
+            // Force the History screen to re-query, so it can show the submission id/public ip
+            LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
+          }
+
+        } catch (ParseException e) {
+          SKLogger.sAssert(getClass(), false);
+        } catch (IOException e) {
+          SKLogger.sAssert(getClass(), false);
+        }
+      }
+    } catch (Exception e) {
+      SKLogger.e(this, "failed to submit results to server", e);
+      isSuccess = false;
+    }
+
+    return isSuccess;
+  }
+
+  private String privateBuildUrl() {
 
     SK2AppSettings settings = SK2AppSettings.getSK2AppSettingsInstance();
     //SKLogger.sAssert(getClass(), settings.protocol_scheme.length() > 0);

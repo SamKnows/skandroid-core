@@ -41,12 +41,12 @@ public class SKConstants {
 	
 	public static final long NET_ACTIVITY_CONDITION_WAIT_TIME = 5000;
 
-	public static final int CONNECTION_TIMEOUT_20_SECONDS_IN_MILLIS = 20 * 1000;//20sec, SECONDS * MILLIS	
+	//public static final int CONNECTION_TIMEOUT_20_SECONDS_IN_MILLIS = 20 * 1000;//20sec, SECONDS * MILLIS
 	public static final int CONNECTION_TIMEOUT_30_SECONDS_IN_MILLIS = 30 * 1000;//30sec
 	
 	public static final long SUBMITED_LOGS_MAX_SIZE = 5L * 1024L * 1024L; //in bytes
 	
-	public static int RC_SCHEDULE_TEST = 0;
+	//public static int RC_SCHEDULE_TEST = 0;
 	public static int RC_NOTIFICATION = 1;
 	
 	public static final String RESULT_OK = "OK";
@@ -56,7 +56,7 @@ public class SKConstants {
 	
 	public static final String TEST_RESULTS_TO_SUBMIT_FILE_NAME = "test_results_to_submit";
 	public static final String TEST_RESULTS_SUBMITTED_FILE_NAME = "test_results_submited";
-	public static final String SCHEDULE_CONFIG_FILE_NAME 		= "schedule_fcc";
+	//public static final String SCHEDULE_CONFIG_FILE_NAME 		= "schedule_fcc";
 	public static final String EXECUTION_QUEUE_FILE_NAME 		= "execution_queue";
 	public static final String TEST_PARAMS_MANAGER_FILE_NAME 	= "test_params";
 	public static final String KEYS_FILE_NAME 					= "keys";
@@ -88,7 +88,7 @@ public class SKConstants {
 	public static final String PREF_FILE_NAME = "SK_PREFS";
 	public static final String PREF_KEY_STATE = "InitState";
 	public static final String PREF_NEXT_RUN_TIME = "next_test_run";
-	public static final String PREF_KEY_SERVER_BASE_URL = "ServerBaseUrl";
+	//public static final String PREF_KEY_SERVER_BASE_URL = "ServerBaseUrl";
 	public static final String PREF_KEY_UNIT_ID = "UnitId";
 	public static final String PREF_KEY_USED_BYTES_MONTH = "usedBytes_month";	
 	public static final String PREF_KEY_USED_BYTES_LAST_TIME = "usedBytesLastTime";
@@ -102,7 +102,7 @@ public class SKConstants {
 	public static final String PREF_SERVICE_ENABLED = "enable_testing";
 	public static final String PREF_KEY_DATA_CAP_DAY_IN_MONTH_RESET = "data_cap_reset_day";
 	public static final String PREF_DATA_CAP_ENABLED = "data_cap_enabled";
-	public static final String PREF_DATA_CAP_USER_DEFINED = "data_cap_user_defined";
+	//public static final String PREF_DATA_CAP_USER_DEFINED = "data_cap_user_defined";
 	public static final String PREF_ENABLE_WAKEUP = "enable_wakeup";
 	public static final String PREF_LOCATION_TYPE = "location_type";
 	public static String PREF_DATA_CAP_RESET_DAY = "data_cap_reset_day";
@@ -112,12 +112,12 @@ public class SKConstants {
 	public static final String TEST_TYPE_UPLOAD = "upstreamthroughput";
 	public static final String TEST_TYPE_LATENCY = "latency";
 	
-	public static final String TEST_PARAM_CLOSEST = "closest";
+	//public static final String TEST_PARAM_CLOSEST = "closest";
 	//dialogs
 	public static final String RUN_TEST_DIALOG_ID = "1";
 	
 	//data cap limits
-	public static final int DATA_CAP_DEFAULT_VALUE=100;
+	//public static final int DATA_CAP_DEFAULT_VALUE=100;
 	public static final int DATA_CAP_MAX_VALUE=5000;
 	public static final int DATA_CAP_MIN_VALUE=1;
 	
