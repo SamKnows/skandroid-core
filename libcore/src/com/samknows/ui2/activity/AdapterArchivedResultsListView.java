@@ -221,9 +221,9 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
       else {
         packetLossTestWasPerformed = true;
 
-        if (latencyResult.equals("-1")) {
+        if (latencyResult.equals("-1") || latencyResult.equals("-")) {
           //testLatency.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
-          testLatency.setText(context.getString(R.string.failed_test));
+          testLatency.setText(rowView.getContext().getString(R.string.slash));
         } else {
           Pair<String, String> valueUnits = FormattedValues.getFormattedLatencyValue(latencyResult);
           testLatency.setText(valueUnits.first + " " + valueUnits.second);

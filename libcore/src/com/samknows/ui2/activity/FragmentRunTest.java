@@ -354,7 +354,8 @@ public class FragmentRunTest extends Fragment {
                 return;
               }
               if (getActivity() == null) {
-                SKLogger.sAssert(getClass(), false);
+                // e.g. test completes, after fragment detatched
+                SKLogger.sAssert(false);
                 return;
               }
 
@@ -411,7 +412,8 @@ public class FragmentRunTest extends Fragment {
     @Override
     protected void onPostExecute(Boolean result) {
       if (getActivity() == null) {
-        SKLogger.sAssert(getClass(), false);
+        // e.g. test completes, after fragment detatched
+        SKLogger.sAssert(false);
 
       } else {
 
@@ -1151,6 +1153,12 @@ public class FragmentRunTest extends Fragment {
    * Restores all selected tests from storage.
    */
   private void restoreWhichTestsToRun() {
+    if ((getActivity() == null) || (isAdded() == false)) {
+      // e.g. test completes, after fragment detatched
+      SKLogger.sAssert(false);
+      return;
+    }
+
     Context context = SKApplication.getAppInstance().getApplicationContext();
     SharedPreferences prefs = context.getSharedPreferences(getString(R.string.sharedPreferencesIdentifier), Context.MODE_PRIVATE);
 
@@ -1392,6 +1400,13 @@ public class FragmentRunTest extends Fragment {
    * Checks if the data cap has been or might be exceeded
    */
   private void checkOutDataCap() {
+
+    if ((getActivity() == null) || (isAdded() == false)) {
+      // e.g. test completes, after fragment detatched
+      SKLogger.sAssert(false);
+      return;
+    }
+
     // If the data cap is enabled
     if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {
       String warningMessage = "";
@@ -1548,9 +1563,14 @@ public class FragmentRunTest extends Fragment {
       WifiInfo wifiInfo = wifiManager.getConnectionInfo();
       //if (netInfo != null && wifiInfo != null) {
       if (wifiInfo != null) {
-        String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
-        //wifiInfoSSID = "A test network";
-        return wifiInfoSSID;
+        String theSSID = wifiInfo.getSSID();
+        if (theSSID == null) {
+          SKLogger.sAssert(false);
+        } else {
+          String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
+          //wifiInfoSSID = "A test network";
+          return wifiInfoSSID;
+        }
       }
     }
 
@@ -1588,7 +1608,7 @@ public class FragmentRunTest extends Fragment {
       }
 
       tv_TopTextNetworkType.setText(networkType);
-      tv_TopTextNetworkType.setVisibility(gaugeVisible ?  View.VISIBLE : View.INVISIBLE);
+      tv_TopTextNetworkType.setVisibility(gaugeVisible ? View.VISIBLE : View.INVISIBLE);
     }
   }
 
@@ -1801,6 +1821,12 @@ public class FragmentRunTest extends Fragment {
     manualTest = null;
     threadRunningTests = null;
 
+    if ((getActivity() == null) || (isAdded() == false)) {
+      // e.g. test completes, after fragment detatched
+      SKLogger.sAssert(false);
+      return;
+    }
+
     menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
     changeAdviceMessageTo(getString(R.string.advice_message_press_the_button_run_again));
     resetProgressBar();
@@ -1937,8 +1963,9 @@ public class FragmentRunTest extends Fragment {
     //
     // Tests are running - stop the tests, if the user agrees!
     //
-    if (getActivity() == null) {
-      SKLogger.sAssert(getClass(), false);
+    if ((getActivity() == null) || (isAdded() == false)) {
+      // e.g. test completes, after fragment detatched
+      SKLogger.sAssert(false);
       return;
     }
 
@@ -2073,10 +2100,12 @@ public class FragmentRunTest extends Fragment {
       new InitTestAsyncTask().execute();
     } else {
       // No tests are selected: show the activity to select tests
-      if (getActivity() == null) {
-        SKLogger.sAssert(getClass(), false);
+      if ((getActivity() == null) || (isAdded() == false)) {
+        // e.g. test completes, after fragment detatched
+        SKLogger.sAssert(false);
         return;
       }
+
       Intent intent_select_tests = new Intent(getActivity(), ActivitySelectTests.class);
       startActivity(intent_select_tests);
     }

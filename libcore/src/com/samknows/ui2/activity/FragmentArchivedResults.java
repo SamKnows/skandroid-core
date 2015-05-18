@@ -718,6 +718,13 @@ public class FragmentArchivedResults extends Fragment {
    * @return
    */
   private void populateEmptyArrayList(ArrayList<TestResult> pTemporaryArchivedTestsList) {
+
+    if ((getActivity() == null) || (isAdded() == false)) {
+      // e.g. test completes, after fragment detatched
+      SKLogger.sAssert(false);
+      return;
+    }
+
     Context context = SKApplication.getAppInstance();
     DBHelper dbHelper = new DBHelper(context);
     JSONArray archivedResultArray = dbHelper.getArchiveData(-1);
