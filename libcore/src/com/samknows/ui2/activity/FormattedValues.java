@@ -104,7 +104,8 @@ public class FormattedValues {
       if (unit.equals("s")) {
         return new Pair<String, String>(new DecimalFormat("0.0").format(1000 * Float.valueOf(values[0])), unit);
       } else {
-        DecimalFormat useFormat = new DecimalFormat("000");
+        //DecimalFormat useFormat = new DecimalFormat("000");
+        DecimalFormat useFormat = new DecimalFormat("0");
         useFormat.setMaximumFractionDigits(0);
         return new Pair<String, String>(useFormat.format(Math.round(Float.valueOf(Float.valueOf(values[0])))), unit);
       }
@@ -170,7 +171,8 @@ public class FormattedValues {
     } else if (pValue < 100) {
       formatter = new DecimalFormat("00.0");
     } else if (pValue >= 100) {
-      formatter = new DecimalFormat("000");
+      //formatter = new DecimalFormat("000");
+      formatter = new DecimalFormat("0");
     }
 
     return String.valueOf(formatter.format(pValue));

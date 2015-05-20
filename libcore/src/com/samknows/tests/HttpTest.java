@@ -4,8 +4,14 @@ package com.samknows.tests;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -315,6 +321,30 @@ public abstract class HttpTest extends Test {
     return true;
   }
 
+//  void sendTestPing(String token) {
+//    //
+//    DatagramSocket socket = null;
+//    try {
+//      socket = new DatagramSocket();
+//
+//      try {
+//        InetAddress address = InetAddress.getByName("192.168.2.105");
+//        byte[] buf = token.getBytes(Charset.forName("UTF-8"));
+//        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 90);
+//        socket.send(packet);
+//      } catch (Exception e) {
+//        SKLogger.sAssert(false);
+//      }
+//    } catch (SocketException e2) {
+//      socket.close();
+//      SKLogger.sAssert(false);
+//    } finally {
+//      if (socket != null) {
+//        socket.close();
+//      }
+//    }
+//  }
+
   @Override
   public boolean isSuccessful() {
     return testStatus.equals("OK");
@@ -328,6 +358,8 @@ public abstract class HttpTest extends Test {
   public void execute() {													/* Execute test */
     //smDebugSocketSendTimeMicroseconds.clear();
     //Context context = SKApplication.getAppInstance().getBaseContext();
+
+    //sendTestPing("TIMING_Start");
 
     if (downstream) {
       //SKLogger.d(this, "DOWNLOAD HTTP TEST - execute()");
@@ -359,6 +391,8 @@ public abstract class HttpTest extends Test {
     } else {
       infoString = HTTPPOSTDONE;
     }
+
+    //sendTestPing("TIMING_Stop");
 
     output();
     finish();
