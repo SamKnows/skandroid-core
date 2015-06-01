@@ -1,6 +1,7 @@
-package com.samknows.ska.activity;
+package com.samknows.ui2.activity;
 
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,13 +11,16 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.libcore.SKLogger;
 
+// This "About" screen is used by the "new app"
 public class SKAAboutActivity extends BaseLogoutActivity {
 
 	@Override
 	public void onStart(){
 		super.onStart();
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
-		this.setTitle(SKApplication.getAppInstance().getAboutScreenTitle());
+    String theTitle = SKApplication.getAppInstance().getAboutScreenTitle();
+    this.setTitle(theTitle);
+
 		setContentView(R.layout.ska_about_activity);
 		String versionName="";
 		try {

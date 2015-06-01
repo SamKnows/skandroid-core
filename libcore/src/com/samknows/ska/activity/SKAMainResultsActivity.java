@@ -90,6 +90,7 @@ import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.storage.StorageTestResult.*;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.ska.activity.components.StatView;
+import com.samknows.ui2.activity.SKAAboutActivity;
 
 public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		implements OnClickListener {

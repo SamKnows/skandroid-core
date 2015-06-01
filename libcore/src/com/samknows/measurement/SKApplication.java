@@ -9,8 +9,7 @@ import com.samknows.libcore.SKOperators;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.storage.ExportFile;
 import com.samknows.measurement.test.TestResultsManager;
-import com.samknows.measurement.util.Base64.InputStream;
-import com.samknows.ska.activity.SKAAboutActivity;
+import com.samknows.ui2.activity.SKAAboutActivity;
 import com.samknows.ska.activity.SKATermsOfUseActivity;
 
 import android.app.Activity;
@@ -140,7 +139,7 @@ public class SKApplication extends Application{
 
 	// Return the About screen title.
 	public String getAboutScreenTitle() {
-		return getApplicationContext().getString(R.string.about);
+		return getApplicationContext().getString(R.string.about) + " " + getAppName();
 	}
 	
 	public boolean getRevealPassiveMetricsFromPanel() {

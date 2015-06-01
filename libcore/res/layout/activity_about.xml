@@ -19,7 +19,9 @@
           android:layout_height="wrap_content"
           android:layout_marginBottom="10dp"
           android:textColor="@color/yellow"
-          android:textSize="@dimen/text_size_large"/>
+          android:textSize="@dimen/text_size_large"
+          android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/activity_about_label_download"
