@@ -418,7 +418,7 @@ public class TestExecutor {
 
 		NotificationManager manager = (NotificationManager) tc
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification n = new Notification(R.drawable.icon, message,
+		Notification n = new Notification(R.drawable.icon_notification, message,
 				System.currentTimeMillis());
 		PendingIntent intent = PendingIntent.getService(tc.getContext(),
 				SKConstants.RC_NOTIFICATION, new Intent(),

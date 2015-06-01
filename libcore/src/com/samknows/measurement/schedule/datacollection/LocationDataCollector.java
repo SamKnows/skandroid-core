@@ -104,15 +104,19 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		
 		locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
 		//if the provider in the settings is gps but the service is not enable fail over to network provider
-		if(locationType == LocationType.gps &&!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-			if (manager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-				locationType = LocationType.network;
+		if (locationType == LocationType.gps && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+      // The following call has been seen to return null on some devices!
+			List<String> providers = manager.getAllProviders();
+			if (providers != null) {
+				if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+					locationType = LocationType.network;
+				}
+			} else {
+				SKLogger.sAssert(false);
 			}
 		}
 		
-		if(locationType != LocationType.gps && locationType != LocationType.network){
-			// throw new RuntimeException("unknown location type: " + locationType);
-			
+		if (locationType != LocationType.gps && locationType != LocationType.network) {
 			// Rather than simply crashing the app with an exception - stick to Network type, which will
 			// be handled benignly...
 			locationType = LocationType.network;
@@ -120,7 +124,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		
 		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
 		
-		if(getLastKnown){
+		if (getLastKnown) {
 			lastKnown = manager.getLastKnownLocation(provider);
 		}
 		gotLastLocation = false;
@@ -134,7 +138,6 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 			
 			manager.requestLocationUpdates(provider, 0, 0, LocationDataCollector.this, Looper.getMainLooper());
 	
-			
 			Log.d(TAG, "start collecting location data from: " + provider);
 		
 		} catch (java.lang.IllegalArgumentException ex) {
