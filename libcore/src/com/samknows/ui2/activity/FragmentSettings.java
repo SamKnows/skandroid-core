@@ -352,6 +352,9 @@ public class FragmentSettings extends Fragment {
       // Background processing disabled in the schedule!
       try {
         view.findViewById(R.id.autotesting_row).setVisibility(View.GONE);
+
+        // Also hide all the containing system info block!
+        view.findViewById(R.id.system_info_tablerow).setVisibility(View.GONE);
       } catch (NoSuchFieldError e) {
       }
       try {

@@ -154,11 +154,13 @@
                     android:paddingTop="10dp"
                     android:shrinkColumns="0" >
 
+                    <!-- System Info header (begin) -->
                     <TableRow
+                        android:id="@+id/system_info_tablerow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp" >
+                        android:layout_marginRight="10dp">
 
                         <TextView
                             style="@style/h1"
@@ -169,14 +171,17 @@
                             android:textColor="#909090"
                             android:textStyle="bold" />
                     </TableRow>
+                    <!-- System Info header (end) -->
 
+                    <!-- Schedule version (hidden!) (begin) -->
                     <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:paddingRight="5dp" >
+                        android:paddingRight="5dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_weight="50"
@@ -203,7 +208,9 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp" >
                     </TableRow>
+                    <!-- Schedule version (hidden!) (end) -->
 
+                    <!-- Service activated (hidden!) (begin) -->
                     <LinearLayout
                         style="@style/row"
                         android:layout_width="match_parent"
@@ -231,7 +238,9 @@
                             android:gravity="center_vertical|right"
                             android:textColor="#2a2a2a" />
                     </LinearLayout>
+                    <!-- Service activated (hidden!) (end) -->
 
+                    <!-- Service autotesting (shown only if background testing enabled) (begin) -->
                     <LinearLayout
                         android:id="@+id/autotesting_row"
                         style="@style/row"
@@ -259,7 +268,9 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="center_vertical|right" />
                     </LinearLayout>
+                    <!-- Service autotesting (shown only if background testing enabled) (begin) -->
 
+                    <!-- Service next schedule task (shown only if background testing enabled) (begin) -->
                     <LinearLayout
                         style="@style/row"
                         android:id="@+id/next_service_task"
@@ -289,7 +300,9 @@
                             android:gravity="center_vertical|right"
                             android:textSize="10sp" />
                     </LinearLayout>
+                    <!-- Service next schedule task (shown only if background testing enabled) (end) -->
 
+                    <!-- Service next scheduled for (shown only if background testing enabled) (begin) -->
                     <LinearLayout
                         android:id="@+id/next_test_scheduled_for_row"
                         style="@style/row"
@@ -317,6 +330,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="center_vertical|right" />
                     </LinearLayout>
+                    <!-- Service next scheduled for (shown only if background testing enabled) (end) -->
 
                     <LinearLayout
                         style="@style/row"
