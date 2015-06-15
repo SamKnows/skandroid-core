@@ -497,23 +497,23 @@ public abstract class HttpTest extends Test {
     o.add(Integer.toString(nThreads));
     output.put(JsonData.JSON_NUMBER_OF_THREADS, nThreads);
 
-    // TODO: remove the following block in production?
-    if (OtherUtils.isDebuggable(SKApplication.getAppInstance())) {
-      StringBuilder sb = new StringBuilder();
-      Iterator<Entry<String, Object>> iter = output.entrySet().iterator();
-      while (iter.hasNext()) {
-        Entry<String, Object> entry = iter.next();
-        sb.append(entry.getKey());
-        sb.append('=').append('"');
-        sb.append(entry.getValue());
-        sb.append('"');
-        if (iter.hasNext()) {
-          sb.append(',').append(' ');
-        }
-      }
-
-      //SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
-    }
+//    // TODO: remove the following block in production?
+//    if (OtherUtils.isDebuggable(SKApplication.getAppInstance())) {
+//      StringBuilder sb = new StringBuilder();
+//      Iterator<Entry<String, Object>> iter = output.entrySet().iterator();
+//      while (iter.hasNext()) {
+//        Entry<String, Object> entry = iter.next();
+//        sb.append(entry.getKey());
+ //       sb.append('=').append('"');
+//        sb.append(entry.getValue());
+//        sb.append('"');
+//        if (iter.hasNext()) {
+//          sb.append(',').append(' ');
+//        }
+//      }
+//
+//      //SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
+//    }
 
     setOutput(o.toArray(new String[1]));
     setJSONResult(output);
