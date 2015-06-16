@@ -92,6 +92,8 @@ public class FragmentArchivedResults extends Fragment {
   private MenuItem menu_Item_Network_Type_Filter, menu_Item_Refresh_Spinner, menu_Item_Share_Result;
   private TextView publicIp;
   private TextView submissionId;
+  private TextView networkType;
+  private TextView target;
 
   // Complex variables
   // Hosts the archived results
@@ -493,8 +495,12 @@ public class FragmentArchivedResults extends Fragment {
 
     publicIp = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_your_ip_value);
     submissionId = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_reference_number_value);
+    networkType = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_network_type);
+    target = (TextView) pView.findViewById(R.id.fragment_archived_results_passive_metric_result_target);
     publicIp.setText("");
     submissionId.setText("");
+    networkType.setText("");
+    target.setText("");
 
     // Initialise fonts
     typeface_Roboto_Light = SKTypeface.sGetTypefaceWithPathInAssets( "fonts/roboto_light.ttf");
@@ -547,7 +553,7 @@ public class FragmentArchivedResults extends Fragment {
     lv_archived_results.setAdapter(adapter_Archived_Results);                        // Assign the adapter to the list view
 
     // Set the listener to show the passive metrics/details about an specific archived test
-    if (SKApplication.getAppInstance().getRevealPassiveMetricsFromPanel()) {
+    if (SKApplication.getAppInstance().getRevealPassiveMetricsOnArchiveResultsPanel()) {
       lv_archived_results.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -747,6 +753,8 @@ public class FragmentArchivedResults extends Fragment {
           String testnumber = activeMetricsEntry.getString("test");
           String success = activeMetricsEntry.getString("success");
           String hrresult = activeMetricsEntry.getString("hrresult");
+          String targetServerLocation = activeMetricsEntry.getString("location");
+          testResult.setTargetServerLocation(targetServerLocation);
 
           if (success.equals("0")) {
             hrresult = getString(R.string.failed);
@@ -998,6 +1006,12 @@ public class FragmentArchivedResults extends Fragment {
     }
     if (submissionId != null) {
       submissionId.setText(pTestResult.getSubmissionId());
+    }
+    if (networkType != null) {
+      networkType.setText(pTestResult.getNetworkTypeAsString());
+    }
+    if (target != null) {
+      target.setText(pTestResult.getTargetServerLocation());
     }
   }
 

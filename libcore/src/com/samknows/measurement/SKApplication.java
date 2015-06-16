@@ -142,8 +142,11 @@ public class SKApplication extends Application{
 		return getApplicationContext().getString(R.string.about) + " " + getAppName();
 	}
 	
-	public boolean getRevealPassiveMetricsFromPanel() {
+	public boolean getRevealMetricsOnMainScreen() {
 	  return true;
+	}
+	public boolean getRevealPassiveMetricsOnArchiveResultsPanel() {
+		return true;
 	}
 
   public boolean getRevealGraphFromSummary() {

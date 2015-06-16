@@ -1,8 +1,11 @@
 package com.samknows.ui2.activity;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.R;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -27,6 +30,7 @@ public class TestResult implements Parcelable {
       manufacturer, bearer, model, OSType, OSVersion, phoneType, latitude, longitude, accuracy, locationProvider;
   private String publicIp = "";
   private String submissionId = "";
+  private String targetServerLocation = "";
 
   public static final Parcelable.Creator<TestResult> CREATOR =
       new Parcelable.Creator<TestResult>() {
@@ -105,6 +109,7 @@ public class TestResult implements Parcelable {
     dest.writeString(locationProvider);
     dest.writeString(publicIp);
     dest.writeString(submissionId);
+    dest.writeString(targetServerLocation);
   }
 
   /**
@@ -155,6 +160,7 @@ public class TestResult implements Parcelable {
     packetLossResult = in.readString();
     publicIp = in.readString();
     submissionId = in.readString();
+    targetServerLocation = in.readString();
   }
 
 
@@ -185,6 +191,26 @@ public class TestResult implements Parcelable {
    */
   public eNetworkTypeResults getNetworkType() {
     return networkType;
+  }
+
+
+  /**
+   * Get the test result network type
+   *
+   * @return networkType
+   */
+  public String getNetworkTypeAsString() {
+    Context context = SKApplication.getAppInstance().getApplicationContext();
+
+    switch (networkType) {
+      case eNetworkTypeResults_WiFi:
+         return context.getString(R.string.network_type_wifi);
+      case eNetworkTypeResults_Mobile:
+        return context.getString(R.string.network_type_mobile);
+      case eNetworkTypeResults_Any:
+      default:
+        return context.getString(R.string.network_type_all);
+    }
   }
 
   /**
@@ -531,6 +557,9 @@ public class TestResult implements Parcelable {
   public String getSubmissionId() {
     return submissionId;
   }
+  public String getTargetServerLocation() {
+    return targetServerLocation;
+  }
 
   /**
    * Set the test result location provider
@@ -547,6 +576,10 @@ public class TestResult implements Parcelable {
 
   public void setSubmissionId(String value) {
     this.submissionId = value;
+  }
+
+  public void setTargetServerLocation(String value) {
+    this.targetServerLocation = value;
   }
 
   /**

@@ -74,7 +74,7 @@
                     <com.samknows.measurement.activity.components.CustomFontFitTextView
                         android:id="@+id/fragment_archived_results_passive_metric_label_reference_number_label"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/visual_rhythm_half"
                         android:layout_weight="2"
                         android:lines="2"
                         android:minLines="2"
@@ -95,6 +95,70 @@
                         android:minHeight="40dp"
                         android:gravity="left|top"
                         android:text="@string/pm_reference_no_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_network_type"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/network_type"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_network_type"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_network_type_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_archived_results_passive_metric_label_target"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/target"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_archived_results_passive_metric_result_target"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_target_example"
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>

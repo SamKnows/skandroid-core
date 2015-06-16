@@ -161,6 +161,8 @@ public class FragmentRunTest extends Fragment {
 
   private TextView publicIp;
   private TextView submissionId;
+  private TextView networkType;
+  private TextView target;
 
   // *** FRAGMENT LIFECYCLE METHODS *** //
   // Called to have the fragment instantiate its user interface view.
@@ -503,11 +505,17 @@ public class FragmentRunTest extends Fragment {
     tv_result_provider = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_location_provider);
 
     publicIp = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_your_ip_value);
-    SKLogger.sAssert(getClass(), publicIp != null);
     submissionId = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_reference_number_value);
+    networkType = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_network_type);
+    target = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_target);
+    SKLogger.sAssert(getClass(), publicIp != null);
     SKLogger.sAssert(getClass(), submissionId != null);
+    SKLogger.sAssert(getClass(), networkType != null);
+    SKLogger.sAssert(getClass(), target != null);
     publicIp.setText("");
     submissionId.setText("");
+    networkType.setText("");
+    target.setText("");
 
     // Identify and hide the passive metrics layout
     layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_ll_passive_metrics);
@@ -594,7 +602,7 @@ public class FragmentRunTest extends Fragment {
       }
     });
 
-    if (SKApplication.getAppInstance().getRevealPassiveMetricsFromPanel()) {
+    if (SKApplication.getAppInstance().getRevealMetricsOnMainScreen()) {
       // Set a listener to the results layout to move it to the top and show the passive metrics
       layout_ll_results.setOnClickListener(new OnClickListener() {
         @Override
@@ -1256,6 +1264,10 @@ public class FragmentRunTest extends Fragment {
           if (nameOfTheServer == null) {
             nameOfTheServer = hostUrl;
           }
+
+          // Set the server name in the optional detailed pop-up results...
+          target.setText(nameOfTheServer);
+
           changeFadingTextViewValue(mUnitText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
           changeFadingTextViewValue(mMeasurementText, nameOfTheServer, getResources().getColor(R.color.MainColourDialUnitText));    // Update the current result closest target
 
@@ -1459,9 +1471,13 @@ public class FragmentRunTest extends Fragment {
     if (pNetworkType == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
       iv_Result_NetworkType.setImageResource(R.drawable.ic_swifi);
       connectivityType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
+      // Set the network type string in the optional detailed pop-up results...
+      networkType.setText(R.string.network_type_wifi);
     } else {
       iv_Result_NetworkType.setImageResource(R.drawable.ic_sgsm);
       connectivityType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
+      // Set the network type string in the optional detailed pop-up results...
+      networkType.setText(R.string.network_type_mobile);
     }
   }
 
@@ -1836,7 +1852,7 @@ public class FragmentRunTest extends Fragment {
     gaugeView.setKindOfTest(-1);
     setNetworkTypeInformation();
     sendRefreshUIMessage();
-    if (SKApplication.getAppInstance().getRevealPassiveMetricsFromPanel()) {
+    if (SKApplication.getAppInstance().getRevealMetricsOnMainScreen()) {
       layout_ll_results.setClickable(true);
     }
     setUpPassiveMetricsLayout(connectivityType);
