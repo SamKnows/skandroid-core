@@ -78,7 +78,8 @@ public class FragmentArchivedResults extends Fragment {
   private LinearLayout ll_passive_metrics, ll_passive_metrics_divider_1, ll_passive_metrics_divider_2, ll_passive_metrics_divider_location;
   private ListView lv_archived_results;
   private View listViewRow, clickedView;
-  private TextView tv_hader_label_sim_and_network_operators, tv_header_label_signal, tv_header_label_device, tv_header_label_location,
+  private TextView pm_tv_header_label_sim_and_network_operators, pm_tv_header_label_signal, pm_tv_header_label_device, pm_tv_header_label_location;
+  private TextView
       tv_label_sim_operator, tv_label_sim_operator_code, tv_label_network_operator, tv_label_network_operator_code, tv_label_roaming_status,
       tv_label_cell_tower_ID, tv_label_cell_tower_area_location_code, tv_label_signal_strength, tv_label_bearer,
       tv_label_manufacturer, tv_label_model, tv_label_OS, tv_label_OS_version, tv_label_phone_type, tv_label_latitude, tv_label_longitude,
@@ -137,10 +138,10 @@ public class FragmentArchivedResults extends Fragment {
     // Set fonts
     // Header labels fonts
     tv_warning_no_results_yet.setTypeface(typeface_Roboto_Light);
-    tv_hader_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_device.setTypeface(typeface_Roboto_Thin);
-    tv_header_label_location.setTypeface(typeface_Roboto_Thin);
+    pm_tv_header_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
+    pm_tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
+    pm_tv_header_label_device.setTypeface(typeface_Roboto_Thin);
+    pm_tv_header_label_location.setTypeface(typeface_Roboto_Thin);
     // Labels fonts
     tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
     tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
@@ -446,10 +447,10 @@ public class FragmentArchivedResults extends Fragment {
 
     // Passive metrics fields
     // Header labels
-    tv_hader_label_sim_and_network_operators = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_and_network_operators);
-    tv_header_label_signal = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_signal);
-    tv_header_label_device = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_device);
-    tv_header_label_location = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_location);
+    pm_tv_header_label_sim_and_network_operators = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_and_network_operators);
+    pm_tv_header_label_signal = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_signal);
+    pm_tv_header_label_device = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_device);
+    pm_tv_header_label_location = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_location);
     // Dividers
     ll_passive_metrics_divider_1 = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_divider_sim_and_network_operators);
     ll_passive_metrics_divider_2 = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_divider_signal);
@@ -918,8 +919,8 @@ public class FragmentArchivedResults extends Fragment {
     int visibilityOfMobilePassiveMetrics = pTestResult.getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_WiFi ? View.GONE : View.VISIBLE;
 
     // Fields which visibility depends on the kind of network
-    tv_hader_label_sim_and_network_operators.setVisibility(visibilityOfMobilePassiveMetrics);
-    tv_header_label_signal.setVisibility(visibilityOfMobilePassiveMetrics);
+    pm_tv_header_label_sim_and_network_operators.setVisibility(visibilityOfMobilePassiveMetrics);
+    pm_tv_header_label_signal.setVisibility(visibilityOfMobilePassiveMetrics);
 
     ll_passive_metrics_divider_1.setVisibility(visibilityOfMobilePassiveMetrics);
     ll_passive_metrics_divider_2.setVisibility(visibilityOfMobilePassiveMetrics);
@@ -982,7 +983,7 @@ public class FragmentArchivedResults extends Fragment {
     int visibilityOfLocation = pTestResult.getLatitude() == null ? View.GONE : View.VISIBLE;
 
     // Set the visibility of the location data section
-    tv_header_label_location.setVisibility(visibilityOfLocation);
+    pm_tv_header_label_location.setVisibility(visibilityOfLocation);
     ll_passive_metrics_divider_location.setVisibility(visibilityOfLocation);
     tv_label_latitude.setVisibility(visibilityOfLocation);
     tv_label_longitude.setVisibility(visibilityOfLocation);

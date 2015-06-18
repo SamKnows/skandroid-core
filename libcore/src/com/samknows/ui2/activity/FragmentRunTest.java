@@ -129,7 +129,7 @@ public class FragmentRunTest extends Fragment {
   private TextView tv_Result_DateDay;
   private TextView tv_Result_DateTime;
   // Text views showing the passive metric headers
-  private TextView tv_header_label_sim_and_network_operators, tv_header_label_signal, tv_header_label_device, tv_header_label_location;
+  private TextView pm_tv_header_label_sim_and_network_operators, pm_tv_header_label_signal, pm_tv_header_label_device, pm_tv_header_label_location;
   // Text views showing the passive metric labels
   private TextView tv_label_sim_operator, tv_label_sim_operator_code, tv_label_network_operator, tv_label_network_operator_code, tv_label_roaming_status,
       tv_label_cell_tower_ID, tv_label_cell_tower_area_location_code, tv_label_signal_strength, tv_label_bearer,
@@ -228,10 +228,10 @@ public class FragmentRunTest extends Fragment {
 
     // Assign fonts
     // Passive metrics headers
-    SKTypeface.sSetTypefaceForTextView(tv_header_label_sim_and_network_operators, typeface_Roboto_Thin);
-    SKTypeface.sSetTypefaceForTextView(tv_header_label_signal, typeface_Roboto_Thin);
-    SKTypeface.sSetTypefaceForTextView(tv_header_label_device, typeface_Roboto_Thin);
-    SKTypeface.sSetTypefaceForTextView(tv_header_label_location, typeface_Roboto_Thin);
+    SKTypeface.sSetTypefaceForTextView(pm_tv_header_label_sim_and_network_operators, typeface_Roboto_Thin);
+    SKTypeface.sSetTypefaceForTextView(pm_tv_header_label_signal, typeface_Roboto_Thin);
+    SKTypeface.sSetTypefaceForTextView(pm_tv_header_label_device, typeface_Roboto_Thin);
+    SKTypeface.sSetTypefaceForTextView(pm_tv_header_label_location, typeface_Roboto_Thin);
 
     // Passive metrics labels
     SKTypeface.sSetTypefaceForTextView(tv_label_sim_operator, typeface_Roboto_Light);
@@ -454,10 +454,10 @@ public class FragmentRunTest extends Fragment {
   private void setUpResources(View pView) {
     // Passive metrics fields
     // Header labels
-    tv_header_label_sim_and_network_operators = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_and_network_operators);
-    tv_header_label_signal = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_signal);
-    tv_header_label_device = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_device);
-    tv_header_label_location = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_location);
+    pm_tv_header_label_sim_and_network_operators = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_and_network_operators);
+    pm_tv_header_label_signal = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_signal);
+    pm_tv_header_label_device = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_device);
+    pm_tv_header_label_location = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_location);
 
     //Dividers
     layout_ll_passive_metrics_divider_sim_and_network_operators = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_divider_sim_and_network_operators);
@@ -1703,8 +1703,8 @@ public class FragmentRunTest extends Fragment {
     }
 
     // Header labels
-    tv_header_label_sim_and_network_operators.setVisibility(visibility);
-    tv_header_label_signal.setVisibility(visibility);
+    pm_tv_header_label_sim_and_network_operators.setVisibility(visibility);
+    pm_tv_header_label_signal.setVisibility(visibility);
     //Dividers
     layout_ll_passive_metrics_divider_sim_and_network_operators.setVisibility(visibility);
     layout_ll_passive_metrics_divider_signal.setVisibility(visibility);
@@ -1732,7 +1732,7 @@ public class FragmentRunTest extends Fragment {
     // If the location metrics are not available, just hide those labels
     int visibilityOfLocation = tv_result_longitude.getText().equals("") ? View.GONE : View.VISIBLE;
 
-    tv_header_label_location.setVisibility(visibilityOfLocation);
+    pm_tv_header_label_location.setVisibility(visibilityOfLocation);
     layout_ll_passive_metrics_divider_location.setVisibility(visibilityOfLocation);
     tv_label_latitude.setVisibility(visibilityOfLocation);
     tv_label_longitude.setVisibility(visibilityOfLocation);
