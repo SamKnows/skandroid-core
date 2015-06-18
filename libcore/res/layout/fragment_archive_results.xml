@@ -61,6 +61,6 @@
         </ListView>
     </LinearLayout>
 
-    <include layout="@layout/archive_passive_metrics_panel" />
+    <include layout="@layout/passive_metrics_panel" />
 
 </RelativeLayout>

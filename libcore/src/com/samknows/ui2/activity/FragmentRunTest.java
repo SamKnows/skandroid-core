@@ -454,60 +454,60 @@ public class FragmentRunTest extends Fragment {
   private void setUpResources(View pView) {
     // Passive metrics fields
     // Header labels
-    tv_header_label_sim_and_network_operators = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_sim_and_network_operators);
-    tv_header_label_signal = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_signal);
-    tv_header_label_device = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_device);
-    tv_header_label_location = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_location);
+    tv_header_label_sim_and_network_operators = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_and_network_operators);
+    tv_header_label_signal = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_signal);
+    tv_header_label_device = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_device);
+    tv_header_label_location = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_location);
 
     //Dividers
-    layout_ll_passive_metrics_divider_sim_and_network_operators = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_passive_metrics_ll_divider_sim_and_network_operators);
-    layout_ll_passive_metrics_divider_signal = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_passive_metrics_ll_divider_signal);
-    layout_ll_passive_metrics_divider_location = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_passive_metric_divider_location);
+    layout_ll_passive_metrics_divider_sim_and_network_operators = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_divider_sim_and_network_operators);
+    layout_ll_passive_metrics_divider_signal = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_divider_signal);
+    layout_ll_passive_metrics_divider_location = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_divider_location);
 
     // Labels
-    tv_label_sim_operator = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_sim_operator);
-    tv_label_sim_operator_code = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_sim_operator_code);
-    tv_label_network_operator = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_network_operator);
-    tv_label_network_operator_code = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_network_operator_code);
-    tv_label_roaming_status = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_roaming_status);
-    tv_label_cell_tower_ID = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_cell_tower_ID);
-    tv_label_cell_tower_area_location_code = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_cell_tower_area_location_code);
-    tv_label_signal_strength = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_signal_strength);
-    tv_label_bearer = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_bearer);
-    tv_label_manufacturer = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_manufacturer);
-    tv_label_model = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_model);
-    tv_label_OS = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_OS);
-    tv_label_OS_version = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_OS_vesion);
-    tv_label_phone_type = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_phone_type);
-    tv_label_latitude = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_latitude);
-    tv_label_longitude = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_longitude);
-    tv_label_accuracy = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_accuracy);
-    tv_label_provider = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_label_location_provider);
+    tv_label_sim_operator = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_operator);
+    tv_label_sim_operator_code = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_sim_operator_code);
+    tv_label_network_operator = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_network_operator);
+    tv_label_network_operator_code = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_network_operator_code);
+    tv_label_roaming_status = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_roaming_status);
+    tv_label_cell_tower_ID = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_cell_tower_ID);
+    tv_label_cell_tower_area_location_code = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_cell_tower_area_location_code);
+    tv_label_signal_strength = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_signal_strength);
+    tv_label_bearer = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_bearer);
+    tv_label_manufacturer = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_manufacturer);
+    tv_label_model = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_model);
+    tv_label_OS = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS);
+    tv_label_OS_version = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS_vesion);
+    tv_label_phone_type = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_phone_type);
+    tv_label_latitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_latitude);
+    tv_label_longitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_longitude);
+    tv_label_accuracy = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_accuracy);
+    tv_label_provider = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_location_provider);
 
     // Results
-    tv_result_sim_operator = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_sim_operator_name);
-    tv_result_sim_operator_code = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_sim_operator_code);
-    tv_result_network_operator = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_network_operator_name);
-    tv_result_network_operator_code = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_network_operator_code);
-    tv_result_roaming_status = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_roaming_status);
-    tv_result_cell_tower_ID = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_cell_tower_id);
-    tv_result_cell_tower_area_location_code = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_cell_tower_area_location_code);
-    tv_result_signal_strength = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_signal_strength);
-    tv_result_bearer = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_bearer);
-    tv_result_manufacturer = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_manufacturer);
-    tv_result_model = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_detail_model);
-    tv_result_OS = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_detail_OS);
-    tv_result_OS_version = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_OS_version);
-    tv_result_phone_type = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_phone_type);
-    tv_result_latitude = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_latitude);
-    tv_result_longitude = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_longitude);
-    tv_result_accuracy = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_accuracy);
-    tv_result_provider = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_location_provider);
+    tv_result_sim_operator = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_sim_operator_name);
+    tv_result_sim_operator_code = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_sim_operator_code);
+    tv_result_network_operator = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_network_operator_name);
+    tv_result_network_operator_code = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_network_operator_code);
+    tv_result_roaming_status = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_roaming_status);
+    tv_result_cell_tower_ID = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_cell_tower_id);
+    tv_result_cell_tower_area_location_code = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_cell_tower_area_location_code);
+    tv_result_signal_strength = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_signal_strength);
+    tv_result_bearer = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_bearer);
+    tv_result_manufacturer = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_manufacturer);
+    tv_result_model = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_detail_model);
+    tv_result_OS = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_detail_OS);
+    tv_result_OS_version = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_OS_version);
+    tv_result_phone_type = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_phone_type);
+    tv_result_latitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_latitude);
+    tv_result_longitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_longitude);
+    tv_result_accuracy = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_accuracy);
+    tv_result_provider = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_location_provider);
 
-    publicIp = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_your_ip_value);
-    submissionId = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_reference_number_value);
-    networkType = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_network_type);
-    target = (TextView) pView.findViewById(R.id.fragment_speed_test_passive_metric_result_target);
+    publicIp = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_your_ip_value);
+    submissionId = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_reference_number_value);
+    networkType = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_network_type);
+    target = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_target);
     SKLogger.sAssert(getClass(), publicIp != null);
     SKLogger.sAssert(getClass(), submissionId != null);
     SKLogger.sAssert(getClass(), networkType != null);
@@ -518,19 +518,19 @@ public class FragmentRunTest extends Fragment {
     target.setText("");
 
     // Identify and hide the passive metrics layout
-    layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_speed_test_ll_passive_metrics);
+    layout_ll_passive_metrics = (LinearLayout) pView.findViewById(R.id.fragment_passive_metrics_ll);
     layout_ll_passive_metrics.setVisibility(View.GONE);
     layout_ll_passive_metrics.setAlpha(0.0f);
 
     // Now - what items to show?
-    LinearLayout ip_and_reference_metrics = (LinearLayout) pView.findViewById(R.id.ip_and_reference_metrics2);
-    LinearLayout network_operator_metrics = (LinearLayout) pView.findViewById(R.id.network_operator_metrics2);
-    LinearLayout signal_metrics = (LinearLayout) pView.findViewById(R.id.signal_metrics2);
-    LinearLayout device_metrics = (LinearLayout) pView.findViewById(R.id.device_metrics2);
-    LinearLayout location_metrics = (LinearLayout) pView.findViewById(R.id.location_metrics2);
+    LinearLayout ip_and_reference_metrics = (LinearLayout) pView.findViewById(R.id.ip_and_reference_metrics);
+    LinearLayout fragment_passive_metrics_ll_divider_sim_and_network_operators = (LinearLayout) pView.findViewById(R.id.network_operator_metrics);
+    LinearLayout signal_metrics = (LinearLayout) pView.findViewById(R.id.signal_metrics);
+    LinearLayout device_metrics = (LinearLayout) pView.findViewById(R.id.device_metrics);
+    LinearLayout location_metrics = (LinearLayout) pView.findViewById(R.id.location_metrics);
 
     if (SKApplication.getAppInstance().getPassiveMetricsJustDisplayPublicIpAndSubmissionId() == true) {
-      network_operator_metrics.setVisibility(View.GONE);
+      fragment_passive_metrics_ll_divider_sim_and_network_operators.setVisibility(View.GONE);
       signal_metrics.setVisibility(View.GONE);
       device_metrics.setVisibility(View.GONE);
       location_metrics.setVisibility(View.GONE);

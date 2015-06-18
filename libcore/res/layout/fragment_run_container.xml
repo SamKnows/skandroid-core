@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     android:background="@drawable/background_gradient_main" >
 
-    <include layout="@layout/run_passive_metrics_panel" />
+    <include layout="@layout/passive_metrics_panel" />
 
     <LinearLayout
         android:id="@+id/new_speed_test_layout"
