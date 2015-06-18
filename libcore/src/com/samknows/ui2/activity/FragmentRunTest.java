@@ -1696,6 +1696,7 @@ public class FragmentRunTest extends Fragment {
   private void setUpPassiveMetricsLayout(eNetworkTypeResults pNetworkType) {
     int visibility;
 
+    /*
     if (pNetworkType == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
       visibility = View.GONE;
     } else {
@@ -1742,6 +1743,7 @@ public class FragmentRunTest extends Fragment {
     tv_result_longitude.setVisibility(visibilityOfLocation);
     tv_result_accuracy.setVisibility(visibilityOfLocation);
     tv_result_provider.setVisibility(visibilityOfLocation);
+    */
   }
 
   /**

@@ -35,6 +35,176 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_label_municipality"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_municipality_caption"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_result_municipality"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_municipality_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_label_wlan_carrier"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_wlan_caption"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_result_wlan_carrier"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_wlan_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_label_wifi_ssid"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_wifi_ssid_caption"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_result_wifi_ssid"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_wifi_ssid_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_label_country_name"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_country_name_caption"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_result_country_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_country_name_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <!-- me.grantland.widget.AutofitTextView -->
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_label_device_os_combined"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/visual_rhythm_half"
+                        android:layout_weight="2"
+                        android:lines="2"
+                        android:minLines="2"
+                        android:maxLines="2"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/device"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <com.samknows.measurement.activity.components.CustomFontFitTextView
+                        android:id="@+id/fragment_passive_metrics_result_devicos_s_combined"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:minHeight="40dp"
+                        android:gravity="left|top"
+                        android:text="@string/pm_device_os_combined_example"
+                        android:textColor="@color/MetricsTextColour"
+                        android:textSize="@dimen/text_size_small_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
                     <com.samknows.measurement.activity.components.CustomFontFitTextView
@@ -64,8 +234,6 @@
                         android:textColor="@color/MetricsTextColour"
                         android:textSize="@dimen/text_size_small_medium" />
                 </LinearLayout>
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >

@@ -915,9 +915,11 @@ public class FragmentArchivedResults extends Fragment {
    * @param pTestResult
    */
   private void fillPassiveMetrics(TestResult pTestResult) {
-    // If network type is WiFi, hide passive metrics not related with WiFi. If network type is not WiFi, show all passive metrics related with mobile network
-    int visibilityOfMobilePassiveMetrics = pTestResult.getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_WiFi ? View.GONE : View.VISIBLE;
 
+    // If network type is WiFi, hide passive metrics not related with WiFi. If network type is not WiFi, show all passive metrics related with mobile network
+    // int visibilityOfMobilePassiveMetrics = pTestResult.getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_WiFi ? View.GONE : View.VISIBLE;
+
+    /*
     // Fields which visibility depends on the kind of network
     pm_tv_header_label_sim_and_network_operators.setVisibility(visibilityOfMobilePassiveMetrics);
     pm_tv_header_label_signal.setVisibility(visibilityOfMobilePassiveMetrics);
@@ -944,9 +946,11 @@ public class FragmentArchivedResults extends Fragment {
     tv_result_cell_tower_area_location_code.setVisibility(visibilityOfMobilePassiveMetrics);
     tv_result_signal_strength.setVisibility(visibilityOfMobilePassiveMetrics);
     tv_result_bearer.setVisibility(visibilityOfMobilePassiveMetrics);
+    */
 
     // Passive metrics that will be displayed just in mobile network type
-    if (visibilityOfMobilePassiveMetrics == View.VISIBLE) {
+    //if (visibilityOfMobilePassiveMetrics == View.VISIBLE)
+    {
       tv_result_sim_operator.setText(pTestResult.getSimOperatorName());
       tv_result_sim_operator_code.setText(pTestResult.getSimOperatorCode());
       tv_result_network_operator.setText(pTestResult.getNetworkOperatorName());
