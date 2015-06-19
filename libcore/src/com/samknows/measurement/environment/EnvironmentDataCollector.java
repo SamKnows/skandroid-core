@@ -1,4 +1,4 @@
-package com.samknows.measurement.schedule.datacollection;
+package com.samknows.measurement.environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.environment.CellTowersDataCollector;
-import com.samknows.measurement.environment.DCSData;
-import com.samknows.measurement.environment.NetUsageCollector;
-import com.samknows.measurement.environment.NetworkDataCollector;
-import com.samknows.measurement.environment.PhoneIdentityDataCollector;
 import com.samknows.measurement.test.TestContext;
-import com.samknows.measurement.util.DCSStringBuilder;
 
 public class EnvironmentDataCollector extends BaseDataCollector{
 	private static final long serialVersionUID = 1L;

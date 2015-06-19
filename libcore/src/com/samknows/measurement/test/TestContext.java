@@ -1,15 +1,12 @@
 package com.samknows.measurement.test;
 
-import org.json.JSONObject;
-
 import android.content.Context;
 import com.samknows.measurement.CachingStorage;
-import com.samknows.measurement.MainService;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.TestParamsManager;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
-import com.samknows.measurement.schedule.datacollection.LocationDataCollector;
+import com.samknows.measurement.environment.BaseDataCollector;
+import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.storage.ResultsContainer;
 
 public class TestContext {

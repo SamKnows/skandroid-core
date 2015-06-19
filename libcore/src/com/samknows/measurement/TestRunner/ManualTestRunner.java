@@ -1,8 +1,6 @@
 package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.samknows.libcore.R;
@@ -14,13 +12,12 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
-import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
+import com.samknows.measurement.environment.BaseDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.storage.StorageTestResult.*;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.storage.DBHelper;
-import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.Storage;

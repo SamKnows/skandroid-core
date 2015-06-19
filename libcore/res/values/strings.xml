@@ -323,7 +323,7 @@
 <string name="summary">Summary</string>
 <string name="system_info">System Info</string>
 <string name="target">Target</string>
-<string name="pm_muncipality_caption">Municipality</string>
+<string name="pm_municipality_caption">Municipality</string>
 <string name="pm_wlan_caption">WLAN Carrier</string>
 <string name="pm_wifi_ssid_caption">SSID</string>
 <string name="pm_country_name_caption">Country</string>
@@ -608,7 +608,7 @@
     <string name="pm_wlan_example">My WLAN</string>
     <string name="pm_wifi_ssid_example">My SSID</string>
     <string name="pm_country_name_example">My Country</string>
-    <string name="pm_device_os_combined_example">Device xyz Android 99</string>
+    <string name="pm_os_example">5.0</string>
 
         
     <string name="Initial_Warning_Text"></string>

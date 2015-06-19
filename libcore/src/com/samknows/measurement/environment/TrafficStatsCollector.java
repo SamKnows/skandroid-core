@@ -10,7 +10,7 @@ import android.util.Log;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 
-public class TrafficStatsCollector extends BaseDataCollector implements Serializable {
+public class TrafficStatsCollector extends EnvBaseDataCollector implements Serializable {
 
   static final String TAG = "TrafficStatsCollection";
 	

@@ -1,4 +1,4 @@
-package com.samknows.measurement.schedule.datacollection;
+package com.samknows.measurement.environment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +18,6 @@ import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.environment.DCSData;
-import com.samknows.measurement.environment.LocationData;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.test.TestContext;
@@ -61,8 +59,8 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		
 	public static Pair<Location,LocationType> sGetLastKnownLocation(TestContext tc) {
 		LocationType locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
-  		
-	    LocationManager manager = (LocationManager) tc.getSystemService(Context.LOCATION_SERVICE);
+
+    LocationManager manager = (LocationManager) tc.getSystemService(Context.LOCATION_SERVICE);
 		if (manager == null) {
 			SKLogger.sAssert(LocationDataCollector.class,  false);
 		    return null;
@@ -239,17 +237,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		}
 		return ret;
 	}
-	
-	private String locationToDCSString(String id, Location loc) {
-		return new DCSStringBuilder().append(id)
-		.append(loc.getTime() / 1000)
-		.append(locationType + "")
-		.append(loc.getLatitude())
-		.append(loc.getLongitude())
-		.append(loc.getAccuracy())
-		.build();
-	}
-	
+
 	//Receive a Location object and returns a JSONObject ready to be inserted in the database
 	//and displayed to the interface
 	private List<JSONObject> locationToPassiveMetric(Location loc){
@@ -258,6 +246,10 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.LATITUDE, loc.getTime(), String.format("%1.5f", loc.getLatitude())));	
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.LONGITUDE, loc.getTime(), String.format("%1.5f", loc.getLongitude())));
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.ACCURACY, loc.getTime(), loc.getAccuracy()+" m"));
+
+//    LocationData locationData = new LocationData(loc, LocationType.gps);
+//    ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.MUNICIPALITY, loc.getTime(), locationData.mMuncipality));
+//    ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.COUNTRYNAME, loc.getTime(), locationData.mCountryName));
 		return ret;
 	}
 

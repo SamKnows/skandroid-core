@@ -89,6 +89,12 @@ public class FragmentArchivedResults extends Fragment {
       tv_result_manufacturer, tv_result_model, tv_result_OS, tv_result_OS_version, tv_result_phone_type, tv_result_latitude, tv_result_longitude,
       tv_result_accuracy, tv_result_provider,
       tv_warning_no_results_yet;
+
+  private TextView tv_result_wifi_ssid;
+  private TextView tv_result_municipality;
+  private TextView tv_result_country_name;
+  private TextView tv_result_wlan_carrier;
+
   private Typeface typeface_Roboto_Light, typeface_Roboto_Thin;
   private MenuItem menu_Item_Network_Type_Filter, menu_Item_Refresh_Spinner, menu_Item_Share_Result;
   private TextView publicIp;
@@ -181,6 +187,10 @@ public class FragmentArchivedResults extends Fragment {
     tv_result_accuracy.setTypeface(typeface_Roboto_Light);
     tv_result_provider.setTypeface(typeface_Roboto_Light);
 
+    tv_result_wifi_ssid.setTypeface(typeface_Roboto_Light);
+    tv_result_municipality.setTypeface(typeface_Roboto_Light);
+    tv_result_country_name.setTypeface(typeface_Roboto_Light);
+    tv_result_wlan_carrier.setTypeface(typeface_Roboto_Light);
 
   }
 
@@ -468,7 +478,7 @@ public class FragmentArchivedResults extends Fragment {
     tv_label_manufacturer = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_manufacturer);
     tv_label_model = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_model);
     tv_label_OS = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS);
-    tv_label_OS_version = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS_vesion);
+    tv_label_OS_version = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS_version);
     tv_label_phone_type = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_phone_type);
     tv_label_latitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_latitude);
     tv_label_longitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_longitude);
@@ -493,6 +503,12 @@ public class FragmentArchivedResults extends Fragment {
     tv_result_longitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_longitude);
     tv_result_accuracy = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_accuracy);
     tv_result_provider = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_location_provider);
+
+    // TODO - WIFI SSID, and new stuff!
+    tv_result_wifi_ssid = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_wifi_ssid);
+    tv_result_municipality = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_municipality);
+    tv_result_country_name = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_country_name);
+    tv_result_wlan_carrier = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_wlan_carrier);
 
     publicIp = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_your_ip_value);
     submissionId = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_reference_number_value);
@@ -846,6 +862,16 @@ public class FragmentArchivedResults extends Fragment {
             testResult.setOSType(value);
           } else if (metric.equals("osversion")) {
             testResult.setOSVersion(value);
+          } else if (metric.equals("osversionandroid")) {
+            tv_result_OS_version.setText(value);
+
+            // TODO - WIFI_SSID and other new stuff!
+            // wifi_ssid
+            // municipality
+            // country_name
+            // android os version string
+          } else if (metric.equals("osversion_android")) {
+            testResult.setOSVersion(value);
           } else if (metric.equals("phonetype")) {
             testResult.setPhoneType(value);
           } else if (metric.equals("latitude")) {
@@ -868,6 +894,14 @@ public class FragmentArchivedResults extends Fragment {
             } else {
               SKLogger.sAssert(getClass(), false);
             }
+          } else if (metric.equals("wifi_ssid")){
+            testResult.setWifiSSID(value);
+          } else if (metric.equals("municipality")){
+            testResult.setMunicipality(value);
+          } else if (metric.equals("country_name")){
+            testResult.setCountryName(value);
+          } else if (metric.equals("wlan_carrier")){
+            testResult.setWLANCarrier(value);
           }
 
           {
@@ -1018,6 +1052,16 @@ public class FragmentArchivedResults extends Fragment {
     if (target != null) {
       target.setText(pTestResult.getTargetServerLocation());
     }
+
+    // TODO - show/hide this ONLY if Network Type is WIFI, *and* if value is NOT empty!
+    tv_result_wifi_ssid.setText(pTestResult.getWifiSSID());
+
+    // TODO - show/hide this ONLY if value is NOT empty!
+    tv_result_municipality.setText(pTestResult.getMunicipality());
+    // TODO - show/hide this ONLY if value is NOT empty!
+    tv_result_country_name.setText(pTestResult.getCountryName());
+    // TODO - show/hide this ONLY if value is NOT empty!
+    tv_result_wlan_carrier.setText(pTestResult.getWlanCarrier());
   }
 
   // *** MENUS *** //

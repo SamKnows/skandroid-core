@@ -68,6 +68,7 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.TestRunner.SKTestRunner;
+import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.storage.StorageTestResult;
@@ -477,7 +478,7 @@ public class FragmentRunTest extends Fragment {
     tv_label_manufacturer = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_manufacturer);
     tv_label_model = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_model);
     tv_label_OS = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS);
-    tv_label_OS_version = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS_vesion);
+    tv_label_OS_version = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_OS_version);
     tv_label_phone_type = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_phone_type);
     tv_label_latitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_latitude);
     tv_label_longitude = (TextView) pView.findViewById(R.id.fragment_passive_metrics_label_longitude);
@@ -938,6 +939,13 @@ public class FragmentRunTest extends Fragment {
             tv_result_OS.setText(value);
           } else if (metricString.equals("osversion")) {
             tv_result_OS_version.setText(value);
+          } else if (metricString.equals("osversionandroid")) {
+            tv_result_OS_version.setText(value);
+            // TODO - WIFI_SSID and other new stuff!
+            // wifi_ssid
+            // municipality
+            // country_name
+            // android os version string
           } else if (metricString.equals("phonetype")) {
             tv_result_phone_type.setText(value);
           } else if (metricString.equals("latitude")) {
@@ -1569,28 +1577,7 @@ public class FragmentRunTest extends Fragment {
   }
 
   static private String sCurrentWifiSSID() {
-    Context context = SKApplication.getAppInstance().getApplicationContext();
-
-    //ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-    //if (connManager != null && wifiManager != null) {
-    if (wifiManager != null) {
-      //NetworkInfo netInfo = connManager.getActiveNetworkInfo();
-      WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-      //if (netInfo != null && wifiInfo != null) {
-      if (wifiInfo != null) {
-        String theSSID = wifiInfo.getSSID();
-        if (theSSID == null) {
-          SKLogger.sAssert(false);
-        } else {
-          String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
-          //wifiInfoSSID = "A test network";
-          return wifiInfoSSID;
-        }
-      }
-    }
-
-    return null;
+    return NetworkDataCollector.sCurrentWifiSSIDNullIfNotFound();
   }
 
   private String getWiFiStringForUIWithSSIDIfAvailable() {

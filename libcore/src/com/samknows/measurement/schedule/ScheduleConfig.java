@@ -19,7 +19,7 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.schedule.condition.ConditionGroup;
-import com.samknows.measurement.schedule.datacollection.BaseDataCollector;
+import com.samknows.measurement.environment.BaseDataCollector;
 import com.samknows.measurement.schedule.failaction.RetryFailAction;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
@@ -319,7 +319,7 @@ public class ScheduleConfig implements Serializable {
     NodeList dataCollectors = node.getElementsByTagName(DATA_COLLECTOR);
     for (int i = 0; i < dataCollectors.getLength(); i++) {
       Element e = (Element) dataCollectors.item(i);
-      c.dataCollectors.add(BaseDataCollector.parseXml(e));
+      c.dataCollectors.add(BaseDataCollector.sParseXml(e));
     }
 
     NodeList list = null;

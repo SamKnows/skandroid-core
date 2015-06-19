@@ -58,8 +58,16 @@ public class PassiveMetric extends JSONObject{
 		 ACCURACY("accuracy"),
 		 LOCATIONPROVIDER("locationprovider"),
 		 PUBLICIP("public_ip"),
-		 SUBMISSIONID("submission_id");
-		 public String metric_name;
+		 SUBMISSIONID("submission_id"),
+		 // WIFI_SSID and other new stuff (begin)
+		 ANDROIDBUILDVERSION("androidbuildversion"), // Not uploaded!
+		 WIFISSID("wifi_ssid"), // Not uploaded!
+		 WLANCARRIER("wlan_carrier"), // Not uploaded!
+		 MUNICIPALITY("municipality"), // Not uploaded!
+		 COUNTRYNAME("country_name"); // Not uploaded!
+		 // WIFI_SSID and other new stuff (end)
+
+		public String metric_name;
 		 public String type;
 		 private METRIC_TYPE(String _name){
 			 metric_name = _name;

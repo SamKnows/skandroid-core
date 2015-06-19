@@ -2,14 +2,25 @@ package com.samknows.measurement.environment;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.net.SimpleHttpToJsonQuery;
+import com.samknows.measurement.storage.PassiveMetric;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Looper;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-public class NetworkDataCollector extends BaseDataCollector{
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class NetworkDataCollector extends EnvBaseDataCollector {
 
 	public NetworkDataCollector(Context context) {
 		super(context);
@@ -44,7 +55,32 @@ public class NetworkDataCollector extends BaseDataCollector{
 	
 	TelephonyManager mTelManager;
 	ConnectivityManager mConnManager;
-	NetworkDataListener mNetworkDataListener; 
+	NetworkDataListener mNetworkDataListener;
+
+  public static String sCurrentWifiSSIDNullIfNotFound() {
+    Context context = SKApplication.getAppInstance().getApplicationContext();
+
+    //ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+    //if (connManager != null && wifiManager != null) {
+    if (wifiManager != null) {
+      //NetworkInfo netInfo = connManager.getActiveNetworkInfo();
+      WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+      //if (netInfo != null && wifiInfo != null) {
+      if (wifiInfo != null) {
+        String theSSID = wifiInfo.getSSID();
+        if (theSSID == null) {
+          SKLogger.sAssert(false);
+        } else {
+          String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
+          //wifiInfoSSID = "A test network";
+          return wifiInfoSSID;
+        }
+      }
+    }
+
+    return null;
+  }
 	
 	private static NetworkData extractData(TelephonyManager telManager, ConnectivityManager connManager){
 		NetworkData ret = new NetworkData();
@@ -71,7 +107,31 @@ public class NetworkDataCollector extends BaseDataCollector{
 		ret.isRoaming = telManager.isNetworkRoaming();
 		ret.networkType = telManager.getNetworkType();
 
-		return ret;
+    ret.wifiSSID = sCurrentWifiSSIDNullIfNotFound();
+
+    if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+      // Cannot do this in the main thread - otherwise, we get an exception!
+    } else {
+      final NetworkData finalRet = ret;
+      SimpleHttpToJsonQuery httpToJsonQuery = new SimpleHttpToJsonQuery("http://dcs-mobile-fcc.samknows.com/mobile/lookup.php", null) {
+        @Override
+        public Void call() throws Exception {
+
+          try {
+            String wlanCarrier = mJSONResponse.getString("organization");
+            finalRet.wlanCarrier = wlanCarrier;
+          } catch (JSONException e) {
+            SKLogger.sAssert(getClass(), false);
+          }
+
+          return null;
+        }
+      };
+
+      httpToJsonQuery.doPerformQuery();
+    }
+
+    return ret;
 	}
 	
 	void collectData(){

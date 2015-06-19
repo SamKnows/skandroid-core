@@ -13,7 +13,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
-public class CellTowersDataCollector extends BaseDataCollector{
+public class CellTowersDataCollector extends EnvBaseDataCollector {
 
 	public CellTowersDataCollector(Context context) {
 		super(context);

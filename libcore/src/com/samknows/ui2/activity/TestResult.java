@@ -32,6 +32,11 @@ public class TestResult implements Parcelable {
   private String submissionId = "";
   private String targetServerLocation = "";
 
+  private String wifiSSID = "";
+  private String municipality = "";
+  private String countryName = "";
+  private String wlanCarrier = "";
+
   public static final Parcelable.Creator<TestResult> CREATOR =
       new Parcelable.Creator<TestResult>() {
         @Override
@@ -110,6 +115,17 @@ public class TestResult implements Parcelable {
     dest.writeString(publicIp);
     dest.writeString(submissionId);
     dest.writeString(targetServerLocation);
+
+    dest.writeString(wifiSSID);
+    dest.writeString(municipality);
+    dest.writeString(countryName);
+    dest.writeString(wlanCarrier);
+
+    // TODO - WIFI_SSID and other new stuff!
+    // wifi_ssid
+    // municipality
+    // country_name
+    // android os version string
   }
 
   /**
@@ -161,6 +177,11 @@ public class TestResult implements Parcelable {
     publicIp = in.readString();
     submissionId = in.readString();
     targetServerLocation = in.readString();
+
+    wifiSSID = in.readString();
+    municipality = in.readString();
+    countryName = in.readString();
+    wlanCarrier = in.readString();
   }
 
 
@@ -373,7 +394,7 @@ public class TestResult implements Parcelable {
   /**
    * Set the test result GSM signal strength
    *
-   * @param gSMSignalStrength
+   * @param pGSMSignalStrength
    */
   public void setGSMSignalStrength(String pGSMSignalStrength) {
     this.GSMSignalStrength = pGSMSignalStrength;
@@ -577,6 +598,26 @@ public class TestResult implements Parcelable {
   public void setSubmissionId(String value) {
     this.submissionId = value;
   }
+
+  public void setWifiSSID(String value) {
+    this.wifiSSID = value;
+  }
+
+  public void setMunicipality(String value) {
+    this.municipality = value;
+  }
+
+  public void setCountryName(String value) {
+    this.countryName = value;
+  }
+  public void setWLANCarrier(String value) {
+    this.wlanCarrier = value;
+  }
+
+  public String getWifiSSID() { return wifiSSID;}
+  public String getMunicipality() { return municipality;}
+  public String getCountryName() { return countryName;}
+  public String getWlanCarrier() { return wlanCarrier;}
 
   public void setTargetServerLocation(String value) {
     this.targetServerLocation = value;
