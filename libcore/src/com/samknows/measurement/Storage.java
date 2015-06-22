@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
+import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.environment.TrafficData;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.test.ScheduledTestExecutionQueue;
@@ -52,7 +53,13 @@ public class Storage {
     //save(SKConstants.SCHEDULE_CONFIG_FILE_NAME, sg);
   }
 
+	static ScheduleConfig sScheduleConfig = null;
+
   public ScheduleConfig loadScheduleConfig() {
+    if (sScheduleConfig != null) {
+      return sScheduleConfig;
+    }
+
     Context ctx = SKApplication.getAppInstance().getApplicationContext();
 
     ScheduleConfig config = null;
@@ -63,6 +70,12 @@ public class Storage {
       // Catch, and rethrow, the exception - as we'd seen this fail in some circumstances and needed to track it down.
       SKLogger.sAssert(getClass(),  false);
     }
+
+    sScheduleConfig = config;
+
+    // And now we have a schedule, make sure we get a quick location update!
+    LocationDataCollector.sForceFastLocationCheck();
+
     return config;
 
     //return (ScheduleConfig) load(SKConstants.SCHEDULE_CONFIG_FILE_NAME);

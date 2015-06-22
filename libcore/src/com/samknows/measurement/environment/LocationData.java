@@ -62,7 +62,18 @@ public class LocationData implements DCSData {
 		return ret;
 	}
 
-	private void OnLocationChanged() {
+//  private static Location sLastKnownLocation = null;
+//
+//	public static Location sGetLastKnownLocation() {
+//    synchronized (LocationData.class) {
+//      return sLastKnownLocation;
+//    }
+//  }
+
+	private void OnLocationChanged(Location location) {
+//    synchronized (LocationData.class) {
+//      sLastKnownLocation = location;
+//    }
 //		if (mLocation != null) {
 //			// TODO - get municipality and country name!
 //
@@ -99,7 +110,7 @@ public class LocationData implements DCSData {
 		mLocation = loc;
 		mLocType = locType;
 
-		OnLocationChanged();
+		OnLocationChanged(loc);
 	}
 	
 	public LocationData(Location location, LocationType locType, int providerStatus){
@@ -107,7 +118,7 @@ public class LocationData implements DCSData {
 		mProviderStatus = providerStatus;
 		mLocType = locType;
 
-		OnLocationChanged();
+		OnLocationChanged(location);
 	}
 
 	public LocationData(boolean isLastKnown, Location loc, LocationType locType) {
@@ -115,7 +126,7 @@ public class LocationData implements DCSData {
 		mIsLastKnown = isLastKnown;
 		mLocType = locType;
 
-		OnLocationChanged();
+		OnLocationChanged(loc);
 	}
 
 	@Override

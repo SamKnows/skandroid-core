@@ -1,6 +1,7 @@
 package com.samknows.measurement.net;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -26,6 +29,8 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.LocationData;
+import com.samknows.measurement.environment.LocationDataCollector;
+import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.storage.PassiveMetric.METRIC_TYPE;
@@ -37,11 +42,12 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ParseException;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
+import android.util.Pair;
 
 
 public class SubmitTestResultsAnonymousAction {
@@ -118,6 +124,87 @@ public class SubmitTestResultsAnonymousAction {
       TestResultsManager.saveResult(context, results[i]);
     }
   }
+
+  // https://code.google.com/p/android/issues/detail?id=38009
+  public static List<Address> getFromLocation(double lat, double lng, int maxResult){
+
+    String address = String.format(Locale.ENGLISH,"http://maps.googleapis.com/maps/api/geocode/json?latlng=%1$f,%2$f&sensor=true&language="+Locale.getDefault().getCountry(), lat, lng);
+    HttpGet httpGet = new HttpGet(address);
+    HttpClient client = new DefaultHttpClient();
+    HttpResponse response;
+    StringBuilder stringBuilder = new StringBuilder();
+
+    List<Address> retList = null;
+
+    try {
+      response = client.execute(httpGet);
+      HttpEntity entity = response.getEntity();
+      InputStream stream = entity.getContent();
+      int b;
+      while ((b = stream.read()) != -1) {
+        stringBuilder.append((char) b);
+      }
+
+      JSONObject jsonObject = new JSONObject();
+      jsonObject = new JSONObject(stringBuilder.toString());
+
+      retList = new ArrayList<Address>();
+
+      if ("OK".equalsIgnoreCase(jsonObject.getString("status"))
+          && (jsonObject.has("results"))
+         )
+      {
+        JSONArray results = jsonObject.getJSONArray("results");
+
+        if (results.length() > 0) {
+          JSONObject place = results.getJSONObject(0);
+
+          Locale currentLocale = SKApplication.getAppInstance().getApplicationContext().getResources().getConfiguration().locale;
+
+          String cityName = "";
+          String countryName = "";
+
+          //JSONArray array = result.getJSONArray("results");
+          JSONArray components = place.getJSONArray("address_components");
+          for( int i = 0 ; i < components.length() ; i++ ) {
+            JSONObject component = components.getJSONObject(i);
+            JSONArray types = component.getJSONArray("types");
+            for (int j = 0; j < types.length(); j++) {
+              if (types.getString(j).equals("locality")) {
+                cityName = component.getString("long_name");
+              } else if (types.getString(j).equals("country")) {
+                countryName = component.getString("long_name");
+              }
+            }
+          }
+
+          Address addr = new Address(currentLocale);
+
+          //addr.setAddressLine(0, indiStr);
+          addr.setLocality(cityName);
+          addr.setCountryName(countryName);
+
+          retList.add(addr);
+        }
+      }
+
+
+    } catch (ClientProtocolException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
+      SKLogger.sAssert(false);
+    } catch (IOException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
+      SKLogger.sAssert(false);
+    } catch (JSONException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error parsing Google geocode webservice response.", e);
+      SKLogger.sAssert(false);
+    } catch (Exception e) {
+      SKLogger.sAssert(false);
+    }
+
+    return retList;
+  }
+
 
   private boolean uploadJsonData(final DBHelper dbHelper, List<JSONObject> batches,  byte[] data, String dataAsString) {
 
@@ -252,11 +339,49 @@ public class SubmitTestResultsAnonymousAction {
     final long finalBatchId = batchId;
 
     // Get Geocoder data!
+    if ((longitude == -999.0) && (latitude == -999.0)) {
+      Pair<Location,ScheduleConfig.LocationType> lastLocationPair = LocationDataCollector.sGetLastKnownLocation();
+      if (lastLocationPair != null) {
+        Location lastLocation = lastLocationPair.first;
+        if (lastLocation != null) {
+          latitude = lastLocation.getLatitude();
+          longitude = lastLocation.getLongitude();
+        }
+      }
+
+      /*
+      LocationManager manager = (LocationManager) SKApplication.getAppInstance().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+      if (manager == null) {
+        SKLogger.sAssert(false);
+      } else {
+        Location location = manager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        if (location == null) {
+          location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        if (location == null) {
+          location = manager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        }
+        if (location != null) {
+          latitude = location.getLatitude();
+          longitude = location.getLongitude();
+        }
+      }
+      */
+    }
+
     if ((longitude != -999.0) && (latitude != -999.0))
     {
-      // if (true) {
-      // Get municipality and country name!
+      //
+      // There are TWO ways to get geolocation data.
+      // 1) The first one is to use the Geocoder API - but that is very unreliable!
+      // 2) The second one uses an http query direct to Google.
+      //
 
+      //
+      // 1) First approach - use the Geocoder API
+      //
+
+      /*
       Geocoder geocoder = new Geocoder(SKApplication.getAppInstance().getApplicationContext(), Locale.getDefault());
       if (geocoder == null) {
         SKLogger.sAssert(false);
@@ -267,49 +392,28 @@ public class SubmitTestResultsAnonymousAction {
         } else {
           try {
             List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-            if (addressList != null && addressList.size() > 0) {
-              Address address = addressList.get(0);
-              String city = address.getLocality();
-              String country = address.getCountryName();
-
-              String muncipality = city;
-              String countryName = country;
-
-              JSONObject item1 = new JSONObject();
-              try {
-                item1.put(PassiveMetric.JSON_METRIC_NAME, "municipality");
-                item1.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
-                item1.put(PassiveMetric.JSON_VALUE, muncipality);
-                item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.MUNICIPALITY);
-              } catch (JSONException e) {
-                SKLogger.sAssert(getClass(), false);
-              }
-
-              JSONObject item2 = new JSONObject();
-              try {
-                item2.put(PassiveMetric.JSON_METRIC_NAME, "country_name");
-                item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
-                item2.put(PassiveMetric.JSON_VALUE, countryName);
-                item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.COUNTRYNAME);
-              } catch (JSONException e) {
-                SKLogger.sAssert(getClass(), false);
-              }
-
-              JSONArray jsonArray = new JSONArray();
-
-              jsonArray.put(item1);
-              jsonArray.put(item2);
-              dbHelper.insertPassiveMetric(jsonArray, finalBatchId);
-            } else {
-              SKLogger.sAssert(false);
-            }
+            processGeocoderAddressList(dbHelper, finalBatchId, addressList);
 
           } catch (IOException e) {
-            Log.e("LocationData", "Unable connect to Geocoder", e);
-            SKLogger.sAssert(false);
+            // https://code.google.com/p/android/issues/detail?id=38009
+            // This is quite a common problem!
+            //Log.e("LocationData", "Unable connect to Geocoder", e);
+            //SKLogger.sAssert(false);
+
+            List<Address> addressList = getFromLocation(latitude, longitude, 1);
+            processGeocoderAddressList(dbHelper, finalBatchId, addressList);
           }
         }
       }
+      */
+
+      //
+      // 2) Second approach - use an http query direct to Google.
+      //
+
+      // https://code.google.com/p/android/issues/detail?id=38009
+      List<Address> addressList = getFromLocation(latitude, longitude, 1);
+      processGeocoderAddressList(dbHelper, finalBatchId, addressList);
     }
 
     isSuccess = false;
@@ -360,6 +464,57 @@ public class SubmitTestResultsAnonymousAction {
     httpToJsonQuery.doPerformQuery();
 
     return isSuccess;
+  }
+
+  private void processGeocoderAddressList(DBHelper dbHelper, long finalBatchId, List<Address> addressList) {
+    if (addressList != null && addressList.size() > 0) {
+      Address address = addressList.get(0);
+      String city = address.getLocality();
+      String country = address.getCountryName();
+
+      String muncipality = city;
+      JSONObject item1 = null;
+      if (muncipality != null) {
+        item1 = new JSONObject();
+        try {
+          item1.put(PassiveMetric.JSON_METRIC_NAME, "municipality");
+          item1.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
+          item1.put(PassiveMetric.JSON_VALUE, muncipality);
+          item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.MUNICIPALITY);
+        } catch (JSONException e) {
+          SKLogger.sAssert(getClass(), false);
+        }
+      }
+
+      String countryName = country;
+      JSONObject item2 = null;
+      if (countryName != null) {
+        item2 = new JSONObject();
+        try {
+          item2.put(PassiveMetric.JSON_METRIC_NAME, "country_name");
+          item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
+          item2.put(PassiveMetric.JSON_VALUE, countryName);
+          item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.COUNTRYNAME);
+        } catch (JSONException e) {
+          SKLogger.sAssert(getClass(), false);
+        }
+      }
+
+      if (item1 != null || item2 != null) {
+        JSONArray jsonArray = new JSONArray();
+
+        if (item1 != null) {
+          jsonArray.put(item1);
+        }
+
+        if (item2 != null) {
+          jsonArray.put(item2);
+        }
+        dbHelper.insertPassiveMetric(jsonArray, finalBatchId);
+      }
+    } else {
+      SKLogger.sAssert(false);
+    }
   }
 
   private String privateBuildUrl() {

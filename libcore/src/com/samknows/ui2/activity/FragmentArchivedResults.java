@@ -90,6 +90,10 @@ public class FragmentArchivedResults extends Fragment {
       tv_result_accuracy, tv_result_provider,
       tv_warning_no_results_yet;
 
+  private View tv_group_wifi_ssid;
+  private View tv_group_municipality;
+  private View tv_group_country_name;
+  private View tv_group_wlan_carrier;
   private TextView tv_result_wifi_ssid;
   private TextView tv_result_municipality;
   private TextView tv_result_country_name;
@@ -141,57 +145,64 @@ public class FragmentArchivedResults extends Fragment {
     View view = getView();
     SKTypeface.sChangeChildrenToDefaultFontTypeface(view);
 
-    // Set fonts
-    // Header labels fonts
-    tv_warning_no_results_yet.setTypeface(typeface_Roboto_Light);
-    pm_tv_header_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
-    pm_tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
-    pm_tv_header_label_device.setTypeface(typeface_Roboto_Thin);
-    pm_tv_header_label_location.setTypeface(typeface_Roboto_Thin);
-    // Labels fonts
-    tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
-    tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_label_network_operator.setTypeface(typeface_Roboto_Light);
-    tv_label_network_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_label_roaming_status.setTypeface(typeface_Roboto_Light);
-    tv_label_cell_tower_ID.setTypeface(typeface_Roboto_Light);
-    tv_label_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
-    tv_label_signal_strength.setTypeface(typeface_Roboto_Light);
-    tv_label_bearer.setTypeface(typeface_Roboto_Light);
-    tv_label_manufacturer.setTypeface(typeface_Roboto_Light);
-    tv_label_model.setTypeface(typeface_Roboto_Light);
-    tv_label_OS.setTypeface(typeface_Roboto_Light);
-    tv_label_OS_version.setTypeface(typeface_Roboto_Light);
-    tv_label_phone_type.setTypeface(typeface_Roboto_Light);
-    tv_label_latitude.setTypeface(typeface_Roboto_Light);
-    tv_label_longitude.setTypeface(typeface_Roboto_Light);
-    tv_label_accuracy.setTypeface(typeface_Roboto_Light);
-    tv_label_provider.setTypeface(typeface_Roboto_Light);
-    // Results fonts
-    tv_result_sim_operator.setTypeface(typeface_Roboto_Light);
-    tv_result_sim_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_result_network_operator.setTypeface(typeface_Roboto_Light);
-    tv_result_network_operator_code.setTypeface(typeface_Roboto_Light);
-    tv_result_roaming_status.setTypeface(typeface_Roboto_Light);
-    tv_result_cell_tower_ID.setTypeface(typeface_Roboto_Light);
-    tv_result_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
-    tv_result_signal_strength.setTypeface(typeface_Roboto_Light);
-    tv_result_bearer.setTypeface(typeface_Roboto_Light);
-    tv_result_manufacturer.setTypeface(typeface_Roboto_Light);
-    tv_result_model.setTypeface(typeface_Roboto_Light);
-    tv_result_OS.setTypeface(typeface_Roboto_Light);
-    tv_result_OS_version.setTypeface(typeface_Roboto_Light);
-    tv_result_phone_type.setTypeface(typeface_Roboto_Light);
-    tv_result_latitude.setTypeface(typeface_Roboto_Light);
-    tv_result_longitude.setTypeface(typeface_Roboto_Light);
-    tv_result_accuracy.setTypeface(typeface_Roboto_Light);
-    tv_result_provider.setTypeface(typeface_Roboto_Light);
-
-    tv_result_wifi_ssid.setTypeface(typeface_Roboto_Light);
-    tv_result_municipality.setTypeface(typeface_Roboto_Light);
-    tv_result_country_name.setTypeface(typeface_Roboto_Light);
-    tv_result_wlan_carrier.setTypeface(typeface_Roboto_Light);
-
+//    // Set fonts
+//    // Header labels fonts
+//    tv_warning_no_results_yet.setTypeface(typeface_Roboto_Light);
+//    pm_tv_header_label_sim_and_network_operators.setTypeface(typeface_Roboto_Thin);
+//    pm_tv_header_label_signal.setTypeface(typeface_Roboto_Thin);
+//    pm_tv_header_label_device.setTypeface(typeface_Roboto_Thin);
+//    pm_tv_header_label_location.setTypeface(typeface_Roboto_Thin);
+//    // Labels fonts
+//    tv_label_sim_operator.setTypeface(typeface_Roboto_Light);
+//    tv_label_sim_operator_code.setTypeface(typeface_Roboto_Light);
+//    tv_label_network_operator.setTypeface(typeface_Roboto_Light);
+//    tv_label_network_operator_code.setTypeface(typeface_Roboto_Light);
+//    tv_label_roaming_status.setTypeface(typeface_Roboto_Light);
+//    tv_label_cell_tower_ID.setTypeface(typeface_Roboto_Light);
+//    tv_label_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
+//    tv_label_signal_strength.setTypeface(typeface_Roboto_Light);
+//    tv_label_bearer.setTypeface(typeface_Roboto_Light);
+//    tv_label_manufacturer.setTypeface(typeface_Roboto_Light);
+//    tv_label_model.setTypeface(typeface_Roboto_Light);
+//    tv_label_OS.setTypeface(typeface_Roboto_Light);
+//    tv_label_OS_version.setTypeface(typeface_Roboto_Light);
+//    tv_label_phone_type.setTypeface(typeface_Roboto_Light);
+//    tv_label_latitude.setTypeface(typeface_Roboto_Light);
+//    tv_label_longitude.setTypeface(typeface_Roboto_Light);
+//    tv_label_accuracy.setTypeface(typeface_Roboto_Light);
+//    tv_label_provider.setTypeface(typeface_Roboto_Light);
+//    // Results fonts
+//    tv_result_sim_operator.setTypeface(typeface_Roboto_Light);
+//    tv_result_sim_operator_code.setTypeface(typeface_Roboto_Light);
+//    tv_result_network_operator.setTypeface(typeface_Roboto_Light);
+//    tv_result_network_operator_code.setTypeface(typeface_Roboto_Light);
+//    tv_result_roaming_status.setTypeface(typeface_Roboto_Light);
+//    tv_result_cell_tower_ID.setTypeface(typeface_Roboto_Light);
+//    tv_result_cell_tower_area_location_code.setTypeface(typeface_Roboto_Light);
+//    tv_result_signal_strength.setTypeface(typeface_Roboto_Light);
+//    tv_result_bearer.setTypeface(typeface_Roboto_Light);
+//    tv_result_manufacturer.setTypeface(typeface_Roboto_Light);
+//    tv_result_model.setTypeface(typeface_Roboto_Light);
+//    tv_result_OS.setTypeface(typeface_Roboto_Light);
+//    tv_result_OS_version.setTypeface(typeface_Roboto_Light);
+//    tv_result_phone_type.setTypeface(typeface_Roboto_Light);
+//    tv_result_latitude.setTypeface(typeface_Roboto_Light);
+//    tv_result_longitude.setTypeface(typeface_Roboto_Light);
+//    tv_result_accuracy.setTypeface(typeface_Roboto_Light);
+//    tv_result_provider.setTypeface(typeface_Roboto_Light);
+//
+//    if (tv_result_wifi_ssid != null) {
+//      tv_result_wifi_ssid.setTypeface(typeface_Roboto_Light);
+//    }
+//    if (tv_result_municipality != null) {
+//      tv_result_municipality.setTypeface(typeface_Roboto_Light);
+//    }
+//    if (tv_result_country_name != null) {
+//      tv_result_country_name.setTypeface(typeface_Roboto_Light);
+//    }
+//    if (tv_result_wlan_carrier != null) {
+//      tv_result_wlan_carrier.setTypeface(typeface_Roboto_Light);
+//    }
   }
 
   // Receive the result from a previous call to startActivityForResult(Intent, int)
@@ -505,10 +516,19 @@ public class FragmentArchivedResults extends Fragment {
     tv_result_provider = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_location_provider);
 
     // TODO - WIFI SSID, and new stuff!
-    tv_result_wifi_ssid = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_wifi_ssid);
-    tv_result_municipality = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_municipality);
-    tv_result_country_name = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_country_name);
-    tv_result_wlan_carrier = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_wlan_carrier);
+    try {
+      tv_group_wifi_ssid = pView.findViewById(R.id.fragment_passive_metrics_group_wifi_ssid);
+      tv_group_municipality =  pView.findViewById(R.id.fragment_passive_metrics_group_municipality);
+      tv_group_country_name =  pView.findViewById(R.id.fragment_passive_metrics_group_country_name);
+      tv_group_wlan_carrier =  pView.findViewById(R.id.fragment_passive_metrics_group_wlan_carrier);
+      tv_result_wifi_ssid = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_wifi_ssid);
+      tv_result_municipality = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_municipality);
+      tv_result_country_name = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_country_name);
+      tv_result_wlan_carrier = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_wlan_carrier);
+    } catch (java.lang.NoSuchFieldError e) {
+      // This happens with some versions of passive_metrics.panel, where these values are not availabe!
+      //SKLogger.sAssert(false);
+    }
 
     publicIp = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_your_ip_value);
     submissionId = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_reference_number_value);
@@ -870,7 +890,7 @@ public class FragmentArchivedResults extends Fragment {
             // municipality
             // country_name
             // android os version string
-          } else if (metric.equals("osversion_android")) {
+          } else if (metric.equals("androidbuildversion")) {
             testResult.setOSVersion(value);
           } else if (metric.equals("phonetype")) {
             testResult.setPhoneType(value);
@@ -1053,15 +1073,36 @@ public class FragmentArchivedResults extends Fragment {
       target.setText(pTestResult.getTargetServerLocation());
     }
 
-    // TODO - show/hide this ONLY if Network Type is WIFI, *and* if value is NOT empty!
+    // Show/hide this ONLY if Network Type is WIFI, *and* if value is NOT empty!
     tv_result_wifi_ssid.setText(pTestResult.getWifiSSID());
+    if (tv_group_wifi_ssid  != null) {
+      int visibility = (pTestResult.getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_WiFi) ? View.VISIBLE : View.GONE;
+      if (pTestResult.getWifiSSID().length() == 0)  {
+        visibility = View.GONE;
+      }
+      tv_group_wifi_ssid.setVisibility(visibility);
+    }
 
-    // TODO - show/hide this ONLY if value is NOT empty!
-    tv_result_municipality.setText(pTestResult.getMunicipality());
-    // TODO - show/hide this ONLY if value is NOT empty!
-    tv_result_country_name.setText(pTestResult.getCountryName());
-    // TODO - show/hide this ONLY if value is NOT empty!
-    tv_result_wlan_carrier.setText(pTestResult.getWlanCarrier());
+    if (tv_result_wifi_ssid != null) {
+      tv_group_wifi_ssid.setVisibility((pTestResult.getWifiSSID().length() > 0) ? View.VISIBLE : View.GONE);
+    }
+
+    // Show/hide this ONLY if value is NOT empty!
+    if (tv_result_municipality != null) {
+      tv_result_municipality.setText(pTestResult.getMunicipality());
+      tv_group_municipality.setVisibility((pTestResult.getMunicipality().length() > 0) ? View.VISIBLE : View.GONE);
+    }
+
+    // Show/hide this ONLY if value is NOT empty!
+    if (tv_result_country_name != null) {
+      tv_result_country_name.setText(pTestResult.getCountryName());
+      tv_group_country_name.setVisibility((pTestResult.getCountryName().length() > 0) ? View.VISIBLE : View.GONE);
+    }
+    // Show/hide this ONLY if value is NOT empty!
+    if (tv_result_wlan_carrier != null) {
+      tv_result_wlan_carrier.setText(pTestResult.getWlanCarrier());
+      tv_group_wlan_carrier.setVisibility((pTestResult.getWlanCarrier().length() > 0) ? View.VISIBLE : View.GONE);
+    }
   }
 
   // *** MENUS *** //

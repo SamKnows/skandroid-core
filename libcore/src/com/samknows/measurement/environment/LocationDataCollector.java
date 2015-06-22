@@ -18,73 +18,152 @@ import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.XmlUtils;
 
-public class LocationDataCollector extends BaseDataCollector implements LocationListener{
+public class LocationDataCollector extends BaseDataCollector implements LocationListener {
   static final String TAG = "LocationDataCollector";
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private long time;
-	private long listenerDelay;
-//	private float listenerMinDst;
-	private boolean getLastKnown;
-	
+  private long time;
+  private long listenerDelay;
+  //	private float listenerMinDst;
+  private boolean getLastKnown;
 
-	private transient List<Location> mLocations;
 
-	Location mLastLocation = null;
-	
-	// There is more than one way to obtain Location on Android.
-	// - The Android Location API (LOCATION_SERVICE - android.location.*)
-	// - Google Play Services Location API (com.google.android.gms.location.*)
-	// We use the first of these two options, as then there is no dependency on
-	// Google Play Services...
-	// See http://www.rahuljiresal.com/2014/02/user-location-on-android/ for some
-	// useful background on this.
+  private transient List<Location> mLocations;
 
-	private transient LocationManager manager;
-	private boolean gotLastLocation;
-	private LocationType locationType;
-	private transient Location lastKnown;
+  Location mLastLocation = null;
 
-	private int mProviderStatus = LocationProvider.AVAILABLE;
-	
-	
+  // There is more than one way to obtain Location on Android.
+  // - The Android Location API (LOCATION_SERVICE - android.location.*)
+  // - Google Play Services Location API (com.google.android.gms.location.*)
+  // We use the first of these two options, as then there is no dependency on
+  // Google Play Services...
+  // See http://www.rahuljiresal.com/2014/02/user-location-on-android/ for some
+  // useful background on this.
+
+  private transient LocationManager manager;
+  private boolean gotLastLocation;
+  private LocationType locationType;
+  private transient Location lastKnown;
+
+  private int mProviderStatus = LocationProvider.AVAILABLE;
+
+
+  public static void sForceFastLocationCheck() {
+    Context context = SKApplication.getAppInstance().getApplicationContext();
+
+    LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    if (manager == null) {
+      SKLogger.sAssert(LocationDataCollector.class, false);
+      return;
+    }
+
+    LocationListener locationListener = new LocationListener() {
+      @Override
+      public void onLocationChanged(Location location) {
+        // Got location change!
+      }
+
+      @Override
+      public void onStatusChanged(String provider, int status, Bundle extras) {
+      }
+
+      @Override
+      public void onProviderEnabled(String provider) {
+      }
+
+      @Override
+      public void onProviderDisabled(String provider) {
+      }
+    };
+
+    // http://stackoverflow.com/questions/10405277/requestsingleupdate-doesnt-automatically-fetch-gps-location
+    // Network location is fast and cheap (in terms of battery use) and a good strategy is to use network location until you get GPS.
+
+//    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//      manager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, Looper.getMainLooper());
+//    } else
+    if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+      manager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, Looper.getMainLooper());
+    } else {
+      SKLogger.sAssert(false);
+    }
+  }
 
 		
-	public static Pair<Location,LocationType> sGetLastKnownLocation(TestContext tc) {
-		LocationType locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
+	public static Pair<Location,LocationType> sGetLastKnownLocation() {
+    Context context = SKApplication.getAppInstance().getApplicationContext();
 
-    LocationManager manager = (LocationManager) tc.getSystemService(Context.LOCATION_SERVICE);
+    LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		if (manager == null) {
 			SKLogger.sAssert(LocationDataCollector.class,  false);
-		    return null;
+		  return null;
 		}
-		
-		
-		//if the provider in the settings is gps but the service is not enable fail over to network provider
-		if(locationType == LocationType.gps &&!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-			if (manager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-				locationType = LocationType.network;
-			}
-		}
-		
-		if(locationType != LocationType.gps && locationType != LocationType.network){
-			// throw new RuntimeException("unknown location type: " + locationType);
-			
-			// Rather than simply crashing the app with an exception - stick to Network type, which will
-			// be handled benignly...
-			locationType = LocationType.network;
-		}
-		
-		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
-		
-		return new Pair<Location,LocationType> (manager.getLastKnownLocation(provider), locationType);
+
+    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+      try {
+        Location lastKnownLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        // This MIGHT be null!
+
+        if (lastKnownLocation != null) {
+          return new Pair<Location, LocationType>(lastKnownLocation, LocationType.gps);
+        }
+
+      } catch (Exception e) {
+        SKLogger.sAssert(false);
+      }
+    }
+
+    if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+      try {
+        Location lastKnownLocation = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        // This MIGHT be null!
+
+        if (lastKnownLocation != null) {
+          return new Pair<Location, LocationType>(lastKnownLocation, LocationType.network);
+        }
+
+      } catch (Exception e) {
+        SKLogger.sAssert(false);
+      }
+    }
+
+    return null;
+
+//		LocationType locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
+//
+
+//
+//
+//		//if the provider in the settings is gps but the service is not enable fail over to network provider
+//		if(locationType == LocationType.gps &&!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+//			if (manager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
+//				locationType = LocationType.network;
+//			}
+//		}
+//
+//		if(locationType != LocationType.gps && locationType != LocationType.network){
+//			// throw new RuntimeException("unknown location type: " + locationType);
+//
+//			// Rather than simply crashing the app with an exception - stick to Network type, which will
+//			// be handled benignly...
+//			locationType = LocationType.network;
+//		}
+//
+//		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
+//
+//    Location lastKnownLocation = manager.getLastKnownLocation(provider);
+//    SKLogger.sAssert(lastKnownLocation != null);
+//
+//		return new Pair<Location,LocationType> (lastKnownLocation, locationType);
 	}
 
 	
