@@ -378,10 +378,10 @@ public class SubmitTestResultsAnonymousAction {
       //
 
       //
-      // 1) First approach - use the Geocoder API
+      // 1) First approach - use the Geocoder API - it works sometimes!
       //
 
-      /*
+      List<Address> addressList = null;
       Geocoder geocoder = new Geocoder(SKApplication.getAppInstance().getApplicationContext(), Locale.getDefault());
       if (geocoder == null) {
         SKLogger.sAssert(false);
@@ -391,29 +391,29 @@ public class SubmitTestResultsAnonymousAction {
           SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator() == true);
         } else {
           try {
-            List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-            processGeocoderAddressList(dbHelper, finalBatchId, addressList);
+            addressList = geocoder.getFromLocation(latitude, longitude, 1);
 
           } catch (IOException e) {
             // https://code.google.com/p/android/issues/detail?id=38009
             // This is quite a common problem!
             //Log.e("LocationData", "Unable connect to Geocoder", e);
             //SKLogger.sAssert(false);
-
-            List<Address> addressList = getFromLocation(latitude, longitude, 1);
-            processGeocoderAddressList(dbHelper, finalBatchId, addressList);
           }
         }
       }
-      */
 
       //
       // 2) Second approach - use an http query direct to Google.
       //
 
-      // https://code.google.com/p/android/issues/detail?id=38009
-      List<Address> addressList = getFromLocation(latitude, longitude, 1);
-      processGeocoderAddressList(dbHelper, finalBatchId, addressList);
+      if (addressList == null || addressList.size() == 0) {
+        // https://code.google.com/p/android/issues/detail?id=38009
+        addressList = getFromLocation(latitude, longitude, 1);
+      }
+
+      if (addressList != null) {
+        processGeocoderAddressList(dbHelper, finalBatchId, addressList);
+      }
     }
 
     isSuccess = false;

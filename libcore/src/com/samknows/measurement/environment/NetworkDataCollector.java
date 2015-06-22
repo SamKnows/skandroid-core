@@ -70,7 +70,8 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
       if (wifiInfo != null) {
         String theSSID = wifiInfo.getSSID();
         if (theSSID == null) {
-          SKLogger.sAssert(false);
+					// e.g. if we're on mobile!
+          // SKLogger.sAssert(false);
         } else {
           String wifiInfoSSID = wifiInfo.getSSID().replace("\"", "");
           //wifiInfoSSID = "A test network";
