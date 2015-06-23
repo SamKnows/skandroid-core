@@ -604,4 +604,13 @@
     <string name="Initial_Warning_Text"></string>
     <string name="result_working">Aguarde</string>
 
+
+    <!-- - the municipal area (typically a City, I think) in which the test was performed e.g. London -->
+    <string name="pm_municipality_caption">Município</string>
+    <!-- - the name of the country in which the test has been run e.g. Brazil -->
+    <string name="pm_country_name_caption">País</string>
+    <!-- - the name of the carrier behind the network connection (e.g. Vodafone, Virgin etc.) -->
+    <string name="pm_wlan_caption">Operadora da Internet WiFi</string>
+    <!-- - the local network name (e.g. SK2) -->
+    <string name="pm_wifi_ssid_caption">Nome da rede WiFi</string>
 </resources>

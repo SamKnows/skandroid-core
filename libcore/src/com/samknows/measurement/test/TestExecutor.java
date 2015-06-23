@@ -50,6 +50,7 @@ import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.util.DCSStringBuilder;
+import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.tests.Param;
 import com.samknows.tests.Test;
@@ -96,7 +97,7 @@ public class TestExecutor {
 		Pair<Location, LocationType> lastKnownPair = LocationDataCollector.sGetLastKnownLocation();
 		if (lastKnownPair == null) {
 			// Nothing known - don't store a passive metric, simply return instead...
-			SKLogger.sAssert(getClass(),  false);
+			SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
 			return;
 		}
 		

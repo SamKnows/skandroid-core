@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.util.Pair;
 
+import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
@@ -23,6 +24,7 @@ import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.test.TestContext;
 import com.samknows.measurement.util.DCSStringBuilder;
+import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
 
 public class LocationDataCollector extends BaseDataCollector implements LocationListener {
@@ -93,7 +95,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
     if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
       manager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, Looper.getMainLooper());
     } else {
-      SKLogger.sAssert(false);
+      SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
     }
   }
 

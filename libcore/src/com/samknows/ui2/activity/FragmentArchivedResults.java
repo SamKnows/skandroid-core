@@ -515,7 +515,7 @@ public class FragmentArchivedResults extends Fragment {
     tv_result_accuracy = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_accuracy);
     tv_result_provider = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_location_provider);
 
-    // TODO - WIFI SSID, and new stuff!
+    // WIFI SSID, and new stuff!
     try {
       tv_group_wifi_ssid = pView.findViewById(R.id.fragment_passive_metrics_group_wifi_ssid);
       tv_group_municipality =  pView.findViewById(R.id.fragment_passive_metrics_group_municipality);
@@ -884,12 +884,6 @@ public class FragmentArchivedResults extends Fragment {
             testResult.setOSVersion(value);
           } else if (metric.equals("osversionandroid")) {
             tv_result_OS_version.setText(value);
-
-            // TODO - WIFI_SSID and other new stuff!
-            // wifi_ssid
-            // municipality
-            // country_name
-            // android os version string
           } else if (metric.equals("androidbuildversion")) {
             testResult.setOSVersion(value);
           } else if (metric.equals("phonetype")) {
@@ -914,6 +908,12 @@ public class FragmentArchivedResults extends Fragment {
             } else {
               SKLogger.sAssert(getClass(), false);
             }
+
+          // WIFI_SSID and other new stuff!
+          // wifi_ssid
+          // municipality
+          // country_name
+          // android os version string
           } else if (metric.equals("wifi_ssid")){
             testResult.setWifiSSID(value);
           } else if (metric.equals("municipality")){
@@ -1074,7 +1074,9 @@ public class FragmentArchivedResults extends Fragment {
     }
 
     // Show/hide this ONLY if Network Type is WIFI, *and* if value is NOT empty!
-    tv_result_wifi_ssid.setText(pTestResult.getWifiSSID());
+    if (tv_result_wifi_ssid != null) {
+      tv_result_wifi_ssid.setText(pTestResult.getWifiSSID());
+    }
     if (tv_group_wifi_ssid  != null) {
       int visibility = (pTestResult.getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_WiFi) ? View.VISIBLE : View.GONE;
       if (pTestResult.getWifiSSID().length() == 0)  {

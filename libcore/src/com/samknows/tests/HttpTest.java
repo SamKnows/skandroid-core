@@ -1000,11 +1000,11 @@ public abstract class HttpTest extends Test {
   boolean downstream = true;
 
 
-  private static int sGetBytesPerSecond(long duration, long btsTotal) {
+  private static int sGetBytesPerSecondWithMicroDuration(long durationMicro, long btsTotal) {
     int btsPerSec = 0;
 
-    if (duration != 0) {
-      double timeSeconds = ((double) duration) / 1000000.0;
+    if (durationMicro != 0) {
+      double timeSeconds = ((double) durationMicro) / 1000000.0;
       btsPerSec = (int) (((double) btsTotal) / timeSeconds);
     }
 
@@ -1015,24 +1015,28 @@ public abstract class HttpTest extends Test {
 
   protected int getWarmupBytesPerSecond() {
     long btsTotal = getTotalWarmUpBytes();
-    long duration = getWarmUpTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartWarmupMicro()) : getWarmUpTimeDurationMicro();
+    long durationMicro = getWarmUpTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartWarmupMicro()) : getWarmUpTimeDurationMicro();
 
-    return sGetBytesPerSecond(duration, btsTotal);
+    return sGetBytesPerSecondWithMicroDuration(durationMicro, btsTotal);
   }
 
 
   // Returns -1 if not enough time has passed for sensible measurement.
   protected int getTransferBytesPerSecond() {
     long btsTotal = getTotalTransferBytes();
-    long duration = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
+    long durationMicro = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
 
-    if (duration < 1000000.0) // At least a second!
+    durationMicro = 500000;
+
+//    double durationSeconds = ((double)durationMicro) / 1000000.0;
+    //if (durationMicro < 1000000.0) // Anything
+    if (durationMicro == 0) // Anything
     {
       // Not yet possible to return a valid result!
       return -1;
     }
 
-    return sGetBytesPerSecond(duration, btsTotal);
+    return sGetBytesPerSecondWithMicroDuration(durationMicro, btsTotal);
   }
 
 
