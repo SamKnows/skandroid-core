@@ -1026,8 +1026,6 @@ public abstract class HttpTest extends Test {
     long btsTotal = getTotalTransferBytes();
     long durationMicro = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
 
-    durationMicro = 500000;
-
 //    double durationSeconds = ((double)durationMicro) / 1000000.0;
     //if (durationMicro < 1000000.0) // Anything
     if (durationMicro == 0) // Anything
