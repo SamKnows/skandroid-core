@@ -496,18 +496,22 @@ public class FragmentSettings extends Fragment {
       ((TextView) view.findViewById(R.id.tv_signal_value)).setText(value);
     } catch (NoSuchFieldError e) {
     }
+
+    /* WE NO LONGER DO THIS! ... as it just pumps unwanted lines at the bottom of the screen...
     // Note: neighbors might be NULL...
     if (cellData.getNeighbors() != null) {
       for (NeighboringCellInfo info : cellData.getNeighbors()) {
         appendNeighborCellInfo(info);
       }
     }
+    */
 
     View contentView = view; // view.findViewById(android.R.id.content);
     SKTypeface.sChangeChildrenToDefaultFontTypeface(contentView);
   }
 
 
+  /*
   public void appendNeighborCellInfo(NeighboringCellInfo data) {
 
     View view = getView();
@@ -661,5 +665,6 @@ public class FragmentSettings extends Fragment {
     ((TableLayout) view.findViewById(R.id.info_table)).addView(tr, params);
     tr.setLayoutParams(params);
   }
+  */
 
 }

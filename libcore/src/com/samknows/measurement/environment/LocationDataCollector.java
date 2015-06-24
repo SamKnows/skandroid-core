@@ -53,7 +53,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
   private transient LocationManager manager;
   private boolean gotLastLocation;
   private LocationType locationType;
-  private transient Location lastKnown;
+  static private Location sLastKnown = null;
 
   private int mProviderStatus = LocationProvider.AVAILABLE;
 
@@ -116,6 +116,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
         // This MIGHT be null!
 
         if (lastKnownLocation != null) {
+          sLastKnown = lastKnownLocation;
           return new Pair<Location, LocationType>(lastKnownLocation, LocationType.gps);
         }
 
@@ -130,6 +131,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
         // This MIGHT be null!
 
         if (lastKnownLocation != null) {
+          sLastKnown = lastKnownLocation;
           return new Pair<Location, LocationType>(lastKnownLocation, LocationType.network);
         }
 
@@ -204,7 +206,10 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
 		
 		if (getLastKnown) {
-			lastKnown = manager.getLastKnownLocation(provider);
+      Location tryLocation = manager.getLastKnownLocation(provider);
+      if (tryLocation != null) {
+        sLastKnown = tryLocation;
+      }
 		}
 		gotLastLocation = false;
 		
@@ -308,8 +313,8 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	@Override
 	public List<JSONObject> getPassiveMetric() {
 		List<JSONObject> ret = new ArrayList<JSONObject>();
-		if(lastKnown != null){
-			ret.addAll(locationToPassiveMetric(lastKnown));
+		if(sLastKnown != null){
+			ret.addAll(locationToPassiveMetric(sLastKnown));
 		}
 		synchronized(this) {
 			for(Location l: mLocations){
@@ -365,8 +370,8 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	@Override
 	public List<JSONObject> getJSONOutput(){
 		List<JSONObject> ret = new ArrayList<JSONObject>();
-		if(getLastKnown && lastKnown != null){
-			ret.addAll(new LocationData(true, lastKnown, locationType).convertToJSON());
+		if(getLastKnown && sLastKnown != null){
+			ret.addAll(new LocationData(true, sLastKnown, locationType).convertToJSON());
 		}
 		synchronized(this) {
 			for(Location l: mLocations){
@@ -379,9 +384,9 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	public List<DCSData> getPartialData(){
 		List<DCSData> ret = new ArrayList<DCSData>();
 		synchronized(this){
-			if(getLastKnown && lastKnown != null){
-				ret.add(new LocationData(true, lastKnown, locationType));
-				lastKnown = null;
+			if(getLastKnown && sLastKnown != null){
+				ret.add(new LocationData(true, sLastKnown, locationType));
+				sLastKnown = null;
 			}
 
 			if( mLocations.isEmpty() && mLastLocation != null){
