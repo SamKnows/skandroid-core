@@ -743,7 +743,15 @@ public class FragmentArchivedResults extends Fragment {
     eNetworkTypeResults previousState = SKApplication.getNetworkTypeResults();
 
     SKApplication.setNetworkTypeResults(networkType);
-    populateEmptyArrayList(pTemporaryArchivedTestsList);
+
+    try {
+      populateEmptyArrayList(pTemporaryArchivedTestsList);
+    } catch ( java.lang.IllegalStateException e) {
+      // This should *never* happen, due to the use of isAdded() in populateEmptyArrayList...!
+      // But, this is belt-and-braces.
+      // http://stackoverflow.com/questions/22366596/android-illegalstateexception-fragment-not-attached-to-activity-webview
+      SKLogger.sAssert(false);
+    }
 
     // Back to the previous state
     SKApplication.setNetworkTypeResults(previousState);
