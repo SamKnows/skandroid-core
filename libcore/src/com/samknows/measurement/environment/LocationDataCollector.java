@@ -51,7 +51,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
   // useful background on this.
 
   private transient LocationManager manager;
-  private boolean gotLastLocation;
+  private boolean gotLastLocation = false;
   private LocationType locationType;
   static private Location sLastKnown = null;
 
@@ -184,6 +184,11 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		
 		
 		locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
+		if (locationType == null) {
+      SKLogger.sAssert(false);
+      return;
+    }
+
 		//if the provider in the settings is gps but the service is not enable fail over to network provider
 		if (locationType == LocationType.gps && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
       // The following call has been seen to return null on some devices!
