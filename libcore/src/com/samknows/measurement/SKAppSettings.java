@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -40,33 +41,39 @@ public class SKAppSettings {
 	{
 		ctx = c;
 
-		int propertiesId = c.getResources().getIdentifier("properties", "raw", c.getPackageName());
-
-		InputStream is = c.getResources().openRawResource(propertiesId);
-		Properties p = new Properties();
 		try {
-			p.load(is);
-			reportingServerPath = p.getProperty(SKConstants.PROP_REPORTING_PATH);
-			rescheduleTime = Long.valueOf(p.getProperty(SKConstants.PROP_RESCHEDULE_TIME));
-			testStartWindow = Long.valueOf(p.getProperty(SKConstants.PROP_TEST_START_WINDOW_RTC));
-			rescheduleServiceTime = Long.valueOf(p.getProperty(SKConstants.PROP_KILLED_SERVICE_RESTART_TIME_IN_MILLIS));
-			brand = p.getProperty(SKConstants.PROP_BRAND);
-			multipleTabsEnabled = Boolean.valueOf(p.getProperty(SKConstants.ENABLE_MULTIPLE_TABS, "true"));
-			PackageInfo pInfo 		= c.getPackageManager().getPackageInfo(c.getPackageName(),0);
-			app_version_code 		= pInfo.versionCode;
-			app_version_name 		= pInfo.versionName;
+			int propertiesId = c.getResources().getIdentifier("properties", "raw", c.getPackageName());
 
-		} catch (IOException e) {
-			SKLogger.e(TAG, "failed to load properies!");
-		} catch (NameNotFoundException nnfe) {
-			SKLogger.e(TAG, "failed to read manifest file: "+ nnfe.getMessage());
-		} catch(NullPointerException npe){
-			// This should be seen only when running a mock test.
-			Log.e(this.getClass().getName(), "NullPointerException - make sure this happens only when running a mock test!");
-			SKLogger.e(TAG, npe.getMessage());
-			app_version_code = 0;
-		} finally {
-			IOUtils.closeQuietly(is);
+			InputStream is = c.getResources().openRawResource(propertiesId);
+			Properties p = new Properties();
+			try {
+				p.load(is);
+				reportingServerPath = p.getProperty(SKConstants.PROP_REPORTING_PATH);
+				rescheduleTime = Long.valueOf(p.getProperty(SKConstants.PROP_RESCHEDULE_TIME));
+				testStartWindow = Long.valueOf(p.getProperty(SKConstants.PROP_TEST_START_WINDOW_RTC));
+				rescheduleServiceTime = Long.valueOf(p.getProperty(SKConstants.PROP_KILLED_SERVICE_RESTART_TIME_IN_MILLIS));
+				brand = p.getProperty(SKConstants.PROP_BRAND);
+				multipleTabsEnabled = Boolean.valueOf(p.getProperty(SKConstants.ENABLE_MULTIPLE_TABS, "true"));
+				PackageInfo pInfo = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
+				app_version_code = pInfo.versionCode;
+				app_version_name = pInfo.versionName;
+
+			} catch (IOException e) {
+				SKLogger.e(TAG, "failed to load properties!");
+			} catch (NameNotFoundException nnfe) {
+				SKLogger.e(TAG, "failed to read manifest file: " + nnfe.getMessage());
+			} catch (NullPointerException npe) {
+				// This should be seen only when running a mock test.
+				Log.e(this.getClass().getName(), "NullPointerException - make sure this happens only when running a mock test!");
+				SKLogger.e(TAG, npe.getMessage());
+				app_version_code = 0;
+			} finally {
+				IOUtils.closeQuietly(is);
+			}
+		} catch (Resources.NotFoundException e) {
+			// Deal with apps that *don't* have a raw properties file!
+      SKLogger.e(TAG, "failed to find raw/properties in the project!");
+
 		}
 	}
 
