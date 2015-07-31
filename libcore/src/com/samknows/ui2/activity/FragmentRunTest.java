@@ -69,6 +69,7 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.environment.NetworkDataCollector;
+import com.samknows.measurement.environment.QueryWlanCarrier;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.storage.StorageTestResult;
@@ -120,6 +121,7 @@ public class FragmentRunTest extends Fragment {
   // Text views showing warnings
   private TextView mUnitText;
   private TextView mMeasurementText;
+  private TextView mOptionalWlanCarrierNameText;
   private View initial_warning_text;
   // Text views showing the test result labels
   private TextView tv_Label_Loss, tv_Label_Jitter;
@@ -660,6 +662,10 @@ public class FragmentRunTest extends Fragment {
     mMeasurementText.setTextColor(getResources().getColor(R.color.MainColourDialUnitText));
     mMeasurementText.setText("");
 
+    mOptionalWlanCarrierNameText = (TextView) pView.findViewById(R.id.optional_wlan_carrier_name_text);
+    mOptionalWlanCarrierNameText.setTextColor(getResources().getColor(R.color.MainColourDialUnitText));
+    mOptionalWlanCarrierNameText.setText("");
+
     initial_warning_text = pView.findViewById(R.id.initial_warning_text);
 
 
@@ -1109,10 +1115,74 @@ public class FragmentRunTest extends Fragment {
     progressPercent = 0;
   }
 
+  private boolean getNetworkTypeIsWiFi() {
+    Context context = SKApplication.getAppInstance().getApplicationContext();
+    String networkType = Connectivity.getConnectionType(context);
+    if (networkType != null && networkType.equals(SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi))) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private void ifWiFiThenQueryForWlanCarrierIfAppSupportsIt() {
+
+    FragmentRunTest.this.mOptionalWlanCarrierNameText.setText("");
+
+    if (SKApplication.getAppInstance().getShouldDisplayWifiWlanCarrierNameInRunTestScreen() == false) {
+      return;
+    }
+
+    if (getNetworkTypeIsWiFi() == false) {
+      return;
+    }
+
+    // Query for WlanCarrier!
+    final QueryWlanCarrier queryWlanCarrier = new QueryWlanCarrier() {
+      public void doHandleGotWlanCarrier(String wlanCarrier) {
+        //Log.d("MPC", "Main thread got wlanCarrier=" + wlanCarrier);
+
+        final String theWlanCarrier = wlanCarrier;
+
+        mHandler.post(new Runnable() {
+
+          @Override
+          public void run() {
+            // Defend against "java.lang.IllegalStateException: Fragment FragmentRunTest{...} not attached to Activity"
+            // http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
+            if (isAdded() == false) {
+              SKLogger.sAssert(getClass(), false);
+              return;
+            }
+            if (getActivity() == null) {
+              // e.g. test completes, after fragment detatched
+              SKLogger.sAssert(false);
+              return;
+            }
+
+            FragmentRunTest.this.mOptionalWlanCarrierNameText.setText(theWlanCarrier);
+          }
+        });
+      }
+    };
+
+    new Thread() {
+      @Override
+      public void run() {
+        queryWlanCarrier.doPerformQuery();
+      }
+    }.start();
+  }
+
   /**
    * Create the test and launches it
    */
   public void launchTests() {
+
+    // AT THIS POINT - query for WLan!
+
+    ifWiFiThenQueryForWlanCarrierIfAppSupportsIt();
+
     createManualTest();                // Create the manual test object storing which tests will be performed
     threadRunningTests = new Thread(manualTest);  // Create the thread with the Manual Test Object (Runnable Object)
     changeLabelText(getString(R.string.label_message_starting_tests));

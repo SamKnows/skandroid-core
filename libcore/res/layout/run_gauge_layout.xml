@@ -150,6 +150,14 @@
                     android:text="@string/download"
                     android:textColor="@color/MainColourPressTheStartButtonText"
                     android:textSize="@dimen/text_size_small_medium" />
+                <com.samknows.measurement.activity.components.FontFitTextView
+                    android:id="@+id/optional_wlan_carrier_name_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/MainColourPressTheStartButtonText"
+                    android:textSize="@dimen/text_size_small_medium" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

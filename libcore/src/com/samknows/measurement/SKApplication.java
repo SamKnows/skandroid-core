@@ -248,6 +248,10 @@ public class SKApplication extends Application{
 		return false;
 	}
 
+	public boolean getShouldDisplayWifiWlanCarrierNameInRunTestScreen() {
+		return false;
+	}
+
 	// Must be overridden!
 	public String getDCSInitUrl() {
 		SKLogger.sAssert(getClass(), false);

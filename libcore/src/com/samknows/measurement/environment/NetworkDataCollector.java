@@ -2,27 +2,20 @@ package com.samknows.measurement.environment;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.net.SimpleHttpToJsonQuery;
-import com.samknows.measurement.storage.PassiveMetric;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
-import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.util.Log;
 
 public class NetworkDataCollector extends EnvBaseDataCollector {
 
-	public NetworkDataCollector(Context context) {
+  public NetworkDataCollector(Context context) {
 		super(context);
 	}
 	
@@ -110,31 +103,40 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
 
     ret.wifiSSID = sCurrentWifiSSIDNullIfNotFound();
 
-    if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+		sQueryWlanCarrier(ret);
+
+		return ret;
+	}
+
+//	public static void sQueryWlanCarrierOnNewThread(final Callable<String> closure) {
+//
+//
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//			})
+//		}).start();
+//	}
+
+	private static void sQueryWlanCarrier(NetworkData ret) {
+		if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
       // Cannot do this in the main thread - otherwise, we get an exception!
+      //SKLogger.sAssert(false);
     } else {
       final NetworkData finalRet = ret;
-      SimpleHttpToJsonQuery httpToJsonQuery = new SimpleHttpToJsonQuery("http://dcs-mobile-fcc.samknows.com/mobile/lookup.php", null) {
+
+      QueryWlanCarrier myQuery = new QueryWlanCarrier() {
+
         @Override
-        public Void call() throws Exception {
-
-          try {
-            String wlanCarrier = mJSONResponse.getString("organization");
-            finalRet.wlanCarrier = wlanCarrier;
-          } catch (JSONException e) {
-            SKLogger.sAssert(getClass(), false);
-          }
-
-          return null;
+        public void doHandleGotWlanCarrier(String wlanCarrier) {
+          Log.d("MPC", "NetorkDataCollector got wlanCarrier=" + wlanCarrier);
+          finalRet.wlanCarrier = wlanCarrier;
         }
       };
-
-      httpToJsonQuery.doPerformQuery();
+      myQuery.doPerformQuery();
     }
-
-    return ret;
 	}
-	
+
 	void collectData(){
 		addData(extractData(mTelManager, mConnManager));
 	}
