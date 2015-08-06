@@ -248,7 +248,7 @@ public class SKApplication extends Application{
 		return false;
 	}
 
-	public boolean getShouldDisplayWifiWlanCarrierNameInRunTestScreen() {
+	public boolean getShouldDisplayWlanCarrierNameInRunTestScreen() {
 		return false;
 	}
 

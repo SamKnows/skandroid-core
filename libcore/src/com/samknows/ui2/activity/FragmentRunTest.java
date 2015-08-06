@@ -1125,15 +1125,11 @@ public class FragmentRunTest extends Fragment {
     return false;
   }
 
-  private void ifWiFiThenQueryForWlanCarrierIfAppSupportsIt() {
+  private void queryForWlanCarrierIfAppSupportsIt() {
 
     FragmentRunTest.this.mOptionalWlanCarrierNameText.setText("");
 
-    if (SKApplication.getAppInstance().getShouldDisplayWifiWlanCarrierNameInRunTestScreen() == false) {
-      return;
-    }
-
-    if (getNetworkTypeIsWiFi() == false) {
+    if (SKApplication.getAppInstance().getShouldDisplayWlanCarrierNameInRunTestScreen() == false) {
       return;
     }
 
@@ -1181,7 +1177,7 @@ public class FragmentRunTest extends Fragment {
 
     // AT THIS POINT - query for WLan!
 
-    ifWiFiThenQueryForWlanCarrierIfAppSupportsIt();
+    queryForWlanCarrierIfAppSupportsIt();
 
     createManualTest();                // Create the manual test object storing which tests will be performed
     threadRunningTests = new Thread(manualTest);  // Create the thread with the Manual Test Object (Runnable Object)
