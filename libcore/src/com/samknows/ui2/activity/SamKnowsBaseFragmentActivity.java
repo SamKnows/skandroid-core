@@ -84,7 +84,7 @@ public class SamKnowsBaseFragmentActivity extends FragmentActivity {
 //	    	try {
 //	    		NavUtils.navigateUpFromSameTask(this);
 //	    	} catch (Exception e) {
-//	    		// This is reuqired some times, e.g. coming back from SystemInfo!
+//	    		// This is required some times, e.g. coming back from SystemInfo!
 //	    		SKLogger.sAssert(getClass(), false);
 //	    	}
         onBackPressed();
