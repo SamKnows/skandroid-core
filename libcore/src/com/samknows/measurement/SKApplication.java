@@ -252,6 +252,10 @@ public class SKApplication extends Application{
 		return false;
 	}
 
+	public boolean getDoesAppDisplayCountryNameInMetrics() {
+		return true;
+	}
+
 	// Must be overridden!
 	public String getDCSInitUrl() {
 		SKLogger.sAssert(getClass(), false);

@@ -1104,9 +1104,11 @@ public class FragmentArchivedResults extends Fragment {
     }
 
     // Show/hide this ONLY if value is NOT empty!
-    if (tv_result_country_name != null) {
-      tv_result_country_name.setText(pTestResult.getCountryName());
-      tv_group_country_name.setVisibility((pTestResult.getCountryName().length() > 0) ? View.VISIBLE : View.GONE);
+    if (SKApplication.getAppInstance().getDoesAppDisplayCountryNameInMetrics()) {
+      if (tv_result_country_name != null) {
+        tv_result_country_name.setText(pTestResult.getCountryName());
+        tv_group_country_name.setVisibility((pTestResult.getCountryName().length() > 0) ? View.VISIBLE : View.GONE);
+      }
     }
     // Show/hide this ONLY if value is NOT empty!
     if (tv_result_wlan_carrier != null) {
