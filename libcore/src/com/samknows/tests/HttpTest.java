@@ -178,17 +178,18 @@ public abstract class HttpTest extends Test {
   /* Parameters names for use in Settings XML files */
   //private static final String DOWNSTREAM = "downStream";
   //private static final String UPSTREAM = "upStream";
-  private final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
-  private final String WARMUPMAXTIME = "warmupMaxTime";					/* Max warmup time in uSecs */
-  private final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
-  private final String TRANSFERMAXTIME = "transferMaxTime";				/* Max transfer time in uSecs. Metrics, measured during this time period contribute to final result */
-  private final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
-  private final String NTHREADS = "numberOfThreads";						/* Max number of threads allowed */
-  private final String BUFFERSIZE = "bufferSize";							/* Socket receive buffer size */
-  private final String SENDBUFFERSIZE = "sendBufferSize";					/* Socket send buffer size */
-  private final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
-  private final String POSTDATALENGTH = "postDataLength";					/* ??? */
-  private final String SENDDATACHUNK = "sendDataChunk";					/* Application send buffer size */
+  public static final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
+  public static final String WARMUPMAXTIME = "warmupMaxTime";					/* Max warmup time in uSecs */
+  public static final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
+  public static final String TRANSFERMAXTIME = "transferMaxTime";				/* Max transfer time in uSecs. Metrics, measured during this time period contribute to final result */
+  public static final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
+  public static final String NTHREADS = "numberOfThreads";						/* Max number of threads allowed */
+  public static final String NTHREADSLOWERCASE = "numberofthreads";						/* Max number of threads allowed */
+  public static final String BUFFERSIZE = "bufferSize";							/* Socket receive buffer size */
+  public static final String SENDBUFFERSIZE = "sendBufferSize";					/* Socket send buffer size */
+  public static final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
+  public static final String POSTDATALENGTH = "postDataLength";					/* ??? */
+  public static final String SENDDATACHUNK = "sendDataChunk";					/* Application send buffer size */
 
   /* Messages regarding the status of the test */
   private final String HTTPGETRUN = "Running download test";
@@ -258,6 +259,8 @@ public abstract class HttpTest extends Test {
           mTransferMaxBytes = Integer.parseInt(value);
         } else if (param.contains(NTHREADS)) {
           nThreads = Integer.parseInt(value);
+        } else if (param.contains(NTHREADSLOWERCASE)) {
+          nThreads = Integer.parseInt(value);
         } else if (param.contains(UPLOADSTRATEGY)) {
           uploadStrategyServerBased = UploadStrategy.ACTIVE;		/* If strategy parameter is present ActiveServerload class is used */
         } else if (param.contains(BUFFERSIZE)) {
@@ -278,6 +281,7 @@ public abstract class HttpTest extends Test {
         }
       }
     } catch (NumberFormatException nfe) {
+      SKLogger.sAssert(false);
       initialised = false;
     }
   }

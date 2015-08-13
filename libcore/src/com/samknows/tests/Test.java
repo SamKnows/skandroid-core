@@ -70,9 +70,9 @@ abstract public class Test implements Runnable {
 	private String errorString = "";
 	private JSONObject json_output = null;
 	
-	protected final String TARGET = "target";
-	protected final String PORT = "port";
-	protected final String FILE = "file";
+	public static final String TARGET = "target";
+	public static final String PORT = "port";
+	public static final String FILE = "file";
 	
 	protected STATUS status;	
 	protected boolean finished;
