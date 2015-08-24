@@ -230,13 +230,16 @@ public class OtherUtils {
 
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
-			for ( int i = 0; i < signatures.length;i++)
-			{   
-				ByteArrayInputStream stream = new ByteArrayInputStream(signatures[i].toByteArray());
-				X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);       
-				debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
-				if (debuggable)
-					break;
+			// Note that when using Roboelectic, this will return null!
+			if (signatures != null) {
+				for (int i = 0; i < signatures.length; i++) {
+					ByteArrayInputStream stream = new ByteArrayInputStream(signatures[i].toByteArray());
+					X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);
+					debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
+					if (debuggable) {
+						break;
+					}
+				}
 			}
 		}
 		catch (NameNotFoundException e)
@@ -247,6 +250,10 @@ public class OtherUtils {
 		{
 			//debuggable variable will remain false
 		}
+		catch (Exception e) {
+			// Don't call SKLogger, as that could be recursive!
+			// SKLogger.sAssert(false);
+	  }
 		return debuggable;
 	}
 

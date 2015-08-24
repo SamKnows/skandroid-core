@@ -35,3 +35,5 @@ libcore/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin
 libcore/.gradle/2.2.1/taskArtifacts/outputFileStates.bin
 libcore/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin
 libcore/.gradle/2.2.1/taskArtifacts
+libcore/build/reports
+libcore/build/test-results
