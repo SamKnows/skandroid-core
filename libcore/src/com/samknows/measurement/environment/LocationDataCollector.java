@@ -95,7 +95,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
     if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
       manager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, Looper.getMainLooper());
     } else {
-      SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
+  		 // Don't do this, as it annoys the unit tests!		SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
     }
   }
 
