@@ -1026,7 +1026,7 @@ public abstract class HttpTest extends Test {
 
 
   // Returns -1 if not enough time has passed for sensible measurement.
-  protected int getTransferBytesPerSecond() {
+  public int getTransferBytesPerSecond() {
     long btsTotal = getTotalTransferBytes();
     long durationMicro = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
 

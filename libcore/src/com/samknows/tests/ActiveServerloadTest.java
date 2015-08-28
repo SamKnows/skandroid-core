@@ -453,7 +453,7 @@ public final class ActiveServerloadTest extends UploadTest {
 		//setWarmUpTimeMicro((long)(  warmupnSecTime   / 1000.0));
 	}
 	@Override	
-	protected int getTransferBytesPerSecond() {
+	public int getTransferBytesPerSecond() {
 		int res = 0;
 
 		if (threadsCount.get() > 0) {
