@@ -31,7 +31,7 @@ import com.samknows.measurement.SKApplication;
 public class SKAPostToTwitterActivity extends Activity {
 
 
-	private static final String TAG = "SKAPostToTwitterActivity";
+	private static final String TAG = "PostToTwitter";
 
 	/** Name to store the users access token */
 	private static final String PREF_ACCESS_TOKEN = "accessToken";
