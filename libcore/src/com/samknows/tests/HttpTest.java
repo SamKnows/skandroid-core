@@ -536,6 +536,11 @@ public abstract class HttpTest extends Test {
     sLatestSpeedForExternalMonitorTestId = theReasonId;
   }
 
+  public static double sConvertBytesPerSecondToMbps1000Based(final double bytesPerSecond) {
+    double mbps = (bytesPerSecond * 8.0) / 1000000.0;
+    return mbps;
+  }
+
   // Report-back a running average, to keep the UI moving...
   // Returns -1 if sample time too short.
   public static Pair<Double, String> sGetLatestSpeedForExternalMonitorAsMbps() {
@@ -543,8 +548,8 @@ public abstract class HttpTest extends Test {
     double bytesPerSecondToUse = sBytesPerSecondLast.doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.doubleValue();
     bytesPerSecondToUse /= 2;
 
-    double mbps = (bytesPerSecondToUse * 8.0) / 1000000.0;
-    return new Pair<Double, String>(mbps, sLatestSpeedForExternalMonitorTestId);
+    double mbps1000Based = sConvertBytesPerSecondToMbps1000Based(bytesPerSecondToUse);
+    return new Pair<Double, String>(mbps1000Based, sLatestSpeedForExternalMonitorTestId);
   }
 
   public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {
