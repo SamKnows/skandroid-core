@@ -37,6 +37,29 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
     return mSuccess;
   }
 
+  // This may be overriden *entirely* by subclasses...
+  // for example, if the data is *not* JSON!
+  public boolean processResponse(int responseCode, String responseDataAsString) {
+    try {
+      // The default version assumes the data is JSON!
+      // e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}
+      //Log.d(TAG, "Process response from server as string, to extract data from the JSON!: " + jsonString);
+
+      JSONObject jsonResponse = new JSONObject(responseDataAsString);
+      SKLogger.sAssert(jsonResponse != null);
+
+      mJSONResponse = jsonResponse;
+      return true;
+
+    } catch (ParseException e) {
+      SKLogger.sAssert(false);
+    } catch (Exception e) {
+      SKLogger.sAssert(false);
+    }
+
+    return false;
+  }
+
   // The response comes from the call() method!
   public void doPerformQuery() {
     HttpPost httpPost = new HttpPost(mFullUploadUrl);
@@ -58,17 +81,10 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
 
       // http://stackoverflow.com/questions/15704715/getting-json-response-android
       HttpEntity entity = httpResponse.getEntity();
+
       if (entity != null) {
         try {
-          String jsonString = EntityUtils.toString(entity);
-          // e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}
-          //Log.d(TAG, "Process response from server as string, to extract data from the JSON!: " + jsonString);
-
-          JSONObject jsonResponse = new JSONObject(jsonString);
-          SKLogger.sAssert(jsonResponse != null);
-
-          mJSONResponse = jsonResponse;
-          mSuccess = true;
+          mSuccess = processResponse(code, EntityUtils.toString(entity));
           call();
 
         } catch (ParseException e) {
