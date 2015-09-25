@@ -105,6 +105,13 @@ public final class DownloadTest extends HttpTest {
 			do {
 				readBytes = connIn.read(buff, 0, buff.length);
 
+				if (readBytes == -1) {
+					// This can happen if we reach the end of the stream more quickly than expected...
+					readBytes = 0;
+				}
+
+				SKLogger.sAssert(readBytes > 0);
+
         if (bytesPerSecond.call() >= 0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
           sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "Download", bytesPerSecond);
@@ -119,6 +126,10 @@ public final class DownloadTest extends HttpTest {
       readBytes = BYTESREADERR;
       //SKLogger.sAssert(getClass(),  false);
       return false;
+		} catch (IOException io) {
+			readBytes = BYTESREADERR;
+			SKLogger.sAssert(getClass(),  false);
+			return false;
 		} catch (Exception io) {
 			readBytes = BYTESREADERR;	
 			SKLogger.sAssert(getClass(),  false);
