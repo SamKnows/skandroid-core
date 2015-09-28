@@ -958,7 +958,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     timeperiod_button.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        //// This can be be used to prove crash reporting...
+        //// This can be used to prove crash reporting...
         //throw new RuntimeException("Deliberate test of crash reporting - do not put in live code!");
         SingleChoice();
       }
