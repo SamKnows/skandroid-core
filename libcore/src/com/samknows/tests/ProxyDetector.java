@@ -54,10 +54,9 @@ public class ProxyDetector extends Test{
 	@Override
 	public void execute(){
 		try{
-			Socket conn = null;
 			InetAddress addr = InetAddress.getByName(target);
 			targetIpAddress = addr.getHostAddress();
-			conn = new Socket(addr, port);
+			Socket conn = new Socket(addr, port);
 			PrintWriter writerOut = new PrintWriter(conn.getOutputStream(), false);
 			writerOut.print(getHeaderRequest());
 			writerOut.flush();
