@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONObject;
 import org.w3c.dom.Element;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,6 +58,26 @@ public class LocationDataCollector extends BaseDataCollector implements Location
   static private Location sLastKnown = null;
 
   private int mProviderStatus = LocationProvider.AVAILABLE;
+
+  // http://stackoverflow.com/questions/18393175/how-to-properly-check-android-permission-dynamically
+  //for example, permission can be "android.permission.WRITE_EXTERNAL_STORAGE"
+  public static boolean sHasPermission(String permission)
+  {
+    try {
+      Context context = SKApplication.getAppInstance().getApplicationContext();
+      PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+      if (info.requestedPermissions != null) {
+        for (String p : info.requestedPermissions) {
+          if (p.equals(permission)) {
+            return true;
+          }
+        }
+      }
+    } catch (Exception e) {
+      SKLogger.sAssert(false);
+    }
+    return false;
+  }
 
 
   public static void sForceFastLocationCheck() {
@@ -109,21 +131,23 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		  return null;
 		}
 
-    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if (sHasPermission("android.permission.ACCESS_FINE_LOCATION")) {
+			if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
-      try {
-        Location lastKnownLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        // This MIGHT be null!
+				try {
+					Location lastKnownLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					// This MIGHT be null!
 
-        if (lastKnownLocation != null) {
-          sLastKnown = lastKnownLocation;
-          return new Pair<Location, LocationType>(lastKnownLocation, LocationType.gps);
-        }
+					if (lastKnownLocation != null) {
+						sLastKnown = lastKnownLocation;
+						return new Pair<Location, LocationType>(lastKnownLocation, LocationType.gps);
+					}
 
-      } catch (Exception e) {
-        SKLogger.sAssert(false);
-      }
-    }
+				} catch (Exception e) {
+					SKLogger.sAssert(false);
+				}
+			}
+		}
 
     if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
       try {
