@@ -59,25 +59,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
   private int mProviderStatus = LocationProvider.AVAILABLE;
 
-  // http://stackoverflow.com/questions/18393175/how-to-properly-check-android-permission-dynamically
-  //for example, permission can be "android.permission.WRITE_EXTERNAL_STORAGE"
-  public static boolean sHasPermission(String permission)
-  {
-    try {
-      Context context = SKApplication.getAppInstance().getApplicationContext();
-      PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
-      if (info.requestedPermissions != null) {
-        for (String p : info.requestedPermissions) {
-          if (p.equals(permission)) {
-            return true;
-          }
-        }
-      }
-    } catch (Exception e) {
-      SKLogger.sAssert(false);
-    }
-    return false;
-  }
+
 
 
   public static void sForceFastLocationCheck() {
@@ -131,7 +113,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		  return null;
 		}
 
-		if (sHasPermission("android.permission.ACCESS_FINE_LOCATION")) {
+		if (SK2AppSettings.sHasPermission("android.permission.ACCESS_FINE_LOCATION")) {
 			if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
 				try {
@@ -233,7 +215,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		}
 		
 		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
-		
+
 		if (getLastKnown) {
       Location tryLocation = manager.getLastKnownLocation(provider);
       if (tryLocation != null) {

@@ -11,6 +11,8 @@ import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -288,6 +290,26 @@ public class SK2AppSettings extends SKAppSettings {
 //		return isDataCapAlreadyReached();
 //	}
 
+	// http://stackoverflow.com/questions/18393175/how-to-properly-check-android-permission-dynamically
+	//for example, permission can be "android.permission.WRITE_EXTERNAL_STORAGE"
+	public static boolean sHasPermission(String permission)
+	{
+		try {
+			Context context = SKApplication.getAppInstance().getApplicationContext();
+			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+			if (info.requestedPermissions != null) {
+				for (String p : info.requestedPermissions) {
+					if (p.equals(permission)) {
+						return true;
+					}
+				}
+			}
+		} catch (Exception e) {
+			SKLogger.sAssert(false);
+		}
+		return false;
+	}
+
 	public LocationType getLocationServiceType() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		if (prefs.contains(SKConstants.PREF_LOCATION_TYPE)) {
@@ -296,7 +318,12 @@ public class SK2AppSettings extends SKAppSettings {
 			if(pref == null){
 				return null;
 			}
-			
+
+			if (SK2AppSettings.sHasPermission("android.permission.ACCESS_FINE_LOCATION") == false) {
+				// IF app doesn't support GPS, then FORCE use of network provider version!
+				return LocationType.network;
+			}
+
 			if(pref.equals(ctx.getString(R.string.GPS))) {
 				return LocationType.gps;
 			}
