@@ -4,7 +4,6 @@
     android:background="@drawable/background_gradient_nonmain"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-    >
 
     <RelativeLayout
         android:layout_width="fill_parent"
