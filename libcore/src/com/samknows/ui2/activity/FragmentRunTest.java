@@ -761,7 +761,7 @@ public class FragmentRunTest extends Fragment {
       String messageType = message_JSON.getString(StorageTestResult.JSON_TYPE_ID);
 
       // Tests are on progress
-      if (messageType == "test") {
+      if (messageType.equals("test")) {
         statusComplete = message_JSON.getInt(StorageTestResult.JSON_STATUS_COMPLETE);
         testNameAsInt = message_JSON.getInt(StorageTestResult.JSON_TESTNUMBER);
         value = message_JSON.getString(StorageTestResult.JSON_HRRESULT);
@@ -914,7 +914,7 @@ public class FragmentRunTest extends Fragment {
         }
       }
       // Passive metric data process
-      else if (messageType == "passivemetric") {
+      else if (messageType.equals("passivemetric")) {
         String metricString = message_JSON.getString("metricString");
         value = message_JSON.getString("value");
 

@@ -56,7 +56,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 		
 	private ProgressDialog mProgress;
 
-	private static final String[] PERMISSIONS = new String[] {"publish_stream", "read_stream", "offline_access"};
+	//private static final String[] PERMISSIONS = new String[] {"publish_stream", "read_stream", "offline_access"};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

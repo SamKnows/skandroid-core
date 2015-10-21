@@ -137,8 +137,6 @@ public class ProxyDetector extends Test{
 
 	@Override
 	public String getHumanReadableResult() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("");
 		return null;
 	}
 

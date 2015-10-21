@@ -815,7 +815,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
             location = user.getString(DBHelper.GRIDDATA_RESULTS_LOCATION);
             dtime = user.getString(DBHelper.GRIDDATA_RESULTS_DTIME);
             networkType = user.getString(DBHelper.GRIDDATA_RESULTS_NETWORK_TYPE);
-            if (dtime != "") {
+            if (dtime.equals("") == false) {
 
               long datelong = Long.parseLong(dtime);
               if (datelong != 0) {

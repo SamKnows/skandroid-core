@@ -176,10 +176,10 @@ public class TestFactory {
 		UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;
 		HttpTest result = null;
 	
-		if ( direction == DOWNSTREAM ){
+		if ( direction.equals(DOWNSTREAM)){
 			result = new DownloadTest( params );
 		}
-		else if ( direction == UPSTREAM ){
+		else if ( direction.equals(UPSTREAM)){
 			
 			for (Param param : params) {
 				if (param.contains(UPLOADSTRATEGY)){

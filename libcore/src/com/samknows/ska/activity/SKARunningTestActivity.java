@@ -150,7 +150,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 
       String type = message_json.getString(StorageTestResult.JSON_TYPE_ID);
 
-      if (type == "test") {
+      if (type.equals("test")) {
         testnameAsInt = message_json .getInt(StorageTestResult.JSON_TESTNUMBER);
         status_complete = message_json
             .getInt(StorageTestResult.JSON_STATUS_COMPLETE);
@@ -263,7 +263,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
         }
       }
 
-      if (type == "passivemetric") {
+      if (type.equals("passivemetric")) {
         metric = message_json.getInt("metric");
         String metricString = message_json.getString("metricString");
         value = message_json.getString("value");
