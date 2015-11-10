@@ -410,6 +410,7 @@ public class SKApplication extends Application{
     } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
     } else if (typefacePathInAssets.equals("fonts/roboto_regular.ttf")) {
+		} else if (typefacePathInAssets.equals("fonts/Lato_Semibold.ttf")) {
 		} else if (typefacePathInAssets.equals("fonts/Lato_Bold.ttf")) {
 		} else if (typefacePathInAssets.equals("fonts/Lato_Medium.ttf")) {
 		} else if (typefacePathInAssets.equals("fonts/Lato_MediumItalic.ttf")) {
