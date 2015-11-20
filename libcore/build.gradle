@@ -15,7 +15,11 @@ repositories {
 dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     //compile files('libs/android-support-v4.jar')
-    compile 'com.facebook.android:facebook-android-sdk:3.23.0'
+
+    // Switch from provided to compile, if the app really uses Facebook SDK!
+    provided 'com.facebook.android:facebook-android-sdk:3.23.0'
+    //compile 'com.facebook.android:facebook-android-sdk:3.23.0'
+
     //compile fileTree(dir: 'libs', include: '*.jar')
     compile files('./libs/HockeySDK-3.0.1.jar')
     compile files('./libs/achartengine-1.1.0.jar')
