@@ -52,6 +52,7 @@
     
     <!-- Chart colours -->
     <color name="cornflower">#6495ED</color>
+    <color name="lightestgray">#eeeeee</color>
     <color name="lightgray">#A9A9A9</color>
     <color name="gradient_lightgray">#505050</color>
     <color name="gradient_darkgray">#F028F0</color>
