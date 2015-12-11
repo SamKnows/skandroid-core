@@ -2,6 +2,7 @@ package com.samknows.measurement.net;
 
 import android.net.ParseException;
 import android.util.Log;
+import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 
@@ -10,7 +11,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
@@ -19,6 +22,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
@@ -26,11 +30,19 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
   byte[] mOptionalContentData = null;
   protected JSONObject mJSONResponse = null;
   protected boolean mSuccess = false;
+  ArrayList<Pair<String,String>> mOptionalHeaderFields = null;
 
   public SimpleHttpToJsonQuery(String fullUploadUrl, byte[] optionalContentData) {
     mFullUploadUrl = fullUploadUrl;
     mOptionalContentData = optionalContentData;
     this.mJSONResponse = null;
+  }
+
+  public void setOptionalHeaderFields(ArrayList<Pair<String,String>> values) {
+    mOptionalHeaderFields = values;
+    //request.addValue("Accept", forHTTPHeaderField:"application/json")
+    //let credentials = SKGlobalMethods.getCredentials(mEmail, password:mPassword)
+    //request.addValue(credentials, forHTTPHeaderField:"Authorization")
   }
 
   public boolean getSuccess() {
@@ -61,19 +73,53 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
   }
 
   // The response comes from the call() method!
+  // The default, which is a POST query...
   public void doPerformQuery() {
-    HttpPost httpPost = new HttpPost(mFullUploadUrl);
+    doPerformPost();
+  }
+  public void doPerformPost() {
+    doPerformBase(true);
+  }
+  public void doPerformGet() {
+    doPerformBase(false);
+  }
+  private void doPerformBase(boolean isPost) {
 
-    if (mOptionalContentData != null) {
-      httpPost.setEntity(new ByteArrayEntity(mOptionalContentData));
+    HttpContext httpContext = null;
 
-      HttpContext httpContext = new BasicHttpContext();
-      httpContext.setAttribute("Content-Length", mOptionalContentData.length);
+    HttpRequestBase httpRequestBase;
+    if (isPost) {
+      HttpPost httpPost = new HttpPost(mFullUploadUrl);
+      httpRequestBase = httpPost;
+      if (mOptionalContentData != null) {
+        httpPost.setEntity(new ByteArrayEntity(mOptionalContentData));
+
+        httpContext = new BasicHttpContext();
+        httpContext.setAttribute("Content-Length", mOptionalContentData.length);
+      }
+    } else {
+      httpRequestBase = new HttpGet(mFullUploadUrl);
+    }
+
+
+
+    if (mOptionalHeaderFields != null) {
+      for (Pair<String,String> value : mOptionalHeaderFields) {
+        if (httpContext == null) {
+          httpContext = new BasicHttpContext();
+        }
+        httpContext.setAttribute(value.first, value.second);
+      }
     }
 
     try {
       HttpClient httpClient = new DefaultHttpClient();
-      HttpResponse httpResponse = httpClient.execute(httpPost);
+      HttpResponse httpResponse;
+      if (httpContext != null) {
+        httpResponse = httpClient.execute(httpRequestBase, httpContext);
+      } else {
+        httpResponse = httpClient.execute(httpRequestBase);
+      }
       StatusLine sl = httpResponse.getStatusLine();
       mSuccess = sl.getStatusCode() == HttpStatus.SC_OK && sl.getReasonPhrase().equals("OK");
       int code = sl.getStatusCode();
