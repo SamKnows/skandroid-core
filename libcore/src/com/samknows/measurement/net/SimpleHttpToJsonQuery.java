@@ -105,10 +105,11 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
 
     if (mOptionalHeaderFields != null) {
       for (Pair<String,String> value : mOptionalHeaderFields) {
-        if (httpContext == null) {
-          httpContext = new BasicHttpContext();
-        }
-        httpContext.setAttribute(value.first, value.second);
+//        if (httpContext == null) {
+//          httpContext = new BasicHttpContext();
+//        }
+        httpRequestBase.setHeader(value.first, value.second);
+        //httpContext.setAttribute(value.first, value.second);
       }
     }
 
