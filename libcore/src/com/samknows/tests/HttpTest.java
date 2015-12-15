@@ -541,6 +541,11 @@ public abstract class HttpTest extends Test {
     return mbps;
   }
 
+  public static double sConvertBytesPerSecondToMbps1024Based(final double bytesPerSecond) {
+    double mbps = (bytesPerSecond * 8.0) / (1024.0 * 1024.0);
+    return mbps;
+  }
+
   // Report-back a running average, to keep the UI moving...
   // Returns -1 if sample time too short.
   public static Pair<Double, String> sGetLatestSpeedForExternalMonitorAsMbps() {
