@@ -141,7 +141,7 @@ public class TestFactory {
 		return ret;
 	}
 
-	private static LatencyTest createLatencyTest(List<Param> params) {//TODO to complete
+	public static LatencyTest createLatencyTest(List<Param> params) {//TODO to complete
 		LatencyTest ret = new LatencyTest();
 
 		try {
