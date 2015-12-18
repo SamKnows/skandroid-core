@@ -28,7 +28,7 @@ public class SKTestRunner {
     return sRunningTestRunner;
   }
 
-  private static synchronized void sSetRunningTestRunner(SKTestRunner testRunner) {
+  public static synchronized void sSetRunningTestRunner(SKTestRunner testRunner) {
     sRunningTestRunner = testRunner;
   }
 
@@ -36,7 +36,7 @@ public class SKTestRunner {
   private SKTestRunner() {
   }
 
-  SKTestRunner(SKTestRunnerObserver observer) {
+  public SKTestRunner(SKTestRunnerObserver observer) {
     // This is ALLOWED to be null!
     mObserver = observer;
 

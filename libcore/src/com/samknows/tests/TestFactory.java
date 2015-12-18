@@ -1,6 +1,7 @@
 package com.samknows.tests;
 
 //import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKLogger;
 import com.samknows.tests.Param;
 import com.samknows.tests.HttpTest.UploadStrategy;
 
@@ -49,11 +50,11 @@ public class TestFactory {
 	/*
 	 * constants for creating a latency test
 	 */
-	private static final String NUMBEROFPACKETS = "numberOfPackets";
-	private static final String DELAYTIMEOUT = "delayTimeout";
-	private static final String INTERPACKETTIME = "interPacketTime";
-	private static final String PERCENTILE = "percentile";
-	private static final String MAXTIME = "maxTime";
+	public static final String NUMBEROFPACKETS = "numberOfPackets";
+	public static final String DELAYTIMEOUT = "delayTimeout";
+	public static final String INTERPACKETTIME = "interPacketTime";
+	public static final String PERCENTILE = "percentile";
+	public static final String MAXTIME = "maxTime";
 
 	public static final String[] LATENCYTESTPARAMLIST = { TESTTYPE, TARGET,
 			PORT, NUMBEROFPACKETS, DELAYTIMEOUT, INTERPACKETTIME, PERCENTILE,
@@ -162,11 +163,13 @@ public class TestFactory {
 				} else if (param.contains( MAXTIME)) {
 					ret.setMaxExecutionTime(Long.parseLong(value));
 				} else {
+					SKLogger.sAssert(false);
 					ret = null;
 					break;
 				}
 			}
 		} catch (NumberFormatException nfe) {
+			SKLogger.sAssert(false);
 			ret = null;
 		}
 		return ret;
