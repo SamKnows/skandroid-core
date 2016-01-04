@@ -146,7 +146,7 @@ public class ProxyDetector extends Test{
 	}
 
 	@Override
-	public int getProgress() {		
+	public int getProgress0To100() {
 		return 0;
 	}
 

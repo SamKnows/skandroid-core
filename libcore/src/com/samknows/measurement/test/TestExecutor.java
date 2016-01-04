@@ -406,9 +406,9 @@ public class TestExecutor {
 		return executingTest;
 	}
 
-	public int getProgress() {
+	public int getProgress0To100() {
 		if (executingTest != null) {
-			return executingTest.getProgress();
+			return executingTest.getProgress0To100();
 		}
 		return -1;
 	}

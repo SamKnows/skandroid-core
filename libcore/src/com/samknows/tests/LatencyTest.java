@@ -523,7 +523,8 @@ public class LatencyTest extends Test {
 		return true;
 	}
 
-	public int getProgress() {
+	@Override
+	public int getProgress0To100() {
 		double retTime = 0;
 		double retPackets = 0;
 		if (maxExecutionTimeNanoseconds > 0) {

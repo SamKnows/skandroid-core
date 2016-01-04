@@ -89,7 +89,7 @@ abstract public class Test implements Runnable {
 	abstract public HashMap<String, String> getResults();
 	
 	abstract public boolean isProgressAvailable();
-	abstract public int getProgress(); 										/* from 0 to 100 */
+	abstract public int getProgress0To100(); 										/* from 0 to 100 */
 	abstract public boolean isReady();										/* Checks if the test is ready to run */
 	abstract public int getNetUsage();										/* The test has to provide the amount of data used */
 					

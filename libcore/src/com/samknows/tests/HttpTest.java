@@ -807,12 +807,15 @@ public abstract class HttpTest extends Test {
     return ret;
   }
 
-  public int getProgress() {//TODO check with new interface
+  // Return progress as integer value from 0 to 100.
+  public int getProgress0To100() {
     double ret = 0;
 
     if (mStartWarmupMicro.get() == 0) {
-      ret = 0;
-    } else if (mTransferMaxTimeMicro != 0) {
+      return 0;
+    }
+
+    if (mTransferMaxTimeMicro != 0) {
       long currTime = sGetMicroTime() - mStartWarmupMicro.get();
       ret = (double) currTime / (mWarmupMaxTimeMicro + mTransferMaxTimeMicro);
 
@@ -820,10 +823,19 @@ public abstract class HttpTest extends Test {
       long currBytes = getTotalWarmUpBytes() + getTotalTransferBytes();
       ret = (double) currBytes / (mWarmupMaxBytes + mTransferMaxBytes);
     }
-    //}
-    ret = ret < 0 ? 0 : ret;
-    ret = ret >= 1 ? 0.99 : ret;
-    return (int) (ret * 100);
+
+    int result = (int) (ret * 100);
+    if (result < 0) {
+      return 0;
+    }
+    if (result > 100) {
+      return 100;
+    }
+
+    SKLogger.sAssert(result >= 0);
+    SKLogger.sAssert(result <= 100);
+
+    return result;
   }
 
   protected void closeConnection(Socket socket) {											/* Closes connections  and winds socket out*/

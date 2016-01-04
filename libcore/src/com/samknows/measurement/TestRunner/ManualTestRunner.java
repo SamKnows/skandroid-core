@@ -239,7 +239,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
 //        }
 
         // For all test results, we send a progress percentage update Message instance...
-        // the JSON_STATUS_COMPLETE field contains the value from te.getProgress())
+        // the JSON_STATUS_COMPLETE field contains the value from te.getProgress0To100())
         // Typically returns just 1 value - might be up to 3 for latency/loss/jitter!
         List<JSONObject> testProgressList = progressMessage(td, te);
         for (JSONObject pm : testProgressList) {
@@ -374,7 +374,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
         JSONObject c = new JSONObject();
         c.put(StorageTestResult.JSON_TYPE_ID, "test");
         c.put(StorageTestResult.JSON_TESTNUMBER, t);
-        c.put(StorageTestResult.JSON_STATUS_COMPLETE, te.getProgress());
+        c.put(StorageTestResult.JSON_STATUS_COMPLETE, te.getProgress0To100());
         c.put(StorageTestResult.JSON_HRRESULT, "");
 
         ret.add(c);

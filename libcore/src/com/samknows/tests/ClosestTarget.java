@@ -22,14 +22,10 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.TestRunner.ManualTestRunner;
-import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -620,14 +616,14 @@ public class ClosestTarget extends Test {
   }
 
   @Override
-  public int getProgress() {
+  public int getProgress0To100() {
     if (latencyTests == null) {
       return 0;
     }
     int min = 100;
     for (Test t : latencyTests) {
       if (t != null) {
-        int curr = t.getProgress();
+        int curr = t.getProgress0To100();
         min = curr < min ? curr : min;
       }
     }
