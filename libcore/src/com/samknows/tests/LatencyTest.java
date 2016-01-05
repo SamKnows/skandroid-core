@@ -240,34 +240,32 @@ public class LatencyTest extends Test {
 		return ret;
 	}
 
-	
+  public int getResultLatencyMilliseconds() {
+    int result = ((int) (averageNanoseconds / 1000000));
+    return result;
+  }
+
+  public int getResultLossPercent0To100() {
+    int result = ((int) (100 * (((float) sentPackets - recvPackets) / sentPackets)));
+    return result;
+  }
+
+  public int getResultJitterMilliseconds() {
+    int result = ((int) ((averageNanoseconds - minimumNanoseconds) / 1000000));
+    return result;
+  }
+
 	private String[] formValuesArr(){
 		String[] values = new String[3];
-		values[0] = "" + ((int) (averageNanoseconds / 1000000));
-		values[1] = "" + ((int) (100 * (((float) sentPackets - recvPackets) / sentPackets)));
-		values[2] = "" + ((int) ((averageNanoseconds - minimumNanoseconds) / 1000000));
+		values[0] = "" + getResultLatencyMilliseconds();
+		values[1] = "" + getResultLossPercent0To100();
+		values[2] = "" + getResultJitterMilliseconds();
 
 		return values;
 	}
-	
-/*	@Override
-	public String getResultsAsString(){							 New Human readable implementation 
-		if (testStatus.equals("FAIL")){
-			return "";
-		}else{
-			String[] values = formValuesArr();			
-			return String.format(Locale.UK, values[0], values[1], values[2]);
-		}		
-	}*/
-	/*@Override
-	public String getResults(String locale){			 New Human readable implementation 
-		if (testStatus.equals("FAIL")){
-			return locale;
-		}else{
-			String[] values = formValuesArr();			
-			return String.format(locale, values[0], values[1], values[2]);
-		}		
-	}*/
+
+  // This method is deprecated.
+  // Use getResultLatencyMilliseconds, getResultLossPercent0To100 and getResultJitterMilliseconds instead!
 	@Override
 	public HashMap<String, String> getResults(){
 		HashMap<String, String> ret = new HashMap<String, String>();
