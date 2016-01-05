@@ -73,25 +73,43 @@ public final class DownloadTest extends HttpTest {
 		return ret;
 	}
 
+
+	private Integer getBytesPerSecond(boolean isWarmup) {
+		if (isWarmup) {
+			// If warmup mode is active
+			return getWarmupBytesPerSecond();
+		} else {
+			// If transmission mode is active
+			return getTransferBytesPerSecond();
+		}
+	}
+
+	private boolean getTransmissionDone(boolean isWarmup, int readBytes) {
+		if (getShouldCancel()) {
+			Log.d("REMOVE ME", "Download - getTransmissionDone - cancel test!");
+			return true;
+		}
+
+		if (isWarmup) {
+			return isWarmupDone(readBytes);
+		} else {
+			return isTransferDone(readBytes);
+		}
+	}
+
 	private boolean transmit(Socket socket, int threadIndex, boolean isWarmup){
-		Callable<Integer> bytesPerSecond = null;																			/* Generic method returning the current average speed across all thread  since thread started */
-		Callable<Boolean> transmissionDone = null;																			/* Generic method returning the transmission state */
+//		Callable<Integer> bytesPerSecond = null;																			/* Generic method returning the current average speed across all thread  since thread started */
+//		Callable<Boolean> transmissionDone = null;																			/* Generic method returning the transmission state */
 
 		if (isWarmup){																										/* If warmup mode is active */
-			bytesPerSecond = new Callable<Integer>(){ public Integer call() { return getWarmupBytesPerSecond();} };
-			transmissionDone = new Callable<Boolean>(){ public Boolean call() { return isWarmupDone(readBytes);} };
-			
+
 			sendHeaderRequest( socket );																					/* Send download request is the part of the warm up process */
 			if (error.get()) {																								/* Error relates to sendHeader procedure */
 				SKLogger.sAssert(getClass(),  false);
 				return false;
 			}
 		}
-		else{																												/* If transmission mode is active */
-			bytesPerSecond = new Callable<Integer>(){ public Integer call() { return getTransferBytesPerSecond();} };
-			transmissionDone = new Callable<Boolean>(){ public Boolean call() { return isTransferDone(readBytes);} };
-		}
-				
+
 		InputStream connIn = getInput(socket);
 
 		if ( connIn == null) {
@@ -112,11 +130,11 @@ public final class DownloadTest extends HttpTest {
 
 				SKLogger.sAssert(readBytes > 0);
 
-        if (bytesPerSecond.call() >= 0) {
+        if (getBytesPerSecond(isWarmup) >= 0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
-          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "Download", bytesPerSecond);
+          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "Download", getBytesPerSecond(isWarmup));
         }
-			} while (!transmissionDone.call());
+			} while (!getTransmissionDone(isWarmup, readBytes));
     } catch (SocketTimeoutException e) {
       // This happens so often - that we just log it (but only when debugger in use)
       //if (OtherUtils.isDebuggable(SKApplication.getAppInstance()))

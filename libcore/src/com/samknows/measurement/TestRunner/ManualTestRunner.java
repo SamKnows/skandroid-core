@@ -380,10 +380,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
         ret.add(c);
       }
     } catch (JSONException je) {
-      SKLogger.e(
-          ManualTestRunner.class,
-          "Error in creating JSON progress object: "
-              + je.getMessage());
+      SKLogger.e(ManualTestRunner.class, "Error in creating JSON progress object: " + je.getMessage());
     }
     return ret;
   }

@@ -1,11 +1,16 @@
 package com.samknows.tests;
 
+import android.os.Debug;
+import android.util.Log;
+
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import com.samknows.libcore.BuildConfig;
 import com.samknows.libcore.SKLogger;
 
 public class PassiveServerUploadTest extends UploadTest {
@@ -44,46 +49,32 @@ public class PassiveServerUploadTest extends UploadTest {
     return data;
   }
 
-  private boolean transmit(Socket socket, int threadIndex, boolean isWarmup) {
+  private Integer getBytesPerSecond(boolean isWarmup) {
+    if (isWarmup) {
+      // If warmup mode is active
+      return getWarmupBytesPerSecond();
+    } else {
+      // If transmission mode is active
+      return getTransferBytesPerSecond();
+    }
+  }
 
-    //SKLogger.d(this, "PassiveServerUploadTest, transmit(), isWarmup=" + isWarmup + ", thread: " + threadIndex);
-//    InputStream connIn = null;
-//
-//    try {
-//      connIn = getInput(socket);															/* Get input stream */
-//    } catch (Exception e) {
-//      SKLogger.e(this, "Failed to create connIn");
-//      connIn = null;
-//    }
-
-    Callable<Integer> bytesPerSecond = null;																			/* Generic method returning the current average speed across all thread  since thread started */
-    Callable<Boolean> transmissionDone = null;																			/* Generic method returning the transmission state */
+  private boolean getTransmissionDone(boolean isWarmup) {
+    if (getShouldCancel()) {
+      if (Debug.isDebuggerConnected()) {
+        Log.d("DEBUG", "Upload - getTransmissionDone - cancel test!");
+      }
+      return true;
+    }
 
     if (isWarmup) {
-    	// If warmup mode is active
-      bytesPerSecond = new Callable<Integer>() {
-        public Integer call() {
-          return getWarmupBytesPerSecond();
-        }
-      };
-      transmissionDone = new Callable<Boolean>() {
-        public Boolean call() {
-          return isWarmupDone(buff.length);
-        }
-      };
+      return isWarmupDone(buff.length);
     } else {
-    	// If transmission mode is active
-      bytesPerSecond = new Callable<Integer>() {
-        public Integer call() {
-          return getTransferBytesPerSecond();
-        }
-      };
-      transmissionDone = new Callable<Boolean>() {
-        public Boolean call() {
-          return isTransferDone(buff.length);
-        }
-      };
+      return isTransferDone(buff.length);
     }
+  }
+
+  private boolean transmit(Socket socket, int threadIndex, boolean isWarmup) {
 
     // Access output stream
     OutputStream connOut = getOutput(socket);
@@ -111,14 +102,66 @@ public class PassiveServerUploadTest extends UploadTest {
 
         // Write buffer to output socket
         //SKLogger.d(this, "transmit() calling write() ... thread:" + threadIndex);
-        connOut.write(buff);
-        //SKLogger.d(this, "transmit() calling flush() ... thread:" + threadIndex);
-        connOut.flush();
+
+        /*
+        // Note that long delays (of approximately 0.5 to 1.5 seconds) can occcur quite often in the call to write.
+        long startTimeWrite = System.currentTimeMillis();
+        */
+        try {
+          connOut.write(buff);
+        } catch (SocketTimeoutException e) {
+          if (getIgnoreSocketTimeout()) {
+            if (Debug.isDebuggerConnected()) {
+              Log.d("DEBUG", "Upload ignore socket timeout on write");
+            }
+          } else {
+            if (Debug.isDebuggerConnected()) {
+              Log.d("DEBUG", "Upload socket timeout!! on write");
+            }
+            throw e;
+          }
+        }
+        /*
+        long endTimeWrite = System.currentTimeMillis();
+
+        long startTimeFlush = System.currentTimeMillis();
+        */
+        try {
+          connOut.flush();
+        } catch (SocketTimeoutException e) {
+          if (getIgnoreSocketTimeout()) {
+            if (Debug.isDebuggerConnected()) {
+              Log.d("DEBUG", "Upload ignore socket timeout on flush");
+            }
+          } else {
+            if (Debug.isDebuggerConnected()) {
+              Log.d("DEBUG", "Upload socket timeout!! on flush");
+            }
+            throw e;
+          }
+        }
         //SKLogger.d(this, "transmit() called flush()! ... thread:" + threadIndex);
 
-        if (bytesPerSecond.call() >= 0) {
+        /*
+        long endTimeFlush = System.currentTimeMillis();
+
+        if ((endTimeWrite-startTimeWrite) > 100) {
+          //if (BuildConfig.DEBUG) {
+          if (Debug.isDebuggerConnected()) {
+            Log.d("DEBUG", "Upload write warning - endTimeWrite-startTimeWrite=" + (endTimeWrite - startTimeWrite));
+          }
+        }
+        if ((endTimeFlush-startTimeFlush) > 100) {
+          //if (BuildConfig.DEBUG) {
+          if (Debug.isDebuggerConnected()) {
+            Log.d("DEBUG", "Upload write warning - endTimeFlush-startTimeFlush=" + (endTimeFlush - startTimeFlush));
+          }
+        }
+        */
+
+        if (getBytesPerSecond(isWarmup) >= 0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
-          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Normal", bytesPerSecond);
+          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Normal", getBytesPerSecond(isWarmup));
         }
 
         //// DEBUG TESTING!
@@ -127,7 +170,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
         //SKLogger.e(TAG(this), "DEBUG: speed in bytes per second" + getSpeedBytesPerSecond() + "<<<");
         //SKLogger.e(TAG(this), "DEBUG: isTransferDone=" + isTransferDone + ", totalTransferBytesSent=>>>" + getTotalTransferBytes() + ", time" + (sGetMicroTime() - start) + "<<<");
-      } while (!transmissionDone.call());
+      } while (!getTransmissionDone(isWarmup));
 
     } catch (Exception e) {
       SKLogger.e(this, "Exception in setting up output stream, exiting... thread: " + threadIndex, e);
@@ -139,14 +182,14 @@ public class PassiveServerUploadTest extends UploadTest {
       // Verify thta we've set everything to zero properly!
       SKLogger.sAssert(getTotalTransferBytes() == 0L);
       try {
-        SKLogger.sAssert(bytesPerSecond.call() == 0);
+        SKLogger.sAssert(getBytesPerSecond(isWarmup) == 0);
       } catch (Exception e1) {
         SKLogger.sAssert(false);
       }
       int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
       SKLogger.sAssert(bytesPerSecondMeasurement == 0);
 
-      sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", bytesPerSecond);
+      sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
       //SKLogger.e(TAG(this), "loop - break 3");//haha
       return false;
     }
@@ -164,7 +207,7 @@ public class PassiveServerUploadTest extends UploadTest {
       // Verify thta we've set everything to zero properly!
       SKLogger.sAssert(getTotalTransferBytes() == 0L);
       try {
-        SKLogger.sAssert(bytesPerSecond.call() == 0);
+        SKLogger.sAssert(getBytesPerSecond(isWarmup) == 0);
       } catch (Exception e1) {
         SKLogger.sAssert(false);
       }
@@ -181,14 +224,6 @@ public class PassiveServerUploadTest extends UploadTest {
     //hahaSKLogger.e(TAG(this), "Result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement= " + bytesPerSecondMeasurement + " thread: " + threadIndex);
 
     sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, cReasonUploadEnd);											/* Final external interface set up */
-
-//    if (connIn != null) {
-//      try {
-//        connIn.close();
-//      } catch (Exception e) {
-//        SKLogger.sAssert(false);
-//      }
-//    }
 
     return true;
   }

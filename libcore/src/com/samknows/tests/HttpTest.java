@@ -156,8 +156,6 @@ public abstract class HttpTest extends Test {
 
   public enum UploadStrategy {ACTIVE, PASSIVE}
 
-  ;
-
   /* Socket timeout parameters */
   protected final int CONNECTIONTIMEOUT = 10000; 							/* 10 seconds connection timeout */
   protected final int READTIMEOUT = 10000; 								/* 10 seconds read timeout */
@@ -433,7 +431,7 @@ public abstract class HttpTest extends Test {
         // Read / download
         ret.setSoTimeout(READTIMEOUT);
       } else {
-        ret.setSoTimeout(WRITETIMEOUT);
+        ret.setSoTimeout(getSocketTimeoutMilliseconds());
         //ret.setSoTimeout(1);
       }
 
@@ -508,7 +506,7 @@ public abstract class HttpTest extends Test {
 //      while (iter.hasNext()) {
 //        Entry<String, Object> entry = iter.next();
 //        sb.append(entry.getKey());
- //       sb.append('=').append('"');
+    //       sb.append('=').append('"');
 //        sb.append(entry.getValue());
 //        sb.append('"');
 //        if (iter.hasNext()) {
@@ -568,7 +566,7 @@ public abstract class HttpTest extends Test {
 
   final protected int extMonitorUpdateInterval = 500000;
 
-  protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Callable<Integer> transferSpeed) {
+  protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Integer transferSpeed) {
     long updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
 
     if (timeElapsedSinceLastExternalMonitorUpdate.get() == 0) {
@@ -579,7 +577,7 @@ public abstract class HttpTest extends Test {
       int currentSpeed;
 
       try {
-        currentSpeed = transferSpeed.call();																/* current speed could be for warm up, transfer or possibly others processes */
+        currentSpeed = transferSpeed;																/* current speed could be for warm up, transfer or possibly others processes */
       } catch (Exception e) {
         currentSpeed = 0;
       }
@@ -673,7 +671,7 @@ public abstract class HttpTest extends Test {
     addTotalTransferBytes(bytes);														/* increment atomic total bytes counter */
 
     /* record start up time should be recorded only by one thread */
-    mStartTransferMicro.compareAndSet(0,  sGetMicroTime());
+    mStartTransferMicro.compareAndSet(0, sGetMicroTime());
     //SKLogger.d(TAG(this), "Setting transfer start  == " + mStartTransferMicro.get() + " by thread: " + this.getThreadIndex());//TODO remove in production
 
     setTransferTimeMicro(sGetMicroTime() - mStartTransferMicro.get());					/* How much time transfer took up to now */
@@ -1063,7 +1061,30 @@ public abstract class HttpTest extends Test {
     return sGetBytesPerSecondWithMicroDuration(durationMicro, btsTotal);
   }
 
+  private boolean mbShouldCancel = false;
 
+  public boolean getShouldCancel() {
+    return mbShouldCancel;
+  }
+
+  public void setShouldCancel() {
+    mbShouldCancel = true;
+  }
+
+  private int mSocketTimeoutMilliseconds = WRITETIMEOUT;
+  public int getSocketTimeoutMilliseconds() {
+    return mSocketTimeoutMilliseconds;
+  }
+  public void setSocketTimeoutMilliseconds(int value) {
+    mSocketTimeoutMilliseconds = value;
+  }
+  private boolean mbIgnoreSocketTimeout = false;
+  public boolean getIgnoreSocketTimeout() {
+    return mbIgnoreSocketTimeout;
+  }
+  public void setIgnoreSocketTimeout(boolean value) {
+    mbIgnoreSocketTimeout = value;
+  }
 }
 
 //For debug timings!
