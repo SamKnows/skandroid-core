@@ -13,7 +13,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.1.+'
     //compile files('libs/android-support-v4.jar')
 
     // Switch from provided to compile, if the app really uses Facebook SDK!
