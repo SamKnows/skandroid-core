@@ -61,7 +61,7 @@ public class Conversions {
 		switch(test_id){
 		case UPLOAD_TEST_ID:
 		case DOWNLOAD_TEST_ID:
-			ret = throughputToString(value);
+			ret = sThroughputBps1000BasedToString(value);
 			break;
 		case LATENCY_TEST_ID:
 		case JITTER_TEST_ID:
@@ -74,18 +74,18 @@ public class Conversions {
 		return ret;
 	}
 	
-	public static String throughputToString(double value){
+	public static String sThroughputBps1000BasedToString(double bps) {
 		String ret = "";
-		if(value < 1000){
-			ret = String.format("%.0f bps", value);
-		}else if(value < 1000000 ){
-			ret = String.format("%.2f Kbps", (double)(value/1000.0));
-		}else{
-			ret = String.format("%.2f Mbps", (double)(value/1000000.0));
+		if (bps < 1000) {
+			ret = String.format("%.0f bps", bps);
+		} else if (bps < 1000000) {
+			ret = String.format("%.2f Kbps", (double) (bps / 1000.0));
+		} else {
+			ret = String.format("%.2f Mbps", (double) (bps / 1000000.0));
 		}
 		return ret;
 	}
-	
+
 	private static String timeToString(double value){
 		String ret = "";
 		if(value < 1000){

@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.ByteArrayInputStream;
@@ -37,11 +36,8 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.DeviceDescription;
 import com.samknows.measurement.MainService;
-import com.samknows.libcore.R;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
-import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.storage.Conversions;
-import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 
 public class OtherUtils {
   static final String TAG = "OtherUtils";
@@ -72,7 +68,13 @@ public class OtherUtils {
 		double bitrateMbps1000Based = sConvertMbps1024BasedToMBps1000Based(bitrateMbps1024Based);
 		double bitrateBitsPerSecond = 1000000.0 * bitrateMbps1000Based;
 		  
-		return Conversions.throughputToString(bitrateBitsPerSecond);
+		return Conversions.sThroughputBps1000BasedToString(bitrateBitsPerSecond);
+	}
+
+	public static String sBitrateMbps1000BasedToString (double bitrateMbps1000Based) {
+		double bitrateBitsPerSecond = 1000000.0 * bitrateMbps1000Based;
+
+		return Conversions.sThroughputBps1000BasedToString(bitrateBitsPerSecond);
 	}
 
 	public static String formatToBits(long bytes) {
