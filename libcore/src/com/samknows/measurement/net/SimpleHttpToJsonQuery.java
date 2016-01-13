@@ -102,9 +102,8 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
     }
 
 
-
     if (mOptionalHeaderFields != null) {
-      for (Pair<String,String> value : mOptionalHeaderFields) {
+      for (Pair<String, String> value : mOptionalHeaderFields) {
 //        if (httpContext == null) {
 //          httpContext = new BasicHttpContext();
 //        }
@@ -133,15 +132,27 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
         try {
           mSuccess = processResponse(code, EntityUtils.toString(entity));
           call();
+          return;
 
         } catch (ParseException e) {
           SKLogger.sAssert(false);
+          call();
         } catch (IOException e) {
           SKLogger.sAssert(false);
+          call();
         }
+      } else {
+        SKLogger.sAssert(false);
+        call();
       }
     } catch (Exception e) {
       SKLogger.sAssert(false);
+      try {
+        call();
+      } catch (Exception e1) {
+        SKLogger.sAssert(false);
+      }
     }
   }
+
 }
