@@ -1,9 +1,13 @@
 package com.samknows.measurement.environment;
 
+import com.samknows.libcore.R;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -136,6 +140,35 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
       myQuery.doPerformQuery();
     }
 	}
+
+  // We're not connected - show an alert - if possible - and optionally finish - and return false!
+	public static boolean sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(final Activity activity, final boolean andThenFinish) {
+
+		if (sGetIsConnected() == true) {
+			return true;
+		}
+
+		// We're not connected - show an alert - if possible - and return false!
+		if (!activity.isFinishing()) {
+			new AlertDialog.Builder(activity)
+			.setMessage(R.string.Offline_message)
+			.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          if (andThenFinish) {
+            activity.finish();
+            activity.overridePendingTransition(0, 0);
+          }
+        }
+      }).show();
+		}
+
+		return false;
+	}
+
+  // We're not connected - show an alert - if possible - and return false!
+	public static boolean sCheckIfIsConnectedAndIfNotShowAnAlert(Activity activity) {
+    return sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(activity, false);
+  }
 
 	void collectData(){
 		addData(extractData(mTelManager, mConnManager));

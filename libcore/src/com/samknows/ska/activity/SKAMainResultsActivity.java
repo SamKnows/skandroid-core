@@ -2604,25 +2604,6 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
   final int cRunTestActivityRequestCode = 99999999;
 
-  private boolean checkIfIsConnectedAndIfNotShowAnAlert() {
-
-    if (NetworkDataCollector.sGetIsConnected() == true) {
-      return true;
-    }
-
-    // We're not connected - show an alert if possible, and return false!
-    if (!isFinishing()) {
-      new AlertDialog.Builder(this)
-          .setMessage(R.string.Offline_message)
-          .setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-          }).show();
-    }
-
-    return false;
-  }
-
   private void RunChoice() {
 
     storage = CachingStorage.getInstance();
@@ -2635,7 +2616,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     }
 
     // Only allow this to continue, if we're connected!
-    if (checkIfIsConnectedAndIfNotShowAnAlert() == false) {
+    if (NetworkDataCollector.sCheckIfIsConnectedAndIfNotShowAnAlert(this) == false) {
       return;
     }
 
@@ -2793,7 +2774,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		if (mContinuousState == ContinuousTestRunner.TestRunnerState.STOPPED) {
 		
 			// Only allow this to continue, if we're connected!
-    		if (checkIfIsConnectedAndIfNotShowAnAlert() == false) {
+    		if (NetworkDataCollector.sCheckIfIsConnectedAndIfNotShowAnAlert(this) == false) {
     			return;
 	    	}
 		

@@ -2,6 +2,7 @@ package com.samknows.ska.activity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -518,28 +519,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
     }
   }
 
-	private boolean checkIfIsConnectedAndIfNotShowAnAlertThenFinish() {
-		
-		if (NetworkDataCollector.sGetIsConnected() == true) {
-			return true;
-		}
-	
-		// We're not connected - show an alert - if possible - and return false!
-		if (!isFinishing()) {
-			new AlertDialog.Builder(this)
-			.setMessage(R.string.Offline_message)
-			.setPositiveButton(R.string.ok_dialog, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					SKARunningTestActivity.this.finish();
-					overridePendingTransition(0, 0);
-				}
-			}).show();
-		}
-		
-		return false;
-	}
-
-	@Override
+  @Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -615,7 +595,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
       public void OnChangedStateTo(SKTestRunner.TestRunnerState state) {
 
         if (state == SKTestRunner.TestRunnerState.STOPPED) {
-          if (SKARunningTestActivity.this.checkIfIsConnectedAndIfNotShowAnAlertThenFinish() == false) {
+          if (NetworkDataCollector.sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(SKARunningTestActivity.this, true) == false) {
             // The alert that is shown, handles the "finish()"
           } else {
             SKARunningTestActivity.this.finish();
