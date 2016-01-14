@@ -69,6 +69,7 @@ import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.DeviceDescription;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.TestRunner.SKTestRunner;
+import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
@@ -82,7 +83,6 @@ import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_
 import com.samknows.measurement.activity.components.StatModel;
 import com.samknows.measurement.activity.components.StatRecord;
 import com.samknows.measurement.activity.components.UpdatedTextView;
-import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.storage.DBHelper;
@@ -2616,7 +2616,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     }
 
     // Only allow this to continue, if we're connected!
-    if (NetworkDataCollector.sCheckIfIsConnectedAndIfNotShowAnAlert(this) == false) {
+    if (Reachability.sCheckIfIsConnectedAndIfNotShowAnAlert(this) == false) {
       return;
     }
 
@@ -2774,7 +2774,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		if (mContinuousState == ContinuousTestRunner.TestRunnerState.STOPPED) {
 		
 			// Only allow this to continue, if we're connected!
-    		if (NetworkDataCollector.sCheckIfIsConnectedAndIfNotShowAnAlert(this) == false) {
+    		if (Reachability.sCheckIfIsConnectedAndIfNotShowAnAlert(this) == false) {
     			return;
 	    	}
 		

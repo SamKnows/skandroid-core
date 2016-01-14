@@ -29,7 +29,7 @@ import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.activity.components.FontFitTextView;
 import com.samknows.measurement.activity.components.ProgressWheel;
-import com.samknows.measurement.environment.NetworkDataCollector;
+import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.StorageTestResult.*;
 import com.samknows.measurement.schedule.TestDescription.*;
@@ -595,7 +595,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
       public void OnChangedStateTo(SKTestRunner.TestRunnerState state) {
 
         if (state == SKTestRunner.TestRunnerState.STOPPED) {
-          if (NetworkDataCollector.sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(SKARunningTestActivity.this, true) == false) {
+          if (Reachability.sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(SKARunningTestActivity.this, true) == false) {
             // The alert that is shown, handles the "finish()"
           } else {
             SKARunningTestActivity.this.finish();

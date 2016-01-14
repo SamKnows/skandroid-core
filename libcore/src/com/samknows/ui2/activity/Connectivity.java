@@ -3,6 +3,7 @@ package com.samknows.ui2.activity;
 import com.samknows.libcore.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.NetworkDataCollector;
+import com.samknows.measurement.environment.Reachability;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -36,7 +37,7 @@ public class Connectivity {
    * @return true or false
    */
   public static boolean sGetIsConnected(Context pContext) {
-    return NetworkDataCollector.sGetIsConnected();
+    return Reachability.sGetIsConnected();
   }
 
   /**

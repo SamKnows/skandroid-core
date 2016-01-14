@@ -14,7 +14,7 @@ import com.samknows.libcore.R;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
-import com.samknows.measurement.environment.NetworkDataCollector;
+import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.util.LoginHelper;
 
 public class SKATermsOfUseWithButtonActivity extends BaseLogoutActivity {
@@ -82,7 +82,7 @@ public class SKATermsOfUseWithButtonActivity extends BaseLogoutActivity {
 	
 	private boolean checkIfIsConnectedAndIfNotShowAnAlert() {
 		
-		if (NetworkDataCollector.sGetIsConnected() == true) {
+		if (Reachability.sGetIsConnected() == true) {
 			return true;
 		}
 	

@@ -40,6 +40,7 @@ import com.samknows.measurement.environment.NetworkData;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityData;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
+import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.util.DCSConvertorUtil;
@@ -76,7 +77,7 @@ public class FragmentSettings extends Fragment {
 
   private boolean checkIfIsConnectedAndIfNotShowAnAlert() {
 
-    if (NetworkDataCollector.sGetIsConnected() == true) {
+    if (Reachability.sGetIsConnected() == true) {
       return true;
     }
 
