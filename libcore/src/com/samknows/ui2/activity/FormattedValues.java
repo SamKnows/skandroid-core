@@ -34,11 +34,11 @@ public class FormattedValues {
    */
   public static Pair<Float, String> getFormattedSpeedValue(String pValue) {
     if (pValue.length() == 0) {
-      return new Pair<Float, String>(0.0F, "");
+      return new Pair<>(0.0F, "");
     }
     if (pValue.equals("Failed")) {
       // Convenience when debugging...
-      return new Pair<Float, String>(0.0F, "");
+      return new Pair<>(0.0F, "");
     }
 
 
@@ -54,7 +54,7 @@ public class FormattedValues {
     }
 
     double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(values[0]);
-    return new Pair<Float, String>((float) value, unit);
+    return new Pair<>((float) value, unit);
 
 		/*
 		// TODO??!?! Restore this code, somehow?!
@@ -102,18 +102,18 @@ public class FormattedValues {
 
     try {
       if (unit.equals("s")) {
-        return new Pair<String, String>(new DecimalFormat("0.0").format(1000 * Float.valueOf(values[0])), unit);
+        return new Pair<>(new DecimalFormat("0.0").format(1000 * Float.valueOf(values[0])), unit);
       } else {
         //DecimalFormat useFormat = new DecimalFormat("000");
         DecimalFormat useFormat = new DecimalFormat("0");
         useFormat.setMaximumFractionDigits(0);
-        return new Pair<String, String>(useFormat.format(Math.round(Float.valueOf(Float.valueOf(values[0])))), unit);
+        return new Pair<>(useFormat.format(Math.round(Float.valueOf(values[0]))), unit);
       }
     } catch (java.lang.NumberFormatException e) {
       // Things like "Failed" can result in an error - we must not allow these to crash the app!
       Log.d("SKCommon", "Warning: Value is not a number" + pValue);
       SKLogger.sAssert(FormattedValues.class, false);
-      return new Pair<String, String>("0", "");
+      return new Pair<>("0", "");
     }
   }
 
@@ -132,7 +132,7 @@ public class FormattedValues {
     }
 
     double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(values[0]);
-    return new Pair<Integer, String>((int) value, unit);
+    return new Pair<>((int) value, unit);
 
     //return Math.round(Float.valueOf(pValue.substring(0, pValue.length() - 2)));
   }
@@ -153,7 +153,7 @@ public class FormattedValues {
 
 
     double value = SKCommon.sGetDecimalStringAnyLocaleAsDouble(values[0]);
-    return new Pair<Integer, String>((int) value, unit);
+    return new Pair<>((int) value, unit);
     //return (int)Math.round(Float.valueOf(split[0]));
   }
 

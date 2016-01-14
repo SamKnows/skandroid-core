@@ -58,7 +58,7 @@ class SimpleMultipartEntity implements HttpEntity {
     private byte[] boundaryEnd;
     private boolean isRepeatable = false;
 
-    private List<FilePart> fileParts = new ArrayList<FilePart>();
+    private List<FilePart> fileParts = new ArrayList<>();
 
     // The buffer we use for building the message excluding files and the last
     // boundary

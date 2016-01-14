@@ -1,13 +1,10 @@
 package com.samknows.measurement.TestRunner;
 
 import android.os.Handler;
-import android.os.Message;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.storage.PassiveMetric;
-import com.samknows.measurement.storage.StorageTestResult;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SKTestRunner {

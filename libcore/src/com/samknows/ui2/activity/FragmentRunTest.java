@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,15 +23,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.CellLocation;
@@ -366,7 +360,7 @@ public class FragmentRunTest extends Fragment {
 
               Pair<Double, String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
               //Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
-              if (value.first.doubleValue() != lastPolledSpeedValueMbps) {
+              if (value.first != lastPolledSpeedValueMbps) {
 
                 if ( (value.second.equals(HttpTest.cReasonResetUpload)) ||
                      (value.second.equals(HttpTest.cReasonResetDownload)) ||
@@ -380,13 +374,13 @@ public class FragmentRunTest extends Fragment {
                   String message = String.valueOf(value);
 
                   // Update the current result meter for download/upload
-                  updateCurrentTestSpeedMbps(value.first.doubleValue());
+                  updateCurrentTestSpeedMbps(value.first);
 
                   // Update the gauge colour indicator (in Megabytes)
-                  gaugeView.setAngleByValue(value.first.doubleValue());
+                  gaugeView.setAngleByValue(value.first);
                 }
 
-                lastPolledSpeedValueMbps = value.first.doubleValue();
+                lastPolledSpeedValueMbps = value.first;
                 lastTimeMillisCurrentSpeed = System.currentTimeMillis();        // Register the time of the last UI update
               }
             }
@@ -1361,7 +1355,7 @@ public class FragmentRunTest extends Fragment {
           // Update the UI data only few times a second
           if (executingLatencyTest && System.currentTimeMillis() - lastTimeMillisCurrentSpeed > C_UPDATE_INTERVAL_IN_MS) {
             updateCurrentLatencyValue(latencyMilli);                // Update the current result meter for latency
-            gaugeView.setAngleByValue(Double.valueOf(latencyMilli));          // Update the gauge colour indicator
+            gaugeView.setAngleByValue((double) latencyMilli);          // Update the gauge colour indicator
 
             lastTimeMillisCurrentSpeed = System.currentTimeMillis();    // Register the time of the last UI update
           }
@@ -1425,7 +1419,7 @@ public class FragmentRunTest extends Fragment {
     // Get the selected tests from shared preferences
     restoreWhichTestsToRun();
 
-    List<SCHEDULE_TEST_ID> testIDs = new ArrayList<SCHEDULE_TEST_ID>();
+    List<SCHEDULE_TEST_ID> testIDs = new ArrayList<>();
 
     // Create the list of tests to be performed
     // All tests
@@ -2140,7 +2134,6 @@ public class FragmentRunTest extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                 }
               }).show();
-      return;
     } else {
       doRunTestAfterAllPreStartChecksCompleted();
     }

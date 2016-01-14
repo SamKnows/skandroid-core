@@ -80,7 +80,7 @@ import java.net.URI;
  * </pre>
  */
 public abstract class AsyncHttpResponseHandler implements ResponseHandlerInterface {
-    private static final String LOG_TAG = "AsyncHttpResponseHandler";
+    private static final String LOG_TAG = "AsyncHttpResponseH";
 
     protected static final int SUCCESS_MESSAGE = 0;
     protected static final int FAILURE_MESSAGE = 1;
@@ -127,7 +127,7 @@ public abstract class AsyncHttpResponseHandler implements ResponseHandlerInterfa
         private final WeakReference<AsyncHttpResponseHandler> mResponder;
 
         ResponderHandler(AsyncHttpResponseHandler service) {
-            mResponder = new WeakReference<AsyncHttpResponseHandler>(service);
+            mResponder = new WeakReference<>(service);
         }
 
         @Override

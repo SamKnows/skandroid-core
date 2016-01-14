@@ -8,9 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
-import com.samknows.libcore.BuildConfig;
 import com.samknows.libcore.SKLogger;
 
 public class PassiveServerUploadTest extends UploadTest {

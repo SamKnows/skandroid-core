@@ -111,7 +111,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     return graphHandlerDownload;
   }
 
-  private static final String TAG = SKAMainResultsActivity.class.getSimpleName();
+  private static final String TAG = "SKAMainResultsActivity";
   public static final String SETTINGS = "SamKnows";
   private static final int PANEL_HEIGHT = 550;
   private final Context context = this;
@@ -173,8 +173,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
   ScheduleConfig config;
 
   List<TestDescription> testList;
-  ArrayList<String> array_spinner = new ArrayList<String>();
-  ArrayList<SCHEDULE_TEST_ID> array_spinner_int = new ArrayList<SCHEDULE_TEST_ID>();
+  ArrayList<String> array_spinner = new ArrayList<>();
+  ArrayList<SCHEDULE_TEST_ID> array_spinner_int = new ArrayList<>();
 
   TextView tvHeader = null;
 
@@ -479,7 +479,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
     setTotalArchiveRecords();
     //viewPager = (ViewPager) findViewById(R.id.viewPager);
-    SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+    SKLogger.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
     viewPager.setAdapter(adapter);
     viewPager.setCurrentItem(1, true); // true means - perform a smooth scroll!
     //overridePendingTransition(0, 0);
@@ -535,7 +535,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       }
     }
 
-    return new Pair<String, String>(download, upload);
+    return new Pair<>(download, upload);
   }
 
 
@@ -1069,7 +1069,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
               //Trace.beginSection("pagerAdapter");
               adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
               //viewPager = (ViewPager) findViewById(R.id.viewPager);
-              SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+              SKLogger.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
               //Trace.beginSection("setAdapter");
               viewPager.setAdapter(adapter);
               //Trace.endSection();
@@ -1362,12 +1362,12 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
     if (networkType.equals("mobile")) {
       ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.cell_phone_icon);
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setVisibility(View.VISIBLE);
+      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
     } else if (networkType.equals("WiFi")) {
       ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.wifiservice);
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setVisibility(View.VISIBLE);
+      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
     } else {
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setVisibility(View.INVISIBLE);
+      row.findViewById(R.id.networkTypeImage).setVisibility(View.INVISIBLE);
     }
 
     table.addView(row);
@@ -1386,12 +1386,12 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
     if (networkType.equals("mobile")) {
       ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.cell_phone_icon);
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setVisibility(View.VISIBLE);
+      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
     } else if (networkType.equals("WiFi")) {
       ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.wifiservice);
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setVisibility(View.VISIBLE);
+      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
     } else {
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setVisibility(View.INVISIBLE);
+      row.findViewById(R.id.networkTypeImage).setVisibility(View.INVISIBLE);
     }
 
     table.addView(row);
@@ -1494,7 +1494,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     // The only way to get this to work, was to use a custom ContentProvider!
     // So, this gets the file from the cache - which is might be called export_xyz.zip...
     Uri uri = Uri.parse("content://" + ExportFileProvider.sGetAUTHORITY() + "/" + zipFile.getName());
-    ArrayList<Uri> uris = new ArrayList<Uri>();
+    ArrayList<Uri> uris = new ArrayList<>();
     uris.add(uri);
     intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 
@@ -1919,7 +1919,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
       mMainResultsActivity = inMainResultsActivity;
 
-      statRecords = new ArrayList<StatRecord>();
+      statRecords = new ArrayList<>();
       statRecords.add(new StatRecord());
       // views.get(0) is the aggregate view
 
@@ -2715,7 +2715,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
       setTotalArchiveRecords();
       //viewPager = (ViewPager) findViewById(R.id.viewPager);
-      SKLogger.sAssert(getClass(), viewPager == (ViewPager) findViewById(R.id.viewPager));
+      SKLogger.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
       viewPager.setAdapter(adapter);
     }
   }
@@ -2842,8 +2842,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 							int which) {
 					}
 				}).show();
-				return;
-			} else {
+      } else {
 				startContinuousTestAfterCheckingForDataCap();
 			}
 
@@ -2887,8 +2886,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 			// The app can be closed from this page - we expect to be the task root.
 			if (this.wouldBackButtonReturnMeToTheHomeScreen()) {
 				super.onBackPressed();
-				return;
-			}
+      }
 		} else {
 			// The app must NOT be closed from this page - change "viewed page" instead.
 			//viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -2937,8 +2935,9 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				buttonFound = true;
 			}
 		} catch (JSONException e1) {
-		}
-		
+      SKLogger.sAssert(false);
+    }
+
 		LinearLayout l = null;
 
 		switch (PColumnId) {

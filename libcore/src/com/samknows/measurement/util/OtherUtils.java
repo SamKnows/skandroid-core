@@ -167,7 +167,7 @@ public class OtherUtils {
 				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress()) {
-						return inetAddress.getHostAddress().toString();
+						return inetAddress.getHostAddress();
 					}
 				}
 			}
@@ -234,14 +234,14 @@ public class OtherUtils {
 
 			// Note that when using Roboelectic, this will return null!
 			if (signatures != null) {
-				for (int i = 0; i < signatures.length; i++) {
-					ByteArrayInputStream stream = new ByteArrayInputStream(signatures[i].toByteArray());
-					X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);
-					debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
-					if (debuggable) {
-						break;
-					}
-				}
+        for (Signature signature : signatures) {
+          ByteArrayInputStream stream = new ByteArrayInputStream(signature.toByteArray());
+          X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);
+          debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
+          if (debuggable) {
+            break;
+          }
+        }
 			}
 		}
 		catch (NameNotFoundException e)

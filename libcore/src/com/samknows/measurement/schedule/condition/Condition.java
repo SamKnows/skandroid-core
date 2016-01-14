@@ -25,7 +25,8 @@ public abstract class Condition implements Serializable{
 	public abstract String getConditionStringForReportingFailedCondition();
 
 	public abstract ConditionResult doTestBefore(TestContext tc);
-	public ConditionResult doTestAfter(TestContext tc) {return new ConditionResult(true);};
+	public ConditionResult doTestAfter(TestContext tc) {return new ConditionResult(true);}
+
 	public void release(TestContext tc){}
 	protected abstract boolean needSeparateThread();
 	
@@ -35,9 +36,9 @@ public abstract class Condition implements Serializable{
 	 */
 	public Future<ConditionResult> testBefore(final TestContext ctx) {
 		if (!needSeparateThread()) {
-			return new SimpleFuture<ConditionResult>(doTestBefore(ctx));
+			return new SimpleFuture<>(doTestBefore(ctx));
 		} else {
-			return new FutureTask<ConditionResult>(new Callable<ConditionResult>() {
+			return new FutureTask<>(new Callable<ConditionResult>() {
 				@Override
 				public ConditionResult call() throws Exception {
 					return doTestBefore(ctx);

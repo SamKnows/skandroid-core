@@ -58,7 +58,7 @@ public class SKScreenShot {
      	}
      	
 		//InputStream imageStream = new ByteArrayInputStream(((ByteArrayOutputStream) stream).toByteArray());
-		byte[] byteArray = ((ByteArrayOutputStream) stream).toByteArray();
+		byte[] byteArray = stream.toByteArray();
 		
 		try {
 			stream.close();

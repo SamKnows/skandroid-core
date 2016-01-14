@@ -20,7 +20,7 @@ public class DeviceDescription implements Serializable{
 	}
 
 	public static List<DeviceDescription> parce(String json) {
-		List<DeviceDescription> result = new ArrayList<DeviceDescription>();
+		List<DeviceDescription> result = new ArrayList<>();
 		try {
 			if (json != null) {
 				JSONArray array = new JSONArray(json);

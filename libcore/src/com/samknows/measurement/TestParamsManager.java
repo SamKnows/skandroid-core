@@ -17,7 +17,7 @@ public class TestParamsManager implements Serializable {
   static final String TAG = "TestParamsManager";
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<String, TestParam> map = new HashMap<String, TestParam>();
+	private HashMap<String, TestParam> map = new HashMap<>();
 	
 	public void put(String name, String value) {
 		Log.d(TAG, "saving param: " + name + " with value: " + value);
@@ -25,7 +25,7 @@ public class TestParamsManager implements Serializable {
 	}
 	
 	public List<Param> prepareParams(List<Param> params) {
-		List<Param> result = new ArrayList<Param>();
+		List<Param> result = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 		for (Param p : params) {
 			sb.append(p.getName()).append(" ").append(p.getValue()).append(". ");

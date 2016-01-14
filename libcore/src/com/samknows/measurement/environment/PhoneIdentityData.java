@@ -34,7 +34,7 @@ public class PhoneIdentityData implements DCSData{
 
 	@Override
 	public List<String> convert() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		
 		DCSStringBuilder builder = new DCSStringBuilder();
 		builder.append("PHONEIDENTITY");
@@ -53,7 +53,7 @@ public class PhoneIdentityData implements DCSData{
 
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		long time = System.currentTimeMillis();
 		if(!SK2AppSettings.getSK2AppSettingsInstance().anonymous){
       if (imei != null) {
@@ -73,8 +73,8 @@ public class PhoneIdentityData implements DCSData{
 	
 	@Override
 	public List<JSONObject> convertToJSON() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
-		Map<String, Object> j = new HashMap<String, Object>();
+		List<JSONObject> ret = new ArrayList<>();
+		Map<String, Object> j = new HashMap<>();
 		j.put(JSON_TYPE, JSON_TYPE_PHONE_IDENTITY);
 		collectSensitiveData(j);
 		j.put(JSON_TIMESTAMP, time / 1000);

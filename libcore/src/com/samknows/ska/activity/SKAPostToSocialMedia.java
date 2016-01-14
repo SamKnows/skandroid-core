@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import com.facebook.Session;
 import com.facebook.*;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
@@ -52,8 +51,8 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 	public class SocialStrings {
 		String twitterString;
 		String facebookString;
-	};
-		
+	}
+
 	private ProgressDialog mProgress;
 
 	//private static final String[] PERMISSIONS = new String[] {"publish_stream", "read_stream", "offline_access"};
@@ -350,13 +349,13 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 		final PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(theIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-		for (int i = 0; i < appArray.length; i++) {
+		for (String anAppArray : appArray) {
 			for (ResolveInfo resolveInfo : list) {
 				String p = resolveInfo.activityInfo.packageName;
-				if (p != null && p.startsWith(appArray[i])) {
+				if (p != null && p.startsWith(anAppArray)) {
 					theIntent.setPackage(p);
 					Drawable appIcon = resolveInfo.activityInfo.loadIcon(packageManager);
-					return new Pair<Intent,Drawable> (theIntent, appIcon);
+					return new Pair<>(theIntent, appIcon);
 				}
 			}
 		}

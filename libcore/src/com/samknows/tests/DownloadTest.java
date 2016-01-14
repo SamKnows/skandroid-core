@@ -14,7 +14,6 @@ import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Callable;
 
 import com.samknows.libcore.SKLogger;
 
@@ -221,7 +220,7 @@ public final class DownloadTest extends HttpTest {
 	}
 	@Override
 	public HashMap<String, String> getResults(){
-		HashMap<String, String> ret = new HashMap<String, String>();
+		HashMap<String, String> ret = new HashMap<>();
 		if (!testStatus.equals("FAIL")) {
 			String[] values = formValuesArr();
 			ret.put("downspeed", values[0]);

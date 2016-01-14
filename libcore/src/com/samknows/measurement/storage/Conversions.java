@@ -105,7 +105,7 @@ public class Conversions {
 	}
 	
 	public static List<JSONObject> testToJSON(String[] data){
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		String test_id = data[0];
 		if(test_id.startsWith(DOWNSTREAMTHROUGHPUT)){
 			ret.add(convertThroughputTest(DOWNLOAD_TEST_STRING, data));

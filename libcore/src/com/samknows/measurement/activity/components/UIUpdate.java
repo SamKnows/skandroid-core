@@ -3,12 +3,7 @@ package com.samknows.measurement.activity.components;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.statemachine.State;
-import com.samknows.measurement.storage.StorageTestResult;
-import com.samknows.tests.ClosestTarget;
 
 /*
  * Utility class that translates several events in JSONObject in order 

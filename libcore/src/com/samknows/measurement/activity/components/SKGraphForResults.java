@@ -248,8 +248,8 @@ public class SKGraphForResults {
 		// If a data point is missing, the value used is interpolated between the last received value,
 		// and the next value; if no value has yet been seen, then the value remains at zero.
 
-		ArrayList<Double> theNewArray = new ArrayList<Double>();
-		ArrayList<Date> theDateArray =  new ArrayList<Date>();
+		ArrayList<Double> theNewArray = new ArrayList<>();
+		ArrayList<Date> theDateArray = new ArrayList<>();
 		
 		//Log.d(getClass().getName(), "jsonData=" + jsonData.toString());
 		
@@ -274,7 +274,7 @@ public class SKGraphForResults {
 			theNewArray.ensureCapacity((int) daysBetween);
 			theDateArray.ensureCapacity((int) daysBetween);
 			
-     		ArrayList<Integer> theCountArray =  new ArrayList<Integer>();
+     		ArrayList<Integer> theCountArray = new ArrayList<>();
 			
 			for (int i = 0; i < (int)daysBetween; i++) {
 				theNewArray.add(null);
@@ -471,8 +471,8 @@ public class SKGraphForResults {
 					
 				    //theNumber = 0.00499; // TODO - this is for debug ONLY!
 				    // If the value is 0.00999 or less, then treat as 0.0!
-				    if (theNumber.doubleValue() < 0.01) {
-				      if (theNumber.doubleValue() > 0) {
+				    if (theNumber < 0.01) {
+				      if (theNumber > 0) {
 				        theNumber = 0.00;
 				        theNewArray.set(lIndex, theNumber);
 				      }
@@ -513,14 +513,14 @@ public class SKGraphForResults {
 
 		// First we extract, and sort them in ascending order of date...
 		
-		ArrayList<Double> theNewArray = new ArrayList<Double>();
-		ArrayList<Date> theDateArray =  new ArrayList<Date>();
+		ArrayList<Double> theNewArray = new ArrayList<>();
+		ArrayList<Date> theDateArray = new ArrayList<>();
 
 		Log.w(getClass().getName(),  "TODO - 24-hour case!");
 		//SKLogger.sAssert(this.getClass(),  "TODO - 24-hour case!", false);
 
 
-		ArrayList<Pair<String,String> > arrayOfDateValues = new ArrayList<Pair<String,String> >();
+		ArrayList<Pair<String,String> > arrayOfDateValues = new ArrayList<>();
 
 		JSONArray theResults;
 		try {
@@ -536,7 +536,7 @@ public class SKGraphForResults {
 				//value = "0.00499"; // TODO - for debug/testing only!!
 				String datetime = item.getString("datetime");
 
-				Pair<String,String> dateValuePair = new Pair<String,String>(datetime, value);
+				Pair<String,String> dateValuePair = new Pair<>(datetime, value);
 				arrayOfDateValues.add(dateValuePair);
 			}
 
@@ -563,9 +563,9 @@ public class SKGraphForResults {
 		ArrayList<Pair<String,String> > sortedArray24 = arrayOfDateValues;
 
 		// Now, group the values by HOUR!
-		ArrayList<Double> valuesByHour = new ArrayList<Double>();
-		ArrayList<Integer> itemsByHour = new ArrayList<Integer>();
-		ArrayList<Date>    datesByHour = new ArrayList<Date>();
+		ArrayList<Double> valuesByHour = new ArrayList<>();
+		ArrayList<Integer> itemsByHour = new ArrayList<>();
+		ArrayList<Date>    datesByHour = new ArrayList<>();
 
 		final double oneDay = 24.0 * 60.0 * 60.0;
 		final double timeIntervalForOneHour = (oneDay / 24.0);
@@ -659,8 +659,8 @@ public class SKGraphForResults {
 				
 				//theResult = 0.00499; // TODO - this is for debug ONLY!
 				// If the value is 0.00999 or less, then treat as 0.0!
-				if (theResult.doubleValue() < 0.01) {
-				  if (theResult.doubleValue() > 0) {
+				if (theResult < 0.01) {
+				  if (theResult > 0) {
 				    theResult = 0.00;
 				  }
 				}
@@ -834,8 +834,8 @@ public class SKGraphForResults {
 		if (inViewGroup.getClass() == WebView.class){
 			// If we're embedded in a web view - ensure the scrollbars are disabled,
 			// as they flash-up momentarily and are unsightly!
-			((WebView)inViewGroup).setVerticalScrollBarEnabled(false);
-			((WebView)inViewGroup).setHorizontalScrollBarEnabled(false);
+			inViewGroup.setVerticalScrollBarEnabled(false);
+			inViewGroup.setHorizontalScrollBarEnabled(false);
 		
 			// http://stackoverflow.com/questions/2527899/disable-scrolling-in-webview
 			// breakingart.com: This prevents the webview being scrolled by dragging!
@@ -920,7 +920,7 @@ public class SKGraphForResults {
 	 */
 	public String getStartDate(){
 		Log.v(TAG, "getStartDate()");
-		return (String) date;
+		return date;
 	}
 }
 

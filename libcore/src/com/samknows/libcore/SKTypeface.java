@@ -84,7 +84,6 @@ public class SKTypeface {
     } else {
       // Simply a view (e.g. TextView etc. ...) - try setting DIRECTLY.
       setTypefaceForViewIfPossible(view, font);
-      return;
     }
   }
 

@@ -5,9 +5,6 @@ import com.samknows.measurement.net.SimpleHttpToJsonQuery;
 
 import org.json.JSONException;
 
-/**
- * Created by pcole on 31/07/15.
- */
 public abstract class QueryWlanCarrier extends SimpleHttpToJsonQuery {
 
   public QueryWlanCarrier() {

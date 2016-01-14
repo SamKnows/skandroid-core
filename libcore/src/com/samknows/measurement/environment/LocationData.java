@@ -1,26 +1,19 @@
 package com.samknows.measurement.environment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONObject;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.util.DCSStringBuilder;
-import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
 
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationProvider;
-import android.util.Log;
 
 public class LocationData implements DCSData {
 	public static final String LASTKNOWNLOCATION 				= "LASTKNOWNLOCATION";
@@ -131,7 +124,7 @@ public class LocationData implements DCSData {
 
 	@Override
 	public List<String> convert() {
-		List<String> ret = new ArrayList<String>();
+		List<String> ret = new ArrayList<>();
 		DCSStringBuilder dcsBuilder = new DCSStringBuilder();
 		dcsBuilder.append(mIsLastKnown ? LASTKNOWNLOCATION : LOCATION)
 				.append(mLocation.getTime() / 1000).append(mLocType + "")
@@ -147,13 +140,13 @@ public class LocationData implements DCSData {
 	@Override
 	public List<JSONObject> getPassiveMetric() {
 		SKLogger.sAssert(getClass(), false);
-		return new ArrayList<JSONObject>();
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<JSONObject> convertToJSON() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
-		Map<String, Object> loc = new HashMap<String, Object>();
+		List<JSONObject> ret = new ArrayList<>();
+		Map<String, Object> loc = new HashMap<>();
 		
 		loc.put(DCSData.JSON_TYPE, mIsLastKnown ? JSON_LASTKNOWNLOCATION : JSON_LOCATION);
 		loc.put(DCSData.JSON_TIMESTAMP, mLocation.getTime() / 1000);

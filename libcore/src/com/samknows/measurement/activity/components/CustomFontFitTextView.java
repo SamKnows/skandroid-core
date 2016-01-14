@@ -93,14 +93,13 @@ public class CustomFontFitTextView extends TextView {
         	float totalHeight = 0.0F;
         	
         	int lineCount = lines.length;
-        	
-        	for (int i = 0; i < lineCount; i++) {
-        		// Using getTextBounds accounts for multi-line text; measure text does *not*!
-        		String theLine = lines[i];
-        		mTestPaint.getTextBounds(theLine, 0, theLine.length(), bounds);
-        		maxWidth = Math.max(bounds.width(), maxWidth);
-        		totalHeight += bounds.height();
-        	}
+
+            for (String theLine : lines) {
+                // Using getTextBounds accounts for multi-line text; measure text does *not*!
+                mTestPaint.getTextBounds(theLine, 0, theLine.length(), bounds);
+                maxWidth = Math.max(bounds.width(), maxWidth);
+                totalHeight += bounds.height();
+            }
         	
             if (maxWidth >= targetWidth)  {
                 hi = size; // too big

@@ -32,7 +32,7 @@ public abstract class EnvBaseDataCollector {
 	 * 
 	 */
 	public List<DCSData> collectPartialData(){
-		List<DCSData> ret = new ArrayList<DCSData>();
+		List<DCSData> ret = new ArrayList<>();
 		synchronized(mListDCSData){
 			if(!mListDCSData.isEmpty()){
 				for(DCSData data: mListDCSData){

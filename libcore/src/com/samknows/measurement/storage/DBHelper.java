@@ -136,7 +136,7 @@ public class DBHelper {
 		switch (test_type_id) {
 		case UPLOAD_TEST_ID:
 		case DOWNLOAD_TEST_ID:
-			ret = ((double) value / 1000000) + "";
+			ret = (value / 1000000) + "";
 			break;
 		case LATENCY_TEST_ID:
 		case JITTER_TEST_ID:
@@ -171,7 +171,7 @@ public class DBHelper {
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_RESULT, result);
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_HRRESULT, hrresult);
 		} catch (JSONException je) {
-
+			SKLogger.sAssert(false);
 		}
 		return ret;
 	}
@@ -194,7 +194,7 @@ public class DBHelper {
 			ret.put(GRIDDATA_RESULTS_RESULT, result);
 			ret.put(GRIDDATA_RESULTS_HRRESULT, hrresult);
 		} catch (JSONException je) {
-
+      SKLogger.sAssert(false);
 		}
 		return ret;
 	}
@@ -211,7 +211,7 @@ public class DBHelper {
 			ret.put(GRAPHDATA_RESULTS_DATETIME, "" + dtime);
 			ret.put(GRAPHDATA_RESULTS_VALUE, value);
 		} catch (JSONException je) {
-
+      SKLogger.sAssert(false);
 		}
 		return ret;
 	}
@@ -284,7 +284,7 @@ public class DBHelper {
 			// 	// (whereas on iOS, it is returned averaged by day).
 			// }
 		} catch (JSONException je) {
-
+      SKLogger.sAssert(false);
 		}
 
 
@@ -370,7 +370,7 @@ public class DBHelper {
 			      and pm2.value = 'mobile')
 			ORDER BY dtime DESC;
 			 */
-			
+
 			StringBuilder MY_QUERY = new StringBuilder();
 			MY_QUERY.append("SELECT _id, dtime, manual ");
 			MY_QUERY.append("FROM test_batch AS tb ");
@@ -382,7 +382,7 @@ public class DBHelper {
 			MY_QUERY.append("      and pm2.metric = 'activenetworktype' ");
 			MY_QUERY.append("      and pm2.value in (" + metricValue + ")) ");
 			MY_QUERY.append("ORDER BY dtime DESC ");
-	  		
+
 	  		//Log.d("!!", MY_QUERY.toString());
 			
 			Cursor cursor1 = database.rawQuery(MY_QUERY.toString(), new String[]{});
@@ -819,7 +819,7 @@ public class DBHelper {
 				SKSQLiteHelper.TR_COLUMN_DTIME, starttime, endtime, extraFilter);
 		List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
 		if (batches == null || batches.size() == 0) {
-			return new ArrayList<JSONObject>();
+			return new ArrayList<>();
 		}
 		selection += " AND "
 				+ getInClause(SKSQLiteHelper.TR_COLUMN_BATCH_ID, batches);
@@ -851,7 +851,7 @@ public class DBHelper {
 		String limit = String.format(Locale.US, "%d,%d", startindex, n);
 		List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
 		if (batches == null || batches.size() == 0) {
-			return new ArrayList<JSONObject>();
+			return new ArrayList<>();
 		}
 		selection += " AND " + getInClause(SKSQLiteHelper.TR_COLUMN_BATCH_ID, batches);
 		return getTestResults(selection, limit);
@@ -865,7 +865,7 @@ public class DBHelper {
 		String limit = String.format(Locale.US, "%d,%d", startindex, n);
 		List<Integer> batches = getTestBatchesByPassiveMetric(getPassiveMetricsFilter());
 		if (batches == null || batches.size() == 0) {
-			return new ArrayList<JSONObject>();
+			return new ArrayList<>();
 		}
 		selection += " AND " + getInClause(SKSQLiteHelper.TR_COLUMN_BATCH_ID, batches);
 		String selection2 = String.format(Locale.US,
@@ -915,7 +915,7 @@ public class DBHelper {
         			//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
 					curr.put( AVERAGEDATA_VALUE, value);
 				} catch (JSONException je) {
-
+          SKLogger.sAssert(false);
 				}
 				ret.put(curr);
 				cursor.moveToNext();
@@ -969,7 +969,7 @@ public class DBHelper {
 	// value in the specified period
 	public List<Integer> getTestBatchesByPassiveMetric(String selection) {
 		synchronized (sync) {
-			List<Integer> ret = new ArrayList<Integer>();
+			List<Integer> ret = new ArrayList<>();
 			if (open() == false) {
 				SKLogger.sAssert(getClass(),  false);
 				return ret;
@@ -990,7 +990,7 @@ public class DBHelper {
 	
 	public List<JSONObject> getTestBatches() {
 		synchronized (sync) {
-			List<JSONObject> ret = new ArrayList<JSONObject>();
+			List<JSONObject> ret = new ArrayList<>();
 			
 			if (open() == false) {
 				SKLogger.sAssert(getClass(),  false);
@@ -1006,7 +1006,7 @@ public class DBHelper {
 					ret2.put(columns[0], cursor.getLong(0));
 					ret2.put(columns[1], cursor.getLong(1));
 				} catch (JSONException je) {
-
+          SKLogger.sAssert(false);
 				}
 				ret.add(ret2);
 
@@ -1037,7 +1037,7 @@ public class DBHelper {
 
 	private List<JSONObject> getTestResults(String selection, String limit) {
 		synchronized (sync) {
-			List<JSONObject> ret = new ArrayList<JSONObject>();
+			List<JSONObject> ret = new ArrayList<>();
 			if (open() == false) {
 				SKLogger.sAssert(getClass(),  false);
 				return ret;
@@ -1059,7 +1059,7 @@ public class DBHelper {
 
 	private List<JSONObject> getPassiveMetrics(long test_batch_id) {
 		synchronized (sync) {
-			List<JSONObject> ret = new ArrayList<JSONObject>();
+			List<JSONObject> ret = new ArrayList<>();
 			if (open() == false) {
 				SKLogger.sAssert(getClass(),  false);
 				return ret;
@@ -1092,7 +1092,7 @@ public class DBHelper {
 			ret.put(SKSQLiteHelper.TR_COLUMN_RESULT, c.getDouble(5));
 			ret.put(SKSQLiteHelper.TR_COLUMN_BATCH_ID, c.getLong(6));
 		} catch (JSONException je) {
-
+      SKLogger.sAssert(false);
 		}
 		return ret;
 	}
@@ -1123,7 +1123,7 @@ public class DBHelper {
 	public ArrayList<SummaryResult> getSummaryValues(eNetworkTypeResults pNetworkType, long pTimePeriodStart)
 	{
 		synchronized (sync) {
-			ArrayList<SummaryResult> summaryResults = new ArrayList<SummaryResult>();		
+			ArrayList<SummaryResult> summaryResults = new ArrayList<>();
 			String whereClause;
 
 			// Depending on the network type, we use different where clauses.

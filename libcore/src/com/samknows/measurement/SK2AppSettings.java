@@ -347,7 +347,7 @@ public class SK2AppSettings extends SKAppSettings {
 	
 	//Returns a Map containing all the json entries to be added when submitting the results
 	public Map<String,Object> getJSONExtra(){
-		Map<String, Object> ret= new HashMap<String,Object>();
+		Map<String, Object> ret= new HashMap<>();
 		if(!anonymous && getUnitId() != null){
 			ret.put(JSON_UNIT_ID, getUnitId());
 			

@@ -106,7 +106,7 @@ public class SKApplication extends Application{
 		eNetworkTypeResults_Any,
 		eNetworkTypeResults_Mobile,
 		eNetworkTypeResults_WiFi
-	};
+	}
 
 	private static eNetworkTypeResults sNetworkTypeResults = eNetworkTypeResults.eNetworkTypeResults_Mobile;
 

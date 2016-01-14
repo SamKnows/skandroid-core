@@ -12,7 +12,7 @@ public class EnvironmentDataCollector extends BaseDataCollector{
 	private static final long serialVersionUID = 1L;
 	
 	//List<String> result = new ArrayList<String>();
-	private List<DCSData> data = new ArrayList<DCSData>();
+	private List<DCSData> data = new ArrayList<>();
 		
 	@Override
 	public void start(TestContext ctx) {
@@ -79,7 +79,7 @@ public class EnvironmentDataCollector extends BaseDataCollector{
 
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		
     	// This is synchronized, as data might mutate while we're enumerating!
 		synchronized (this) {
@@ -93,7 +93,7 @@ public class EnvironmentDataCollector extends BaseDataCollector{
 	
 	@Override
 	public List<JSONObject> getJSONOutput(){
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
     	// This is synchronized, as data might mutate while we're enumerating!
 		synchronized (this) {
 			for(DCSData d:data){

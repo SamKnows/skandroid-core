@@ -31,7 +31,7 @@ public class StorageTestResult extends JSONObject{
 
     private int value;
 
-    private DETAIL_TEST_ID(int value) {
+    DETAIL_TEST_ID(int value) {
       this.value = value;
     }
 
@@ -273,7 +273,7 @@ public class StorageTestResult extends JSONObject{
   // This writes the test results§ via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
   // by ManualTestRunner:progressMessage
 	public static List<JSONObject> testOutput(String[] data, TestExecutor forTestExecutor){
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		if (data[0].equals("NETACTIVITY")) {
     		return ret;
 		}
@@ -375,7 +375,7 @@ public class StorageTestResult extends JSONObject{
 	}
 	
 	private static List<StorageTestResult> convertLatencyTest(String[] data){
-		List<StorageTestResult> ret = new ArrayList<StorageTestResult>();
+		List<StorageTestResult> ret = new ArrayList<>();
 		StorageTestResult lat = new StorageTestResult(DETAIL_TEST_ID.LATENCY_TEST_ID);
 		long dtime = Long.parseLong(data[1])*1000;
 		long success = data[2].equals("OK") ? 1 : 0;

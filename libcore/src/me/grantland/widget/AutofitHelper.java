@@ -264,7 +264,7 @@ public class AutofitHelper {
      */
     public AutofitHelper addOnTextSizeChangeListener(OnTextSizeChangeListener listener) {
         if (mListeners == null) {
-            mListeners = new ArrayList<OnTextSizeChangeListener>();
+            mListeners = new ArrayList<>();
         }
         mListeners.add(listener);
         return this;

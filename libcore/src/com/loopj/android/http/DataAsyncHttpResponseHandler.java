@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public abstract class DataAsyncHttpResponseHandler extends AsyncHttpResponseHandler {
-    private static final String LOG_TAG = "DataAsyncHttpResponseHandler";
+    private static final String LOG_TAG = "DataAsyncHttpResponseH";
 
     protected static final int PROGRESS_DATA_MESSAGE = 6;
 

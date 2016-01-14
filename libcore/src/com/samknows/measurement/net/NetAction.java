@@ -31,7 +31,7 @@ public class NetAction {
   static final String TAG = "NetAction";
 
 	private String request, errorString;
-	private List<Header> headers = new ArrayList<Header>();
+	private List<Header> headers = new ArrayList<>();
 	private HttpParams params = new BasicHttpParams();
 	private String body;
 	protected HttpResponse response;
@@ -78,21 +78,23 @@ public class NetAction {
 		
 		if (isResponseOk()) {
 			onActionFinished();
-		} else if (response != null && response.getStatusLine() != null){
-			isSuccess = false;
-			SKLogger.e(this, "failed request, response code: " + response.getStatusLine().getStatusCode());
-			try {
-			InputStream content = response.getEntity().getContent();
-			List<String> lines = IOUtils.readLines(content);
-			errorString = "";
-			for (String s : lines) {
-				errorString += "\n" + s;
-			}
-			} catch (Exception e) {}
-			SKLogger.e(this, errorString);
-		}
-	};
-	
+		} else if (response != null && response.getStatusLine() != null) {
+      isSuccess = false;
+      SKLogger.e(this, "failed request, response code: " + response.getStatusLine().getStatusCode());
+      try {
+        InputStream content = response.getEntity().getContent();
+        List<String> lines = IOUtils.readLines(content);
+        errorString = "";
+        for (String s : lines) {
+          errorString += "\n" + s;
+        }
+      } catch (Exception e) {
+        SKLogger.sAssert(false);
+      }
+      SKLogger.e(this, errorString);
+    }
+	}
+
 	public String getErrorString() {
 		return errorString;
 	}

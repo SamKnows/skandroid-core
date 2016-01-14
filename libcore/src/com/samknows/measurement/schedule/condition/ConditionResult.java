@@ -59,7 +59,7 @@ public class ConditionResult {
 		
 		outString = b.build();
 		
-		Map<String, Object> j = new HashMap<String, Object>();
+		Map<String, Object> j = new HashMap<>();
 		j.put(JSON_TYPE, id);
 		j.put(JSON_TIMESTAMP, time/1000);
 		j.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));

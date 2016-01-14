@@ -66,7 +66,7 @@ public abstract class UploadTest extends HttpTest {
 			
 	@Override
 	public HashMap<String, String> getResults(){
-		HashMap<String, String> ret = new HashMap<String, String>();
+		HashMap<String, String> ret = new HashMap<>();
 		if (!testStatus.equals("FAIL")) {
 			String[] values = formValuesArr();
 			ret.put("upspeed", values[0]);

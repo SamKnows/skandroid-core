@@ -75,7 +75,7 @@ public class ClosestTarget extends Test {
   }
 
   //Used to collect the results from the individual LatencyTests as soon as the finish
-  public BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<LatencyTest.Result>();
+  public BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<>();
 
   //public ClosestTarget() {
   //	synchronized (ClosestTarget.this) {
@@ -157,7 +157,7 @@ public class ClosestTarget extends Test {
   }
 
   public void setTargetListEmpty() {
-    targets = new ArrayList<String>();
+    targets = new ArrayList<>();
   }
 
 
@@ -212,7 +212,7 @@ public class ClosestTarget extends Test {
 
         Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - success - measuredLatencyMilliseconds = " + measuredLatencyMilliseconds);
 
-        return new Pair<Boolean, Long>(Boolean.valueOf(true), Long.valueOf(measuredLatencyMilliseconds));
+        return new Pair<>(true, measuredLatencyMilliseconds);
       }
 
     } catch (SocketTimeoutException ste) {
@@ -229,7 +229,7 @@ public class ClosestTarget extends Test {
       SKLogger.sAssert(ClosestTarget.class, false);
     }
 
-    return new Pair<Boolean, Long>(Boolean.valueOf(false), Long.valueOf(-100L));
+    return new Pair<>(false, -100L);
   }
 
   private static final String TAG = ClosestTarget.class.getName();
@@ -239,7 +239,7 @@ public class ClosestTarget extends Test {
   }
 
   final int cQueryCountPerServer = 3;
-  ArrayList<Integer> finishedTestsPerServer = new ArrayList<Integer>();
+  ArrayList<Integer> finishedTestsPerServer = new ArrayList<>();
 
   private boolean mbInHttpTestingFallbackMode = false;
   private boolean mbUdpClosestTargetTestSucceeded = false;
@@ -296,9 +296,9 @@ public class ClosestTarget extends Test {
     void doWork() {
 
       Pair<Boolean, Long> latencyQueryResult = ClosestTarget.sGetHttpResponseAndReturnLatencyMilliseconds(urlString);
-      if (latencyQueryResult.first.booleanValue()) {
+      if (latencyQueryResult.first) {
         // Succeeded!
-        measuredLatencyMilliseconds = latencyQueryResult.second.longValue();
+        measuredLatencyMilliseconds = latencyQueryResult.second;
         SKLogger.sAssert(getClass(), measuredLatencyMilliseconds > 0L);
       } else {
         // Failed to get a latency measurement!
@@ -322,7 +322,7 @@ public class ClosestTarget extends Test {
         // Increment "finished" only when the last async test for the server is completed.
         int value = finishedTestsPerServer.get(serverIndex);
         value++;
-        finishedTestsPerServer.set(serverIndex, Integer.valueOf(value));
+        finishedTestsPerServer.set(serverIndex, value);
 
         if (value == cQueryCountPerServer) {
           finished++;
@@ -333,7 +333,7 @@ public class ClosestTarget extends Test {
 
         // Add a new result to the queue for display...
         // Will be ignored if not the best yet!
-        LatencyTest.sCreateAndPushLatencyResultNanoseconds(bq_results, closestTarget, (long) curr_best_Nanoseconds);
+        LatencyTest.sCreateAndPushLatencyResultNanoseconds(bq_results, closestTarget, curr_best_Nanoseconds);
       }
     }
   }
@@ -365,7 +365,7 @@ public class ClosestTarget extends Test {
       int tempIndex;
       for (tempIndex = 0; tempIndex < serverCount; tempIndex++) {
         Log.d(TAG, "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - targets[" + tempIndex + "]=" + targets.get(tempIndex));
-        finishedTestsPerServer.add(Integer.valueOf(0));
+        finishedTestsPerServer.add(0);
       }
     }
 
@@ -376,7 +376,7 @@ public class ClosestTarget extends Test {
     CountDownLatch startSignal = new CountDownLatch(1);
     CountDownLatch queryCompleteCountdown = new CountDownLatch(queriesToRun);
     //queryCompleteCountdown = queriesToRun;
-    ArrayList<Long> bestLatencyMillisecondsPerServer = new ArrayList<Long>();
+    ArrayList<Long> bestLatencyMillisecondsPerServer = new ArrayList<>();
 
     //
     // Fire this off in separate async tasks, and block waiting for them all to complete!
@@ -385,10 +385,10 @@ public class ClosestTarget extends Test {
     int serverIndex;
     for (serverIndex = 0; serverIndex < serverCount; serverIndex++) {
       // -100 means - no successful response - yet!
-      bestLatencyMillisecondsPerServer.add(Long.valueOf(-100L));
+      bestLatencyMillisecondsPerServer.add(-100L);
     }
 
-    ArrayList<WorkerRunner> workerRunnableArray = new ArrayList<WorkerRunner>();
+    ArrayList<WorkerRunner> workerRunnableArray = new ArrayList<>();
 
     for (serverIndex = 0; serverIndex < serverCount; serverIndex++) {
       String target = targets.get(serverIndex);
@@ -454,7 +454,7 @@ public class ClosestTarget extends Test {
       output();
       return ret;
     }
-    ArrayList<Thread> threads = new ArrayList<Thread>();
+    ArrayList<Thread> threads = new ArrayList<>();
     latencyTests = new LatencyTest[targets.size()];
 
     for (int i = 0; i < targets.size(); i++) {
@@ -542,8 +542,8 @@ public class ClosestTarget extends Test {
   }
 
   private void output() {
-    ArrayList<String> o = new ArrayList<String>();
-    Map<String, Object> output = new HashMap<String, Object>();
+    ArrayList<String> o = new ArrayList<>();
+    Map<String, Object> output = new HashMap<>();
     //string id
     o.add(TESTSTRING);
     output.put(JsonData.JSON_TYPE, TESTSTRING);
@@ -576,7 +576,7 @@ public class ClosestTarget extends Test {
   }
 
   private Test[] latencyTests = null;
-  private ArrayList<String> targets = new ArrayList<String>();
+  private ArrayList<String> targets = new ArrayList<>();
   private int nPackets = _NPACKETS;
   private int interPacketTime = _INTERPACKETTIME;
   private int delayTimeout = _DELAYTIMEOUT;

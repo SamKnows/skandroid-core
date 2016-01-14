@@ -1,6 +1,5 @@
 package com.samknows.measurement.activity;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.AlertDialog;

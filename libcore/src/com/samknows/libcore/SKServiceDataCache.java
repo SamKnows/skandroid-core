@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 
 public class SKServiceDataCache {
-	private HashMap<Key, CachedValue> map = new HashMap<Key, CachedValue>();
+	private HashMap<Key, CachedValue> map = new HashMap<>();
 	
 	public void put(String device, int type, String responce, String start) {
 		map.put(new Key(device, type), new CachedValue(responce, System.currentTimeMillis(), start));

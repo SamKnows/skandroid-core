@@ -9,7 +9,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ProxyDetector extends Test{
 
@@ -178,7 +177,7 @@ public class ProxyDetector extends Test{
 		file = f;
 	}
 
-	ArrayList<String> out = new ArrayList<String>();
+	ArrayList<String> out = new ArrayList<>();
 	int port = 80;
 	private String targetIpAddress = "" ;
 	private String seenIp = "NONE";

@@ -8,8 +8,6 @@ import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.ActionBar;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -108,9 +106,9 @@ public class FragmentArchivedResults extends Fragment {
 
   // Complex variables
   // Hosts the archived results
-  private ArrayList<TestResult> aList_ArchivedResults = new ArrayList<TestResult>();
+  private ArrayList<TestResult> aList_ArchivedResults = new ArrayList<>();
   // Temporary list to avoid modified the actual list in background thread which causes IllegalStateException
-  private ArrayList<TestResult> aList_TemporaryArchivedTests = new ArrayList<TestResult>();
+  private ArrayList<TestResult> aList_TemporaryArchivedTests = new ArrayList<>();
   private ArrayAdapter<TestResult> adapter_Archived_Results;
 
   private View mArchiveFilterButton = null;
@@ -310,7 +308,6 @@ public class FragmentArchivedResults extends Fragment {
             rl_main.removeView(listViewRow);      // Remove the view from the layout
           }
 
-          ;
         });
 
         // Hide the passive metrics layout
@@ -323,8 +320,6 @@ public class FragmentArchivedResults extends Fragment {
           public void onAnimationStart(Animator animation) {
             clickedView.setAlpha(1.0f);          // Make the view on the list view visible
           }
-
-          ;
 
           // Executed at the end of the animation
           @Override
@@ -372,7 +367,7 @@ public class FragmentArchivedResults extends Fragment {
     protected Void doInBackground(Void... params) {
       // Clear the values of the temporary list - by completely re-constructing it,
       // to avoid any danger of array adapters sharing list references.
-      aList_TemporaryArchivedTests = new ArrayList<TestResult>();
+      aList_TemporaryArchivedTests = new ArrayList<>();
       //aList_TemporaryArchivedTests.clear();
       // Fill the temporary list
       populateEmptyArchivedTestsList(mSelectedNetworkType, aList_TemporaryArchivedTests);
@@ -438,7 +433,7 @@ public class FragmentArchivedResults extends Fragment {
             // Make sure your adapter calls notifyDataSetChanged() when its content changes.
             // [in ListView(2131165312, class android.widget.ListView) with
             // Adapter(class com.samknows.ui2.activity.AdapterArchivedResultsListView)]
-            aList_ArchivedResults = new ArrayList<TestResult>(aList_TemporaryArchivedTests);
+            aList_ArchivedResults = new ArrayList<>(aList_TemporaryArchivedTests);
             // Refresh the list view
             adapter_Archived_Results = new AdapterArchivedResultsListView(getActivity(), aList_ArchivedResults);
             lv_archived_results.setAdapter(adapter_Archived_Results);
@@ -1171,7 +1166,6 @@ public class FragmentArchivedResults extends Fragment {
 
         default:
           SKLogger.sAssert(getClass(), false);
-          return;
       }
 
     }
@@ -1254,11 +1248,9 @@ public class FragmentArchivedResults extends Fragment {
             });
           }
 
-          ;
         });
       }
 
-      ;
     });
   }
 

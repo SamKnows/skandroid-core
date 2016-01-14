@@ -5,7 +5,7 @@ import java.util.HashMap;
 import android.content.Context;
 
 public class CachingStorage extends Storage{
-	private HashMap<String, Object> cache = new HashMap<String, Object>();
+	private HashMap<String, Object> cache = new HashMap<>();
 	
 	private static CachingStorage instance;
 	private CachingStorage(Context c) {

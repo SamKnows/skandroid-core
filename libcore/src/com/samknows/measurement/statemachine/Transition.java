@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.samknows.measurement.MainService;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.statemachine.state.BaseState;
 import com.samknows.measurement.statemachine.state.ExecuteScheduledTestQueueState;
@@ -47,7 +46,7 @@ public class Transition {
 
   private static final Map<State, String[]> transitionFunction;
   static {
-    Map<State, String[]> tmp= new HashMap<State, String[]>();
+    Map<State, String[]> tmp= new HashMap<>();
     tmp.put(State.NONE, new String[] {"OK:EXECUTE_QUEUE"});
     tmp.put(State.EXECUTE_QUEUE, new String[] {"OK:SUBMIT_RESULTS_ANONYMOUS"});
     tmp.put(State.SUBMIT_RESULTS_ANONYMOUS, new String[] {"OK:SHUTDOWN"});

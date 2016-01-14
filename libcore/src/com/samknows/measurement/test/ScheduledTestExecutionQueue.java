@@ -1,7 +1,6 @@
 package com.samknows.measurement.test;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.PriorityQueue;
 
 import com.samknows.libcore.SKLogger;
@@ -20,7 +19,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 
 	private long startTime;
 	private long endTime; //end time for the queue
-	private PriorityQueue<QueueEntry> entries = new PriorityQueue<QueueEntry>();
+	private PriorityQueue<QueueEntry> entries = new PriorityQueue<>();
 	
 	private transient TestContext tc;
 	

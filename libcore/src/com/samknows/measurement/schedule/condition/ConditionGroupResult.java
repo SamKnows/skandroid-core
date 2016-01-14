@@ -6,8 +6,8 @@ import java.util.List;
 import org.json.JSONObject;
 
 public class ConditionGroupResult extends ConditionResult{
-	public List<String> results = new ArrayList<String>();
-	public List<JSONObject> json_results = new ArrayList<JSONObject>();
+	public List<String> results = new ArrayList<>();
+	public List<JSONObject> json_results = new ArrayList<>();
 	public ConditionGroupResult() {
 		super(true);
 		//setFailQuiet(true); //TODO refactor FailQuiet functionality

@@ -7,8 +7,6 @@ import java.util.List;
 import org.json.JSONObject;
 import org.w3c.dom.Element;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,15 +16,12 @@ import android.os.Looper;
 import android.util.Log;
 import android.util.Pair;
 
-import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.test.TestContext;
-import com.samknows.measurement.util.DCSStringBuilder;
-import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
 
 public class LocationDataCollector extends BaseDataCollector implements LocationListener {
@@ -122,7 +117,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
 					if (lastKnownLocation != null) {
 						sLastKnown = lastKnownLocation;
-						return new Pair<Location, LocationType>(lastKnownLocation, LocationType.gps);
+						return new Pair<>(lastKnownLocation, LocationType.gps);
 					}
 
 				} catch (Exception e) {
@@ -138,7 +133,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
         if (lastKnownLocation != null) {
           sLastKnown = lastKnownLocation;
-          return new Pair<Location, LocationType>(lastKnownLocation, LocationType.network);
+          return new Pair<>(lastKnownLocation, LocationType.network);
         }
 
       } catch (Exception e) {
@@ -323,7 +318,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		if(sLastKnown != null){
 			ret.addAll(locationToPassiveMetric(sLastKnown));
 		}
@@ -338,7 +333,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	//Receive a Location object and returns a JSONObject ready to be inserted in the database
 	//and displayed to the interface
 	private List<JSONObject> locationToPassiveMetric(Location loc){
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.LOCATIONPROVIDER, loc.getTime(), locationType+""));
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.LATITUDE, loc.getTime(), String.format("%1.5f", loc.getLatitude())));	
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.LONGITUDE, loc.getTime(), String.format("%1.5f", loc.getLongitude())));
@@ -380,7 +375,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	}
 	@Override
 	public List<JSONObject> getJSONOutput(){
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		if(getLastKnown && sLastKnown != null){
 			ret.addAll(new LocationData(true, sLastKnown, locationType).convertToJSON());
 		}
@@ -393,7 +388,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 	}
 	
 	public List<DCSData> getPartialData(){
-		List<DCSData> ret = new ArrayList<DCSData>();
+		List<DCSData> ret = new ArrayList<>();
 		synchronized(this){
 			if(getLastKnown && sLastKnown != null){
 				ret.add(new LocationData(true, sLastKnown, locationType));

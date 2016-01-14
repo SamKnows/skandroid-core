@@ -20,7 +20,7 @@ public class ConditionGroup extends Condition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public String id;
-	public List<Condition> conditions = new ArrayList<Condition>();
+	public List<Condition> conditions = new ArrayList<>();
 	public RetryFailAction failAction;
 
 	public static ConditionGroup parseXml(Element node) {
@@ -52,7 +52,7 @@ public class ConditionGroup extends Condition implements Serializable {
 	public ConditionGroupResult doTestBefore(TestContext tc) {
 		Executor executor = Executors.newCachedThreadPool();
 		ConditionGroupResult result = new ConditionGroupResult();
-		List<Future<ConditionResult>> futureResults = new ArrayList<Future<ConditionResult>>();
+		List<Future<ConditionResult>> futureResults = new ArrayList<>();
 
 		// request for result from all conditions
 
@@ -82,7 +82,6 @@ public class ConditionGroup extends Condition implements Serializable {
 				e.printStackTrace();
 				result.isSuccess = false;
 				tc.resultsContainer.addFailedCondition(c);
-			} finally {
 			}
 		}
 		for (Future<ConditionResult> future : futureResults) {
@@ -97,7 +96,6 @@ public class ConditionGroup extends Condition implements Serializable {
 				result.isSuccess = false;
 				tc.resultsContainer
 						.addFailedCondition(ConditionResult.JSON_CRASH);
-			} finally {
 			}
 		}
 

@@ -777,7 +777,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -812,7 +811,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -847,7 +845,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -882,7 +879,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -917,7 +913,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -952,7 +947,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -987,7 +981,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1022,7 +1015,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1057,7 +1049,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1092,7 +1083,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1127,7 +1117,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1162,7 +1151,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1197,7 +1185,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1232,7 +1219,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1267,7 +1253,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1302,7 +1287,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1372,7 +1356,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1407,7 +1390,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1442,7 +1424,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1477,7 +1458,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
@@ -1512,7 +1492,6 @@
                             android:layout_width="fill_parent" >
 
                             <TextView
-                                android:id="@+id/TextView02"
                                 style="@style/column"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"

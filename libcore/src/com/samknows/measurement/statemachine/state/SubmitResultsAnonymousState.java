@@ -3,9 +3,7 @@ package com.samknows.measurement.statemachine.state;
 import android.content.Context;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.net.SubmitTestResultsAnonymousAction;
 import com.samknows.measurement.statemachine.StateResponseCode;

@@ -17,11 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
-import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -227,7 +223,7 @@ public class LatencyTest extends Test {
 	public String getHumanReadableResult() {
 		String ret = "";
 		if (testStatus.equals("FAIL")) {
-			ret = String.format("The latency test has failed.");
+			ret = "The latency test has failed.";
 		} else {
 			// added cast otherwise it will always be 0 or 1;
 			int packetLoss = (int) (100 * (((float) sentPackets - recvPackets) / sentPackets)); 
@@ -268,7 +264,7 @@ public class LatencyTest extends Test {
   // Use getResultLatencyMilliseconds, getResultLossPercent0To100 and getResultJitterMilliseconds instead!
 	@Override
 	public HashMap<String, String> getResults(){
-		HashMap<String, String> ret = new HashMap<String, String>();
+		HashMap<String, String> ret = new HashMap<>();
 		if (!testStatus.equals("FAIL")) {
 			String[] values = formValuesArr();
 			ret.put("latency", values[0]);
@@ -280,8 +276,8 @@ public class LatencyTest extends Test {
 		
 
 	private void output() {
-		Map<String, Object> output = new HashMap<String, Object>();
-		ArrayList<String> o = new ArrayList<String>();
+		Map<String, Object> output = new HashMap<>();
+		ArrayList<String> o = new ArrayList<>();
 		// test string id
 		o.add(STRING_ID);
 		output.put(JsonData.JSON_TYPE, STRING_ID);
@@ -434,7 +430,7 @@ public class LatencyTest extends Test {
 			try {
 				Thread.sleep(millis, nanos);
 			} catch (InterruptedException e) {
-
+				SKLogger.sAssert(false);
 			}
 		}
 	}

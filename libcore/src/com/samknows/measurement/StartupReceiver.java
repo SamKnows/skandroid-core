@@ -1,6 +1,5 @@
 package com.samknows.measurement;
 
-import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.environment.NetUsageCollector;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.util.OtherUtils;

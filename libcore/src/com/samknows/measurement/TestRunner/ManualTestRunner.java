@@ -74,7 +74,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     //
     // We're told to run just a specific test... find it, and use it.
     //
-    ArrayList<TestDescription> filteredArrayOfTestDescriptions = new ArrayList<TestDescription>();
+    ArrayList<TestDescription> filteredArrayOfTestDescriptions = new ArrayList<>();
     // We must ALWAYS start with the closest target test - 29/04/2014 ...
     filteredArrayOfTestDescriptions.add(ret.mTestDescription.get(0));
 
@@ -110,7 +110,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     }
 
     // Add the closest target test
-    List<TestDescription> listOfTestDescriptions = new ArrayList<TestDescription>();
+    List<TestDescription> listOfTestDescriptions = new ArrayList<>();
     listOfTestDescriptions.add(ret.mTestDescription.get(0));
 
     for (TestDescription td : ret.mTestDescription) {
@@ -188,8 +188,8 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     TestContext tc = TestContext.createManualTestContext(ctx);
     long startTime = System.currentTimeMillis();
 
-    List<JSONObject> testsResults = new ArrayList<JSONObject>();
-    List<JSONObject> passiveMetrics = new ArrayList<JSONObject>();
+    List<JSONObject> testsResults = new ArrayList<>();
+    List<JSONObject> passiveMetrics = new ArrayList<>();
 
     JSONObject batch = new JSONObject();
     TestExecutor te = new TestExecutor(tc);
@@ -267,7 +267,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
 //				}
 //			}
 
-      List<JSONObject> currResults = new ArrayList<JSONObject>();
+      List<JSONObject> currResults = new ArrayList<>();
       for (String out : tr.results) {
         List<JSONObject> theResult = StorageTestResult.testOutput(out, te);
         if (theResult != null) {
@@ -357,8 +357,8 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
   // Typically returns just 1 value - might be up to 3 for latency/loss/jitter!
   static private List<JSONObject> progressMessage(TestDescription td,
                                                   TestExecutor te) {
-    List<JSONObject> ret = new ArrayList<JSONObject>();
-    List<String> tests = new ArrayList<String>();
+    List<JSONObject> ret = new ArrayList<>();
+    List<String> tests = new ArrayList<>();
 
     if (td.type.equals(TestFactory.DOWNSTREAMTHROUGHPUT)) {
       tests.add("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt());

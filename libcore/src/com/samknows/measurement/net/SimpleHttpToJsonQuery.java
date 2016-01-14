@@ -1,7 +1,6 @@
 package com.samknows.measurement.net;
 
 import android.net.ParseException;
-import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
@@ -132,7 +131,6 @@ public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
         try {
           mSuccess = processResponse(code, EntityUtils.toString(entity));
           call();
-          return;
 
         } catch (ParseException e) {
           SKLogger.sAssert(false);

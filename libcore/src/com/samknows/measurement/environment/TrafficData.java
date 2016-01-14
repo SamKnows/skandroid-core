@@ -119,20 +119,20 @@ public class TrafficData implements DCSData, Serializable {
 	@Override
 	public List<String> convert() {
 		
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		return new ArrayList<JSONObject>();
+		return new ArrayList<>();
 		
 		
 	}
 
 	@Override
 	public List<JSONObject> convertToJSON() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
-		HashMap<String, Object> jo = new HashMap<String, Object>();
+		List<JSONObject> ret = new ArrayList<>();
+		HashMap<String, Object> jo = new HashMap<>();
 		jo.put(JSON_TYPE, JSON_TYPE_NETUSAGE);
 		jo.put(JSON_TIMESTAMP, time/1000);
 		jo.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));

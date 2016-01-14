@@ -4,21 +4,12 @@ package com.samknows.tests;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,8 +17,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
 
 /*
@@ -448,8 +437,8 @@ public abstract class HttpTest extends Test {
   private void output() {
     //SKLogger.d(this, "HTTP TEST - output()");
 
-    ArrayList<String> o = new ArrayList<String>();
-    Map<String, Object> output = new HashMap<String, Object>();
+    ArrayList<String> o = new ArrayList<>();
+    Map<String, Object> output = new HashMap<>();
     // string id
     o.add(getStringID());
     output.put(JsonData.JSON_TYPE, getStringID());
@@ -552,7 +541,7 @@ public abstract class HttpTest extends Test {
     bytesPerSecondToUse /= 2;
 
     double mbps1000Based = sConvertBytesPerSecondToMbps1000Based(bytesPerSecondToUse);
-    return new Pair<Double, String>(mbps1000Based, sLatestSpeedForExternalMonitorTestId);
+    return new Pair<>(mbps1000Based, sLatestSpeedForExternalMonitorTestId);
   }
 
   public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {

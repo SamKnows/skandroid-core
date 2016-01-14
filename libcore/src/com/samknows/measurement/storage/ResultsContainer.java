@@ -16,8 +16,6 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.schedule.condition.Condition;
-import com.samknows.tests.Param;
-import com.samknows.tests.TestFactory;
 
 public class ResultsContainer {
 
@@ -26,12 +24,12 @@ public class ResultsContainer {
 	public static final String JSON_METRICS = "metrics";
 	public static final String JSON_REQUESTED_TESTS = "requested_tests";
 	public static final String JSON_CONDITION_BREACHES = "condition_breaches";
-	private List<JSONObject> mTests = new ArrayList<JSONObject>();
-	private List<JSONObject> mConditions = new ArrayList<JSONObject>();
-	private List<JSONObject> mMetrics = new ArrayList<JSONObject>();
-	private Map<String, Object> mExtra = new LinkedHashMap<String, Object>();
+	private List<JSONObject> mTests = new ArrayList<>();
+	private List<JSONObject> mConditions = new ArrayList<>();
+	private List<JSONObject> mMetrics = new ArrayList<>();
+	private Map<String, Object> mExtra = new LinkedHashMap<>();
 	private JSONArray mRequestedTests = new JSONArray();
-	private Map<String, String> mConditionBreaches = new HashMap<String,String>();
+	private Map<String, String> mConditionBreaches = new HashMap<>();
 	
 	public ResultsContainer(){
 		
@@ -44,6 +42,7 @@ public class ResultsContainer {
 					return test;
 				}
 			} catch (JSONException e) {
+				SKLogger.sAssert(false);
 			}
 		}
 		
@@ -137,16 +136,16 @@ public class ResultsContainer {
 				ret.put(JSON_REQUESTED_TESTS, mRequestedTests);
 			}
 			if (mConditionBreaches.size() > 0) {
-            	JSONArray conditionBreaches = new JSONArray();
-            
-                Iterator<Entry<String, String>> it = mConditionBreaches.entrySet().iterator();
-                while (it.hasNext()) {
-                    Entry<String,String> pairs = it.next();
-                    conditionBreaches.put(pairs.getKey());
-                }
-            	
-				ret.put(JSON_CONDITION_BREACHES, conditionBreaches);
-			}
+        JSONArray conditionBreaches = new JSONArray();
+
+        Iterator<Entry<String, String>> it = mConditionBreaches.entrySet().iterator();
+        while (it.hasNext()) {
+          Entry<String, String> pairs = it.next();
+          conditionBreaches.put(pairs.getKey());
+        }
+
+        ret.put(JSON_CONDITION_BREACHES, conditionBreaches);
+      }
 			ret.put(JSON_TESTS, tests);
 			ret.put(JSON_METRICS, metrics);
 			ret.put(JSON_CONDITIONS, conditions);

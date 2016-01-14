@@ -6,8 +6,6 @@ import java.io.RandomAccessFile;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
-
 public class CpuUsageReader {
   static final String TAG = "CpuUsageReader";
 

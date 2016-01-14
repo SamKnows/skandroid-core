@@ -52,7 +52,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     super(observer);
 
     mContext = SKApplication.getAppInstance().getApplicationContext();
-    mListDCSData = new ArrayList<DCSData>();
+    mListDCSData = new ArrayList<>();
     mTestContext = TestContext.createBackgroundTestContext(mContext);
     mDBHelper = new DBHelper(mContext);
   }
@@ -144,10 +144,10 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     TestContext tc = mTestContext;
     long startTime = System.currentTimeMillis();
 
-    List<JSONObject> testsResults = new ArrayList<JSONObject>();
-    List<JSONObject> passiveMetrics = new ArrayList<JSONObject>();
+    List<JSONObject> testsResults = new ArrayList<>();
+    List<JSONObject> passiveMetrics = new ArrayList<>();
 
-    HashMap<String, Object> batch = new HashMap<String, Object>();
+    HashMap<String, Object> batch = new HashMap<>();
     TestExecutor te = new TestExecutor(tc);
     batch.put(TestBatch.JSON_DTIME, startTime);
     batch.put(TestBatch.JSON_RUNMANUALLY, "0");
@@ -176,7 +176,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
 
 
   private void startCollectors() {
-    mCollectors = new ArrayList<EnvBaseDataCollector>();
+    mCollectors = new ArrayList<>();
     mCollectors.add(new NetworkDataCollector(mContext));
     mCollectors.add(new CellTowersDataCollector(mContext));
 

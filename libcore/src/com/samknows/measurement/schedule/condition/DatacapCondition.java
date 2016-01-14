@@ -27,7 +27,7 @@ public class DatacapCondition {
 	
 	
 	public JSONObject getCondition(){
-		Map<String, Object> ret = new HashMap<String,Object>();
+		Map<String, Object> ret = new HashMap<>();
 		ret.put(ConditionResult.JSON_TYPE, JSON_DATACAP);
 		ret.put(ConditionResult.JSON_TIMESTAMP, mTimemillis/1000);
 		ret.put(ConditionResult.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mTimemillis)));

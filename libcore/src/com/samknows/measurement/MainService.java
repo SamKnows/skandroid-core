@@ -4,9 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.PowerManager;
 import android.util.Log;
 
@@ -16,7 +14,6 @@ import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.environment.TrafficStatsCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.TestRunner.BackgroundTestRunner;
-import com.samknows.measurement.TestRunner.ContinuousTestRunner;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.util.OtherUtils;
 

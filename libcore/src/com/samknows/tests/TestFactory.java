@@ -5,6 +5,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.tests.Param;
 import com.samknows.tests.HttpTest.UploadStrategy;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -221,7 +222,7 @@ public class TestFactory {
 
 	public static final ArrayList<Param> testConfiguration(
 			List<Param> allParam, String testType) {
-		ArrayList<Param> ret = new ArrayList<Param>();
+		ArrayList<Param> ret = new ArrayList<>();
 		if (testType.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)) {
 			ret = testConfiguration(allParam, HTTPTESTPARAMLIST);
 		} else if (testType.equalsIgnoreCase(LATENCY)) {
@@ -234,11 +235,9 @@ public class TestFactory {
 
 	public static final ArrayList<Param> testConfiguration(
 			List<Param> allParam, String[] configKey) {
-		HashSet<String> toInclude = new HashSet<String>();
-		ArrayList<Param> ret = new ArrayList<Param>();
-		for (String k : configKey) {
-			toInclude.add(k);
-		}
+		HashSet<String> toInclude = new HashSet<>();
+		ArrayList<Param> ret = new ArrayList<>();
+		Collections.addAll(toInclude, configKey);
 		for (Param curr : allParam) {
 			if (toInclude.contains(curr.getName())) {
 				ret.add(curr);

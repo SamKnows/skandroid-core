@@ -15,4 +15,4 @@ public class SuffixButton extends Button{
 	public void setSuffix(String text){
 		suffix = text;
 	}
-};
+}

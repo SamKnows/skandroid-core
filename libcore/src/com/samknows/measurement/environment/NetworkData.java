@@ -60,7 +60,7 @@ public class NetworkData implements DCSData{
   public String wlanCarrier; // e.g. "SK1" ... might be null!
 
 	public List<String> convert() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		
 		DCSStringBuilder builder = new DCSStringBuilder();
 		builder.append(ID_PHONE);
@@ -112,7 +112,7 @@ public class NetworkData implements DCSData{
 	//ret.add(new PassiveMetric());
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.PHONETYPE, time, DCSConvertorUtil.convertPhoneType(phoneType)));
 		ret.add(PassiveMetric.create(PassiveMetric.METRIC_TYPE.NETWORKTYPE, time, DCSConvertorUtil.convertNetworkType(networkType)));
 		if(activeNetworkInfo != null){
@@ -135,7 +135,7 @@ public class NetworkData implements DCSData{
 
 	@Override
 	public List<JSONObject> convertToJSON() {
-		Map<String, Object> ret = new HashMap<String, Object>();
+		Map<String, Object> ret = new HashMap<>();
 		ret.put(JSON_TYPE, JSON_TYPE_VALUE);
 		ret.put(JSON_PHONE_TYPE_CODE, phoneType);
 		ret.put(JSON_PHONE_TYPE, DCSConvertorUtil.convertPhoneType(phoneType));
@@ -161,7 +161,7 @@ public class NetworkData implements DCSData{
       ret.put(JSON_WLAN_CARRIER, wlanCarrier);
     }
 
-		List<JSONObject> l = new ArrayList<JSONObject>();
+		List<JSONObject> l = new ArrayList<>();
 		l.add(new JSONObject(ret));
 		return l;
 	}

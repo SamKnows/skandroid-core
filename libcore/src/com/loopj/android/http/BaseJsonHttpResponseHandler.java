@@ -31,7 +31,7 @@ import org.apache.http.HttpStatus;
  * Throwable, String, Object)}, depending of response HTTP status line (result http code)
  */
 public abstract class BaseJsonHttpResponseHandler<JSON_TYPE> extends TextHttpResponseHandler {
-    private static final String LOG_TAG = "BaseJsonHttpResponseHandler";
+    private static final String LOG_TAG = "BaseJsonHttpResponseH";
 
     /**
      * Creates a new JsonHttpResponseHandler with default charset "UTF-8"

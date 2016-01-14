@@ -51,7 +51,7 @@ import java.util.regex.PatternSyntaxException;
  */
 public abstract class BinaryHttpResponseHandler extends AsyncHttpResponseHandler {
 
-    private static final String LOG_TAG = "BinaryHttpResponseHandler";
+    private static final String LOG_TAG = "BinaryHttpResponseH";
 
     private String[] mAllowedContentTypes = new String[]{
             "image/jpeg",

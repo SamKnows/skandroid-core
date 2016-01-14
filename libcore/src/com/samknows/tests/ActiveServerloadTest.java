@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -514,7 +513,7 @@ public final class ActiveServerloadTest extends UploadTest {
 
 			byte[] buffer = new byte[4000];
 
-			String response = new String();
+			String response = "";
 			int responseCode = 0;
 
 			for (;;) {
@@ -585,5 +584,5 @@ public final class ActiveServerloadTest extends UploadTest {
 			// This must be overridden!
 			SKLogger.sAssert(getClass(),  false);
 		}
-	};	
+	}
 }

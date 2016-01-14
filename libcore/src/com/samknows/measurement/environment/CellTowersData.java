@@ -66,8 +66,8 @@ public class CellTowersData implements DCSData{
 	// time in millseconds
 	public long getTime() {
 		return time;
-	};
-	
+	}
+
 	public void setCellLocation(CellLocation value) {
 		// We might be passed null, if the location is not available currently.
 		// This is perfectly valid!
@@ -83,10 +83,10 @@ public class CellTowersData implements DCSData{
 	// time in millseconds
 	public void setTime(long value) {
 		time = value;
-	};
-	
+	}
+
 	// Note that this value is NEVER allowed to be set null.
-	private List<NeighboringCellInfo> neighbors = new ArrayList<NeighboringCellInfo>(); // TODO - remove me, for testing only!
+	private List<NeighboringCellInfo> neighbors = new ArrayList<>(); // TODO - remove me, for testing only!
 	
 	public void setNeighbors(List<NeighboringCellInfo> inNeighbors) {
 		
@@ -96,7 +96,7 @@ public class CellTowersData implements DCSData{
 		if (inNeighbors == null) {
 			// ... we should trap this where possible in the debugger...
 			SKLogger.sAssert(getClass(), false);
-            neighbors =	new ArrayList<NeighboringCellInfo>();
+            neighbors = new ArrayList<>();
 		} else {
 			neighbors = inNeighbors;
 		}
@@ -108,7 +108,7 @@ public class CellTowersData implements DCSData{
 	public int network_type;
 	@Override
 	public List<String> convert() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		addCellData(list);
 		
 		SKLogger.sAssert(getClass(), (neighbors != null));
@@ -177,7 +177,7 @@ public class CellTowersData implements DCSData{
 	
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 		
 		if (cellLocation == null) {
 			// No location information currently available!
@@ -213,13 +213,13 @@ public class CellTowersData implements DCSData{
 	@SuppressLint("NewApi")
 	@Override
 	public List<JSONObject> convertToJSON() {
-		List<JSONObject> ret = new ArrayList<JSONObject>();
+		List<JSONObject> ret = new ArrayList<>();
 
 		if (cellLocation == null) {
 			// No location information currently available!
 		} else if(cellLocation instanceof GsmCellLocation){
 			GsmCellLocation l = (GsmCellLocation) cellLocation;
-			Map<String, Object> gsm = new HashMap<String, Object>();				
+			Map<String, Object> gsm = new HashMap<>();
 			gsm.put(JSON_TYPE, JSON_TYPE_GSM_CELL_LOCATION);
 			gsm.put(JSON_TIMESTAMP, time/1000);
 			gsm.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));
@@ -238,7 +238,7 @@ public class CellTowersData implements DCSData{
 
 		} else if(cellLocation instanceof CdmaCellLocation){
 			CdmaCellLocation l = (CdmaCellLocation) cellLocation;
-			Map<String, Object> cdma = new HashMap<String, Object>();
+			Map<String, Object> cdma = new HashMap<>();
 			cdma.put(JSON_TYPE,JSON_TYPE_CDMA_CELL_LOCATION);
 			cdma.put(JSON_TIMESTAMP, time/1000);
 			cdma.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));
@@ -261,7 +261,7 @@ public class CellTowersData implements DCSData{
 		SKLogger.sAssert(getClass(), (neighbors != null));
 		if (neighbors != null) {
 			for (NeighboringCellInfo cellInfo : neighbors) {
-				Map<String, Object> neighbour = new HashMap<String, Object>();
+				Map<String, Object> neighbour = new HashMap<>();
 				neighbour.put(JSON_TYPE, JSON_TYPE_CELL_TOWER_NEIGHBOUR);
 				neighbour.put(JSON_TIMESTAMP, time/1000);
 				neighbour.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));

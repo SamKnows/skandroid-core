@@ -10,7 +10,7 @@ public enum State {
 	SHUTDOWN(R.string.state_shutdown);
 	
 	public int sId;
-	private State(int stringId){
+	State(int stringId){
 		sId = stringId;
 	}
 }

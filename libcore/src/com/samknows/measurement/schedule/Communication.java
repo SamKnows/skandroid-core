@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import org.w3c.dom.Element;
 
-import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.OtherUtils;
 
 public class Communication implements Serializable {

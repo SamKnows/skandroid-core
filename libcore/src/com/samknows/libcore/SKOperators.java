@@ -32,8 +32,8 @@ public class SKOperators
 	public enum SKOperators_Return {
 		  SKOperators_Return_NoThrottleQuery,
 		  SKOperators_Return_FiredThrottleQueryAwaitCallback
-	};
-	
+	}
+
 	public class SKThrottledQueryResult {
 
 		public SKOperators_Return returnCode;
@@ -56,7 +56,7 @@ public class SKOperators
 	public interface ISKQueryCompleted
 	{
     	void onQueryCompleted(Exception e, long responseCode, String responseDataAsString);
-	};
+	}
 
 	private Context mContext = null;
 
@@ -185,7 +185,6 @@ public class SKOperators
 		catch (JSONException e)
 		{
 			SKLogger.sAssert(getClass(), false);
-			return;
 		}
 	}
 
@@ -213,9 +212,9 @@ public class SKOperators
 		MessageDigest md = MessageDigest.getInstance("SHA-1");
 		md.update(s.getBytes());
 		byte[] bytes = md.digest();
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < bytes.length; i++) {
-			String tmp = Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1);
+		StringBuilder buffer = new StringBuilder();
+		for (byte aByte : bytes) {
+			String tmp = Integer.toString((aByte & 0xff) + 0x100, 16).substring(1);
 			buffer.append(tmp);
 		}
 		return buffer.toString();

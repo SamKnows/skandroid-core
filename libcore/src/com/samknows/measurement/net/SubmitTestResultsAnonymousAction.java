@@ -6,21 +6,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Callable;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +20,6 @@ import org.json.JSONObject;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.environment.LocationData;
 import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
@@ -42,8 +33,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
-import android.net.ParseException;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -95,7 +84,7 @@ public class SubmitTestResultsAnonymousAction {
     List<JSONObject> batches = dbHelper.getTestBatches();
 
     String[] results = TestResultsManager.getJSONDataAsStringArray(context);
-    List<Integer> fail = new ArrayList<Integer>();
+    List<Integer> fail = new ArrayList<>();
     for (int i = 0; i < results.length; i++) {
       byte[] data = new byte[0];
       try {
@@ -148,7 +137,7 @@ public class SubmitTestResultsAnonymousAction {
       JSONObject jsonObject = new JSONObject();
       jsonObject = new JSONObject(stringBuilder.toString());
 
-      retList = new ArrayList<Address>();
+      retList = new ArrayList<>();
 
       if ("OK".equalsIgnoreCase(jsonObject.getString("status"))
           && (jsonObject.has("results"))
@@ -221,7 +210,7 @@ public class SubmitTestResultsAnonymousAction {
         if (jObject.has("batch_id")) {
           try {
             String batchIdAsString = jObject.getString("batch_id");
-            long thisBatchId = Long.valueOf(batchIdAsString).longValue();
+            long thisBatchId = Long.valueOf(batchIdAsString);
 
             //    					long timeStamp = jObject.getLong("timestamp");
             //    					// Finally - do we have have an entry in the database for this?
@@ -260,11 +249,11 @@ public class SubmitTestResultsAnonymousAction {
               if (metric.getString("type").equals("location")) {
                 if (metric.has("latitude")) {
                   Double latitudeAsDouble = metric.getDouble("latitude");
-                  latitude = Double.valueOf(latitudeAsDouble);
+                  latitude = latitudeAsDouble;
 
                   if (metric.has("longitude")) {
                     Double longitudeAsDouble = metric.getDouble("longitude");
-                    longitude = Double.valueOf(longitudeAsDouble);
+                    longitude = longitudeAsDouble;
                   } else {
                     SKLogger.sAssert(false);
                   }

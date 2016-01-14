@@ -116,7 +116,7 @@ public class SeekBarPreference extends DialogPreference implements
 		mValueText.setText( mPrefix == null ? t: mPrefix.concat(t));
 		if (shouldPersist())
 			persistInt(value);
-		callChangeListener(new Integer(value));
+		callChangeListener(value);
 	}
 
 	public void onStartTrackingTouch(SeekBar seek) {

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
-import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.statemachine.StateResponseCode;

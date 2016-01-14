@@ -16,8 +16,8 @@ public class TestBatch extends JSONObject {
 	private long _starttime;
 	private boolean _run_manually;
 	
-	private Vector<JSONObject> tests = new Vector<JSONObject>();
-	private Vector<JSONObject> metrics = new Vector<JSONObject>();
+	private Vector<JSONObject> tests = new Vector<>();
+	private Vector<JSONObject> metrics = new Vector<>();
 
 	public TestBatch(){
 		_starttime = System.currentTimeMillis();

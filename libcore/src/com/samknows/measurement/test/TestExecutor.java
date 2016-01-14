@@ -483,7 +483,7 @@ public class TestExecutor {
 
 	public ConditionGroupResult executeGroup(TestGroup tg) {
 		long startTime = System.currentTimeMillis();
-		List<TestDescription> tds = new ArrayList<TestDescription>();
+		List<TestDescription> tds = new ArrayList<>();
 		for (SCHEDULE_TEST_ID test_id : tg.testIds) {
 			tds.add(tc.config.findTestById(test_id));
 		}
@@ -498,7 +498,7 @@ public class TestExecutor {
 				executeTest(td, result);
 			}
 		}
-		List<JSONObject> testsResults = new ArrayList<JSONObject>();
+		List<JSONObject> testsResults = new ArrayList<>();
 		for (String out : result.results) {
 			List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult
 					.testOutput(out, this);
@@ -513,7 +513,7 @@ public class TestExecutor {
 			rc.addCondition(result.json_results);
 			cg.release(tc);
 		}
-		List<JSONObject> passiveMetrics = new ArrayList<JSONObject>();
+		List<JSONObject> passiveMetrics = new ArrayList<>();
 		for (BaseDataCollector c : tc.config.dataCollectors) {
 			if (c.isEnabled) {
 				for (JSONObject o : c.getPassiveMetric()) {

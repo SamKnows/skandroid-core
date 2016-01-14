@@ -26,7 +26,7 @@ public class TestResultDataSource {
 	
 	private static final Map<String, Integer> columnIdx;
 	static {
-		Map<String, Integer> tmpMap = new HashMap<String,Integer>();
+		Map<String, Integer> tmpMap = new HashMap<>();
 		for(int i = 0; i < SKSQLiteHelper.TABLE_TESTRESULT_ALLCOLUMNS.length; i++){
 			tmpMap.put(SKSQLiteHelper.TABLE_TESTRESULT_ALLCOLUMNS[i], i);
 		}
@@ -121,7 +121,7 @@ public class TestResultDataSource {
 	
 	
 	public List<AggregateTestResult> getAverageResults(long starttime, long endtime){
-		List<AggregateTestResult> ret = new ArrayList<AggregateTestResult>();
+		List<AggregateTestResult> ret = new ArrayList<>();
 		String selection= String.format(Locale.US, "dtime BETWEEN %d AND %d AND success <> 0", starttime, endtime);
 		String averageColumn = String.format("AVG(%s)",SKSQLiteHelper.TR_COLUMN_RESULT);
 		
@@ -147,7 +147,7 @@ public class TestResultDataSource {
 	}
 	
 	private List<StorageTestResult> getTestResults(String selection, String limit){
-		List<StorageTestResult> ret = new ArrayList<StorageTestResult>();
+		List<StorageTestResult> ret = new ArrayList<>();
 		Cursor cursor = database.query(SKSQLiteHelper.TABLE_TESTRESULT, SKSQLiteHelper.TABLE_TESTRESULT_ALLCOLUMNS,
 				selection, null, null, null, order, limit);
 		cursor.moveToFirst();

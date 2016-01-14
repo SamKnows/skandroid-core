@@ -15,7 +15,7 @@ import java.io.InputStream;
 public abstract class FileAsyncHttpResponseHandler extends AsyncHttpResponseHandler {
 
     private File mFile;
-    private static final String LOG_TAG = "FileAsyncHttpResponseHandler";
+    private static final String LOG_TAG = "FileAsyncHttpResponseH";
 
     /**
      * Obtains new FileAsyncHttpResponseHandler and stores response in passed file

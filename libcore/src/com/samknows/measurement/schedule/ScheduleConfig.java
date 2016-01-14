@@ -73,15 +73,15 @@ public class ScheduleConfig implements Serializable {
   public LocationType locationType;  //location type for data collectors
   public RetryFailAction retryFailAction;
   private boolean backgroundTest = true;
-  public List<ConditionGroup> conditionGroups = new ArrayList<ConditionGroup>();
-  public List<TestDescription> tests = new ArrayList<TestDescription>();
-  public List<TestGroup> backgroundTestGroups = new ArrayList<TestGroup>();
-  public List<TestDescription> manual_tests = new ArrayList<TestDescription>();
-  public List<TestDescription> continuous_tests = new ArrayList<TestDescription>();
+  public List<ConditionGroup> conditionGroups = new ArrayList<>();
+  public List<TestDescription> tests = new ArrayList<>();
+  public List<TestGroup> backgroundTestGroups = new ArrayList<>();
+  public List<TestDescription> manual_tests = new ArrayList<>();
+  public List<TestDescription> continuous_tests = new ArrayList<>();
   public String manual_test_condition_group_id;
-  public List<BaseDataCollector> dataCollectors = new ArrayList<BaseDataCollector>();
-  public HashMap<String, String> hosts = new HashMap<String, String>();
-  public HashMap<String, Communication> communications = new HashMap<String, Communication>();
+  public List<BaseDataCollector> dataCollectors = new ArrayList<>();
+  public HashMap<String, String> hosts = new HashMap<>();
+  public HashMap<String, Communication> communications = new HashMap<>();
   public long maximumTestUsage = 0;
 
   public enum TestAlarmType {
@@ -155,7 +155,7 @@ public class ScheduleConfig implements Serializable {
    * Returns the test batch to be run in the RunTestActivity
    */
   public List<TestDescription> testGroup() {
-    List<TestDescription> ret = new ArrayList<TestDescription>();
+    List<TestDescription> ret = new ArrayList<>();
     //Closest Target
     TestDescription td = findTestForType(SKConstants.TEST_TYPE_CLOSEST_TARGET);
     if (td != null) {
@@ -229,7 +229,7 @@ public class ScheduleConfig implements Serializable {
     c.retryFailAction = RetryFailAction.parseXml((Element) node.getElementsByTagName(ONFAIL_TEST_ACTION).item(0));
 
     //conditions
-    c.conditionGroups = new ArrayList<ConditionGroup>();
+    c.conditionGroups = new ArrayList<>();
     NodeList conditionGroups = node.getElementsByTagName(CONDITION_GROUP);
     for (int i = 0; i < conditionGroups.getLength(); i++) {
       Element conditionGroupNode = (Element) conditionGroups.item(i);
@@ -240,7 +240,7 @@ public class ScheduleConfig implements Serializable {
     }
 
     //tests
-    c.tests = new ArrayList<TestDescription>();
+    c.tests = new ArrayList<>();
     NodeList tests = null;
     for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
       if (child instanceof Element && child.getNodeName().equals(TESTS)) {
@@ -257,7 +257,7 @@ public class ScheduleConfig implements Serializable {
     }
 
     //tests groups
-    c.backgroundTestGroups = new ArrayList<TestGroup>();
+    c.backgroundTestGroups = new ArrayList<>();
     NodeList tests_groups = node.getElementsByTagName(SCHEDULED_TESTS);
     if (tests_groups.getLength() == 1) {
       tests_groups = ((Element) tests_groups.item(0)).getElementsByTagName(BATCH);
@@ -315,7 +315,7 @@ public class ScheduleConfig implements Serializable {
     }
 
     //data-collectors
-    c.dataCollectors = new ArrayList<BaseDataCollector>();
+    c.dataCollectors = new ArrayList<>();
     NodeList dataCollectors = node.getElementsByTagName(DATA_COLLECTOR);
     for (int i = 0; i < dataCollectors.getLength(); i++) {
       Element e = (Element) dataCollectors.item(i);

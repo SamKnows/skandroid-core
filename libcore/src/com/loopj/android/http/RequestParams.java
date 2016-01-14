@@ -436,14 +436,14 @@ public class RequestParams {
     }
 
     private void init() {
-        urlParams = new ConcurrentHashMap<String, String>();
-        streamParams = new ConcurrentHashMap<String, StreamWrapper>();
-        fileParams = new ConcurrentHashMap<String, FileWrapper>();
-        urlParamsWithObjects = new ConcurrentHashMap<String, Object>();
+        urlParams = new ConcurrentHashMap<>();
+        streamParams = new ConcurrentHashMap<>();
+        fileParams = new ConcurrentHashMap<>();
+        urlParamsWithObjects = new ConcurrentHashMap<>();
     }
 
     protected List<BasicNameValuePair> getParamsList() {
-        List<BasicNameValuePair> lparams = new LinkedList<BasicNameValuePair>();
+        List<BasicNameValuePair> lparams = new LinkedList<>();
 
         for (ConcurrentHashMap.Entry<String, String> entry : urlParams.entrySet()) {
             lparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
@@ -455,10 +455,10 @@ public class RequestParams {
     }
 
     private List<BasicNameValuePair> getParamsList(String key, Object value) {
-        List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+        List<BasicNameValuePair> params = new LinkedList<>();
         if (value instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) value;
-            List<String> list = new ArrayList<String>(map.keySet());
+            List<String> list = new ArrayList<>(map.keySet());
             // Ensure consistent ordering in query string
             Collections.sort(list);
             for (String nestedKey : list) {

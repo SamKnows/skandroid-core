@@ -19,19 +19,8 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
- 
-import org.apache.http.HttpVersion;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
+
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HTTP;
 
 import com.samknows.libcore.SKLogger;
 
@@ -100,7 +89,7 @@ public class MySSLSocketFactory extends SSLSocketFactory {
 		try {
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			caInput = new BufferedInputStream(cert);
-			ca = (Certificate) cf.generateCertificate(caInput);
+			ca = cf.generateCertificate(caInput);
 		} catch (CertificateException e1) {
 			SKLogger.sAssert(MySSLSocketFactory.class, false);
 		} finally {
@@ -120,7 +109,7 @@ public class MySSLSocketFactory extends SSLSocketFactory {
 			keyStore = KeyStore.getInstance(keyStoreType);
 			keyStore.load(null, null);
 			keyStore.setCertificateEntry("ca",
-					(java.security.cert.Certificate) ca);
+          ca);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

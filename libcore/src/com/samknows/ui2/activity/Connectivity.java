@@ -1,6 +1,5 @@
 package com.samknows.ui2.activity;
 
-import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.NetworkDataCollector;

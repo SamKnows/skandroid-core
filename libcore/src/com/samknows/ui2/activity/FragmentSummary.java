@@ -81,7 +81,7 @@ public class FragmentSummary extends Fragment {
   private boolean isListviewHidden = false;    // If true, the list view is hidden, if false, the list view is shown.
   private long startTime;
 
-  private ArrayList<SummaryResult> aList_SummaryResults = new ArrayList<SummaryResult>();  // List of the summary results
+  private ArrayList<SummaryResult> aList_SummaryResults = new ArrayList<>();  // List of the summary results
 
   // UI elements
   private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin, typeface_Roboto_Regular;
@@ -661,7 +661,6 @@ public class FragmentSummary extends Fragment {
             doUpdateToolbarSetIsListViewHidden(false);
           }
 
-          ;
         });
       }
     });
@@ -1284,7 +1283,6 @@ public class FragmentSummary extends Fragment {
                   doUpdateToolbarSetIsListViewHidden(true);
                 }
 
-                ;
               });
             }
             // Change the value of the variable to the opposite. This is if we were showing the graphs set to not showing them and reverse.

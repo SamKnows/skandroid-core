@@ -2,10 +2,6 @@ package com.samknows.measurement.activity.components;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.MotionEvent;
 import android.view.View;
 
 // http://stackoverflow.com/questions/2646028/android-horizontalscrollview-within-scrollview-touch-handling
