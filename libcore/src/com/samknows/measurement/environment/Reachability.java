@@ -52,10 +52,17 @@ public class Reachability {
     return false;
   }
 
-  public static boolean sGetIsConnectedToWiFi() {
-    // Add WIFI metrics!
+  public static boolean sGetIsNetworkWiFi() {
     Context context = SKApplication.getAppInstance();
-    //TelephonyManager mTelManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    NetworkInfo info = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+    if (info != null) {
+      return info.getType() == ConnectivityManager.TYPE_WIFI;
+    }
+    return false;
+  }
+
+  public static boolean sGetIsNetworkConnectedToWiFi() {
+    Context context = SKApplication.getAppInstance();
     ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     if (connManager != null && wifiManager != null) {
@@ -75,4 +82,5 @@ public class Reachability {
   public static boolean sCheckIfIsConnectedAndIfNotShowAnAlert(Activity activity) {
     return sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(activity, false);
   }
+
 }

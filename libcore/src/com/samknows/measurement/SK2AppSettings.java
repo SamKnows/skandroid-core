@@ -20,13 +20,13 @@ import android.util.Log;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
+import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.schedule.ScheduleConfig.TestAlarmType;
 import com.samknows.measurement.statemachine.State;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.TimeUtils;
-import com.samknows.measurement.util.OtherUtils;
 
 public class SK2AppSettings extends SKAppSettings {
 	private static final String TAG = SK2AppSettings.class.getName();
@@ -186,7 +186,7 @@ public class SK2AppSettings extends SKAppSettings {
 	}
 
 	public void appendUsedBytes(long bytes) {
-		if(OtherUtils.isWifi(ctx)){
+		if(Reachability.sGetIsNetworkWiFi()){
 			return;
 		}
 		resetDataUsageIfTime();
@@ -242,7 +242,7 @@ public class SK2AppSettings extends SKAppSettings {
 	}
 	
 	public boolean isDataCapAlreadyReached(){
-		if(OtherUtils.isWifi(ctx)){	
+		if(Reachability.sGetIsNetworkWiFi()){
 			return false;
 		}
 		resetDataUsageIfTime();
@@ -262,7 +262,7 @@ public class SK2AppSettings extends SKAppSettings {
 	}
 	
 	public boolean isDataCapLikelyToBeReached(long bytesToBeUsed){
-		if(OtherUtils.isWifi(ctx)){	
+		if(Reachability.sGetIsNetworkWiFi()){
 			return false;
 		}
 		resetDataUsageIfTime();

@@ -182,14 +182,6 @@ public class OtherUtils {
 		return tm.isNetworkRoaming();
 	}
 
-	public static boolean isWifi(Context ctx) {
-		NetworkInfo info = ((ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-		if (info != null) {
-			return info.getType() == ConnectivityManager.TYPE_WIFI;
-		}
-		return false;
-	}
-
   public static boolean isPhoneAssosiated(Context ctx) {
 		String imei = PhoneIdentityDataCollector.getImei(ctx);
 		for (DeviceDescription dd : SK2AppSettings.getInstance().getDevices()) {
