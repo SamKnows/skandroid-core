@@ -1,5 +1,6 @@
 package com.samknows.tests;
 
+import android.os.Debug;
 import android.support.v4.BuildConfig;
 import android.util.Log;
 
@@ -85,7 +86,9 @@ public final class DownloadTest extends HttpTest {
 
 	private boolean getTransmissionDone(boolean isWarmup, int readBytes) {
 		if (getShouldCancel()) {
-			Log.d("REMOVE ME", "Download - getTransmissionDone - cancel test!");
+			if (Debug.isDebuggerConnected()) {
+				Log.d("DEBUG", "Download - getTransmissionDone - cancel test!");
+			}
 			return true;
 		}
 
