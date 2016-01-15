@@ -1050,15 +1050,7 @@ public abstract class HttpTest extends Test {
     return sGetBytesPerSecondWithMicroDuration(durationMicro, btsTotal);
   }
 
-  private boolean mbShouldCancel = false;
 
-  public boolean getShouldCancel() {
-    return mbShouldCancel;
-  }
-
-  public void setShouldCancel() {
-    mbShouldCancel = true;
-  }
 
   private int mSocketTimeoutMilliseconds = WRITETIMEOUT;
   public int getSocketTimeoutMilliseconds() {

@@ -1,6 +1,9 @@
 package com.samknows.tests;
 
 //import android.annotation.SuppressLint;
+import android.os.Debug;
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -394,6 +397,13 @@ public class LatencyTest extends Test {
 				} while (answer.magic != UdpDatagram.SERVERTOCLIENTMAGIC || answer.datagramid != i);
 				answerTime = System.nanoTime();
 				recvPackets++;
+
+				if (getShouldCancel()) {
+					if (Debug.isDebuggerConnected()) {
+						Log.d("DEBUG", "Latency - run - cancel test!");
+					}
+					break;
+				}
 			} catch (SocketTimeoutException e) {
 				continue;
 			} catch (IOException e) {

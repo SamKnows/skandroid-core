@@ -8,62 +8,9 @@ import org.json.JSONObject;
 
 import com.samknows.libcore.SKLogger;
 
-//Base class for the tests 
-
-/*	 
-	public static final String TESTTYPE = "testType";
-public static final String TYPE = "type";
-public static final String DTIME = "datetime";
-public static final String TARGET = "target";
-public static final String SUCCESS = "success";
-public static final String METRIC = "metric";
-
-public enum POSITION {	INTERNAL, TRIGGER, EXTERNAL }
-protected enum TEST_STRING { DOWNLOAD_SINGLE_SUCCESS, DOWNLOAD_MULTI_SUCCESS, DOWNLOAD_FAILED, UPLOAD_SINGLE_SUCCESS, UPLOAD_MULTI_SUCCESS, UPLOAD_FAILED, LATENCY_SUCCESS, LATENCY_FAILED, NONE }
-
-HashMap<String, String> testDigest = new HashMap<String, String>();
-
-protected void setDigestType(String type){					testDigest.put(TYPE, type);			}
-protected void setDigestDatetime(long dtime){				testDigest.put(DTIME, dtime+"");	}
-protected void setDigestTarget(String target){				testDigest.put(TARGET, target);		}
-protected void setDigestMetric(double metric){				testDigest.put(METRIC, metric+"");	}
-protected void setDigestSuccess(boolean succ){				testDigest.put(SUCCESS, succ+"");	}
-
-public HashMap<String, String> getTestDigest() { return testDigest;	}
-
-public void setRunMessage(String m) { 		runMessage = m; 	}
-public String getRunMessage() {				return runMessage;	}
-public void setDoneMessage(String m) {		doneMessage = m;	}
-public String getDoneMessage() {			return doneMessage;	}
-
-public synchronized STATUS getStatus() { 	return status;	}
-public synchronized boolean isFinished() {	return status == STATUS.DONE; }
-
-	String runMessage = "";
-	String doneMessage = "";
-	String result;
-	String targetServer;
-	
-		public String getError() {												 If the test fails the return string should contain the reason; If it succeeds return empty String 
-		String ret = "";
-		synchronized (errorString) {
-			ret = errorString;
-		}
-		return ret;
-	}
-	
-	//abstract public String getResultsAsString();							// New Human readable implementation 
-	//abstract public String getResults(String locale);
-
-
-	//Used in ExportFile Class	
-//	public static final String JSON_TYPE = "type";
-//	public static final String JSON_TIMESTAMP = "timestamp";
-//	public static final String JSON_DATETIME = "datetime";
-//	public static final String JSON_TARGET = "target";
-//	public static final String JSON_TARGET_IPADDRESS = "target_ipaddress";
-//	public static final String JSON_SUCCESS = "success";
-*/	
+//
+// Base class for the tests
+//
 
 abstract public class Test implements Runnable {
 	private String[] outputFields = null;
@@ -167,4 +114,19 @@ abstract public class Test implements Runnable {
 			errorString = error;
 		}
 	}
+
+	//region Test Cancel control
+	// The PassiveServerUploadTest, DownloadTest, LatencyTest classes all detect this stage and allow quick Cancelling of the test
+	// even while it is running.
+  // Other implements of Test (e.g. ActivServerloadTest) do not yet support this approach.
+	private boolean mbShouldCancel = false;
+
+	public boolean getShouldCancel() {
+		return mbShouldCancel;
+	}
+
+	public void setShouldCancel() {
+		mbShouldCancel = true;
+	}
+	//endregion Test Cancel control
 }
