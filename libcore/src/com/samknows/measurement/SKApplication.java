@@ -20,9 +20,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-public class SKApplication extends Application{
+public class SKApplication extends MultiDexApplication {
 
 	static private SKApplication sAppInstance = null;
 

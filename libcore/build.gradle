@@ -63,3 +63,6 @@ android {
         release.setRoot('build-types/release')
     }
 }
+dependencies {
+    compile 'com.android.support:multidex:1.0.1'
+}
