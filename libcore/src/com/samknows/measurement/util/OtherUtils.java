@@ -55,7 +55,11 @@ public class OtherUtils {
 			return bytes + "B";
 		}
 	}
-	
+
+	public static double sConvertMbps1024BasedToBytesPerSecond(double bytesPerSecond) {
+    return bytesPerSecond * (1024.0 * 1024.0) / 8.0;
+	}
+
 	public static double sConvertBytesPerSecondToMbps1024Based(double bytesPerSecond) {
 		  return bytesPerSecond * 8.0 / (1024.0 * 1024.0);
 	}
