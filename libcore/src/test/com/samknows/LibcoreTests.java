@@ -14,7 +14,7 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricGradleTestRunner.class)
 //@Config(constants = BuildConfig.class,application = SKMobileApplication.class, sdk = 19)
 @Config(constants = BuildConfig.class, sdk = 19)
-public class LibcoreTest {
+public class LibcoreTests {
 
   @org.junit.Before
   public void setUp() throws Exception {
