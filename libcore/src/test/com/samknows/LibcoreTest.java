@@ -27,7 +27,8 @@ public class LibcoreTest {
   }
 
   @org.junit.Test
-  public void testDummy() throws Exception {
+  public void libcoreMain() throws Exception {
+    // TODO - this is a dummy test ... extend it!
     org.junit.Assert.assertTrue("Dummy", true);
   }
 }
