@@ -1,11 +1,11 @@
 package com.samknows.measurement.environment;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.net.SimpleHttpToJsonQuery;
+import com.samknows.libcore.SKSimpleHttpToJsonQuery;
 
 import org.json.JSONException;
 
-public abstract class QueryWlanCarrier extends SimpleHttpToJsonQuery {
+public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery {
 
   public QueryWlanCarrier() {
     super("http://dcs-mobile-fcc.samknows.com/mobile/lookup.php", null);

@@ -1,4 +1,4 @@
-package com.samknows.measurement.net;
+package com.samknows.libcore;
 
 import android.net.ParseException;
 import android.util.Pair;
@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-public abstract class SimpleHttpToJsonQuery implements Callable<Void> {
+public abstract class SKSimpleHttpToJsonQuery implements Callable<Void> {
   String mFullUploadUrl = null;
   byte[] mOptionalContentData = null;
   protected JSONObject mJSONResponse = null;
   protected boolean mSuccess = false;
   ArrayList<Pair<String,String>> mOptionalHeaderFields = null;
 
-  public SimpleHttpToJsonQuery(String fullUploadUrl, byte[] optionalContentData) {
+  public SKSimpleHttpToJsonQuery(String fullUploadUrl, byte[] optionalContentData) {
     mFullUploadUrl = fullUploadUrl;
     mOptionalContentData = optionalContentData;
     this.mJSONResponse = null;

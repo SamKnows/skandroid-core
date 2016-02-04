@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKSimpleHttpToJsonQuery;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.LocationDataCollector;
@@ -407,7 +408,7 @@ public class SubmitTestResultsAnonymousAction {
 
     isSuccess = false;
 
-    SimpleHttpToJsonQuery httpToJsonQuery = new SimpleHttpToJsonQuery(fullUploadUrl, data) {
+    SKSimpleHttpToJsonQuery httpToJsonQuery = new SKSimpleHttpToJsonQuery(fullUploadUrl, data) {
       @Override
       public Void call() throws Exception {
         if (finalBatchId != -1) {
