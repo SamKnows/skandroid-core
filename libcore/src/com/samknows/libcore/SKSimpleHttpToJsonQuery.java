@@ -24,13 +24,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SKSimpleHttpToJsonQuery {
-  String mFullUploadUrl = null;
-  byte[] mOptionalContentData = null;
+  private String mFullUploadUrl = null;
+  private byte[] mOptionalContentData = null;
   private JSONObject mJSONResponse = null;
-  protected boolean mSuccess = false;
-  ArrayList<Pair<String,String>> mOptionalHeaderFields = null;
+  private boolean mSuccess = false;
+  private ArrayList<Pair<String,String>> mOptionalHeaderFields = null;
   protected QueryCompletion mQueryCompletion = null;
-
 
   public interface QueryCompletion {
     void OnQueryCompleted(boolean queryWasSuccessful, final JSONObject jsonResponse);
