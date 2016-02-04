@@ -4,11 +4,13 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKSimpleHttpToJsonQuery;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
-public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery {
+public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery implements SKSimpleHttpToJsonQuery.QueryCompletion {
 
   public QueryWlanCarrier() {
-    super("http://dcs-mobile-fcc.samknows.com/mobile/lookup.php", null);
+    super("http://dcs-mobile-fcc.samknows.com/mobile/lookup.php", null, null);
+    super.mQueryCompletion = this;
   }
 
   abstract public void doHandleGotWlanCarrier(String wlanCarrier);
@@ -19,10 +21,10 @@ public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery {
   }
 
   @Override
-  public Void call() throws Exception {
+  public void OnQueryCompleted(boolean queryWasSuccessful, final JSONObject jsonResponse) {
 
     try {
-      String wlanCarrier = mJSONResponse.getString("organization");
+      String wlanCarrier = jsonResponse.getString("organization");
 
       // TODO - we have the response here!
 
@@ -31,7 +33,5 @@ public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery {
     } catch (JSONException e) {
       SKLogger.sAssert(getClass(), false);
     }
-
-    return null;
   }
 }

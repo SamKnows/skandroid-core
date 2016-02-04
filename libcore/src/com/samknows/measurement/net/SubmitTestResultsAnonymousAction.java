@@ -408,9 +408,9 @@ public class SubmitTestResultsAnonymousAction {
 
     isSuccess = false;
 
-    SKSimpleHttpToJsonQuery httpToJsonQuery = new SKSimpleHttpToJsonQuery(fullUploadUrl, data) {
+    SKSimpleHttpToJsonQuery httpToJsonQuery = new SKSimpleHttpToJsonQuery(fullUploadUrl, data, new SKSimpleHttpToJsonQuery.QueryCompletion() {
       @Override
-      public Void call() throws Exception {
+      public void OnQueryCompleted(boolean queryWasSuccessful, final JSONObject jsonResponse) {
         if (finalBatchId != -1) {
           isSuccess = true;
 
@@ -418,7 +418,7 @@ public class SubmitTestResultsAnonymousAction {
           try {
             item1.put(PassiveMetric.JSON_METRIC_NAME, "public_ip");
             item1.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
-            item1.put(PassiveMetric.JSON_VALUE, mJSONResponse.get("public_ip"));
+            item1.put(PassiveMetric.JSON_VALUE, jsonResponse.get("public_ip"));
             item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.PUBLICIP);
           } catch (JSONException e) {
             SKLogger.sAssert(getClass(), false);
@@ -429,11 +429,11 @@ public class SubmitTestResultsAnonymousAction {
           try {
             item2.put(PassiveMetric.JSON_METRIC_NAME, "submission_id");
             item2.put(PassiveMetric.JSON_DTIME, System.currentTimeMillis());
-            item2.put(PassiveMetric.JSON_VALUE, mJSONResponse.get("submission_id"));
+            item2.put(PassiveMetric.JSON_VALUE, jsonResponse.get("submission_id"));
             item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.SUBMISSIONID);
 
-            SKApplication.getAppInstance().mLastPublicIp = mJSONResponse.get("public_ip").toString();
-            SKApplication.getAppInstance().mLastSubmissionId = mJSONResponse.get("submission_id").toString();
+            SKApplication.getAppInstance().mLastPublicIp = jsonResponse.get("public_ip").toString();
+            SKApplication.getAppInstance().mLastSubmissionId = jsonResponse.get("submission_id").toString();
           } catch (JSONException e) {
             SKLogger.sAssert(getClass(), false);
           }
@@ -447,9 +447,9 @@ public class SubmitTestResultsAnonymousAction {
           // Force the History screen to re-query, so it can show the submission id/public ip
           LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
         }
-        return null;
+
       }
-    };
+    });
 
     httpToJsonQuery.doPerformQuery();
 

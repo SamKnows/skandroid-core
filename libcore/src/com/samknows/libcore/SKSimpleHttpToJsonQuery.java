@@ -22,19 +22,26 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
-public abstract class SKSimpleHttpToJsonQuery implements Callable<Void> {
+public class SKSimpleHttpToJsonQuery {
   String mFullUploadUrl = null;
   byte[] mOptionalContentData = null;
-  protected JSONObject mJSONResponse = null;
+  private JSONObject mJSONResponse = null;
   protected boolean mSuccess = false;
   ArrayList<Pair<String,String>> mOptionalHeaderFields = null;
+  protected QueryCompletion mQueryCompletion = null;
 
-  public SKSimpleHttpToJsonQuery(String fullUploadUrl, byte[] optionalContentData) {
+
+  public interface QueryCompletion {
+    void OnQueryCompleted(boolean queryWasSuccessful, final JSONObject jsonResponse);
+  }
+
+  public SKSimpleHttpToJsonQuery(String fullUploadUrl, byte[] optionalContentData, QueryCompletion queryCompletion) {
     mFullUploadUrl = fullUploadUrl;
     mOptionalContentData = optionalContentData;
     this.mJSONResponse = null;
+    mQueryCompletion = queryCompletion;
+    //SKLogger.sAssert(mQueryCompletion != null);
   }
 
   public void setOptionalHeaderFields(ArrayList<Pair<String,String>> values) {
@@ -130,25 +137,26 @@ public abstract class SKSimpleHttpToJsonQuery implements Callable<Void> {
       if (entity != null) {
         try {
           mSuccess = processResponse(code, EntityUtils.toString(entity));
-          call();
-
         } catch (ParseException e) {
           SKLogger.sAssert(false);
-          call();
         } catch (IOException e) {
           SKLogger.sAssert(false);
-          call();
+        } finally {
+          if (mQueryCompletion != null) {
+            mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
+          }
         }
       } else {
         SKLogger.sAssert(false);
-        call();
+        mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
       }
     } catch (Exception e) {
       SKLogger.sAssert(false);
       try {
-        call();
+        mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
       } catch (Exception e1) {
         SKLogger.sAssert(false);
+        mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
       }
     }
   }
