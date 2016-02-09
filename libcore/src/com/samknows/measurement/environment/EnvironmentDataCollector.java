@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.TestRunner.TestContext;
 
 public class EnvironmentDataCollector extends BaseDataCollector{
 	private static final long serialVersionUID = 1L;

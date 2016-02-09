@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.SimpleFuture;
 
 public abstract class Condition implements Serializable{

@@ -5,7 +5,7 @@ import android.content.Context;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.state.StateEnum;
 import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.statemachine.Transition;
 import com.samknows.measurement.statemachine.state.BaseState;
@@ -33,12 +33,12 @@ public class BackgroundTestRunner  extends SKTestRunner  {
 
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
     Transition t = Transition.create(appSettings);
-    State state = appSettings.getState();
+    StateEnum state = appSettings.getState();
     SKLogger.d(this, "starting routine from state: " + state);
 
     long accumulatedTestBytes = 0;
 
-    while (state != State.SHUTDOWN) {
+    while (state != StateEnum.SHUTDOWN) {
       SKLogger.d(this, "executing state: " + state);
       StateResponseCode code;
       try {
@@ -53,7 +53,7 @@ public class BackgroundTestRunner  extends SKTestRunner  {
       }
       SKLogger.d(this, "finished state, code: " + code);
       if (code == StateResponseCode.FAIL) {
-        appSettings.saveState(State.NONE);
+        appSettings.saveState(StateEnum.NONE);
         SKLogger.e(this, "fail to startTestRunning_RunToEndBlocking state: " + state + ", reschedule");
         OtherUtils.rescheduleRTC(mContext, appSettings.rescheduleTime);
         setStateChangeToUIHandler(TestRunnerState.STOPPED);

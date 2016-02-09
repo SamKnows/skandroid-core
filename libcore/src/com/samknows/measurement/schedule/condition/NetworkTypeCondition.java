@@ -10,7 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.DCSConvertorUtil;
 
 public class NetworkTypeCondition extends Condition{

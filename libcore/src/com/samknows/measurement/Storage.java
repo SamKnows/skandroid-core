@@ -15,7 +15,7 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.environment.TrafficData;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.test.ScheduledTestExecutionQueue;
+import com.samknows.measurement.statemachine.ScheduledTestExecutionQueue;
 
 public class Storage {
   private Context c;

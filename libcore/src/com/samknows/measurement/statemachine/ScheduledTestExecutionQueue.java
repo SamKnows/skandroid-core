@@ -1,4 +1,4 @@
-package com.samknows.measurement.test;
+package com.samknows.measurement.statemachine;
 
 import java.io.Serializable;
 import java.util.PriorityQueue;
@@ -11,6 +11,8 @@ import com.samknows.measurement.schedule.TestGroup;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.schedule.condition.DatacapCondition;
 import com.samknows.measurement.schedule.failaction.RetryFailAction;
+import com.samknows.measurement.TestRunner.TestContext;
+import com.samknows.measurement.TestRunner.TestExecutor;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.TimeUtils;
 

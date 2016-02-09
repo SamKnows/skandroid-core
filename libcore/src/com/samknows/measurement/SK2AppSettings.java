@@ -24,7 +24,7 @@ import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.schedule.ScheduleConfig.TestAlarmType;
-import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.state.StateEnum;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.measurement.util.TimeUtils;
 
@@ -132,16 +132,16 @@ public class SK2AppSettings extends SKAppSettings {
 	}
 		
 
-	public void saveState(State state) {
+	public void saveState(StateEnum state) {
 		saveString(SKConstants.PREF_KEY_STATE, String.valueOf(state));
 	}
 	
-	public State getState() {
-		State ret = State.NONE;
+	public StateEnum getState() {
+		StateEnum ret = StateEnum.NONE;
 
 		String state = getString(SKConstants.PREF_KEY_STATE);
 		if (state != null) {
-			for(State s:State.values()){
+			for(StateEnum s: StateEnum.values()){
 				if(state.equalsIgnoreCase(String.valueOf(s))){
 					ret = s;
 					break;

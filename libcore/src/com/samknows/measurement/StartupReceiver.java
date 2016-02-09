@@ -1,7 +1,7 @@
 package com.samknows.measurement;
 
 import com.samknows.measurement.environment.NetUsageCollector;
-import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.state.StateEnum;
 import com.samknows.measurement.util.OtherUtils;
 
 import android.content.BroadcastReceiver;
@@ -19,8 +19,8 @@ public class StartupReceiver extends BroadcastReceiver{
 		long nextRunTime = a.getNextRunTime();
 		//if the nextRunTime is in the past or too close restart the state machne
 		if(nextRunTime < System.currentTimeMillis() - a.getTestStartWindow()){
-			a.saveState(State.NONE);
-			Log.d(TAG, "State saved, None");
+			a.saveState(StateEnum.NONE);
+			Log.d(TAG, "StateEnum saved, None");
 			MainService.poke(context);
 		}else{
 			//in this case we just set the alarm

@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import android.util.Log;
 
 import com.samknows.measurement.environment.linux.CpuUsageReader;
-import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
 

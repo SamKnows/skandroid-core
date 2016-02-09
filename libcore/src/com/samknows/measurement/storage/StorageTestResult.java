@@ -13,7 +13,7 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.test.TestExecutor;
+import com.samknows.measurement.TestRunner.TestExecutor;
 import com.samknows.measurement.util.SKDateFormat;
 
 //Model for the test_result table in the SQLite database 

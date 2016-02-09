@@ -1,7 +1,6 @@
 package com.samknows.libcore;
 
 import com.samknows.libcore.SKServiceDataCache.CachedValue;
-import com.samknows.measurement.test.ScheduledTestExecutionQueue;
 
 import org.robolectric.RobolectricTestRunner;
 import org.junit.Test;

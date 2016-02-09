@@ -14,7 +14,7 @@ import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.environment.TrafficStatsCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.TestRunner.BackgroundTestRunner;
-import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.state.StateEnum;
 import com.samknows.measurement.util.OtherUtils;
 
 public class MainService extends IntentService {
@@ -109,9 +109,9 @@ public class MainService extends IntentService {
 					Log.d(TAG, "+++++DEBUG+++++ Service disabled(manual), exiting.");
 			}
 		} catch (Throwable th) {
-			//if an error happened we want to restart from State.NONE
+			//if an error happened we want to restart from StateEnum.NONE
       SKLogger.sAssert(false);
-			appSettings.saveState(State.NONE);
+			appSettings.saveState(StateEnum.NONE);
 			Log.d(TAG, "+++++DEBUG+++++ caught throwable, th=" + th.toString());
 			Log.d(TAG, "+++++DEBUG+++++ call OtherUtils.rescheduleWakeup");
 			OtherUtils.rescheduleWakeup(this, appSettings.rescheduleTime);

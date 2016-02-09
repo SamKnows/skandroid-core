@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 
 import com.samknows.measurement.environment.TrafficData;
 import com.samknows.measurement.environment.TrafficStatsCollector;
-import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.XmlUtils;
 
 public class NetActivityCondition extends Condition{

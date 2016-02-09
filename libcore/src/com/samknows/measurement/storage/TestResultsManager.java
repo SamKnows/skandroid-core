@@ -1,4 +1,4 @@
-package com.samknows.measurement.test;
+package com.samknows.measurement.storage;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,8 +18,6 @@ import android.util.Log;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
-import com.samknows.measurement.storage.ExportFile;
-import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.util.OtherUtils;
 
 public class TestResultsManager {

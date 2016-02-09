@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
-import com.samknows.measurement.test.TestExecutor;
+import com.samknows.measurement.TestRunner.TestExecutor;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

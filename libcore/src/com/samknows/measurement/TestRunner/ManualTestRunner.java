@@ -21,8 +21,6 @@ import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.Storage;
-import com.samknows.measurement.test.TestContext;
-import com.samknows.measurement.test.TestExecutor;
 import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Test;
 import com.samknows.tests.TestFactory;

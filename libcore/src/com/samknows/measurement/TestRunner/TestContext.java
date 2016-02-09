@@ -1,4 +1,4 @@
-package com.samknows.measurement.test;
+package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
 import com.samknows.measurement.CachingStorage;

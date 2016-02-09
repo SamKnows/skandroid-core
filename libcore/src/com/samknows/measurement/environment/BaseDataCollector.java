@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.test.TestContext;
+import com.samknows.measurement.TestRunner.TestContext;
 
 public abstract class BaseDataCollector implements Serializable{
 	private static final long serialVersionUID = 1L;

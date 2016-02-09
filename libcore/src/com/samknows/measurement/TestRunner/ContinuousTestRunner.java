@@ -16,14 +16,13 @@ import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.SK2AppSettings;
-import com.samknows.measurement.statemachine.State;
+import com.samknows.measurement.statemachine.state.StateEnum;
 import com.samknows.measurement.statemachine.StateResponseCode;
 import com.samknows.measurement.statemachine.Transition;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.Storage;
-import com.samknows.measurement.test.TestContext;
-import com.samknows.measurement.test.TestExecutor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,7 @@ import org.json.JSONObject;
 public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
   private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
   private Context mContext;
-  private State mPreviousState;
+  private StateEnum mPreviousState;
   private List<EnvBaseDataCollector> mCollectors;
   private LocationDataCollector mLocationDataCollector;
   private List<DCSData> mListDCSData;
@@ -86,7 +85,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     StateResponseCode response;
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
     mPreviousState = appSettings.getState();
-    State state = State.EXECUTE_QUEUE;
+    StateEnum state = StateEnum.EXECUTE_QUEUE;
     appSettings.saveState(state);
     try {
       response = Transition.createState(state, mContext).executeState();
@@ -119,7 +118,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
       executeBatch();
 
       try {
-        state = State.SUBMIT_RESULTS_ANONYMOUS;
+        state = StateEnum.SUBMIT_RESULTS_ANONYMOUS;
         response = Transition.createState(state, mContext).executeState();
       } catch (Exception e) {
         SKLogger.e(this, "fail to execute " + state + " ");
