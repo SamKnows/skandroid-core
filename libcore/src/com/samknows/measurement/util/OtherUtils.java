@@ -12,8 +12,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
@@ -37,64 +35,10 @@ import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.DeviceDescription;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
-import com.samknows.measurement.storage.Conversions;
 
 public class OtherUtils {
   static final String TAG = "OtherUtils";
 
-	public static String formatToBytes(long bytes) {
-		double data = bytes;
-		if (data > 1024*1024) { 
-			data /= 1024d;
-			data /= 1024d;
-			return String.format("%.2fMB", data);
-		} else if (data > 1024) {
-			data /= 1024d;
-			return String.format("%.2fKB", data);
-		} else {
-			return bytes + "B";
-		}
-	}
-
-	public static double sConvertMbps1024BasedToBytesPerSecond(double bytesPerSecond) {
-    return bytesPerSecond * (1024.0 * 1024.0) / 8.0;
-	}
-
-	public static double sConvertBytesPerSecondToMbps1024Based(double bytesPerSecond) {
-		  return bytesPerSecond * 8.0 / (1024.0 * 1024.0);
-	}
-
-	public static double sConvertMbps1024BasedToMBps1000Based(double value1024Based) {
-		return value1024Based * (1024.0 * 1024.0) / (1000.0 * 1000.0);
-	}
-	
-	public static String sBitrateMbps1024BasedToString (double bitrateMbps1024Based) {
-		double bitrateMbps1000Based = sConvertMbps1024BasedToMBps1000Based(bitrateMbps1024Based);
-		double bitrateBitsPerSecond = 1000000.0 * bitrateMbps1000Based;
-		  
-		return Conversions.sThroughputBps1000BasedToString(bitrateBitsPerSecond);
-	}
-
-	public static String sBitrateMbps1000BasedToString (double bitrateMbps1000Based) {
-		double bitrateBitsPerSecond = 1000000.0 * bitrateMbps1000Based;
-
-		return Conversions.sThroughputBps1000BasedToString(bitrateBitsPerSecond);
-	}
-
-	public static String formatToBits(long bytes) {
-		double data = bytes;
-		data *= 8;
-		if (data > 1000*1000) { 
-			data /= 1000d;
-			data /= 1000d;
-			return String.format("%.2fMb", data);
-		} else if (data > 1000) {
-			data /= 1000d;
-			return String.format("%.2fKb", data);
-		} else {
-			return bytes + "b";
-		}
-	}
 
 	public static void reschedule(Context ctx, long timeDurationMilliseconds){
 		long actualSystemTimeMilliseconds;

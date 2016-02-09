@@ -22,7 +22,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
     sb.append("POST /?UPTESTV1=" + threadIndex + " HTTP/1.1\r\n");
     sb.append("Host: ");
-    sb.append(target + ":" + port + "\r\n");
+    sb.append(getTarget() + ":" + getPort() + "\r\n");
     sb.append("User-Agent: SamKnows HTTP Client 1.1(2)\r\n");
     sb.append("Accept: */*\r\n");
     sb.append("Content-Length: 4294967295\r\n");
@@ -175,7 +175,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
       // EXCEPTION: RECORD ERROR, AND SET BYTES TO 0!!!
       resetTotalTransferBytesToZero();
-      error.set(true);
+      getError().set(true);
 
       // Verify thta we've set everything to zero properly!
       SKLogger.sAssert(getTotalTransferBytes() == 0L);
@@ -200,7 +200,7 @@ public class PassiveServerUploadTest extends UploadTest {
       // ONLY 1 BUFFER "SENT": TREAT THIS AS AN ERROR, AND SET BYTES TO 0!!!
       SKLogger.e(this, "Only one buffer sent - treat this as an upload failure");
       resetTotalTransferBytesToZero();
-      error.set(true);
+      getError().set(true);
 
       // Verify thta we've set everything to zero properly!
       SKLogger.sAssert(getTotalTransferBytes() == 0L);
@@ -235,7 +235,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
     result = transmit(socket, threadIndex, isWarmup);
 
-    if (error.get()) {
+    if (getError().get()) {
     	// Warm up might have set a global error
       //SKLogger.e(TAG(this), "WarmUp Exits: Result FALSE, totalWarmUpBytes=>>> " + getTotalWarmUpBytes());//haha remove in production
       return false;

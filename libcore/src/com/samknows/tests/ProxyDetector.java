@@ -177,8 +177,8 @@ public class ProxyDetector extends Test{
 		file = f;
 	}
 
-	ArrayList<String> out = new ArrayList<>();
-	int port = 80;
+	private ArrayList<String> out = new ArrayList<>();
+	private int port = 80;
 	private String targetIpAddress = "" ;
 	private String seenIp = "NONE";
 	private String target = "";

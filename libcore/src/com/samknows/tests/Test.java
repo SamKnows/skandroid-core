@@ -28,7 +28,7 @@ abstract public class Test implements Runnable {
 	
 	public abstract void execute();
 	
-	abstract public String getStringID();
+	protected abstract String getStringID();
 	abstract public boolean isSuccessful();
 	abstract public void run();
 	abstract public String getHumanReadableResult();

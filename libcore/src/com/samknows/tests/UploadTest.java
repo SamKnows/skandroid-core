@@ -34,15 +34,15 @@ public abstract class UploadTest extends HttpTest {
 		// It is a random value from [0...2^32-1]
 		Random sRandom = new Random();								/* Used for initialisation of upload array */
 				
-		if ( uploadBufferSize > 0 &&  uploadBufferSize <= maxSendDataChunkSize){
-			buff = new byte[uploadBufferSize];
+		if ( getUploadBufferSize() > 0 &&  getUploadBufferSize() <= maxSendDataChunkSize){
+			buff = new byte[getUploadBufferSize()];
 		}
 		else{
 			buff = new byte[maxSendDataChunkSize];
 			SKLogger.sAssert(getClass(), false);
 		}				
 
-		if (randomEnabled){											/* randomEnabled comes from the parent (HTTPTest) class */
+		if (getRandomEnabled()){											/* randomEnabled comes from the parent (HTTPTest) class */
 			sRandom = new Random();									/* Used for initialisation of upload array */	
 			sRandom.nextBytes(buff);
 		}	
@@ -67,7 +67,7 @@ public abstract class UploadTest extends HttpTest {
 	@Override
 	public HashMap<String, String> getResults(){
 		HashMap<String, String> ret = new HashMap<>();
-		if (!testStatus.equals("FAIL")) {
+		if (!getTestStatus().equals("FAIL")) {
 			String[] values = formValuesArr();
 			ret.put("upspeed", values[0]);
 		}
@@ -78,7 +78,7 @@ public abstract class UploadTest extends HttpTest {
 	public boolean isReady() {
 		super.isReady();
 		
-		if ( uploadBufferSize == 0 || postDataLength == 0) {
+		if ( getUploadBufferSize() == 0 || getPostDataLength() == 0) {
 			setError("Upload parameter missing");
 			return false;
 		}
@@ -90,7 +90,7 @@ public abstract class UploadTest extends HttpTest {
 		String ret = "";
 		String direction = "upload";
 		String type = getThreadsNum() == 1 ? "single connection" : "multiple connection";
-		if (testStatus.equals("FAIL")) {
+		if (getTestStatus().equals("FAIL")) {
 			ret = String.format("The %s has failed.", direction);
 		} else {
 			ret = String.format(Locale.UK,"The %s %s test achieved %.2f Mbps.", type, direction, (Math.max(0, getTransferBytesPerSecond()) * 8d / 1000000));

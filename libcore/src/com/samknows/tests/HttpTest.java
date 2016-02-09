@@ -146,13 +146,13 @@ public abstract class HttpTest extends Test {
   public enum UploadStrategy {ACTIVE, PASSIVE}
 
   /* Socket timeout parameters */
-  protected final int CONNECTIONTIMEOUT = 10000; 							/* 10 seconds connection timeout */
-  protected final int READTIMEOUT = 10000; 								/* 10 seconds read timeout */
-  protected final int WRITETIMEOUT = 10000; 								/* 10 seconds write timeout */
+  private final int CONNECTIONTIMEOUT = 10000; 							/* 10 seconds connection timeout */
+  private final int READTIMEOUT = 10000; 								/* 10 seconds read timeout */
+  private final int WRITETIMEOUT = 10000; 								/* 10 seconds write timeout */
 
   /* Http Status codes */
   protected final int HTTPOK = 200;
-  protected final int HTTPCONTINUE = 100;
+  private final int HTTPCONTINUE = 100;
 
   /* error codes and constraints */
   protected final int BYTESREADERR = -1;									/* Error occurred while reading from socket */
@@ -165,17 +165,17 @@ public abstract class HttpTest extends Test {
   /* Parameters names for use in Settings XML files */
   //private static final String DOWNSTREAM = "downStream";
   //private static final String UPSTREAM = "upStream";
-  public static final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
+  private static final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
   public static final String WARMUPMAXTIME = "warmupMaxTime";					/* Max warmup time in uSecs */
-  public static final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
+  private static final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
   public static final String TRANSFERMAXTIME = "transferMaxTime";				/* Max transfer time in uSecs. Metrics, measured during this time period contribute to final result */
-  public static final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
+  private static final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
   public static final String NTHREADS = "numberOfThreads";						/* Max number of threads allowed */
-  public static final String NTHREADSLOWERCASE = "numberofthreads";						/* Max number of threads allowed */
+  private static final String NTHREADSLOWERCASE = "numberofthreads";						/* Max number of threads allowed */
   public static final String BUFFERSIZE = "bufferSize";							/* Socket receive buffer size */
   public static final String SENDBUFFERSIZE = "sendBufferSize";					/* Socket send buffer size */
-  public static final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
-  public static final String POSTDATALENGTH = "postDataLength";					/* ??? */
+  private static final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
+  private static final String POSTDATALENGTH = "postDataLength";					/* ??? */
   public static final String SENDDATACHUNK = "sendDataChunk";					/* Application send buffer size */
 
   /* Messages regarding the status of the test */
@@ -184,7 +184,7 @@ public abstract class HttpTest extends Test {
   private final String HTTPPOSTRUN = "Running upload test";
   private final String HTTPPOSTDONE = "Upload completed";
 
-  protected String TAG(Object param) {
+  private String TAG(Object param) {
     return param.getClass().getSimpleName();
   }							/* TAG is to be passed to SKLogger class. It outputs the human readable class name of the message logger */
 
@@ -198,8 +198,8 @@ public abstract class HttpTest extends Test {
   protected abstract boolean transfer(Socket socket, int threadIndex);	/* Generate main traffic for metrics measurements */
 
   protected abstract boolean warmup(Socket socket, int threadIndex);		/* Generate initial traffic for setting optimal TCP parameters */
-  //protected abstract int getWarmupBytesPerSecond();						/* Initial traffic speed */
-  //protected abstract int getTransferBytesPerSecond();						/* Main traffic speed */
+  //private abstract int getWarmupBytesPerSecond();						/* Initial traffic speed */
+  //private abstract int getTransferBytesPerSecond();						/* Main traffic speed */
 
   private Thread[] mThreads = null;										/* Array of all running threads */
 
@@ -208,7 +208,7 @@ public abstract class HttpTest extends Test {
     return System.nanoTime() / 1000L;
   }
 
-  protected long sGetMilliTime() {
+  private long sGetMilliTime() {
     return System.nanoTime() / 1000000L;
   }
 
@@ -389,7 +389,7 @@ public abstract class HttpTest extends Test {
     finish();
   }
 
-  protected Socket getSocket() {															/* Socket initialiser */
+  private Socket getSocket() {															/* Socket initialiser */
     //SKLogger.d(this, "HTTP TEST - getSocket()");
 
     Socket ret = null;
@@ -515,22 +515,12 @@ public abstract class HttpTest extends Test {
   static private AtomicLong sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicLong(0);
   static private AtomicLong sBytesPerSecondLast = new AtomicLong(0);
 
-  static protected String sLatestSpeedForExternalMonitorTestId = "";
+  private static String sLatestSpeedForExternalMonitorTestId = "";
 
-  public static void sLatestSpeedReset(String theReasonId) {
+  private static void sLatestSpeedReset(String theReasonId) {
     sLatestSpeedForExternalMonitorBytesPerSecond.set(0);
     sBytesPerSecondLast.set(0);
     sLatestSpeedForExternalMonitorTestId = theReasonId;
-  }
-
-  public static double sConvertBytesPerSecondToMbps1000Based(final double bytesPerSecond) {
-    double mbps = (bytesPerSecond * 8.0) / 1000000.0;
-    return mbps;
-  }
-
-  public static double sConvertBytesPerSecondToMbps1024Based(final double bytesPerSecond) {
-    double mbps = (bytesPerSecond * 8.0) / (1024.0 * 1024.0);
-    return mbps;
   }
 
   // Report-back a running average, to keep the UI moving...
@@ -540,7 +530,7 @@ public abstract class HttpTest extends Test {
     double bytesPerSecondToUse = sBytesPerSecondLast.doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.doubleValue();
     bytesPerSecondToUse /= 2;
 
-    double mbps1000Based = sConvertBytesPerSecondToMbps1000Based(bytesPerSecondToUse);
+    double mbps1000Based = Conversions.sConvertBytesPerSecondToMbps1000Based(bytesPerSecondToUse);
     return new Pair<>(mbps1000Based, sLatestSpeedForExternalMonitorTestId);
   }
 
@@ -553,7 +543,7 @@ public abstract class HttpTest extends Test {
     sLatestSpeedForExternalMonitorTestId = testId;
   }
 
-  final protected int extMonitorUpdateInterval = 500000;
+  protected final int extMonitorUpdateInterval = 500000;
 
   protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Integer transferSpeed) {
     long updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
@@ -898,7 +888,11 @@ public abstract class HttpTest extends Test {
    */
   private AtomicLong totalWarmUpBytes = new AtomicLong(0);												/* Total num of bytes transmitted during warmup period */
   private AtomicLong totalTransferBytes = new AtomicLong(0);												/* Total num of bytes transmitted during trnasfer period */
-  protected AtomicBoolean error = new AtomicBoolean(false);												/* Global error indicator */
+  private AtomicBoolean error = new AtomicBoolean(false);												/* Global error indicator */
+
+  protected AtomicBoolean getError() {
+    return error;
+  }
 
   /*
    * Accessors to atomic variables
@@ -915,7 +909,7 @@ public abstract class HttpTest extends Test {
     return mWarmupTimeMicro.get();
   }
 
-  protected long getWarmUpTimeDurationMicro() {
+  private long getWarmUpTimeDurationMicro() {
     return mWarmupMicroDuration.get();
   }
 
@@ -923,15 +917,15 @@ public abstract class HttpTest extends Test {
     return transferTimeMicroseconds.get();
   }
 
-  protected long getTransferTimeDurationMicro() {
+  private long getTransferTimeDurationMicro() {
     return mTransferMicroDuration.get();
   }
 
-  protected long getStartTransferMicro() {
+  private long getStartTransferMicro() {
     return mStartTransferMicro.get();
   }
 
-  protected long getStartWarmupMicro() {
+  private long getStartWarmupMicro() {
     return mStartWarmupMicro.get();
   }
 
@@ -943,33 +937,45 @@ public abstract class HttpTest extends Test {
     totalTransferBytes.set(0L);
   }
 
-  protected void addTotalWarmUpBytes(long bytes) {
+  private void addTotalWarmUpBytes(long bytes) {
     totalWarmUpBytes.addAndGet(bytes);
   }
 
-  protected void setWarmUpTimeMicro(long uTime) {
+  private void setWarmUpTimeMicro(long uTime) {
     mWarmupTimeMicro.set(uTime);
   }
 
-  protected void setTransferTimeMicro(long uTime) {
+  private void setTransferTimeMicro(long uTime) {
     transferTimeMicroseconds.set(uTime);
   }
 
   private String infoString = "";
   private String ipAddress = "";
 
-  boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
+  private boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
+  protected boolean getRandomEnabled() {
+    return randomEnabled;
+  }
   //boolean warmUpDone = false;
 
-  protected int postDataLength = 0;
+  private int postDataLength = 0;
+  protected int getPostDataLength() {
+    return postDataLength;
+  }
 
   // warmup variables
   private AtomicLong mStartWarmupMicro = new AtomicLong(0);												/* Point in time when warm up process starts, uSecs */
   private AtomicLong mWarmupMicroDuration = new AtomicLong(0);											/* Total duration of warm up period, uSecs */
   private AtomicLong mWarmupTimeMicro = new AtomicLong(0);												/* Time elapsed since warm up process started, uSecs */
   private AtomicInteger warmupDoneCounter = new AtomicInteger(0);											/* Counter shows how many threads completed warm up process */
-  protected long mWarmupMaxTimeMicro = 0;																	/* Max time warm up is allowed to continue, uSecs */
-  protected int mWarmupMaxBytes = 0;																		/* Max bytes warm up is allowed to send */
+  private long mWarmupMaxTimeMicro = 0;																	/* Max time warm up is allowed to continue, uSecs */
+  protected long getWarmupMaxTimeMicro() {
+    return mWarmupMaxTimeMicro;
+  }
+  private int mWarmupMaxBytes = 0;																		/* Max bytes warm up is allowed to send */
+  protected int getWarmupMaxBytes() {
+    return mWarmupMaxBytes;
+  }
 
 
   // transfer variables
@@ -977,8 +983,14 @@ public abstract class HttpTest extends Test {
   private AtomicLong mTransferMicroDuration = new AtomicLong(0);											/* Total duration of transfer period, uSecs */
   private AtomicLong transferTimeMicroseconds = new AtomicLong(0);										/* Time elapsed since transfer process started, uSecs */
   private AtomicInteger transferDoneCounter = new AtomicInteger(0);										/* Counter shows how many threads completed trnasfer process */
-  protected long mTransferMaxTimeMicro = 0;																/* Max time transfer is allowed to continue, uSecs*/
-  protected int mTransferMaxBytes = 0;																	/* Max bytes transfer is allowed to send */
+  private long mTransferMaxTimeMicro = 0;																/* Max time transfer is allowed to continue, uSecs*/
+  protected long getTransferMaxTimeMicro() {
+    return mTransferMaxTimeMicro;
+  }
+  private int mTransferMaxBytes = 0;																	/* Max bytes transfer is allowed to send */
+  protected int getTransferMaxBytes() {
+    return mTransferMaxBytes;
+  }
 
   //external monitor variables
   private AtomicLong timeElapsedSinceLastExternalMonitorUpdate = new AtomicLong(0);						/* Time elapsed since external monitor counter was updated last time, uSecs */
@@ -987,10 +999,16 @@ public abstract class HttpTest extends Test {
   private int nThreads;																					/* Number of send/receive threads */
 
   //various buffers
-  protected int downloadBufferSize = 0;
-  protected int desiredReceiveBufferSize = 0;
+  private int downloadBufferSize = 0;
+  protected int getDownloadBufferSize() {
+    return downloadBufferSize;
+  }
+  private int desiredReceiveBufferSize = 0;
   private int socketBufferSize = 0;
-  protected int uploadBufferSize = 0;
+  private int uploadBufferSize = 0;
+  protected int getUploadBufferSize() {
+    return uploadBufferSize;
+  }
 
   //private int connectionCounter = 0;
   private int receiveBufferSize = 0;
@@ -1000,17 +1018,32 @@ public abstract class HttpTest extends Test {
     return nThreads;
   }														/* Accessor for number of threads */
 
-  boolean noDelay = false;
+  private boolean noDelay = false;
 
-  protected String testStatus = "FAIL";																	/* Test status, could be 'OK' or 'FAIL' */
+  private String testStatus = "FAIL";																	/* Test status, could be 'OK' or 'FAIL' */
+  protected String getTestStatus() {
+    return testStatus;
+  }
+  protected void setTestStatus(String value) {
+    testStatus = value;
+  }
 
   // Connection variables
-  protected String target = "";
-  protected String file = "";
-  protected int port = 0;
-  protected UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;							/* Upload type selection strategy: simple upload or with server side measurements */
+  private String target = "";
+  protected String getTarget() {
+    return target;
+  }
+  private String file = "";
+  protected String getFile() {
+    return file;
+  }
+  private int port = 0;
+  protected int getPort() {
+    return port;
+  }
+  private UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;							/* Upload type selection strategy: simple upload or with server side measurements */
 
-  boolean downstream = true;
+  private boolean downstream = true;
 
 
   private static int sGetBytesPerSecondWithMicroDuration(long durationMicro, long btsTotal) {
@@ -1053,7 +1086,7 @@ public abstract class HttpTest extends Test {
 
 
   private int mSocketTimeoutMilliseconds = WRITETIMEOUT;
-  public int getSocketTimeoutMilliseconds() {
+  private int getSocketTimeoutMilliseconds() {
     return mSocketTimeoutMilliseconds;
   }
   public void setSocketTimeoutMilliseconds(int value) {

@@ -13,6 +13,7 @@ import com.samknows.measurement.MainService;
 import com.samknows.libcore.R;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.ska.activity.SKAPreferenceActivity;
+import com.samknows.tests.Conversions;
 
 public class DataUsedPreference extends DialogPreference {
 
@@ -23,7 +24,7 @@ public class DataUsedPreference extends DialogPreference {
   public DataUsedPreference(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
     mContext = context;
-    setTitle(mContext.getString(R.string.data_used_preference_title) + " " + OtherUtils.formatToBytes(SK2AppSettings.getInstance().getUsedBytes()));
+    setTitle(mContext.getString(R.string.data_used_preference_title) + " " + Conversions.formatToBytes(SK2AppSettings.getInstance().getUsedBytes()));
     SKAPreferenceActivity.sConvertPreferenceToUseCustomFont(this);
   }
 
@@ -31,7 +32,7 @@ public class DataUsedPreference extends DialogPreference {
     super(context, attrs);
     mContext = context;
     mDialogMessage = mContext.getString(R.string.reset_data_cap_question);
-    setTitle(mContext.getString(R.string.data_used_preference_title) + " " + OtherUtils.formatToBytes(SK2AppSettings.getInstance().getUsedBytes()));
+    setTitle(mContext.getString(R.string.data_used_preference_title) + " " + Conversions.formatToBytes(SK2AppSettings.getInstance().getUsedBytes()));
     SKAPreferenceActivity.sConvertPreferenceToUseCustomFont(this);
   }
 
@@ -45,7 +46,7 @@ public class DataUsedPreference extends DialogPreference {
     if (positiveResult) {
       boolean restart = app.isDataCapReached();
       app.resetDataUsage();
-      setTitle(mContext.getString(R.string.data_used_preference_title) + " " + OtherUtils.formatToBytes(app.getUsedBytes()));
+      setTitle(mContext.getString(R.string.data_used_preference_title) + " " + Conversions.formatToBytes(app.getUsedBytes()));
       if (restart) {
         MainService.poke(mContext);
       }

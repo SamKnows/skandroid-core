@@ -144,13 +144,13 @@ public class LatencyTest extends Test {
 		return STRING_ID;
 	}
 
-	public LatencyTest(String server, int port, int numdatagrams) {
+	private LatencyTest(String server, int port, int numdatagrams) {
 		this.numdatagrams = numdatagrams;
 		results = new long[numdatagrams];
 	}
 
-	public LatencyTest(String server, int port, int numdatagrams,
-			int interPacketTime) {
+	private LatencyTest(String server, int port, int numdatagrams,
+											int interPacketTime) {
 		target = server;
 		this.port = port;
 		this.numdatagrams = numdatagrams;

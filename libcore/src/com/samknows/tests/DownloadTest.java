@@ -19,7 +19,7 @@ import java.util.Locale;
 import com.samknows.libcore.SKLogger;
 
 public final class DownloadTest extends HttpTest {
-	private byte[] buff = new byte[downloadBufferSize];
+	private byte[] buff = new byte[getDownloadBufferSize()];
 	private int readBytes = 0;
 
 	public DownloadTest(List<Param> params){
@@ -32,10 +32,12 @@ public final class DownloadTest extends HttpTest {
 
 		return values;
 	}
+
 	private String getHeaderRequest() {
 		String request = "GET /%s HTTP/1.1\r\nHost: %s \r\nACCEPT: */*\r\n\r\n";
-		return String.format(request, file, target);
+		return String.format(request, getFile(), getTarget());
 	}
+
 	private int readResponse(InputStream is) {									// Reads the http response and returns the http status code
 		int ret = 0;
 		try {
@@ -106,7 +108,7 @@ public final class DownloadTest extends HttpTest {
 		if (isWarmup){																										/* If warmup mode is active */
 
 			sendHeaderRequest( socket );																					/* Send download request is the part of the warm up process */
-			if (error.get()) {																								/* Error relates to sendHeader procedure */
+			if (getError().get()) {																								/* Error relates to sendHeader procedure */
 				SKLogger.sAssert(getClass(),  false);
 				return false;
 			}
@@ -120,7 +122,7 @@ public final class DownloadTest extends HttpTest {
 			//hahaSKLogger.e(TAG(this), "Error in setting up input stream, exiting... thread: " + this.getThreadIndex());
 			return false;
 		}
-		
+
 		try {
 			do {
 				readBytes = connIn.read(buff, 0, buff.length);
@@ -165,7 +167,7 @@ public final class DownloadTest extends HttpTest {
 		if ( connOut == null || connIn == null) {
 			closeConnection(socket);
 			SKLogger.sAssert(getClass(),  false);
-			error.set(true);
+			getError().set(true);
 			//hahaSKLogger.e(TAG(this), "Error in setting up output stream, exiting... thread: " + getThreadIndex());
 			return;
 		}
@@ -177,10 +179,10 @@ public final class DownloadTest extends HttpTest {
 			int httpResponse = readResponse(connIn);
 			if (httpResponse != HTTPOK) {
 				setErrorIfEmpty("Http response received: " + httpResponse);
-				error.set(true);
+				getError().set(true);
 			}
 		} catch (Exception io) {
-			error.set(true);
+			getError().set(true);
 			SKLogger.sAssert(getClass(),  false);
 		}
 	}
@@ -214,7 +216,7 @@ public final class DownloadTest extends HttpTest {
 		String ret = "";
 		String direction = "download";
 		String type = getThreadsNum() == 1 ? "single connection" : "multiple connection";
-		if (testStatus.equals("FAIL")) {
+		if (getTestStatus().equals("FAIL")) {
 			ret = String.format("The %s has failed.", direction);
 		} else {
 			ret = String.format(Locale.UK, "The %s %s test achieved %.2f Mbps.", type,	direction, (Math.max(0,getTransferBytesPerSecond()) * 8d / 1000000));
@@ -224,7 +226,7 @@ public final class DownloadTest extends HttpTest {
 	@Override
 	public HashMap<String, String> getResults(){
 		HashMap<String, String> ret = new HashMap<>();
-		if (!testStatus.equals("FAIL")) {
+		if (!getTestStatus().equals("FAIL")) {
 			String[] values = formValuesArr();
 			ret.put("downspeed", values[0]);
 		}

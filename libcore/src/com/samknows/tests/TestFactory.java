@@ -15,7 +15,7 @@ public class TestFactory {
 	public static final String DOWNSTREAMTHROUGHPUT = "downstreamthroughput";
 	public static final String UPSTREAMTHROUGHPUT = "upstreamthroughput";
 	public static final String LATENCY = "latency";
-	public static final String PROXYDETECTOR = "proxydetector";
+	private static final String PROXYDETECTOR = "proxydetector";
 	public static final String CLOSESTTARGET = "closesttarget";
 	/*
 	 * constants shared among different tests
@@ -36,14 +36,14 @@ public class TestFactory {
 	private static final String WARMUPMAXBYTES = "warmupMaxBytes";
 	private static final String TRANSFERMAXTIME = "transferMaxTime";
 	private static final String TRANSFERMAXBYTES = "transferMaxBytes";
-	public static final String NTHREADS = "numberOfThreads";
+	private static final String NTHREADS = "numberOfThreads";
 	private static final String BUFFERSIZE = "bufferSize";
 	private static final String SENDBUFFERSIZE = "sendBufferSize";
 	private static final String RECEIVEBUFFERSIZE = "receiveBufferSize";
 	private static final String POSTDATALENGTH = "postDataLength";
 	private static final String SENDDATACHUNK = "sendDataChunk";
 
-	public static final String[] HTTPTESTPARAMLIST = { TESTTYPE, TARGET, PORT,
+	private static final String[] HTTPTESTPARAMLIST = { TESTTYPE, TARGET, PORT,
 			FILE, WARMUPMAXTIME, WARMUPMAXBYTES, TRANSFERMAXTIME,
 			TRANSFERMAXBYTES, NTHREADS, BUFFERSIZE, SENDBUFFERSIZE,
 			RECEIVEBUFFERSIZE, POSTDATALENGTH, SENDDATACHUNK };
@@ -57,7 +57,7 @@ public class TestFactory {
 	public static final String PERCENTILE = "percentile";
 	public static final String MAXTIME = "maxTime";
 
-	public static final String[] LATENCYTESTPARAMLIST = { TESTTYPE, TARGET,
+	private static final String[] LATENCYTESTPARAMLIST = { TESTTYPE, TARGET,
 			PORT, NUMBEROFPACKETS, DELAYTIMEOUT, INTERPACKETTIME, PERCENTILE,
 			MAXTIME };
 
@@ -117,7 +117,7 @@ public class TestFactory {
 		return ret;
 	}
 
-	public static ClosestTarget createClosestTarget(List<Param> params) {
+	private static ClosestTarget createClosestTarget(List<Param> params) {
 		return new ClosestTarget(params);
 	}
 
@@ -220,7 +220,7 @@ public class TestFactory {
 		return ret;
 	}
 
-	public static final ArrayList<Param> testConfiguration(
+	private static ArrayList<Param> testConfiguration(
 			List<Param> allParam, String testType) {
 		ArrayList<Param> ret = new ArrayList<>();
 		if (testType.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)) {
@@ -233,7 +233,7 @@ public class TestFactory {
 		return ret;
 	}
 
-	public static final ArrayList<Param> testConfiguration(
+	private static ArrayList<Param> testConfiguration(
 			List<Param> allParam, String[] configKey) {
 		HashSet<String> toInclude = new HashSet<>();
 		ArrayList<Param> ret = new ArrayList<>();

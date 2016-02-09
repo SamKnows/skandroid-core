@@ -75,7 +75,7 @@ public class ClosestTarget extends Test {
   }
 
   //Used to collect the results from the individual LatencyTests as soon as the finish
-  public BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<>();
+  private BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<>();
 
   //public ClosestTarget() {
   //	synchronized (ClosestTarget.this) {
@@ -136,23 +136,23 @@ public class ClosestTarget extends Test {
     return success;
   }
 
-  public void setNumberOfDatagrams(int n) {
+  private void setNumberOfDatagrams(int n) {
     nPackets = n;
   }
 
-  public void setInterPacketTime(int t) {
+  private void setInterPacketTime(int t) {
     interPacketTime = t;
   }
 
-  public void setDelayTimeout(int t) {
+  private void setDelayTimeout(int t) {
     delayTimeout = t;
   }
 
-  public void setPort(int p) {
+  private void setPort(int p) {
     port = p;
   }
 
-  public void addTarget(String target) {
+  private void addTarget(String target) {
     targets.add(target);
   }
 
@@ -173,10 +173,10 @@ public class ClosestTarget extends Test {
         (not an average of the three requests - just take the one with the absolute lowest)
      */
 
-  static final int CHttpQueryTimeoutSeconds = 2;
+  private static final int CHttpQueryTimeoutSeconds = 2;
 
   // Query the specified URL, and return <status,latency>
-  static Pair<Boolean, Long> sGetHttpResponseAndReturnLatencyMilliseconds(String urlString) {
+  private static Pair<Boolean, Long> sGetHttpResponseAndReturnLatencyMilliseconds(String urlString) {
     //AsyncHttpClient client = new AsyncHttpClient();
     //client.setTimeout(5000); // This is in milliseconds!
 
@@ -238,8 +238,8 @@ public class ClosestTarget extends Test {
     return TAG;
   }
 
-  final int cQueryCountPerServer = 3;
-  ArrayList<Integer> finishedTestsPerServer = new ArrayList<>();
+  private final int cQueryCountPerServer = 3;
+  private ArrayList<Integer> finishedTestsPerServer = new ArrayList<>();
 
   private boolean mbInHttpTestingFallbackMode = false;
   private boolean mbUdpClosestTargetTestSucceeded = false;
@@ -448,7 +448,7 @@ public class ClosestTarget extends Test {
   }
 
 
-  public boolean find() {
+  private boolean find() {
     boolean ret = false;
     if (targets.size() == 0) {
       output();
@@ -582,7 +582,7 @@ public class ClosestTarget extends Test {
   private int delayTimeout = _DELAYTIMEOUT;
   private int port = _PORT;
   private String closestTarget = VALUE_NOT_KNOWN;
-  boolean success = false;
+  private boolean success = false;
   private String ipClosestTarget = VALUE_NOT_KNOWN;
 
   // This is used purely by the UI, to display a count-down of the target servers latency test.
@@ -594,7 +594,7 @@ public class ClosestTarget extends Test {
   private long curr_best_Nanoseconds = Long.MAX_VALUE;
   private String curr_best_target;
 
-  static String sClosestTarget = VALUE_NOT_KNOWN;
+  private static String sClosestTarget = VALUE_NOT_KNOWN;
 
   public static String sGetClosestTarget() {
     synchronized (ClosestTarget.class) {
