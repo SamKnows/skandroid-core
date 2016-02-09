@@ -160,18 +160,17 @@ public class ClosestTarget extends Test {
     targets = new ArrayList<>();
   }
 
-
-     /*
-     Some networks block UDP traffic; and some might even block raw TCP traffic!
-     GIVEN: performing a closest target test
-     WHEN:  UDP fails
-     THEN:  we need use HTTP as the ultimate failsafe.
-     Therefore, as a fall-back from the UDP best-target-selection process:
-     1. Make three HTTP requests to "/" on each server. Set a 2 second timeout on each request.
-        Ideally, you should parallelise them (maybe allow up to 6 concurrent requests).
-     2. Choose the server with the lowest non-zero response time
-        (not an average of the three requests - just take the one with the absolute lowest)
-     */
+  /*
+  Some networks block UDP traffic; and some might even block raw TCP traffic!
+  GIVEN: performing a closest target test
+  WHEN:  UDP fails
+  THEN:  we need use HTTP as the ultimate failsafe.
+  Therefore, as a fall-back from the UDP best-target-selection process:
+  1. Make three HTTP requests to "/" on each server. Set a 2 second timeout on each request.
+     Ideally, you should parallelise them (maybe allow up to 6 concurrent requests).
+  2. Choose the server with the lowest non-zero response time
+     (not an average of the three requests - just take the one with the absolute lowest)
+  */
 
   private static final int CHttpQueryTimeoutSeconds = 2;
 
@@ -529,16 +528,6 @@ public class ClosestTarget extends Test {
       return null;
     }
     return closestTarget;
-  }
-
-  public String getHumanReadableResult() {
-    String ret = "";
-    if (closestTarget.equals(VALUE_NOT_KNOWN)) {
-      ret = "Impossible to find the Best Target.";
-    } else {
-      ret = String.format("The Best Target is %s.", closestTarget);
-    }
-    return ret;
   }
 
   private void output() {

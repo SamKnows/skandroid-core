@@ -222,23 +222,6 @@ public class LatencyTest extends Test {
 		return infoString;
 	}
 
-	@Override
-	public String getHumanReadableResult() {
-		String ret = "";
-		if (testStatus.equals("FAIL")) {
-			ret = "The latency test has failed.";
-		} else {
-			// added cast otherwise it will always be 0 or 1;
-			int packetLoss = (int) (100 * (((float) sentPackets - recvPackets) / sentPackets)); 
-			
-			int jitter = (int) ((averageNanoseconds - minimumNanoseconds) / 1000000);
-			ret = String.format(Locale.UK,
-					"Latency is %d ms. Packet loss is %d %%. Jitter is %d ms",
-					(int) (averageNanoseconds / 1000000), packetLoss, jitter);
-		}
-		return ret;
-	}
-
   public int getResultLatencyMilliseconds() {
     int result = ((int) (averageNanoseconds / 1000000));
     return result;
@@ -567,9 +550,4 @@ public class LatencyTest extends Test {
 	private int interPacketTime = 0;
 	private long[] results = null;
 	private BlockingQueue<Result> bq_results = null;
-	
-	final private void setParams(List<Param> params) {
-		// TODO Auto-generated method stub
-		
-	}
 }

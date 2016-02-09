@@ -143,7 +143,7 @@ public class TestFactory {
 		return ret;
 	}
 
-	public static LatencyTest createLatencyTest(List<Param> params) {//TODO to complete
+	public static LatencyTest createLatencyTest(List<Param> params) {
 		LatencyTest ret = new LatencyTest();
 
 		try {
@@ -179,29 +179,32 @@ public class TestFactory {
 	private static HttpTest createHttpTest(String direction, List<Param> params) {
 		UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;
 		HttpTest result = null;
-	
+
 		if ( direction.equals(DOWNSTREAM)){
 			result = new DownloadTest( params );
 		}
 		else if ( direction.equals(UPSTREAM)){
-			
+
 			for (Param param : params) {
 				if (param.contains(UPLOADSTRATEGY)){
 					uploadStrategyServerBased = UploadStrategy.ACTIVE;
 					break;
 				}
 			}
-		
-			if ( uploadStrategyServerBased ==  UploadStrategy.ACTIVE )
-				result = new ActiveServerloadTest( params );
-			else
-				result = new PassiveServerUploadTest( params);
+
+			if ( uploadStrategyServerBased ==  UploadStrategy.ACTIVE ) {
+				result = new ActiveServerloadTest(params);
+			} else {
+				result = new PassiveServerUploadTest(params);
+			}
 		}
-		
-		if( result != null )
-			if (result.isReady())		
-				return result;
-		
+
+		if( result != null ) {
+      if (result.isReady()) {
+        return result;
+      }
+    }
+
 		return null;
 	}
 
@@ -249,19 +252,19 @@ public class TestFactory {
 	//TODO Refactor this
 	public static final long getMaxUsage(String type, List<Param> params){
 		long ret = 0;
-		if(type.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)|| type.equalsIgnoreCase(UPSTREAMTHROUGHPUT)){
+		if (type.equalsIgnoreCase(DOWNSTREAMTHROUGHPUT)|| type.equalsIgnoreCase(UPSTREAMTHROUGHPUT)){
 			ret = getMaxUsageHttp(params);
-		}else if(type.equalsIgnoreCase(LATENCY)){
+		} else if(type.equalsIgnoreCase(LATENCY)){
 			ret = getMaxUsageLatency(params);
 		}
 		return ret;
 	}
 	
-	//TODO move to test
+	// TODO move to test?
 	private static long getMaxUsageHttp(List<Param> params){
 		long ret = 0;
-		for(Param p:params){
-			if(p.isName(WARMUPMAXBYTES) || p.isName(TRANSFERMAXBYTES )){
+		for (Param p:params){
+			if (p.isName(WARMUPMAXBYTES) || p.isName(TRANSFERMAXBYTES )){
 				ret += Long.parseLong(p.getValue());
 			}
 		}
@@ -270,8 +273,8 @@ public class TestFactory {
 	
 	private static long getMaxUsageLatency(List<Param> params){
 		long ret = 0;
-		for(Param p: params){
-			if(p.isName(NUMBEROFPACKETS)){
+		for (Param p: params){
+			if (p.isName(NUMBEROFPACKETS)){
 				ret = Long.parseLong(p.getValue()) * LatencyTest.getPacketSize(); 
 			}
 		}

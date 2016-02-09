@@ -75,7 +75,6 @@ public final class DownloadTest extends HttpTest {
 		return ret;
 	}
 
-
 	private Integer getBytesPerSecond(boolean isWarmup) {
 		if (isWarmup) {
 			// If warmup mode is active
@@ -212,18 +211,6 @@ public final class DownloadTest extends HttpTest {
 	}
 
 	@Override
-	public String getHumanReadableResult() {
-		String ret = "";
-		String direction = "download";
-		String type = getThreadsNum() == 1 ? "single connection" : "multiple connection";
-		if (getTestStatus().equals("FAIL")) {
-			ret = String.format("The %s has failed.", direction);
-		} else {
-			ret = String.format(Locale.UK, "The %s %s test achieved %.2f Mbps.", type,	direction, (Math.max(0,getTransferBytesPerSecond()) * 8d / 1000000));
-		}
-		return ret;
-	}
-	@Override
 	public HashMap<String, String> getResults(){
 		HashMap<String, String> ret = new HashMap<>();
 		if (!getTestStatus().equals("FAIL")) {
@@ -232,9 +219,9 @@ public final class DownloadTest extends HttpTest {
 		}
 		return ret;		
 	}
+
 	@Override
 	public int getNetUsage() {
-		// TODO Auto-generated method stub
-		return 0;
+    return (int)(getTotalTransferBytes() + getTotalWarmUpBytes());
 	}
 }

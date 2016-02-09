@@ -135,11 +135,6 @@ public class ProxyDetector extends Test{
 	}
 
 	@Override
-	public String getHumanReadableResult() {
-		return null;
-	}
-
-	@Override
 	public boolean isProgressAvailable() {
 		return false;
 	}

@@ -184,15 +184,20 @@ public abstract class HttpTest extends Test {
   private final String HTTPPOSTRUN = "Running upload test";
   private final String HTTPPOSTDONE = "Upload completed";
 
-  private String TAG(Object param) {
-    return param.getClass().getSimpleName();
-  }							/* TAG is to be passed to SKLogger class. It outputs the human readable class name of the message logger */
-
   /* Test strings for public use. JSON related */
   public static final String DOWNSTREAMSINGLE = "JHTTPGET";
   public static final String DOWNSTREAMMULTI = "JHTTPGETMT";
   public static final String UPSTREAMSINGLE = "JHTTPPOST";
   public static final String UPSTREAMMULTI = "JHTTPPOSTMT";
+
+  // "Direction" for constructor
+  public static final String cReasonResetDownload = "Reset Download";
+  public static final String cReasonResetUpload = "Reset Upload";
+  public static final String cReasonUploadEnd = "Upload End";
+
+  private String TAG(Object param) {
+    return param.getClass().getSimpleName();
+  }							/* TAG is to be passed to SKLogger class. It outputs the human readable class name of the message logger */
 
   /* Abstract methods to be implemented in derived classes */
   protected abstract boolean transfer(Socket socket, int threadIndex);	/* Generate main traffic for metrics measurements */
@@ -211,10 +216,6 @@ public abstract class HttpTest extends Test {
   private long sGetMilliTime() {
     return System.nanoTime() / 1000000L;
   }
-
-  public static final String cReasonResetDownload = "Reset Download";
-  public static final String cReasonResetUpload = "Reset Upload";
-  public static final String cReasonUploadEnd = "Upload End";
 
   protected HttpTest(String direction, List<Param> params) {					/* Constructor. Accepts list of Param objects, each representing a certain parameter read from settings XML file */
     setDirection(direction);											/* Legacy. To be removed */

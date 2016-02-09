@@ -50,45 +50,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="112" column="12" selection-start-line="112" selection-start-column="12" selection-end-line="112" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LibcoreTests.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/com/samknows/LibcoreTests.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CoreTests.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/com/samknows/libcore/CoreTests.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DBHelperTests.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/com/samknows/libcore/DBHelperTests.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
@@ -103,6 +69,8 @@
               <caret line="62" column="61" selection-start-line="62" selection-start-column="61" selection-end-line="62" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="false" />
+                <element signature="e#2270#2671#0" expanded="false" />
+                <element signature="e#2670#2671#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -113,17 +81,47 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="370" column="0" selection-start-line="370" selection-start-column="0" selection-end-line="370" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#10315#11794#0" expanded="false" />
+                <element signature="e#11793#11794#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UploadTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3875">
+              <caret line="55" column="11" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
+              <folding>
+                <element signature="e#1717#1718#0" expanded="true" />
+                <element signature="e#1785#1786#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/JsonData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UploadTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java">
+      <file leaf-file-name="LatencyTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-              <folding />
+              <caret line="552" column="0" selection-start-line="552" selection-start-column="0" selection-end-line="552" selection-end-column="0" />
+              <folding>
+                <element signature="e#4560#4561#0" expanded="true" />
+                <element signature="e#4583#4584#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -131,72 +129,30 @@
       <file leaf-file-name="HttpTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="771" column="18" selection-start-line="771" selection-start-column="18" selection-end-line="771" selection-end-column="18" />
+            <state vertical-scroll-proportion="-5.5925927">
+              <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
               <folding>
-                <element signature="e#10677#10678#0" expanded="true" />
-                <element signature="e#10799#10800#0" expanded="true" />
-                <element signature="e#12467#12468#0" expanded="true" />
-                <element signature="e#12507#12508#0" expanded="true" />
-                <element signature="e#31543#31544#0" expanded="true" />
-                <element signature="e#31565#31566#0" expanded="true" />
-                <element signature="e#31653#31654#0" expanded="true" />
-                <element signature="e#31692#31693#0" expanded="true" />
-                <element signature="e#31736#31737#0" expanded="true" />
-                <element signature="e#31777#31778#0" expanded="true" />
-                <element signature="e#31818#31819#0" expanded="true" />
-                <element signature="e#31857#31858#0" expanded="true" />
-                <element signature="e#31904#31905#0" expanded="true" />
-                <element signature="e#31947#31948#0" expanded="true" />
-                <element signature="e#31990#31991#0" expanded="true" />
-                <element signature="e#32037#32038#0" expanded="true" />
-                <element signature="e#32086#32087#0" expanded="true" />
-                <element signature="e#32131#32132#0" expanded="true" />
-                <element signature="e#32173#32174#0" expanded="true" />
-                <element signature="e#32215#32216#0" expanded="true" />
-                <element signature="e#32255#32256#0" expanded="true" />
-                <element signature="e#32295#32296#0" expanded="true" />
-                <element signature="e#32349#32350#0" expanded="true" />
-                <element signature="e#32394#32395#0" expanded="true" />
-                <element signature="e#32446#32447#0" expanded="true" />
-                <element signature="e#32482#32483#0" expanded="true" />
-                <element signature="e#32532#32533#0" expanded="true" />
-                <element signature="e#32575#32576#0" expanded="true" />
-                <element signature="e#32624#32625#0" expanded="true" />
-                <element signature="e#32661#32662#0" expanded="true" />
-                <element signature="e#32712#32713#0" expanded="true" />
-                <element signature="e#32757#32758#0" expanded="true" />
-                <element signature="e#32972#32973#0" expanded="true" />
-                <element signature="e#33002#33003#0" expanded="true" />
-                <element signature="e#33107#33108#0" expanded="true" />
-                <element signature="e#33138#33139#0" expanded="true" />
-                <element signature="e#33823#33824#0" expanded="true" />
-                <element signature="e#33859#33860#0" expanded="true" />
-                <element signature="e#33992#33993#0" expanded="true" />
-                <element signature="e#34024#34025#0" expanded="true" />
-                <element signature="e#34730#34731#0" expanded="true" />
-                <element signature="e#34768#34769#0" expanded="true" />
-                <element signature="e#34905#34906#0" expanded="true" />
-                <element signature="e#34939#34940#0" expanded="true" />
-                <element signature="e#35356#35357#0" expanded="true" />
-                <element signature="e#35391#35392#0" expanded="true" />
-                <element signature="e#35547#35548#0" expanded="true" />
-                <element signature="e#35580#35581#0" expanded="true" />
-                <element signature="e#35972#35973#0" expanded="true" />
-                <element signature="e#35999#36000#0" expanded="true" />
-                <element signature="e#36046#36047#0" expanded="true" />
-                <element signature="e#36074#36075#0" expanded="true" />
-                <element signature="e#36164#36165#0" expanded="true" />
-                <element signature="e#36187#36188#0" expanded="true" />
-                <element signature="e#36246#36247#0" expanded="true" />
-                <element signature="e#36267#36268#0" expanded="true" />
-                <element signature="e#36319#36320#0" expanded="true" />
-                <element signature="e#36340#36341#0" expanded="true" />
-                <element signature="e#38007#38008#0" expanded="true" />
-                <element signature="e#38050#38051#0" expanded="true" />
-                <element signature="e#38106#38107#0" expanded="true" />
-                <element signature="e#38150#38151#0" expanded="true" />
+                <element signature="e#10710#10711#0" expanded="true" />
+                <element signature="e#10832#10833#0" expanded="true" />
+                <element signature="e#12500#12501#0" expanded="true" />
+                <element signature="e#12540#12541#0" expanded="true" />
+                <element signature="e#33140#33141#0" expanded="true" />
+                <element signature="e#33171#33172#0" expanded="true" />
+                <element signature="e#38040#38041#0" expanded="true" />
+                <element signature="e#38083#38084#0" expanded="true" />
+                <element signature="e#38368#38369#0" expanded="true" />
+                <element signature="e#38407#38408#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Param.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/Param.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -221,24 +177,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SKLogger.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKLogger.java">
+      <file leaf-file-name="PassiveServerUploadTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/PassiveServerUploadTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="196" column="0" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#4999#5000#0" expanded="false" />
-                <element signature="e#5034#5035#0" expanded="false" />
-              </folding>
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OtherUtils.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProxyDetector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OtherUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/util/OtherUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0875">
+            <state vertical-scroll-proportion="0.0">
               <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
@@ -331,45 +303,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <file leaf-file-name="TestFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/TestFactory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+              <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SKAPostToSocialMedia.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/ska/activity/SKAPostToSocialMedia.java">
+      <file leaf-file-name="Conversions.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/Conversions.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-              <folding>
-                <element signature="e#2882#2883#0" expanded="false" />
-                <element signature="e#2911#2912#0" expanded="false" />
-                <element signature="e#8203#11941#0" expanded="false" />
-                <element signature="e#8750#11421#0" expanded="false" />
-                <element signature="e#11420#11421#0" expanded="false" />
-                <element signature="e#11498#11730#0" expanded="false" />
-                <element signature="e#11729#11730#0" expanded="false" />
-                <element signature="e#11940#11941#0" expanded="false" />
-                <element signature="e#12004#12147#0" expanded="false" />
-                <element signature="e#12146#12147#0" expanded="false" />
-                <element signature="e#15113#15344#0" expanded="false" />
-                <element signature="e#15343#15344#0" expanded="false" />
-                <element signature="e#15407#15550#0" expanded="false" />
-                <element signature="e#15549#15550#0" expanded="false" />
-                <element signature="e#17080#17081#0" expanded="false" />
-                <element signature="e#17098#17099#0" expanded="false" />
-                <element signature="e#18244#18597#0" expanded="false" />
-                <element signature="e#18596#18597#0" expanded="false" />
-                <element signature="e#19021#19966#0" expanded="false" />
-                <element signature="e#19965#19966#0" expanded="false" />
-                <element signature="e#25003#25626#0" expanded="false" />
-                <element signature="e#25625#25626#0" expanded="false" />
-              </folding>
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActiveServerloadTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ActiveServerloadTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DownloadTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/DownloadTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClosestTarget.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ClosestTarget.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="685" column="22" selection-start-line="685" selection-start-column="22" selection-end-line="685" selection-end-column="22" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1372,6 +1351,12 @@
         <option value="$PROJECT_DIR$/src/test/com/samknows/libcore/SKSimpleHttpToJsonQueryTests.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/libcore/SKOperators.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/tests/ClosestTarget.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/tests/DownloadTest.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/tests/Test.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/tests/TestFactory.java" />
       </list>
     </option>
   </component>
@@ -1417,7 +1402,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1434,6 +1418,115 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="libcore" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libcore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libcore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libcore">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libcore">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libcore">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="com">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="samknows">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libcore">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="com">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="samknows">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="tests">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libcore">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="com">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1458,30 +1551,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="libcore" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libcore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libcore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1841,6 +1910,9 @@
       <AnalysisUIOptions />
     </option>
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",VISIBILITY_SORTER,SHOW_FIELDS,SHOW_NON_PUBLIC" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -1854,7 +1926,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1502" y="193" width="1440" height="873" extended-state="6" />
+    <frame x="1502" y="193" width="1440" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1862,10 +1934,9 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.49502322" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32893" sideWeight="0.49502322" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39975247" sideWeight="0.49502322" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1875,22 +1946,58 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.4970545" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24920128" sideWeight="0.4865145" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892704" sideWeight="0.4865145" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3018598" sideWeight="0.4583884" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32893" sideWeight="0.46848044" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3018598" sideWeight="0.4583884" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32893" sideWeight="0.46848044" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39975247" sideWeight="0.49502322" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3018598" sideWeight="0.5416116" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39975247" sideWeight="0.50497675" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3018598" sideWeight="0.4583884" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32893" sideWeight="0.46848044" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.49502322" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39975247" sideWeight="0.49502322" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.4970545" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24892704" sideWeight="0.4865145" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1922,113 +2029,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/ska/activity/SKAPostToSocialMedia.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding>
-            <element signature="e#2882#2883#0" expanded="false" />
-            <element signature="e#2911#2912#0" expanded="false" />
-            <element signature="e#8203#11941#0" expanded="false" />
-            <element signature="e#8750#11421#0" expanded="false" />
-            <element signature="e#11420#11421#0" expanded="false" />
-            <element signature="e#11498#11730#0" expanded="false" />
-            <element signature="e#11729#11730#0" expanded="false" />
-            <element signature="e#11940#11941#0" expanded="false" />
-            <element signature="e#12004#12147#0" expanded="false" />
-            <element signature="e#12146#12147#0" expanded="false" />
-            <element signature="e#15113#15344#0" expanded="false" />
-            <element signature="e#15343#15344#0" expanded="false" />
-            <element signature="e#15407#15550#0" expanded="false" />
-            <element signature="e#15549#15550#0" expanded="false" />
-            <element signature="e#17080#17081#0" expanded="false" />
-            <element signature="e#17098#17099#0" expanded="false" />
-            <element signature="e#18244#18597#0" expanded="false" />
-            <element signature="e#18596#18597#0" expanded="false" />
-            <element signature="e#19021#19966#0" expanded="false" />
-            <element signature="e#19965#19966#0" expanded="false" />
-            <element signature="e#25003#25626#0" expanded="false" />
-            <element signature="e#25625#25626#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/ska/activity/SKAPostToSocialMedia.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding>
-            <element signature="e#2882#2883#0" expanded="false" />
-            <element signature="e#2911#2912#0" expanded="false" />
-            <element signature="e#8203#11941#0" expanded="false" />
-            <element signature="e#8750#11421#0" expanded="false" />
-            <element signature="e#11420#11421#0" expanded="false" />
-            <element signature="e#11498#11730#0" expanded="false" />
-            <element signature="e#11729#11730#0" expanded="false" />
-            <element signature="e#11940#11941#0" expanded="false" />
-            <element signature="e#12004#12147#0" expanded="false" />
-            <element signature="e#12146#12147#0" expanded="false" />
-            <element signature="e#15113#15344#0" expanded="false" />
-            <element signature="e#15343#15344#0" expanded="false" />
-            <element signature="e#15407#15550#0" expanded="false" />
-            <element signature="e#15549#15550#0" expanded="false" />
-            <element signature="e#17080#17081#0" expanded="false" />
-            <element signature="e#17098#17099#0" expanded="false" />
-            <element signature="e#18244#18597#0" expanded="false" />
-            <element signature="e#18596#18597#0" expanded="false" />
-            <element signature="e#19021#19966#0" expanded="false" />
-            <element signature="e#19965#19966#0" expanded="false" />
-            <element signature="e#25003#25626#0" expanded="false" />
-            <element signature="e#25625#25626#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2083,7 +2087,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2138,7 +2141,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2193,62 +2195,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/ska/activity/SKAPostToSocialMedia.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding>
-            <element signature="e#2882#2883#0" expanded="false" />
-            <element signature="e#2911#2912#0" expanded="false" />
-            <element signature="e#8203#11941#0" expanded="false" />
-            <element signature="e#8750#11421#0" expanded="false" />
-            <element signature="e#11420#11421#0" expanded="false" />
-            <element signature="e#11498#11730#0" expanded="false" />
-            <element signature="e#11729#11730#0" expanded="false" />
-            <element signature="e#11940#11941#0" expanded="false" />
-            <element signature="e#12004#12147#0" expanded="false" />
-            <element signature="e#12146#12147#0" expanded="false" />
-            <element signature="e#15113#15344#0" expanded="false" />
-            <element signature="e#15343#15344#0" expanded="false" />
-            <element signature="e#15407#15550#0" expanded="false" />
-            <element signature="e#15549#15550#0" expanded="false" />
-            <element signature="e#17080#17081#0" expanded="false" />
-            <element signature="e#17098#17099#0" expanded="false" />
-            <element signature="e#18244#18597#0" expanded="false" />
-            <element signature="e#18596#18597#0" expanded="false" />
-            <element signature="e#19021#19966#0" expanded="false" />
-            <element signature="e#19965#19966#0" expanded="false" />
-            <element signature="e#25003#25626#0" expanded="false" />
-            <element signature="e#25625#25626#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2303,7 +2249,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2358,7 +2303,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2472,11 +2416,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="196" column="0" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#4999#5000#0" expanded="false" />
-            <element signature="e#5034#5035#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2596,6 +2536,8 @@
           <caret line="62" column="61" selection-start-line="62" selection-start-column="61" selection-end-line="62" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="false" />
+            <element signature="e#2270#2671#0" expanded="false" />
+            <element signature="e#2670#2671#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2604,7 +2546,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2612,7 +2553,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2620,94 +2560,140 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="370" column="0" selection-start-line="370" selection-start-column="0" selection-end-line="370" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="771" column="18" selection-start-line="771" selection-start-column="18" selection-end-line="771" selection-end-column="18" />
           <folding>
-            <element signature="e#10677#10678#0" expanded="true" />
-            <element signature="e#10799#10800#0" expanded="true" />
-            <element signature="e#12467#12468#0" expanded="true" />
-            <element signature="e#12507#12508#0" expanded="true" />
-            <element signature="e#31543#31544#0" expanded="true" />
-            <element signature="e#31565#31566#0" expanded="true" />
-            <element signature="e#31653#31654#0" expanded="true" />
-            <element signature="e#31692#31693#0" expanded="true" />
-            <element signature="e#31736#31737#0" expanded="true" />
-            <element signature="e#31777#31778#0" expanded="true" />
-            <element signature="e#31818#31819#0" expanded="true" />
-            <element signature="e#31857#31858#0" expanded="true" />
-            <element signature="e#31904#31905#0" expanded="true" />
-            <element signature="e#31947#31948#0" expanded="true" />
-            <element signature="e#31990#31991#0" expanded="true" />
-            <element signature="e#32037#32038#0" expanded="true" />
-            <element signature="e#32086#32087#0" expanded="true" />
-            <element signature="e#32131#32132#0" expanded="true" />
-            <element signature="e#32173#32174#0" expanded="true" />
-            <element signature="e#32215#32216#0" expanded="true" />
-            <element signature="e#32255#32256#0" expanded="true" />
-            <element signature="e#32295#32296#0" expanded="true" />
-            <element signature="e#32349#32350#0" expanded="true" />
-            <element signature="e#32394#32395#0" expanded="true" />
-            <element signature="e#32446#32447#0" expanded="true" />
-            <element signature="e#32482#32483#0" expanded="true" />
-            <element signature="e#32532#32533#0" expanded="true" />
-            <element signature="e#32575#32576#0" expanded="true" />
-            <element signature="e#32624#32625#0" expanded="true" />
-            <element signature="e#32661#32662#0" expanded="true" />
-            <element signature="e#32712#32713#0" expanded="true" />
-            <element signature="e#32757#32758#0" expanded="true" />
-            <element signature="e#32972#32973#0" expanded="true" />
-            <element signature="e#33002#33003#0" expanded="true" />
-            <element signature="e#33107#33108#0" expanded="true" />
-            <element signature="e#33138#33139#0" expanded="true" />
-            <element signature="e#33823#33824#0" expanded="true" />
-            <element signature="e#33859#33860#0" expanded="true" />
-            <element signature="e#33992#33993#0" expanded="true" />
-            <element signature="e#34024#34025#0" expanded="true" />
-            <element signature="e#34730#34731#0" expanded="true" />
-            <element signature="e#34768#34769#0" expanded="true" />
-            <element signature="e#34905#34906#0" expanded="true" />
-            <element signature="e#34939#34940#0" expanded="true" />
-            <element signature="e#35356#35357#0" expanded="true" />
-            <element signature="e#35391#35392#0" expanded="true" />
-            <element signature="e#35547#35548#0" expanded="true" />
-            <element signature="e#35580#35581#0" expanded="true" />
-            <element signature="e#35972#35973#0" expanded="true" />
-            <element signature="e#35999#36000#0" expanded="true" />
-            <element signature="e#36046#36047#0" expanded="true" />
-            <element signature="e#36074#36075#0" expanded="true" />
-            <element signature="e#36164#36165#0" expanded="true" />
-            <element signature="e#36187#36188#0" expanded="true" />
-            <element signature="e#36246#36247#0" expanded="true" />
-            <element signature="e#36267#36268#0" expanded="true" />
-            <element signature="e#36319#36320#0" expanded="true" />
-            <element signature="e#36340#36341#0" expanded="true" />
-            <element signature="e#38007#38008#0" expanded="true" />
-            <element signature="e#38050#38051#0" expanded="true" />
-            <element signature="e#38106#38107#0" expanded="true" />
-            <element signature="e#38150#38151#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#10315#11794#0" expanded="false" />
+            <element signature="e#11793#11794#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/util/OtherUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0875">
+        <state vertical-scroll-proportion="0.0">
           <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ActiveServerloadTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/Conversions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/DownloadTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/JsonData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ClosestTarget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="685" column="22" selection-start-line="685" selection-start-column="22" selection-end-line="685" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.5925927">
+          <caret line="228" column="16" selection-start-line="228" selection-start-column="16" selection-end-line="228" selection-end-column="16" />
+          <folding>
+            <element signature="e#10710#10711#0" expanded="true" />
+            <element signature="e#10832#10833#0" expanded="true" />
+            <element signature="e#12500#12501#0" expanded="true" />
+            <element signature="e#12540#12541#0" expanded="true" />
+            <element signature="e#33140#33141#0" expanded="true" />
+            <element signature="e#33171#33172#0" expanded="true" />
+            <element signature="e#38040#38041#0" expanded="true" />
+            <element signature="e#38083#38084#0" expanded="true" />
+            <element signature="e#38368#38369#0" expanded="true" />
+            <element signature="e#38407#38408#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="552" column="0" selection-start-line="552" selection-start-column="0" selection-end-line="552" selection-end-column="0" />
+          <folding>
+            <element signature="e#4560#4561#0" expanded="true" />
+            <element signature="e#4583#4584#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/Param.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/PassiveServerUploadTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/TestFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3875">
+          <caret line="55" column="11" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
+          <folding>
+            <element signature="e#1717#1718#0" expanded="true" />
+            <element signature="e#1785#1786#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

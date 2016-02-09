@@ -85,16 +85,4 @@ public abstract class UploadTest extends HttpTest {
 		
 		return true;
 	}
-	
-	public String getHumanReadableResult() {
-		String ret = "";
-		String direction = "upload";
-		String type = getThreadsNum() == 1 ? "single connection" : "multiple connection";
-		if (getTestStatus().equals("FAIL")) {
-			ret = String.format("The %s has failed.", direction);
-		} else {
-			ret = String.format(Locale.UK,"The %s %s test achieved %.2f Mbps.", type, direction, (Math.max(0, getTransferBytesPerSecond()) * 8d / 1000000));
-		}
-		return ret;
-	}
 }
