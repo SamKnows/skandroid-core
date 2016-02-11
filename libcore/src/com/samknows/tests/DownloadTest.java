@@ -93,7 +93,7 @@ public final class DownloadTest extends HttpTest {
     return ret;
   }
 
-  private Integer getBytesPerSecond(boolean isWarmup) {
+  private Double getBytesPerSecond(boolean isWarmup) {
     if (isWarmup) {
       // If warmup mode is active
       return getWarmupBytesPerSecond();

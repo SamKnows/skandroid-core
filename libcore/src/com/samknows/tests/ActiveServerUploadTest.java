@@ -322,7 +322,7 @@ public final class ActiveServerUploadTest extends UploadTest {
         getError().set(true);
         // And break out of the loop....
         //sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "ActiveUpload", Callable<Integer> transferSpeed );
-        sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes() / (timeElapsed / 1000000.0)), "Upload write exception");
+        sSetLatestSpeedForExternalMonitor(super.getTotalTransferBytes() / (timeElapsed / 1000000.0), "Upload write exception");
         //SKLogger.d(TAG(this), "Upload write exception");		//haha remove this later
         break;
       }
@@ -330,7 +330,7 @@ public final class ActiveServerUploadTest extends UploadTest {
       long updateTime = 0;
       updateTime = timeElapsedSinceLastExternalMonitorUpdate == 0 ? 1000000 : /*40000*/500000;
       if (timeElapsed - timeElapsedSinceLastExternalMonitorUpdate > updateTime/*uSec*/) {																					/* should be triggered 25 times a second after the 1st second */
-        sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes() / ((sGetMicroTime() - runUpStartTime.get()) / 1000000.0)), "Normal upload cycle");		/* update speed parameter + indicative ID */
+        sSetLatestSpeedForExternalMonitor(super.getTotalTransferBytes() / ((sGetMicroTime() - runUpStartTime.get()) / 1000000.0), "Normal upload cycle");		/* update speed parameter + indicative ID */
 
         timeElapsedSinceLastExternalMonitorUpdate = timeElapsed;
 //				SKLogger.d(TAG(this), "External Monitor updated at " + (new java.text.SimpleDateFormat("HH:mm:ss.SSS")).format(new java.util.Date()) + 
@@ -362,7 +362,7 @@ public final class ActiveServerUploadTest extends UploadTest {
       // Stop EITHER if:
       // 1) the read thread tells us!
       if ((readThread != null) && (readThread.getIsCancelled() == true)) {
-        sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes() / (timeElapsed / 1000000.0)), "Server Read thread has stopped");
+        sSetLatestSpeedForExternalMonitor(super.getTotalTransferBytes() / (timeElapsed / 1000000.0), "Server Read thread has stopped");
         //SKLogger.d(TAG(this), "Server Read thread has stopped");//haha
         break;
       }
@@ -379,7 +379,7 @@ public final class ActiveServerUploadTest extends UploadTest {
           }
         } else if (getTransferMaxBytes() > 0) {
           if (bytesTransferredInThisThread >= getTransferMaxBytes()) {
-            sSetLatestSpeedForExternalMonitor((long) (super.getTotalTransferBytes() / (timeElapsed / 1000000.0)), "Upload5b, mTransferMaxBytes=" + getTransferMaxBytes());
+            sSetLatestSpeedForExternalMonitor(super.getTotalTransferBytes() / (timeElapsed / 1000000.0), "Upload5b, mTransferMaxBytes=" + getTransferMaxBytes());
             //SKLogger.d(TAG(this), "loop - break 5b");//haha
             break;
           }
@@ -460,23 +460,23 @@ public final class ActiveServerUploadTest extends UploadTest {
   }
 
   @Override
-  public int getTransferBytesPerSecond() {
+  public double getTransferBytesPerSecond() {
     int res = 0;
 
     if (threadsCount.get() > 0) {
       long total = serverBytesPerSecondTotal.get();
-      double theResult = total / threadsCount.get();
+      double theResult = ((double)total) / ((double)threadsCount.get());
 
       //SKLogger.d(TAG(this), "DEBUG: getSpeedBytesPerSecond, using SERVER value (result/thread count=" + threadsCount.get() + ") = " + (int)theResult);//haha
-      return (int) theResult;
+      return  theResult;
     }
     return res;
   }
 
   @Override
-  protected int getWarmupBytesPerSecond() {
+  protected double getWarmupBytesPerSecond() {
     //SKLogger.e(TAG(this), "getWarmupSpeedBytesPerSecond not implemented...");//haha
-    return 0;
+    return 0.0;
   }
 
   /*------------------------------------ Private Class implementing read from server thread -----------------------------------------*/

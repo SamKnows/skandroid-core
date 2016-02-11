@@ -51,7 +51,7 @@ public class PassiveServerUploadTest extends UploadTest {
     return data;
   }
 
-  private Integer getBytesPerSecond(boolean isWarmup) {
+  private Double getBytesPerSecond(boolean isWarmup) {
     if (isWarmup) {
       // If warmup mode is active
       return getWarmupBytesPerSecond();
@@ -161,9 +161,10 @@ public class PassiveServerUploadTest extends UploadTest {
         }
         */
 
-        if (getBytesPerSecond(isWarmup) >= 0) {
+        Double bytesPerSecond = getBytesPerSecond(isWarmup);
+        if (bytesPerSecond >= 0.0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
-          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Normal", getBytesPerSecond(isWarmup));
+          sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Normal", bytesPerSecond);
         }
 
         //// DEBUG TESTING!
@@ -188,10 +189,10 @@ public class PassiveServerUploadTest extends UploadTest {
       } catch (Exception e1) {
         SKLogger.sAssert(false);
       }
-      int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+      Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
       SKLogger.sAssert(bytesPerSecondMeasurement == 0);
 
-      sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
+      //sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
       //SKLogger.e(TAG(this), "loop - break 3");//haha
       return false;
     }
@@ -213,7 +214,7 @@ public class PassiveServerUploadTest extends UploadTest {
       } catch (Exception e1) {
         SKLogger.sAssert(false);
       }
-      int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+      Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
       SKLogger.sAssert(bytesPerSecondMeasurement == 0);
       return false;
     }
@@ -221,11 +222,12 @@ public class PassiveServerUploadTest extends UploadTest {
     //
     // To get here, the test ran OK!
     //
-    int bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+    Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
     SKLogger.sAssert(bytesPerSecondMeasurement >= 0);
     //hahaSKLogger.e(TAG(this), "Result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement= " + bytesPerSecondMeasurement + " thread: " + threadIndex);
 
-    sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, cReasonUploadEnd);											/* Final external interface set up */
+    // Do NOT send this, as it otherwise affects ALL thread test potentially!
+    //sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, cReasonUploadEnd);											/* Final external interface set up */
 
     return true;
   }

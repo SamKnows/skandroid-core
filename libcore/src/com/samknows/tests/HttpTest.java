@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import android.util.Pair;
 
@@ -502,14 +503,14 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
 /* The following set of methods relates to a  communication with the external UI TODO move prototypes to test */
 
-  static private AtomicLong sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicLong(0);
-  static private AtomicLong sBytesPerSecondLast = new AtomicLong(0);
+  static private AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<Double>(new Double(0.0));
+  static private AtomicReference<Double> sBytesPerSecondLast = new AtomicReference<Double>(new Double(0.0));
 
   private static String sLatestSpeedForExternalMonitorTestId = "";
 
   private static void sLatestSpeedReset(String theReasonId) {
-    sLatestSpeedForExternalMonitorBytesPerSecond.set(0);
-    sBytesPerSecondLast.set(0);
+    sLatestSpeedForExternalMonitorBytesPerSecond.set(new Double(0));
+    sBytesPerSecondLast.set(new Double(0));
     sLatestSpeedForExternalMonitorTestId = theReasonId;
   }
 
@@ -517,14 +518,14 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   // Returns -1 if sample time too short.
   public static Pair<Double, String> sGetLatestSpeedForExternalMonitorAsMbps() {
     // use moving average of the last 2 items!
-    double bytesPerSecondToUse = sBytesPerSecondLast.doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.doubleValue();
+    double bytesPerSecondToUse = sBytesPerSecondLast.get().doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.get().doubleValue();
     bytesPerSecondToUse /= 2;
 
     double mbps1000Based = Conversions.sConvertBytesPerSecondToMbps1000Based(bytesPerSecondToUse);
     return new Pair<>(mbps1000Based, sLatestSpeedForExternalMonitorTestId);
   }
 
-  public static void sSetLatestSpeedForExternalMonitor(long bytesPerSecond, String testId) {
+  public static void sSetLatestSpeedForExternalMonitor(Double bytesPerSecond, String testId) {
     sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
     if (bytesPerSecond == 0) {
       SKLogger.sAssert(testId.equals(cReasonUploadEnd));
@@ -535,7 +536,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
   protected final int extMonitorUpdateInterval = 500000;
 
-  protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Integer transferSpeed) {
+  protected void sSetLatestSpeedForExternalMonitorInterval(long pause, String id, Double transferSpeed) {
     long updateTime = /*timeElapsedSinceLastExternalMonitorUpdate.get() == 0 ? pause * 5 : */ pause;					/* first update is delayed 3 times of a given pause */
 
     if (timeElapsedSinceLastExternalMonitorUpdate.get() == 0) {
@@ -543,15 +544,15 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     }
 
     if (sGetMicroTime() - timeElapsedSinceLastExternalMonitorUpdate.get() > updateTime/*uSec*/) {				/* update should be called only if 'pause' is expired */
-      int currentSpeed;
+      double currentSpeed;
 
       try {
         currentSpeed = transferSpeed;																/* current speed could be for warm up, transfer or possibly others processes */
       } catch (Exception e) {
-        currentSpeed = 0;
+        currentSpeed = 0.0;
       }
 
-      sSetLatestSpeedForExternalMonitor((long) (currentSpeed /*/ 1000000.0*/), id);							/* update speed parameter + indicative ID */
+      sSetLatestSpeedForExternalMonitor(currentSpeed /*/ 1000000.0*/, id);							/* update speed parameter + indicative ID */
 
       timeElapsedSinceLastExternalMonitorUpdate.set(sGetMicroTime());											/* set new update time */
 
@@ -1055,12 +1056,12 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   private boolean downstream = true;
 
 
-  private static int sGetBytesPerSecondWithMicroDuration(long durationMicro, long btsTotal) {
-    int btsPerSec = 0;
+  private static double sGetBytesPerSecondWithMicroDuration(long durationMicro, long btsTotal) {
+    double btsPerSec = 0;
 
     if (durationMicro != 0) {
       double timeSeconds = ((double) durationMicro) / 1000000.0;
-      btsPerSec = (int) (((double) btsTotal) / timeSeconds);
+      btsPerSec =  (((double) btsTotal) / timeSeconds);
     }
 
     //SKLogger.d(TAG(this), "getWarmupSpeedBytesPerSecond, using CLIENT value = " + btsPerSec);//HAHA remove in production
@@ -1068,7 +1069,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   }
 
 
-  protected int getWarmupBytesPerSecond() {
+  protected double getWarmupBytesPerSecond() {
     long btsTotal = getTotalWarmUpBytes();
     long durationMicro = getWarmUpTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartWarmupMicro()) : getWarmUpTimeDurationMicro();
 
@@ -1077,7 +1078,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
 
   // Returns -1 if not enough time has passed for sensible measurement.
-  public int getTransferBytesPerSecond() {
+  public double getTransferBytesPerSecond() {
     long btsTotal = getTotalTransferBytes();
     long durationMicro = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
 
@@ -1086,7 +1087,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     if (durationMicro == 0) // Anything
     {
       // Not yet possible to return a valid result!
-      return -1;
+      return -1.0;
     }
 
     return sGetBytesPerSecondWithMicroDuration(durationMicro, btsTotal);

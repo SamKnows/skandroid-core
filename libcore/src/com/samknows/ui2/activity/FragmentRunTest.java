@@ -362,9 +362,11 @@ public class FragmentRunTest extends Fragment {
               //Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
               if (value.first != lastPolledSpeedValueMbps) {
 
-                if ( (value.second.equals(HttpTest.cReasonResetUpload)) ||
-                     (value.second.equals(HttpTest.cReasonResetDownload)) ||
-                     (value.second.equals(HttpTest.cReasonUploadEnd))
+                if (value.second.equals(HttpTest.cReasonUploadEnd)) {
+                  // Nothing to do...?!
+
+                } else if ( (value.second.equals(HttpTest.cReasonResetUpload)) ||
+                     (value.second.equals(HttpTest.cReasonResetDownload))
                    )
                 {
                   // Don't display the first "0" for the download/upload test reset...
