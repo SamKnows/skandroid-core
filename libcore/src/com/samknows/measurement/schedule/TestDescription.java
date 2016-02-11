@@ -159,12 +159,6 @@ public class TestDescription implements Serializable{
 		}
 		return td;
 	}
-	
-	public boolean canExecute() {
-		TestParamsManager manager = CachingStorage.getInstance().loadParamsManager(); 
-		boolean isClosestParamSet = manager == null ? false : manager.hasParam("closest");
-		return isClosestParamSet || type.equalsIgnoreCase(SKConstants.TEST_TYPE_CLOSEST_TARGET);
-	}
 
 	@Override
 	public int hashCode() {

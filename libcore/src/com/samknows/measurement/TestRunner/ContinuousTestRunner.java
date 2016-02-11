@@ -154,13 +154,13 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     ConditionGroupResult tr = new ConditionGroupResult();
     for (TestDescription td : mConfig.continuous_tests) {
       te.executeTest(td, tr);
-    }
-    for (String out : tr.results) {
-      List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult.testOutput(out, te);
+
+      List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult.testOutput(te.getExecutingTest(), td.type);
       if (theResult != null) {
         testsResults.addAll(theResult);
       }
     }
+
     collectData();
     for (DCSData d : mListDCSData) {
       passiveMetrics.addAll(d.getPassiveMetric());

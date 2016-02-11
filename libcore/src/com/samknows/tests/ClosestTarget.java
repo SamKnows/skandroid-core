@@ -21,15 +21,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.json.JSONObject;
 
 import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.TestParamsManager;
 import com.samknows.measurement.TestRunner.SKTestRunner;
+import com.samknows.measurement.schedule.OutParamDescription;
 import com.samknows.measurement.util.SKDateFormat;
 
-public class ClosestTarget extends Test {
+public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
 
   /*
    * constants for creating a ClosestTarget test
@@ -67,6 +70,17 @@ public class ClosestTarget extends Test {
   public static final String JSON_CLOSETTARGET = "closest_target";
   public static final String JSON_IPCLOSESTTARGET = "ip_closest_target";
 
+  private ClosestTarget(List<Param> params) {
+    synchronized (ClosestTarget.this) {
+      sClosestTarget = "";
+      setParams(params);
+    }
+  }
+
+  static ClosestTarget sCreateClosestTarget(List<Param> params) {
+    return new ClosestTarget(params);
+  }
+
   public class Result {
     public int total;
     public int completed;
@@ -82,13 +96,6 @@ public class ClosestTarget extends Test {
   //		sClosestTarget = "";
   //	}
   //}
-
-  public ClosestTarget(List<Param> params) {
-    synchronized (ClosestTarget.this) {
-      sClosestTarget = "";
-      setParams(params);
-    }
-  }
 
   private boolean between(int x, int a, int b) {
     return (x >= a && x <= b);
@@ -274,7 +281,7 @@ public class ClosestTarget extends Test {
       startSignal = inStartSignal;
       doneSignal = inDoneSignal;
 
-      latencyTest = (LatencyTest) (latencyTests[serverIndex]);
+      latencyTest = latencyTests[serverIndex];
       SKLogger.sAssert(getClass(), latencyTest.getTarget().equals(target));
     }
 
@@ -327,7 +334,7 @@ public class ClosestTarget extends Test {
           finished++;
         }
 
-        latencyTest.status = Test.STATUS.DONE;
+        latencyTest.status = SKAbstractBaseTest.STATUS.DONE;
         latencyTest.finished = true;
 
         // Add a new result to the queue for display...
@@ -450,7 +457,6 @@ public class ClosestTarget extends Test {
   private boolean find() {
     boolean ret = false;
     if (targets.size() == 0) {
-      output();
       return ret;
     }
     ArrayList<Thread> threads = new ArrayList<>();
@@ -480,15 +486,12 @@ public class ClosestTarget extends Test {
     int minDist = Integer.MAX_VALUE;
     for (int i = 0; i < targets.size(); i++) {
 
-      if (latencyTests[i].getOutputField(LatencyTest.STATUSFIELD).equals(
-          "OK")) {
+      if (latencyTests[i].isSuccessful()) {
         success = true;
-        int avg = Integer.parseInt(latencyTests[i]
-            .getOutputField(LatencyTest.AVERAGEFIELD));
+        int avg = (int) latencyTests[i].getAverageMicroseconds();
         if (avg < minDist) {
           closestTarget = targets.get(i);
-          ipClosestTarget = latencyTests[i]
-              .getOutputField(LatencyTest.IPTARGETFIELD);
+          ipClosestTarget = latencyTests[i].getIpAddress();
           minDist = avg;
         }
       }
@@ -519,7 +522,6 @@ public class ClosestTarget extends Test {
       mbFinishedSelectingClosestTarget = true;
       ret = true;
     }
-    output();
     return ret;
   }
 
@@ -530,17 +532,29 @@ public class ClosestTarget extends Test {
     return closestTarget;
   }
 
-  private void output() {
+  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+  @Override
+  public synchronized void finish() {
+    mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+    status = STATUS.DONE;
+  }
+
+  @Override
+  public long getTimestamp() {
+    return mTimestamp;
+  }
+
+  @Override
+  public JSONObject getJSONResult() {
     ArrayList<String> o = new ArrayList<>();
     Map<String, Object> output = new HashMap<>();
     //string id
     o.add(TESTSTRING);
     output.put(JsonData.JSON_TYPE, TESTSTRING);
     //TIME
-    long time_stamp = unixTimeStamp();
-    o.add(time_stamp + "");
-    output.put(JsonData.JSON_TIMESTAMP, time_stamp);
-    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp * 1000)));
+    o.add(mTimestamp + "");
+    output.put(JsonData.JSON_TIMESTAMP, mTimestamp);
+    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mTimestamp * 1000)));
     //status
     boolean status = true;
     if (closestTarget.equals(VALUE_NOT_KNOWN)) {
@@ -560,11 +574,12 @@ public class ClosestTarget extends Test {
     o.add(ipClosestTarget);
     output.put(JSON_IPCLOSESTTARGET, ipClosestTarget);
 
-    setOutput(o.toArray(new String[1]));
-    setJSONResult(output);
+    //setOutput(o.toArray(new String[1]));
+    JSONObject json_output = new JSONObject(output);
+    return json_output;
   }
 
-  private Test[] latencyTests = null;
+  private LatencyTest[] latencyTests = null;
   private ArrayList<String> targets = new ArrayList<>();
   private int nPackets = _NPACKETS;
   private int interPacketTime = _INTERPACKETTIME;
@@ -600,17 +615,12 @@ public class ClosestTarget extends Test {
   }
 
   @Override
-  public boolean isProgressAvailable() {
-    return true;
-  }
-
-  @Override
   public int getProgress0To100() {
     if (latencyTests == null) {
       return 0;
     }
     int min = 100;
-    for (Test t : latencyTests) {
+    for (LatencyTest t : latencyTests) {
       if (t != null) {
         int curr = t.getProgress0To100();
         min = curr < min ? curr : min;
@@ -674,14 +684,6 @@ public class ClosestTarget extends Test {
   public String getStringID() {
     return TESTSTRING;
   }
-
-
-  @Override
-  public HashMap<String, String> getResults() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 
   final private void setParams(List<Param> params) {
     try {

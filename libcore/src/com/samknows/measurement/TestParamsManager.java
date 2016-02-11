@@ -19,7 +19,7 @@ public class TestParamsManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, TestParam> map = new HashMap<>();
 	
-	public void put(String name, String value) {
+	private void put(String name, String value) {
 		Log.d(TAG, "saving param: " + name + " with value: " + value);
 		map.put(name, new TestParam(name, value));
 	}
@@ -29,17 +29,23 @@ public class TestParamsManager implements Serializable {
 		StringBuilder sb = new StringBuilder();
 		for (Param p : params) {
 			sb.append(p.getName()).append(" ").append(p.getValue()).append(". ");
-			if (p.getValue().startsWith(SKConstants.PARAM_PREFIX)) {
+			if (p.getValue().equals("$closest")) {
+				String closestTarget = ClosestTarget.sGetClosestTarget();
+				SKLogger.d(TAG, "replacing closestTarget with + " + closestTarget);
+				SKLogger.sAssert(closestTarget.length() > 0);
+				result.add(new Param(p.getName(), closestTarget));
+			} else if (p.getValue().startsWith(SKConstants.PARAM_PREFIX)) {
 				String name = p.getValue().substring(SKConstants.PARAM_PREFIX.length());
 				TestParam newParam = map.get(name);
 				if (newParam != null) {
 					if (p.getValue().equals("$closest")) {
 						ClosestTarget.sSetClosestTarget(newParam.value);
+						SKLogger.sAssert(false);
 					}
 					SKLogger.d(TAG, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
 					result.add(new Param(p.getName(), newParam.value));
 				} else {
-					SKLogger.e(this, "can't replace param: " + p.getName() + " with value: " + p.getValue(), new RuntimeException());
+					SKLogger.e(this, "can't replace param: " + p.getName() + " with value: " + p.getValue() + "!");
 				}
 			} else {
 				result.add(p);
@@ -63,15 +69,6 @@ public class TestParamsManager implements Serializable {
 			return true;
 		}
 		return (p.createdTime + expTime) < System.currentTimeMillis();
-	}
-	
-	public boolean hasParam(String param) {
-		return map.get(param) != null;
-	}
-	
-	public String getParam(String name) {
-		TestParam p = map.get(name); 
-		return p == null ? null : p.value; 
 	}
 
 	private class TestParam implements Serializable{

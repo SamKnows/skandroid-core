@@ -3,7 +3,6 @@ package com.samknows.measurement.TestRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
@@ -30,7 +29,6 @@ import com.samknows.libcore.SKOperators;
 import com.samknows.libcore.SKOperators.ISKQueryCompleted;
 import com.samknows.libcore.SKOperators.SKOperators_Return;
 import com.samknows.libcore.SKOperators.SKThrottledQueryResult;
-import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 import com.samknows.measurement.schedule.TestDescription.*;
@@ -53,31 +51,27 @@ import com.samknows.measurement.storage.TestResultsManager;
 import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
+import com.samknows.tests.LatencyTest;
 import com.samknows.tests.Param;
-import com.samknows.tests.Test;
+import com.samknows.tests.SKAbstractBaseTest;
 import com.samknows.tests.TestFactory;
 
 public class TestExecutor {
 	private static final String JSON_SUBMISSION_TYPE = "submission_type";
 	private static final String TAG = TestExecutor.class.getName();
 	private TestContext tc;
-	private Test executingTest;
+	private SKAbstractBaseTest executingTest;
 	private long lastTestBytes;
 	private long accumulatedTestBytes;
 	private Thread startThread = null;
 	private ResultsContainer rc;
 	
-	public Test getExecutingTest() {
+	public SKAbstractBaseTest getExecutingTest() {
 		return executingTest;
 	}
 	
 	public long getAccumulatedTestBytes() {
 		return accumulatedTestBytes;
-	}
-	
-	public String getInternalNameOfExecutingTest()
-	{
-		return executingTest.getOutputFields()[0];
 	}
 	
 	public ResultsContainer getResultsContainer() {
@@ -278,7 +272,7 @@ public class TestExecutor {
 		if (result.isSuccess && cg != null) {
 			ConditionGroupResult cgr = cg.testAfter(tc);
 			result.add(cgr);
-			rc.addCondition(result.json_results);
+			rc.addCondition(result.getJsonResultArray());
 		}
 
 		if (cg != null) {
@@ -293,7 +287,7 @@ public class TestExecutor {
 		return result;
 	}
 
-	public Test executeTest(TestDescription td, ConditionGroupResult result) {
+	public SKAbstractBaseTest executeTest(TestDescription td, ConditionGroupResult result) {
 		
 		try {
 			List<Param> params = tc.paramsManager.prepareParams(td.params);
@@ -339,54 +333,55 @@ public class TestExecutor {
 					lastTestBytes = executingTest.getNetUsage();
 					accumulatedTestBytes += lastTestBytes;
 					result.isSuccess = executingTest.isSuccessful();
-					String out = executingTest.getOutputString();
-					result.addTestString(out);
-					
+
 					// TODO MPC - theJsonResult here, can be used to append the Accumulated results!
 					JSONObject jsonResult = executingTest.getJSONResult();
-					SKLogger.d("", jsonResult.toString());//TODO remove in production
+					//SKLogger.d("", jsonResult.toString());//TODO remove in production
 					sAddPassiveLocationMetricForTestResult(jsonResult);
 		      sAddPassiveNetworkTypeMetricForTestResult(jsonResult);
-					rc.addTest(jsonResult);
+					rc.addTestJSONObject(jsonResult);
 					
-					// HACK TO INCLUDE THE JUDPJITTER RESULTS
-					if (td.type.equalsIgnoreCase("latency")) {
-						String[] judp = executingTest.getOutputFields();
-						DCSStringBuilder jjitter = new DCSStringBuilder();
-						String jitter = ""+ (Integer.parseInt(judp[5]) - Integer.parseInt(judp[6]));
-						String sent = ""+ (Integer.parseInt(judp[9]) + Integer.parseInt(judp[10]));
-						String received = ""+ (Integer.parseInt(judp[9]) - Integer.parseInt(judp[10]));
-						jjitter.append("JUDPJITTER");
-						jjitter.append(judp[1]); // TIMESTAMP
-						jjitter.append(judp[2]); // STATUS
-						jjitter.append(judp[3]); // TARGET
-						jjitter.append(judp[4]); // TARGET IP ADDRESS
-						jjitter.append(128); // PACKETSIZE
-						jjitter.append(0); // BITRATE
-						jjitter.append(0); // DURATION
-						jjitter.append(sent); // PACKETS SENT UP
-						jjitter.append(sent); // PACKETS SENT DOWN
-						jjitter.append(received); // PACKETS RECEIVED UP
-						jjitter.append(received); // PACKETS RECEIVED DOWN
-						jjitter.append(jitter); // JITTER UP
-						jjitter.append(jitter); // JITTER DOWN
-						jjitter.append(judp[5]); // AVERAGE RTT
-						result.addTestString(jjitter.build());
-					}
+//					// HACK TO INCLUDE THE JUDPJITTER RESULTS
+//					if (td.type.equalsIgnoreCase("latency")) {
+//            if (executingTest instanceof LatencyTest) {
+//              LatencyTest latencyTest = (LatencyTest) executingTest;
+//              //String[] judp = executingTest.getOutputFields();
+//              DCSStringBuilder jjitter = new DCSStringBuilder();
+//              String jitter = "" + latencyTest.getResultJitterMilliseconds();
+//              String sent = "" + latencyTest.getSentPackets();
+//              String received = "" + latencyTest.getReceivedPackets();
+//              jjitter.append("JUDPJITTER");
+//              jjitter.append("" + SKAbstractBaseTest.sGetUnixTimeStamp());
+//              jjitter.append(latencyTest.getTestStatus());
+//              jjitter.append(latencyTest.getTarget());
+//              jjitter.append(latencyTest.getIpAddress());
+//              jjitter.append(128); // PACKETSIZE
+//              jjitter.append(0); // BITRATE
+//              jjitter.append(0); // DURATION
+//              jjitter.append(sent); // PACKETS SENT UP
+//              jjitter.append(sent); // PACKETS SENT DOWN
+//              jjitter.append(received); // PACKETS RECEIVED UP
+//              jjitter.append(received); // PACKETS RECEIVED DOWN
+//              jjitter.append(jitter); // JITTER UP
+//              jjitter.append(jitter); // JITTER DOWN
+//              jjitter.append("" + latencyTest.getAverageMicroseconds());
+//              result.addTestString(jjitter.build());
+//            } else {
+//              SKLogger.sAssert(false);
+//            }
+//					}
 
-					if (result.isSuccess) {
-						tc.paramsManager.processOutParams(out, td.outParamsDescription);
+//					if (result.isSuccess) {
+//						tc.paramsManager.processOutParams(out, td.outParamsDescription);
 
-
-						HashMap<String, String> last_values = executingTest.getResults();
-						if( last_values != null ){
-							for (String key : last_values.keySet()) {
-								String value = last_values.get(key);
-								SKLogger.d(TestExecutor.class, "last_" + key + " " + value);
-								SK2AppSettings.getInstance().saveString( "last_" + key, value);
-							}
-						}
-					}
+//						if (executingTest instanceof LatencyTest) {
+//							LatencyTest latencyTest = (LatencyTest)executingTest;
+//							SKAppSettings settings = SK2AppSettings.getInstance();
+//							settings.saveString("last_latency", "" + latencyTest.getResultLatencyMilliseconds());
+//							settings.saveString("last_packetloss", "" + latencyTest.getResultLossPercent0To100());
+//							settings.saveString( "last_jitter", "" + latencyTest.getResultJitterMilliseconds());
+//						}
+//					}
 
 					SKLogger.d(TAG, "finished execution test: " + td.type);
 				}
@@ -491,27 +486,26 @@ public class TestExecutor {
 		ConditionGroup cg = tc.config.getConditionGroup(tg.conditionGroupId);
 		showNotification(tc.getString(R.string.ntf_checking_conditions));
 		ConditionGroupResult result = execute(cg);
-		
-		
+
+
+    List<JSONObject> testsResults = new ArrayList<>();
 		//Run tests only if the conditions are met
 		if(result.isSuccess){
 			for (TestDescription td : tds) {
-				executeTest(td, result);
+				SKAbstractBaseTest theRunTest = executeTest(td, result);
+
+        List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult.testOutput(theRunTest, td.type);
+        if (theResult != null) {
+          testsResults.addAll(theResult);
+        }
 			}
 		}
-		List<JSONObject> testsResults = new ArrayList<>();
-		for (String out : result.results) {
-			List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult
-					.testOutput(out, this);
-			if (theResult != null) {
-				testsResults.addAll(theResult);
-			}
-		}
+
 
 		if (cg != null) {
 			ConditionGroupResult cgr = cg.testAfter(tc);
 			result.add(cgr);
-			rc.addCondition(result.json_results);
+			rc.addCondition(result.getJsonResultArray());
 			cg.release(tc);
 		}
 		List<JSONObject> passiveMetrics = new ArrayList<>();

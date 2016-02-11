@@ -13,8 +13,12 @@ import com.samknows.libcore.SKLogger;
 
 public class PassiveServerUploadTest extends UploadTest {
 
-  public PassiveServerUploadTest(List<Param> params) {
+  private PassiveServerUploadTest(List<Param> params) {
     super(params);
+  }
+
+  static public PassiveServerUploadTest sCreatePassiveServerUploadTest(List<Param> params) {
+    return new PassiveServerUploadTest(params);
   }
 
   private String formPostHeaderRequestString(int threadIndex) {

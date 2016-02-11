@@ -33,14 +33,6 @@ public class Storage {
     save(SKConstants.EXECUTION_QUEUE_FILE_NAME, eq);
   }
 
-  public void dropExecutionQueue() {
-    drop(SKConstants.EXECUTION_QUEUE_FILE_NAME);
-  }
-
-  public void dropParamsManager() {
-    drop(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME);
-  }
-
   public TestParamsManager loadParamsManager() {
     return (TestParamsManager) load(SKConstants.TEST_PARAMS_MANAGER_FILE_NAME);
   }

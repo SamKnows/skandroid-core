@@ -22,7 +22,7 @@ import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.Storage;
 import com.samknows.tests.ClosestTarget;
-import com.samknows.tests.Test;
+import com.samknows.tests.SKAbstractBaseTest;
 import com.samknows.tests.TestFactory;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -223,8 +223,9 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       while (true) {
         try {
           t.join(100);
-          if (!t.isAlive())
+          if (!t.isAlive()) {
             break;
+          }
         } catch (InterruptedException ie) {
           SKLogger.sAssert(false);
         }
@@ -266,11 +267,10 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
 //			}
 
       List<JSONObject> currResults = new ArrayList<>();
-      for (String out : tr.results) {
-        List<JSONObject> theResult = StorageTestResult.testOutput(out, te);
-        if (theResult != null) {
-          currResults.addAll(theResult);
-        }
+
+      List<JSONObject> theResult = StorageTestResult.testOutput(oe.getTheTest(), td.type);
+      if (theResult != null) {
+        currResults.addAll(theResult);
       }
 
       // For all test results, we send a Message instance...
@@ -332,7 +332,10 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     public TestExecutor te;
     private TestDescription td;
     private ConditionGroupResult tr;
-    private Test theTestThatWasRun = null;
+    private SKAbstractBaseTest theTestThatWasRun = null;
+    public SKAbstractBaseTest getTheTest() {
+      return theTestThatWasRun;
+    }
 
     public ObservableExecutor(TestExecutor te, TestDescription td,
                               ConditionGroupResult tr) {
@@ -346,7 +349,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       theTestThatWasRun = te.executeTest(td, tr);
     }
 
-    public Test getTheExecutedTestPostRun() {
+    public SKAbstractBaseTest getTheExecutedTestPostRun() {
       return theTestThatWasRun;
     }
 

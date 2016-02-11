@@ -15,6 +15,11 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.TestRunner.TestExecutor;
 import com.samknows.measurement.util.SKDateFormat;
+import com.samknows.tests.DownloadTest;
+import com.samknows.tests.HttpTest;
+import com.samknows.tests.LatencyTest;
+import com.samknows.tests.SKAbstractBaseTest;
+import com.samknows.tests.TestFactory;
 
 //Model for the test_result table in the SQLite database 
 public class StorageTestResult extends JSONObject{
@@ -262,159 +267,178 @@ public class StorageTestResult extends JSONObject{
 		put(JSON_SUCCESS, success+"");
 	}
 
-  // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-  // by ManualTestRunner:progressMessage
-	public static List<JSONObject> testOutput(String data, TestExecutor forTestExecutor){
-		SKLogger.d(StorageTestResult.class, "testOutput: " + data);
-		return testOutput(data.split(SKConstants.RESULT_LINE_SEPARATOR), forTestExecutor);
-	}
-
-
   // This writes the test results§ via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
   // by ManualTestRunner:progressMessage
-	public static List<JSONObject> testOutput(String[] data, TestExecutor forTestExecutor){
+	public static List<JSONObject> testOutput(SKAbstractBaseTest theTest, String testType) {
 		List<JSONObject> ret = new ArrayList<>();
-		if (data[0].equals("NETACTIVITY")) {
-    		return ret;
-		}
-		if (data[0].equals("CPUACTIVITY")) {
-    		return ret;
-		}
-		if (data[0].equals("CLOSESTTARGET")) {
+//		if (data[0].equals("NETACTIVITY")) {
+//    		return ret;
+//		}
+//		if (data[0].equals("CPUACTIVITY")) {
+//    		return ret;
+//		}
+//		if (data[0].equals("CLOSESTTARGET")) {
+//			return null;
+//		}
+    TESTSSTRINGID tsid;
+		//SKLogger.sAssert(data[0].equals(testType));
+
+		if (testType.equals(SKConstants.TEST_TYPE_DOWNLOAD)) {
+      tsid = TESTSSTRINGID.JHTTPGETMT;
+			// Continue!
+		} else if (testType.equals(SKConstants.TEST_TYPE_UPLOAD)) {
+      tsid = TESTSSTRINGID.JHTTPPOSTMT;
+			// Continue!
+		} else if (testType.equals(SKConstants.TEST_TYPE_LATENCY)) {
+      tsid = TESTSSTRINGID.JUDPLATENCY;
+			// Continue!
+		} else if (testType.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
+			return null;
+		} else if (testType.equals("NETACTIVITY")) {
+			SKLogger.sAssert(false);
+			return null;
+//		} else if (testType.equals("CPUACTIVITY")) {
+//			SKLogger.sAssert(false);
+//			return null;
+		} else {
+      SKLogger.sAssert(false);
+			// Nothing to report!
 			return null;
 		}
 
-		TESTSSTRINGID tsid;
-		
-		try {
-			tsid = TESTSSTRINGID.valueOf(data[0]);
-		} catch(IllegalArgumentException iae) {
-			SKLogger.sAssert(StorageTestResult.class, false);
-			return ret;
-		}
-		
-		switch (tsid){
-		case JHTTPGET:
-		case JHTTPGETMT:
-		{
-      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-      // by ManualTestRunner:progressMessage
-			StorageTestResult testResult = convertThroughputTest(DETAIL_TEST_ID.DOWNLOAD_TEST_ID, data);
-			
-			ret.add(testResult);
-		}
-			break;
-		case JHTTPPOST:
-		case JHTTPPOSTMT:
-		{
-      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-      // by ManualTestRunner:progressMessage
-			StorageTestResult testResult = convertThroughputTest(DETAIL_TEST_ID.UPLOAD_TEST_ID, data);
-			
-			ret.add(testResult);
-		}
-			break;
-		case JUDPLATENCY:
-		{
-      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-      // by ManualTestRunner:progressMessage
-			List<StorageTestResult> testResults = convertLatencyTest(data);
-			
-			ret.addAll(testResults);
-		}
-			break;
-		case JUDPJITTER:
-		{
-      // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-      // by ManualTestRunner:progressMessage
-			StorageTestResult testResult = convertJitterTest(data);
+		switch (tsid) {
+      case JHTTPGET:
+      case JHTTPGETMT: {
+        // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+        // by ManualTestRunner:progressMessage
+        StorageTestResult testResult = createStorageTestResultForUI_For_HttpTest(DETAIL_TEST_ID.DOWNLOAD_TEST_ID, (HttpTest) theTest);
 
-			ret.add(testResult);
-		}
-			break;
-		}
+        ret.add(testResult);
+      }
+      break;
+
+      case JHTTPPOST:
+      case JHTTPPOSTMT: {
+        // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+        // by ManualTestRunner:progressMessage
+        StorageTestResult testResult = createStorageTestResultForUI_For_HttpTest(DETAIL_TEST_ID.UPLOAD_TEST_ID, (HttpTest) theTest);
+        ret.add(testResult);
+      }
+      break;
+
+      case JUDPLATENCY: {
+        // This writes the test result via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+        // by ManualTestRunner:progressMessage
+        StorageTestResult latencyTestResult = createStorageTestResultForUI_For_LatencyTest_Latency((LatencyTest) theTest);
+        ret.add(latencyTestResult);
+
+        StorageTestResult lossTestResult = createStorageTestResultForUI_For_LatencyTest_Loss((LatencyTest) theTest);
+        ret.add(lossTestResult);
+
+        // And send as a JITTER test, as well!
+        StorageTestResult jitterTestResult = createStorageTestResultForUI_For_LatencyTest_Jitter((LatencyTest) theTest);
+        ret.add(jitterTestResult);
+      }
+      break;
+      case JUDPJITTER:
+        SKLogger.sAssert(false);
+        break;
+    }
+
 		return ret;
 	}
-	
-	private static StorageTestResult convertJitterTest(String[] data){
-		StorageTestResult ret = new StorageTestResult(DETAIL_TEST_ID.JITTER_TEST_ID);
-		long dtime = Long.parseLong(data[1])*1000;
-		long success = data[2].equals("OK") ? 1 : 0;
-		String target = data[3];
-		Double metric = Double.parseDouble(data[12]);
-		ret.setTime(dtime);
-		ret.setLocation(target);
 
-    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-    // by ManualTestRunner:progressMessage
-		ret.setResult(metric);
-
-		ret.putLong(JSON_SUCCESS, success);
-		ret.setTest(StorageTestResult.DETAIL_TEST_ID.JITTER_TEST_ID);
-		ret.setComplete();
-		return ret;
-	}
-	
-	private static StorageTestResult convertThroughputTest(DETAIL_TEST_ID test_id, String[] data){
+	private static StorageTestResult createStorageTestResultForUI_For_HttpTest(DETAIL_TEST_ID test_id, HttpTest theTest) {
 		StorageTestResult ret = new StorageTestResult(test_id);
-		long dtime = Long.parseLong(data[1])*1000;
-		long success = data[2].equals("OK") ? 1 : 0;
-		String target = data[3];
-		Double metric = Double.parseDouble(data[7]);
-		ret.setTime(dtime);
+    long dtimeNano = theTest.getTimestamp()*1000;
+		ret.setTime(dtimeNano);
+    String target = theTest.getTarget();
 		ret.setLocation(target);
 
     // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
     // by ManualTestRunner:progressMessage
-		ret.setResult(metric*8);
+    Double bytesPerSecond = Double.valueOf(Math.max(0, theTest.getTransferBytesPerSecond()));
+    Double bitsPerSecond = bytesPerSecond * 8.0;
+		ret.setResult(bitsPerSecond);
 
+    long success = theTest.isSuccessful() ? 1 : 0;
 		ret.putLong(JSON_SUCCESS, success);
 		ret.setTest(test_id);
 		ret.setComplete();
 		return ret;
 	}
-	
-	private static List<StorageTestResult> convertLatencyTest(String[] data){
-		List<StorageTestResult> ret = new ArrayList<>();
-		StorageTestResult lat = new StorageTestResult(DETAIL_TEST_ID.LATENCY_TEST_ID);
-		long dtime = Long.parseLong(data[1])*1000;
-		long success = data[2].equals("OK") ? 1 : 0;
-		String target = data[3];
-		Double latencyResult = Double.parseDouble(data[5]);
-		int received = Integer.parseInt(data[9]);
-		int lost = Integer.parseInt(data[10]);
-		int sent = received + lost;
-		double packetLoss = 0.0;
-		if(sent != 0){
-			packetLoss = 100d * ((double) lost)/sent;
-		}
-		lat.setTime(dtime);
-		lat.setLocation(target);
 
-    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-    // by ManualTestRunner:progressMessage
-		lat.setResult(latencyResult);
+  // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+  // by ManualTestRunner:progressMessage
+  private static StorageTestResult createStorageTestResultForUI_For_LatencyTest_Latency(LatencyTest theTest) {
+    StorageTestResult lat = new StorageTestResult(DETAIL_TEST_ID.LATENCY_TEST_ID);
+    lat.setTest(DETAIL_TEST_ID.LATENCY_TEST_ID);
 
-		lat.putLong(JSON_SUCCESS, success);
-		lat.setTest(DETAIL_TEST_ID.LATENCY_TEST_ID);
-		lat.setComplete();
-		ret.add(lat);
+    long dtimeNano = theTest.getTimestamp()*1000;
+    lat.setTime(dtimeNano);
+
+    String target = theTest.getTarget();
+    lat.setLocation(target);
+
+    Double latencyResultMicroseconds = Double.valueOf(theTest.getAverageMicroseconds());
+    lat.setResult(latencyResultMicroseconds);
+
+    long success = theTest.isSuccessful() ? 1 : 0;
+    lat.putLong(JSON_SUCCESS, success);
+    lat.setComplete();
+    return lat;
+  }
+
+  // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+  // by ManualTestRunner:progressMessage
+	private static StorageTestResult createStorageTestResultForUI_For_LatencyTest_Loss(LatencyTest theTest) {
 		StorageTestResult pl = new StorageTestResult(DETAIL_TEST_ID.PACKETLOSS_TEST_ID);
-		pl.setTime(dtime);
+    pl.setTest(DETAIL_TEST_ID.PACKETLOSS_TEST_ID);
 
-    // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
-    // by ManualTestRunner:progressMessage
-		pl.setResult(packetLoss);
+    int lost = theTest.getLostPackets();
+    int sent = theTest.getSentPackets();
+    double packetLoss = 0.0;
+    if(sent != 0){
+      packetLoss = 100d * ((double) lost)/sent;
+    }
+    pl.setResult(packetLoss);
 
+    long dtimeNano = theTest.getTimestamp()*1000;
+		pl.setTime(dtimeNano);
+
+    String target = theTest.getTarget();
 		pl.setLocation(target);
-		pl.setTest(DETAIL_TEST_ID.PACKETLOSS_TEST_ID);
+    long success = theTest.isSuccessful() ? 1 : 0;
 		pl.putLong(JSON_SUCCESS, success);
 		pl.setComplete();
-		ret.add(pl);
-		return ret;
+		return pl;
 	}
-	
-	private void setTest(DETAIL_TEST_ID test_number){
+
+  // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
+  // by ManualTestRunner:progressMessage
+  private static StorageTestResult createStorageTestResultForUI_For_LatencyTest_Jitter(LatencyTest theTest){
+    StorageTestResult ret = new StorageTestResult(DETAIL_TEST_ID.JITTER_TEST_ID);
+    ret.setTest(StorageTestResult.DETAIL_TEST_ID.JITTER_TEST_ID);
+
+    long dtimeNano = theTest.getTimestamp()*1000;
+    ret.setTime(dtimeNano);
+
+		String target = theTest.getTarget();
+    ret.setLocation(target);
+
+    Double jitterMilliseconds = Double.valueOf(theTest.getResultJitterMilliseconds());
+    Double jitterMicroseconds = jitterMilliseconds * 1000.0;
+    ret.setResult(jitterMicroseconds);
+
+    long success = theTest.isSuccessful() ? 1 : 0;
+    ret.putLong(JSON_SUCCESS, success);
+
+    ret.setComplete();
+    return ret;
+  }
+
+
+  private void setTest(DETAIL_TEST_ID test_number){
 		put(JSON_TYPE_ID, "test");
 		put(JSON_TESTNUMBER, ""+test_number.getValueAsInt());
 	}

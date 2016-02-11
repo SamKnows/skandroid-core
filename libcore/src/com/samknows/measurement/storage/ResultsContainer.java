@@ -32,35 +32,12 @@ public class ResultsContainer {
 	private Map<String, String> mConditionBreaches = new HashMap<>();
 	
 	public ResultsContainer(){
-		
 	}
-	
-	public JSONObject getJSONArrayForTestId(String testId) {
-		for (JSONObject test : mTests) {
-			try {
-				if (test.get("type").equals(testId)) {
-					return test;
-				}
-			} catch (JSONException e) {
-				SKLogger.sAssert(false);
-			}
-		}
-		
-		return null;
-	}
-	
-	public ResultsContainer(Map<String, String> extra){
-		mExtra.putAll(extra);
-	}
-	
-	public void addTest(JSONObject test){
+
+	public void addTestJSONObject(JSONObject test){
 		mTests.add(test);
 	}
-	
-	public void addTest(List<JSONObject> tests){
-		mTests.addAll(tests);
-	}
-	
+
 	public void addCondition(JSONObject condition){
 		mConditions.add(condition);
 	}
@@ -77,20 +54,6 @@ public class ResultsContainer {
 		mMetrics.addAll(metrics);
 	}
 
-/*	private int getNumberOfThreadsForHttpTestDescription(
-			TestDescription testDescription) {
-		int numberOfThreads = 1;
-		for (Param curr : testDescription.params) {
-			String paramName = curr.getName();
-			// The parameter value is "numberofthreads", the internal value is "numberOfThreads"
-			if (paramName.equalsIgnoreCase(TestFactory.NTHREADS)) {
-				String paramValue = curr.getValue();
-				numberOfThreads = Integer.parseInt(paramValue);
-			}
-		}
-		return numberOfThreads;
-	}*/
-	
 	public void addFailedCondition(String condition) {
 		mConditionBreaches.put(condition, condition);
 	}

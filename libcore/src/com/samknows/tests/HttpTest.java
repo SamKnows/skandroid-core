@@ -17,7 +17,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
+import com.samknows.measurement.TestParamsManager;
+import com.samknows.measurement.schedule.OutParamDescription;
 import com.samknows.measurement.util.SKDateFormat;
+
+import org.json.JSONObject;
 
 /*
 NOTES: See also https://svn.samknows.com/svn/tests/http_server/trunk/docs/protocol.txt ... where the protocol
@@ -139,7 +143,7 @@ MEASUR_SESSION 10 0 15000000\n
  }
  */
 
-public abstract class HttpTest extends Test {
+public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   // @property (weak) SKTransferOperation *mpParentTransferOperation;
   // @property int mSocketFd;
 
@@ -386,7 +390,10 @@ public abstract class HttpTest extends Test {
 
     //sendTestPing("TIMING_Stop");
 
-    output();
+    if (getTotalTransferBytes() == 0) {
+      // 30/03/2015 - note that if transferBytes is ZERO, we must also tag this with "success": false
+      error.set(true);
+    }
     finish();
   }
 
@@ -435,19 +442,29 @@ public abstract class HttpTest extends Test {
     return ret;
   }
 
-  private void output() {
+  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+  @Override
+  public synchronized void finish() {
+    mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+    status = STATUS.DONE;
+  }
+
+  @Override
+  public long getTimestamp() {
+    return mTimestamp;
+  }
+
+  @Override
+  public JSONObject getJSONResult() {
     //SKLogger.d(this, "HTTP TEST - output()");
 
-    ArrayList<String> o = new ArrayList<>();
     Map<String, Object> output = new HashMap<>();
     // string id
-    o.add(getStringID());
     output.put(JsonData.JSON_TYPE, getStringID());
+
     // time
-    long time_stamp = unixTimeStamp();
-    o.add(time_stamp + "");
-    output.put(JsonData.JSON_TIMESTAMP, time_stamp);
-    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time_stamp * 1000)));
+    output.put(JsonData.JSON_TIMESTAMP, mTimestamp);
+    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mTimestamp * 1000)));
 
     long transferBytes = getTotalTransferBytes();
     //SKLogger.d(this, "HTTP TEST - output(), transferBytes=" + transferBytes);
@@ -458,57 +475,29 @@ public abstract class HttpTest extends Test {
 
     // status
     if (error.get()) {
-      o.add("FAIL");
       output.put(JsonData.JSON_SUCCESS, false);
     } else {
-      o.add("OK");
       output.put(JsonData.JSON_SUCCESS, true);
     }
     // target
-    o.add(target);
     output.put(JsonData.JSON_TARGET, target);
     // target ip address
-    o.add(ipAddress);
     output.put(JsonData.JSON_TARGET_IPADDRESS, ipAddress);
     // transfer time
-    o.add(Long.toString(getTransferTimeMicro()));//TODO check
     output.put(JsonData.JSON_TRANFERTIME, getTransferTimeMicro());
     // transfer bytes
-    o.add(Long.toString(getTotalTransferBytes()));
     output.put(JsonData.JSON_TRANFERBYTES, totalTransferBytes);
     // byets_sec
-    o.add(Integer.toString(Math.max(0, getTransferBytesPerSecond())));
     output.put(JsonData.JSON_BYTES_SEC, Math.max(0, getTransferBytesPerSecond()));
     // warmup time
-    o.add(Long.toString(getWarmUpTimeMicro()));  //TODO check
     output.put(JsonData.JSON_WARMUPTIME, getWarmUpTimeMicro());
     // warmup bytes
-    o.add(Long.toString(getTotalWarmUpBytes()));
     output.put(JsonData.JSON_WARMUPBYTES, getTotalWarmUpBytes());
     // number of threads
-    o.add(Integer.toString(nThreads));
     output.put(JsonData.JSON_NUMBER_OF_THREADS, nThreads);
 
-//    // TODO: remove the following block in production?
-//    if (OtherUtils.isDebuggable(SKApplication.getAppInstance())) {
-//      StringBuilder sb = new StringBuilder();
-//      Iterator<Entry<String, Object>> iter = output.entrySet().iterator();
-//      while (iter.hasNext()) {
-//        Entry<String, Object> entry = iter.next();
-//        sb.append(entry.getKey());
-    //       sb.append('=').append('"');
-//        sb.append(entry.getValue());
-//        sb.append('"');
-//        if (iter.hasNext()) {
-//          sb.append(',').append(' ');
-//        }
-//      }
-//
-//      //SKLogger.d(TAG(this), "Output data: \n" + sb.toString());
-//    }
-
-    setOutput(o.toArray(new String[1]));
-    setJSONResult(output);
+    JSONObject json_output = new JSONObject(output);
+    return json_output;
   }
 
 /* The following set of methods relates to a  communication with the external UI TODO move prototypes to test */
@@ -954,12 +943,14 @@ public abstract class HttpTest extends Test {
   private String ipAddress = "";
 
   private boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
+
   protected boolean getRandomEnabled() {
     return randomEnabled;
   }
   //boolean warmUpDone = false;
 
   private int postDataLength = 0;
+
   protected int getPostDataLength() {
     return postDataLength;
   }
@@ -970,10 +961,13 @@ public abstract class HttpTest extends Test {
   private AtomicLong mWarmupTimeMicro = new AtomicLong(0);												/* Time elapsed since warm up process started, uSecs */
   private AtomicInteger warmupDoneCounter = new AtomicInteger(0);											/* Counter shows how many threads completed warm up process */
   private long mWarmupMaxTimeMicro = 0;																	/* Max time warm up is allowed to continue, uSecs */
+
   protected long getWarmupMaxTimeMicro() {
     return mWarmupMaxTimeMicro;
   }
+
   private int mWarmupMaxBytes = 0;																		/* Max bytes warm up is allowed to send */
+
   protected int getWarmupMaxBytes() {
     return mWarmupMaxBytes;
   }
@@ -985,10 +979,13 @@ public abstract class HttpTest extends Test {
   private AtomicLong transferTimeMicroseconds = new AtomicLong(0);										/* Time elapsed since transfer process started, uSecs */
   private AtomicInteger transferDoneCounter = new AtomicInteger(0);										/* Counter shows how many threads completed trnasfer process */
   private long mTransferMaxTimeMicro = 0;																/* Max time transfer is allowed to continue, uSecs*/
+
   protected long getTransferMaxTimeMicro() {
     return mTransferMaxTimeMicro;
   }
+
   private int mTransferMaxBytes = 0;																	/* Max bytes transfer is allowed to send */
+
   protected int getTransferMaxBytes() {
     return mTransferMaxBytes;
   }
@@ -1001,12 +998,15 @@ public abstract class HttpTest extends Test {
 
   //various buffers
   private int downloadBufferSize = 0;
+
   protected int getDownloadBufferSize() {
     return downloadBufferSize;
   }
+
   private int desiredReceiveBufferSize = 0;
   private int socketBufferSize = 0;
   private int uploadBufferSize = 0;
+
   protected int getUploadBufferSize() {
     return uploadBufferSize;
   }
@@ -1022,26 +1022,34 @@ public abstract class HttpTest extends Test {
   private boolean noDelay = false;
 
   private String testStatus = "FAIL";																	/* Test status, could be 'OK' or 'FAIL' */
+
   protected String getTestStatus() {
     return testStatus;
   }
+
   protected void setTestStatus(String value) {
     testStatus = value;
   }
 
   // Connection variables
   private String target = "";
-  protected String getTarget() {
+
+  public String getTarget() {
     return target;
   }
+
   private String file = "";
+
   protected String getFile() {
     return file;
   }
+
   private int port = 0;
+
   protected int getPort() {
     return port;
   }
+
   private UploadStrategy uploadStrategyServerBased = UploadStrategy.PASSIVE;							/* Upload type selection strategy: simple upload or with server side measurements */
 
   private boolean downstream = true;
@@ -1085,37 +1093,23 @@ public abstract class HttpTest extends Test {
   }
 
 
-
   private int mSocketTimeoutMilliseconds = WRITETIMEOUT;
+
   private int getSocketTimeoutMilliseconds() {
     return mSocketTimeoutMilliseconds;
   }
+
   public void setSocketTimeoutMilliseconds(int value) {
     mSocketTimeoutMilliseconds = value;
   }
+
   private boolean mbIgnoreSocketTimeout = false;
+
   public boolean getIgnoreSocketTimeout() {
     return mbIgnoreSocketTimeout;
   }
+
   public void setIgnoreSocketTimeout(boolean value) {
     mbIgnoreSocketTimeout = value;
   }
 }
-
-//For debug timings!
-//	private static ArrayList<DebugTiming> smDebugSocketSendTimeMicroseconds = new ArrayList<DebugTiming>();
-
-/*		private class DebugTiming {
-public String description;
-public int threadIndex;
-public Long time;
-public int currentSpeed;
-
-public DebugTiming(String description, int threadIndex, Long time, int currentSpeed) {
-	super();
-	this.description = description;
-	this.threadIndex = threadIndex;
-	this.time = time;
-	this.currentSpeed = currentSpeed;
-}
-}*/

@@ -112,12 +112,6 @@ public class TestResultsManager {
 		}
 	}
 
-	public static void saveResult(Context c, ConditionGroupResult[] result) {
-		for (ConditionGroupResult r : result) {
-			saveResult(c, r.results);
-		}
-	}
-	
 	public static byte[] getJSONDataAsByteArray(Context c) {
 		InputStream is = null;
 		try {
