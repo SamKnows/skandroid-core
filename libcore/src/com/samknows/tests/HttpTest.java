@@ -515,6 +515,10 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     sLatestSpeedForExternalMonitorTestId = theReasonId;
   }
 
+  public static void sLatestSpeedReset() {
+    sLatestSpeedReset(cReasonResetDownload);
+  }
+
   // Report-back a running average, to keep the UI moving...
   // Returns -1 if sample time too short.
   public static Pair<Double, String> sGetLatestSpeedForExternalMonitorAsMbps() {

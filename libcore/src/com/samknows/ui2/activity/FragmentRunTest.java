@@ -1903,6 +1903,8 @@ public class FragmentRunTest extends Fragment {
     checkOutDataCap();                        // Check out if we have reach the data cap to show the warning
 
     testsRunning = false;                      // Indicate that we are not running tests
+    // Prevent our getting bombarded with more info from the test!
+    HttpTest.sLatestSpeedReset();
     manualTest = null;
     threadRunningTests = null;
 
