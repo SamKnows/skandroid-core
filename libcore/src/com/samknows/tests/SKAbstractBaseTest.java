@@ -37,11 +37,13 @@ abstract public class SKAbstractBaseTest {
     status = STATUS.WAITING;
   }
 
-  protected synchronized void start() {
+  protected synchronized void setStateToRunning() {
     status = STATUS.RUNNING;
   }
 
+  // THIS IS THE PUBLIC METHOD USED TO TO START THE TEST RUNNING...
   public abstract void execute();
+
   protected abstract String getStringID();
   abstract public boolean isSuccessful();
   abstract public int getProgress0To100(); 										/* from 0 to 100 */

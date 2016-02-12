@@ -12,7 +12,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +19,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.TestParamsManager;
 import com.samknows.measurement.TestRunner.SKTestRunner;
-import com.samknows.measurement.schedule.OutParamDescription;
 import com.samknows.measurement.util.SKDateFormat;
 
 import org.json.JSONObject;
@@ -39,6 +36,81 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   public static final String JSON_RTT_STDDEV = "rtt_stddev";
   public static final String JSON_RECEIVED_PACKETS = "received_packets";
   public static final String JSON_LOST_PACKETS = "lost_packets";
+
+  // Create an interface class, which will allow us to inject a test socket for mock testing.
+  public interface ISKUDPSocket {
+    void open() throws SocketException;
+    void send(DatagramPacket pack) throws IOException;
+    void receive(DatagramPacket pack) throws IOException;
+    void setSoTimeout(int timeout) throws SocketException;
+    void close();
+
+    long getStartTimeNanoseconds();
+    long getTimeNowNanoseconds();
+
+    InetAddress getInetAddressByName(String host) throws UnknownHostException;
+  }
+
+  // Define a real instantiation of the ISKUDPSocket interface, which is used for "real" testing.
+  public class SKUDPSocket implements ISKUDPSocket {
+    private DatagramSocket socket = null;
+
+    public SKUDPSocket() {
+    }
+
+    public void open() throws SocketException {
+      SKLogger.sAssert(socket == null);
+      socket = new DatagramSocket();
+      SKLogger.sAssert(socket != null);
+    }
+
+    public void send(DatagramPacket pack) throws IOException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+      socket.send(pack);
+    }
+
+    public void receive(DatagramPacket pack) throws IOException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+      socket.receive(pack);
+    }
+
+    public void setSoTimeout(int timeout) throws SocketException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+      socket.setSoTimeout(timeout);
+    }
+
+    public void close() {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+
+      socket.close();
+      socket = null;
+    }
+
+    public long getStartTimeNanoseconds() {
+      return System.nanoTime();
+    }
+
+    public long getTimeNowNanoseconds() {
+      return System.nanoTime();
+    }
+
+    public InetAddress getInetAddressByName(String host) throws UnknownHostException {
+      return InetAddress.getByName(host);
+
+    }
+  }
 
   public static LatencyTest sCreateLatencyTest(List<Param> params) {
     LatencyTest ret = new LatencyTest();
@@ -226,9 +298,21 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     return true;
   }
 
+  ISKUDPSocket  mSKUDPSocket = null;
+
   @Override
   public void execute() {
-    run();
+    SKLogger.sAssert(mSKUDPSocket == null);
+    mSKUDPSocket = new SKUDPSocket();
+
+    // Note that we do NOT run a separate thread, when execute is called!
+    runInCurrentThread();
+  }
+
+  public void executeWithSKUDPSocket(ISKUDPSocket skUDPSocket) {
+    mSKUDPSocket = skUDPSocket;
+
+    runInCurrentThread();
   }
 
   @Override
@@ -353,16 +437,37 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     return json_output;
   }
 
+
+  // The test can ALSO get run via ClosestTarget, via a new Thread(theLatencyTest), knowing that LatencyTest
+  // is a runnable; using this method!
   @Override
   public void run() {
-    start();
+    runInCurrentThread();
+  }
+
+  boolean mbAlreadyRunning = false;
+  private void runInCurrentThread() {
+    SKLogger.sAssert(mbAlreadyRunning == false);
+    mbAlreadyRunning = true;
+
+    setStateToRunning();
+
+    if (mSKUDPSocket == null) {
+      // This should happen ONLY in the "live" app - it should not happen in the unit test.
+      mSKUDPSocket = new SKUDPSocket();
+    }
+
+    setStateToRunning();
     //set to zero internal variables in case the same test object is executed severals times
     sentPackets = 0;
     recvPackets = 0;
-    startTimeNanonseconds = System.nanoTime();
-    DatagramSocket socket = null;
+    startTimeNanonseconds = mSKUDPSocket.getStartTimeNanoseconds();
+
+    ISKUDPSocket socket = null;
+
     try {
-      socket = new DatagramSocket();
+      socket = mSKUDPSocket;
+      socket.open();
       socket.setSoTimeout(delayTimeout);
     } catch (SocketException e) {
       failure();
@@ -380,7 +485,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     InetAddress address = null;
     try {
-      address = InetAddress.getByName(target);
+      address = mSKUDPSocket.getInetAddressByName(target);
       ipAddress = address.getHostAddress();
     } catch (UnknownHostException e) {
       failure();
@@ -388,10 +493,11 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       socket = null;
       return;
     }
+
     for (int i = 0; i < numdatagrams; ++i) {
 
       if ((maxExecutionTimeNanoseconds > 0)
-          && (System.nanoTime() - startTimeNanonseconds > maxExecutionTimeNanoseconds)) {
+          && (socket.getTimeNowNanoseconds() - startTimeNanonseconds > maxExecutionTimeNanoseconds)) {
         break;
       }
 
@@ -402,7 +508,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
       // It isn't the current time as in the original but a random value.
       // Let's hope nobody changes the server to make this important...
-      long time = System.nanoTime();
+      long time = mSKUDPSocket.getTimeNowNanoseconds();
       data.setTime(time);
 
       try {
@@ -417,7 +523,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
         do {
           //Checks for the current time and set the SoTimeout accordingly
           //because of duplicate packets or packets received after delayTimeout
-          long now = System.nanoTime();
+          long now = mSKUDPSocket.getTimeNowNanoseconds();
           long timeout = delayTimeout - (now - time) / 1000000;
           if (timeout < 0) {
             throw new PacketTimeOutException();
@@ -427,7 +533,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
           answer = new UdpDatagram(buf);
 
         } while (answer.magic != UdpDatagram.SERVERTOCLIENTMAGIC || answer.datagramid != i);
-        answerTime = System.nanoTime();
+        answerTime = mSKUDPSocket.getTimeNowNanoseconds();
         recvPackets++;
 
         if (getShouldCancel()) {
@@ -477,6 +583,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   }
 
   private void failure() {
+    SKLogger.sAssert(false);
     testStatus = "FAIL";
     finish();
   }
@@ -558,10 +665,16 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   @Override
   public int getProgress0To100() {
+
+    if (mSKUDPSocket == null) {
+      // Not yet prepared!
+      return 0;
+    }
+
     double retTime = 0;
     double retPackets = 0;
     if (maxExecutionTimeNanoseconds > 0) {
-      long currTime = (System.nanoTime() - startTimeNanonseconds);
+      long currTime = (mSKUDPSocket.getTimeNowNanoseconds() - startTimeNanonseconds);
       retTime = (double) currTime / maxExecutionTimeNanoseconds;
     }
     retPackets = (double) sentPackets / numdatagrams;

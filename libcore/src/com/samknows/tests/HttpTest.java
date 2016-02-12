@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.TestParamsManager;
-import com.samknows.measurement.schedule.OutParamDescription;
 import com.samknows.measurement.util.SKDateFormat;
 
 import org.json.JSONObject;
@@ -367,7 +364,9 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       //SKLogger.d(this, "UPLOAD HTTP TEST - execute()");
       infoString = HTTPPOSTRUN;
     }
-    start();
+
+    setStateToRunning();
+
     mThreads = new Thread[nThreads];
     for (int i = 0; i < nThreads; i++) {
       mThreads[i] = new Thread(this);

@@ -1,8 +1,6 @@
 package com.samknows.tests;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.TestParamsManager;
-import com.samknows.measurement.schedule.OutParamDescription;
 
 import org.json.JSONObject;
 
@@ -11,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
@@ -157,7 +154,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 
 	@Override
 	public void run() {
-		start();
+		setStateToRunning();
 		execute();
 		finish();
 	}
