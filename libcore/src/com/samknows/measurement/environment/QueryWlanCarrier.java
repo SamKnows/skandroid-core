@@ -24,11 +24,12 @@ public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery implement
   public void OnQueryCompleted(boolean queryWasSuccessful, final JSONObject jsonResponse) {
 
     try {
-      String wlanCarrier = jsonResponse.getString("organization");
-
-      // TODO - we have the response here!
-
-      doHandleGotWlanCarrier(wlanCarrier);
+      if (jsonResponse == null) {
+        SKLogger.sAssert(false);
+      } else {
+        String wlanCarrier = jsonResponse.getString("organization");
+        doHandleGotWlanCarrier(wlanCarrier);
+      }
 
     } catch (JSONException e) {
       SKLogger.sAssert(getClass(), false);

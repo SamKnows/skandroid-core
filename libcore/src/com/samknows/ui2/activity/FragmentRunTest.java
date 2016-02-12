@@ -6,6 +6,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -332,6 +333,8 @@ public class FragmentRunTest extends Fragment {
 
   static double lastPolledSpeedValueMbps = 0;
 
+  private Random mRandom = new Random();
+
   private void startTimer() {
 
     Timer myTimer = new Timer();
@@ -360,7 +363,22 @@ public class FragmentRunTest extends Fragment {
 
               Pair<Double, String> value = com.samknows.tests.HttpTest.sGetLatestSpeedForExternalMonitorAsMbps();
               //Log.d("MPCMPCMPC", "gotResult for timer, =" + value.first + " Mbps (" + value.second + ")");
-              if (value.first != lastPolledSpeedValueMbps) {
+
+              double showValueMbps = value.first;
+              if (showValueMbps == lastPolledSpeedValueMbps) {
+                // When running the upload test, the value might not have changed since last time; this
+                // is because the (behind the scenes) write to the socket via OutputStream can *block* from
+                // time to time, especially on a very slow network connection.
+                // In this case, show a random variation, in order to keep the UI active and show the user
+                // that the app is still running properly.
+                if (mRandom.nextBoolean()) {
+                  showValueMbps *= (1.00 + mRandom.nextDouble() * 0.02);
+                } else {
+                  showValueMbps *= (1.00 - mRandom.nextDouble() * 0.02);
+                }
+              }
+
+              if (showValueMbps != lastPolledSpeedValueMbps) {
 
                 if (value.second.equals(HttpTest.cReasonUploadEnd)) {
                   // Nothing to do...?!
@@ -373,13 +391,13 @@ public class FragmentRunTest extends Fragment {
                   String workingString = getString(R.string.result_working);
                   tv_Gauge_TextView_PsuedoButton.setText(workingString);
                 } else {
-                  String message = String.valueOf(value);
+                  //String message = String.valueOf(value);
 
                   // Update the current result meter for download/upload
-                  updateCurrentTestSpeedMbps(value.first);
+                  updateCurrentTestSpeedMbps(showValueMbps);
 
                   // Update the gauge colour indicator (in Megabytes)
-                  gaugeView.setAngleByValue(value.first);
+                  gaugeView.setAngleByValue(showValueMbps);
                 }
 
                 lastPolledSpeedValueMbps = value.first;

@@ -2,6 +2,7 @@ package com.samknows.ui2.activity;
 
 import android.animation.LayoutTransition;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -401,17 +403,22 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
    */
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.menu_fragment_activity_main, menu);
+    if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
+      // Nothing to create!
+      return true;
+    }
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_fragment_activity_main, menu);
 //	
 //		MenuItem item = menu.findItem(R.id.menu_force_background_test);
 //		if (item != null) {
 //			item.setVisible(SKApplication.getAppInstance().isForceBackgroundMenuItemSupported());
 //		}
-//		item = menu.findItem(R.id.fragment_main_select_tests);
-//		if (item != null) {
-//			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
-//		}
+		MenuItem item = menu.findItem(R.id.fragment_main_select_tests);
+		if (item != null) {
+			item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+		}
 
     return true;
   }
@@ -431,28 +438,26 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
 //			return true;
 //		}
 
-    if (itemId == R.id.menu_item_fragment_activity_main_terms_and_conditions) {
-//			Intent intent_terms_and_conditions = new Intent(this, SKATermsOfUseActivity.class);
-//			startActivity(intent_terms_and_conditions);
-      SKApplication.getAppInstance().showTermsAndConditions(this);
-
-      return true;
-    }
+//    if (itemId == R.id.menu_item_fragment_activity_main_terms_and_conditions) {
+////			Intent intent_terms_and_conditions = new Intent(this, SKATermsOfUseActivity.class);
+////			startActivity(intent_terms_and_conditions);
+//      SKApplication.getAppInstance().showTermsAndConditions(this);
+//
+//      return true;
+//    }
 
     if (itemId == R.id.fragment_main_select_tests) {
-      if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
-        item.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
-        SKLogger.sAssert(getClass(), false);
-        return true;
-      }
-    }
-    if (itemId == R.id.menu_item_fragment_activity_main__export_file) {
-      SKAMainResultsActivity.sExportMenuItemSelected(this, getCacheDir());
+      // Case select tests
+      Intent intent_select_tests = new Intent(this, ActivitySelectTests.class);
+      startActivity(intent_select_tests);
       return true;
     }
+//    if (itemId == R.id.menu_item_fragment_activity_main__export_file) {
+//      SKAMainResultsActivity.sExportMenuItemSelected(this, getCacheDir());
+//      return true;
+//    }
 
 //		if (itemId == R.id.menu_item_fragment_activity_main_about) {
-//    		// TODO - which about screen to show?!
 //			//Intent intent = new Intent(this, ActivityAbout.class);
 //			Intent intent = new Intent(this, SKAAboutActivity.class);
 //			startActivity(intent);

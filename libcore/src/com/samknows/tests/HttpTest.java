@@ -150,46 +150,48 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
   public enum UploadStrategy {ACTIVE, PASSIVE}
 
-  /* Socket timeout parameters */
-  private final int CONNECTIONTIMEOUT = 10000; 							/* 10 seconds connection timeout */
-  private final int READTIMEOUT = 10000; 								/* 10 seconds read timeout */
-  private final int WRITETIMEOUT = 10000; 								/* 10 seconds write timeout */
+  // Socket timeout parameters
+  private final int CONNECTIONTIMEOUT = 10000; 	// 10 seconds connection timeout
+  private final int READTIMEOUT  = 10000; 			// 10 seconds read timeout
+  private final int WRITETIMEOUT = 10000; 			// 10 seconds write timeout
 
-  /* Http Status codes */
+  // Http Status codes
   protected final int HTTPOK = 200;
   private final int HTTPCONTINUE = 100;
 
-  /* error codes and constraints */
-  protected final int BYTESREADERR = -1;									/* Error occurred while reading from socket */
-  private final int MAXNTHREADS = 100;									/* Max number of threads */
+  // error codes and constraints
+  protected final int BYTESREADERR = -1;				// Error occurred while reading from socket
+  private final int MAXNTHREADS = 100;					// Max number of threads
 
-  /* Parameters name for the setParameter function */
-  protected final static String _DOWNSTREAM = "downstream";				/* HTTP test types. Static because called from constructors */
+  // Parameters name for the setParameter function.
+
+  // HTTP test types. Static because called from constructors.
+  protected final static String _DOWNSTREAM = "downstream";
   protected final static String _UPSTREAM = "upstream";
 
-  /* Parameters names for use in Settings XML files */
+  // Parameters names for use in Settings XML files
   //private static final String DOWNSTREAM = "downStream";
   //private static final String UPSTREAM = "upStream";
-  private static final String UPLOADSTRATEGY = "strategy";						/* Use server side calculations, different type of server required  */
-  public static final String WARMUPMAXTIME = "warmupMaxTime";					/* Max warmup time in uSecs */
-  private static final String WARMUPMAXBYTES = "warmupMaxBytes";					/* Max warmup bytes allowed to be transmitted */
-  public static final String TRANSFERMAXTIME = "transferMaxTime";				/* Max transfer time in uSecs. Metrics, measured during this time period contribute to final result */
-  private static final String TRANSFERMAXBYTES = "transferMaxBytes";				/* Max transfer bytes allowed to be transmitted */
-  public static final String NTHREADS = "numberOfThreads";						/* Max number of threads allowed */
-  private static final String NTHREADSLOWERCASE = "numberofthreads";						/* Max number of threads allowed */
-  public static final String BUFFERSIZE = "bufferSize";							/* Socket receive buffer size */
-  public static final String SENDBUFFERSIZE = "sendBufferSize";					/* Socket send buffer size */
-  private static final String RECEIVEBUFFERSIZE = "receiveBufferSize";			/* Socket receive buffer size */
-  private static final String POSTDATALENGTH = "postDataLength";					/* ??? */
-  public static final String SENDDATACHUNK = "sendDataChunk";					/* Application send buffer size */
+  private static final String UPLOADSTRATEGY = "strategy";						// Use server side calculations, different type of server required
+  public static final String WARMUPMAXTIME = "warmupMaxTime";					// Max warmup time in uSecs
+  private static final String WARMUPMAXBYTES = "warmupMaxBytes";			// Max warmup bytes allowed to be transmitted
+  public static final String TRANSFERMAXTIME = "transferMaxTime";			// Max transfer time in uSecs. Metrics, measured during this time period contribute to final result
+  private static final String TRANSFERMAXBYTES = "transferMaxBytes";	// Max transfer bytes allowed to be transmitted
+  public static final String NTHREADS = "numberOfThreads";						// Max number of threads allowed
+  private static final String NTHREADSLOWERCASE = "numberofthreads";	// Max number of threads allowed
+  public static final String BUFFERSIZE = "bufferSize";							  // Socket receive buffer size
+  public static final String SENDBUFFERSIZE = "sendBufferSize";				// Socket send buffer size
+  private static final String RECEIVEBUFFERSIZE = "receiveBufferSize";// Socket receive buffer size
+  private static final String POSTDATALENGTH = "postDataLength";			// ???
+  public static final String SENDDATACHUNK = "sendDataChunk";					// Application send buffer size
 
-  /* Messages regarding the status of the test */
+  // Messages regarding the status of the test
   private final String HTTPGETRUN = "Running download test";
   private final String HTTPGETDONE = "Download test completed";
   private final String HTTPPOSTRUN = "Running upload test";
   private final String HTTPPOSTDONE = "Upload completed";
 
-  /* Test strings for public use. JSON related */
+  // Test strings for public use. JSON related
   public static final String DOWNSTREAMSINGLE = "JHTTPGET";
   public static final String DOWNSTREAMMULTI = "JHTTPGETMT";
   public static final String UPSTREAMSINGLE = "JHTTPPOST";
