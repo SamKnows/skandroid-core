@@ -43,6 +43,11 @@ public final class ActiveServerUploadTest extends UploadTest {
     return new ActiveServerUploadTest(params);
   }
 
+  @Override
+  public void runBlockingTestToFinishInThisThread() {
+    super.runBlockingTestToFinishInThisThread();
+  }
+
   private void setSessionID() {
     Random sRandom = new Random();
     mSessionID = sRandom.nextLong() & 0xffffffffL;
@@ -119,12 +124,12 @@ public final class ActiveServerUploadTest extends UploadTest {
   }
 
   @Override
-  final protected boolean warmup(Socket socket, int threadIndex) {
+  final protected boolean warmup(ISKHttpSocket socket, int threadIndex) {
     return true;
   }
 
   @Override
-  final protected boolean transfer(Socket socket, int threadIndex) {
+  final protected boolean transfer(ISKHttpSocket socket, int threadIndex) {
 
     OutputStream connOut = getOutput(socket);
     InputStream connIn = getInput(socket);															/* Get input stream */

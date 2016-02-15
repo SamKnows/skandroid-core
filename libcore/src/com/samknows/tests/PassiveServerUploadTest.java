@@ -21,6 +21,11 @@ public class PassiveServerUploadTest extends UploadTest {
     return new PassiveServerUploadTest(params);
   }
 
+  @Override
+  public void runBlockingTestToFinishInThisThread() {
+    super.runBlockingTestToFinishInThisThread();
+  }
+
   private String formPostHeaderRequestString(int threadIndex) {
     StringBuilder sb = new StringBuilder();
 
@@ -76,7 +81,7 @@ public class PassiveServerUploadTest extends UploadTest {
     }
   }
 
-  private boolean transmit(Socket socket, int threadIndex, boolean isWarmup) {
+  private boolean transmit(ISKHttpSocket socket, int threadIndex, boolean isWarmup) {
 
     // Access output stream
     OutputStream connOut = getOutput(socket);
@@ -233,7 +238,7 @@ public class PassiveServerUploadTest extends UploadTest {
   }
 
   @Override
-  protected boolean warmup(Socket socket, int threadIndex) {
+  protected boolean warmup(ISKHttpSocket socket, int threadIndex) {
     //SKLogger.d(this, "PassiveServerUploadTest, warmup()... thread: " + threadIndex);
 
     boolean isWarmup = true;
@@ -250,7 +255,7 @@ public class PassiveServerUploadTest extends UploadTest {
   }
 
   @Override
-  protected boolean transfer(Socket socket, int threadIndex) {
+  protected boolean transfer(ISKHttpSocket socket, int threadIndex) {
     //SKLogger.d(this, "PassiveServerUploadTest, transfer()... thread: " + threadIndex);
 
     boolean isWarmup = false;

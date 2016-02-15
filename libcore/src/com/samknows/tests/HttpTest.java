@@ -4,8 +4,12 @@ package com.samknows.tests;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,14 +203,167 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   public static final String cReasonResetUpload = "Reset Upload";
   public static final String cReasonUploadEnd = "Upload End";
 
+
+  // Create an interface class, which will allow us to inject a test socket for mock testing.
+  // Usage: Call open, then the set/get methods - then connect!
+  // Then call getInputStream/getOutputStream...
+  // Then call close()
+  public interface ISKHttpSocketFactory {
+    // Instance of factory used to "open" the socket, as a wrapper around the open method.
+    // If null, we use the standard SKHttpSocket.
+    public ISKHttpSocket newSocket();
+  };
+
+  public interface ISKHttpSocket {
+
+    void open();
+    public void setTcpNoDelay(boolean on) throws SocketException;
+    public void setReceiveBufferSize(int size) throws SocketException;
+    public int getReceiveBufferSize() throws SocketException;
+    public void setSendBufferSize(int size) throws SocketException;
+    public int getSendBufferSize()  throws SocketException;
+    public void setSoTimeout(int timeout) throws SocketException;
+
+    //ipAddress = sockAddr.getAddress().getHostAddress();
+    // Returns the ipaddress...
+    public String connect(String target, int port, int timeout) throws IOException;
+
+    public InputStream getInputStream() throws IOException;
+    public OutputStream getOutputStream() throws IOException;
+
+    public void close() throws IOException;
+  }
+
+  // Define a real instantiation of the ISKHttpSocket interface, which is used for "real" testing.
+  public class SKHttpSocket implements ISKHttpSocket {
+    private Socket socket = null;
+
+    public SKHttpSocket() {
+    }
+
+    public void open() {
+      socket = new Socket();
+    }
+
+    public void setTcpNoDelay(boolean on) throws SocketException {
+
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+
+      socket.setTcpNoDelay(on);
+    }
+
+    public synchronized void setReceiveBufferSize(int size) throws SocketException {
+
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+
+      socket.setReceiveBufferSize(size);
+    }
+
+    public int getReceiveBufferSize() throws SocketException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return 0;
+      }
+
+      return socket.getReceiveBufferSize();
+    }
+
+    public synchronized void setSendBufferSize(int size) throws SocketException {
+
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+
+      socket.setSendBufferSize(size);
+    }
+
+    public synchronized  int getSendBufferSize()  throws SocketException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return 0;
+      }
+      return socket.getSendBufferSize();
+    }
+
+    public void setSoTimeout(int timeout) throws SocketException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+      socket.setSoTimeout(timeout);
+    }
+
+    // Returns the ipaddress...
+    public String connect(String target, int port, int timeout) throws IOException {
+      InetSocketAddress sockAddr = new InetSocketAddress(target, port);
+      if (sockAddr == null) {
+        SKLogger.sAssert(false);
+        return "";
+      }
+      socket.connect(sockAddr, timeout); // // 10 seconds connection timeout
+      return sockAddr.getAddress().getHostAddress();
+    }
+
+    public InputStream getInputStream() throws IOException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return null;
+      }
+      return socket.getInputStream();
+    }
+
+    public OutputStream getOutputStream() throws IOException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return null;
+      }
+      return socket.getOutputStream();
+    }
+
+    public void close() throws IOException {
+      if (socket == null) {
+        SKLogger.sAssert(false);
+        return;
+      }
+
+      try {
+        socket.close();
+      } catch (IOException e1) {
+        SKLogger.sAssert(false);
+        throw e1;
+      } finally {
+        socket = null;
+      }
+    }
+
+//    public long getStartTimeNanoseconds() {
+//      return System.nanoTime();
+//    }
+//
+//    public long getTimeNowNanoseconds() {
+//      return System.nanoTime();
+//    }
+//
+//    public InetAddress getInetAddressByName(String host) throws UnknownHostException {
+//      return InetAddress.getByName(host);
+//    }
+  }
+
   private String TAG(Object param) {
     return param.getClass().getSimpleName();
   }							/* TAG is to be passed to SKLogger class. It outputs the human readable class name of the message logger */
 
   /* Abstract methods to be implemented in derived classes */
-  protected abstract boolean transfer(Socket socket, int threadIndex);	/* Generate main traffic for metrics measurements */
+  protected abstract boolean transfer(ISKHttpSocket socket, int threadIndex);	/* Generate main traffic for metrics measurements */
 
-  protected abstract boolean warmup(Socket socket, int threadIndex);		/* Generate initial traffic for setting optimal TCP parameters */
+  protected abstract boolean warmup(ISKHttpSocket socket, int threadIndex);		/* Generate initial traffic for setting optimal TCP parameters */
   //private abstract int getWarmupBytesPerSecond();						/* Initial traffic speed */
   //private abstract int getTransferBytesPerSecond();						/* Main traffic speed */
 
@@ -350,8 +507,11 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 //	public int getReceiveBufferSize() { return receiveBufferSize;	}
 //	public String getInfo() 		  {	return infoString; 			}
 
+  // Socket factory to support testing!
+  ISKHttpSocketFactory mThisSocketFactory = null;
+
   @Override
-  public void execute() {													/* Execute test */
+  public void runBlockingTestToFinishInThisThread() {													/* Execute test */
     //smDebugSocketSendTimeMicroseconds.clear();
     //Context context = SKApplication.getAppInstance().getBaseContext();
 
@@ -399,20 +559,35 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     finish();
   }
 
-  private Socket getSocket() {															/* Socket initialiser */
-    //SKLogger.d(this, "HTTP TEST - getSocket()");
+  public void runBlockingTestToFinishInThisThread(ISKHttpSocketFactory withThisSocketFactory) {													/* Execute test */
+    if (mThisSocketFactory != null) {
+      SKLogger.sAssert(false);
+    } else {
+      mThisSocketFactory = withThisSocketFactory;
+    }
+  }
 
-    Socket ret = null;
+  private ISKHttpSocket makeSocket() {															/* Socket initialiser */
+    //SKLogger.d(this, "HTTP TEST - makeSocket()");
+
+    ISKHttpSocket retSocket = null;
     try {
-      InetSocketAddress sockAddr = new InetSocketAddress(target, port);
-      ipAddress = sockAddr.getAddress().getHostAddress();
-      ret = new Socket();
-      ret.setTcpNoDelay(noDelay);
+      // Are we using a socket factory?
+      if (mThisSocketFactory != null) {
+        // Yes, use a specific socket factory (for testing!)
+        retSocket = mThisSocketFactory.newSocket();
+      } else {
+        // No, use the built-in socket.
+        retSocket = new SKHttpSocket();
+      }
+      retSocket.open();
+
+      retSocket.setTcpNoDelay(noDelay);
 
       if (0 != desiredReceiveBufferSize) {
-        ret.setReceiveBufferSize(desiredReceiveBufferSize);
+        retSocket.setReceiveBufferSize(desiredReceiveBufferSize);
       }
-      receiveBufferSize = ret.getReceiveBufferSize();
+      receiveBufferSize = retSocket.getReceiveBufferSize();
 
       // Experimentation shows a *much* better settling-down on upload speed,
       // if we force a 32K send buffer size in bytes, rather than relying
@@ -422,26 +597,27 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       // https://code.google.com/p/android/issues/detail?id=13898
       // desiredSendBufferSize = 32768 / 2; // (2 ^ 15) / 2
       if (0 != socketBufferSize) {
-        ret.setSendBufferSize(socketBufferSize);
+        retSocket.setSendBufferSize(socketBufferSize);
       }
-      sendBufferSize = ret.getSendBufferSize();
+      sendBufferSize = retSocket.getSendBufferSize();
 
       if (downstream) {
         // Read / download
-        ret.setSoTimeout(READTIMEOUT);
+        retSocket.setSoTimeout(READTIMEOUT);
       } else {
-        ret.setSoTimeout(getSocketTimeoutMilliseconds());
-        //ret.setSoTimeout(1);
+        retSocket.setSoTimeout(getSocketTimeoutMilliseconds());
+        //retSocket.setSoTimeout(1);
       }
 
-      ret.connect(sockAddr, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
+      ipAddress = retSocket.connect(target, port, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
+      SKLogger.sAssert(ipAddress.length() > 0);
 
       //SKLogger.d(this, "HTTP TEST - getSocket() completed OK");
     } catch (Exception e) {
       SKLogger.e(this, "getSocket()", e);
-      ret = null;
+      retSocket = null;
     }
-    return ret;
+    return retSocket;
   }
 
   private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
@@ -710,7 +886,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   }
 
 
-  protected OutputStream getOutput(Socket socket) {
+  protected OutputStream getOutput(ISKHttpSocket socket) {
     OutputStream conn = null;
     boolean err = false;								/*Initially there is not error */
 
@@ -734,7 +910,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     return conn;										/* return output stream */
   }
 
-  protected InputStream getInput(Socket socket) {
+  protected InputStream getInput(ISKHttpSocket socket) {
     InputStream conn = null;
     boolean err = false;								/*Initially there is not error */
 
@@ -811,7 +987,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     return result;
   }
 
-  protected void closeConnection(Socket socket) {											/* Closes connections  and winds socket out*/
+  protected void closeConnection(ISKHttpSocket socket) {											/* Closes connections  and winds socket out*/
     //SKLogger.d(this, "closeConnection()");
 
     /*
@@ -860,7 +1036,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     boolean result = false;
     int threadIndex = getThreadIndex();
 
-    Socket socket = getSocket();
+    ISKHttpSocket socket = makeSocket();
 
     if (socket == null) {
       SKLogger.e(TAG(this), "Socket initiation failed, thread: " + threadIndex);

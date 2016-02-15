@@ -42,7 +42,7 @@ abstract public class SKAbstractBaseTest {
   }
 
   // THIS IS THE PUBLIC METHOD USED TO TO START THE TEST RUNNING...
-  public abstract void execute();
+  public abstract void runBlockingTestToFinishInThisThread();
 
   protected abstract String getStringID();
   abstract public boolean isSuccessful();

@@ -108,7 +108,6 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public InetAddress getInetAddressByName(String host) throws UnknownHostException {
       return InetAddress.getByName(host);
-
     }
   }
 
@@ -301,7 +300,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   ISKUDPSocket  mSKUDPSocket = null;
 
   @Override
-  public void execute() {
+  public void runBlockingTestToFinishInThisThread() {
     SKLogger.sAssert(mSKUDPSocket == null);
     mSKUDPSocket = new SKUDPSocket();
 

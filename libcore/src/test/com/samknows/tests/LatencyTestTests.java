@@ -1,16 +1,13 @@
 package com.samknows.tests;
 
-import android.app.Activity;
 import android.os.ConditionVariable;
 
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.samknows.XCT;
 import com.samknows.measurement.TestRunner.SKTestRunner;
-import com.samknows.tests.LatencyTest.SKUDPSocket;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -21,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.samknows.tests.LatencyTest.*;
-import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 
@@ -168,6 +164,7 @@ public class LatencyTestTests {
     return theTest;
   }
 
+  // The following test expects 0 out of 10 packets to be lost (as there is no timeout)
 	@Test
 	public void testLatencyTestWithNoTimeLimit() throws Exception{
 
@@ -183,22 +180,23 @@ public class LatencyTestTests {
     latencyTest.executeWithSKUDPSocket(mockSKUDPSocket);
 
     XCT.Assert(mockSKUDPSocket.mSendCalledCount > 0);
-    XCT.AssertEquals(mockSKUDPSocket.mReceiveCalledCount, cNumberOfPackets);
-    XCT.AssertEquals(mockSKUDPSocket.mSetSoTimeoutCalledCount, cNumberOfPackets+1);
+    XCT.AssertEquals(mockSKUDPSocket.mReceiveCalledCount, 7); // cNumberOfPackets);
+    XCT.AssertEquals(mockSKUDPSocket.mSetSoTimeoutCalledCount, 7+1);
     XCT.AssertEquals(mockSKUDPSocket.mCloseCalledCount, 1);
 
     // And verify results!
-    XCT.AssertEquals(latencyTest.getAverageMicroseconds(), 3000000);
+    XCT.AssertEquals(latencyTest.getAverageMicroseconds(), 2100000);
     XCT.AssertEquals(latencyTest.getMinimumMicroseconds(), 300000);
-    XCT.AssertEquals(latencyTest.getMaximumMicroseconds(), 5700000);
-    XCT.AssertEquals(latencyTest.getStdDeviationMicroseconds(), 1816590);
+    XCT.AssertEquals(latencyTest.getMaximumMicroseconds(), 3900000);
+    XCT.AssertEquals(latencyTest.getStdDeviationMicroseconds(), 1296148);
     XCT.AssertEquals(latencyTest.getIpAddress(), cFakeIpAddress);
-    XCT.AssertEquals(latencyTest.getJitter(), 2700000);
+    XCT.AssertEquals(latencyTest.getJitter(), 1800000);
     XCT.AssertEquals(latencyTest.getSentPackets(), cNumberOfPackets);
-    XCT.AssertEquals(latencyTest.getReceivedPackets(), cNumberOfPackets);
-    XCT.AssertEquals(latencyTest.getLostPackets(), 0);
+    XCT.AssertEquals(latencyTest.getReceivedPackets(), 7);
+    XCT.AssertEquals(latencyTest.getLostPackets(), 3);
 	}
 
+  // The following test expects 3 out of 10 packets to be lost (due to timeout)
   @Test
   public void testLatencyTestWithTimeLimit() throws Exception{
 
@@ -215,23 +213,21 @@ public class LatencyTestTests {
     latencyTest.executeWithSKUDPSocket(mockSKUDPSocket);
 
     XCT.Assert(mockSKUDPSocket.mSendCalledCount > 0);
-    XCT.AssertEquals(mockSKUDPSocket.mReceiveCalledCount, 4);
-    XCT.AssertEquals(mockSKUDPSocket.mSetSoTimeoutCalledCount, 4+1);
+    XCT.AssertEquals(mockSKUDPSocket.mReceiveCalledCount, 2);
+    XCT.AssertEquals(mockSKUDPSocket.mSetSoTimeoutCalledCount, 2+1);
     XCT.AssertEquals(mockSKUDPSocket.mCloseCalledCount, 1);
 
     // And verify results!
-    XCT.AssertEquals(latencyTest.getAverageMicroseconds(), 1700000);
+    XCT.AssertEquals(latencyTest.getAverageMicroseconds(), 900000);
     XCT.AssertEquals(latencyTest.getMinimumMicroseconds(), 500000);
-    XCT.AssertEquals(latencyTest.getMaximumMicroseconds(), 2900000);
-    XCT.AssertEquals(latencyTest.getStdDeviationMicroseconds(), 1032795);
+    XCT.AssertEquals(latencyTest.getMaximumMicroseconds(), 1300000);
+    XCT.AssertEquals(latencyTest.getStdDeviationMicroseconds(), 565685);
     XCT.AssertEquals(latencyTest.getIpAddress(), cFakeIpAddress);
-    XCT.AssertEquals(latencyTest.getJitter(), 1200000);
-    XCT.AssertEquals(latencyTest.getSentPackets(), 4);
-    XCT.AssertEquals(latencyTest.getReceivedPackets(), 4);
+    XCT.AssertEquals(latencyTest.getJitter(), 400000);
+    XCT.AssertEquals(latencyTest.getSentPackets(), 2);
+    XCT.AssertEquals(latencyTest.getReceivedPackets(), 2);
     XCT.AssertEquals(latencyTest.getLostPackets(), 0);
   }
-
-  // TODO - need cases for lost packets, timeouts ... and any other special cases.
 
   // Include a LIVE test, to verify that basic behaviour of the non-mocked system is still fundamentally OK.
   // This is less t able to make specific assertions.
@@ -242,7 +238,6 @@ public class LatencyTestTests {
 
     final ConditionVariable cv = new ConditionVariable();
 
-    final int cTimeoutAfterSecondsInMicroseconds = 10 * 1000000;
     final LatencyTest latencyTest = sCreateLatencyTest_Live();
 
     // Set dummy SKTestRunner instance, or the tests will give lots of assertions...
@@ -253,7 +248,7 @@ public class LatencyTestTests {
       public void run() {
 
         // We should now be able to test the test has worked as expected.
-        latencyTest.execute();
+        latencyTest.runBlockingTestToFinishInThisThread();
 
         responseCalled[0] = true;
 

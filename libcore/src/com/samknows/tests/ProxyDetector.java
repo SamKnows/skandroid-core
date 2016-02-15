@@ -86,7 +86,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 	}
 
 	@Override
-	public void execute() {
+	public void runBlockingTestToFinishInThisThread() {
 		try{
 			InetAddress addr = InetAddress.getByName(target);
 			targetIpAddress = addr.getHostAddress();
@@ -155,7 +155,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 	@Override
 	public void run() {
 		setStateToRunning();
-		execute();
+		runBlockingTestToFinishInThisThread();
 		finish();
 	}
 

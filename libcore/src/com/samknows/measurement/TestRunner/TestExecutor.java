@@ -48,10 +48,8 @@ import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.storage.TestResultsManager;
-import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
-import com.samknows.tests.LatencyTest;
 import com.samknows.tests.Param;
 import com.samknows.tests.SKAbstractBaseTest;
 import com.samknows.tests.TestFactory;
@@ -320,7 +318,7 @@ public class TestExecutor {
 				Thread t = new Thread(new Runnable() {
 					@Override
 					public void run() {
-						executingTest.execute();
+						executingTest.runBlockingTestToFinishInThisThread();
 					}
 				});
 				t.start();

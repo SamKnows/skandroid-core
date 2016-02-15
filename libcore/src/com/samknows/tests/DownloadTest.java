@@ -118,7 +118,7 @@ public final class DownloadTest extends HttpTest {
     }
   }
 
-  private boolean transmit(Socket socket, int threadIndex, boolean isWarmup) {
+  private boolean transmit(ISKHttpSocket socket, int threadIndex, boolean isWarmup) {
 //		Callable<Integer> bytesPerSecond = null;																			/* Generic method returning the current average speed across all thread  since thread started */
 //		Callable<Boolean> transmissionDone = null;																			/* Generic method returning the transmission state */
 
@@ -177,7 +177,7 @@ public final class DownloadTest extends HttpTest {
     return true;
   }
 
-  private void sendHeaderRequest(Socket socket) {
+  private void sendHeaderRequest(ISKHttpSocket socket) {
     InputStream connIn = getInput(socket);
     OutputStream connOut = getOutput(socket);
 
@@ -205,13 +205,13 @@ public final class DownloadTest extends HttpTest {
   }
 
   @Override
-  protected boolean transfer(Socket socket, int threadIndex) {
+  protected boolean transfer(ISKHttpSocket socket, int threadIndex) {
     boolean isWarmup = false;
     return transmit(socket, threadIndex, isWarmup);
   }
 
   @Override
-  protected boolean warmup(Socket socket, int threadIndex) {
+  protected boolean warmup(ISKHttpSocket socket, int threadIndex) {
     boolean isWarmup = true;
     return transmit(socket, threadIndex, isWarmup);
   }

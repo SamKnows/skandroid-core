@@ -124,7 +124,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
   }
 
   @Override
-  public void execute() {
+  public void runBlockingTestToFinishInThisThread() {
     find();
   }
 
