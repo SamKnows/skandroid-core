@@ -131,7 +131,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
         } else if (param.contains(TestFactory.PERCENTILE)) {
           ret.setPercentile(Integer.parseInt(value));
         } else if (param.contains(TestFactory.MAXTIME)) {
-          ret.setMaxExecutionTime(Long.parseLong(value));
+          ret.setMaxExecutionTimeMicroseconds(Long.parseLong(value));
         } else {
           SKLogger.sAssert(false);
           ret = null;
@@ -183,9 +183,9 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   }
 
-  static private class UdpDatagram {
+  public class UdpDatagram {
     static final int PACKETSIZE = 16;
-    static final int SERVERTOCLIENTMAGIC = 0x00006000;
+    public static final int SERVERTOCLIENTMAGIC = 0x00006000;
     static final int CLIENTTOSERVERMAGIC = 0x00009000;
 
     int datagramid;
@@ -241,7 +241,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     }
   }
 
-  public LatencyTest() {
+  private LatencyTest() {
   }
 
   public String getStringID() {
@@ -488,6 +488,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       address = mSKUDPSocket.getInetAddressByName(target);
       ipAddress = address.getHostAddress();
     } catch (UnknownHostException e) {
+      SKLogger.sAssert(false);
       failure();
       socket.close();
       socket = null;
@@ -496,9 +497,11 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     for (int i = 0; i < numdatagrams; ++i) {
 
-      if ((maxExecutionTimeNanoseconds > 0)
-          && (socket.getTimeNowNanoseconds() - startTimeNanonseconds > maxExecutionTimeNanoseconds)) {
-        break;
+      if (maxExecutionTimeNanoseconds > 0) {
+        long timeSoFarNano = socket.getTimeNowNanoseconds() - startTimeNanonseconds;
+        if (timeSoFarNano > maxExecutionTimeNanoseconds) {
+          break;
+        }
       }
 
       UdpDatagram data = new UdpDatagram(i, UdpDatagram.CLIENTTOSERVERMAGIC);
@@ -532,7 +535,14 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
           socket.receive(packet);
           answer = new UdpDatagram(buf);
 
-        } while (answer.magic != UdpDatagram.SERVERTOCLIENTMAGIC || answer.datagramid != i);
+          if (answer.magic == UdpDatagram.SERVERTOCLIENTMAGIC) {
+            if (answer.datagramid == i) {
+              break;
+            }
+          }
+
+        } while (true);
+
         answerTime = mSKUDPSocket.getTimeNowNanoseconds();
         recvPackets++;
 
@@ -655,8 +665,8 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     percentile = n;
   }
 
-  public void setMaxExecutionTime(long time) {
-    maxExecutionTimeNanoseconds = time * 1000; // nanoSeconds
+  public void setMaxExecutionTimeMicroseconds(long time) {
+    maxExecutionTimeNanoseconds = time * 1000; // convert Microsecodns to NanoSeconds
   }
 
   public boolean isProgressAvailable() {

@@ -30,7 +30,7 @@ public class SKTestRunner {
   }
 
   // Make base class private!
-  private SKTestRunner() {
+  public SKTestRunner() {
   }
 
   public SKTestRunner(SKTestRunnerObserver observer) {
