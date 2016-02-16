@@ -565,6 +565,8 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     } else {
       mThisSocketFactory = withThisSocketFactory;
     }
+
+    runBlockingTestToFinishInThisThread();
   }
 
   private ISKHttpSocket makeSocket() {															/* Socket initialiser */
