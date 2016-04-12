@@ -197,8 +197,8 @@ public class PassiveServerUploadTest extends UploadTest {
       Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
       SKLogger.sAssert(bytesPerSecondMeasurement == 0);
 
-      //sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
-      //SKLogger.e(TAG(this), "loop - break 3");//haha
+      sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
+      //SKLogger.e(TAG(this), "loop - break 3");
       return false;
     }
 
@@ -229,10 +229,11 @@ public class PassiveServerUploadTest extends UploadTest {
     //
     Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
     SKLogger.sAssert(bytesPerSecondMeasurement >= 0);
-    //hahaSKLogger.e(TAG(this), "Result is from the BUILT-IN MEASUREMENT, bytesPerSecondMeasurement= " + bytesPerSecondMeasurement + " thread: " + threadIndex);
 
-    // Do NOT send this, as it otherwise affects ALL thread test potentially!
-    //sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, cReasonUploadEnd);											/* Final external interface set up */
+    // Do NOT send this, as it otherwise affects ALL thread test potentially?
+    // It turns out that if this is *not* sent, then the app UI can keep spinning-through showing upload
+    // speed data rather than Latency speed data!
+    sSetLatestSpeedForExternalMonitor(bytesPerSecondMeasurement, cReasonUploadEnd);											/* Final external interface set up */
 
     return true;
   }
@@ -248,7 +249,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
     if (getError().get()) {
     	// Warm up might have set a global error
-      //SKLogger.e(TAG(this), "WarmUp Exits: Result FALSE, totalWarmUpBytes=>>> " + getTotalWarmUpBytes());//haha remove in production
+      //SKLogger.e(TAG(this), "WarmUp Exits: Result FALSE, totalWarmUpBytes=>>> " + getTotalWarmUpBytes());
       return false;
     }
     return result;
