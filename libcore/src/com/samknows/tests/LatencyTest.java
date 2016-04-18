@@ -690,7 +690,8 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     double ret = retTime > retPackets ? retTime : retPackets;
     ret = ret > 1 ? 1 : ret;
-    return (int) (ret * 100);
+    int percentProgress0To100 = (int) (ret * 100.0);
+    return percentProgress0To100;
   }
 
   public String getTarget() {
