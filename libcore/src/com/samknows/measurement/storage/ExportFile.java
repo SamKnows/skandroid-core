@@ -228,17 +228,17 @@ public class ExportFile {
 		}
 		
 		// Now save the JSON data to the file...
-		try{
+		try {
 			FileOutputStream os = new FileOutputStream(resultsJSONFile, false);
 			
-		    JSONArray results = new JSONArray();
-    		results.put(resultToSave);
+		  JSONArray results = new JSONArray();
+    	results.put(resultToSave);
 		
 			String toFile = results.toString();
 			os.write(toFile.getBytes(FILE_ENCODING));
 			os.close();
 			os = null;
-		}catch(IOException e){
+		} catch(IOException e) {
 			SKLogger.e(ExportFile.class, "Unable to save json array to file" + resultsJSONFile.getPath(), e);
 		}
 	}

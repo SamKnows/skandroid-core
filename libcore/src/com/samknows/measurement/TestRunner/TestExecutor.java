@@ -86,7 +86,7 @@ public class TestExecutor {
 	}
 	
 	
-	private void sAddPassiveLocationMetricForTestResult(JSONObject jsonResult) {
+	public void sAddPassiveLocationMetricForTestResult(JSONObject jsonResult) {
 		Pair<Location, LocationType> lastKnownPair = LocationDataCollector.sGetLastKnownLocation();
 		if (lastKnownPair == null) {
 			// Nothing known - don't store a passive metric, simply return instead...
@@ -135,7 +135,7 @@ public class TestExecutor {
 		}
 	}
 	
-	private void sAddPassiveNetworkTypeMetricForTestResult(JSONObject jsonResult) { 
+	public void sAddPassiveNetworkTypeMetricForTestResult(JSONObject jsonResult) {
 		
 		NetworkDataCollector networkDataCollector = new NetworkDataCollector(getTestContext().getContext());
 		
@@ -156,7 +156,7 @@ public class TestExecutor {
 				String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
 				item.put(DCSData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
 				
-         		accumulatedNetworkTypeLocationMetrics.put(item);
+        accumulatedNetworkTypeLocationMetrics.put(item);
 			} catch (JSONException e) {
 				SKLogger.sAssert(StorageTestResult.class, false);
 			}
