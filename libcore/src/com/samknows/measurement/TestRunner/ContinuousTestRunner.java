@@ -5,14 +5,8 @@ import android.os.Looper;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
-import com.samknows.measurement.environment.BaseDataCollector;
-import com.samknows.measurement.environment.EnvBaseDataCollector;
-import com.samknows.measurement.environment.CellTowersDataCollector;
-import com.samknows.measurement.environment.DCSData;
-import com.samknows.measurement.environment.NetworkDataCollector;
-import com.samknows.measurement.environment.PhoneIdentityDataCollector;
+import com.samknows.measurement.environment.PassiveMetricCollector;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
-import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.SK2AppSettings;
@@ -40,9 +34,9 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
   private static final String JSON_SUBMISSION_TYPE = "continuous_testing";
   private Context mContext;
   private StateEnum mPreviousState;
-  private List<EnvBaseDataCollector> mCollectors;
-  private LocationDataCollector mLocationDataCollector;
-  private List<DCSData> mListDCSData;
+
+  PassiveMetricCollector mPassiveMetricCollector;
+
   private TestContext mTestContext;
   private ScheduleConfig mConfig;
   private DBHelper mDBHelper;
@@ -50,9 +44,9 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
   public ContinuousTestRunner(SKTestRunnerObserver observer) {
     super(observer);
 
-    mContext = SKApplication.getAppInstance().getApplicationContext();
-    mListDCSData = new ArrayList<>();
     mTestContext = TestContext.createBackgroundTestContext(mContext);
+    mContext = SKApplication.getAppInstance().getApplicationContext();
+    mPassiveMetricCollector = new PassiveMetricCollector(mContext, mTestContext);
     mDBHelper = new DBHelper(mContext);
   }
 
@@ -111,7 +105,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     // already remembered to run a manual test!
     mConfig.forManualOrContinuousTestEnsureClosestTargetIsRunAtStart(mConfig.continuous_tests);
 
-    startCollectors();
+    mPassiveMetricCollector.startCollectors(mConfig.dataCollectors);
 
     while (isExecutingContinuous()) {
 
@@ -132,7 +126,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
 //				}
 //			}
     }
-    stopCollectors();
+    mPassiveMetricCollector.stopCollectors();
 
     super.setStateChangeToUIHandler(TestRunnerState.STOPPED);
 
@@ -144,7 +138,6 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     long startTime = System.currentTimeMillis();
 
     List<JSONObject> testsResults = new ArrayList<>();
-    List<JSONObject> passiveMetrics = new ArrayList<>();
 
     HashMap<String, Object> batch = new HashMap<>();
     TestExecutor te = new TestExecutor(tc);
@@ -161,12 +154,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
       }
     }
 
-    collectData();
-    for (DCSData d : mListDCSData) {
-      passiveMetrics.addAll(d.getPassiveMetric());
-      te.getResultsContainer().addMetric(d.convertToJSON());
-    }
-    mListDCSData.clear();
+    List<JSONObject> passiveMetrics = mPassiveMetricCollector.collectMetricsIntoResultsContainer(te.getResultsContainer());
 
     long batchId = mDBHelper.insertTestBatch(new JSONObject(batch), testsResults, passiveMetrics);
 
@@ -174,40 +162,6 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
   }
 
 
-  private void startCollectors() {
-    mCollectors = new ArrayList<>();
-    mCollectors.add(new NetworkDataCollector(mContext));
-    mCollectors.add(new CellTowersDataCollector(mContext));
-
-    for (BaseDataCollector c : mConfig.dataCollectors) {
-      if (c instanceof LocationDataCollector) {
-        mLocationDataCollector = (LocationDataCollector) c;
-      }
-    }
-
-    for (EnvBaseDataCollector c : mCollectors) {
-      c.start();
-    }
-    mLocationDataCollector.start(mTestContext);
-  }
-
-  private void stopCollectors() {
-    for (EnvBaseDataCollector c : mCollectors) {
-      c.stop();
-    }
-    if (mLocationDataCollector != null) {
-      mLocationDataCollector.stop(mTestContext);
-    }
-  }
-
-  private void collectData() {
-
-    mListDCSData.add(new PhoneIdentityDataCollector(mContext).collect());
-    for (EnvBaseDataCollector c : mCollectors) {
-      mListDCSData.addAll(c.collectPartialData());
-    }
-    mListDCSData.addAll(mLocationDataCollector.getPartialData());
-  }
 
   private void onEnd() {
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();

@@ -112,88 +112,16 @@ public class ExportFile {
 	
 	public static void saveResults(JSONObject resultToSave ){
 		// We could use this to purge, if we ran short of space?
-		long totalSize = checkFileSize();
-		Log.d(ExportFile.class.getName(), "totalSize of json results before = " + totalSize);
+		//long totalSize = checkFileSize();
+		//Log.d(ExportFile.class.getName(), "totalSize of json results before = " + totalSize);
 		
 		appendJSON(resultToSave);
 		
-		totalSize = checkFileSize();
-		Log.d(ExportFile.class.getName(), "totalSize of json results after = " + totalSize);
+		//totalSize = checkFileSize();
+		//Log.d(ExportFile.class.getName(), "totalSize of json results after = " + totalSize);
 		// appendToCSVFiles(resultToSave);
 	}
-	
-//	private static void arrayToCSV(String type_field, JSONArray ja){
-//		for(int i = 0; i < ja.length(); i++){
-//			JSONObject curr = ja.optJSONObject(i);
-//			String test_type = curr.optString(type_field);
-//			String[] fields =  convertor.get(test_type);
-//			if(fields != null){
-//				appendToCSV(test_type.toLowerCase() + CSV_FILEEXTENSION, fields, extractValues(fields,curr));
-//			}
-//		}
-//	}
-	
-//	private static void appendToCSVFiles(JSONObject resultToSave){
-//		String[] main = extractValues(MAIN_FIELDS, resultToSave);
-//		appendToCSV(MAINSECTION_FILENAME, MAIN_FIELDS, main);
-//		JSONArray tests = resultToSave.optJSONArray(ResultsContainer.JSON_TESTS);
-//		if(tests != null){
-//			arrayToCSV(Test.JSON_TYPE, tests);
-//		}
-//		JSONArray metrics = resultToSave.optJSONArray(ResultsContainer.JSON_METRICS);
-//		if(metrics != null){
-//			arrayToCSV(DCSData.JSON_TYPE, metrics);
-//		}
-//		JSONArray conditions = resultToSave.optJSONArray(ResultsContainer.JSON_CONDITIONS);
-//		if(conditions != null){
-//			arrayToCSV(ConditionResult.JSON_TYPE, conditions);
-//		}
-//	}
-	
-//	private static String[] extractValues(String[] fields, JSONObject o){
-//		List<String> ret = new ArrayList<String>();
-//		for(String k: fields){
-//			ret.add(o.optString(k,EMPTY_FIELD));
-//		}
-//		return ret.toArray(new String[0]);
-//	}
-	
-//	private static byte[] csvLine(String[] values){
-//		StringBuilder sb = new StringBuilder();
-//		byte[] ret;
-//		for(int i=0; i < values.length ; i++){
-//			sb.append(FIELD_DELIMITER);
-//			sb.append(values[i]);
-//			sb.append(FIELD_DELIMITER);
-//			if(i < values.length - 1){
-//				sb.append(FIELD_SEPARATOR);
-//			}
-//		}
-//		sb.append(RECORD_SEPARATOR);
-//		try{
-//			ret = sb.toString().getBytes(FILE_ENCODING);
-//		}catch(UnsupportedEncodingException e){
-//			ret = new byte[0];
-//		}
-//		return ret;
-//	}
-	
-//	public static void appendToCSV(String fileName, String[] fields, String[] values){
-//		File csv = new File(storage, fileName);
-//		boolean addHeader = !csv.exists();
-//		try{
-//			FileOutputStream os = new FileOutputStream(csv,true);
-//			if(addHeader){
-//				os.write(csvLine(fields));
-//			}
-//			os.write(csvLine(values));
-//			os.close();
-//		}catch(IOException eio){
-//			SKLogger.e(ExportFile.class, "Failed to write " + fileName, eio);
-//		}
-//		
-//	}
-	
+
 	// We need to do just one things:
 	// 1. write as new JSON file in new "JSONArchive" sub-folder (TBD)
 	

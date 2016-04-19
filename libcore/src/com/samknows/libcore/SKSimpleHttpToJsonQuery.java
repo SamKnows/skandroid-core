@@ -57,6 +57,12 @@ public class SKSimpleHttpToJsonQuery {
   // This may be overriden *entirely* by subclasses...
   // for example, if the data is *not* JSON!
   public boolean processResponse(int responseCode, String responseDataAsString) {
+    if (responseDataAsString.length() == 0) {
+      SKLogger.sAssert(false);
+      mJSONResponse = new JSONObject();
+      return false;
+    }
+
     try {
       // The default version assumes the data is JSON!
       // e.g. {"public_ip":"89.105.103.193","submission_id":"58e80db491ee3f7a893aee307dc7f5e1"}

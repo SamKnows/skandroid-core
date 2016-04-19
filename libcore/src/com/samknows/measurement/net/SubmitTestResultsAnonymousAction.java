@@ -196,7 +196,7 @@ public class SubmitTestResultsAnonymousAction {
   }
 
 
-  private boolean uploadJsonData(final DBHelper dbHelper, List<JSONObject> batches,  byte[] data, String dataAsString) {
+  private boolean uploadJsonData(final DBHelper dbHelper, List<JSONObject> batches, final byte[] data, String dataAsString) {
 
     double longitude = -999.0;
     double latitude = -999.0;
@@ -411,6 +411,14 @@ public class SubmitTestResultsAnonymousAction {
     SKSimpleHttpToJsonQuery httpToJsonQuery = new SKSimpleHttpToJsonQuery(fullUploadUrl, data, new SKSimpleHttpToJsonQuery.QueryCompletion() {
       @Override
       public void OnQueryCompleted(boolean queryWasSuccessful, final JSONObject jsonResponse) {
+//        try {
+//          String bufferAsUtf8String = new String(data, "UTF-8");
+//          Log.d("SubmitTestResults", "********* uploaded data: queryWasSuccessful=" + queryWasSuccessful + ", data was=" + bufferAsUtf8String);
+//        } catch (UnsupportedEncodingException e) {
+//          SKLogger.sAssert(false);
+//        }
+        Log.d("SubmitTestResults", "********* uploaded data: queryWasSuccessful=" + queryWasSuccessful);
+
         if (finalBatchId != -1) {
           isSuccess = true;
 
@@ -447,8 +455,8 @@ public class SubmitTestResultsAnonymousAction {
           // Force the History screen to re-query, so it can show the submission id/public ip
           LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
         }
-
       }
+
     });
 
     httpToJsonQuery.doPerformQuery();

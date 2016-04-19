@@ -150,8 +150,10 @@ public class OtherUtils {
 	}
 
 	public static boolean isThisDeviceAnEmulator() {
-		if (Build.FINGERPRINT.startsWith("generic")) {
-			// This is an Emulator!
+		if (Build.FINGERPRINT.startsWith("generic") ||
+        Build.MANUFACTURER.contains("Genymotion"))
+    {
+      // This is probably an Emulator!
 			return true;
 		}
 
@@ -163,6 +165,10 @@ public class OtherUtils {
 	private static final X500Principal DEBUG_DN = new X500Principal("CN=Android Debug,O=Android,C=US");
 	public static boolean isDebuggable(Context ctx)
 	{
+    if (isThisDeviceAnEmulator()) {
+      return true;
+    }
+
 		boolean debuggable = false;
 
 		try
