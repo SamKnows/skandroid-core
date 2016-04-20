@@ -39,3 +39,4 @@ libcore/build/reports
 libcore/build/test-results
 libcore/libcore.iml
 libcore/.idea/libraries
+libcore/.gradle
