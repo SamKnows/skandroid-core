@@ -26,6 +26,7 @@ import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.storage.PassiveMetric.METRIC_TYPE;
+import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.TestResultsManager;
 import com.samknows.measurement.util.OtherUtils;
 
@@ -290,7 +291,7 @@ public class SubmitTestResultsAnonymousAction {
         try {
 
           String targetServerUrl = null;
-          JSONArray testArray = jObject.getJSONArray("tests");
+          JSONArray testArray = jObject.getJSONArray(ResultsContainer.JSON_TESTS);
           int count = testArray.length();
           int index;
           for (index = 0; index < count; index++) {

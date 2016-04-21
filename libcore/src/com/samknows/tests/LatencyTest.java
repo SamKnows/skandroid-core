@@ -392,6 +392,11 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   }
 
   @Override
+  public void setTimestamp(long timestamp) {
+    mTimestamp = timestamp;
+  }
+
+  @Override
   public JSONObject getJSONResult() {
     Map<String, Object> output = new HashMap<>();
 

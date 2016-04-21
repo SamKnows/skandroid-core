@@ -67,6 +67,12 @@ public class SKKitTestDownload {
     return mDownloadTest.getJSONResult();
   }
 
+  public void setTimestamp (long timestamp) {
+    if (mDownloadTest != null) {
+      mDownloadTest.setTimestamp(timestamp);
+    }
+  }
+
   private final Handler mHandler = new Handler();
 
   public double getTransferBytesPerSecond() {
@@ -74,7 +80,7 @@ public class SKKitTestDownload {
       return mDownloadTest.getTransferBytesPerSecond();
     }
 
-    SKLogger.sAssert(false);
+    //SKLogger.sAssert(false);
     return 0;
   }
 

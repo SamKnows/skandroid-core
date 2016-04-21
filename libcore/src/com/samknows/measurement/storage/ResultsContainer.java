@@ -16,6 +16,8 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.schedule.condition.Condition;
+import com.samknows.tests.HttpTest;
+import com.samknows.tests.LatencyTest;
 
 public class ResultsContainer {
 
@@ -67,10 +69,36 @@ public class ResultsContainer {
 		// Using a map, prevents duplicates!
 		mConditionBreaches.put(theString, theString);
 	}
+
+	public void addRequestedTest(String testTypeString){
+
+		int count = mRequestedTests.length();
+		for (int index = 0; index < count; index++) {
+			if (mRequestedTests.optString(index).equals(testTypeString) == true) {
+				// Already exists!
+				return;
+			}
+		}
+
+		if (testTypeString.equals(HttpTest.DOWNSTREAMSINGLE) ||
+    		testTypeString.equals(HttpTest.DOWNSTREAMMULTI) ||
+				testTypeString.equals(HttpTest.UPSTREAMSINGLE) ||
+				testTypeString.equals(HttpTest.UPSTREAMMULTI) ||
+				testTypeString.equals(LatencyTest.STRING_ID)
+				)
+    {
+			// OK!
+		} else {
+			// Not expected!
+			SKLogger.sAssert(false);
+		}
+
+		mRequestedTests.put(testTypeString);
+	}
 	
 	public void addRequestedTest(TestDescription td){
-	
-		mRequestedTests.put(td.getTypeString());
+
+	  addRequestedTest(td.getTypeString());
 	}
 
 	public void addExtra(String key, String value){
@@ -96,7 +124,7 @@ public class ResultsContainer {
 		
 		try{
 			if(mRequestedTests.length() > 0){
-				ret.put(JSON_REQUESTED_TESTS, mRequestedTests);
+				ret.put(ResultsContainer.JSON_REQUESTED_TESTS, mRequestedTests);
 			}
 			if (mConditionBreaches.size() > 0) {
         JSONArray conditionBreaches = new JSONArray();
@@ -107,11 +135,11 @@ public class ResultsContainer {
           conditionBreaches.put(pairs.getKey());
         }
 
-        ret.put(JSON_CONDITION_BREACHES, conditionBreaches);
+        ret.put(ResultsContainer.JSON_CONDITION_BREACHES, conditionBreaches);
       }
-			ret.put(JSON_TESTS, tests);
-			ret.put(JSON_METRICS, metrics);
-			ret.put(JSON_CONDITIONS, conditions);
+			ret.put(ResultsContainer.JSON_TESTS, tests);
+			ret.put(ResultsContainer.JSON_METRICS, metrics);
+			ret.put(ResultsContainer.JSON_CONDITIONS, conditions);
 		}catch(JSONException je){
 			SKLogger.e(this, "Error in creating a JSONObject: " + je.getMessage() );
 			ret = null;

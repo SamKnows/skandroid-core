@@ -2,6 +2,7 @@ package com.samknows.measurement.environment;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.storage.StorageTestResult;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -12,6 +13,11 @@ import android.os.Looper;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class NetworkDataCollector extends EnvBaseDataCollector {
 
@@ -163,5 +169,19 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
 			mNetworkDataCollector.collectData();
 		}
 		
+	}
+
+	static public List<JSONObject> sGetNetworkDataPassiveMetrics() {
+
+		NetworkDataCollector networkDataCollector = new NetworkDataCollector(SKApplication.getAppInstance().getApplicationContext());
+
+		NetworkData networkData = networkDataCollector.collect();
+
+		// The following should only ever return a List<JSONObject> containing one item!
+		List<JSONObject> passiveMetrics = networkData.convertToJSON();
+		int items = passiveMetrics.size();
+		SKLogger.sAssert(StorageTestResult.class, items == 1);
+
+		return passiveMetrics;
 	}
 }

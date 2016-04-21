@@ -1,6 +1,8 @@
 package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
+
+import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.TestParamsManager;
@@ -42,14 +44,15 @@ public class TestContext {
 	
 	private TestContext(Context ctx, ScheduleConfig config, TestParamsManager manager, boolean PbIsManualTest) {
 		super();
+		SKLogger.sAssert(ctx != null);
 		this.ctx = ctx;
 		this.config = config;
 		this.paramsManager = manager;
 		this.mbIsManualTest = PbIsManualTest;
 	}
 	
-    private boolean mbIsManualTest = false;	
-    public boolean getIsManualTest() {
+  private boolean mbIsManualTest = false;
+  public boolean getIsManualTest() {
     	return mbIsManualTest;
     }
 	

@@ -51,6 +51,7 @@ abstract public class SKAbstractBaseTest {
   abstract public int getNetUsage();										/* The test has to provide the amount of data used */
   abstract public JSONObject getJSONResult();
   abstract public long getTimestamp();
+  abstract public void setTimestamp(long timestamp); // Used only for special cases
   abstract public void finish();
 
   public static long sGetUnixTimeStamp() {

@@ -153,8 +153,6 @@ public class SKKitTestLatency {
             if (progressUpdate != null) {
               progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
             }
-
-            mLatencyTest = null;
           }
         });
       }
@@ -171,7 +169,7 @@ public class SKKitTestLatency {
 
   public int getProgress0To100() {
     if (mLatencyTest == null) {
-      SKLogger.sAssert(false);
+      //SKLogger.sAssert(false);
       return 0;
     }
     return mLatencyTest.getProgress0To100();

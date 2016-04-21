@@ -22,6 +22,8 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.TestRunner.TestContext;
+import com.samknows.measurement.storage.StorageTestResult;
+import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
 
 public class LocationDataCollector extends BaseDataCollector implements LocationListener {
@@ -142,36 +144,39 @@ public class LocationDataCollector extends BaseDataCollector implements Location
     }
 
     return null;
-
-//		LocationType locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
-//
-
-//
-//
-//		//if the provider in the settings is gps but the service is not enable fail over to network provider
-//		if(locationType == LocationType.gps &&!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-//			if (manager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-//				locationType = LocationType.network;
-//			}
-//		}
-//
-//		if(locationType != LocationType.gps && locationType != LocationType.network){
-//			// throw new RuntimeException("unknown location type: " + locationType);
-//
-//			// Rather than simply crashing the app with an exception - stick to Network type, which will
-//			// be handled benignly...
-//			locationType = LocationType.network;
-//		}
-//
-//		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
-//
-//    Location lastKnownLocation = manager.getLastKnownLocation(provider);
-//    SKLogger.sAssert(lastKnownLocation != null);
-//
-//		return new Pair<Location,LocationType> (lastKnownLocation, locationType);
 	}
 
-	
+	static public List<JSONObject> sGetPassiveLocationMetric(boolean forceReportLastKnownAsLocation) {
+		Pair<Location, LocationType> lastKnownPair = sGetLastKnownLocation();
+		if (lastKnownPair == null) {
+			// Nothing known - don't store a passive metric, simply return empty instead...
+			SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
+			return new ArrayList<>();
+		}
+
+		Location lastKnownLocation = lastKnownPair.first;
+
+		if (lastKnownLocation == null) {
+			// Nothing known - don't store a passive metric, simply return empty...
+			return new ArrayList<>();
+		}
+
+		LocationType lastKnownLocationType = lastKnownPair.second;
+
+    boolean bReportAsLastKnownLocation = true;
+    if (forceReportLastKnownAsLocation == true) {
+      bReportAsLastKnownLocation = false;
+    }
+		LocationData locationData = new LocationData(bReportAsLastKnownLocation, lastKnownLocation, lastKnownLocationType);
+
+		// The following should only ever return a List<JSONObject> containing one item!
+		List<JSONObject> passiveMetrics = locationData.convertToJSON();
+		int items = passiveMetrics.size();
+		SKLogger.sAssert(StorageTestResult.class, items == 1);
+		return passiveMetrics;
+	}
+
+
 	@Override
 	public void start(TestContext tc) {
 		super.start(tc);

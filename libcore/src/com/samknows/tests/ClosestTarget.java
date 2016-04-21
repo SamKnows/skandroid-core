@@ -545,6 +545,11 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
   }
 
   @Override
+  public void setTimestamp(long timestamp) {
+    mTimestamp = timestamp;
+  }
+
+  @Override
   public JSONObject getJSONResult() {
     ArrayList<String> o = new ArrayList<>();
     Map<String, Object> output = new HashMap<>();

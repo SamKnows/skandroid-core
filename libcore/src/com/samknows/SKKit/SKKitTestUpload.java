@@ -61,6 +61,12 @@ public class SKKitTestUpload {
     return mUploadTest.getJSONResult();
   }
 
+  public void setTimestamp (long timestamp) {
+    if (mUploadTest != null) {
+      mUploadTest.setTimestamp(timestamp);
+    }
+  }
+
   public SKKitTestUpload(SKKitTestDescriptor_Upload testDescriptor) {
     mTestDescriptor = testDescriptor;
     SKLogger.sAssert(!testDescriptor.mTarget.isEmpty());
@@ -73,7 +79,7 @@ public class SKKitTestUpload {
       return mUploadTest.getTransferBytesPerSecond();
     }
 
-    SKLogger.sAssert(false);
+    //SKLogger.sAssert(false);
     return 0;
   }
 
@@ -144,7 +150,7 @@ public class SKKitTestUpload {
 
   public int getProgress0To100() {
     if (mUploadTest == null) {
-      SKLogger.sAssert(false);
+      //SKLogger.sAssert(false);
       return 0;
     }
     return mUploadTest.getProgress0To100();

@@ -70,9 +70,11 @@ public class TestResultsManager {
 		try{
 			FileOutputStream os = c.openFileOutput(SKConstants.TEST_RESULTS_TO_SUBMIT_FILE_NAME, Context.MODE_APPEND);
 			ret = new DataOutputStream(os);
-		}catch(FileNotFoundException fnfe){
+		} catch(FileNotFoundException fnfe){
 			SKLogger.e(TestResultsManager.class, SKConstants.TEST_RESULTS_TO_SUBMIT_FILE_NAME +" not found!");
 			ret = null;
+		} catch (Exception e) {
+			SKLogger.sAssert(false);
 		}
 		return ret;
 

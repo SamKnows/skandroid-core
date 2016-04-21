@@ -49,12 +49,12 @@ public class NetworkData implements DCSData{
 	public boolean isRoaming;
 
 	//network operator
-	public String networkOperatorCode;
-	public String networkOperatorName;
+	public String networkOperatorCode = "";
+	public String networkOperatorName = "";
 	
 	//sim operator
-	public String simOperatorCode;
-	public String simOperatorName;
+	public String simOperatorCode = "";
+	public String simOperatorName = "";
 
 	public String wifiSSID; // e.g. "SK1" ... might be null!
   public String wlanCarrier; // e.g. "SK1" ... might be null!
@@ -136,7 +136,7 @@ public class NetworkData implements DCSData{
 	@Override
 	public List<JSONObject> convertToJSON() {
 		Map<String, Object> ret = new HashMap<>();
-		ret.put(JSON_TYPE, JSON_TYPE_VALUE);
+		ret.put(JSON_TYPE, NetworkData.JSON_TYPE_VALUE);
 		ret.put(JSON_PHONE_TYPE_CODE, phoneType);
 		ret.put(JSON_PHONE_TYPE, DCSConvertorUtil.convertPhoneType(phoneType));
 		ret.put(JSON_TIMESTAMP, time/1000);

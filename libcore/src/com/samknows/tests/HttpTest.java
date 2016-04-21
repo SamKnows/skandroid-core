@@ -635,6 +635,11 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   }
 
   @Override
+  public void setTimestamp(long timestamp) {
+    mTimestamp = timestamp;
+  }
+
+  @Override
   public JSONObject getJSONResult() {
     //SKLogger.d(this, "HTTP TEST - output()");
 
@@ -711,7 +716,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   public static void sSetLatestSpeedForExternalMonitor(Double bytesPerSecond, String testId) {
     sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
     if (bytesPerSecond == 0) {
-      SKLogger.sAssert(testId.equals(cReasonUploadEnd));
+      //SKLogger.sAssert(testId.equals(cReasonUploadEnd));
     }
     sLatestSpeedForExternalMonitorBytesPerSecond.set(bytesPerSecond);
     sLatestSpeedForExternalMonitorTestId = testId;

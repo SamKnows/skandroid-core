@@ -243,8 +243,8 @@ public class ScheduleConfig implements Serializable {
     c.tests = new ArrayList<>();
     NodeList tests = null;
     for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
-      if (child instanceof Element && child.getNodeName().equals(TESTS)) {
-        tests = ((Element) child).getElementsByTagName(TEST);
+      if (child instanceof Element && child.getNodeName().equals(ScheduleConfig.TESTS)) {
+        tests = ((Element) child).getElementsByTagName(ScheduleConfig.TEST);
         break;
       }
     }

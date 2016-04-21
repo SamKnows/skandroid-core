@@ -79,6 +79,11 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
     return mTimestamp;
   }
 
+	@Override
+	public void setTimestamp(long timestamp) {
+		mTimestamp = timestamp;
+	}
+
   @Override
   public JSONObject getJSONResult() {
     SKLogger.sAssert(false);

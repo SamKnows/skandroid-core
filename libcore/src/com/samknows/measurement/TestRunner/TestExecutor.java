@@ -14,14 +14,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
@@ -33,12 +31,9 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.libcore.R;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.environment.DCSData;
-import com.samknows.measurement.environment.LocationData;
-import com.samknows.measurement.environment.NetworkData;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.schedule.TestGroup;
-import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.schedule.condition.ConditionGroup;
 import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.environment.BaseDataCollector;
@@ -48,7 +43,6 @@ import com.samknows.measurement.storage.ResultsContainer;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.storage.TestBatch;
 import com.samknows.measurement.storage.TestResultsManager;
-import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.SKDateFormat;
 import com.samknows.tests.Param;
 import com.samknows.tests.SKAbstractBaseTest;
@@ -84,31 +78,17 @@ public class TestExecutor {
 	public TestContext getTestContext() {
 		return tc;
 	}
-	
-	
-	public void sAddPassiveLocationMetricForTestResult(JSONObject jsonResult) {
-		Pair<Location, LocationType> lastKnownPair = LocationDataCollector.sGetLastKnownLocation();
-		if (lastKnownPair == null) {
-			// Nothing known - don't store a passive metric, simply return instead...
-			SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
+
+
+  public void addPassiveLocationMetricForTestResult(JSONObject jsonResult) {
+    boolean forceReportLastKnownAsLocation = false;
+		List<JSONObject> passiveMetrics = LocationDataCollector.sGetPassiveLocationMetric(forceReportLastKnownAsLocation);
+		if (passiveMetrics.size() == 0) {
+			// Nothing to do!
 			return;
 		}
-		
-		Location lastKnownLocation = lastKnownPair.first;
 
-		if (lastKnownLocation == null) {
-			// Nothing known - don't store a passive metric, simply return instead...
-			return;
-		}
-		LocationType lastKnownLocationType = lastKnownPair.second;
-		
-		LocationData locationData = new LocationData(true, lastKnownLocation, lastKnownLocationType);
-
-		// The following should only ever return a List<JSONObject> containing one item!
-		List<JSONObject> passiveMetrics = locationData.convertToJSON();
 		int items = passiveMetrics.size();
-		SKLogger.sAssert(StorageTestResult.class, items == 1);
-
 		int i;
 		for (i = 0; i < items; i++) {
 			JSONObject item = passiveMetrics.get(i);
@@ -128,21 +108,18 @@ public class TestExecutor {
 				String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
 				item.put(DCSData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
 				
-         		accumulatedNetworkTypeLocationMetrics.put(item);
+        accumulatedNetworkTypeLocationMetrics.put(item);
+
 			} catch (JSONException e) {
 				SKLogger.sAssert(StorageTestResult.class, false);
 			}
 		}
 	}
 	
-	public void sAddPassiveNetworkTypeMetricForTestResult(JSONObject jsonResult) {
-		
-		NetworkDataCollector networkDataCollector = new NetworkDataCollector(getTestContext().getContext());
-		
-		NetworkData networkData = networkDataCollector.collect();
+	public void addPassiveNetworkTypeMetricForTestResult(JSONObject jsonResult) {
 		
 		// The following should only ever return a List<JSONObject> containing one item!
-		List<JSONObject> passiveMetrics = networkData.convertToJSON();
+		List<JSONObject> passiveMetrics = NetworkDataCollector.sGetNetworkDataPassiveMetrics();
 		int items = passiveMetrics.size();
 		SKLogger.sAssert(StorageTestResult.class, items == 1);
 
@@ -335,8 +312,8 @@ public class TestExecutor {
 					// TODO MPC - theJsonResult here, can be used to append the Accumulated results!
 					JSONObject jsonResult = executingTest.getJSONResult();
 					//SKLogger.d("", jsonResult.toString());//TODO remove in production
-					sAddPassiveLocationMetricForTestResult(jsonResult);
-		      sAddPassiveNetworkTypeMetricForTestResult(jsonResult);
+					addPassiveLocationMetricForTestResult(jsonResult);
+		      addPassiveNetworkTypeMetricForTestResult(jsonResult);
 					rc.addTestJSONObject(jsonResult);
 					
 //					// HACK TO INCLUDE THE JUDPJITTER RESULTS
@@ -580,7 +557,9 @@ public class TestExecutor {
 		//SKLogger.sAssert(getClass(), mBatchId != -1);
 		
 		rc.addExtra(JSON_SUBMISSION_TYPE, type);
-		rc.addExtra("batch_id", String.valueOf(batchId));
+		if (batchId != -1) {
+			rc.addExtra("batch_id", String.valueOf(batchId));
+		}
 
 		try {
 			int accumulatedNetworkTypeLocationMetricCount = accumulatedNetworkTypeLocationMetrics.length();
@@ -591,6 +570,9 @@ public class TestExecutor {
 				// object.put("DEBUG_TAG", "DEBUG_TAG");
 				rc.addMetric(object);
 			}
+
+      // And clear-out any accumulated metrics!
+      accumulatedNetworkTypeLocationMetrics = new JSONArray();
 
 			if ( (mThrottledQueryResult != null) &&
    			     (mThrottledQueryResult.returnCode != SKOperators_Return.SKOperators_Return_NoThrottleQuery)
