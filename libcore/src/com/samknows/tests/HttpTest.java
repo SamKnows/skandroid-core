@@ -4,12 +4,9 @@ package com.samknows.tests;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -622,21 +619,21 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     return retSocket;
   }
 
-  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+  private Long mTimestampSeconds = SKAbstractBaseTest.sGetUnixTimeStampSeconds();
   @Override
   public synchronized void finish() {
-    mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+    mTimestampSeconds = SKAbstractBaseTest.sGetUnixTimeStampSeconds();
     status = STATUS.DONE;
   }
 
   @Override
   public long getTimestamp() {
-    return mTimestamp;
+    return mTimestampSeconds;
   }
 
   @Override
   public void setTimestamp(long timestamp) {
-    mTimestamp = timestamp;
+    mTimestampSeconds = timestamp;
   }
 
   @Override
@@ -648,8 +645,8 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     output.put(JsonData.JSON_TYPE, getStringID());
 
     // time
-    output.put(JsonData.JSON_TIMESTAMP, mTimestamp);
-    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mTimestamp * 1000)));
+    output.put(JsonData.JSON_TIMESTAMP, mTimestampSeconds);
+    output.put(JsonData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mTimestampSeconds * 1000)));
 
     long transferBytes = getTotalTransferBytes();
     //SKLogger.d(this, "HTTP TEST - output(), transferBytes=" + transferBytes);

@@ -32,6 +32,10 @@ public class ResultsContainer {
 	private Map<String, Object> mExtra = new LinkedHashMap<>();
 	private JSONArray mRequestedTests = new JSONArray();
 	private Map<String, String> mConditionBreaches = new HashMap<>();
+
+  public boolean getAreThereAnyTests() {
+    return mTests.size() > 0;
+  }
 	
 	public ResultsContainer(){
 	}

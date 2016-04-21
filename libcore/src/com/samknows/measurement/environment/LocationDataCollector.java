@@ -25,6 +25,7 @@ import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.storage.StorageTestResult;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
+import com.samknows.tests.SKAbstractBaseTest;
 
 public class LocationDataCollector extends BaseDataCollector implements LocationListener {
   static final String TAG = "LocationDataCollector";
@@ -168,6 +169,9 @@ public class LocationDataCollector extends BaseDataCollector implements Location
       bReportAsLastKnownLocation = false;
     }
 		LocationData locationData = new LocationData(bReportAsLastKnownLocation, lastKnownLocation, lastKnownLocationType);
+    if (forceReportLastKnownAsLocation == true) {
+      locationData.setLocationTimeMilli(SKAbstractBaseTest.sGetUnixTimeStampMilli());
+    }
 
 		// The following should only ever return a List<JSONObject> containing one item!
 		List<JSONObject> passiveMetrics = locationData.convertToJSON();

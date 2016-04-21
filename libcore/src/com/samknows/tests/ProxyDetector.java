@@ -67,10 +67,10 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 		return ret;
 	}
 
-  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStampSeconds();
 	@Override
 	public synchronized void finish() {
-		mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+		mTimestamp = SKAbstractBaseTest.sGetUnixTimeStampSeconds();
 		status = STATUS.DONE;
 	}
 

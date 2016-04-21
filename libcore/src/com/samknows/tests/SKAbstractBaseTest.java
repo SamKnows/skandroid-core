@@ -54,8 +54,12 @@ abstract public class SKAbstractBaseTest {
   abstract public void setTimestamp(long timestamp); // Used only for special cases
   abstract public void finish();
 
-  public static long sGetUnixTimeStamp() {
+  public static long sGetUnixTimeStampSeconds() {
     return System.currentTimeMillis() / 1000;
+  }
+
+  public static long sGetUnixTimeStampMilli() {
+    return System.currentTimeMillis();
   }
 
   protected boolean setErrorIfEmpty(String error, Exception e) {

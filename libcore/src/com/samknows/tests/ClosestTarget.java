@@ -27,9 +27,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.TestParamsManager;
 import com.samknows.measurement.TestRunner.SKTestRunner;
-import com.samknows.measurement.schedule.OutParamDescription;
 import com.samknows.measurement.util.SKDateFormat;
 
 public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
@@ -532,10 +530,10 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     return closestTarget;
   }
 
-  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+  private Long mTimestamp = SKAbstractBaseTest.sGetUnixTimeStampSeconds();
   @Override
   public synchronized void finish() {
-    mTimestamp = SKAbstractBaseTest.sGetUnixTimeStamp();
+    mTimestamp = SKAbstractBaseTest.sGetUnixTimeStampSeconds();
     status = STATUS.DONE;
   }
 

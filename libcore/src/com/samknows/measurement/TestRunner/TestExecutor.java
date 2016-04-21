@@ -81,8 +81,8 @@ public class TestExecutor {
 
 
   public void addPassiveLocationMetricForTestResult(JSONObject jsonResult) {
-    boolean forceReportLastKnownAsLocation = false;
-		List<JSONObject> passiveMetrics = LocationDataCollector.sGetPassiveLocationMetric(forceReportLastKnownAsLocation);
+    boolean forceReportLastKnownAsLocationFalse = false;
+		List<JSONObject> passiveMetrics = LocationDataCollector.sGetPassiveLocationMetric(forceReportLastKnownAsLocationFalse);
 		if (passiveMetrics.size() == 0) {
 			// Nothing to do!
 			return;

@@ -38,6 +38,14 @@ public class LocationData implements DCSData {
 	private LocationType mLocType;
 	private int mProviderStatus = LocationProvider.AVAILABLE;
 
+  private long mForcedTimeMilli = -1L;
+
+  public void setLocationTimeMilli(long timeMilli) {
+    // This is used ONLY for special cases.
+    //mLocation.setTime(timeMilli);
+    mForcedTimeMilli = timeMilli;
+  }
+
 //	public String mMuncipality = "";
 //	public String mCountryName = "";
 
@@ -100,14 +108,14 @@ public class LocationData implements DCSData {
 	}
 	
 	public LocationData(Location loc, LocationType locType) {
-		mLocation = loc;
+    mLocation = loc;
 		mLocType = locType;
 
 		OnLocationChanged(loc);
 	}
 	
 	public LocationData(Location location, LocationType locType, int providerStatus){
-		mLocation = location;
+    mLocation = location;
 		mProviderStatus = providerStatus;
 		mLocType = locType;
 
@@ -127,7 +135,7 @@ public class LocationData implements DCSData {
 		List<String> ret = new ArrayList<>();
 		DCSStringBuilder dcsBuilder = new DCSStringBuilder();
 		dcsBuilder.append(mIsLastKnown ? LASTKNOWNLOCATION : LOCATION)
-				.append(mLocation.getTime() / 1000).append(mLocType + "")
+				.append(mLocation.getTime() / 1000).append(mLocType + "") // Location time is in milliseconds; we write a value in SECONDS!
 				.append(mLocation.getLatitude())
 				.append(mLocation.getLongitude())
 				.append(mLocation.getAccuracy());
@@ -149,8 +157,12 @@ public class LocationData implements DCSData {
 		Map<String, Object> loc = new HashMap<>();
 		
 		loc.put(DCSData.JSON_TYPE, mIsLastKnown ? JSON_LASTKNOWNLOCATION : JSON_LOCATION);
-		loc.put(DCSData.JSON_TIMESTAMP, mLocation.getTime() / 1000);
-		loc.put(DCSData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(mLocation.getTime())));
+    long useTimeMilli = mLocation.getTime();
+    if (mForcedTimeMilli != -1) {
+      useTimeMilli = mForcedTimeMilli;
+    }
+		loc.put(DCSData.JSON_TIMESTAMP, useTimeMilli / 1000); // Location time is in milliseconds; we write a value in SECONDS!
+		loc.put(DCSData.JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(useTimeMilli)));
 		loc.put(JSON_LOCATION_TYPE, mLocType + "");
 		loc.put(JSON_LATITUDE, mLocation.getLatitude());
 		loc.put(JSON_LONGITUDE, mLocation.getLongitude());
