@@ -18,9 +18,6 @@ public class CustomViewPager extends android.support.v4.view.ViewPager {
 
 	@Override
 	protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
-	    if (v != this && v instanceof android.support.v4.view.ViewPager) {
-	        return true;
-	    }
-	    return false; // super.canScroll(v, checkV, dx, x, y);
+		return v != this && v instanceof android.support.v4.view.ViewPager;
 	}
 }

@@ -1,7 +1,6 @@
 package com.samknows.tests;
 
 import android.os.ConditionVariable;
-import android.util.Log;
 
 import org.robolectric.RobolectricTestRunner;
 import org.junit.Test;
@@ -10,15 +9,8 @@ import org.junit.runner.RunWith;
 import com.samknows.XCT;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.samknows.tests.PassiveServerUploadTest.*;
 
 @RunWith(RobolectricTestRunner.class)
 

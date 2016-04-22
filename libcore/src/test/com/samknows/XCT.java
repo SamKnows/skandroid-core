@@ -27,23 +27,25 @@ public class XCT {
   }
   static public void AssertEqualWithAccuracy(double value, double matchThis, double withRange, String caption) {
     org.junit.Assert.assertEquals(caption, value, matchThis, withRange);
-  };
+  }
+
   static public void AssertEqualWithAccuracy(double value, double matchThis, double withRange) {
     org.junit.Assert.assertEquals("Test Error", value, matchThis, withRange);
-  };
+  }
+
   static public void AssertDoubleApproxEqual(double value, double matchThis) {
     org.junit.Assert.assertEquals("Test Error", value, matchThis, 0.001);
-  };
+  }
 
   static public void AssertEqualWithAccuracy(long value, long matchThis, long withRange) {
     org.junit.Assert.assertEquals(value, matchThis, withRange);
-  };
+  }
 
   static public void AssertEquals(long value, long matchThis) {
     org.junit.Assert.assertEquals(matchThis, value);
-  };
+  }
 
   static public void AssertEquals(String value, String matchThis) {
     org.junit.Assert.assertEquals(matchThis, value);
-  };
+  }
 }

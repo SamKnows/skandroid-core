@@ -688,7 +688,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     return TESTSTRING;
   }
 
-  final private void setParams(List<Param> params) {
+  private void setParams(List<Param> params) {
     try {
       for (Param param : params) {
         String value = param.getValue();

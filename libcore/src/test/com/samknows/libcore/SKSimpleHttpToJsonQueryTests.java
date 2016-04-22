@@ -1,21 +1,13 @@
 package com.samknows.libcore;
 
-import android.app.Activity;
-
 import com.samknows.XCT;
-import com.samknows.libcore.SKOperators.ISKQueryCompleted;
-import com.samknows.libcore.SKOperators.SKOperators_Return;
-import com.samknows.libcore.SKOperators.SKThrottledQueryResult;
 
 import org.json.JSONObject;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.shadows.httpclient.FakeHttp;
 import org.robolectric.shadows.httpclient.FakeHttpLayer;
-
-import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class SKSimpleHttpToJsonQueryTests {

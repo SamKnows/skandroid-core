@@ -5,10 +5,10 @@ import org.json.JSONObject;
 
 
 public interface DCSData {
-	public static final String JSON_TYPE = "type";
-	public static final String JSON_TIMESTAMP = "timestamp";
-	public static final String JSON_DATETIME = "datetime";
-	public List<String> convert();
-	public List<JSONObject> getPassiveMetric();
-	public List<JSONObject> convertToJSON();
+	String JSON_TYPE = "type";
+	String JSON_TIMESTAMP = "timestamp";
+	String JSON_DATETIME = "datetime";
+	List<String> convert();
+	List<JSONObject> getPassiveMetric();
+	List<JSONObject> convertToJSON();
 }

@@ -225,7 +225,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
           //testLatency.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
           testLatency.setText(rowView.getContext().getString(R.string.slash));
         } else {
-          Pair<String, String> valueUnits = FormattedValues.getFormattedLatencyValue(latencyResult);
+          Pair<String, String> valueUnits = FormattedValues.sGetFormattedLatencyValue(latencyResult);
           testLatency.setText(valueUnits.first + " " + valueUnits.second);
 //            		if (valueUnits.first < 1000)
 //            		{            			
@@ -249,7 +249,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
           testPacketLoss.setText(rowView.getContext().getString(R.string.failed_test));
         } else    // The test was OK
         {
-          Pair<Integer, String> valueUnits = FormattedValues.getFormattedPacketLossValue(packetLossResult);
+          Pair<Integer, String> valueUnits = FormattedValues.sGetFormattedPacketLossValue(packetLossResult);
           testPacketLoss.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
         }
       }
@@ -267,7 +267,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
         {
           String stringValue = String.valueOf(jitterResult);
 
-          Pair<Integer, String> valueUnits = FormattedValues.getFormattedJitter(stringValue);
+          Pair<Integer, String> valueUnits = FormattedValues.sGetFormattedJitter(stringValue);
           testJitter.setText(String.valueOf(valueUnits.first) + " " + valueUnits.second);
 //            		if (stringValue.substring(stringValue.length()-1, stringValue.length()).equals("0"))
 //            		{            			

@@ -2868,11 +2868,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 //	private ServiceConnection mConnection;
 	
 	public boolean forceBackToAllowClose() {
-		if (on_aggregate_page) {
-			return true;
-		}
-		return false;
-	}
+    return on_aggregate_page;
+  }
 
 	@Override
 	public void onBackPressed() {

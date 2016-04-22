@@ -377,7 +377,7 @@ public class SubmitTestResultsAnonymousAction {
       if (geocoder == null) {
         SKLogger.sAssert(false);
       } else {
-        if (geocoder.isPresent() == false) {
+        if (Geocoder.isPresent() == false) {
           // Maybe we're on the Emulator!
           SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator() == true);
         } else {

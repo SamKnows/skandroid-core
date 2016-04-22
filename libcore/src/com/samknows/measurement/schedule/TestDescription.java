@@ -8,10 +8,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKLogger;
-import com.samknows.measurement.CachingStorage;
-import com.samknows.measurement.TestParamsManager;
 import com.samknows.measurement.util.IdGenerator;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
@@ -170,16 +167,20 @@ public class TestDescription implements Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) {
+      return true;
+    }
+
+		if (obj == null) {
+      return false;
+    }
+
+		if (getClass() != obj.getClass()) {
+      return false;
+    }
+
 		TestDescription other = (TestDescription) obj;
-		if (id != other.id)
-			return false;
-		return true;
+		return id == other.id;
 	}
 	
 	public String getTypeString(){

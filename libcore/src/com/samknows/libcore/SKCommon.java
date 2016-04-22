@@ -216,11 +216,7 @@ public class SKCommon {
 
   public static boolean sGetIsMainThread() {
     // http://stackoverflow.com/questions/11411022/how-to-check-if-current-thread-is-not-main-thread
-    if(Looper.getMainLooper().getThread() == Thread.currentThread()) {
-      // Current Thread is Main Thread.
-      return true;
-    }
+		return Looper.getMainLooper().getThread() == Thread.currentThread();
 
-    return false;
-  }
+	}
 }

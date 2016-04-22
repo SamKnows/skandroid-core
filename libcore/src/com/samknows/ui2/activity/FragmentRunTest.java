@@ -879,7 +879,7 @@ public class FragmentRunTest extends Fragment {
             changeUnitsInformationLabel(getString(R.string.units_ms), getString(R.string.latency));
 
             if (statusComplete == 100) {
-              Pair<String, String> theResult = FormattedValues.getFormattedLatencyValue(value);
+              Pair<String, String> theResult = FormattedValues.sGetFormattedLatencyValue(value);
               // Clear the central button test, ready for the first value to come through from the next test.
               tv_Gauge_TextView_PsuedoButton.setText("");
               //updateCurrentLatencyValue("0");
@@ -905,7 +905,7 @@ public class FragmentRunTest extends Fragment {
                 changeFadingTextViewValue(tv_Result_Upload, value, 0);
               } else {
                 // Display as Integer % (rather than Float %)
-                Pair<Integer, String> theResult = FormattedValues.getFormattedPacketLossValue(value);
+                Pair<Integer, String> theResult = FormattedValues.sGetFormattedPacketLossValue(value);
                 changeFadingTextViewValue(tv_Result_Packet_Loss, String.valueOf(theResult.first) + " " + theResult.second, 0);
               }
             }
@@ -921,7 +921,7 @@ public class FragmentRunTest extends Fragment {
                 changeFadingTextViewValue(tv_Result_Upload, value, 0);
               } else {
                 // Display as Integer % in the correct format
-                Pair<Integer, String> theResult = FormattedValues.getFormattedJitter(value);
+                Pair<Integer, String> theResult = FormattedValues.sGetFormattedJitter(value);
                 changeFadingTextViewValue(tv_Result_Jitter, String.valueOf(theResult.first) + " " + theResult.second, 0);
               }
             }
@@ -1132,11 +1132,8 @@ public class FragmentRunTest extends Fragment {
   private boolean getNetworkTypeIsWiFi() {
     Context context = SKApplication.getAppInstance().getApplicationContext();
     String networkType = Connectivity.getConnectionType(context);
-    if (networkType != null && networkType.equals(SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi))) {
-      return true;
-    }
+    return networkType != null && networkType.equals(SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi));
 
-    return false;
   }
 
   private void queryForWlanCarrierIfAppSupportsIt() {
@@ -1877,9 +1874,9 @@ public class FragmentRunTest extends Fragment {
           Intent intent_share_result_activity = new Intent(getActivity(), ActivityShareResult.class);
           intent_share_result_activity.putExtra("downloadResult", tv_Result_Download.getText() + " " + tv_DownloadUnits.getText());
           intent_share_result_activity.putExtra("uploadResult", tv_Result_Upload.getText() + " " + tv_UploadUnits.getText());
-          intent_share_result_activity.putExtra("latencyResult", String.valueOf(formattedValues.getFormattedLatencyValue(tv_Result_Latency.getText().toString()).first));
-          intent_share_result_activity.putExtra("packetLossResult", String.valueOf(formattedValues.getFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()).first));
-          intent_share_result_activity.putExtra("jitterResult", String.valueOf(formattedValues.getFormattedJitter(tv_Result_Jitter.getText().toString()).first));
+          intent_share_result_activity.putExtra("latencyResult", String.valueOf(FormattedValues.sGetFormattedLatencyValue(tv_Result_Latency.getText().toString()).first));
+          intent_share_result_activity.putExtra("packetLossResult", String.valueOf(FormattedValues.sGetFormattedPacketLossValue(tv_Result_Packet_Loss.getText().toString()).first));
+          intent_share_result_activity.putExtra("jitterResult", String.valueOf(FormattedValues.sGetFormattedJitter(tv_Result_Jitter.getText().toString()).first));
           intent_share_result_activity.putExtra("networkType", 2); // 2 mobile
           intent_share_result_activity.putExtra("dateResult", testTime);
 

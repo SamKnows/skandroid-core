@@ -17,7 +17,6 @@ import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
-import com.samknows.measurement.schedule.condition.ConditionGroupResult;
 import com.samknows.measurement.util.OtherUtils;
 
 public class TestResultsManager {

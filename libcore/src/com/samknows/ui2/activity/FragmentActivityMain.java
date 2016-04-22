@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
-import com.samknows.ska.activity.SKAMainResultsActivity;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 

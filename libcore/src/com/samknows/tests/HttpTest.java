@@ -208,27 +208,27 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   public interface ISKHttpSocketFactory {
     // Instance of factory used to "open" the socket, as a wrapper around the open method.
     // If null, we use the standard SKHttpSocket.
-    public ISKHttpSocket newSocket();
-  };
+    ISKHttpSocket newSocket();
+  }
 
   public interface ISKHttpSocket {
 
     void open();
-    public void setTcpNoDelay(boolean on) throws SocketException;
-    public void setReceiveBufferSize(int size) throws SocketException;
-    public int getReceiveBufferSize() throws SocketException;
-    public void setSendBufferSize(int size) throws SocketException;
-    public int getSendBufferSize()  throws SocketException;
-    public void setSoTimeout(int timeout) throws SocketException;
+    void setTcpNoDelay(boolean on) throws SocketException;
+    void setReceiveBufferSize(int size) throws SocketException;
+    int getReceiveBufferSize() throws SocketException;
+    void setSendBufferSize(int size) throws SocketException;
+    int getSendBufferSize()  throws SocketException;
+    void setSoTimeout(int timeout) throws SocketException;
 
     //ipAddress = sockAddr.getAddress().getHostAddress();
     // Returns the ipaddress...
-    public String connect(String target, int port, int timeout) throws IOException;
+    String connect(String target, int port, int timeout) throws IOException;
 
-    public InputStream getInputStream() throws IOException;
-    public OutputStream getOutputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
+    OutputStream getOutputStream() throws IOException;
 
-    public void close() throws IOException;
+    void close() throws IOException;
   }
 
   // Define a real instantiation of the ISKHttpSocket interface, which is used for "real" testing.

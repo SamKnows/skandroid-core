@@ -90,7 +90,7 @@ public class FormattedValues {
    * @param pValue
    * @return
    */
-  public static Pair<String, String> getFormattedLatencyValue(String pValue) {
+  public static Pair<String, String> sGetFormattedLatencyValue(String pValue) {
     // pValue = "失敗"; // "Failed" - for testing against invalid strings.
 
     String values[] = pValue.split(" ");
@@ -123,7 +123,7 @@ public class FormattedValues {
    * @param pValue
    * @return
    */
-  public static Pair<Integer, String> getFormattedPacketLossValue(String pValue) {
+  public static Pair<Integer, String> sGetFormattedPacketLossValue(String pValue) {
     String values[] = pValue.split(" ");
 
     String unit = "";
@@ -143,7 +143,7 @@ public class FormattedValues {
    * @param pValue
    * @return
    */
-  public static Pair<Integer, String> getFormattedJitter(String pValue) {
+  public static Pair<Integer, String> sGetFormattedJitter(String pValue) {
     String values[] = pValue.split(" ");
 
     String unit = "";

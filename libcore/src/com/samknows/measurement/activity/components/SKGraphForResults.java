@@ -24,7 +24,6 @@ import org.json.JSONObject;
 import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
-import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.SKDateFormat;
 
 import android.content.Context;

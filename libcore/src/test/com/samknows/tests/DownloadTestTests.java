@@ -1,10 +1,7 @@
 package com.samknows.tests;
 
 import android.os.ConditionVariable;
-import android.util.Log;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.tools.ant.filters.StringInputStream;
 import org.robolectric.RobolectricTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,17 +10,11 @@ import com.samknows.XCT;
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,7 +96,7 @@ public class DownloadTestTests {
       // Just return one byte with zero!
       return 0;
     }
-  };
+  }
 
   public class MockSKSocket implements ISKHttpSocket {
 

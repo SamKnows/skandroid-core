@@ -56,7 +56,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
     return ret;
   }
 
-	private static final String checkHeader(String line, String header){
+	private static String checkHeader(String line, String header){
 		String ret = null;
 		if(line.toLowerCase().startsWith(header.toLowerCase())){
 			int start = line.indexOf(' ') + 1;
@@ -174,10 +174,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 		if(target.equals("")){
 			return false;
 		}
-		if(file.equals("")){
-			return false;
-		}
-		return true;
+		return !file.equals("");
 	}
 
 	@Override

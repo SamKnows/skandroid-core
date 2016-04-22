@@ -10,7 +10,6 @@ import com.samknows.measurement.environment.EnvBaseDataCollector;
 import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.environment.NetworkDataCollector;
 import com.samknows.measurement.environment.PhoneIdentityDataCollector;
-import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.ResultsContainer;
 
 import org.json.JSONObject;

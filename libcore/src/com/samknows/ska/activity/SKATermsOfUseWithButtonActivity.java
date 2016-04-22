@@ -50,13 +50,8 @@ public class SKATermsOfUseWithButtonActivity extends BaseLogoutActivity {
     MenuItem menu_Item_IAgree = null;
    
     public static boolean sGetAreTermsAccepted(Activity activity) {
-    	if (SKApplication.sGetTermsAcceptedAtThisVersionOrGreater(activity, SKApplication.getAppInstance().getTAndCVersionToCheckFor()) == true)
-    	{
-    		return true;
-    	}
-
-    	return false;
-    }
+			return SKApplication.sGetTermsAcceptedAtThisVersionOrGreater(activity, SKApplication.getAppInstance().getTAndCVersionToCheckFor()) == true;
+		}
     
 	// Initialise the contents of the Activity's standard options menu.
     // You should place your menu items in to menu. For this method to be called, you must have first called setHasOptionsMenu(boolean).

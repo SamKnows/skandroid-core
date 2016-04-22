@@ -13,13 +13,10 @@ import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig;
-import com.samknows.measurement.TestRunner.TestExecutor;
 import com.samknows.measurement.util.SKDateFormat;
-import com.samknows.tests.DownloadTest;
 import com.samknows.tests.HttpTest;
 import com.samknows.tests.LatencyTest;
 import com.samknows.tests.SKAbstractBaseTest;
-import com.samknows.tests.TestFactory;
 
 //Model for the test_result table in the SQLite database 
 public class StorageTestResult extends JSONObject{

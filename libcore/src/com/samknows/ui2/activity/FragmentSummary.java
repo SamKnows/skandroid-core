@@ -365,8 +365,8 @@ public class FragmentSummary extends Fragment {
                 layout_ll_summary_result_average_download.setGravity(Gravity.LEFT);
                 layout_ll_summary_result_best_download.setGravity(Gravity.RIGHT);
 
-                String testAverage = formattedValues.sGet3DigitsNumber(summaryResult.getAverage());
-                String testMaximum = formattedValues.sGet3DigitsNumber(summaryResult.getMax());
+                String testAverage = FormattedValues.sGet3DigitsNumber(summaryResult.getAverage());
+                String testMaximum = FormattedValues.sGet3DigitsNumber(summaryResult.getMax());
                 tv_summary_result_average_download.setText(testAverage);
                 tv_summary_result_best_download.setText(testMaximum);
               }
@@ -383,8 +383,8 @@ public class FragmentSummary extends Fragment {
                 layout_ll_summary_result_average_upload.setGravity(Gravity.LEFT);
                 layout_ll_summary_result_best_upload.setGravity(Gravity.RIGHT);
 
-                String testAverage = formattedValues.sGet3DigitsNumber(summaryResult.getAverage());
-                String testMaximum = formattedValues.sGet3DigitsNumber(summaryResult.getMax());
+                String testAverage = FormattedValues.sGet3DigitsNumber(summaryResult.getAverage());
+                String testMaximum = FormattedValues.sGet3DigitsNumber(summaryResult.getMax());
                 tv_summary_result_average_upload.setText(testAverage);
                 tv_summary_result_best_upload.setText(testMaximum);
               }

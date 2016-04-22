@@ -73,28 +73,28 @@ public interface ResponseHandlerInterface {
      *
      * @return uri of origin request
      */
-    public URI getRequestURI();
+    URI getRequestURI();
 
     /**
      * Returns Header[] which were used to request
      *
      * @return headers from origin request
      */
-    public Header[] getRequestHeaders();
+    Header[] getRequestHeaders();
 
     /**
      * Helper for handlers to receive Request URI info
      *
      * @param requestURI claimed request URI
      */
-    public void setRequestURI(URI requestURI);
+    void setRequestURI(URI requestURI);
 
     /**
      * Helper for handlers to receive Request Header[] info
      *
      * @param requestHeaders Headers, claimed to be from original request
      */
-    public void setRequestHeaders(Header[] requestHeaders);
+    void setRequestHeaders(Header[] requestHeaders);
 
     /**
      * Can set, whether the handler should be asynchronous or synchronous

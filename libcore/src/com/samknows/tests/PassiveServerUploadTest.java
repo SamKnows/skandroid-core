@@ -5,7 +5,6 @@ import android.util.Log;
 
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.List;
 

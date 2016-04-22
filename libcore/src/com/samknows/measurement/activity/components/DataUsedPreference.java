@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.MainService;
 import com.samknows.libcore.R;
-import com.samknows.measurement.util.OtherUtils;
 import com.samknows.ska.activity.SKAPreferenceActivity;
 import com.samknows.tests.Conversions;
 
@@ -70,7 +69,7 @@ public class DataUsedPreference extends DialogPreference {
     mValueText.setGravity(Gravity.CENTER_HORIZONTAL);
     mValueText.setTextSize(32);
     params = new LinearLayout.LayoutParams(
-        LinearLayout.LayoutParams.FILL_PARENT,
+        LinearLayout.LayoutParams.MATCH_PARENT,
         LinearLayout.LayoutParams.WRAP_CONTENT);
     layout.addView(mValueText, params);
 

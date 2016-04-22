@@ -269,9 +269,11 @@ public class RequestParams {
                 this.put(key, params);
             }
             if (params instanceof List) {
-                ((List<Object>) params).add(value);
+              //noinspection unchecked
+              ((List<Object>) params).add(value);
             } else if (params instanceof Set) {
-                ((Set<Object>) params).add(value);
+              //noinspection unchecked
+              ((Set<Object>) params).add(value);
             }
         }
     }
@@ -457,7 +459,8 @@ public class RequestParams {
     private List<BasicNameValuePair> getParamsList(String key, Object value) {
         List<BasicNameValuePair> params = new LinkedList<>();
         if (value instanceof Map) {
-            Map<String, Object> map = (Map<String, Object>) value;
+          //noinspection unchecked
+          Map<String, Object> map = (Map<String, Object>) value;
             List<String> list = new ArrayList<>(map.keySet());
             // Ensure consistent ordering in query string
             Collections.sort(list);
@@ -469,7 +472,8 @@ public class RequestParams {
                 }
             }
         } else if (value instanceof List) {
-            List<Object> list = (List<Object>) value;
+          //noinspection unchecked
+          List<Object> list = (List<Object>) value;
             for (Object nestedValue : list) {
                 params.addAll(getParamsList(String.format("%s[]", key), nestedValue));
             }
@@ -479,7 +483,8 @@ public class RequestParams {
                 params.addAll(getParamsList(String.format("%s[]", key), nestedValue));
             }
         } else if (value instanceof Set) {
-            Set<Object> set = (Set<Object>) value;
+          //noinspection unchecked
+          Set<Object> set = (Set<Object>) value;
             for (Object nestedValue : set) {
                 params.addAll(getParamsList(key, nestedValue));
             }

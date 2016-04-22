@@ -60,7 +60,7 @@ public class SeekBarPreference extends DialogPreference implements
 		mValueText.setGravity(Gravity.CENTER_HORIZONTAL);
 		mValueText.setTextSize(32);
 		params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		layout.addView(mValueText, params);
 
@@ -78,7 +78,7 @@ public class SeekBarPreference extends DialogPreference implements
 		});
 
 		layout.addView(mSeekBar, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		layout.addView(btn_Reset);
 
