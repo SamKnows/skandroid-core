@@ -27,7 +27,7 @@ public class SKKitTestDownload {
     public Double mTransferMaxTimeSeconds;
     //public Integer mWarmupMaxBytes;
     //public Integer mTransferMaxBytes;
-    public final Integer mNumberOfThreads;
+    public Integer mNumberOfThreads;
     public final Integer mBufferSizeBytes;
 
     public SKKitTestDescriptor_Download(String target) {

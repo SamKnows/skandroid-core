@@ -13,7 +13,7 @@ repositories {
   mavenCentral()
 }
 dependencies {
-  compile 'com.android.support:appcompat-v7:22.1.+'
+  compile 'com.android.support:appcompat-v7:22.1.0'
 
     compile 'com.facebook.android:facebook-android-sdk:3.23.0'
     //compile fileTree(dir: 'libs', include: '*.jar')
@@ -71,8 +71,12 @@ android {
   // This is now the preferred solution from Google.
   //defaultConfig.applicationId = "com.samknows.SKMobileApp"
 
-  compileSdkVersion 21
-  buildToolsVersion "21.1.2"
+  compileSdkVersion 22
+  buildToolsVersion '23.0.2'
+
+  // http://stackoverflow.com/questions/32153318/httpclient-wont-import-in-android-studio
+  // Required if compileSdkVersion is set to 23!
+  //useLibrary 'org.apache.http.legacy'
 
   defaultConfig {
     minSdkVersion 15

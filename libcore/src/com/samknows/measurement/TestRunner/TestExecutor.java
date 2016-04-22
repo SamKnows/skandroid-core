@@ -390,7 +390,26 @@ public class TestExecutor {
 
 		NotificationManager manager = (NotificationManager) tc
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification n = new Notification(R.drawable.icon_notification, message,
+
+    /*
+    Notification.Builder builder = new Notification.Builder(tc.getContext());
+
+    builder.setAutoCancel(false);
+    builder.setTicker("this is ticker text");
+    builder.setContentTitle("WhatsApp Notification");
+    builder.setContentText("You have a new message");
+    builder.setSmallIcon(R.drawable.ic_launcher);
+    builder.setContentIntent(pendingIntent);
+    builder.setOngoing(true);
+    builder.setSubText("This is subtext...");   //API level 16
+    builder.setNumber(100);
+    builder.build();
+
+    Notification myNotication = builder.getNotification();
+    manager.notify(SKConstants.NOTIFICATION_ID, myNotication);
+    */
+
+    Notification n = new Notification(R.drawable.icon_notification, message,
 				System.currentTimeMillis());
 		PendingIntent intent = PendingIntent.getService(tc.getContext(),
 				SKConstants.RC_NOTIFICATION, new Intent(),

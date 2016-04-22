@@ -22,7 +22,7 @@
         <attr name="circleColor" format="color" />
         <attr name="radius" format="dimension" />
         <attr name="barWidth" format="dimension" />
-        <attr name="barLength" format="dimension" />
+        <attr name="mBarLength" format="dimension" />
     </declare-styleable>
     
     <declare-styleable name="TintableImageView">

@@ -27,7 +27,7 @@ public class ProgressWheel extends View {
 	//Sizes (with defaults)
 	private int fullRadius = 100;
 	private int circleRadius = 80;
-	private int barLength = 60;
+	private int mBarLength = 60;
 	private int barWidth = 20;
 	private int rimWidth = 20;
 	private int textSize = 20;
@@ -183,7 +183,7 @@ public class ProgressWheel extends View {
 	    
 	    barColor = a.getColor(R.styleable.ProgressWheel_barColor, barColor);
 	    
-	    barLength = (int) a.getDimension(R.styleable.ProgressWheel_barLength, barLength);
+	    mBarLength = (int) a.getDimension(R.styleable.ProgressWheel_mBarLength, mBarLength);
 	    
 	    textSize = (int) a.getDimension(R.styleable.ProgressWheel_textSize, textSize);
 	    
@@ -206,7 +206,7 @@ public class ProgressWheel extends View {
 		canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
 		//Draw the bar
 		if(isSpinning) {
-			canvas.drawArc(circleBounds, progress - 1, barLength, false, barPaint);
+			canvas.drawArc(circleBounds, progress - 1, mBarLength, false, barPaint);
 		} else {
 			canvas.drawArc(circleBounds, -90, progress, false, barPaint);
 		}
@@ -298,12 +298,12 @@ public class ProgressWheel extends View {
 		this.circleRadius = circleRadius;
 	}
 
-	public int getBarLength() {
-		return barLength;
+	public int getMBarLength() {
+		return mBarLength;
 	}
 
-	public void setBarLength(int barLength) {
-		this.barLength = barLength;
+	public void setMBarLength(int barLength) {
+		this.mBarLength = barLength;
 	}
 
 	public int getBarWidth() {

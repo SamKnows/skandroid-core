@@ -23,11 +23,11 @@ public class SKKitTestUpload {
     private final String mTarget;
 
     public final Integer mPort;
-    public final Double mWarmupMaxTimeSeconds;
+    public Double mWarmupMaxTimeSeconds;
     public Double mTransferMaxTimeSeconds;
     //public Integer mWarmupMaxBytes;
     //public Integer mTransferMaxBytes;
-    public final Integer mNumberOfThreads;
+    public Integer mNumberOfThreads;
     public final Integer mSendDataChunkSizeBytes;
     //public Integer mPostDataLengthBytes;
 
@@ -41,7 +41,7 @@ public class SKKitTestUpload {
       mTarget = target;
 
       mPort = 8080;
-      mWarmupMaxTimeSeconds = 0.001;
+      mWarmupMaxTimeSeconds = 2.0;
       mTransferMaxTimeSeconds = 10.0;
       mNumberOfThreads = 1;
       mSendDataChunkSizeBytes = 512;
