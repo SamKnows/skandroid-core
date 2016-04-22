@@ -75,7 +75,8 @@ public class SKApplication extends MultiDexApplication {
       if (files != null) {
         for (File file : files) {
           if (file.getName().indexOf(baseExportName) == 0) {
-            file.delete();
+            boolean bRes = file.delete();
+            SKLogger.sAssert(bRes);
           }
         }
       }

@@ -28,9 +28,9 @@ public class PassiveServerUploadTest extends UploadTest {
   private String formPostHeaderRequestString(int threadIndex) {
     StringBuilder sb = new StringBuilder();
 
-    sb.append("POST /?UPTESTV1=" + threadIndex + " HTTP/1.1\r\n");
+    sb.append("POST /?UPTESTV1=").append(threadIndex).append(" HTTP/1.1\r\n");
     sb.append("Host: ");
-    sb.append(getTarget() + ":" + getPort() + "\r\n");
+    sb.append(getTarget()).append(":").append(getPort()).append("\r\n");
     sb.append("User-Agent: SamKnows HTTP Client 1.1(2)\r\n");
     sb.append("Accept: */*\r\n");
     sb.append("Content-Length: 4294967295\r\n");

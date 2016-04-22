@@ -1,5 +1,7 @@
 package com.samknows.measurement.util;
 
+import android.support.annotation.NonNull;
+
 import java.io.IOException;
 
 import com.samknows.libcore.SKLogger;
@@ -1642,7 +1644,7 @@ public class Base64
          * @return bytes read into array or -1 if end of stream is encountered.
          * @since 1.3
          */
-        public int read( byte[] dest, int off, int len ) throws java.io.IOException
+        public int read(@NonNull byte[] dest, int off, int len ) throws java.io.IOException
         {
             int i;
             int b;
@@ -1818,7 +1820,7 @@ public class Base64
          * @param len max number of bytes to read into array
          * @since 1.3
          */
-        public void write( byte[] theBytes, int off, int len ) throws java.io.IOException
+        public void write(@NonNull byte[] theBytes, int off, int len ) throws java.io.IOException
         {
             // Encoding suspended?
             if( suspendEncoding )

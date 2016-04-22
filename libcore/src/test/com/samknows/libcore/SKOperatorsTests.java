@@ -22,7 +22,7 @@ public class SKOperatorsTests {
 
 		// Create a dummy Context!
 		// http://robolectric.org/activity-lifecycle.html
-		Activity activity = (Activity) Robolectric.buildActivity(Activity.class).create().get();
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 
 		SKOperators operator = SKOperators.getInstance(activity);
 		SKOperators operator2 = SKOperators.getInstance(activity);
@@ -36,7 +36,7 @@ public class SKOperatorsTests {
 
 		// Create a dummy Context!
 		// http://robolectric.org/activity-lifecycle.html
-		Activity activity = (Activity) Robolectric.buildActivity(Activity.class).create().get();
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 
 		SKOperators operator = SKOperators.getInstance(activity);
 
@@ -56,7 +56,7 @@ public class SKOperatorsTests {
 
 		// Create a dummy Context!
 		// http://robolectric.org/activity-lifecycle.html
-		Activity activity = (Activity) Robolectric.buildActivity(Activity.class).create().get();
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 
 		SKOperators operators = SKOperators.getInstance(activity);
 

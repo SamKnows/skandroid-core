@@ -98,7 +98,7 @@ public final class ActiveServerUploadTest extends UploadTest {
     sb.append("&MAX_WARMUP_SAMPLES=1&WARMUP_FAIL_ON_MAX=0&WARMUP_TOLERANCE=5 HTTP/1.1\r\n");
 
     sb.append("Host: ");
-    sb.append(getTarget() + ":" + getPort());
+    sb.append(getTarget()).append(":").append(getPort());
     sb.append("\r\n");
     sb.append("Accept: */*\r\n");
     sb.append("Content-Length: 4294967295\r\n");

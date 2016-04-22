@@ -1,6 +1,7 @@
 package com.samknows.tests;
 
 import android.os.ConditionVariable;
+import android.support.annotation.NonNull;
 
 import org.robolectric.RobolectricTestRunner;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public class DownloadTestTests {
 //    boolean bReadHeader = false;
 
     @Override
-    public int read(byte[] buffer, int byteOffset, int byteCount) throws IOException {
+    public int read(@NonNull byte[] buffer, int byteOffset, int byteCount) throws IOException {
 
       // We need to return THIS to start...
       // then anything!

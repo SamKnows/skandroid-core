@@ -1,6 +1,8 @@
 package com.loopj.android.http;
 
 
+import android.support.annotation.NonNull;
+
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -71,7 +73,7 @@ public class Base64OutputStream extends FilterOutputStream {
         }
     }
 
-    public void write(byte[] b, int off, int len) throws IOException {
+    public void write(@NonNull byte[] b, int off, int len) throws IOException {
         if (len <= 0) return;
         flushBuffer();
         internalWrite(b, off, len, false);

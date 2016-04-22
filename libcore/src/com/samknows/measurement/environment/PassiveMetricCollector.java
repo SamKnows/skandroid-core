@@ -17,9 +17,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pcole on 18/04/16.
- */
 public class PassiveMetricCollector {
   public PassiveMetricCollector(Context context, TestContext tc) {
     mContext = context;

@@ -32,7 +32,8 @@ public class SKLogger {
         File logFile = new File(folder, "log.file");
         if (!logFile.exists()) {
           try {
-            logFile.createNewFile();
+            boolean bRes = logFile.createNewFile();
+            SKLogger.sAssert(bRes);
           } catch (IOException e) {
             SKLogger.sAssert(false);
           }
@@ -40,9 +41,9 @@ public class SKLogger {
         try {
           // BufferedWriter for performance, true to set append to file flag
           BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-          buf.append(TimeUtils.logString(System.currentTimeMillis()) + " : ");
+          buf.append(TimeUtils.logString(System.currentTimeMillis())).append(" : ");
           buf.append(severity + " : ");
-          buf.append(tag + " : ");
+          buf.append(tag).append(" : ");
           buf.append(text);
           buf.newLine();
           buf.close();
@@ -69,6 +70,7 @@ public class SKLogger {
 
       if (LOG_TO_FILE == true) {
         // Only make the folder, if we have logging enabled!
+        //noinspection ResultOfMethodCallIgnored
         storageSubFolder.mkdir();
       }
 

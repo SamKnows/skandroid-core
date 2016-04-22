@@ -107,7 +107,7 @@ public class SubmitTestResultsAnonymousAction {
       if (!isSuccess) {
         fail.add(i);
         TestResultsManager.clearResults(context);
-        TestResultsManager.saveSumbitedLogs(context, data);
+        TestResultsManager.saveSubmittedLogs(context, data);
       }
     }
     TestResultsManager.clearResults(context);

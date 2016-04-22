@@ -217,8 +217,8 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	@SuppressWarnings("deprecation")
 	protected void updateLabels(){
 		SK2AppSettings app = SK2AppSettings.getSK2AppSettingsInstance();
-		long configDataCap = app.getLong(SKConstants.PREF_DATA_CAP, -1l );
-		String s_configDataCap = configDataCap == -1l ? "": configDataCap +"";
+		long configDataCap = app.getLong(SKConstants.PREF_DATA_CAP, -1L);
+		String s_configDataCap = configDataCap == -1L ? "": configDataCap +"";
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SKAPreferenceActivity.this);
 
 		String data_cap = preferences.getString(SKConstants.PREF_DATA_CAP, s_configDataCap);

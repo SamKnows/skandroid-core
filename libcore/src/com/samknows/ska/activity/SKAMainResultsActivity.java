@@ -1708,6 +1708,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     File storage = android.os.Environment.getExternalStorageDirectory();
     String subFolderName = SKApplication.getAppInstance().getAppName();
     File storageSubFolder = new File(storage, subFolderName);
+    //noinspection ResultOfMethodCallIgnored
     storageSubFolder.mkdir();
     File writeHere = new File(storageSubFolder, fileName);
 

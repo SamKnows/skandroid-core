@@ -1,5 +1,7 @@
 package com.samknows.measurement.statemachine;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.PriorityQueue;
 
@@ -225,7 +227,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		}
 
 		@Override
-		public int compareTo(QueueEntry another) {
+		public int compareTo(@NonNull QueueEntry another) {
 			if (systemTimeMilliseconds == another.getSystemTimeMilliseconds()) {
 			//if time is the same we want to the save original order from config
 				return Integer.valueOf(orderIdx).compareTo(another.orderIdx);

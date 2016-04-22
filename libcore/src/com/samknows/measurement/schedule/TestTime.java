@@ -1,5 +1,7 @@
 package com.samknows.measurement.schedule;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 import com.samknows.measurement.util.TimeUtils;
@@ -12,7 +14,7 @@ public class TestTime implements Serializable, Comparable<TestTime> {
 	
 	public TestTime(Long time){
 		mTime = time;
-		mRandomInterval = 0l;
+		mRandomInterval = 0L;
 	}
 	
 	public TestTime(Long time, Long random_interval){
@@ -21,7 +23,7 @@ public class TestTime implements Serializable, Comparable<TestTime> {
 	}
 	
 	@Override
-	public int compareTo(TestTime another) {
+	public int compareTo(@NonNull TestTime another) {
 		return this.mTime.compareTo(another.mTime);
 	}
 	

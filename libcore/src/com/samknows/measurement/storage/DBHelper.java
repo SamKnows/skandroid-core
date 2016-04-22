@@ -380,7 +380,7 @@ public class DBHelper {
 			MY_QUERY.append("      passive_metric  as pm2 ");
 			MY_QUERY.append("      where pm2.batch_id = tb2._id ");
 			MY_QUERY.append("      and pm2.metric = 'activenetworktype' ");
-			MY_QUERY.append("      and pm2.value in (" + metricValue + ")) ");
+			MY_QUERY.append("      and pm2.value in (").append(metricValue).append(")) ");
 			MY_QUERY.append("ORDER BY dtime DESC ");
 
 	  		//Log.d("!!", MY_QUERY.toString());
@@ -539,7 +539,7 @@ public class DBHelper {
 			MY_QUERY.append("      passive_metric  as pm2 ");
 			MY_QUERY.append("      where pm2.batch_id = tb2._id ");
 			MY_QUERY.append("      and pm2.metric = 'activenetworktype' ");
-			MY_QUERY.append("      and pm2.value in (" + metricValue + ")) ");
+			MY_QUERY.append("      and pm2.value in (").append(metricValue).append(")) ");
 	  		
 	  		//Log.d("!!", MY_QUERY.toString());
 			
@@ -576,7 +576,7 @@ public class DBHelper {
 			MY_QUERY.append("WHERE tr.batch_id IN ");
 			MY_QUERY.append("(SELECT pm.batch_id ");
 			MY_QUERY.append("FROM passive_metric AS pm ");
-			MY_QUERY.append("WHERE pm.metric = 'activenetworktype' AND pm.value in (" + metricValue + ")) ");
+			MY_QUERY.append("WHERE pm.metric = 'activenetworktype' AND pm.value in (").append(metricValue).append(")) ");
 			MY_QUERY.append("GROUP BY tr.type ");
 	  		
 	  		// Log.d("!!", MY_QUERY.toString());

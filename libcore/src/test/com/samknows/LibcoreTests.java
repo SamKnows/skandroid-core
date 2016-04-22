@@ -8,9 +8,6 @@ import org.robolectric.annotation.Config;
 
 // NOTE: Run the test EITHER from Android Studio, OR from command line with "./gradlew test"
 
-/**
- * Created by pcole on 17/08/15.
- */
 @RunWith(RobolectricGradleTestRunner.class)
 //@Config(constants = BuildConfig.class,application = SKMobileApplication.class, sdk = 19)
 @Config(constants = BuildConfig.class, sdk = 19)

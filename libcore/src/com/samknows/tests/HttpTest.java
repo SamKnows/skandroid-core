@@ -684,8 +684,8 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
 /* The following set of methods relates to a  communication with the external UI TODO move prototypes to test */
 
-  static private AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<Double>(new Double(0.0));
-  static private AtomicReference<Double> sBytesPerSecondLast = new AtomicReference<Double>(new Double(0.0));
+  static private AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<>(new Double(0.0));
+  static private AtomicReference<Double> sBytesPerSecondLast = new AtomicReference<>(new Double(0.0));
 
   private static String sLatestSpeedForExternalMonitorTestId = "";
 

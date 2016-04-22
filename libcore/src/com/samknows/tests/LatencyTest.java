@@ -348,11 +348,11 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   }
 
   public long getMinimumMicroseconds() {
-    return (long) (minimumNanoseconds / 1000);
+    return minimumNanoseconds / 1000L;
   }
 
   public long getMaximumMicroseconds() {
-    return (long) (maximumNanoseconds / 1000);
+    return maximumNanoseconds / 1000L;
   }
 
   public long getStdDeviationMicroseconds() {

@@ -1,5 +1,7 @@
 package com.samknows.measurement.util;
 
+import android.support.annotation.NonNull;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +36,7 @@ public class SimpleFuture<T> implements Future<T>{
 	}
 
 	@Override
-	public T get(long timeout, TimeUnit unit) throws InterruptedException,
+	public T get(long timeout, @NonNull TimeUnit unit) throws InterruptedException,
 			ExecutionException, TimeoutException {
 		return result;
 	}
