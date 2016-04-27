@@ -19,6 +19,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
@@ -388,34 +389,39 @@ public class TestExecutor {
 	public void showNotification(String message) {
 		String title = SKApplication.getAppInstance().getAppName();
 
-		NotificationManager manager = (NotificationManager) tc
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-
-    /*
-    Notification.Builder builder = new Notification.Builder(tc.getContext());
-
-    builder.setAutoCancel(false);
-    builder.setTicker("this is ticker text");
-    builder.setContentTitle("WhatsApp Notification");
-    builder.setContentText("You have a new message");
-    builder.setSmallIcon(R.drawable.ic_launcher);
-    builder.setContentIntent(pendingIntent);
-    builder.setOngoing(true);
-    builder.setSubText("This is subtext...");   //API level 16
-    builder.setNumber(100);
-    builder.build();
-
-    Notification myNotication = builder.getNotification();
-    manager.notify(SKConstants.NOTIFICATION_ID, myNotication);
-    */
-
-    Notification n = new Notification(R.drawable.icon_notification, message,
-				System.currentTimeMillis());
 		PendingIntent intent = PendingIntent.getService(tc.getContext(),
 				SKConstants.RC_NOTIFICATION, new Intent(),
 				PendingIntent.FLAG_UPDATE_CURRENT);
+
+		NotificationManager manager = (NotificationManager) tc
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+
+    Notification.Builder builder = new Notification.Builder(tc.getContext());
+
+    builder.setAutoCancel(false);
+    builder.setTicker(title);
+    //builder.setContentTitle("WhatsApp Notification");
+    //builder.setContentText("You have a new message");
+    builder.setSmallIcon(R.drawable.ic_launcher);
+    builder.setContentIntent(intent);
+    builder.setOngoing(true);
+    //builder.setSubText("This is subtext...");   //API level 16
+    builder.setNumber(100);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      builder.build();
+    } else {
+      SKLogger.sAssert(false);
+    }
+
+    Notification myNotification = builder.getNotification();
+    manager.notify(SKConstants.NOTIFICATION_ID, myNotification);
+
+		/*
+    Notification n = new Notification(R.drawable.icon_notification, message,
+				System.currentTimeMillis());
 		n.setLatestEventInfo(tc.getContext(), title, message, intent);
 		manager.notify(SKConstants.NOTIFICATION_ID, n);
+		*/
 	}
 
 	public void cancelNotification() {
