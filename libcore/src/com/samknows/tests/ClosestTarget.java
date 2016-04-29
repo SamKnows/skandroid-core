@@ -75,7 +75,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     }
   }
 
-  static ClosestTarget sCreateClosestTarget(List<Param> params) {
+  public static ClosestTarget sCreateClosestTarget(List<Param> params) {
     return new ClosestTarget(params);
   }
 
