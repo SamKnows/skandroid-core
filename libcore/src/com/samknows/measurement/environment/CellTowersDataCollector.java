@@ -6,6 +6,7 @@ import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.OtherUtils;
 
 import android.content.Context;
+import android.os.Build;
 import android.telephony.CellInfo;
 import android.telephony.CellLocation;
 import android.telephony.NeighboringCellInfo;
@@ -35,17 +36,27 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
 		
 		try {
 			data.setCellLocation(mTelManager.getCellLocation());
+      List<CellInfo> cellInfo = null;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        // Note: the following call might return NULL
+        cellInfo = mTelManager.getAllCellInfo();
+			}
+
+      if (cellInfo != null) {
+        data.setCellInfo(cellInfo);
+      }
+
+			// Note: the following call might return NULL
+			//data.setNeighbors(mTelManager.getAllCellInfo());
+			data.setNeighbors(mTelManager.getNeighboringCellInfo());
+
 		} catch (SecurityException e) {
 			// Seen - rarely - on some Android devices.
 			// Neither user 99999 nor current process has android.permission.ACCESS_COARSE_LOCATION.
-    		SKLogger.sAssert(CellTowersDataCollector.class, false);
+			SKLogger.sAssert(CellTowersDataCollector.class, false);
 		}
-		
-		// Note: the following call might return NULL
-		
-		//data.setNeighbors(mTelManager.getAllCellInfo());
-		data.setNeighbors(mTelManager.getNeighboringCellInfo());
-	
+
+
 		SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
 		// This following line is actually essential!
 		data.setSignal(mData.getSignal());

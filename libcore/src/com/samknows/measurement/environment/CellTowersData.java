@@ -9,6 +9,11 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
+import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
+import android.telephony.CellInfoWcdma;
 import android.telephony.CellLocation;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.SignalStrength;
@@ -31,6 +36,7 @@ public class CellTowersData implements DCSData{
 	
 
 	//JSONOutput for the neighbour cell tower
+  public static final String JSON_TYPE_CELL_ALL_CELL_INFO= "cell_info";
 	public static final String JSON_TYPE_CELL_TOWER_NEIGHBOUR= "cell_neighbour_tower_data";
 	public static final String JSON_CELL_TOWER_ID= "cell_tower_id";
 	public static final String JSON_LOCATION_AREA_CODE = "location_area_code";
@@ -50,9 +56,9 @@ public class CellTowersData implements DCSData{
 	public static final String JSON_BIT_ERROR_RATE = "bit_error_rate";
 	public static final String JSON_DBM = "dbm";
 	public static final String JSON_ECIO = "ecio";
-	
-	
+
 	private CellLocation cellLocation = null;
+  private List<CellInfo> mCellInfo = null;
 	private SignalStrength signal = null;
 	// time in millseconds
 	private long time = 0L;
@@ -74,6 +80,12 @@ public class CellTowersData implements DCSData{
 		// SKLogger.sAssert(getClass(), value != null);
 		cellLocation = value;
 	}
+
+
+	public void setCellInfo(List<CellInfo> cellInfo) {
+    mCellInfo = cellInfo;
+  }
+
 	public void setSignal(SignalStrength value) {
 		// We might be passed null, if the signal is not available currently.
 		// This is perfectly valid!
@@ -96,7 +108,7 @@ public class CellTowersData implements DCSData{
 		if (inNeighbors == null) {
 			// ... we should trap this where possible in the debugger...
 			SKLogger.sAssert(getClass(), false);
-            neighbors = new ArrayList<>();
+      neighbors = new ArrayList<>();
 		} else {
 			neighbors = inNeighbors;
 		}
@@ -257,6 +269,68 @@ public class CellTowersData implements DCSData{
 			
 			ret.add(new JSONObject(cdma));
 		}
+
+    if (mCellInfo != null) {
+
+      for (CellInfo cellInfo : mCellInfo) {
+        Map<String, Object> cellInfoHashMap = new HashMap<>();
+        cellInfoHashMap.put(JSON_TYPE, JSON_TYPE_CELL_ALL_CELL_INFO);
+        cellInfoHashMap.put(JSON_TIMESTAMP, time/1000);
+        cellInfoHashMap.put(JSON_DATETIME, SKDateFormat.sGetDateAsIso8601String(new java.util.Date(time)));
+
+        cellInfoHashMap.put("isregistered",cellInfo.isRegistered());
+
+        if(cellInfo instanceof CellInfoCdma) {
+          CellInfoCdma cellInfoCdma = (CellInfoCdma)cellInfo;
+          cellInfoHashMap.put("cdma_basestationid", cellInfoCdma.getCellIdentity().getBasestationId());
+          cellInfoHashMap.put("cdma_latitude", cellInfoCdma.getCellIdentity().getLatitude());
+          cellInfoHashMap.put("cdma_longitude", cellInfoCdma.getCellIdentity().getLongitude());
+          cellInfoHashMap.put("cdma_networkid", cellInfoCdma.getCellIdentity().getNetworkId());
+          cellInfoHashMap.put("cdma_systemid", cellInfoCdma.getCellIdentity().getSystemId());
+          cellInfoHashMap.put("cdma_asulevel", cellInfoCdma.getCellSignalStrength().getAsuLevel());
+          cellInfoHashMap.put("cdma_cdmadbm", cellInfoCdma.getCellSignalStrength().getCdmaDbm());
+          cellInfoHashMap.put("cdma_cdmaecio", cellInfoCdma.getCellSignalStrength().getCdmaEcio());
+          cellInfoHashMap.put("cdma_cdmalevel", cellInfoCdma.getCellSignalStrength().getCdmaLevel());
+          cellInfoHashMap.put("cdma_dbm", cellInfoCdma.getCellSignalStrength().getDbm());
+          cellInfoHashMap.put("cdma_evdodbm", cellInfoCdma.getCellSignalStrength().getEvdoDbm());
+          cellInfoHashMap.put("cdma_evdoecio", cellInfoCdma.getCellSignalStrength().getEvdoEcio());
+          cellInfoHashMap.put("cdma_evdolevel", cellInfoCdma.getCellSignalStrength().getEvdoLevel());
+          cellInfoHashMap.put("cdma_evdosnr", cellInfoCdma.getCellSignalStrength().getEvdoSnr());
+          cellInfoHashMap.put("cdma_level", cellInfoCdma.getCellSignalStrength().getLevel());
+        } else if (cellInfo instanceof CellInfoGsm) {
+          CellInfoGsm cellInfoGsm = (CellInfoGsm)cellInfo;
+          cellInfoHashMap.put("gsm_cid", cellInfoGsm.getCellIdentity().getCid());
+          cellInfoHashMap.put("gsm_lac", cellInfoGsm.getCellIdentity().getLac());
+          cellInfoHashMap.put("gsm_mcc", cellInfoGsm.getCellIdentity().getMcc());
+          cellInfoHashMap.put("gsm_mnc", cellInfoGsm.getCellIdentity().getMnc());
+          cellInfoHashMap.put("gsm_asulevel", cellInfoGsm.getCellSignalStrength().getAsuLevel());
+          cellInfoHashMap.put("gsm_level", cellInfoGsm.getCellSignalStrength().getLevel());
+          cellInfoHashMap.put("gsm_dbm", cellInfoGsm.getCellSignalStrength().getDbm());
+        } else if (cellInfo instanceof CellInfoLte) {
+          CellInfoLte cellInfoLte = (CellInfoLte)cellInfo;
+          cellInfoHashMap.put("lte_ci", cellInfoLte.getCellIdentity().getCi());
+          cellInfoHashMap.put("lte_mcc", cellInfoLte.getCellIdentity().getMcc());
+          cellInfoHashMap.put("lte_mnc", cellInfoLte.getCellIdentity().getMnc());
+          cellInfoHashMap.put("lte_pci", cellInfoLte.getCellIdentity().getPci());
+          cellInfoHashMap.put("lte_tac", cellInfoLte.getCellIdentity().getTac());
+          cellInfoHashMap.put("lte_asulevel", cellInfoLte.getCellSignalStrength().getAsuLevel());
+          cellInfoHashMap.put("lte_dbm", cellInfoLte.getCellSignalStrength().getDbm());
+          cellInfoHashMap.put("lte_level", cellInfoLte.getCellSignalStrength().getLevel());
+          cellInfoHashMap.put("lte_timingadvance", cellInfoLte.getCellSignalStrength().getTimingAdvance());
+        } else if (cellInfo instanceof CellInfoWcdma) {
+          CellInfoWcdma cellInfoWcdma = (CellInfoWcdma)cellInfo;
+          cellInfoHashMap.put("wcdma_cid", cellInfoWcdma.getCellIdentity().getCid());
+          cellInfoHashMap.put("wcdma_lac", cellInfoWcdma.getCellIdentity().getLac());
+          cellInfoHashMap.put("wcdma_mcc", cellInfoWcdma.getCellIdentity().getMcc());
+          cellInfoHashMap.put("wcdma_mnc", cellInfoWcdma.getCellIdentity().getMnc());
+          cellInfoHashMap.put("wcdma_psc", cellInfoWcdma.getCellIdentity().getPsc());
+          cellInfoHashMap.put("wcdma_asulevel", cellInfoWcdma.getCellSignalStrength().getAsuLevel());
+          cellInfoHashMap.put("wcdma_dbm", cellInfoWcdma.getCellSignalStrength().getDbm());
+          cellInfoHashMap.put("wcdma_level", cellInfoWcdma.getCellSignalStrength().getLevel());
+        }
+        ret.add(new JSONObject(cellInfoHashMap));
+      }
+    }
 
 		SKLogger.sAssert(getClass(), (neighbors != null));
 		if (neighbors != null) {
