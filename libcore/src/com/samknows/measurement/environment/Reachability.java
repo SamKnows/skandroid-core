@@ -54,6 +54,11 @@ public class Reachability {
 
   public static boolean sGetIsNetworkWiFi() {
     Context context = SKApplication.getAppInstance();
+    if (context == null) {
+      // We're UNDER TEST!
+      return true;
+    }
+
     NetworkInfo info = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
     if (info != null) {
       return info.getType() == ConnectivityManager.TYPE_WIFI;
@@ -63,6 +68,10 @@ public class Reachability {
 
   public static boolean sGetIsNetworkConnectedToWiFi() {
     Context context = SKApplication.getAppInstance();
+    if (context == null) {
+      // We're UNDER TEST!
+      return true;
+    }
     ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     if (connManager != null && wifiManager != null) {
