@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<string name="app_name">libcore</string>
 <string name="about">About</string>
 <string name="preferences_title">Settings</string>
 <string name="sk2_main_results_activity_title">App Name</string>
