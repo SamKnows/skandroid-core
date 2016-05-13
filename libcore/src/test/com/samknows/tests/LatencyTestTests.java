@@ -230,7 +230,7 @@ public class LatencyTestTests {
   }
 
   // Include a LIVE test, to verify that basic behaviour of the non-mocked system is still fundamentally OK.
-  // This is less t able to make specific assertions.
+  // This is less able to make specific assertions.
   @Test
   public void testLatencyTest_Live() throws Exception{
 
