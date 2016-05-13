@@ -316,7 +316,7 @@ public class ScheduleConfig implements Serializable {
 
         boolean bMatched = false;
         for (TestDescription td : c.tests) {
-          if (td.testId == testId) {
+          if (td.testId.equals(testId)) {
             bMatched = true;
             c.manual_tests.add(td);
           }
