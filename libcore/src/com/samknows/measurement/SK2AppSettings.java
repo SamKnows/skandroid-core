@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -104,7 +105,13 @@ public class SK2AppSettings extends SKAppSettings {
 	
 	//to be called when the app starts, via:
 	public static void create(Context c) {
-		SKAppSettings.instance = new SK2AppSettings(c);
+		try {
+			SKAppSettings.instance = new SK2AppSettings(c);
+		} catch (Resources.NotFoundException e) {
+			SKLogger.sAssertResourcesNotFoundExceptionNotRobolectric(e);
+		} catch (Exception e) {
+			SKLogger.sAssert(false);
+		}
 	}
 	
 	public static SK2AppSettings getSK2AppSettingsInstance() {

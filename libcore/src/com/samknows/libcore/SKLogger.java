@@ -11,6 +11,7 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.TimeUtils;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 
@@ -204,5 +205,17 @@ public class SKLogger {
         Log.e("SKLOGGER", "sAssertFailed: you can trap with a breakpoint in " + where);
       }
     }
+  }
+
+  public static void sAssertResourcesNotFoundExceptionNotRobolectric(Resources.NotFoundException e) {
+    boolean bIgnore = false;
+    for (StackTraceElement item : e.getStackTrace()) {
+      String className = item.getClassName();
+      if (className.startsWith("org.robolectric")) {
+        bIgnore = true;
+        break;
+      }
+    }
+    SKLogger.sAssert(bIgnore == false);
   }
 }
