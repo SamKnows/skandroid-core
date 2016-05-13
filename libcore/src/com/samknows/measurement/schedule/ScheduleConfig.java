@@ -66,19 +66,19 @@ public class ScheduleConfig implements Serializable {
   private static final long serialVersionUID = 1L;
 
   public String version = "";
-  public String submitHost; // submitHost/mobile/submit
-  public long downloadedTime;
-  public long dataCapDefault;
-  public TestAlarmType testAlamType;
-  public LocationType locationType;  //location type for data collectors
-  public RetryFailAction retryFailAction;
+  public String submitHost = null; // submitHost/mobile/submit
+  public long downloadedTime = 0;
+  public long dataCapDefault = -1;
+  public TestAlarmType testAlamType = TestAlarmType.WAKEUP;
+  public LocationType locationType = LocationType.gps;  //location type for data collectors
+  public RetryFailAction retryFailAction = null;
   private boolean backgroundTest = true;
   public List<ConditionGroup> conditionGroups = new ArrayList<>();
   public List<TestDescription> tests = new ArrayList<>();
   public List<TestGroup> backgroundTestGroups = new ArrayList<>();
   public List<TestDescription> manual_tests = new ArrayList<>();
   public List<TestDescription> continuous_tests = new ArrayList<>();
-  public String manual_test_condition_group_id;
+  public String manual_test_condition_group_id = null;
   public List<BaseDataCollector> dataCollectors = new ArrayList<>();
   public HashMap<String, String> hosts = new HashMap<>();
   public HashMap<String, Communication> communications = new HashMap<>();
@@ -193,22 +193,33 @@ public class ScheduleConfig implements Serializable {
   //parsing from xml
   public static ScheduleConfig parseXml(InputStream is) {
 
+    if (is == null) {
+      return new ScheduleConfig();
+    }
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     try {
       Element root = factory.newDocumentBuilder().parse(is).getDocumentElement();
-      return parseXml(root);
+      return sCreateScheduleConfigByParsingXmlElement(root);
+
     } catch (Exception e) {
-      e.printStackTrace();
+      SKLogger.sAssert(false);
     }
-    return null;
+
+    return new ScheduleConfig();
   }
 
-  public static ScheduleConfig parseXml(Element node) {
+  public ScheduleConfig() {
+    downloadedTime = System.currentTimeMillis();
+  }
+
+  public static ScheduleConfig sCreateScheduleConfigByParsingXmlElement(Element node) {
 
     ScheduleConfig c = new ScheduleConfig();
-
-    c.downloadedTime = System.currentTimeMillis();
+    if (node == null) {
+      SKLogger.sAssert(false);
+      return c;
+    }
 
     //version
     c.version = XmlUtils.getNodeAttrValue(node, SCHEDULE_VERSION, VALUE);

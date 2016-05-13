@@ -332,7 +332,7 @@ public class CellTowersData implements DCSData{
       }
     }
 
-		SKLogger.sAssert(getClass(), (neighbors != null));
+		//SKLogger.sAssert(getClass(), (neighbors != null));
 		if (neighbors != null) {
 			for (NeighboringCellInfo cellInfo : neighbors) {
 				Map<String, Object> neighbour = new HashMap<>();

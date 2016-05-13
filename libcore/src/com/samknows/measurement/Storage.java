@@ -45,7 +45,7 @@ public class Storage {
     //save(SKConstants.SCHEDULE_CONFIG_FILE_NAME, sg);
   }
 
-	static ScheduleConfig sScheduleConfig = null;
+  static ScheduleConfig sScheduleConfig = null;
 
   public ScheduleConfig loadScheduleConfig() {
     if (sScheduleConfig != null) {
@@ -56,11 +56,20 @@ public class Storage {
 
     ScheduleConfig config = null;
     try {
-      config = ScheduleConfig.parseXml(SKApplication.getAppInstance().getScheduleXml());
+      InputStream is = SKApplication.getAppInstance().getScheduleXml();
+      if (is == null) {
+        // New-style app!
+        config = new ScheduleConfig();
+      } else {
+        // Old-style app!
+        config = ScheduleConfig.parseXml(is);
+        SKLogger.sAssert(config != null);
+      }
+
       SK2AppSettings.getSK2AppSettingsInstance().ananlyzeConfig(config);
     } catch (Exception e) {
       // Catch, and rethrow, the exception - as we'd seen this fail in some circumstances and needed to track it down.
-      SKLogger.sAssert(getClass(),  false);
+      SKLogger.sAssert(getClass(), false);
     }
 
     sScheduleConfig = config;
@@ -72,54 +81,53 @@ public class Storage {
 
     //return (ScheduleConfig) load(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
   }
-	
-	public void dropScheduleConfig(){
-		// drop(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
-	}
-	
-	public void saveNetUsage(TrafficData netusage){
-		save(SKConstants.NETUSAGE_STORAGE, netusage);
-	}
-	
-	public void dropNetUsage(){
-		drop(SKConstants.NETUSAGE_STORAGE);
-	}
 
-	public TrafficData loadNetUsage(){
-		return (TrafficData) load(SKConstants.NETUSAGE_STORAGE);
-	}
-	
-	
-	
-	protected synchronized void save(String id, Object data) {
-		ObjectOutputStream dos = null;
-		try {
-			OutputStream os = c.openFileOutput(id, Context.MODE_PRIVATE);
-			dos = new ObjectOutputStream(os);
-			dos.writeObject(data);
-		} catch (Exception e) {
-			SKLogger.e(this, "failed to save object for id: " + id, e);
-		} finally {
-			IOUtils.closeQuietly(dos);
-		}
-	}
-	
-	protected synchronized Object load(String id) {
-		ObjectInputStream dis = null;
-		try {
-			InputStream is = c.openFileInput(id);
-			dis = new ObjectInputStream(is);
-			return dis.readObject();
-		} catch (Exception e) {
-			Log.w(getClass().getName(), "failed to load data for id: " + id);
-		} finally {
-			IOUtils.closeQuietly(dis);
-		}
-		
-		return null;
-	}
-	
-	protected synchronized void drop(String id) {
-		c.deleteFile(id);
-	}
+  public void dropScheduleConfig() {
+    // drop(SKConstants.SCHEDULE_CONFIG_FILE_NAME);
+  }
+
+  public void saveNetUsage(TrafficData netusage) {
+    save(SKConstants.NETUSAGE_STORAGE, netusage);
+  }
+
+  public void dropNetUsage() {
+    drop(SKConstants.NETUSAGE_STORAGE);
+  }
+
+  public TrafficData loadNetUsage() {
+    return (TrafficData) load(SKConstants.NETUSAGE_STORAGE);
+  }
+
+
+  protected synchronized void save(String id, Object data) {
+    ObjectOutputStream dos = null;
+    try {
+      OutputStream os = c.openFileOutput(id, Context.MODE_PRIVATE);
+      dos = new ObjectOutputStream(os);
+      dos.writeObject(data);
+    } catch (Exception e) {
+      SKLogger.e(this, "failed to save object for id: " + id, e);
+    } finally {
+      IOUtils.closeQuietly(dos);
+    }
+  }
+
+  protected synchronized Object load(String id) {
+    ObjectInputStream dis = null;
+    try {
+      InputStream is = c.openFileInput(id);
+      dis = new ObjectInputStream(is);
+      return dis.readObject();
+    } catch (Exception e) {
+      Log.w(getClass().getName(), "failed to load data for id: " + id);
+    } finally {
+      IOUtils.closeQuietly(dis);
+    }
+
+    return null;
+  }
+
+  protected synchronized void drop(String id) {
+    c.deleteFile(id);
+  }
 }

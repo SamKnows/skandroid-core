@@ -22,6 +22,8 @@ public class TestContext {
 		Storage storage = CachingStorage.getInstance();
 		ScheduleConfig config = storage.loadScheduleConfig();
 		if (config == null) {
+			// This happens in new-style apps, which doesn't use a test schedule.
+			SKLogger.sAssert(false);
 			throw new NullPointerException("null schedule config!");
 		}
 		

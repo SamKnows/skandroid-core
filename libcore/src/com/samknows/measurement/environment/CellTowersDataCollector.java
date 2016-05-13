@@ -57,7 +57,9 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
 		}
 
 
-		SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
+		// We might be passed null, if the signal is not available currently.
+		// This is perfectly valid!
+		//SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
 		// This following line is actually essential!
 		data.setSignal(mData.getSignal());
 		addData(mData);
