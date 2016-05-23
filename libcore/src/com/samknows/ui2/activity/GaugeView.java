@@ -1,19 +1,18 @@
 package com.samknows.ui2.activity;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
+import com.samknows.libcore.SKUICommon;
 
 /**
  * This class is responsible for painting the gauge in the home screen.
@@ -72,7 +71,7 @@ class GaugeView extends View {
     // Draw Paint
     drawPaint = new Paint();
     drawPaint.setStyle(Paint.Style.STROKE);
-    drawPaint.setStrokeWidth(convertDpToPixel(10, mContext));
+    drawPaint.setStrokeWidth(SKUICommon.sConvertDpToPixels(10, mContext));
     drawPaint.setColor(mContext.getResources().getColor(R.color.white));
     drawPaint.setAntiAlias(true);
 
@@ -139,7 +138,7 @@ class GaugeView extends View {
 
     //radius = Math.min(bounds.width() / 2, bounds.height() / 2) - 50;
 
-    radius = Math.min(bounds.width() / 2, bounds.height() / 2) - convertDpToPixel(17, mContext);
+    radius = Math.min(bounds.width() / 2, bounds.height() / 2) - SKUICommon.sConvertDpToPixels(17, mContext);
 
     //double arrSegmentMaxValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
     //double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
@@ -231,7 +230,7 @@ class GaugeView extends View {
       }
 
       //Draw outer arcs
-      canvas.drawArc(new RectF(centerX - radius - convertDpToPixel(10, mContext), centerY - radius - convertDpToPixel(10, mContext), centerX + radius + convertDpToPixel(10, mContext), centerY + radius + convertDpToPixel(10, mContext)),
+      canvas.drawArc(new RectF(centerX - radius - SKUICommon.sConvertDpToPixels(10, mContext), centerY - radius - SKUICommon.sConvertDpToPixels(10, mContext), centerX + radius + SKUICommon.sConvertDpToPixels(10, mContext), centerY + radius + SKUICommon.sConvertDpToPixels(10, mContext)),
           135 + (float) (i * (360.0 / 80) - 360.0 / 160 + 360.0 / 800),
           (float) ((360.0 / 80) - 360.0 / 400),
           false, drawPaint);
@@ -247,8 +246,8 @@ class GaugeView extends View {
         angleForDots = 1.75 * Math.PI - i * (Math.PI / 40);
 
         // Calculate circles position
-        smallCircleCenterX = (float) (centerX + (radius - convertDpToPixel(20, mContext)) * Math.sin(angleForDots));
-        smallCircleCenterY = (float) (centerY + (radius - convertDpToPixel(20, mContext)) * Math.cos(angleForDots));
+        smallCircleCenterX = (float) (centerX + (radius - SKUICommon.sConvertDpToPixels(20, mContext)) * Math.sin(angleForDots));
+        smallCircleCenterY = (float) (centerY + (radius - SKUICommon.sConvertDpToPixels(20, mContext)) * Math.cos(angleForDots));
 
         drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialInnerTicks));
 
@@ -287,31 +286,4 @@ class GaugeView extends View {
     }
   }
 
-  /**
-   * This method converts dp unit to equivalent pixels, depending on device density.
-   *
-   * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
-   * @param context Context to get resources and device specific display metrics
-   * @return A float value to represent px equivalent to dp depending on device density
-   */
-  public static float convertDpToPixel(float dp, Context context) {
-    Resources resources = context.getResources();
-    DisplayMetrics metrics = resources.getDisplayMetrics();
-    float px = dp * (metrics.densityDpi / 160f);
-    return px;
-  }
-
-  /**
-   * This method converts device specific pixels to density independent pixels.
-   *
-   * @param px      A value in px (pixels) unit. Which we need to convert into db
-   * @param context Context to get resources and device specific display metrics
-   * @return A float value to represent dp equivalent to px value
-   */
-  public static float convertPixelsToDp(float px, Context context) {
-    Resources resources = context.getResources();
-    DisplayMetrics metrics = resources.getDisplayMetrics();
-    float dp = px / (metrics.densityDpi / 160f);
-    return dp;
-  }
 }
