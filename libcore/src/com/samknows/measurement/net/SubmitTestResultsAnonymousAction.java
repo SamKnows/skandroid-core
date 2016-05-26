@@ -105,6 +105,8 @@ public class SubmitTestResultsAnonymousAction {
       uploadJsonData(dbHelper, batches, data, dataAsString);
 
       if (!isSuccess) {
+        // JSON file failed to upload. Re-save it for future re-upload!
+        SKLogger.sAssert(false);
         fail.add(i);
         TestResultsManager.clearResults(context);
         TestResultsManager.saveSubmittedLogs(context, data);
@@ -420,8 +422,10 @@ public class SubmitTestResultsAnonymousAction {
 //        }
         Log.d("SubmitTestResults", "********* uploaded data: queryWasSuccessful=" + queryWasSuccessful);
 
-        if (finalBatchId != -1) {
+        if (queryWasSuccessful == true) {
           isSuccess = true;
+
+          //isSuccess = true;
 
           JSONObject item1 = new JSONObject();
           try {
@@ -451,7 +455,9 @@ public class SubmitTestResultsAnonymousAction {
 
           jsonArray.put(item1);
           jsonArray.put(item2);
-          dbHelper.insertPassiveMetric(jsonArray, finalBatchId);
+          if (finalBatchId != -1) {
+            dbHelper.insertPassiveMetric(jsonArray, finalBatchId);
+          }
 
           // Force the History screen to re-query, so it can show the submission id/public ip
           LocalBroadcastManager.getInstance(SKApplication.getAppInstance().getApplicationContext()).sendBroadcast(new Intent("refreshUIMessage"));
