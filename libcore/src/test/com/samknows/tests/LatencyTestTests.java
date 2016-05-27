@@ -204,7 +204,7 @@ public class LatencyTestTests {
 
     // Create latency test with time limit!
     final int cTimeoutAfterSecondsInMicroseconds = 3 * 1000000;
-    LatencyTest latencyTest = sCreateLatencyTest(new Integer(cTimeoutAfterSecondsInMicroseconds));
+    LatencyTest latencyTest = sCreateLatencyTest(Integer.valueOf(cTimeoutAfterSecondsInMicroseconds));
 
     // Set dummy SKTestRunner instance, or the tests will give lots of assertions...
     SKTestRunner.sSetRunningTestRunner(new SKTestRunner());
