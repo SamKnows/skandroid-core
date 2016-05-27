@@ -107,13 +107,13 @@ public class SamKnowsLoginService {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					byte[] inResponseBody) {
-				String responce = String.valueOf(inResponseBody);
+				String response = String.valueOf(inResponseBody);
 				try{
-					JSONObject jsonResponse = new JSONObject(responce);
+					JSONObject jsonResponse = new JSONObject(response);
 					Date cachedTime = new Date();
 					Calendar startDate = getStartDate(TYPE);
 					String startDateStr = client.dateToString(startDate);
-					cache.put(client.getDevice(), TYPE, responce, startDateStr);
+					cache.put(client.getDevice(), TYPE, response, startDateStr);
 					handler.onSuccess(jsonResponse, cachedTime, startDateStr);
 				} catch(JSONException e){
 					handler.onFailure(e);
