@@ -312,8 +312,9 @@ public final class ActiveServerUploadTest extends UploadTest {
       long timeElapsed = sGetMicroTime() - runUpStartTime.get();
 
       try {
-        if (connOut == null)
+        if (connOut == null) {
           break;
+        }
 
         connOut.write(buff);														/* Write buffer to output socket */
         connOut.flush();
@@ -344,9 +345,11 @@ public final class ActiveServerUploadTest extends UploadTest {
 
 
 			/* Transfer done if: */
-      if (getTransferMaxTimeMicro() > 0) 																	/* we run out of time */
-        if (timeElapsed > getTransferMaxTimeMicro())
+      if (getTransferMaxTimeMicro() > 0) { 																	/* we run out of time */
+        if (timeElapsed > getTransferMaxTimeMicro()) {
           isTransferDone = true;
+        }
+      }
 
 
       if (getTransferMaxBytes() > 0) {

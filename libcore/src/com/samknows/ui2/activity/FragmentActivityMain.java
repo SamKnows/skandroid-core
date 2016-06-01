@@ -64,7 +64,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
 
     // Hide action bar, which is not used in this activity...
     final ActionBar actionBar = getActionBar();
-    actionBar.hide();
+    if (actionBar == null) {
+      SKLogger.sAssert(false);
+    } else {
+      actionBar.hide();
+    }
 
     setContentView(R.layout.fragment_main);
 
@@ -78,7 +82,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
 
     // Hide action bar, which is shown ONLY on the Settings screen!
     final ActionBar actionBar = getActionBar();
-    actionBar.hide();
+    if (actionBar == null) {
+      SKLogger.sAssert(false);
+    } else {
+      actionBar.hide();
+    }
   }
 
   // *** INNER CLASSES *** //
@@ -358,7 +366,11 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
       @Override
       public void onPageSelected(int position) {
         //getActionBar().setSelectedNavigationItem(position);					// When swiping between pages, select the corresponding tab
-        actionBar.setTitle(adapter_ViewPager.getPageTitle(position));    // Set the title
+        if (actionBar == null) {
+          SKLogger.sAssert(false);
+        } else {
+          actionBar.setTitle(adapter_ViewPager.getPageTitle(position));    // Set the title
+        }
       }
     });
 	   

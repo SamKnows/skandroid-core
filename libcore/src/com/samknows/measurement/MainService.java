@@ -26,7 +26,7 @@ public class MainService extends IntentService {
 	private TrafficStatsCollector collector;
 	private SK2AppSettings appSettings;
 	private static boolean isExecuting;
-	private static Object sync = new Object();
+	private final static Object sync = new Object();
 	public MainService() {
 		super(MainService.class.getName());
 	}

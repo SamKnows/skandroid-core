@@ -1175,7 +1175,9 @@ public class Base64
         finally
         {
             try {
-              bos.close();
+              if (bos != null) {
+                bos.close();
+              }
             } catch( Exception e) {
               SKLogger.sAssert(false);
             }
@@ -1212,7 +1214,9 @@ public class Base64
         finally
         {
           try {
-            bos.close();
+            if (bos != null) {
+              bos.close();
+            }
           } catch( Exception e) {
             SKLogger.sAssert(false);
           }
@@ -1274,7 +1278,9 @@ public class Base64
         finally
         {
           try {
-            bis.close();
+            if (bis != null) {
+              bis.close();
+            }
           } catch( Exception e) {
             SKLogger.sAssert(false);
           }
@@ -1326,7 +1332,9 @@ public class Base64
         finally
         {
           try {
-            bis.close();
+            if (bis != null) {
+              bis.close();
+            }
           } catch( Exception e) {
             SKLogger.sAssert(false);
           }

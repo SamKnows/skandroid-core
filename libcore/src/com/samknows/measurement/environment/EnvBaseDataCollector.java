@@ -8,12 +8,11 @@ import android.content.Context;
 
 public abstract class EnvBaseDataCollector {
 	protected Context context;
-	List<DCSData> mListDCSData;
-	
+	final List<DCSData> mListDCSData = Collections.synchronizedList(new ArrayList<DCSData>());
+
 	public EnvBaseDataCollector(Context context) {
 		super();
 		this.context = context;
-		mListDCSData = Collections.synchronizedList(new ArrayList<DCSData>());
 	}
 	
 	/*

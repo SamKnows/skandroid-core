@@ -56,16 +56,19 @@ public class ExportFileProvider extends ContentProvider {
 		// Check incoming Uri against the matcher
 		switch (uriMatcher.match(uri)) {
 
-		// If it returns 1 - then it matches the Uri defined in onCreate
-		case cMatchCode: {
+      // If it returns 1 - then it matches the Uri defined in onCreate
+      case cMatchCode: {
 
-			// https://stackoverflow.com/questions/12170386/create-and-share-a-file-from-internal-storage
-			String fileLocation = getContext().getCacheDir() + "/" + uri.getLastPathSegment();
-			ParcelFileDescriptor pfd = ParcelFileDescriptor.open(new File(fileLocation), ParcelFileDescriptor.MODE_READ_ONLY);
-			return pfd;
-		}
-		}
-		
+        // https://stackoverflow.com/questions/12170386/create-and-share-a-file-from-internal-storage
+        String fileLocation = getContext().getCacheDir() + "/" + uri.getLastPathSegment();
+        ParcelFileDescriptor pfd = ParcelFileDescriptor.open(new File(fileLocation), ParcelFileDescriptor.MODE_READ_ONLY);
+        return pfd;
+      }
+
+      default:
+        break;
+    }
+
 		// Otherwise unrecognised Uri
 		Log.v("ExportFileProvider", "ExportFileProvider - Unsupported uri: '" + uri + "'.");
 		throw new FileNotFoundException("Unsupported uri: " + uri.toString());

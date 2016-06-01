@@ -1931,6 +1931,11 @@ public class FragmentRunTest extends Fragment {
 
   private void registerBackButtonHandler() {
     View view = getView();
+    if (view == null) {
+      SKLogger.sAssert(false);
+      return;
+    }
+
     view.setFocusableInTouchMode(true);
     view.requestFocus();
     view.setOnKeyListener(new View.OnKeyListener() {

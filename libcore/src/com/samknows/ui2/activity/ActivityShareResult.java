@@ -139,21 +139,21 @@ public class ActivityShareResult extends Activity {
 
 
     String downloadResult = getIntent().getExtras().getString("downloadResult");
-    if (downloadResult.equals("-1")) {
+    if ((downloadResult == null) || downloadResult.equals("-1")) {
       tv_Download_Result.setText(getString(R.string.slash));
     } else {
       tv_Download_Result.setText(getIntent().getExtras().get("downloadResult") + "");
     }
 
     String uploadResult = getIntent().getExtras().getString("uploadResult");
-    if (uploadResult.equals("-1")) {
+    if ((uploadResult == null) || uploadResult.equals("-1")) {
       tv_Upload_Result.setText(getString(R.string.slash));
     } else {
       tv_Upload_Result.setText(getIntent().getExtras().get("uploadResult") + "");
     }
 
     String latencyResult = getIntent().getExtras().getString("latencyResult");
-    if (latencyResult.equals("-1")) {
+    if ((latencyResult == null) || latencyResult.equals("-1")) {
       tv_Latency_Result.setText(getString(R.string.slash));
       tv_Packet_Loss_Result.setText(getString(R.string.slash));
       tv_Jitter_Result.setText(getString(R.string.slash));
