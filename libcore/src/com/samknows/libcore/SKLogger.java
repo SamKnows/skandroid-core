@@ -190,6 +190,19 @@ public class SKLogger {
     }
   }
 
+  public static Boolean sGetIsRunningJUnit() {
+    StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+
+    for (StackTraceElement item : elements) {
+      String className = item.getClassName();
+      if (className.startsWith("org.robolectric")) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public static void sAssert(final boolean check) {
     if (check == false) {
 
@@ -207,15 +220,14 @@ public class SKLogger {
     }
   }
 
-  public static void sAssertResourcesNotFoundExceptionNotRobolectric(Resources.NotFoundException e) {
+  public static void sAssertResourcesNotFoundExceptionNotRobolectric(Exception e) {
     boolean bIgnore = false;
     for (StackTraceElement item : e.getStackTrace()) {
       String className = item.getClassName();
       if (className.startsWith("org.robolectric")) {
-        bIgnore = true;
-        break;
+        return;
       }
     }
-    SKLogger.sAssert(bIgnore == false);
+    SKLogger.sAssert(false);
   }
 }
