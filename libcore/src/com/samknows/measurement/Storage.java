@@ -68,8 +68,11 @@ public class Storage {
 
       SK2AppSettings.getSK2AppSettingsInstance().ananlyzeConfig(config);
     } catch (Exception e) {
-      // Catch, and rethrow, the exception - as we'd seen this fail in some circumstances and needed to track it down.
-      SKLogger.sAssert(getClass(), false);
+      if (SKLogger.sGetIsRunningJUnit()) {
+        // Just ignore it - we're running a unit test...
+      } else {
+        SKLogger.sAssert(getClass(), false);
+      }
     }
 
     sScheduleConfig = config;
