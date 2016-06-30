@@ -60,7 +60,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
 
 
-  public static void sForceFastLocationCheck() {
+  public static void sForceFastLocationCheck(boolean canUseGPS) {
     Context context = SKApplication.getAppInstance().getApplicationContext();
 
     LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -90,11 +90,11 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
     // http://stackoverflow.com/questions/10405277/requestsingleupdate-doesnt-automatically-fetch-gps-location
     // Network location is fast and cheap (in terms of battery use) and a good strategy is to use network location until you get GPS.
+		// However, GPS is faster.
 
-//    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//      manager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, Looper.getMainLooper());
-//    } else
-    if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+    if (canUseGPS && manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+      manager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, Looper.getMainLooper());
+    } else if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
       manager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, Looper.getMainLooper());
     } else {
   		 // Don't do this, as it annoys the unit tests!		SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());

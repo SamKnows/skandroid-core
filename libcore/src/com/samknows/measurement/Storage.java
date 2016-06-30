@@ -78,7 +78,9 @@ public class Storage {
     sScheduleConfig = config;
 
     // And now we have a schedule, make sure we get a quick location update!
-    LocationDataCollector.sForceFastLocationCheck();
+    // false means we cannot use GPS for this (rely on network check, which is faster
+    // but less accurate).
+    LocationDataCollector.sForceFastLocationCheck(false);
 
     return config;
 
