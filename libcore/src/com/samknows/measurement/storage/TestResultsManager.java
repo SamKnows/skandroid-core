@@ -79,19 +79,19 @@ public class TestResultsManager {
 
   }
 
-  public static void saveResult(Context c, String result) {
+  public static void saveResult(Context c, String jsonStr) {
 
     if (OtherUtils.isDebuggable(c)) {
       // Debuggable build - so dump-out the JSON string!
       // You can use web services such as http://jsonformatter.curiousconcept.com/#jsonformatter to prettify
       // the output from this Log.d statement; assuming it isn't truncated.
-      Log.d("TestResultsManager", "******** saveJSON result... (" + result + ")");
+     Log.d("TestResultsManager", "******** saveJSON jsonStr... (" + jsonStr + ")");
 
       // Enable the following if you want prettified JSON output for a very long JSON string;
       // useful sometimes, as the standard Log.d has a limited buffer size that it will output.
 //			try {
 //				// http://stackoverflow.com/questions/6185337/how-do-i-pretty-print-existing-json-data-with-java
-//				String prettyJsonString = new JSONObject(result).toString(2);
+//				String prettyJsonString = new JSONObject(jsonStr).toString(2);
 //				SKLogger.d(TestResultsManager.class.getName(),  prettyJsonString);
 //			} catch (JSONException e) {
 //				SKLogger.sAssert(TestResultsManager.class, false);
@@ -104,7 +104,7 @@ public class TestResultsManager {
       return;
     }
     try {
-      dos.write(result.getBytes("UTF-8"));
+      dos.write(jsonStr.getBytes("UTF-8"));
       dos.writeBytes("\r\n");
     } catch (IOException ioe) {
       SKLogger.e(TestResultsManager.class, "Error while saving results: " + ioe.getMessage());
