@@ -19,6 +19,7 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.SignalStrength;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.storage.PassiveMetric;
@@ -221,11 +222,56 @@ public class CellTowersData implements DCSData{
 		return ret;
 	}
 
+  private String extractValueFromString(String string, String valueKey) {
+    String keyWithEquals = valueKey;
+    if (keyWithEquals.endsWith("=") == false) {
+      keyWithEquals = keyWithEquals + "=";
+    }
+    String[] valueArray = string.split(" ");
+    for (String item : valueArray) {
+      if (item.startsWith(keyWithEquals)) {
+        String berValue = item.substring(keyWithEquals.length());
+        return berValue;
+      }
+    }
+
+    return "";
+  }
+
+  // See https://android.googlesource.com/platform/frameworks/base.git/+/master/telephony/java/android/telephony/CellSignalStrengthWcdma.java
+  // See https://android.googlesource.com/platform/frameworks/base/+/master/telephony/java/android/telephony/CellSignalStrengthGsm.java
+  private String extractValueBer(String value) {
+    return extractValueFromString(value, "ber");
+  }
+
+  // Test mode!
+//  private void testDataExtraction() {
+//    String testSignalStringString = "CellSignalStrengthWcdma:" + " ss=" + (int)(99) + " ber=" + (int)(100);
+//    String testBerValue = extractValueBer(testSignalStringString);
+//    SKLogger.sAssert(testBerValue.equals("100"));
+//
+//    String testSignalStringString = "CellSignalStrengthGsm:" + " ss=" + (int)(99) + " ber=" + (int)(100);
+//    String testBerValue = extractValueBer(testSignalStringString);
+//    SKLogger.sAssert(testBerValue.equals("100"));
+
+//    String testSignalStringString = "CellSignalStrengthLte:" + " ss=" + ((int)1) + " rsrp=" + ((int)2) + " rsrq=" + ((int)3) + " rssnr=" + ((int)4) + " cqi=" + ((int)5) + " ta=" + ((int)6);
+//    String testRsrpValue = extractValueFromString(testSignalStringString, "rsrp");
+//    SKLogger.sAssert(testRsrpValue.equals("1"));
+//    String testRsrqValue = extractValueFromString(testSignalStringString, "rsrq");
+//    SKLogger.sAssert(testRsrqValue.equals("2"));
+//    String testRssnrValue = extractValueFromString(testSignalStringString, "rssnr");
+//    SKLogger.sAssert(testRssnrValue.equals("3"));
+//    String testCqiValue = extractValueFromString(testSignalStringString, "cqi");
+//    SKLogger.sAssert(testCqiValue.equals("4"));
+//  }
 
 	@SuppressLint("NewApi")
 	@Override
 	public List<JSONObject> convertToJSON() {
 		List<JSONObject> ret = new ArrayList<>();
+
+    // Test mode!
+    //testDataExtraction();
 
 		if (cellLocation == null) {
 			// No location information currently available!
@@ -306,6 +352,11 @@ public class CellTowersData implements DCSData{
           cellInfoHashMap.put("gsm_asulevel", cellInfoGsm.getCellSignalStrength().getAsuLevel());
           cellInfoHashMap.put("gsm_level", cellInfoGsm.getCellSignalStrength().getLevel());
           cellInfoHashMap.put("gsm_dbm", cellInfoGsm.getCellSignalStrength().getDbm());
+          String signalStringString = cellInfoGsm.getCellSignalStrength().toString();
+          String berValue = extractValueBer(signalStringString);
+          if (berValue.isEmpty() == false) {
+            cellInfoHashMap.put("gsm_biterrorrate", berValue);
+          }
         } else if (cellInfo instanceof CellInfoLte) {
           CellInfoLte cellInfoLte = (CellInfoLte)cellInfo;
           cellInfoHashMap.put("lte_ci", cellInfoLte.getCellIdentity().getCi());
@@ -317,6 +368,24 @@ public class CellTowersData implements DCSData{
           cellInfoHashMap.put("lte_dbm", cellInfoLte.getCellSignalStrength().getDbm());
           cellInfoHashMap.put("lte_level", cellInfoLte.getCellSignalStrength().getLevel());
           cellInfoHashMap.put("lte_timingadvance", cellInfoLte.getCellSignalStrength().getTimingAdvance());
+          //https://android.googlesource.com/platform/frameworks/base/+/master/telephony/java/android/telephony/CellSignalStrengthLte.java
+          String signalStringString = cellInfoLte.getCellSignalStrength().toString();
+          String rsrpValue = extractValueFromString(signalStringString, "rsrp");
+          if (rsrpValue.isEmpty() == false) {
+            cellInfoHashMap.put("lte_rsrp", rsrpValue);
+          }
+          String rsrqValue = extractValueFromString(signalStringString, "rsrq");
+          if (rsrqValue.isEmpty() == false) {
+            cellInfoHashMap.put("lte_rsrq", rsrqValue);
+          }
+          String rssnrValue = extractValueFromString(signalStringString, "rssnr");
+          if (rssnrValue.isEmpty() == false) {
+            cellInfoHashMap.put("lte_rssnr", rssnrValue);
+          }
+          String cqiValue = extractValueFromString(signalStringString, "cqi");
+          if (cqiValue.isEmpty() == false) {
+            cellInfoHashMap.put("lte_cqi", cqiValue);
+          }
         } else if (cellInfo instanceof CellInfoWcdma) {
           CellInfoWcdma cellInfoWcdma = (CellInfoWcdma)cellInfo;
           cellInfoHashMap.put("wcdma_cid", cellInfoWcdma.getCellIdentity().getCid());
@@ -327,6 +396,11 @@ public class CellTowersData implements DCSData{
           cellInfoHashMap.put("wcdma_asulevel", cellInfoWcdma.getCellSignalStrength().getAsuLevel());
           cellInfoHashMap.put("wcdma_dbm", cellInfoWcdma.getCellSignalStrength().getDbm());
           cellInfoHashMap.put("wcdma_level", cellInfoWcdma.getCellSignalStrength().getLevel());
+          String signalStringString = cellInfoWcdma.getCellSignalStrength().toString();
+          String berValue = extractValueBer(signalStringString);
+          if (berValue.isEmpty() == false) {
+            cellInfoHashMap.put("wcdma_biterrorrate", berValue);
+          }
         }
         ret.add(new JSONObject(cellInfoHashMap));
       }
