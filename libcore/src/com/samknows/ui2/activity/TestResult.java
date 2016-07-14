@@ -1,6 +1,6 @@
 package com.samknows.ui2.activity;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
@@ -76,7 +76,7 @@ public class TestResult implements Parcelable {
 
     switch (networkType) {
       case eNetworkTypeResults_Any:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
       case eNetworkTypeResults_WiFi:
         dest.writeInt(1);
@@ -138,7 +138,7 @@ public class TestResult implements Parcelable {
 
     switch (in.readInt()) {
       case 0:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
       case 1:
         networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
@@ -242,7 +242,7 @@ public class TestResult implements Parcelable {
   public void setNetworkType(eNetworkTypeResults pNetworkType) {
     switch (pNetworkType) {
       case eNetworkTypeResults_Any:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
       case eNetworkTypeResults_WiFi:
         this.networkType = pNetworkType;
@@ -251,7 +251,7 @@ public class TestResult implements Parcelable {
         this.networkType = pNetworkType;
         break;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
     }
   }

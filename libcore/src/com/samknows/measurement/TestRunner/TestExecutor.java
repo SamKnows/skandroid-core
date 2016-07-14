@@ -22,7 +22,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKOperators;
 import com.samknows.libcore.SKOperators.ISKQueryCompleted;
@@ -112,7 +112,7 @@ public class TestExecutor {
         accumulatedNetworkTypeLocationMetrics.put(item);
 
 			} catch (JSONException e) {
-				SKLogger.sAssert(StorageTestResult.class, false);
+				SKPorting.sAssert(StorageTestResult.class, false);
 			}
 		}
 	}
@@ -122,7 +122,7 @@ public class TestExecutor {
 		// The following should only ever return a List<JSONObject> containing one item!
 		List<JSONObject> passiveMetrics = NetworkDataCollector.sGetNetworkDataPassiveMetrics();
 		int items = passiveMetrics.size();
-		SKLogger.sAssert(StorageTestResult.class, items == 1);
+		SKPorting.sAssert(StorageTestResult.class, items == 1);
 
 		int i;
 		for (i = 0; i < items; i++) {
@@ -136,7 +136,7 @@ public class TestExecutor {
 				
         accumulatedNetworkTypeLocationMetrics.put(item);
 			} catch (JSONException e) {
-				SKLogger.sAssert(StorageTestResult.class, false);
+				SKPorting.sAssert(StorageTestResult.class, false);
 			}
 		}
 
@@ -163,7 +163,7 @@ public class TestExecutor {
 				@Override
 				public void onQueryCompleted(Exception e, long responseCode,
 						String responseDataAsString) {
-					SKLogger.sAssert(getClass(), mThrottledQueryResult.returnCode == SKOperators_Return.SKOperators_Return_FiredThrottleQueryAwaitCallback);
+					SKPorting.sAssert(getClass(), mThrottledQueryResult.returnCode == SKOperators_Return.SKOperators_Return_FiredThrottleQueryAwaitCallback);
 
 					if (e == null) {
 						Log.d(TestExecutor.class.getName(), "DEBUG - throttle query success, responseCode=(" + responseCode + "), responseDataAsString=(" + responseDataAsString + ")");
@@ -174,11 +174,11 @@ public class TestExecutor {
 							} else if ( responseDataAsString.equals("NO")) {
 								mpThrottleResponse = "non-throttled";
 							} else {
-								SKLogger.sAssert(getClass(), false);
+								SKPorting.sAssert(getClass(), false);
 								mpThrottleResponse = "error";
 							}
 						} else {
-							SKLogger.sAssert(getClass(), false);
+							SKPorting.sAssert(getClass(), false);
 
 							// http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 							if (    (responseCode == 408) // Request Timeout
@@ -226,10 +226,10 @@ public class TestExecutor {
 			ret.add(c);
 		//Treat exceptions as failures	
 		} catch(ExecutionException ee){
-			SKLogger.e(this, "Error in running test condition: " + ee.getMessage());
+			SKPorting.sAssertE(this, "Error in running test condition: " + ee.getMessage());
 			ret.isSuccess=false;
 		} catch(InterruptedException ie){
-			SKLogger.e(this, "Error in running test condition: " + ie.getMessage());
+			SKPorting.sAssertE(this, "Error in running test condition: " + ie.getMessage());
 			ret.isSuccess=false;
 		}
 		return ret;
@@ -243,7 +243,7 @@ public class TestExecutor {
 		if (result.isSuccess || result.isFailQuiet()) {
 			executeTest(td, result);
 		}
-		SKLogger.d(TAG, "result test: " + (result.isSuccess ? "OK" : "FAIL"));
+		SKPorting.sLogD(TAG, "result test: " + (result.isSuccess ? "OK" : "FAIL"));
 
 		if (result.isSuccess && cg != null) {
 			ConditionGroupResult cgr = cg.testAfter(tc);
@@ -255,7 +255,7 @@ public class TestExecutor {
 			cg.release(tc);
 		}
 
-		SKLogger.d(this, "conditionGroup:execute - rc.getJSON()=" + rc.getJSON().toString());
+		SKPorting.sLogD(this, "conditionGroup:execute - rc.getJSON()=" + rc.getJSON().toString());
 
 		// TestResultsManager.saveResult(tc.getServiceContext(),
 		// result.results);
@@ -270,7 +270,7 @@ public class TestExecutor {
 
 			executingTest = TestFactory.create(td.type, params);
 			if (executingTest != null) {
-				SKLogger.d(TestExecutor.class, "start to execute test: " + td.displayName);
+				SKPorting.sLogD(TestExecutor.class, "start to execute test: " + td.displayName);
 			
 				String displayName = td.displayName;
 				boolean bShowNotification = true;
@@ -302,7 +302,7 @@ public class TestExecutor {
 				t.start();
 				t.join(SKConstants.WAIT_TEST_BEFORE_ABORT);
 				if (t.isAlive()) {
-					SKLogger.e(this, "Test is still running after "+SKConstants.WAIT_TEST_BEFORE_ABORT/1000+" seconds.");
+					SKPorting.sAssertE(this, "Test is still running after "+SKConstants.WAIT_TEST_BEFORE_ABORT/1000+" seconds.");
 					t.interrupt();
 					t = null;
 				} else {
@@ -359,17 +359,17 @@ public class TestExecutor {
 //						}
 //					}
 
-					SKLogger.d(TAG, "finished execution test: " + td.type);
+					SKPorting.sLogD(TAG, "finished execution test: " + td.type);
 				}
 			} else {
-				SKLogger.e(TAG, "Can't find test for: " + td.type,
+				SKPorting.sAssertE(TAG, "Can't find test for: " + td.type,
 						new RuntimeException());
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 				result.isSuccess = false;
 			}
 		} catch (Throwable e) {
-			SKLogger.e(this, "Error in executing the test. ", e);
-			SKLogger.sAssert(getClass(), false);
+			SKPorting.sAssertE(this, "Error in executing the test. ", e);
+			SKPorting.sAssert(getClass(), false);
 			result.isSuccess = false;
 		} finally {
 			cancelNotification();
@@ -410,7 +410,7 @@ public class TestExecutor {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       builder.build();
     } else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     Notification myNotification = builder.getNotification();
@@ -458,8 +458,8 @@ public class TestExecutor {
 					startThread.join(100);
 					
 				} catch (InterruptedException ie) {
-					SKLogger.e(this, "Ignore InterruptedException while waiting for the start thread to finish");
-					SKLogger.sAssert(getClass(), false);
+					SKPorting.sAssertE(this, "Ignore InterruptedException while waiting for the start thread to finish");
+					SKPorting.sAssert(getClass(), false);
 				}
 			}
 		}
@@ -521,7 +521,7 @@ public class TestExecutor {
 			batch.put(TestBatch.JSON_DTIME, startTime);
 			batch.put(TestBatch.JSON_RUNMANUALLY, "0");
 		} catch (JSONException je) {
-			SKLogger.e(this,
+			SKPorting.sAssertE(this,
 					"Error in creating test batch object: " + je.getMessage());
 		}
 		DBHelper db = new DBHelper(tc.getContext());
@@ -538,7 +538,7 @@ public class TestExecutor {
 	public ConditionGroupResult executeBackgroundTestGroup(long groupId) {
 		TestGroup tg = tc.config.findBackgroundTestGroup(groupId);
 		if (tg == null) {
-			SKLogger.e(this, "can not find background test group for id: " + groupId);
+			SKPorting.sAssertE(this, "can not find background test group for id: " + groupId);
 		} else {
 			return executeGroup(tg);
 		}
@@ -553,7 +553,7 @@ public class TestExecutor {
 					.getConditionGroup(td.conditionGroupId);
 			return execute(cg, td);
 		} else {
-			SKLogger.e(this, "can not find test for id: " + testId);
+			SKPorting.sAssertE(this, "can not find test for id: " + testId);
 		}
 		return new ConditionGroupResult();
 	}
@@ -637,7 +637,7 @@ public class TestExecutor {
               results = wifiManager.getScanResults();
             } catch (SecurityException e) {
               // This has been seen on a very small set of devices...
-              SKLogger.sAssert(false);
+              SKPorting.sAssert(false);
             }
 
             if (results != null) {
@@ -654,7 +654,7 @@ public class TestExecutor {
                   break;
                 }
               }
-              SKLogger.sAssert(bFoundWifi);
+              SKPorting.sAssert(bFoundWifi);
             }
             wifiStateMetric.put("linkspeed", wifiInfo.getLinkSpeed());
             rc.addMetric(wifiStateMetric);
@@ -663,7 +663,7 @@ public class TestExecutor {
       }
 
     } catch (JSONException e) {
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 		}
 
 		//SKLogger.sAssert(getClass(), mBatchId != -1);

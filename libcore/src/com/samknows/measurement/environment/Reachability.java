@@ -10,7 +10,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 import com.samknows.libcore.R;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SKApplication;
 
 //
@@ -21,7 +21,7 @@ public class Reachability {
 
     NetworkInfo activeNetworkInfo = NetworkDataCollector.sGetNetworkInfo();
     if (activeNetworkInfo == null) {
-      SKLogger.sAssert(NetworkDataCollector.class, false);
+      SKPorting.sAssert(NetworkDataCollector.class, false);
       return false;
     }
 

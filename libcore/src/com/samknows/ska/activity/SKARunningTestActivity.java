@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
 import com.samknows.measurement.SK2AppSettings;
@@ -113,7 +113,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 		try {
 			launchTest(testIdToRunMinusOneMeansAll);
 		} catch (Throwable t) {
-			SKLogger.e(this, "handler or test failure", t);
+			SKPorting.sAssertE(this, "handler or test failure", t);
 		}
 	}
 
@@ -515,7 +515,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
       }
 
     } catch (JSONException e) {
-      SKLogger.e(this, e.getMessage());
+      SKPorting.sAssertE(this, e.getMessage());
     }
   }
 
@@ -561,7 +561,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 				jtc.put("metricString", "invisible");
 				jtc.put("value", "");
 			} catch (JSONException je) {
-				SKLogger.e(this,
+				SKPorting.sAssertE(this,
 						"Error in creating JSONObject:" + je.getMessage());
 			}
 			this.doHandleMessage(jtc);
@@ -681,7 +681,7 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
 			TableLayout tl3 = (TableLayout) findViewById(R.id.packetloss_test_panel);
 			tl3.setVisibility(View.GONE);
 		} else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 		}
 
 		if (SKApplication.getAppInstance().getIsDataCapEnabled() == true) {

@@ -2,7 +2,7 @@ package com.samknows.measurement.activity;
 
 import java.util.List;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 
 import com.samknows.libcore.R;
@@ -67,35 +67,35 @@ public class SamKnowsBaseActivity extends Activity {
 			ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 			List<RunningTaskInfo> tasks = am.getRunningTasks(2);
 			
-			SKLogger.sAssert(getClass(),  tasks != null);
+			SKPorting.sAssert(getClass(),  tasks != null);
 
 			if (tasks == null) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				// Assume it must be OK to close!
 				return true;
 			}
 			
 			if (tasks.size() == 0) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				// Assume it must be OK to close!
 				return true;
 			}
 			
 			RunningTaskInfo currentTask = tasks.get(0);
 			if (currentTask == null) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				// Assume it must be OK to close!
 				return true;
 			}
 
 			if (tasks.size() < 2) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				// Assume it must be OK to close!
 				return true;
 			}
 			RunningTaskInfo nextTask = tasks.get(1);
 			if (nextTask == null) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				// Assume it must be OK to close!
 				return true;
 			}
@@ -110,7 +110,7 @@ public class SamKnowsBaseActivity extends Activity {
 			}
 		} catch (java.lang.NullPointerException ex) {
 			// Seen on some devices!
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 		}
         
         Log.d(this.getClass().toString(), "This activity is not the top activity, and will not return us to the Home screen");

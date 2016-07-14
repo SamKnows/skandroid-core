@@ -15,7 +15,7 @@ import android.util.Log;
 
 // http://stephendnicholas.com/archives/974
 
-public class ExportFileProvider extends ContentProvider {
+public class SKAndroidExportFileProvider extends ContentProvider {
 	
 	private static final String CLASS_NAME = "ExportFileProvider";
 
@@ -99,7 +99,7 @@ public class ExportFileProvider extends ContentProvider {
 		}
 	
 		// Unexpected - but assume it is zip, given no other information!
-		SKLogger.sAssert(getClass(),  false);
+		SKPorting.sAssert(getClass(),  false);
 		
 		return "application/zip";
 	}

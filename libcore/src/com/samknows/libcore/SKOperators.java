@@ -77,16 +77,16 @@ public class SKOperators {
         writer.write(buffer, 0, n);
       }
     } catch (UnsupportedEncodingException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return null;
     } catch (IOException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return null;
     } finally {
       try {
         theInputStream.close();
       } catch (IOException e) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
 
@@ -108,7 +108,7 @@ public class SKOperators {
 
       int items = mpOperatorArray.length();
       if (items <= 0) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
 
       int index = 0;
@@ -116,58 +116,58 @@ public class SKOperators {
         JSONObject operator = mpOperatorArray.getJSONObject(index);
         try {
           String value = operator.getString("name");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
 
         try {
           String value = operator.getString("class");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
 
-          SKLogger.sAssert(getClass(), (value.equals("isthrottledwebservice")) || (value.equals("isthrottledwebservice_test")));
+          SKPorting.sAssert(getClass(), (value.equals("isthrottledwebservice")) || (value.equals("isthrottledwebservice_test")));
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
 
         try {
           JSONArray value = operator.getJSONArray("mcc+mnc");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
 
           int theMccMncArrayItems = value.length();
           int theMccMncIndex = 0;
           for (theMccMncIndex = 0; theMccMncIndex < theMccMncArrayItems; theMccMncIndex++) {
             String theText = value.getString(theMccMncIndex);
-            SKLogger.sAssert(getClass(), theText.length() >= 5);
-            SKLogger.sAssert(getClass(), theText.length() <= 6);
+            SKPorting.sAssert(getClass(), theText.length() >= 5);
+            SKPorting.sAssert(getClass(), theText.length() <= 6);
           }
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
 
         try {
           String value = operator.getString("url");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
 
         try {
           String value = operator.getString("username");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
 
         try {
           String value = operator.getString("password");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
       }
     } catch (JSONException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
   }
 
@@ -224,7 +224,7 @@ public class SKOperators {
     if (OtherUtils.isThisDeviceAnEmulator() == true) {
       if (OtherUtils.isDebuggable(mContext)) {
         // On emulator in debug mode...!
-        SKLogger.sAssert(getClass(), deviceMccMnc.length() == 0);
+        SKPorting.sAssert(getClass(), deviceMccMnc.length() == 0);
         lookForService = "isthrottledwebservice_test";
         if (deviceMccMnc.length() == 0) {
           deviceMccMnc = "tester";
@@ -238,7 +238,7 @@ public class SKOperators {
       // Every entry must contain valid data!
       int items = mpOperatorArray.length();
       if (items <= 0) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
 
       int index = 0;
@@ -252,7 +252,7 @@ public class SKOperators {
           // This is a potential match by MMC/MNC!
 
           JSONArray value = operator.getJSONArray("mcc+mnc");
-          SKLogger.sAssert(getClass(), value.length() > 0);
+          SKPorting.sAssert(getClass(), value.length() > 0);
 
           int theMccMncArrayItems = value.length();
           int theMccMncIndex = 0;
@@ -313,7 +313,7 @@ public class SKOperators {
                       try {
                         super.sendResponseMessage(response);
                       } catch (IOException e) {
-                        SKLogger.sAssert(getClass(), false);
+                        SKPorting.sAssert(getClass(), false);
                       }
                     }
 
@@ -344,10 +344,10 @@ public class SKOperators {
       }
     } catch (JSONException e) {
       // An error! Ignore this...
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       throttledQueryResult.returnCode = SKOperators_Return.SKOperators_Return_NoThrottleQuery;
     } catch (Exception e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       throttledQueryResult.returnCode = SKOperators_Return.SKOperators_Return_NoThrottleQuery;
     }
 

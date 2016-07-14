@@ -1,6 +1,6 @@
 package com.samknows.ui2.activity;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.activity.SamKnowsBaseActivity;
@@ -22,7 +22,7 @@ public class ActivityAbout extends SamKnowsBaseActivity {
     try {
       versionName = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
     } catch (NameNotFoundException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     TextView tv = (TextView) findViewById(R.id.version);

@@ -8,7 +8,7 @@ package com.samknows.tests;
 //import android.os.Debug;
 //import android.util.Log;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -51,10 +51,10 @@ public class PassiveServerUploadTest extends UploadTest {
     byte data[] = new byte[0];
     try {
       data = theString.getBytes("UTF-8");
-      //sDoAssert(data.length <= intoHere.length);
+      //sAssert(data.length <= intoHere.length);
       //System.arraycopy(data,0,intoHere,0,data.length);
     } catch (UnsupportedEncodingException e) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return data;
@@ -72,8 +72,8 @@ public class PassiveServerUploadTest extends UploadTest {
 
   private boolean getTransmissionDone(boolean isWarmup) {
     if (getShouldCancel()) {
-      if (SKCommon.sIsDebuggerConnected()) {
-        SKCommon.sDoLogD("DEBUG", "Upload - getTransmissionDone - cancel test!");
+      if (SKPorting.sIsDebuggerConnected()) {
+        SKPorting.sLogD("DEBUG", "Upload - getTransmissionDone - cancel test!");
       }
       return true;
     }
@@ -92,18 +92,18 @@ public class PassiveServerUploadTest extends UploadTest {
 
     if (connOut == null) {
       closeConnection(socket);
-      SKCommon.sDoLogE("PassiveServerUploadTest", "Error in setting up output stream, exiting... thread: " + threadIndex);
+      SKPorting.sLogE("PassiveServerUploadTest", "Error in setting up output stream, exiting... thread: " + threadIndex);
       return false;
     }
 
     try {
       byte headerByteArray[] = getPostHeaderRequestStringAsByteArray(threadIndex);
       if (headerByteArray.length > 0) {
-        //sDoLogD(this, "transmit() header write() ... thread:" + threadIndex);
+        //sLogD(this, "transmit() header write() ... thread:" + threadIndex);
         connOut.write(headerByteArray);
-        //sDoLogD(this, "transmit() header flush() ... thread:" + threadIndex);
+        //sLogD(this, "transmit() header flush() ... thread:" + threadIndex);
         connOut.flush();
-        //sDoLogD(this, "transmit() header flush()! ... thread:" + threadIndex);
+        //sLogD(this, "transmit() header flush()! ... thread:" + threadIndex);
       }
 
       do {
@@ -112,7 +112,7 @@ public class PassiveServerUploadTest extends UploadTest {
         }
 
         // Write buffer to output socket
-        //sDoLogD(this, "transmit() calling write() ... thread:" + threadIndex);
+        //sLogD(this, "transmit() calling write() ... thread:" + threadIndex);
 
         /*
         // Note that long delays (of approximately 0.5 to 1.5 seconds) can occcur quite often in the call to write.
@@ -122,12 +122,12 @@ public class PassiveServerUploadTest extends UploadTest {
           connOut.write(buff);
         } catch (SocketTimeoutException e) {
           if (getIgnoreSocketTimeout()) {
-            if (SKCommon.sIsDebuggerConnected()) {
-              SKCommon.sDoLogD("DEBUG", "Upload ignore socket timeout on write");
+            if (SKPorting.sIsDebuggerConnected()) {
+              SKPorting.sLogD("DEBUG", "Upload ignore socket timeout on write");
             }
           } else {
-            if (SKCommon.sIsDebuggerConnected()) {
-              SKCommon.sDoLogD("DEBUG", "Upload socket timeout!! on write");
+            if (SKPorting.sIsDebuggerConnected()) {
+              SKPorting.sLogD("DEBUG", "Upload socket timeout!! on write");
             }
             throw e;
           }
@@ -141,17 +141,17 @@ public class PassiveServerUploadTest extends UploadTest {
           connOut.flush();
         } catch (SocketTimeoutException e) {
           if (getIgnoreSocketTimeout()) {
-            if (SKCommon.sIsDebuggerConnected()) {
-              SKCommon.sDoLogD("DEBUG", "Upload ignore socket timeout on flush");
+            if (SKPorting.sIsDebuggerConnected()) {
+              SKPorting.sLogD("DEBUG", "Upload ignore socket timeout on flush");
             }
           } else {
-            if (SKCommon.sIsDebuggerConnected()) {
-              SKCommon.sDoLogD("DEBUG", "Upload socket timeout!! on flush");
+            if (SKPorting.sIsDebuggerConnected()) {
+              SKPorting.sLogD("DEBUG", "Upload socket timeout!! on flush");
             }
             throw e;
           }
         }
-        //sDoLogD(this, "transmit() called flush()! ... thread:" + threadIndex);
+        //sLogD(this, "transmit() called flush()! ... thread:" + threadIndex);
 
         /*
         long endTimeFlush = System.currentTimeMillis();
@@ -159,13 +159,13 @@ public class PassiveServerUploadTest extends UploadTest {
         if ((endTimeWrite-startTimeWrite) > 100) {
           //if (BuildConfig.DEBUG) {
           if (Debug.isDebuggerConnected()) {
-            sDoLogD("DEBUG", "Upload write warning - endTimeWrite-startTimeWrite=" + (endTimeWrite - startTimeWrite));
+            sLogD("DEBUG", "Upload write warning - endTimeWrite-startTimeWrite=" + (endTimeWrite - startTimeWrite));
           }
         }
         if ((endTimeFlush-startTimeFlush) > 100) {
           //if (BuildConfig.DEBUG) {
           if (Debug.isDebuggerConnected()) {
-            sDoLogD("DEBUG", "Upload write warning - endTimeFlush-startTimeFlush=" + (endTimeFlush - startTimeFlush));
+            sLogD("DEBUG", "Upload write warning - endTimeFlush-startTimeFlush=" + (endTimeFlush - startTimeFlush));
           }
         }
         */
@@ -180,29 +180,29 @@ public class PassiveServerUploadTest extends UploadTest {
         //throw new SocketException();
         // break; // DEBUG force effective error, just one buffer!
 
-        //sDoLogE(TAG(this), "DEBUG: speed in bytes per second" + getSpeedBytesPerSecond() + "<<<");
-        //sDoLogE(TAG(this), "DEBUG: isTransferDone=" + isTransferDone + ", totalTransferBytesSent=>>>" + getTotalTransferBytes() + ", time" + (sGetMicroTime() - start) + "<<<");
+        //sLogE(TAG(this), "DEBUG: speed in bytes per second" + getSpeedBytesPerSecond() + "<<<");
+        //sLogE(TAG(this), "DEBUG: isTransferDone=" + isTransferDone + ", totalTransferBytesSent=>>>" + getTotalTransferBytes() + ", time" + (sGetMicroTime() - start) + "<<<");
       } while (!getTransmissionDone(isWarmup));
 
     } catch (Exception e) {
-      SKCommon.sDoLogE("PassiveServerUploadTest", "Exception in setting up output stream, exiting... thread: " + threadIndex, e);
+      SKPorting.sLogE("PassiveServerUploadTest", "Exception in setting up output stream, exiting... thread: " + threadIndex, e);
 
       // EXCEPTION: RECORD ERROR, AND SET BYTES TO 0!!!
       resetTotalTransferBytesToZero();
       getError().set(true);
 
       // Verify thta we've set everything to zero properly!
-      SKCommon.sDoAssert(getTotalTransferBytes() == 0L);
+      SKPorting.sAssert(getTotalTransferBytes() == 0L);
       try {
-        SKCommon.sDoAssert(getBytesPerSecond(isWarmup) == 0);
+        SKPorting.sAssert(getBytesPerSecond(isWarmup) == 0);
       } catch (Exception e1) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
       }
       Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-      SKCommon.sDoAssert(bytesPerSecondMeasurement == 0);
+      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
 
       sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
-      //sDoLogE(TAG(this), "loop - break 3");
+      //sLogE(TAG(this), "loop - break 3");
       return false;
     }
 
@@ -212,19 +212,19 @@ public class PassiveServerUploadTest extends UploadTest {
     long btsTotal = getTotalTransferBytes();
     if (btsTotal == buff.length) {
       // ONLY 1 BUFFER "SENT": TREAT THIS AS AN ERROR, AND SET BYTES TO 0!!!
-      SKCommon.sDoLogE("PassiveServerUploadTest", "Only one buffer sent - treat this as an upload failure");
+      SKPorting.sLogE("PassiveServerUploadTest", "Only one buffer sent - treat this as an upload failure");
       resetTotalTransferBytesToZero();
       getError().set(true);
 
       // Verify thta we've set everything to zero properly!
-      SKCommon.sDoAssert(getTotalTransferBytes() == 0L);
+      SKPorting.sAssert(getTotalTransferBytes() == 0L);
       try {
-        SKCommon.sDoAssert(getBytesPerSecond(isWarmup) == 0);
+        SKPorting.sAssert(getBytesPerSecond(isWarmup) == 0);
       } catch (Exception e1) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
       }
       Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-      SKCommon.sDoAssert(bytesPerSecondMeasurement == 0);
+      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
       return false;
     }
 
@@ -232,7 +232,7 @@ public class PassiveServerUploadTest extends UploadTest {
     // To get here, the test ran OK!
     //
     Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-    SKCommon.sDoAssert(bytesPerSecondMeasurement >= 0);
+    SKPorting.sAssert(bytesPerSecondMeasurement >= 0);
 
     // Do NOT send this, as it otherwise affects ALL thread test potentially?
     // It turns out that if this is *not* sent, then the app UI can keep spinning-through showing upload
@@ -244,7 +244,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
   @Override
   protected boolean warmup(ISKHttpSocket socket, int threadIndex) {
-    //sDoLogD(this, "PassiveServerUploadTest, warmup()... thread: " + threadIndex);
+    //sLogD(this, "PassiveServerUploadTest, warmup()... thread: " + threadIndex);
 
     boolean isWarmup = true;
     boolean result = false;
@@ -253,7 +253,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
     if (getError().get()) {
     	// Warm up might have set a global error
-      //sDoLogE(TAG(this), "WarmUp Exits: Result FALSE, totalWarmUpBytes=>>> " + getTotalWarmUpBytes());
+      //sLogE(TAG(this), "WarmUp Exits: Result FALSE, totalWarmUpBytes=>>> " + getTotalWarmUpBytes());
       return false;
     }
     return result;
@@ -261,7 +261,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
   @Override
   protected boolean transfer(ISKHttpSocket socket, int threadIndex) {
-    //sDoLogD(this, "PassiveServerUploadTest, transfer()... thread: " + threadIndex);
+    //sLogD(this, "PassiveServerUploadTest, transfer()... thread: " + threadIndex);
 
     boolean isWarmup = false;
     return transmit(socket, threadIndex, isWarmup);

@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
@@ -102,9 +102,9 @@ public class ActivityShareResult extends Activity {
         fos.close();
         path = MediaStore.Images.Media.insertImage(getContentResolver(), b, "Screen", "screen");
       } catch (FileNotFoundException e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       } catch (Exception e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 
       return null;
@@ -179,7 +179,7 @@ public class ActivityShareResult extends Activity {
 
     switch (getIntent().getExtras().getInt("networkType")) {
       case 1:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));
         tv_Connectivity_Result.setText(getString(R.string.share_caption_wifi));
         break;
@@ -189,7 +189,7 @@ public class ActivityShareResult extends Activity {
         break;
       case 0:
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         iv_Connectivity_Icon.setImageDrawable(getResources().getDrawable(R.drawable.image_big_wifi));
         tv_Connectivity_Result.setText(getString(R.string.wifi));
         break;
@@ -222,7 +222,7 @@ public class ActivityShareResult extends Activity {
    */
   private void shareImage() {
     if (path == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
     Uri URI_Image = Uri.parse(path);

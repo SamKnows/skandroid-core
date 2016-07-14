@@ -5,7 +5,7 @@ package com.samknows.tests;
 // Look at the static methods at the top of the class, for the commented-out Android-specific
 // code that can be re-enabled if required in HttpTest.java
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 
 import java.util.List;
 import java.util.Random;
@@ -45,12 +45,12 @@ public abstract class UploadTest extends HttpTest {
       if (result.isReady()) {
         return result;
       } else {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return null;
       }
 
     } else {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return result;
@@ -76,7 +76,7 @@ public abstract class UploadTest extends HttpTest {
       buff = new byte[getUploadBufferSize()];
     } else {
       buff = new byte[maxSendDataChunkSize];
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     if (getRandomEnabled()) {											/* randomEnabled comes from the parent (HTTPTest) class */

@@ -1,7 +1,6 @@
 package com.samknows.measurement.TestRunner;
 
-import com.samknows.libcore.SKCommon;
-
+import com.samknows.libcore.SKPorting;
 import org.json.JSONObject;
 
 public class SKTestRunner {
@@ -78,7 +77,7 @@ public class SKTestRunner {
   public static void sDoReportUDPFailedSkipTests() {
     final SKTestRunner runner = sGetRunningTestRunner();
     if (runner == null) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
   }
@@ -86,7 +85,7 @@ public class SKTestRunner {
   public static void sDoReportCurrentLatencyCalculated(final long latencyMilli) {
     final SKTestRunner runner = sGetRunningTestRunner();
     if (runner == null) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
   }
@@ -94,7 +93,7 @@ public class SKTestRunner {
   public static void sDoReportClosestTargetSelected(final String closestTarget) {
     final SKTestRunner runner = sGetRunningTestRunner();
     if (runner == null) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
   }

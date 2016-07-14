@@ -8,7 +8,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.environment.TrafficStatsCollector;
@@ -110,12 +111,12 @@ public class MainService extends IntentService {
 			}
 		} catch (Throwable th) {
 			//if an error happened we want to restart from StateEnum.NONE
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 			appSettings.saveState(StateEnum.NONE);
 			Log.d(TAG, "+++++DEBUG+++++ caught throwable, th=" + th.toString());
 			Log.d(TAG, "+++++DEBUG+++++ call OtherUtils.rescheduleWakeup");
 			OtherUtils.rescheduleWakeup(this, appSettings.rescheduleTime);
-			SKLogger.e(this, "failed in service ", th);
+			SKPorting.sAssertE(this, "failed in service ", th);
 		} finally {
 			onEnd();
 		}

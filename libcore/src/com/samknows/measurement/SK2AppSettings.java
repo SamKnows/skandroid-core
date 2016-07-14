@@ -19,7 +19,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.samknows.libcore.R;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.environment.Reachability;
 import com.samknows.measurement.schedule.ScheduleConfig;
@@ -92,11 +93,11 @@ public class SK2AppSettings extends SKAppSettings {
 			
 			
 		} catch (IOException e) {
-			SKLogger.e(TAG, "failed to load properies!");
+			SKPorting.sAssertE(TAG, "failed to load properies!");
 		} catch(NullPointerException npe){
 			// This should be seen only when running a mock test.
 			Log.e(this.getClass().getName(), "NullPointerException - make sure this happens only when running a mock test!");
-			SKLogger.e(TAG, npe.getMessage());
+			SKPorting.sAssertE(TAG, npe.getMessage());
 			app_version_code = 0;
 		} finally {
 			IOUtils.closeQuietly(is);
@@ -108,9 +109,9 @@ public class SK2AppSettings extends SKAppSettings {
 		try {
 			SKAppSettings.instance = new SK2AppSettings(c);
 		} catch (Resources.NotFoundException e) {
-			SKLogger.sAssertResourcesNotFoundExceptionNotRobolectric(e);
+			SKAndroidLogger.sAssertResourcesNotFoundExceptionNotRobolectric(e);
 		} catch (Exception e) {
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 		}
 	}
 	
@@ -312,7 +313,7 @@ public class SK2AppSettings extends SKAppSettings {
 				}
 			}
 		} catch (Exception e) {
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 		}
 		return false;
 	}

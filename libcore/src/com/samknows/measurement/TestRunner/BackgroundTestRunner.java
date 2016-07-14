@@ -2,7 +2,7 @@ package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.statemachine.state.StateEnum;
@@ -21,7 +21,7 @@ public class BackgroundTestRunner  extends SKTestRunner  {
     // lots of unwanted latency observer calls; we'd also want any such calls not to be made
     // in the main user interface thread (via the private Handler instance owned by the
     // SKTestRunner superclass)...
-    SKLogger.sAssert(observer == null);
+    SKPorting.sAssert(observer == null);
 
     mContext = SKApplication.getAppInstance().getApplicationContext();
   }
@@ -34,12 +34,12 @@ public class BackgroundTestRunner  extends SKTestRunner  {
     SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
     Transition t = Transition.create(appSettings);
     StateEnum state = appSettings.getState();
-    SKLogger.d(this, "starting routine from state: " + state);
+    SKPorting.sLogD(this, "starting routine from state: " + state);
 
     long accumulatedTestBytes = 0;
 
     while (state != StateEnum.SHUTDOWN) {
-      SKLogger.d(this, "executing state: " + state);
+      SKPorting.sLogD(this, "executing state: " + state);
       StateResponseCode code;
       try {
         //code = Transition.createState(state, mContext).executeState();
@@ -47,27 +47,27 @@ public class BackgroundTestRunner  extends SKTestRunner  {
         code = baseState.executeState();
         accumulatedTestBytes += baseState.getAccumulatedTestBytes();
       } catch (Exception e) {
-        SKLogger.d(this, "+++++DEBUG+++++ error calling executeState !" + e.toString());
+        SKPorting.sLogD(this, "+++++DEBUG+++++ error calling executeState !" + e.toString());
         // do NOT rethrow the exception!
         code = StateResponseCode.FAIL;
       }
-      SKLogger.d(this, "finished state, code: " + code);
+      SKPorting.sLogD(this, "finished state, code: " + code);
       if (code == StateResponseCode.FAIL) {
         appSettings.saveState(StateEnum.NONE);
-        SKLogger.e(this, "fail to startTestRunning_RunToEndBlocking state: " + state + ", reschedule");
+        SKPorting.sAssertE(this, "fail to startTestRunning_RunToEndBlocking state: " + state + ", reschedule");
         OtherUtils.rescheduleRTC(mContext, appSettings.rescheduleTime);
         setStateChangeToUIHandler(TestRunnerState.STOPPED);
         return accumulatedTestBytes;
       } else {
         state = t.getNextState(state, code);
         appSettings.saveState(state);
-        SKLogger.d(this, "change service state to: " + state);
+        SKPorting.sLogD(this, "change service state to: " + state);
       }
     }
 
     state = t.getNextState(state, StateResponseCode.OK);
     appSettings.saveState(state);
-    SKLogger.d(this, "shutdown state, stop execution and setup state for next time: " + state);
+    SKPorting.sLogD(this, "shutdown state, stop execution and setup state for next time: " + state);
 
     setStateChangeToUIHandler(TestRunnerState.STOPPED);
     return accumulatedTestBytes;

@@ -23,7 +23,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import com.samknows.libcore.R;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SKApplication;
 
 // http://blog.blundell-apps.com/sending-a-tweet/
@@ -87,7 +87,7 @@ public class SKAPostToTwitterActivity extends Activity {
         
 		// Should only be an image, if that is appropriate to the application configuration.
         // If not null, it contains the byte data of a png file to post.
-		SKLogger.sAssert(getClass(), (mImageToPost != null) == SKApplication.getAppInstance().isSocialMediaImageExportSupported());
+		SKPorting.sAssert(getClass(), (mImageToPost != null) == SKApplication.getAppInstance().isSocialMediaImageExportSupported());
 
 		// Create a new shared preference object to remember if the user has
 		// already given us permission
@@ -276,7 +276,7 @@ public class SKAPostToTwitterActivity extends Activity {
 				}
 				
 			} catch (Exception e) {
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 			}
 			return null;
 		}
@@ -328,7 +328,7 @@ public class SKAPostToTwitterActivity extends Activity {
 					}});
 
 			} catch (Exception e) {
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 			}
 			return null;
 		}
@@ -376,7 +376,7 @@ public class SKAPostToTwitterActivity extends Activity {
 					}});
 
 			} catch (Exception e) {
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 			}
 			return null;
 		}

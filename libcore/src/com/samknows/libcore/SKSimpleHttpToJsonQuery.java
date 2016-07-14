@@ -3,8 +3,6 @@ package com.samknows.libcore;
 import android.net.ParseException;
 import android.util.Pair;
 
-import com.samknows.libcore.SKLogger;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -58,7 +56,7 @@ public class SKSimpleHttpToJsonQuery {
   // for example, if the data is *not* JSON!
   public boolean processResponse(int responseCode, String responseDataAsString) {
     if (responseDataAsString.length() == 0) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       mJSONResponse = new JSONObject();
       return false;
     }
@@ -69,15 +67,15 @@ public class SKSimpleHttpToJsonQuery {
       //Log.d(TAG, "Process response from server as string, to extract data from the JSON!: " + jsonString);
 
       JSONObject jsonResponse = new JSONObject(responseDataAsString);
-      SKLogger.sAssert(jsonResponse != null);
+      SKPorting.sAssert(jsonResponse != null);
 
       mJSONResponse = jsonResponse;
       return true;
 
     } catch (ParseException e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return false;
@@ -143,24 +141,24 @@ public class SKSimpleHttpToJsonQuery {
         try {
           mSuccess = processResponse(code, EntityUtils.toString(entity));
         } catch (ParseException e) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
         } catch (IOException e) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
         } finally {
           if (mQueryCompletion != null) {
             mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
           }
         }
       } else {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
       }
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       try {
         mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
       } catch (Exception e1) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         mQueryCompletion.OnQueryCompleted(getSuccess(), mJSONResponse);
       }
     }

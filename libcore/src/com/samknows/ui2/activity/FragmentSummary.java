@@ -44,7 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
@@ -222,7 +222,7 @@ public class FragmentSummary extends Fragment {
               break;
             default:
               networkType = eNetworkTypeResults.eNetworkTypeResults_WiFi;
-              SKLogger.sAssert(getClass(), false);
+              SKPorting.sAssert(getClass(), false);
               break;
           }
 
@@ -275,7 +275,7 @@ public class FragmentSummary extends Fragment {
 
   private void safeRunOnUiThread(Runnable runnable) {
     if (getActivity() == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -338,11 +338,11 @@ public class FragmentSummary extends Fragment {
       // Defend against "java.lang.IllegalStateException: Fragment FragmentRunTest{...} not attached to Activity"
       // http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
       if (isAdded() == false) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return;
       }
       if (getActivity() == null) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return;
       }
 
@@ -495,7 +495,7 @@ public class FragmentSummary extends Fragment {
       // TODO - this CANNOT be run in the background - achartengine simply doesn't allow for it!
       // TODO - 0 is the DOWNLOAD etc. test id!
       if ((mActivity == null) || (isAdded() == false) || (getActivity() == null)) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       } else {
         prepareChartEnvironment(0, getTimePeriodSelection());
       }
@@ -536,7 +536,7 @@ public class FragmentSummary extends Fragment {
     } else if (mShowingThisSection == layout_ll_summary_section_jitter) {
       hide_ll_chart_jitter();
     } else {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
 
@@ -755,7 +755,7 @@ public class FragmentSummary extends Fragment {
           // Handle the back button event directly.
           // The gauge elements are invisible - show them and hide the passive metrics.
           if (hide_ll_chart_generic() == false) {
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
             return false;
           }
 
@@ -1387,7 +1387,7 @@ public class FragmentSummary extends Fragment {
         SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Mobile);
         break;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
     }
 
@@ -1464,7 +1464,7 @@ public class FragmentSummary extends Fragment {
         return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_YEAR;
       // Default: 1 Week
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
     }
   }
@@ -1493,7 +1493,7 @@ public class FragmentSummary extends Fragment {
         fromCal.add(Calendar.WEEK_OF_YEAR, -52);
         break;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         fromCal.add(Calendar.WEEK_OF_YEAR, -1);
         break;
     }
@@ -1512,7 +1512,7 @@ public class FragmentSummary extends Fragment {
         text = getString(R.string.network_type_wifi);
         break;
       default:
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         text = getString(R.string.network_type_all);
         break;
     }
@@ -1546,7 +1546,7 @@ public class FragmentSummary extends Fragment {
         break;
       // Default: 1 Week
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         text = getString(R.string.time_period_1_week); //  DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_WEEK;
         break;
     }
@@ -1576,13 +1576,13 @@ public class FragmentSummary extends Fragment {
         editor.putInt("networkTypeSummary", 2);  // Save the state of network type filter
         break;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
     }
     editor.commit();  // Commit changes
 
     // Verify that the value was saved properly.
-    SKLogger.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
+    SKPorting.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
 
     setNetworkTypeButtonText();
   }
@@ -1607,7 +1607,7 @@ public class FragmentSummary extends Fragment {
       case 2:
         return eNetworkTypeResults.eNetworkTypeResults_Mobile;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return eNetworkTypeResults.eNetworkTypeResults_WiFi;
     }
   }
@@ -1704,7 +1704,7 @@ public class FragmentSummary extends Fragment {
         mChartCaption.setText(R.string.units_percent);
         break;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
 
     }
 

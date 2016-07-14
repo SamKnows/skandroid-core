@@ -40,9 +40,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKCommon;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
@@ -225,7 +225,7 @@ public class FragmentArchivedResults extends Fragment {
           networkType = eNetworkTypeResults.eNetworkTypeResults_Mobile;
           break;
         default:
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           networkType = eNetworkTypeResults.eNetworkTypeResults_Any;
       }
 
@@ -276,7 +276,7 @@ public class FragmentArchivedResults extends Fragment {
         }
       } catch (java.lang.IndexOutOfBoundsException e) {
         // This is a rare error that has been seen to occur!
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     }
 
@@ -378,7 +378,7 @@ public class FragmentArchivedResults extends Fragment {
 
     private void safeRunOnUiThread(Runnable runnable) {
       if (getActivity() == null) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return;
       }
 
@@ -644,7 +644,7 @@ public class FragmentArchivedResults extends Fragment {
   private void registerBackButtonHandler() {
     View view = getView();
     if (view == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -693,13 +693,13 @@ public class FragmentArchivedResults extends Fragment {
         editor.putInt("networkTypeArchivedTests", 2);
         break;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
     }
 
     editor.commit();    // Commit changes
 
     // Verify that it has been saved properly!
-    SKLogger.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
+    SKPorting.sAssert(getClass(), getNetworkTypeSelection() == pNetworkType);
   }
 
   /**
@@ -708,10 +708,10 @@ public class FragmentArchivedResults extends Fragment {
    * @return
    */
   private eNetworkTypeResults getNetworkTypeSelection() {
-    SKLogger.sAssert(SKCommon.sGetIsMainThread());
+    SKPorting.sAssert(SKPorting.sGetIsMainThread());
 
     if (getActivity() == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return eNetworkTypeResults.eNetworkTypeResults_Any;
     }
 
@@ -726,7 +726,7 @@ public class FragmentArchivedResults extends Fragment {
       case 2:
         return eNetworkTypeResults.eNetworkTypeResults_Mobile;
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return eNetworkTypeResults.eNetworkTypeResults_Any;
     }
   }
@@ -750,7 +750,7 @@ public class FragmentArchivedResults extends Fragment {
       // This should *never* happen, due to the use of isAdded() in populateEmptyArrayList...!
       // But, this is belt-and-braces.
       // http://stackoverflow.com/questions/22366596/android-illegalstateexception-fragment-not-attached-to-activity-webview
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     // Back to the previous state
@@ -772,7 +772,7 @@ public class FragmentArchivedResults extends Fragment {
 
     if ((getActivity() == null) || (isAdded() == false)) {
       // e.g. test completes, after fragment detatched
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -914,7 +914,7 @@ public class FragmentArchivedResults extends Fragment {
             } else if (value.equals("mobile")) {
               testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
             } else {
-              SKLogger.sAssert(getClass(), false);
+              SKPorting.sAssert(getClass(), false);
             }
 
           // WIFI_SSID and other new stuff!
@@ -1166,11 +1166,11 @@ public class FragmentArchivedResults extends Fragment {
         break;
 
         case eNetworkTypeResults_WiFi:
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           return;
 
         default:
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
       }
 
     }

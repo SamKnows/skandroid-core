@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKServiceDataCache;
 import com.samknows.libcore.SKServiceDataCache.CachedValue;
 import com.samknows.measurement.net.SamKnowsClient;
@@ -70,14 +70,14 @@ public class SamKnowsLoginService {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONArray response) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				super.onSuccess(statusCode, headers, response);
 			}
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					String responseString) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				super.onSuccess(statusCode, headers, responseString);
 			}
 

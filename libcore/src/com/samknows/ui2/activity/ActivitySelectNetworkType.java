@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 
@@ -99,7 +99,7 @@ public class ActivitySelectNetworkType extends Activity {
             layout_ll_network_mobile.setSelected(true);
             break;
           default:
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
             break;
         }
         break;
@@ -125,14 +125,14 @@ public class ActivitySelectNetworkType extends Activity {
             layout_ll_network_mobile.setSelected(true);
             break;
           default:
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
             break;
         }
         break;
 
       // Case default
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
     }
 

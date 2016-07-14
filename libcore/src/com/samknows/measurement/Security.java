@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.io.IOUtils;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 
 import android.content.Context;
@@ -43,7 +43,7 @@ public class Security {
 			oos = new ObjectOutputStream(os);
 			oos.writeObject(keyPair);
 		} catch (Exception e) {
-			SKLogger.e(TAG, "failed to save RSA keys. What should I do Master???", e);
+			SKPorting.sAssertE(TAG, "failed to save RSA keys. What should I do Master???", e);
 		} finally {
 			IOUtils.closeQuietly(oos);
 		}
@@ -59,7 +59,7 @@ public class Security {
 		} catch (FileNotFoundException e) {
 			//ignore, not keys yet, so generate new
 		} catch (Exception e) {
-			SKLogger.e(TAG, "failed to read RSA keys. What should I do Master???", e);
+			SKPorting.sAssertE(TAG, "failed to read RSA keys. What should I do Master???", e);
 			return null;
 		} finally {
 			IOUtils.closeQuietly(ois);

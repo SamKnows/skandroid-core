@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -29,7 +29,7 @@ public class SKDateFormat {
     } catch (java.lang.IllegalArgumentException e) {
       // Deal with OEM bug seen on some devices...:
       // "java.lang.IllegalArgumentException: Bad pattern character 'E' in E, MMM d, yyyy at libcore.icu.ICU.getDateFormatOrder"
-      SKLogger.sAssert(SKDateFormat.class, false);
+      SKPorting.sAssert(SKDateFormat.class, false);
 
       order = new char[3];
       order[0] = DateFormat_MONTH;
@@ -87,7 +87,7 @@ public class SKDateFormat {
     } catch (Exception e) {
       // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in yyyy年 MMM d日, E
       // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in E, d MMM yyyy
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       sb.append("yyyy");
       sb.append("MM");
       sb.append("dd");

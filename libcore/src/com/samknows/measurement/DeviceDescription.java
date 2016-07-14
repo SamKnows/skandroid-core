@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 public class DeviceDescription implements Serializable{
 	private String id;
@@ -31,7 +31,7 @@ public class DeviceDescription implements Serializable{
 				}
 			}
 		} catch (Exception e) {
-			SKLogger.e(DeviceDescription.class, "failed to parce devices json: " + json, e);
+			SKPorting.sAssertE(DeviceDescription.class, "failed to parce devices json: " + json, e);
 		}
 		return result;
 	}

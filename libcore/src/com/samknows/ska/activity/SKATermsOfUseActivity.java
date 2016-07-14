@@ -6,7 +6,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import com.samknows.libcore.R;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 
@@ -22,7 +22,7 @@ public class SKATermsOfUseActivity extends BaseLogoutActivity {
 		setTitle(getString(R.string.terms_of_use_title));
 		
 		mWebView = (WebView) findViewById(R.id.webview);
-		SKLogger.sAssert(getClass(), mWebView != null);
+		SKPorting.sAssert(getClass(), mWebView != null);
 		
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebInterface = new WebAppInterface(this);

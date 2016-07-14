@@ -40,10 +40,10 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.samknows.libcore.ExportFileProvider;
+import com.samknows.libcore.SKAndroidExportFileProvider;
 import com.samknows.libcore.R;
-import com.samknows.libcore.SKLogger;
-import com.samknows.libcore.SKScreenShot;
+import com.samknows.libcore.SKPorting;
+import com.samknows.libcore.SKAndroidScreenShot;
 
 public class SKAPostToSocialMedia extends BaseLogoutActivity {
 	
@@ -102,7 +102,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 			return null;
 		}
 		
-        byte[] imageToPost = SKScreenShot.sScreenShotToByteArray(findViewById(android.R.id.content).getRootView());
+        byte[] imageToPost = SKAndroidScreenShot.sScreenShotToByteArray(findViewById(android.R.id.content).getRootView());
         mImageToPost = imageToPost;
         
         return mImageToPost;
@@ -124,7 +124,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 				output.close();
 				output = null;
 
-				Uri uri = Uri.parse("content://" + ExportFileProvider.sGetAUTHORITY() + "/" +  imageFile.getName());
+				Uri uri = Uri.parse("content://" + SKAndroidExportFileProvider.sGetAUTHORITY() + "/" +  imageFile.getName());
 				//ArrayList<Uri> uris = new ArrayList<Uri>();
 				//uris.add(uri);
 				//intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -135,15 +135,15 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 					intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				}
 			} catch (FileNotFoundException e) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 			} catch (IOException e) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 			} finally {
 				if (output != null) {
 					try {
 						output.close();
 					} catch (IOException e) {
-						SKLogger.sAssert(getClass(),  false);
+						SKPorting.sAssert(getClass(),  false);
 					}
 				}
 				
@@ -262,7 +262,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 									output.close();
 									output = null;
 
-									Uri uri = Uri.parse("content://" + ExportFileProvider.sGetAUTHORITY() + "/" +  imageFile.getName());
+									Uri uri = Uri.parse("content://" + SKAndroidExportFileProvider.sGetAUTHORITY() + "/" +  imageFile.getName());
 									//ArrayList<Uri> uris = new ArrayList<Uri>();
 									//uris.add(uri);
 									//intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -291,15 +291,15 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 										attachScreenshotToIntent(imageToPost, facebookClient.first);
 									}
 								} catch (FileNotFoundException e) {
-									SKLogger.sAssert(getClass(),  false);
+									SKPorting.sAssert(getClass(),  false);
 								} catch (IOException e) {
-									SKLogger.sAssert(getClass(),  false);
+									SKPorting.sAssert(getClass(),  false);
 								} finally {
 									if (output != null) {
 										try {
 											output.close();
 										} catch (IOException e) {
-											SKLogger.sAssert(getClass(),  false);
+											SKPorting.sAssert(getClass(),  false);
 										}
 									}
 
@@ -469,7 +469,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 			output.close();
 			output = null;
 
-			Uri uri = Uri.parse("content://" + ExportFileProvider.sGetAUTHORITY() + "/" +  imageFile.getName());
+			Uri uri = Uri.parse("content://" + SKAndroidExportFileProvider.sGetAUTHORITY() + "/" +  imageFile.getName());
 			//ArrayList<Uri> uris = new ArrayList<Uri>();
 			//uris.add(uri);
 			//intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -477,15 +477,15 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 //			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 			return uri.toString();
 		} catch (FileNotFoundException e) {
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 		} catch (IOException e) {
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 		} finally {
 			if (output != null) {
 				try {
 					output.close();
 				} catch (IOException e) {
-					SKLogger.sAssert(getClass(),  false);
+					SKPorting.sAssert(getClass(),  false);
 				}
 			}
 			
@@ -501,7 +501,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 			@Override
 			public void call(Session session, SessionState state, Exception exception) {
 				if (session.isOpened()) {
-					SKLogger.sAssert(getClass(), session == Session.getActiveSession());
+					SKPorting.sAssert(getClass(), session == Session.getActiveSession());
 					postImageToActiveFacebookSession (messageToPost, imageToPost);
 				}
 			}

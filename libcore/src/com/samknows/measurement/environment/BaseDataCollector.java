@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.w3c.dom.Element;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.TestContext;
 
 public abstract class BaseDataCollector implements Serializable{
@@ -41,10 +41,10 @@ public abstract class BaseDataCollector implements Serializable{
 				c = new EnvironmentDataCollector();
 				break;
 			}
-			default : SKLogger.e(BaseDataCollector.class, "not such data collector: " + type);
+			default : SKPorting.sAssertE(BaseDataCollector.class, "not such data collector: " + type);
 			}
 		} catch (Exception e) {
-			SKLogger.e(BaseDataCollector.class, "Error in parsing data collector type: "+ e.getMessage());
+			SKPorting.sAssertE(BaseDataCollector.class, "Error in parsing data collector type: "+ e.getMessage());
 		}
 		
 		if (c != null) {

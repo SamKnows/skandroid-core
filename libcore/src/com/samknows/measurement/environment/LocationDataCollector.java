@@ -16,7 +16,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.util.Pair;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
@@ -65,7 +66,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
     LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     if (manager == null) {
-      SKLogger.sAssert(LocationDataCollector.class, false);
+      SKPorting.sAssert(LocationDataCollector.class, false);
       return;
     }
 
@@ -107,7 +108,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
     LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		if (manager == null) {
-			SKLogger.sAssert(LocationDataCollector.class,  false);
+			SKPorting.sAssert(LocationDataCollector.class,  false);
 		  return null;
 		}
 
@@ -124,7 +125,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 					}
 
 				} catch (Exception e) {
-					SKLogger.sAssert(false);
+					SKPorting.sAssert(false);
 				}
 			}
 		}
@@ -140,7 +141,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
         }
 
       } catch (Exception e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     }
 
@@ -151,7 +152,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		Pair<Location, LocationType> lastKnownPair = sGetLastKnownLocation();
 		if (lastKnownPair == null) {
 			// Nothing known - don't store a passive metric, simply return empty instead...
-			SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator());
+			SKPorting.sAssert(OtherUtils.isThisDeviceAnEmulator());
 			return new ArrayList<>();
 		}
 
@@ -176,7 +177,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		// The following should only ever return a List<JSONObject> containing one item!
 		List<JSONObject> passiveMetrics = locationData.convertToJSON();
 		int items = passiveMetrics.size();
-		SKLogger.sAssert(StorageTestResult.class, items == 1);
+		SKPorting.sAssert(StorageTestResult.class, items == 1);
 		return passiveMetrics;
 	}
 
@@ -188,14 +189,14 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		manager = (LocationManager) tc.getSystemService(Context.LOCATION_SERVICE);
 		
 		if (manager == null) {
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 			return;
 		}
 		
 		
 		locationType = SK2AppSettings.getSK2AppSettingsInstance().getLocationServiceType();
 		if (locationType == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -208,7 +209,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 					locationType = LocationType.network;
 				}
 			} else {
-				SKLogger.sAssert(false);
+				SKPorting.sAssert(false);
 			}
 		}
 		
@@ -241,7 +242,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		
 		} catch (java.lang.IllegalArgumentException ex) {
 			
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 			
 		}
 		
@@ -276,7 +277,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 			try {
 				wait(time);
 			} catch (InterruptedException e) {
-				SKLogger.e(this, "Interruption while waiting for location", e);
+				SKPorting.sAssertE(this, "Interruption while waiting for location", e);
 			}
 		}
 		return gotLastLocation;

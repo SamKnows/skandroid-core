@@ -16,8 +16,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.samknows.libcore.SKConstants;
-import com.samknows.libcore.SKLogger;
-
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.util.TimeUtils;
 
 public class SKAppSettings {
@@ -59,20 +58,20 @@ public class SKAppSettings {
 				app_version_name = pInfo.versionName;
 
 			} catch (IOException e) {
-				SKLogger.e(TAG, "failed to load properties!");
+				SKPorting.sAssertE(TAG, "failed to load properties!");
 			} catch (NameNotFoundException nnfe) {
-				SKLogger.e(TAG, "failed to read manifest file: " + nnfe.getMessage());
+				SKPorting.sAssertE(TAG, "failed to read manifest file: " + nnfe.getMessage());
 			} catch (NullPointerException npe) {
 				// This should be seen only when running a mock test.
 				Log.e(this.getClass().getName(), "NullPointerException - make sure this happens only when running a mock test!");
-				SKLogger.e(TAG, npe.getMessage());
+				SKPorting.sAssertE(TAG, npe.getMessage());
 				app_version_code = 0;
 			} finally {
 				IOUtils.closeQuietly(is);
 			}
 		} catch (Resources.NotFoundException e) {
 			// Deal with apps that *don't* have a raw properties file!
-      SKLogger.e(TAG, "failed to find raw/properties in the project!");
+      SKPorting.sAssertE(TAG, "failed to find raw/properties in the project!");
 
 		}
 	}

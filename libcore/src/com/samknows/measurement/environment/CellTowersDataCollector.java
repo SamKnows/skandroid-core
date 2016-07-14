@@ -2,7 +2,7 @@ package com.samknows.measurement.environment;
 
 import java.util.List;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.util.OtherUtils;
 
 import android.content.Context;
@@ -53,7 +53,7 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
 		} catch (SecurityException e) {
 			// Seen - rarely - on some Android devices.
 			// Neither user 99999 nor current process has android.permission.ACCESS_COARSE_LOCATION.
-			SKLogger.sAssert(CellTowersDataCollector.class, false);
+			SKPorting.sAssert(CellTowersDataCollector.class, false);
 		}
 
 
@@ -76,7 +76,7 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
      		// The signal will usuaully be null on the Emulator...
 		} else {
 			// On a real device... there should generally be a signal...
-			SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
+			SKPorting.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
 		}
 		
 		try {
@@ -84,7 +84,7 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
 		} catch (SecurityException e) {
 			// Seen - rarely - on some Android devices.
 			// Neither user 99999 nor current process has android.permission.ACCESS_COARSE_LOCATION.
-    		SKLogger.sAssert(CellTowersDataCollector.class, false);
+    		SKPorting.sAssert(CellTowersDataCollector.class, false);
 		}
 	}
 	
@@ -137,9 +137,9 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
 		} catch (java.lang.SecurityException e) {
 			// This has been seen on a small number of Android 2.3.3-2.3.7 devices, with the following:
 			// "com.samknows.fcc.FCCApplication: java.lang.SecurityException: Neither user ... nor current process has android.permission.READ_PHONE_STATE."
-			SKLogger.sAssert(CellTowersData.class, false);
+			SKPorting.sAssert(CellTowersData.class, false);
 		} catch (Exception e) {
-			SKLogger.sAssert(CellTowersData.class, false);
+			SKPorting.sAssert(CellTowersData.class, false);
 		}
 	}
 	

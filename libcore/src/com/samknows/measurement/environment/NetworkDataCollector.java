@@ -1,6 +1,6 @@
 package com.samknows.measurement.environment;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.storage.StorageTestResult;
 
@@ -29,13 +29,13 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
 		try {
 			ConnectivityManager cm = (ConnectivityManager) SKApplication.getAppInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 			if (cm == null) {
-				SKLogger.sAssert(NetworkInfo.class, false);
+				SKPorting.sAssert(NetworkInfo.class, false);
 				return null;
 			}
 			return cm.getActiveNetworkInfo();
 		} catch (NullPointerException e) {
 			// This has been seen on customer devices.
-			SKLogger.sAssert(NetworkInfo.class, false);
+			SKPorting.sAssert(NetworkInfo.class, false);
 			return null;
 		}
 	}
@@ -149,7 +149,7 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
 			// https://developer.android.com/reference/android/telephony/PhoneStateListener.html#LISTEN_DATA_CONNECTION_STATE
 			// But, sometimes for some reason, a SecurityException is thrown with that given as the reason!
 			// Some other states *do* require READ_PHONE_STATE (e.g. LISTEN_MESSAGE_WAITING_INDICATOR), but we're not listening for that!
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 		}
 	}
 
@@ -179,7 +179,7 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
 		// The following should only ever return a List<JSONObject> containing one item!
 		List<JSONObject> passiveMetrics = networkData.convertToJSON();
 		int items = passiveMetrics.size();
-		SKLogger.sAssert(StorageTestResult.class, items == 1);
+		SKPorting.sAssert(StorageTestResult.class, items == 1);
 
 		return passiveMetrics;
 	}

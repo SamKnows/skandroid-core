@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 public final class DownloadTest extends HttpTest {
   private byte[] buff = new byte[getDownloadBufferSize()];
@@ -31,11 +31,11 @@ public final class DownloadTest extends HttpTest {
       if (result.isReady()) {
         return result;
       } else {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return null;
       }
     } else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return result;
@@ -65,7 +65,7 @@ public final class DownloadTest extends HttpTest {
         if (words.length >= 2) {
           ret = Integer.parseInt(words[1]);
         } else {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
       }
 
@@ -75,15 +75,15 @@ public final class DownloadTest extends HttpTest {
         }
       }
     } catch (IOException IOe) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       setErrorIfEmpty("IOexception while reading http header: ", IOe);
       ret = 0;
     } catch (NumberFormatException nfe) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       setErrorIfEmpty("Error in converting the http code: ", nfe);
       ret = 0;
     } catch (Exception e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       setErrorIfEmpty("Error in converting the http code: ", e);
       ret = 0;
     }
@@ -123,7 +123,7 @@ public final class DownloadTest extends HttpTest {
 
       sendHeaderRequest(socket);																					/* Send download request is the part of the warm up process */
       if (getError().get()) {																								/* Error relates to sendHeader procedure */
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return false;
       }
     }
@@ -132,7 +132,7 @@ public final class DownloadTest extends HttpTest {
 
     if (connIn == null) {
       closeConnection(socket);
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       //hahaSKLogger.e(TAG(this), "Error in setting up input stream, exiting... thread: " + this.getThreadIndex());
       return false;
     }
@@ -146,7 +146,7 @@ public final class DownloadTest extends HttpTest {
           readBytes = 0;
         }
 
-        SKLogger.sAssert(readBytes > 0);
+        SKPorting.sAssert(readBytes > 0);
 
         if (getBytesPerSecond(isWarmup) >= 0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
@@ -164,11 +164,11 @@ public final class DownloadTest extends HttpTest {
       return false;
     } catch (IOException io) {
       readBytes = BYTESREADERR;
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     } catch (Exception io) {
       readBytes = BYTESREADERR;
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     return true;
@@ -180,7 +180,7 @@ public final class DownloadTest extends HttpTest {
 
     if (connOut == null || connIn == null) {
       closeConnection(socket);
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       getError().set(true);
       //hahaSKLogger.e(TAG(this), "Error in setting up output stream, exiting... thread: " + getThreadIndex());
       return;
@@ -197,7 +197,7 @@ public final class DownloadTest extends HttpTest {
       }
     } catch (Exception io) {
       getError().set(true);
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
   }
 

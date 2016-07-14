@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 import android.content.Context;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.environment.TrafficData;
@@ -63,15 +63,15 @@ public class Storage {
       } else {
         // Old-style app!
         config = ScheduleConfig.parseXml(is);
-        SKLogger.sAssert(config != null);
+        SKPorting.sAssert(config != null);
       }
 
       SK2AppSettings.getSK2AppSettingsInstance().ananlyzeConfig(config);
     } catch (Exception e) {
-      if (SKLogger.sGetIsRunningJUnit()) {
+      if (SKPorting.sGetIsRunningJUnit()) {
         // Just ignore it - we're running a unit test...
       } else {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
 
@@ -111,7 +111,7 @@ public class Storage {
       dos = new ObjectOutputStream(os);
       dos.writeObject(data);
     } catch (Exception e) {
-      SKLogger.e(this, "failed to save object for id: " + id, e);
+      SKPorting.sAssertE(this, "failed to save object for id: " + id, e);
     } finally {
       IOUtils.closeQuietly(dos);
     }

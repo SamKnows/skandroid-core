@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -59,14 +59,14 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     }
 
     public void open() throws SocketException {
-      SKLogger.sAssert(socket == null);
+      SKPorting.sAssert(socket == null);
       socket = new DatagramSocket();
-      SKLogger.sAssert(socket != null);
+      SKPorting.sAssert(socket != null);
     }
 
     public void send(DatagramPacket pack) throws IOException {
       if (socket == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
       socket.send(pack);
@@ -74,7 +74,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public void receive(DatagramPacket pack) throws IOException {
       if (socket == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
       socket.receive(pack);
@@ -82,7 +82,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public void setSoTimeout(int timeout) throws SocketException {
       if (socket == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
       socket.setSoTimeout(timeout);
@@ -90,7 +90,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public void close() {
       if (socket == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
@@ -132,13 +132,13 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
         } else if (param.contains(TestFactory.MAXTIME)) {
           ret.setMaxExecutionTimeMicroseconds(Long.parseLong(value));
         } else {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
           ret = null;
           break;
         }
       }
     } catch (NumberFormatException nfe) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       ret = null;
     }
     return ret;
@@ -162,7 +162,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       try {
         bq_results.put(r);
       } catch (InterruptedException e) {
-        SKLogger.sAssert(LatencyTest.class, false);
+        SKPorting.sAssert(LatencyTest.class, false);
       }
     }
   }
@@ -270,27 +270,27 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   @Override
   public boolean isReady() {
     if (target.length() == 0) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (port == 0) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (numdatagrams == 0 || results == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (delayTimeout == 0) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (interPacketTime == 0) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (percentile < 0 || percentile > 100) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
 
@@ -301,7 +301,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   @Override
   public void runBlockingTestToFinishInThisThread() {
-    SKLogger.sAssert(mSKUDPSocket == null);
+    SKPorting.sAssert(mSKUDPSocket == null);
     mSKUDPSocket = new SKUDPSocket();
 
     // Note that we do NOT run a separate thread, when execute is called!
@@ -451,7 +451,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   boolean mbAlreadyRunning = false;
   private void runInCurrentThread() {
-    SKLogger.sAssert(mbAlreadyRunning == false);
+    SKPorting.sAssert(mbAlreadyRunning == false);
     mbAlreadyRunning = true;
 
     setStateToRunning();
@@ -492,7 +492,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       address = mSKUDPSocket.getInetAddressByName(target);
       ipAddress = address.getHostAddress();
     } catch (UnknownHostException e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       failure();
       socket.close();
       socket = null;
@@ -591,13 +591,13 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       try {
         Thread.sleep(millis, nanos);
       } catch (InterruptedException e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     }
   }
 
   private void failure() {
-    SKLogger.sAssert(false);
+    SKPorting.sAssert(false);
     testStatus = "FAIL";
     finish();
   }

@@ -2,7 +2,7 @@ package com.samknows.tests;
 
 //import com.samknows.libcore.SKLogger;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -108,11 +108,11 @@ public class TestFactory {
     }
     if (ret != null) {
       if (!ret.isReady()) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         ret = null;
       }
     } else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
     return ret;
   }

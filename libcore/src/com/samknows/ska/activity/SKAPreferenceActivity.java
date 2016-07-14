@@ -1,6 +1,6 @@
 package com.samknows.ska.activity;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SK2AppSettings;
@@ -170,7 +170,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 		try {
 			versionName = this.getPackageManager().getPackageInfo(this.getPackageName(), 0 ).versionName;
 		} catch (NameNotFoundException e) {
-			SKLogger.e(this, e.getMessage());
+			SKPorting.sAssertE(this, e.getMessage());
 		}
 		PreferenceCategory mCategory = (PreferenceCategory) findPreference("first_category");
 		mCategory.setTitle(SKApplication.getAppInstance().getAppName() + " " + getString(R.string.Storyboard_Settings_Configuration));
@@ -331,11 +331,11 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 	    			//SKLogger.sAssert(getClass(), false);
 	    		} else {
 	    			// Unexpected!
-	    			SKLogger.sAssert(getClass(), false);
+	    			SKPorting.sAssert(getClass(), false);
 	    		}
 	    	} catch (Exception e) {
 	    			// Unexpected!
-	    		SKLogger.sAssert(getClass(), false);
+	    		SKPorting.sAssert(getClass(), false);
 	    	}
 			onBackPressed();
 	        return true;

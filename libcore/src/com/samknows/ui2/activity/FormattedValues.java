@@ -10,7 +10,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.samknows.libcore.SKCommon;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 /**
  * This class is a helper to format values
@@ -45,8 +45,8 @@ public class FormattedValues {
     NumberFormat formatter = new DecimalFormat("00.0");
 
     String[] values = pValue.split(" ");
-    SKLogger.sAssert(FormattedValues.class, values.length > 0);
-    SKLogger.sAssert(FormattedValues.class, values.length <= 2);
+    SKPorting.sAssert(FormattedValues.class, values.length > 0);
+    SKPorting.sAssert(FormattedValues.class, values.length <= 2);
 
     String unit = "";
     if (values.length > 1) {
@@ -112,7 +112,7 @@ public class FormattedValues {
     } catch (java.lang.NumberFormatException e) {
       // Things like "Failed" can result in an error - we must not allow these to crash the app!
       Log.d("SKCommon", "Warning: Value is not a number" + pValue);
-      SKLogger.sAssert(FormattedValues.class, false);
+      SKPorting.sAssert(FormattedValues.class, false);
       return new Pair<>("0", "");
     }
   }

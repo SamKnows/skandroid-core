@@ -2,7 +2,7 @@ package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
 import android.os.Looper;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.environment.PassiveMetricCollector;
@@ -84,7 +84,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
     try {
       response = Transition.createState(state, mContext).executeState();
     } catch (Exception e) {
-      SKLogger.e(this, "fail to execute " + state + " ");
+      SKPorting.sAssertE(this, "fail to execute " + state + " ");
     }
     Storage storage = CachingStorage.getInstance();
     mConfig = storage.loadScheduleConfig();
@@ -115,7 +115,7 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
         state = StateEnum.SUBMIT_RESULTS_ANONYMOUS;
         response = Transition.createState(state, mContext).executeState();
       } catch (Exception e) {
-        SKLogger.e(this, "fail to execute " + state + " ");
+        SKPorting.sAssertE(this, "fail to execute " + state + " ");
       }
 
 //			// And after first pass-through, remove the closest target test so we don't

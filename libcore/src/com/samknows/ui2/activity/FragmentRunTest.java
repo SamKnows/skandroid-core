@@ -53,7 +53,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.CachingStorage;
@@ -304,7 +304,7 @@ public class FragmentRunTest extends Fragment {
       try {
         telephonyManager.listen(null, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
       } catch (NullPointerException e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     }
   }
@@ -352,12 +352,12 @@ public class FragmentRunTest extends Fragment {
               // Defend against "java.lang.IllegalStateException: Fragment FragmentRunTest{...} not attached to Activity"
               // http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
               if (isAdded() == false) {
-                SKLogger.sAssert(getClass(), false);
+                SKPorting.sAssert(getClass(), false);
                 return;
               }
               if (getActivity() == null) {
                 // e.g. test completes, after fragment detatched
-                SKLogger.sAssert(false);
+                SKPorting.sAssert(false);
                 return;
               }
 
@@ -432,7 +432,7 @@ public class FragmentRunTest extends Fragment {
     protected void onPostExecute(Boolean result) {
       if (getActivity() == null) {
         // e.g. test completes, after fragment detatched
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
 
       } else {
 
@@ -525,10 +525,10 @@ public class FragmentRunTest extends Fragment {
     submissionId = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_reference_number_value);
     networkType = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_network_type);
     target = (TextView) pView.findViewById(R.id.fragment_passive_metrics_result_target);
-    SKLogger.sAssert(getClass(), publicIp != null);
-    SKLogger.sAssert(getClass(), submissionId != null);
-    SKLogger.sAssert(getClass(), networkType != null);
-    SKLogger.sAssert(getClass(), target != null);
+    SKPorting.sAssert(getClass(), publicIp != null);
+    SKPorting.sAssert(getClass(), submissionId != null);
+    SKPorting.sAssert(getClass(), networkType != null);
+    SKPorting.sAssert(getClass(), target != null);
     publicIp.setText("");
     submissionId.setText("");
     networkType.setText("");
@@ -762,7 +762,7 @@ public class FragmentRunTest extends Fragment {
     if (isAdded() == false) {
       // This fragment is NOT attached to the activity.
       // Don't do anything with the message, or we're likely to crash!
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -992,7 +992,7 @@ public class FragmentRunTest extends Fragment {
               setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
               //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
             } else {
-              SKLogger.sAssert(getClass(), false);
+              SKPorting.sAssert(getClass(), false);
             }
           } else {
             //SKLogger.sAssert(getClass(),  false);
@@ -1006,7 +1006,7 @@ public class FragmentRunTest extends Fragment {
 
   private void safeRunOnUiThread(Runnable runnable) {
     if (getActivity() == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -1032,7 +1032,7 @@ public class FragmentRunTest extends Fragment {
     }
 
     if (getActivity() == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -1158,12 +1158,12 @@ public class FragmentRunTest extends Fragment {
             // Defend against "java.lang.IllegalStateException: Fragment FragmentRunTest{...} not attached to Activity"
             // http://stackoverflow.com/questions/10919240/fragment-myfragment-not-attached-to-activity
             if (isAdded() == false) {
-              SKLogger.sAssert(getClass(), false);
+              SKPorting.sAssert(getClass(), false);
               return;
             }
             if (getActivity() == null) {
               // e.g. test completes, after fragment detatched
-              SKLogger.sAssert(false);
+              SKPorting.sAssert(false);
               return;
             }
 
@@ -1248,7 +1248,7 @@ public class FragmentRunTest extends Fragment {
   private void restoreWhichTestsToRun() {
     if ((getActivity() == null) || (isAdded() == false)) {
       // e.g. test completes, after fragment detatched
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -1298,7 +1298,7 @@ public class FragmentRunTest extends Fragment {
     testIDs = findOutTestIDs();
 
     if (getActivity() == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -1337,7 +1337,7 @@ public class FragmentRunTest extends Fragment {
         // http://stackoverflow.com/questions/28672883/java-lang-illegalstateexception-fragment-not-attached-to-activity
         if ((isAdded() == false) || (FragmentRunTest.this.getActivity() == null)) {
           // Not attached to Activity!
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
           return;
         }
 
@@ -1409,7 +1409,7 @@ public class FragmentRunTest extends Fragment {
   void showAlertForTestWithMessageBody(String bodyMessage) {
 
     if (getActivity() == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -1500,7 +1500,7 @@ public class FragmentRunTest extends Fragment {
 
     if ((getActivity() == null) || (isAdded() == false)) {
       // e.g. test completes, after fragment detatched
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -1680,7 +1680,7 @@ public class FragmentRunTest extends Fragment {
       if (networkType == null) {
         // Unexpected, but defend against it.
         networkType = SKApplication.getAppInstance().getApplicationContext().getString(R.string.unknown);
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
 
       if (networkType.equals(SKApplication.getAppInstance().getApplicationContext().getString(R.string.network_type_wifi))) {
@@ -1852,7 +1852,7 @@ public class FragmentRunTest extends Fragment {
     if (itemId == R.id.menu_item_fragment_run_test_select_tests) {
       if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
         menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return true;
       }
       // Case select tests
@@ -1864,7 +1864,7 @@ public class FragmentRunTest extends Fragment {
 
     if (itemId == R.id.menu_item_fragment_run_test_share_result) {
       if (connectivityType == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
 
         menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
       } else {
@@ -1883,7 +1883,7 @@ public class FragmentRunTest extends Fragment {
           startActivity(intent_share_result_activity);
         } catch (Exception e) {
           // Don't let this crash the app!
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
       }
 
@@ -1907,7 +1907,7 @@ public class FragmentRunTest extends Fragment {
 
     if ((getActivity() == null) || (isAdded() == false)) {
       // e.g. test completes, after fragment detatched
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -1932,7 +1932,7 @@ public class FragmentRunTest extends Fragment {
   private void registerBackButtonHandler() {
     View view = getView();
     if (view == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -2054,7 +2054,7 @@ public class FragmentRunTest extends Fragment {
     //
     if ((getActivity() == null) || (isAdded() == false)) {
       // e.g. test completes, after fragment detatched
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -2091,11 +2091,11 @@ public class FragmentRunTest extends Fragment {
 
     if (testsRunning == true) {
       if (manualTest == null) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         // Should not happen - force a tidy-up!
         onDidDetectTestCompleted();
       } else if (threadRunningTests == null) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         // Should not happen - force a tidy-up!
         onDidDetectTestCompleted();
       } else {
@@ -2190,7 +2190,7 @@ public class FragmentRunTest extends Fragment {
       // No tests are selected: show the activity to select tests
       if ((getActivity() == null) || (isAdded() == false)) {
         // e.g. test completes, after fragment detatched
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 

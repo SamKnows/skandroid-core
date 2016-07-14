@@ -8,7 +8,8 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
@@ -53,7 +54,7 @@ public class StorageTestResult extends JSONObject{
       } else if (value ==  DETAIL_TEST_ID.JITTER_TEST_ID.value) {
         return DETAIL_TEST_ID.JITTER_TEST_ID;
       } else {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
       }
     }
@@ -136,7 +137,7 @@ public class StorageTestResult extends JSONObject{
 			return DETAIL_TEST_ID.JITTER_TEST_ID;
 		}
 
-    SKLogger.sAssert(false);
+    SKPorting.sAssert(false);
     return DETAIL_TEST_ID.DOWNLOAD_TEST_ID;
 	}
 	
@@ -232,7 +233,7 @@ public class StorageTestResult extends JSONObject{
 		try{
 			super.put(key, value);
 		}catch(JSONException je){
-			SKLogger.e(StorageTestResult.class, "JSONException "+ key +" "+ value);
+			SKPorting.sAssertE(StorageTestResult.class, "JSONException "+ key +" "+ value);
 		}
 	}
 	
@@ -240,7 +241,7 @@ public class StorageTestResult extends JSONObject{
 		try{
 			super.put(key, value);
 		}catch(JSONException je){
-			SKLogger.e(StorageTestResult.class, "JSONException "+ key +" "+ value);
+			SKPorting.sAssertE(StorageTestResult.class, "JSONException "+ key +" "+ value);
 		}
 	}
 	
@@ -253,7 +254,7 @@ public class StorageTestResult extends JSONObject{
 		try{
 			super.put(key, value);
 		}catch(JSONException je){
-			SKLogger.e(StorageTestResult.class, "JSONException "+ key +" "+ value);
+			SKPorting.sAssertE(StorageTestResult.class, "JSONException "+ key +" "+ value);
 		}
 	}
 	
@@ -292,13 +293,13 @@ public class StorageTestResult extends JSONObject{
 		} else if (testType.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
 			return null;
 		} else if (testType.equals("NETACTIVITY")) {
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 			return null;
 //		} else if (testType.equals("CPUACTIVITY")) {
 //			SKLogger.sAssert(false);
 //			return null;
 		} else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 			// Nothing to report!
 			return null;
 		}
@@ -338,7 +339,7 @@ public class StorageTestResult extends JSONObject{
       }
       break;
       case JUDPJITTER:
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         break;
     }
 

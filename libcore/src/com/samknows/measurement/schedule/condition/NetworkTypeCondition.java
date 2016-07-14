@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.DCSConvertorUtil;
 
@@ -44,7 +44,7 @@ public class NetworkTypeCondition extends Condition{
 			break;
 		}
 		default:
-			SKLogger.e(this, "null network info");
+			SKPorting.sAssertE(this, "null network info");
 			isSuccess = false;
 		}
 		

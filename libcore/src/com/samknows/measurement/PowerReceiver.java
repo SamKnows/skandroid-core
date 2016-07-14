@@ -1,6 +1,6 @@
 package com.samknows.measurement;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.statemachine.state.StateEnum;
 import com.samknows.measurement.util.TimeUtils;
@@ -27,7 +27,7 @@ public class PowerReceiver extends BroadcastReceiver{
 			return;
 		}
 		if(nextEvent <= System.currentTimeMillis() && ! MainService.isExecuting()){
-			SKLogger.e(this,"Next event is in the past, starting the main server again now.");
+			SKPorting.sAssertE(this,"Next event is in the past, starting the main server again now.");
 			appSettings.saveState(StateEnum.NONE);
 			MainService.poke(context);
 		}

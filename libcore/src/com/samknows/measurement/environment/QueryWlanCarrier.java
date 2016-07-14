@@ -1,6 +1,6 @@
 package com.samknows.measurement.environment;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKSimpleHttpToJsonQuery;
 
 import org.json.JSONException;
@@ -25,14 +25,14 @@ public abstract class QueryWlanCarrier extends SKSimpleHttpToJsonQuery implement
 
     try {
       if (jsonResponse == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       } else {
         String wlanCarrier = jsonResponse.getString("organization");
         doHandleGotWlanCarrier(wlanCarrier);
       }
 
     } catch (JSONException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
   }
 }

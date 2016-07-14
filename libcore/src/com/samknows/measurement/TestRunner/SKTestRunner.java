@@ -2,7 +2,7 @@ package com.samknows.measurement.TestRunner;
 
 import android.os.Handler;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.storage.PassiveMetric;
 
 import org.json.JSONObject;
@@ -21,7 +21,7 @@ public class SKTestRunner {
   // Which one is running, is managed privately by this class via synchronized access methods.
   private static SKTestRunner sRunningTestRunner = null;
   private static synchronized SKTestRunner sGetRunningTestRunner() {
-    SKLogger.sAssert(sRunningTestRunner != null);
+    SKPorting.sAssert(sRunningTestRunner != null);
     return sRunningTestRunner;
   }
 
@@ -127,7 +127,7 @@ public class SKTestRunner {
   public static void sDoReportUDPFailedSkipTests() {
     final SKTestRunner runner = sGetRunningTestRunner();
     if (runner == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -145,7 +145,7 @@ public class SKTestRunner {
   public static void sDoReportCurrentLatencyCalculated(final long latencyMilli) {
     final SKTestRunner runner = sGetRunningTestRunner();
     if (runner == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 
@@ -163,7 +163,7 @@ public class SKTestRunner {
   public static void sDoReportClosestTargetSelected(final String closestTarget) {
     final SKTestRunner runner = sGetRunningTestRunner();
     if (runner == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return;
     }
 

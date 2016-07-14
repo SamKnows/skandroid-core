@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import android.content.Context;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.util.OtherUtils;
 
@@ -48,7 +48,7 @@ public class TestResultsManager {
     }
     DataOutputStream dos = openOutputFile(c);
     if (dos == null) {
-      SKLogger.e(TestResultsManager.class, "Impossible to save results");
+      SKPorting.sAssertE(TestResultsManager.class, "Impossible to save results");
       return;
     }
     try {
@@ -57,7 +57,7 @@ public class TestResultsManager {
         dos.writeBytes("\r\n");
       }
     } catch (IOException ioe) {
-      SKLogger.e(TestResultsManager.class, "Error while saving results: " + ioe.getMessage());
+      SKPorting.sAssertE(TestResultsManager.class, "Error while saving results: " + ioe.getMessage());
     } finally {
       IOUtils.closeQuietly(dos);
     }
@@ -70,10 +70,10 @@ public class TestResultsManager {
       FileOutputStream os = c.openFileOutput(SKConstants.TEST_RESULTS_TO_SUBMIT_FILE_NAME, Context.MODE_APPEND);
       ret = new DataOutputStream(os);
     } catch (FileNotFoundException fnfe) {
-      SKLogger.e(TestResultsManager.class, SKConstants.TEST_RESULTS_TO_SUBMIT_FILE_NAME + " not found!");
+      SKPorting.sAssertE(TestResultsManager.class, SKConstants.TEST_RESULTS_TO_SUBMIT_FILE_NAME + " not found!");
       ret = null;
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
     return ret;
 
@@ -100,14 +100,14 @@ public class TestResultsManager {
 
     DataOutputStream dos = openOutputFile(c);
     if (dos == null) {
-      SKLogger.e(TestResultsManager.class, "Impossible to save results");
+      SKPorting.sAssertE(TestResultsManager.class, "Impossible to save results");
       return;
     }
     try {
       dos.write(jsonStr.getBytes("UTF-8"));
       dos.writeBytes("\r\n");
     } catch (IOException ioe) {
-      SKLogger.e(TestResultsManager.class, "Error while saving results: " + ioe.getMessage());
+      SKPorting.sAssertE(TestResultsManager.class, "Error while saving results: " + ioe.getMessage());
     } finally {
       IOUtils.closeQuietly(dos);
     }
@@ -136,16 +136,16 @@ public class TestResultsManager {
     if (!logFile.exists()) {
       try {
         boolean bRes = logFile.createNewFile();
-        SKLogger.sAssert(bRes);
+        SKPorting.sAssert(bRes);
       } catch (IOException e) {
-        SKLogger.e("TestResultsManager", "failed to save submitted logs to file", e);
+        SKPorting.sAssertE("TestResultsManager", "failed to save submitted logs to file", e);
         return;
       }
     }
     try {
       if (!logFile.exists()) {
         boolean bRes = logFile.createNewFile();
-        SKLogger.sAssert(bRes);
+        SKPorting.sAssert(bRes);
       }
       is = new FileOutputStream(logFile, true);
       is.write(logs);
@@ -196,7 +196,7 @@ public class TestResultsManager {
     try {
       results = new String(data, "UTF-8");
     } catch (UnsupportedEncodingException e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       results = new String(data);
     }
     return results.split("\r\n");

@@ -1,6 +1,6 @@
 package com.samknows.tests;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -85,7 +85,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 
   @Override
   public JSONObject getJSONResult() {
-    SKCommon.sDoAssert(false);
+    SKPorting.sAssert(false);
     return new JSONObject();
 	}
 
@@ -142,7 +142,7 @@ public class ProxyDetector extends SKAbstractBaseTest implements Runnable {
 			conn.close();
 		}catch(Exception e){
 			success = false;
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
 		}
 	}
 

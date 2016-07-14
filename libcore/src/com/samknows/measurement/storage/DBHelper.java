@@ -16,7 +16,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
 import com.samknows.measurement.activity.components.SKGraphForResults.DATERANGE_1w1m3m1y;
@@ -104,7 +105,7 @@ public class DBHelper {
 			database = dbhelper.getWritableDatabase();
 			ret = true;
 		} catch (SQLException sqle) {
-			SKLogger.e(this, "Error in opening the database.", sqle);
+			SKPorting.sAssertE(this, "Error in opening the database.", sqle);
 		}
 		return ret;
 	}
@@ -117,7 +118,7 @@ public class DBHelper {
 		synchronized (sync) {
 			boolean ret = false;
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM "
@@ -146,7 +147,7 @@ public class DBHelper {
 			ret = String.format("%.2f", value);
 			break;
     default:
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       break;
 		}
 		return ret;
@@ -171,7 +172,7 @@ public class DBHelper {
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_RESULT, result);
 			ret.put(ARCHIVEDATA_ACTIVEMETRICS_HRRESULT, hrresult);
 		} catch (JSONException je) {
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 		}
 		return ret;
 	}
@@ -194,7 +195,7 @@ public class DBHelper {
 			ret.put(GRIDDATA_RESULTS_RESULT, result);
 			ret.put(GRIDDATA_RESULTS_HRRESULT, hrresult);
 		} catch (JSONException je) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 		}
 		return ret;
 	}
@@ -211,7 +212,7 @@ public class DBHelper {
 			ret.put(GRAPHDATA_RESULTS_DATETIME, "" + dtime);
 			ret.put(GRAPHDATA_RESULTS_VALUE, value);
 		} catch (JSONException je) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 		}
 		return ret;
 	}
@@ -228,7 +229,7 @@ public class DBHelper {
         	//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
 			ret.put(ARCHIVEDATA_PASSIVEMETRICS_VALUE, value);
 		} catch (JSONException je) {
-			SKLogger.e(DBHelper.class, "error creating json object", je);
+			SKPorting.sAssertE(DBHelper.class, "error creating json object", je);
 		}
 		return ret;
 	}
@@ -249,7 +250,7 @@ public class DBHelper {
 			ret = "%";
 			break;
     default:
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       break;
 		}
 		return ret;
@@ -284,7 +285,7 @@ public class DBHelper {
 			// 	// (whereas on iOS, it is returned averaged by day).
 			// }
 		} catch (JSONException je) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 		}
 
 
@@ -324,7 +325,7 @@ public class DBHelper {
 			}
 			ret.put(GRIDDATA_RESULTS, results);
 		} catch (JSONException je) {
-			SKLogger.e(DBHelper.class, "Error in creating data for the grid");
+			SKPorting.sAssertE(DBHelper.class, "Error in creating data for the grid");
 		}
 		return ret;
 	}
@@ -341,7 +342,7 @@ public class DBHelper {
 		synchronized (sync) {
 			JSONArray arrayRet = new JSONArray();
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return arrayRet;
 			}
 			
@@ -388,7 +389,7 @@ public class DBHelper {
 			Cursor cursor1 = database.rawQuery(MY_QUERY.toString(), new String[]{});
 			
 			if (cursor1 == null) {
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 				close();
 				return null;
 			}
@@ -442,7 +443,7 @@ public class DBHelper {
 					
 					arrayRet.put(objRet);
 				} catch (JSONException je) {
-					SKLogger.e(DBHelper.class,
+					SKPorting.sAssertE(DBHelper.class,
 							"Error in converting tests and passive metrics for archive data"
 									+ je.getMessage());
 				}
@@ -464,7 +465,7 @@ public class DBHelper {
 				// We wanted just ONE item.
 				// Did we find it?
 				// It would usually be an error if we didn't find it!
-				SKLogger.sAssert(getClass(),  arrayRet.length() == 1);
+				SKPorting.sAssert(getClass(),  arrayRet.length() == 1);
 			}
 			
 			return arrayRet;
@@ -474,16 +475,16 @@ public class DBHelper {
 	public JSONObject getSingleArchiveDataItemAtIndex(int index) {
 		JSONArray arrayRet = getArchiveData(index);
 		if (arrayRet.length() == 0) {
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 			return null;
 		}
 		
-		SKLogger.sAssert(getClass(),  arrayRet.length() == 1);
+		SKPorting.sAssert(getClass(),  arrayRet.length() == 1);
 		
 		try {
 			return (JSONObject)arrayRet.get(0);
 		} catch (JSONException e) {
-			SKLogger.sAssert(getClass(),  false);
+			SKPorting.sAssert(getClass(),  false);
 			return null;
 		}
 	}
@@ -497,7 +498,7 @@ public class DBHelper {
 			JSONObject ret = new JSONObject();
 			if (open() == false) {
          		//Trace.endSection();
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			// test batch counter
@@ -589,7 +590,7 @@ public class DBHelper {
 				try {
 					test_counter.put(StorageTestResult.testStringToId(cursor2.getString(0)) + "", cursor2.getInt(1) + "");
 				} catch (JSONException je) {
-					SKLogger.sAssert(getClass(),  false);
+					SKPorting.sAssert(getClass(),  false);
 				}
 				cursor2.moveToNext();
 			}
@@ -601,7 +602,7 @@ public class DBHelper {
 				ret.put(ARCHIVEDATASUMMARY_ENDDATE, max);
 				ret.put(ARCHIVEDATASUMMARY_TESTCOUNTER, test_counter);
 			} catch (JSONException je) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 			}
 			close();
 			
@@ -614,7 +615,7 @@ public class DBHelper {
 	public void emptyTheDatabase() {
 		synchronized (sync) {
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return;
 			}
 			database.delete(SKSQLiteHelper.TABLE_TESTRESULT, null, null);
@@ -652,7 +653,7 @@ public class DBHelper {
 					.getString(TestBatch.JSON_RUNMANUALLY));
 			ret = insertTestBatch(start_time, run_manually);
 		} catch (JSONException je) {
-			SKLogger.e(this, "Error in creating json object.", je);
+			SKPorting.sAssertE(this, "Error in creating json object.", je);
 		}
 		return ret;
 	}
@@ -660,7 +661,7 @@ public class DBHelper {
 	public long insertTestBatch(long start_time, int run_manually) {
 		synchronized (sync) {
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return -1;
 			}
 			ContentValues values = new ContentValues();
@@ -684,7 +685,7 @@ public class DBHelper {
 			try {
 				insertTestResult(tests.getJSONObject(i), test_batch_id);
 			} catch (JSONException je) {
-				SKLogger.e(DBHelper.class, "Error in converting JSONArray.", je);
+				SKPorting.sAssertE(DBHelper.class, "Error in converting JSONArray.", je);
 			}
 		}
 	}
@@ -699,7 +700,7 @@ public class DBHelper {
 			insertTestResult(type_name, dtime, success, result, location,
 					test_batch_id);
 		} catch (JSONException je) {
-			SKLogger.e(
+			SKPorting.sAssertE(
 					DBHelper.class,
 					"Error in converting TestResult JSONObject in database entry.",
 					je);
@@ -711,7 +712,7 @@ public class DBHelper {
 			double result, String location, long test_batch_id) {
 		synchronized (sync) {
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return;
 			}
 			ContentValues values = new ContentValues();
@@ -732,7 +733,7 @@ public class DBHelper {
 			try {
 				insertPassiveMetric(metrics.getJSONObject(i), test_batch_id);
 			} catch (JSONException je) {
-				SKLogger.e(DBHelper.class,
+				SKPorting.sAssertE(DBHelper.class,
 						"Error in converting JSONArray: " + je.getMessage());
 			}
 		}
@@ -756,7 +757,7 @@ public class DBHelper {
 			type = metric.getString(PassiveMetric.JSON_TYPE);
 			insertPassiveMetric(metric_type, type, dtime, value, test_batch_id);
 		} catch (JSONException je) {
-			SKLogger.e(
+			SKPorting.sAssertE(
 					DBHelper.class,
 					"Error in converting JSONObject ot passive metric: "
 							+ je.getMessage());
@@ -768,7 +769,7 @@ public class DBHelper {
 		synchronized (sync) {
 			ContentValues values = new ContentValues();
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return;
 			}
 			
@@ -881,7 +882,7 @@ public class DBHelper {
 		synchronized (sync) {
 			JSONArray ret = new JSONArray();
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			String selection = String.format(Locale.US,
@@ -915,7 +916,7 @@ public class DBHelper {
         			//value = "0.00499"; // TODO - this is for DEBUG/TESTING only!
 					curr.put( AVERAGEDATA_VALUE, value);
 				} catch (JSONException je) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
 				}
 				ret.put(curr);
 				cursor.moveToNext();
@@ -971,7 +972,7 @@ public class DBHelper {
 		synchronized (sync) {
 			List<Integer> ret = new ArrayList<>();
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			String[] columns = { SKSQLiteHelper.PM_COLUMN_BATCH_ID };
@@ -993,7 +994,7 @@ public class DBHelper {
 			List<JSONObject> ret = new ArrayList<>();
 			
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			String[] columns = { "_id", SKSQLiteHelper.PM_COLUMN_DTIME };
@@ -1006,7 +1007,7 @@ public class DBHelper {
 					ret2.put(columns[0], cursor.getLong(0));
 					ret2.put(columns[1], cursor.getLong(1));
 				} catch (JSONException je) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
 				}
 				ret.add(ret2);
 
@@ -1039,7 +1040,7 @@ public class DBHelper {
 		synchronized (sync) {
 			List<JSONObject> ret = new ArrayList<>();
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			Cursor cursor = database.query(SKSQLiteHelper.TABLE_TESTRESULT,
@@ -1061,7 +1062,7 @@ public class DBHelper {
 		synchronized (sync) {
 			List<JSONObject> ret = new ArrayList<>();
 			if (open() == false) {
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				return ret;
 			}
 			String selection = SKSQLiteHelper.PM_COLUMN_BATCH_ID + " = "
@@ -1092,7 +1093,7 @@ public class DBHelper {
 			ret.put(SKSQLiteHelper.TR_COLUMN_RESULT, c.getDouble(5));
 			ret.put(SKSQLiteHelper.TR_COLUMN_BATCH_ID, c.getLong(6));
 		} catch (JSONException je) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 		}
 		return ret;
 	}
@@ -1111,7 +1112,7 @@ public class DBHelper {
 			ret.put(SKSQLiteHelper.PM_COLUMN_TYPE, c.getString(4));
 			ret.put(SKSQLiteHelper.PM_COLUMN_BATCH_ID, c.getLong(5));
 		} catch (JSONException je) {
-			SKLogger.e(DBHelper.class,
+			SKPorting.sAssertE(DBHelper.class,
 					"Error in converting passive metric entry into JSONObject"
 							+ je.getMessage());
 		}
@@ -1144,9 +1145,9 @@ public class DBHelper {
 				break;
 
 			default:
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 				whereClause = " WHERE " + SKSQLiteHelper.TABLE_TESTBATCH + "." + SKSQLiteHelper.TB_COLUMN_DTIME + " > " + pTimePeriodStart;
-				SKLogger.sAssert(getClass(),  false);
+				SKPorting.sAssert(getClass(),  false);
 				break;
 			}
 
@@ -1158,7 +1159,7 @@ public class DBHelper {
 					" GROUP BY " + SKSQLiteHelper.TABLE_TESTRESULT + "." + SKSQLiteHelper.TR_COLUMN_TYPE;
 
 			if (open() == false) {
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 			}
 			else
 			{			
@@ -1211,7 +1212,7 @@ public class DBHelper {
 							max = cursor.getFloat(2) / 1000;
 							min = cursor.getFloat(3) / 1000;						
 						} else {
-							SKLogger.sAssert(getClass(), false);
+							SKPorting.sAssert(getClass(), false);
 						}
 
 						summaryResults.add(new SummaryResult(testType, average, max, min));

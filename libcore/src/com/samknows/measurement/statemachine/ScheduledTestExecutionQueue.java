@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 import java.util.PriorityQueue;
 
-import com.samknows.libcore.SKLogger;
 import com.samknows.libcore.SKConstants;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.TestGroup;
@@ -45,12 +45,12 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		long minSize = TimeUtils.daysToMillis(SKConstants.TEST_QUEUE_NORMAL_SIZE_IN_DAYS);
 		long currentSize = endTime - System.currentTimeMillis();
 		if (currentSize < minSize) {
-			SKLogger.d(this, "extending queue");
+			SKPorting.sLogD(this, "extending queue");
 			long maxSize = TimeUtils.daysToMillis(SKConstants.TEST_QUEUE_MAX_SIZE_IN_DAYS);
 			long newEndSize = System.currentTimeMillis() + maxSize;
 			populate(newEndSize);
 		} else {
-			SKLogger.d(this, "no need to extend queue, endTime: " + TimeUtils.logString(endTime));
+			SKPorting.sLogD(this, "no need to extend queue, endTime: " + TimeUtils.logString(endTime));
 		}
 	}
 
@@ -58,20 +58,20 @@ public class ScheduledTestExecutionQueue implements Serializable{
 		long timeNow = System.currentTimeMillis();
 		startTime = endTime >= timeNow ? endTime : timeNow;
 		endTime = newEndTime;
-		SKLogger.d(this, "populating test queue from: " + TimeUtils.logString(startTime) + " to " + TimeUtils.logString(endTime));
+		SKPorting.sLogD(this, "populating test queue from: " + TimeUtils.logString(startTime) + " to " + TimeUtils.logString(endTime));
 		for(TestGroup tg: tc.config.backgroundTestGroups){
 			for(Long t:tg.getTimesInInterval(startTime, endTime)){
-				SKLogger.d(this, "Add test group id "+ tg.id +" at time: "+TimeUtils.logString(t) );
+				SKPorting.sLogD(this, "Add test group id "+ tg.id +" at time: "+TimeUtils.logString(t) );
 				addEntry(t, tg);
 			}
 			
 		}
-		SKLogger.d(this, "queue populated with: " + entries.size());
+		SKPorting.sLogD(this, "queue populated with: " + entries.size());
 	}
 	
 	public void addEntry(long time, TestGroup tg){
 		entries.add(new QueueEntry(time, tg.id, tc.config.backgroundTestGroups.indexOf(tg)));
-		SKLogger.d(this, "scheduling test group at: "+TimeUtils.logString(time));
+		SKPorting.sLogD(this, "scheduling test group at: "+TimeUtils.logString(time));
 	}
 	/*
 	public void addEntry(long time, TestDescription td) {
@@ -104,7 +104,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 			QueueEntry entry = entries.peek();
 			if (entry != null && !canExecute(entry, time) && entry.getSystemTimeMilliseconds() < time) {
 				entries.remove();
-				SKLogger.d(this, "removing test scheduled at: " + entry.getSystemTimeAsDebugString());
+				SKPorting.sLogD(this, "removing test scheduled at: " + entry.getSystemTimeAsDebugString());
 			} else {
 				break;
 			}
@@ -134,7 +134,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 					accumulatedTestBytes += scheduledTestExecutor.getAccumulatedTestBytes();
 					result = tr.isSuccess;
 				} else {
-					SKLogger.d(this, "Active metrics won't be collected due to potential datacap breach");
+					SKPorting.sLogD(this, "Active metrics won't be collected due to potential datacap breach");
 					scheduledTestExecutor.getResultsContainer().addFailedCondition(DatacapCondition.JSON_DATACAP);
 				}
 				scheduledTestExecutor.getResultsContainer().addCondition(dc.getCondition());
@@ -152,7 +152,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 			if (failAction != null) {
 				return tc.config.retryFailAction.delay; //reschedule
 			} else {
-				SKLogger.e(this, "can't find on test fail action, just skipping the test.");
+				SKPorting.sAssertE(this, "can't find on test fail action, just skipping the test.");
 				entries.remove();
 			}
 		} 

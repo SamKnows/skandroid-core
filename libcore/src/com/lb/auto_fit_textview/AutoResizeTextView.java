@@ -13,7 +13,7 @@ import android.util.SparseIntArray;
 import android.util.TypedValue;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 /**
  * a textView that is able to self-adjust its font size depending on the min and max size of the font, and its own size.<br/>
@@ -73,7 +73,7 @@ public class AutoResizeTextView extends TextView{
       public int onTestSize(final int suggestedSize,final RectF availableSPace){
         if (paint == null) {
           // We expect this to have been handled in setTypeface!
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
           paint = new TextPaint(getPaint());
         }
         paint.setTextSize(suggestedSize);

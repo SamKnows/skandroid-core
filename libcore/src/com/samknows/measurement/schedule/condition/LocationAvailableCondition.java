@@ -4,7 +4,7 @@ import android.util.Log;
 
 import org.w3c.dom.Element;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.XmlUtils;
@@ -27,7 +27,7 @@ public class LocationAvailableCondition extends Condition{
 				explanation = "TIMEOUT";
 			}
 		} else {
-			SKLogger.e(this, "can't get LocationDataCollector!");
+			SKPorting.sAssertE(this, "can't get LocationDataCollector!");
 			explanation = "NO_DATA_COLLECTOR";
 		}
 		ConditionResult res = new ConditionResult(result, failQuiet);

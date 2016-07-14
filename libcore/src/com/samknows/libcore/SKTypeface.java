@@ -43,7 +43,7 @@ public class SKTypeface {
 
     } catch (Exception e) {
       Log.d("SKTypefaceUtil", "Cannot find custom font " + typefacePathInAssets);
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return result;
@@ -119,7 +119,7 @@ public class SKTypeface {
 
   public static void sChangeChildrenToDefaultFontTypeface(View v) {
 
-    SKLogger.sAssert(v != null);
+    SKPorting.sAssert(v != null);
 
     //overrideFonts(SKApplication.getAppInstance().getApplicationContext(), v);
 

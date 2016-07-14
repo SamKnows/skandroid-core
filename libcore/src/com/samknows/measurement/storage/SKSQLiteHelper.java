@@ -1,7 +1,6 @@
 package com.samknows.measurement.storage;
 
-import com.samknows.libcore.SKLogger;
-
+import com.samknows.libcore.SKPorting;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -102,16 +101,16 @@ public class SKSQLiteHelper extends SQLiteOpenHelper {
 		try{
 			for(String s: DATABASE_CREATE){
 				database.execSQL(s);
-				SKLogger.d(this, "onCreate: "+ s);
+				SKPorting.sLogD(this, "onCreate: "+ s);
 			}
 		}catch(SQLException sqle){
-			SKLogger.e(SKSQLiteHelper.class, "Error in creating the database "+ sqle);
+			SKPorting.sAssertE(SKSQLiteHelper.class, "Error in creating the database "+ sqle);
 		}
 	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion){
-		SKLogger.d(SKSQLiteHelper.class, "Upgrading database from version "+ oldVersion + " to version "+ newVersion +". All Data will be destroyed.");
+		SKPorting.sLogD(SKSQLiteHelper.class, "Upgrading database from version "+ oldVersion + " to version "+ newVersion +". All Data will be destroyed.");
 		for(String table: TABLES){
 			database.execSQL("DROP TABLE IF EXISTS "+ table);
 		}

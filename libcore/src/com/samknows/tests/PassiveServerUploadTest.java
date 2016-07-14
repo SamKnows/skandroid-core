@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 public class PassiveServerUploadTest extends UploadTest {
 
@@ -49,7 +49,7 @@ public class PassiveServerUploadTest extends UploadTest {
       //SKLogger.sAssert(data.length <= intoHere.length);
       //System.arraycopy(data,0,intoHere,0,data.length);
     } catch (UnsupportedEncodingException e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return data;
@@ -87,7 +87,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
     if (connOut == null) {
       closeConnection(socket);
-      SKLogger.e(this, "Error in setting up output stream, exiting... thread: " + threadIndex);
+      SKPorting.sAssertE(this, "Error in setting up output stream, exiting... thread: " + threadIndex);
       return false;
     }
 
@@ -180,21 +180,21 @@ public class PassiveServerUploadTest extends UploadTest {
       } while (!getTransmissionDone(isWarmup));
 
     } catch (Exception e) {
-      SKLogger.e(this, "Exception in setting up output stream, exiting... thread: " + threadIndex, e);
+      SKPorting.sAssertE(this, "Exception in setting up output stream, exiting... thread: " + threadIndex, e);
 
       // EXCEPTION: RECORD ERROR, AND SET BYTES TO 0!!!
       resetTotalTransferBytesToZero();
       getError().set(true);
 
       // Verify thta we've set everything to zero properly!
-      SKLogger.sAssert(getTotalTransferBytes() == 0L);
+      SKPorting.sAssert(getTotalTransferBytes() == 0L);
       try {
-        SKLogger.sAssert(getBytesPerSecond(isWarmup) == 0);
+        SKPorting.sAssert(getBytesPerSecond(isWarmup) == 0);
       } catch (Exception e1) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-      SKLogger.sAssert(bytesPerSecondMeasurement == 0);
+      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
 
       sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
       //SKLogger.e(TAG(this), "loop - break 3");
@@ -207,19 +207,19 @@ public class PassiveServerUploadTest extends UploadTest {
     long btsTotal = getTotalTransferBytes();
     if (btsTotal == buff.length) {
       // ONLY 1 BUFFER "SENT": TREAT THIS AS AN ERROR, AND SET BYTES TO 0!!!
-      SKLogger.e(this, "Only one buffer sent - treat this as an upload failure");
+      SKPorting.sAssertE(this, "Only one buffer sent - treat this as an upload failure");
       resetTotalTransferBytesToZero();
       getError().set(true);
 
       // Verify thta we've set everything to zero properly!
-      SKLogger.sAssert(getTotalTransferBytes() == 0L);
+      SKPorting.sAssert(getTotalTransferBytes() == 0L);
       try {
-        SKLogger.sAssert(getBytesPerSecond(isWarmup) == 0);
+        SKPorting.sAssert(getBytesPerSecond(isWarmup) == 0);
       } catch (Exception e1) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-      SKLogger.sAssert(bytesPerSecondMeasurement == 0);
+      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
       return false;
     }
 
@@ -227,7 +227,7 @@ public class PassiveServerUploadTest extends UploadTest {
     // To get here, the test ran OK!
     //
     Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-    SKLogger.sAssert(bytesPerSecondMeasurement >= 0);
+    SKPorting.sAssert(bytesPerSecondMeasurement >= 0);
 
     // Do NOT send this, as it otherwise affects ALL thread test potentially?
     // It turns out that if this is *not* sent, then the app UI can keep spinning-through showing upload

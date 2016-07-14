@@ -21,7 +21,7 @@ package com.loopj.android.http;
 import android.content.Context;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
@@ -161,7 +161,7 @@ public class AsyncHttpClient {
     private static SchemeRegistry getDefaultSchemeRegistry(boolean fixNoHttpResponseException, int httpPort, int httpsPort) {
         if (fixNoHttpResponseException) {
             Log.d(LOG_TAG, "Beware! Using the fix is insecure, as it doesn't verify SSL certificates.");
-            SKLogger.sAssert(false);
+            SKPorting.sAssert(false);
         }
 
         if (httpPort < 1) {

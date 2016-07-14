@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>
@@ -595,7 +595,7 @@ public class Base64
             oos.writeObject( serializableObject );
             
         } catch( java.io.IOException e ) {
-        	SKLogger.sAssert(Base64.class,  false);
+        	SKPorting.sAssert(Base64.class,  false);
         	return null;
         } finally {
         	try {
@@ -603,28 +603,28 @@ public class Base64
         			oos.close();
         		}
         	} catch( IOException e ) {
-        		SKLogger.sAssert(Base64.class,  false);
+        		SKPorting.sAssert(Base64.class,  false);
         	}
         	try {
         		if (gzos != null) {
         			gzos.close();
         		}
         	} catch( IOException e ) {
-        		SKLogger.sAssert(Base64.class,  false);
+        		SKPorting.sAssert(Base64.class,  false);
         	}
         	try {
         		if (b64os != null) {
         			b64os.close();
         		}
         	} catch( IOException e ) {
-        		SKLogger.sAssert(Base64.class,  false);
+        		SKPorting.sAssert(Base64.class,  false);
         	}
         	try {
         		if (baos != null) {
         			baos.close();
         		}
         	} catch( IOException e ) {
-        		SKLogger.sAssert(Base64.class,  false);
+        		SKPorting.sAssert(Base64.class,  false);
         	}
         }
         
@@ -745,7 +745,7 @@ public class Base64
                 gzos.write( source, off, len );
                 gzos.close();
             } catch( java.io.IOException e ) {
-            	SKLogger.sAssert(Base64.class,  false);
+            	SKPorting.sAssert(Base64.class,  false);
             	return null;
             }  finally {
             	try {
@@ -753,21 +753,21 @@ public class Base64
             			baos.close();
             		}
             	} catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             	}
             	try {
             		if (b64os != null) {
             			b64os.close();
             		}
             	} catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             	}
             	try {
             		if (gzos != null) {
             			gzos.close();
             		}
             	} catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             	}
             }
 
@@ -1059,7 +1059,7 @@ public class Base64
                     bytes = baos.toByteArray();
 
                 } catch (java.io.IOException e) {
-                	SKLogger.sAssert(Base64.class,  false);
+                	SKPorting.sAssert(Base64.class,  false);
                 	// Just return originally-decoded bytes
                 }  finally {
                 	try {
@@ -1067,21 +1067,21 @@ public class Base64
                 			baos.close();
                 		}
                 	} catch( IOException e ) {
-                		SKLogger.sAssert(Base64.class,  false);
+                		SKPorting.sAssert(Base64.class,  false);
                 	}
                 	try {
                 		if (bais != null) {
                 			bais.close();
                 		}
                 	} catch( IOException e ) {
-                		SKLogger.sAssert(Base64.class,  false);
+                		SKPorting.sAssert(Base64.class,  false);
                 	}
                 	try {
                 		if (gzis != null) {
                 			gzis.close();
                 		}
                 	} catch( IOException e ) {
-                		SKLogger.sAssert(Base64.class,  false);
+                		SKPorting.sAssert(Base64.class,  false);
                 	}
                 }
             }
@@ -1123,7 +1123,7 @@ public class Base64
             obj = null;
         }   // end catch
         catch( java.lang.ClassNotFoundException e ) {
-        	SKLogger.sAssert(Base64.class,  false);
+        	SKPorting.sAssert(Base64.class,  false);
         	obj = null;
         }  finally {
         	try {
@@ -1131,14 +1131,14 @@ public class Base64
         			bais.close();
         		}
         	} catch( IOException e ) {
-        		SKLogger.sAssert(Base64.class,  false);
+        		SKPorting.sAssert(Base64.class,  false);
         	}
         	try {
         		if (ois != null) {
         			ois.close();
         		}
         	} catch( IOException e ) {
-        		SKLogger.sAssert(Base64.class,  false);
+        		SKPorting.sAssert(Base64.class,  false);
         	}
         }
         
@@ -1179,7 +1179,7 @@ public class Base64
                 bos.close();
               }
             } catch( Exception e) {
-              SKLogger.sAssert(false);
+              SKPorting.sAssert(false);
             }
         }   // end finally
         
@@ -1218,7 +1218,7 @@ public class Base64
               bos.close();
             }
           } catch( Exception e) {
-            SKLogger.sAssert(false);
+            SKPorting.sAssert(false);
           }
         }   // end finally
         
@@ -1282,7 +1282,7 @@ public class Base64
               bis.close();
             }
           } catch( Exception e) {
-            SKLogger.sAssert(false);
+            SKPorting.sAssert(false);
           }
         }   // end finally
         
@@ -1336,7 +1336,7 @@ public class Base64
               bis.close();
             }
           } catch( Exception e) {
-            SKLogger.sAssert(false);
+            SKPorting.sAssert(false);
           }
         }   // end finally
         
@@ -1372,21 +1372,21 @@ public class Base64
             }   // end while: through file
             success = true;
         } catch( java.io.IOException exc ){
-            SKLogger.sAssert(Base64.class,  false);
+            SKPorting.sAssert(Base64.class,  false);
         }  finally {
             try {
             	if (in != null) {
             		in.close();
             	}
             } catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             }
             try {
             	if (out != null) {
             		out.close();
             	}
             } catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             }
         }
         
@@ -1421,21 +1421,21 @@ public class Base64
             }   // end while: through file
             success = true;
         } catch( java.io.IOException exc ){
-            SKLogger.sAssert(Base64.class,  false);
+            SKPorting.sAssert(Base64.class,  false);
         }  finally {
             try {
             	if (in != null) {
             		in.close();
             	}
             } catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             }
             try {
             	if (out != null) {
             		out.close();
             	}
             } catch( IOException e ) {
-            		SKLogger.sAssert(Base64.class,  false);
+            		SKPorting.sAssert(Base64.class,  false);
             }
         }
 

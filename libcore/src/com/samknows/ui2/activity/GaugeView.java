@@ -8,11 +8,11 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
-import com.samknows.libcore.SKUICommon;
+import com.samknows.libcore.SKAndroidUI;
 
 /**
  * This class is responsible for painting the gauge in the home screen.
@@ -71,7 +71,7 @@ class GaugeView extends View {
     // Draw Paint
     drawPaint = new Paint();
     drawPaint.setStyle(Paint.Style.STROKE);
-    drawPaint.setStrokeWidth(SKUICommon.sConvertDpToPixels(10, mContext));
+    drawPaint.setStrokeWidth(SKAndroidUI.sConvertDpToPixels(10, mContext));
     drawPaint.setColor(mContext.getResources().getColor(R.color.white));
     drawPaint.setAntiAlias(true);
 
@@ -138,7 +138,7 @@ class GaugeView extends View {
 
     //radius = Math.min(bounds.width() / 2, bounds.height() / 2) - 50;
 
-    radius = Math.min(bounds.width() / 2, bounds.height() / 2) - SKUICommon.sConvertDpToPixels(17, mContext);
+    radius = Math.min(bounds.width() / 2, bounds.height() / 2) - SKAndroidUI.sConvertDpToPixels(17, mContext);
 
     //double arrSegmentMaxValues_Download[] = {1.0, 2.0, 5.0, 10.0, 30.0, 100.0};
     //double arrSegmentMaxValues_Upload[] = {0.5, 1.0, 1.5, 2.0, 10.0, 50.0};
@@ -199,10 +199,10 @@ class GaugeView extends View {
 
                 double fractionalPositionInIndex0To1 = ((this.result - segmentStartValue) / (segmentMaxValue - segmentStartValue));
                 if (fractionalPositionInIndex0To1 < 0) {
-                  SKLogger.sAssert(getClass(), false);
+                  SKPorting.sAssert(getClass(), false);
                   fractionalPositionInIndex0To1 = 0;
                 } else if (fractionalPositionInIndex0To1 > 1.0F) {
-                  SKLogger.sAssert(getClass(), false);
+                  SKPorting.sAssert(getClass(), false);
                   fractionalPositionInIndex0To1 = 1.0F;
                 }
                 int fractionalPositionInIndex0To10 = (int) (fractionalPositionInIndex0To1 * 10.0);
@@ -230,15 +230,15 @@ class GaugeView extends View {
       }
 
       //Draw outer arcs
-      canvas.drawArc(new RectF(centerX - radius - SKUICommon.sConvertDpToPixels(10, mContext), centerY - radius - SKUICommon.sConvertDpToPixels(10, mContext), centerX + radius + SKUICommon.sConvertDpToPixels(10, mContext), centerY + radius + SKUICommon.sConvertDpToPixels(10, mContext)),
+      canvas.drawArc(new RectF(centerX - radius - SKAndroidUI.sConvertDpToPixels(10, mContext), centerY - radius - SKAndroidUI.sConvertDpToPixels(10, mContext), centerX + radius + SKAndroidUI.sConvertDpToPixels(10, mContext), centerY + radius + SKAndroidUI.sConvertDpToPixels(10, mContext)),
           135 + (float) (i * (360.0 / 80) - 360.0 / 160 + 360.0 / 800),
           (float) ((360.0 / 80) - 360.0 / 400),
           false, drawPaint);
 
       // Draw the inner arcs which mark the six segments... and any associated labels...
       if (i % 10 == 0) {
-        SKLogger.sAssert(getClass(), i >= 0 && i <= 60);
-        SKLogger.sAssert(getClass(), ((i % 10) == 0));
+        SKPorting.sAssert(getClass(), i >= 0 && i <= 60);
+        SKPorting.sAssert(getClass(), ((i % 10) == 0));
 
         //
         // Inner arcs...
@@ -246,8 +246,8 @@ class GaugeView extends View {
         angleForDots = 1.75 * Math.PI - i * (Math.PI / 40);
 
         // Calculate circles position
-        smallCircleCenterX = (float) (centerX + (radius - SKUICommon.sConvertDpToPixels(20, mContext)) * Math.sin(angleForDots));
-        smallCircleCenterY = (float) (centerY + (radius - SKUICommon.sConvertDpToPixels(20, mContext)) * Math.cos(angleForDots));
+        smallCircleCenterX = (float) (centerX + (radius - SKAndroidUI.sConvertDpToPixels(20, mContext)) * Math.sin(angleForDots));
+        smallCircleCenterY = (float) (centerY + (radius - SKAndroidUI.sConvertDpToPixels(20, mContext)) * Math.cos(angleForDots));
 
         drawPaint.setColor(mContext.getResources().getColor(R.color.MainColourDialInnerTicks));
 

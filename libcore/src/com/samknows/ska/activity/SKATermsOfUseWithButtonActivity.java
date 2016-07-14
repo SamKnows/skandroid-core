@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import com.samknows.libcore.R;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
 import com.samknows.measurement.environment.Reachability;
@@ -38,7 +38,7 @@ public class SKATermsOfUseWithButtonActivity extends BaseLogoutActivity {
 		//setTitle(getString(R.string.terms_of_use_title));
 		
 		mWebView = (WebView) findViewById(R.id.webview);
-		SKLogger.sAssert(getClass(), mWebView != null);
+		SKPorting.sAssert(getClass(), mWebView != null);
 		
 		mWebView.getSettings().setJavaScriptEnabled(false);
 		//mWebInterface = new WebAppInterface(this);

@@ -19,9 +19,8 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.SignalStrength;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
-import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.storage.PassiveMetric;
 import com.samknows.measurement.util.DCSConvertorUtil;
 import com.samknows.measurement.util.DCSStringBuilder;
@@ -108,7 +107,7 @@ public class CellTowersData implements DCSData{
 		// If we're supplied a null value, set to use an empty list.
 		if (inNeighbors == null) {
 			// ... we should trap this where possible in the debugger...
-			SKLogger.sAssert(getClass(), false);
+			SKPorting.sAssert(getClass(), false);
       neighbors = new ArrayList<>();
 		} else {
 			neighbors = inNeighbors;
@@ -124,7 +123,7 @@ public class CellTowersData implements DCSData{
 		List<String> list = new ArrayList<>();
 		addCellData(list);
 		
-		SKLogger.sAssert(getClass(), (neighbors != null));
+		SKPorting.sAssert(getClass(), (neighbors != null));
 		if (neighbors != null) {
 			for (NeighboringCellInfo cellInfo : neighbors) {
 				addCellData(list, cellInfo);
@@ -286,7 +285,7 @@ public class CellTowersData implements DCSData{
 			gsm.put(JSON_UMTS_PSC, Build.VERSION.SDK_INT >= 9 ? l.getPsc() : -1);
 			
 			if (signal == null) {
-				SKLogger.sAssert(getClass(), false);
+				SKPorting.sAssert(getClass(), false);
 			} else {
 				if(signal.isGsm()){
 					gsm.put(JSON_SIGNAL_STRENGTH, SKGsmSignalStrength.getGsmSignalStrength(signal));

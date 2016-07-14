@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SK2AppSettings;
@@ -99,10 +99,10 @@ public class FragmentSettings extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Create the view
     View view = inflater.inflate(R.layout.ska_settings_activity, container, false);
-    SKLogger.sAssert(getClass(), view != null);
+    SKPorting.sAssert(getClass(), view != null);
 
     Activity activity = getActivity();
-    SKLogger.sAssert(getClass(), activity != null);
+    SKPorting.sAssert(getClass(), activity != null);
     //Util.initializeFonts(getActivity());
     //Util.overrideFonts(getActivity(), view.findViewById(android.R.id.content));
 
@@ -110,7 +110,7 @@ public class FragmentSettings extends Fragment {
     try {
       versionName = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
     } catch (NameNotFoundException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
     if (view.findViewById(R.id.version) != null) {
       TextView tv = (TextView) view.findViewById(R.id.version);
@@ -252,7 +252,7 @@ public class FragmentSettings extends Fragment {
               if (theValue.equals(getString(R.string.GPS))) {
               } else if (theValue.equals(getString(R.string.MobileNetwork))) {
               } else {
-                SKLogger.sAssert(FragmentSettings.class, false);
+                SKPorting.sAssert(FragmentSettings.class, false);
               }
 
               SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FragmentSettings.this.getActivity());
@@ -382,7 +382,7 @@ public class FragmentSettings extends Fragment {
       try {
         ((TextView) view.findViewById(R.id.tv_unitId_value)).setText(SK2AppSettings.getInstance().getUnitId());
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     }
 
@@ -442,27 +442,27 @@ public class FragmentSettings extends Fragment {
       try {
         ((TextView) view.findViewById(R.id.tv_loc_date_value)).setText(new SKDateFormat(getActivity()).UITime(loc.getTime()));
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_loc_lat_value)).setText(String.format("%1.5f", loc.getLatitude()));
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     }
 
@@ -476,23 +476,23 @@ public class FragmentSettings extends Fragment {
       try {
         ((TextView) view.findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
     } else if (cellData.getCellLocation() instanceof CdmaCellLocation) {
       try {
         ((TextView) view.findViewById(R.id.tv_cell_tower_type_value)).setText("CDMA");
       } catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       //			CdmaCellLocation cdmaLocation = (CdmaCellLocation) cellLocation;
       //			builder.append(CDMA);

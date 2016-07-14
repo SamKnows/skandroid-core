@@ -17,7 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKSimpleHttpToJsonQuery;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
@@ -94,7 +94,7 @@ public class SubmitTestResultsAnonymousAction {
         results[i] = getStringWithControlsStripped(results[i]);
         data = results[i].getBytes("UTF-8");
       } catch (UnsupportedEncodingException e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
       if (data == null) {
         Log.d(TAG, "no results to be submitted");
@@ -106,7 +106,7 @@ public class SubmitTestResultsAnonymousAction {
 
       if (!isSuccess) {
         // JSON file failed to upload. Re-save it for future re-upload!
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         fail.add(i);
         TestResultsManager.clearResults(context);
         TestResultsManager.saveSubmittedLogs(context, data);
@@ -184,15 +184,15 @@ public class SubmitTestResultsAnonymousAction {
 
     } catch (ClientProtocolException e) {
       //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     } catch (IOException e) {
       //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     } catch (JSONException e) {
       //Log.e(MyGeocoder.class.getName(), "Error parsing Google geocode webservice response.", e);
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return retList;
@@ -236,13 +236,13 @@ public class SubmitTestResultsAnonymousAction {
 
             }
           } catch (JSONException e) {
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
           }
         }
 
 
         if (jObject.has("metrics") == false) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
         } else {
           JSONArray metricsArray = jObject.getJSONArray("metrics");
           int items = metricsArray.length();
@@ -259,22 +259,22 @@ public class SubmitTestResultsAnonymousAction {
                     Double longitudeAsDouble = metric.getDouble("longitude");
                     longitude = longitudeAsDouble;
                   } else {
-                    SKLogger.sAssert(false);
+                    SKPorting.sAssert(false);
                   }
                 } else {
-                  SKLogger.sAssert(false);
+                  SKPorting.sAssert(false);
                 }
 
                 break;
               }
             } else {
-              SKLogger.sAssert(false);
+              SKPorting.sAssert(false);
             }
           }
         }
       }
     } catch (JSONException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       jObject = null;
     }
 
@@ -288,7 +288,7 @@ public class SubmitTestResultsAnonymousAction {
     if (SKApplication.getAppInstance().getShouldTestResultsBeUploadedToTestSpecificServer() == true) {
       // TODO: For SOME systems, we need to determine the server to use FROM THE DATA!
       if (jObject == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       } else {
         try {
 
@@ -306,7 +306,7 @@ public class SubmitTestResultsAnonymousAction {
           }
 
           if (targetServerUrl == null) {
-            SKLogger.sAssert(false);
+            SKPorting.sAssert(false);
           } else {
             Log.d(TAG, "targetServerUrl=" + targetServerUrl);
 
@@ -315,7 +315,7 @@ public class SubmitTestResultsAnonymousAction {
             } else {
               // Need to add http:// prefix!
               targetServerUrl = String.format("http://%s", targetServerUrl);
-              SKLogger.sAssert(targetServerUrl.startsWith("http://"));
+              SKPorting.sAssert(targetServerUrl.startsWith("http://"));
 
               // Use this overriding server URL!
               targetServerUrl =String.format("%s/log/receive_mobile.php", targetServerUrl);
@@ -377,11 +377,11 @@ public class SubmitTestResultsAnonymousAction {
       List<Address> addressList = null;
       Geocoder geocoder = new Geocoder(SKApplication.getAppInstance().getApplicationContext(), Locale.getDefault());
       if (geocoder == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       } else {
         if (Geocoder.isPresent() == false) {
           // Maybe we're on the Emulator!
-          SKLogger.sAssert(OtherUtils.isThisDeviceAnEmulator() == true);
+          SKPorting.sAssert(OtherUtils.isThisDeviceAnEmulator() == true);
         } else {
           try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
@@ -434,7 +434,7 @@ public class SubmitTestResultsAnonymousAction {
             item1.put(PassiveMetric.JSON_VALUE, jsonResponse.get("public_ip"));
             item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.PUBLICIP);
           } catch (JSONException e) {
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
           }
 
 
@@ -448,7 +448,7 @@ public class SubmitTestResultsAnonymousAction {
             SKApplication.getAppInstance().mLastPublicIp = jsonResponse.get("public_ip").toString();
             SKApplication.getAppInstance().mLastSubmissionId = jsonResponse.get("submission_id").toString();
           } catch (JSONException e) {
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
           }
 
           JSONArray jsonArray = new JSONArray();
@@ -487,7 +487,7 @@ public class SubmitTestResultsAnonymousAction {
           item1.put(PassiveMetric.JSON_VALUE, muncipality);
           item1.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.MUNICIPALITY);
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
       }
 
@@ -501,7 +501,7 @@ public class SubmitTestResultsAnonymousAction {
           item2.put(PassiveMetric.JSON_VALUE, countryName);
           item2.put(PassiveMetric.JSON_TYPE, METRIC_TYPE.COUNTRYNAME);
         } catch (JSONException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
       }
 
@@ -518,7 +518,7 @@ public class SubmitTestResultsAnonymousAction {
         dbHelper.insertPassiveMetric(jsonArray, finalBatchId);
       }
     } else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
   }
 

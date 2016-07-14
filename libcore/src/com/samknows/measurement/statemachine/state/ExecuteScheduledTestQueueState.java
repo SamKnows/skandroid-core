@@ -4,7 +4,7 @@ package com.samknows.measurement.statemachine.state;
 import android.content.Context;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.Storage;
@@ -23,7 +23,7 @@ public class ExecuteScheduledTestQueueState extends BaseState{
 
 	@Override
 	public StateResponseCode executeState() {
-		SKLogger.sAssert(getClass(),  (accumulatedTestBytes == 0L));
+		SKPorting.sAssert(getClass(),  (accumulatedTestBytes == 0L));
 		
 		if(!SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
 			return StateResponseCode.OK;

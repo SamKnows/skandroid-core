@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import android.annotation.SuppressLint;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 @SuppressLint("UseSparseArrays")
 public final class ActiveServerUploadTest extends UploadTest {
@@ -50,7 +50,7 @@ public final class ActiveServerUploadTest extends UploadTest {
   private void setSessionID() {
     Random sRandom = new Random();
     mSessionID = sRandom.nextLong() & 0xffffffffL;
-    SKLogger.sAssert(getClass(), mSessionID >= 0);
+    SKPorting.sAssert(getClass(), mSessionID >= 0);
 
     //SKLogger.d(TAG(this), "Session ID = " + mSessionID);//haha remove in production
   }
@@ -60,7 +60,7 @@ public final class ActiveServerUploadTest extends UploadTest {
 
     // Verify that the session_id was properly initialized (it will have come from a random value, shared by all threads
     // for this HttpTest instance...)
-    SKLogger.sAssert(getClass(), mSessionID >= 0);
+    SKPorting.sAssert(getClass(), mSessionID >= 0);
 
     // Use the correct parameters in the header... INCLUDING THE UNIT ID!
     // c.f. instructions at the top of this file.
@@ -87,7 +87,7 @@ public final class ActiveServerUploadTest extends UploadTest {
     if (millisecondsWarmupSampleTime == 0) {
       // There is no unsigned 32 bit int in Java. You have to use long (signed 64-bit) instead.
       // Not expected - and might cause the server-based test to timeout!
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       millisecondsWarmupSampleTime = 4294967295L;
       //millisecondsWarmupSampleTime = 5000L; // Hack!
     }
@@ -147,7 +147,7 @@ public final class ActiveServerUploadTest extends UploadTest {
         //					}
 
         if ((responseCode != 100) && (responseCode != 200)) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
 
           //SKLogger.d(TAG(this), "DEBUG: upload server did fail with error=" + responseCode);//haha
         } else {
@@ -187,7 +187,7 @@ public final class ActiveServerUploadTest extends UploadTest {
 
           String[] items = responseString.split("\n");
           if (items.length == 0) {
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
           } else {
             int itemCount = items.length;
             int itemIndex;
@@ -202,17 +202,17 @@ public final class ActiveServerUploadTest extends UploadTest {
               if (item.contains("WARMUP_SESSION")) {
                 String[] warmUpItems = item.split(" ");
                 if (warmUpItems.length != 4) {
-                  SKLogger.sAssert(getClass(), false);
+                  SKPorting.sAssert(getClass(), false);
                 } else {
                   warmupnSecTime = Long.valueOf(warmUpItems[1])/*seconds*/ * 1000000000 + Long.valueOf(warmUpItems[2])/*nanoseconds*/;
                   if (warmupnSecTime <= 0) {
-                    SKLogger.sAssert(getClass(), false);
+                    SKPorting.sAssert(getClass(), false);
                   } else {
                     warmUpBytes = Long.valueOf(warmUpItems[3]);
-                    SKLogger.sAssert(getClass(), warmUpBytes > 0);
+                    SKPorting.sAssert(getClass(), warmUpBytes > 0);
 
                     warmUpBytesPerSecond = (long) (warmUpBytes / (warmupnSecTime / 1000000000.0));
-                    SKLogger.sAssert(getClass(), warmUpBytesPerSecond > 0);
+                    SKPorting.sAssert(getClass(), warmUpBytesPerSecond > 0);
                   }
                 }
               }
@@ -222,21 +222,21 @@ public final class ActiveServerUploadTest extends UploadTest {
                 // Use the final calculated value!
                 String[] transferItems = item.split(" ");
                 if (transferItems.length != 4) {
-                  SKLogger.sAssert(getClass(), false);
+                  SKPorting.sAssert(getClass(), false);
                 } else {
                   transfernSecTime = Long.valueOf(transferItems[1])/*seconds*/ * 1000000000 + Long.valueOf(transferItems[2])/*nanoseconds*/;
                   transfernSecTime -= warmupnSecTime;
                   if (transfernSecTime <= 0) {
-                    SKLogger.sAssert(getClass(), false);
+                    SKPorting.sAssert(getClass(), false);
                   } else {
                     bGotValidResponseFromServer = true;
                     //SKLogger.d(TAG(this), "*** bGotValidResponseFromServer set to TRUE!");//haha remove in production
 
                     transferBytes = Long.valueOf(transferItems[3]);
-                    SKLogger.sAssert(getClass(), transferBytes > 0);
+                    SKPorting.sAssert(getClass(), transferBytes > 0);
 
                     transferBytesPerSecond = (long) (transferBytes / (transfernSecTime / 1000000000.0));
-                    SKLogger.sAssert(getClass(), transferBytesPerSecond > 0);
+                    SKPorting.sAssert(getClass(), transferBytesPerSecond > 0);
                   }
                 }
               }
@@ -302,7 +302,7 @@ public final class ActiveServerUploadTest extends UploadTest {
 
     if (connOut == null) {
       closeConnection(socket);
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       //SKLogger.e(TAG(this), "Error in setting up output stream, exiting... thread: " + threadIndex);//haha
       return false;
     }
@@ -323,7 +323,7 @@ public final class ActiveServerUploadTest extends UploadTest {
         addTotalTransferBytes(buff.length);
 
       } catch (IOException ioe) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         getError().set(true);
         // And break out of the loop....
         //sSetLatestSpeedForExternalMonitorInterval( extMonitorUpdateInterval, "ActiveUpload", Callable<Integer> transferSpeed );
@@ -583,7 +583,7 @@ public final class ActiveServerUploadTest extends UploadTest {
         } catch (SocketTimeoutException e) {
           //SKLogger.d(TAG(this), e.getMessage());//haha remove in production
         } catch (IOException e) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           break;
         }
       }
@@ -595,7 +595,7 @@ public final class ActiveServerUploadTest extends UploadTest {
 
     void callOnStopOrCancel(String responseString, int responseCode) {
       // This must be overridden!
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
   }
 }

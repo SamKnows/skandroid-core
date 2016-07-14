@@ -1,6 +1,6 @@
 package com.samknows.SKKit;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.tests.ClosestTarget;
 import com.samknows.tests.Param;
@@ -36,18 +36,18 @@ public class SKKitTestClosestTarget {
 
     public SKKitTestDescriptor_ClosestTarget(List<ClosestTargetHostDescriptor> targetList) {
       if (targetList == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
       if (targetList.size() == 0) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
       for (ClosestTargetHostDescriptor target : targetList) {
-        SKCommon.sDoAssert(!target.mHostAddress.isEmpty());
-        SKCommon.sDoAssert(!target.mHostName.isEmpty());
+        SKPorting.sAssert(!target.mHostAddress.isEmpty());
+        SKPorting.sAssert(!target.mHostName.isEmpty());
       }
 
       mTargetList = targetList;
@@ -69,7 +69,7 @@ public class SKKitTestClosestTarget {
 
   public SKKitTestClosestTarget(SKKitTestDescriptor_ClosestTarget testDescriptor) {
     mTestDescriptor = testDescriptor;
-    SKCommon.sDoAssert(testDescriptor.mTargetList.size() > 0);
+    SKPorting.sAssert(testDescriptor.mTargetList.size() > 0);
   }
 
   // Adaptor for extracting JSON data for export!
@@ -77,10 +77,12 @@ public class SKKitTestClosestTarget {
     return mClosestTargetTest.getJSONResult();
   }
 
+  private final SKPorting.MainThreadResultHandler mHandler = new SKPorting.MainThreadResultHandler();
+
   private String mFoundClosestTarget = null;
 
   public void start(final ISKClosestTargetTestProgressUpdate progressUpdate) {
-    SKCommon.sDoAssert(progressUpdate != null);
+    SKPorting.sAssert(progressUpdate != null);
 
     // This requires a TestRunner for observing results...
     SKTestRunner.SKTestRunnerObserver observer = new SKTestRunner.SKTestRunnerObserver() {
@@ -139,12 +141,12 @@ public class SKKitTestClosestTarget {
 //        params.add(new Param(TestFactory.DELAYTIMEOUT, String.valueOf((int) (mTestDescriptor.mDelayTimeoutSeconds * 1000000.0)))); // Microseconds!
 //        params.add(new Param(TestFactory.NUMBEROFPACKETS, String.valueOf(mTestDescriptor.mNumberOfPackets)));
 
-        //SKCommon.sDoLogD("IHT", "START Running ClosestTarget test ..." + mTestDescriptor.mDelayTimeoutSeconds * 1000.0);
-        SKCommon.sDoLogD("IHT", "START Running ClosestTarget test ...");
+        //SKCommon.sLogD("IHT", "START Running ClosestTarget test ..." + mTestDescriptor.mDelayTimeoutSeconds * 1000.0);
+        SKPorting.sLogD("IHT", "START Running ClosestTarget test ...");
 
         mClosestTargetTest = ClosestTarget.sCreateClosestTarget(params);
         if (mClosestTargetTest == null) {
-          SKCommon.sDoAssert(false);
+          SKPorting.sAssert(false);
           return;
         }
         long timeStartMilli = System.currentTimeMillis();
@@ -152,25 +154,20 @@ public class SKKitTestClosestTarget {
         long timeEndMilli = System.currentTimeMillis();
 
         long actualTimeTakenMilli = timeEndMilli - timeStartMilli;
-        SKCommon.sDoLogD("IHT", "STOPPED Running ClosestTarget test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
+        SKPorting.sLogD("IHT", "STOPPED Running ClosestTarget test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
 
         // Finished the ClosestTarget test - extract the result values, and post them to the handler method in the main thread.
         mFoundClosestTarget = mClosestTargetTest.getClosest();
 
-        if (progressUpdate != null) {
-          //progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
-          progressUpdate.onTestCompleted_OnMainThread(mFoundClosestTarget);
-        }
+        mHandler.callUsingMainThreadWhereSupported(new Runnable() {
+          public void run() {
 
-//        mHandler.post(new Runnable() {
-//          public void run() {
-//
-//            if (progressUpdate != null) {
-//              //progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
-//              progressUpdate.onTestCompleted_OnMainThread(mFoundClosestTarget);
-//            }
-//          }
-//        });
+            if (progressUpdate != null) {
+              //progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
+              progressUpdate.onTestCompleted_OnMainThread(mFoundClosestTarget);
+            }
+          }
+        });
       }
     };
 
@@ -185,7 +182,7 @@ public class SKKitTestClosestTarget {
 
   public int getProgress0To100() {
     if (mClosestTargetTest == null) {
-      //SKCommon.sDoAssert(false);
+      //SKCommon.sAssert(false);
       return 0;
     }
     return mClosestTargetTest.getProgress0To100();

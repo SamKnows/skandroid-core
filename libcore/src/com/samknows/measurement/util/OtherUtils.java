@@ -29,7 +29,7 @@ import java.security.cert.X509Certificate;
 import javax.security.auth.x500.X500Principal;
 
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.DeviceDescription;
@@ -120,7 +120,7 @@ public class OtherUtils {
 				}
 			}
 		} catch (SocketException ex) {
-			SKLogger.e(OtherUtils.class, "failed to get ip address", ex);
+			SKPorting.sAssertE(OtherUtils.class, "failed to get ip address", ex);
 		}
 		return null;
 	}

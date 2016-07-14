@@ -1,6 +1,8 @@
 package com.samknows.libcore;
 
-// We use SKPair, instead of Android Pair, as it is platform independent.
+//
+// We use SKPair, instead of Pair, as it is platform independent.
+//
 public class SKPair<T,Y>
 {
   public SKPair() { first = null; second = null; }

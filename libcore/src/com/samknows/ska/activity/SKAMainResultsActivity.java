@@ -57,10 +57,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import com.samknows.libcore.ExportFileProvider;
+import com.samknows.libcore.SKAndroidExportFileProvider;
 import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKConstants;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.TestRunner.ContinuousTestRunner;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
@@ -255,13 +255,13 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
       if (v == null) {
         // ... we should trap this where possible in the debugger...
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       } else {
         TextView timestampView = (TextView) v.findViewById(R.id.average_results_title);
 
         if (timestampView == null) {
           // ... we should trap this where possible in the debugger...
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         } else {
 
           timestampView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
@@ -272,7 +272,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       View v = viewPager.findViewWithTag(page);
       if (v == null) {
         // ... we should trap this where possible in the debugger...
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       } else {
         TextView timestampView = (TextView) v.findViewById(R.id.timestamp);
         timestampView.setContentDescription(getString(R.string.archive_result) + " " + timestampView.getText());
@@ -440,7 +440,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         String activeNetworkType = data.getStringExtra("activeneworktype");
 
         if (activeNetworkType == null) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         } else if (activeNetworkType.equals("mobile")) {
           if (SKApplication.getNetworkTypeResults() == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
             SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Any);
@@ -450,7 +450,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
             SKApplication.setNetworkTypeResults(eNetworkTypeResults.eNetworkTypeResults_Any);
           }
         } else {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
         setNetworkTypeToggleButton();
 
@@ -479,7 +479,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
     setTotalArchiveRecords();
     //viewPager = (ViewPager) findViewById(R.id.viewPager);
-    SKLogger.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
+    SKPorting.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
     viewPager.setAdapter(adapter);
     viewPager.setCurrentItem(1, true); // true means - perform a smooth scroll!
     //overridePendingTransition(0, 0);
@@ -531,7 +531,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           upload = "" + value;
         }
       } catch (JSONException e) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
 
@@ -616,7 +616,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
     } catch (JSONException e) {
 
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
 
       return false;
     }
@@ -715,7 +715,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       resultsIfNotPaged = jsonObjectIfNotPaged.getJSONArray("results");
       results = jsonObject.getJSONArray("results");
     } catch (JSONException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     if (resultsIfNotPaged != null) {
@@ -738,7 +738,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           availableRowsForThisGrid = (double) total_jitter_archive_records;
           break;
         default:
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           break;
       }
     }
@@ -782,7 +782,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         break;
 
       default:
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         break;
     }
 
@@ -892,7 +892,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     mNetworkTypeToggleButton = (Button) findViewById(R.id.networkTypeButton);
 
     if (mNetworkTypeToggleButton == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     } else {
       if (SKApplication.getNetworkTypeResults() == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
         mNetworkTypeToggleButton.setText(R.string.network_type_wifi_results);
@@ -983,7 +983,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       timeperiod_button.setText(R.string.results_for_1_day);
     } else {
       timeperiod_button.setText(R.string.results_for_1_week);
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
 
@@ -1069,7 +1069,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
               //Trace.beginSection("pagerAdapter");
               adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
               //viewPager = (ViewPager) findViewById(R.id.viewPager);
-              SKLogger.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
+              SKPorting.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
               //Trace.beginSection("setAdapter");
               viewPager.setAdapter(adapter);
               //Trace.endSection();
@@ -1493,7 +1493,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     // http://stephendnicholas.com/archives/974
     // The only way to get this to work, was to use a custom ContentProvider!
     // So, this gets the file from the cache - which is might be called export_xyz.zip...
-    Uri uri = Uri.parse("content://" + ExportFileProvider.sGetAUTHORITY() + "/" + zipFile.getName());
+    Uri uri = Uri.parse("content://" + SKAndroidExportFileProvider.sGetAUTHORITY() + "/" + zipFile.getName());
     ArrayList<Uri> uris = new ArrayList<>();
     uris.add(uri);
     intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -1539,7 +1539,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
       if (SKApplication.getAppInstance().isSocialMediaExportSupported() == false) {
         // Invalid request!
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       } else {
 
         if (on_aggregate_page == true) {
@@ -1560,7 +1560,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
             JSONObject summary = dbHelper.getArchiveDataSummary();
             last_run_test = summary.getString("enddate");
           } catch (JSONException e1) {
-            SKLogger.sAssert(getClass(), false);
+            SKPorting.sAssert(getClass(), false);
           }
           if (last_run_test == null) {
             last_run_test = "0";
@@ -1686,7 +1686,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
     } catch (Exception e) {
       // All we can do is catch, and prevent the app crashing!
-      SKLogger.sAssert(SKAMainResultsActivity.class, false);
+      SKPorting.sAssert(SKAMainResultsActivity.class, false);
     }
   }
 
@@ -1771,7 +1771,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       }
 
       public void onFailure(Throwable error) {
-        SKLogger.e(SKAMainResultsActivity.class,
+        SKPorting.sAssertE(SKAMainResultsActivity.class,
             "failed to get data", error);
         dialog.dismiss();
       }
@@ -1937,7 +1937,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           last_run_test_formatted = "";
         }
       } catch (JSONException e1) {
-        SKLogger.e(this, "Error in reading from JSONObject.", e1);
+        SKPorting.sAssertE(this, "Error in reading from JSONObject.", e1);
       }
 
       //Trace.beginSection("addRecords");
@@ -1957,14 +1957,14 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
       } catch (Exception e) {
         //Trace.endSection();
-        SKLogger.e(this, "Error in reading archive item " + archiveItemIndex, e);
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssertE(this, "Error in reading archive item " + archiveItemIndex, e);
+        SKPorting.sAssert(getClass(), false);
         return;
       }
 
       if (archiveItem == null) {
         //Trace.endSection();
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return;
       }
 
@@ -1988,7 +1988,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       try {
         results = archiveItem.getJSONArray("activemetrics");
       } catch (JSONException je) {
-        SKLogger.e(this, "Exception in reading active metrics array: "
+        SKPorting.sAssertE(this, "Exception in reading active metrics array: "
             + je.getMessage());
       }
 
@@ -2001,7 +2001,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           try {
             user = results.getJSONObject(itemcount);
           } catch (JSONException je) {
-            SKLogger.e(
+            SKPorting.sAssertE(
                 this,
                 "Exception in reading JSONObject: "
                     + je.getMessage());
@@ -2049,7 +2049,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
               }
 
             } catch (JSONException je) {
-              SKLogger.e(
+              SKPorting.sAssertE(
                   this,
                   "Exception in reading JSONObject: "
                       + je.getMessage());
@@ -2065,7 +2065,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       try {
         results = archiveItem.getJSONArray("passivemetrics");
       } catch (JSONException je) {
-        SKLogger.e(this,
+        SKPorting.sAssertE(this,
             "Exception in reading JSONObject: " + je.getMessage());
       }
 
@@ -2077,7 +2077,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
           try {
             user = results.getJSONObject(itemcount);
           } catch (JSONException je) {
-            SKLogger.e(
+            SKPorting.sAssertE(
                 this,
                 "Exception in reading JSONObject: "
                     + je.getMessage());
@@ -2235,7 +2235,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       } catch (JSONException je) {
         Log.d("SamKnowsAggregateStatViewerActivity:MyPagerAdapter", "ERROR - exception reading JSON object (" + je.getMessage() + ")");
 
-        SKLogger.e(
+        SKPorting.sAssertE(
             this,
             "Exception in reading JSONObject: "
                 + je.getMessage());
@@ -2639,7 +2639,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     // User must select the test to run
     ///
     testList = config.manual_tests;
-    SKLogger.sAssert(getClass(), testList.size() > 0);
+    SKPorting.sAssert(getClass(), testList.size() > 0);
 
     array_spinner.clear();
     array_spinner_int.clear();
@@ -2656,8 +2656,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         array_spinner_int.add(td.testId);
       }
     }
-    SKLogger.sAssert(getClass(), array_spinner.size() > 0);
-    SKLogger.sAssert(getClass(), array_spinner_int.size() == array_spinner.size());
+    SKPorting.sAssert(getClass(), array_spinner.size() > 0);
+    SKPorting.sAssert(getClass(), array_spinner_int.size() == array_spinner.size());
 
     Builder builder = new AlertDialog.Builder(this);
     builder.setTitle(getString(R.string.choose_test));
@@ -2716,7 +2716,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       adapter = new MyPagerAdapter(SKAMainResultsActivity.this);
       setTotalArchiveRecords();
       //viewPager = (ViewPager) findViewById(R.id.viewPager);
-      SKLogger.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
+      SKPorting.sAssert(getClass(), viewPager == findViewById(R.id.viewPager));
       viewPager.setAdapter(adapter);
     }
   }
@@ -2851,7 +2851,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 		} else if (mContinuousState == ContinuousTestRunner.TestRunnerState.EXECUTING) {
 
       if (mContinuousTestRunner == null) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       } else {
         mContinuousTestRunner.stopTestRunning();
         mContinuousTestRunner = null;
@@ -2933,7 +2933,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 				buttonFound = true;
 			}
 		} catch (JSONException e1) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
 		LinearLayout l = null;

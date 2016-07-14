@@ -23,7 +23,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SK2AppSettings;
@@ -114,7 +114,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			versionName = this.getPackageManager().getPackageInfo(this.getPackageName(), 0 ).versionName;
 		} catch (NameNotFoundException e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 		}
 		if (findViewById(R.id.version) != null) {
 			TextView tv=(TextView) findViewById(R.id.version);
@@ -214,14 +214,14 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			locationServicesTypeButtonText = (FontFitTextView) findViewById(R.id.settings_location_services_type_text);
 		} catch (NoSuchFieldError e) {
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 		}
 		
 		ButtonWithRightArrow locationServicesTypeButton = null;
 		try {
     		locationServicesTypeButton = (ButtonWithRightArrow) findViewById(R.id.settings_location_services_type);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		
 		String theValue = SK2AppSettings.getSK2AppSettingsInstance().getLocationTypeAsString();
@@ -251,7 +251,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 							if(theValue.equals(getString(R.string.GPS))) {
 							} else if (theValue.equals(getString(R.string.MobileNetwork))) {
 							} else {
-								SKLogger.sAssert(SKASettingsActivity.class, false);
+								SKPorting.sAssert(SKASettingsActivity.class, false);
 							}
 
 							SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SKASettingsActivity.this);
@@ -296,7 +296,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.tv_service_activated_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		
 		if(SKApplication.getAppInstance().getIsBackgroundTestingEnabledInUserPreferences()){
@@ -308,13 +308,13 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.tv_service_autotesting_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		
 		try {
 			((TextView)findViewById(R.id.tv_service_status_value)).setText(getString(SK2AppSettings.getSK2AppSettingsInstance().getState().sId));
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
 		ScheduleConfig config = CachingStorage.getInstance().loadScheduleConfig();
@@ -323,7 +323,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.schedule_version)).setText(schedule_version);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
 		String nextTestScheduled = "";
@@ -340,7 +340,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.tv_scheduledFor_value)).setText(nextTestScheduled);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
 		if (SKApplication.getAppInstance().getIsBackgroundProcessingEnabledInTheSchedule() == false) {
@@ -348,12 +348,12 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			try {
 				findViewById(R.id.autotesting_row).setVisibility(View.GONE);
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				findViewById(R.id.next_test_scheduled_for_row).setVisibility(View.GONE);
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 		}
 
@@ -362,17 +362,17 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			try {
 				((TextView)findViewById(R.id.tv_imei_value)).setText(phoneData.imei + "");
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_imsi_value)).setText(phoneData.imsi + "");
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_unitId_value)).setText(SK2AppSettings.getInstance().getUnitId());
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 		}
 
@@ -380,13 +380,13 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.tv_phone_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		value = phoneData.osType + " v" + phoneData.osVersion;
 		try {
 			((TextView)findViewById(R.id.tv_os_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
 		NetworkData networkData = new NetworkDataCollector(this).collect();
@@ -394,19 +394,19 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.tv_phone_type_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		value = getString(DCSConvertorUtil.networkTypeToStringId(networkData.networkType));
 		try {
 			((TextView)findViewById(R.id.tv_network_type_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		value = networkData.networkOperatorCode + "/" + networkData.networkOperatorName;
 		try {
 			((TextView)findViewById(R.id.tv_network_operator_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		
 		if(networkData.isRoaming){
@@ -417,7 +417,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView)findViewById(R.id.tv_roaming_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
 		Location loc1 = ((LocationManager)getSystemService(LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -432,27 +432,27 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			try {
 				((TextView)findViewById(R.id.tv_loc_date_value)).setText(new SKDateFormat(this).UITime(loc.getTime()));
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_loc_lat_value)).setText(String.format("%1.5f", loc.getLatitude()));
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 		}
 
@@ -466,23 +466,23 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 			try {
 				((TextView)findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			try {
 				((TextView)findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 		} else if (cellData.getCellLocation() instanceof CdmaCellLocation) {
 			try {
 				((TextView)findViewById(R.id.tv_cell_tower_type_value)).setText("CDMA");
 			} catch (NoSuchFieldError e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
 			//			CdmaCellLocation cdmaLocation = (CdmaCellLocation) cellLocation;
 			//			builder.append(CDMA);
@@ -508,7 +508,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 		try {
 			((TextView) findViewById(R.id.tv_signal_value)).setText(value);
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 		// Note: neighbors might be NULL...
 		if (cellData.getNeighbors() != null) {
@@ -526,7 +526,7 @@ public class SKASettingsActivity extends BaseLogoutActivity{
 				return;
 			}
 		} catch (NoSuchFieldError e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 			return;
 		}
 		

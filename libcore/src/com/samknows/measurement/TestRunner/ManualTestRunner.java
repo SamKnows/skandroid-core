@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKConstants;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.MainService;
 import com.samknows.measurement.SKApplication;
@@ -63,7 +63,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     }
 
     // We must ALWAYS start with the closest target test - 29/04/2014 ...
-    SKLogger.sAssert(ManualTestRunner.class, ret.mTestDescription.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
+    SKPorting.sAssert(ManualTestRunner.class, ret.mTestDescription.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
 
     if (test_id == SCHEDULE_TEST_ID.ALL_TESTS) {
       return ret;
@@ -85,8 +85,8 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     }
 
     if (bFound == false) {
-      SKLogger.sAssert(false);
-      SKLogger.e(ManualTestRunner.class, "ManualTestRunner cannot be initialized because there is no manual test with id: "
+      SKPorting.sAssert(false);
+      SKPorting.sAssertE(ManualTestRunner.class, "ManualTestRunner cannot be initialized because there is no manual test with id: "
               + test_id);
       return null;
     }
@@ -134,17 +134,17 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     ScheduleConfig config = storage.loadScheduleConfig();
     if (config == null) {
       RErrorDescription.append(ctx.getString(R.string.manual_test_create_failed_1));
-      SKLogger.e(ManualTestRunner.class, RErrorDescription.toString());
+      SKPorting.sAssertE(ManualTestRunner.class, RErrorDescription.toString());
       return null;
     }
     if (config.manual_tests.size() == 0) {
       RErrorDescription.append(ctx.getString(R.string.manual_test_create_failed_2));
-      SKLogger.e(ManualTestRunner.class, RErrorDescription.toString());
+      SKPorting.sAssertE(ManualTestRunner.class, RErrorDescription.toString());
       return null;
     }
     if (MainService.isExecuting()) {
       RErrorDescription.append(ctx.getString(R.string.manual_test_create_failed_3));
-      SKLogger.e(ManualTestRunner.class, RErrorDescription.toString());
+      SKPorting.sAssertE(ManualTestRunner.class, RErrorDescription.toString());
       return null;
     }
 
@@ -227,7 +227,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
             break;
           }
         } catch (InterruptedException ie) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
         }
 
 //        if (td.type.equals(SKConstants.TEST_TYPE_UPLOAD)) {
@@ -248,9 +248,9 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       }
 
       if (td.type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
-        SKLogger.sAssert(getClass(), te.getExecutingTest() != null);
+        SKPorting.sAssert(getClass(), te.getExecutingTest() != null);
         if (te.getExecutingTest() != null) {
-          SKLogger.sAssert(getClass(), te.getExecutingTest().getClass() == ClosestTarget.class);
+          SKPorting.sAssert(getClass(), te.getExecutingTest().getClass() == ClosestTarget.class);
 
           ClosestTarget closestTargetTest = (ClosestTarget) te.getExecutingTest();
           mbUdpClosestTargetTestSucceeded = closestTargetTest.getUdpClosestTargetTestSucceeded();
@@ -301,7 +301,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       batch.put(TestBatch.JSON_DTIME, startTime);
       batch.put(TestBatch.JSON_RUNMANUALLY, "1");
     } catch (JSONException je) {
-      SKLogger.e(this,
+      SKPorting.sAssertE(this,
           "Error in creating test batch object: " + je.getMessage());
     }
 
@@ -319,7 +319,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
       // Submitting test results
       new SubmitTestResultsAnonymousAction(ctx).execute();
     } catch (Throwable t) {
-      SKLogger.e(this, "Submit result. ", t);
+      SKPorting.sAssertE(this, "Submit result. ", t);
     }
 
     Log.d(TAG, "Exiting manual test");
@@ -381,7 +381,7 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
         ret.add(c);
       }
     } catch (JSONException je) {
-      SKLogger.e(ManualTestRunner.class, "Error in creating JSON progress object: " + je.getMessage());
+      SKPorting.sAssertE(ManualTestRunner.class, "Error in creating JSON progress object: " + je.getMessage());
     }
     return ret;
   }

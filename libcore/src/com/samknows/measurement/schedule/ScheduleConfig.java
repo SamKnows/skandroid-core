@@ -14,7 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.schedule.TestDescription.*;
 import com.samknows.measurement.TestRunner.ManualTestRunner;
@@ -102,7 +103,7 @@ public class ScheduleConfig implements Serializable {
         return cg;
       }
     }
-    SKLogger.e(this, "condition group not found for id: " + conditionGroupId);
+    SKPorting.sAssertE(this, "condition group not found for id: " + conditionGroupId);
     return new ConditionGroup();
   }
 
@@ -126,7 +127,7 @@ public class ScheduleConfig implements Serializable {
       return backgroundTestGroups.get(0);
     }
 
-    SKLogger.sAssert(false);
+    SKPorting.sAssert(false);
 
     return null;
   }
@@ -139,7 +140,7 @@ public class ScheduleConfig implements Serializable {
     }
 
     // Unrecognized test id!
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
 
     return null;
   }
@@ -203,7 +204,7 @@ public class ScheduleConfig implements Serializable {
       return sCreateScheduleConfigByParsingXmlElement(root);
 
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return new ScheduleConfig();
@@ -217,7 +218,7 @@ public class ScheduleConfig implements Serializable {
 
     ScheduleConfig c = new ScheduleConfig();
     if (node == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       return c;
     }
 
@@ -295,7 +296,7 @@ public class ScheduleConfig implements Serializable {
             c.continuous_tests.add(td);
           }
         }
-        SKLogger.sAssert(ScheduleConfig.class, bMatched);
+        SKPorting.sAssert(ScheduleConfig.class, bMatched);
       }
     }
 
@@ -321,7 +322,7 @@ public class ScheduleConfig implements Serializable {
             c.manual_tests.add(td);
           }
         }
-        SKLogger.sAssert(ScheduleConfig.class, bMatched);
+        SKPorting.sAssert(ScheduleConfig.class, bMatched);
       }
     }
 
@@ -406,7 +407,7 @@ public class ScheduleConfig implements Serializable {
   public void forManualOrContinuousTestEnsureClosestTargetIsRunAtStart(List<TestDescription> theTests) {
     if (!(continuous_tests == theTests || theTests == manual_tests)) {
       // Must be run EITHER for continuous or manual test.
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 
@@ -419,7 +420,7 @@ public class ScheduleConfig implements Serializable {
         TestDescription theTest = tests.get(i);
         if (theTest.type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
           theTests.add(0, theTest);
-          SKLogger.sAssert(ManualTestRunner.class, theTests.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
+          SKPorting.sAssert(ManualTestRunner.class, theTests.get(0).type.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET));
           break;
         }
       }

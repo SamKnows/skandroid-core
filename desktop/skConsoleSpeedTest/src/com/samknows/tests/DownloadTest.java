@@ -5,7 +5,7 @@ package com.samknows.tests;
 // Look at the static methods at the top of the class, for the commented-out Android-specific
 // code that can be re-enabled if required.
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,11 +37,11 @@ public final class DownloadTest extends HttpTest {
       if (result.isReady()) {
         return result;
       } else {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return null;
       }
     } else {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return result;
@@ -71,7 +71,7 @@ public final class DownloadTest extends HttpTest {
         if (words.length >= 2) {
           ret = Integer.parseInt(words[1]);
         } else {
-          SKCommon.sDoAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
         }
       }
 
@@ -81,15 +81,15 @@ public final class DownloadTest extends HttpTest {
         }
       }
     } catch (IOException IOe) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       setErrorIfEmpty("IOexception while reading http header: ", IOe);
       ret = 0;
     } catch (NumberFormatException nfe) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       setErrorIfEmpty("Error in converting the http code: ", nfe);
       ret = 0;
     } catch (Exception e) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       setErrorIfEmpty("Error in converting the http code: ", e);
       ret = 0;
     }
@@ -108,8 +108,8 @@ public final class DownloadTest extends HttpTest {
 
   private boolean getTransmissionDone(boolean isWarmup, int readBytes) {
     if (getShouldCancel()) {
-      if (SKCommon.sIsDebuggerConnected()) {
-        SKCommon.sDoLogD("DEBUG", "Download - getTransmissionDone - cancel test!");
+      if (SKPorting.sIsDebuggerConnected()) {
+        SKPorting.sLogD("DEBUG", "Download - getTransmissionDone - cancel test!");
       }
       return true;
     }
@@ -129,7 +129,7 @@ public final class DownloadTest extends HttpTest {
 
       sendHeaderRequest(socket);																					/* Send download request is the part of the warm up process */
       if (getError().get()) {																								/* Error relates to sendHeader procedure */
-        SKCommon.sDoAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         return false;
       }
     }
@@ -138,7 +138,7 @@ public final class DownloadTest extends HttpTest {
 
     if (connIn == null) {
       closeConnection(socket);
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       //hahaSKLogger.e(TAG(this), "Error in setting up input stream, exiting... thread: " + this.getThreadIndex());
       return false;
     }
@@ -152,7 +152,7 @@ public final class DownloadTest extends HttpTest {
           readBytes = 0;
         }
 
-        SKCommon.sDoAssert(readBytes > 0);
+        SKPorting.sAssert(readBytes > 0);
 
         if (getBytesPerSecond(isWarmup) >= 0) {
           // -1 would mean no result found (as not enough time yet spent measuring)
@@ -162,19 +162,19 @@ public final class DownloadTest extends HttpTest {
     } catch (SocketTimeoutException e) {
       // This happens so often - that we just log it (but only when debugger in use)
       //if (OtherUtils.isDebuggable(SKApplication.getAppInstance()))
-      if (SKCommon.sIsDebug()) {
-        SKCommon.sDoLogE("DownloadTest", e.getMessage());
+      if (SKPorting.sIsDebug()) {
+        SKPorting.sLogE("DownloadTest", e.getMessage());
       }
       readBytes = BYTESREADERR;
-      //sDoAssert(getClass(),  false);
+      //sAssert(getClass(),  false);
       return false;
     } catch (IOException io) {
       readBytes = BYTESREADERR;
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     } catch (Exception io) {
       readBytes = BYTESREADERR;
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     return true;
@@ -186,7 +186,7 @@ public final class DownloadTest extends HttpTest {
 
     if (connOut == null || connIn == null) {
       closeConnection(socket);
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       getError().set(true);
       //hahaSKLogger.e(TAG(this), "Error in setting up output stream, exiting... thread: " + getThreadIndex());
       return;
@@ -203,7 +203,7 @@ public final class DownloadTest extends HttpTest {
       }
     } catch (Exception io) {
       getError().set(true);
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
   }
 

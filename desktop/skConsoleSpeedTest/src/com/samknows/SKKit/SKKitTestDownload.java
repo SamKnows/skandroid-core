@@ -1,6 +1,6 @@
 package com.samknows.SKKit;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 import com.samknows.tests.Conversions;
 import com.samknows.tests.DownloadTest;
 import com.samknows.tests.HttpTest;
@@ -29,9 +29,9 @@ public class SKKitTestDownload {
 
     public SKKitTestDescriptor_Download(String target) {
       if (target == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
       } else {
-        SKCommon.sDoAssert(!target.isEmpty());
+        SKPorting.sAssert(!target.isEmpty());
       }
 
       mTarget = target;
@@ -55,7 +55,7 @@ public class SKKitTestDownload {
 
   public SKKitTestDownload(SKKitTestDescriptor_Download testDescriptor) {
     mTestDescriptor = testDescriptor;
-    SKCommon.sDoAssert(!testDescriptor.mTarget.isEmpty());
+    SKPorting.sAssert(!testDescriptor.mTarget.isEmpty());
   }
 
 
@@ -70,19 +70,19 @@ public class SKKitTestDownload {
     }
   }
 
-  //private final Handler mHandler = new Handler();
+  private final SKPorting.MainThreadResultHandler mHandler = new SKPorting.MainThreadResultHandler();
 
   public double getTransferBytesPerSecond() {
     if (mDownloadTest != null) {
       return mDownloadTest.getTransferBytesPerSecond();
     }
 
-    //SKCommon.sDoAssert(false);
+    //SKCommon.sAssert(false);
     return 0;
   }
 
   public void start(final ISKDownloadTestProgressUpdate progressUpdate) {
-    SKCommon.sDoAssert(progressUpdate != null);
+    SKPorting.sAssert(progressUpdate != null);
 
     Thread downloadThread = new Thread() {
       @Override
@@ -99,7 +99,7 @@ public class SKKitTestDownload {
         params.add(new Param(HttpTest.NTHREADS, String.valueOf(mTestDescriptor.mNumberOfThreads)));
         params.add(new Param(HttpTest.BUFFERSIZE, String.valueOf(mTestDescriptor.mBufferSizeBytes)));
 
-        SKCommon.sDoLogD("IHT", "START Running download test for milliseconds=" + mTestDescriptor.mTransferMaxTimeSeconds * 1000.0);
+        SKPorting.sLogD("IHT", "START Running download test for milliseconds=" + mTestDescriptor.mTransferMaxTimeSeconds * 1000.0);
 
         mDownloadTest = DownloadTest.sCreateDownloadTest(params);
         final DownloadTest theTest = mDownloadTest;
@@ -108,31 +108,23 @@ public class SKKitTestDownload {
         long timeEndMilli = System.currentTimeMillis();
 
         long actualTimeTakenMilli = timeEndMilli - timeStartMilli;
-        SKCommon.sDoLogD("IHT", "STOPPED Running download test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
+        SKPorting.sLogD("IHT", "STOPPED Running download test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
 
-        if (progressUpdate != null) {
-          double bytesPerSecond = theTest.getTransferBytesPerSecond();
+        mHandler.callUsingMainThreadWhereSupported(new Runnable() {
+          public void run() {
 
-          // To reach here, we've finished the download test!
-          double mbpsPerSecond1024Based = Conversions.sConvertBytesPerSecondToMbps1024Based(bytesPerSecond);
-          progressUpdate.onTestCompleted_OnMainThread(mbpsPerSecond1024Based);
-        }
+            // Finished the download test!
 
-//        mHandler.post(new Runnable() {
-//          public void run() {
-//
-//            // Finished the download test!
-//
-//            if (progressUpdate != null) {
-//              double bytesPerSecond = theTest.getTransferBytesPerSecond();
-//
-//              // To reach here, we've finished the download test!
-//              double mbpsPerSecond1024Based = Conversions.sConvertBytesPerSecondToMbps1024Based(bytesPerSecond);
-//              progressUpdate.onTestCompleted_OnMainThread(mbpsPerSecond1024Based);
-//            }
-//            mDownloadTest = null;
-//          }
-//        });
+            if (progressUpdate != null) {
+              double bytesPerSecond = theTest.getTransferBytesPerSecond();
+
+              // To reach here, we've finished the download test!
+              double mbpsPerSecond1024Based = Conversions.sConvertBytesPerSecondToMbps1024Based(bytesPerSecond);
+              progressUpdate.onTestCompleted_OnMainThread(mbpsPerSecond1024Based);
+            }
+            mDownloadTest = null;
+          }
+        });
       }
     };
 
@@ -147,7 +139,7 @@ public class SKKitTestDownload {
 
   public int getProgress0To100() {
     if (mDownloadTest == null) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
       return 0;
     }
     return mDownloadTest.getProgress0To100();

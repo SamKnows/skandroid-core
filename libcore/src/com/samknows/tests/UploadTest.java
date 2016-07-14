@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 public abstract class UploadTest extends HttpTest {
 
@@ -37,12 +37,12 @@ public abstract class UploadTest extends HttpTest {
       if (result.isReady()) {
         return result;
       } else {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return null;
       }
 
     } else {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     return result;
@@ -68,7 +68,7 @@ public abstract class UploadTest extends HttpTest {
       buff = new byte[getUploadBufferSize()];
     } else {
       buff = new byte[maxSendDataChunkSize];
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     if (getRandomEnabled()) {											/* randomEnabled comes from the parent (HTTPTest) class */

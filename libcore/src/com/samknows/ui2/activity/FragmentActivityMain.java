@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 
 /**
@@ -65,7 +65,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
     // Hide action bar, which is not used in this activity...
     final ActionBar actionBar = getActionBar();
     if (actionBar == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     } else {
       actionBar.hide();
     }
@@ -83,7 +83,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
     // Hide action bar, which is shown ONLY on the Settings screen!
     final ActionBar actionBar = getActionBar();
     if (actionBar == null) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     } else {
       actionBar.hide();
     }
@@ -141,7 +141,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
           return fragmentSettings;
 
         default:
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
 
           return fragmentRunTest;
       }
@@ -367,7 +367,7 @@ public class FragmentActivityMain extends SamKnowsBaseFragmentActivity {
       public void onPageSelected(int position) {
         //getActionBar().setSelectedNavigationItem(position);					// When swiping between pages, select the corresponding tab
         if (actionBar == null) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
         } else {
           actionBar.setTitle(adapter_ViewPager.getPageTitle(position));    // Set the title
         }

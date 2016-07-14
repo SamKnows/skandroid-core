@@ -9,7 +9,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.util.DCSConvertorUtil;
 
 public class PassiveMetric extends JSONObject{
@@ -144,7 +144,7 @@ public class PassiveMetric extends JSONObject{
 		try{
 			put(key, value);
 		}catch(JSONException je){
-			SKLogger.e(PassiveMetric.class, "Error in creating the passive metric JSONObject");
+			SKPorting.sAssertE(PassiveMetric.class, "Error in creating the passive metric JSONObject");
 		}
 	}
 	

@@ -8,7 +8,7 @@ import com.samknows.libcore.R;
 import com.samknows.libcore.SKTypeface;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.activity.BaseLogoutActivity;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 // This "About" screen is used by the "new app"
 public class SKAAboutActivity extends BaseLogoutActivity {
@@ -25,7 +25,7 @@ public class SKAAboutActivity extends BaseLogoutActivity {
 		try {
 			versionName = this.getPackageManager().getPackageInfo(this.getPackageName(), 0 ).versionName;
 		} catch (NameNotFoundException e) {
-			SKLogger.sAssert(getClass(), false);
+			SKPorting.sAssert(getClass(), false);
 		}
 		
 		TextView tv=(TextView) findViewById(R.id.version);

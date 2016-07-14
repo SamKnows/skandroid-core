@@ -22,7 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 /**
  * This file is introduced to fix HTTPS Post bug on API &lt; ICS see
@@ -91,14 +91,14 @@ public class MySSLSocketFactory extends SSLSocketFactory {
 			caInput = new BufferedInputStream(cert);
 			ca = cf.generateCertificate(caInput);
 		} catch (CertificateException e1) {
-			SKLogger.sAssert(MySSLSocketFactory.class, false);
+			SKPorting.sAssert(MySSLSocketFactory.class, false);
 		} finally {
 			try {
 				if (caInput != null) {
 					caInput.close();
 				}
 			} catch (IOException e) {
-				SKLogger.sAssert(MySSLSocketFactory.class, false);
+				SKPorting.sAssert(MySSLSocketFactory.class, false);
 			}
 		}
  

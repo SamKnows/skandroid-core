@@ -12,8 +12,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.samknows.libcore.SKCommon;
 import com.samknows.libcore.SKPair;
+import com.samknows.libcore.SKPorting;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -101,19 +101,19 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
   @Override
   public boolean isReady() {
     if (!between(nPackets, NUMBEROFPACKETSMIN, NUMBEROFPACKETSMAX)) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (!between(interPacketTime, INTERPACKETIMEMIN, INTERPACKETIMEMAX)) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (!between(delayTimeout, DELAYTIMEOUTMIN, DELAYTIMEOUTMAX)) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (!between(targets.size(), NUMBEROFTARGETSMIN, NUMBEROFTARGETSMAX)) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
 
@@ -183,7 +183,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     //AsyncHttpClient client = new AsyncHttpClient();
     //client.setTimeout(5000); // This is in milliseconds!
 
-    SKCommon.sDoLogD("ClosestTarget", "DEBUG: fire http closest target query at (" + urlString + ")");
+    SKPorting.sLogD("ClosestTarget", "DEBUG: fire http closest target query at (" + urlString + ")");
 
     // https://stackoverflow.com/questions/3000214/java-http-client-request-with-defined-timeout
     HttpParams httpParams = new BasicHttpParams();
@@ -204,32 +204,32 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       // Check if server response is valid
       StatusLine status = response.getStatusLine();
       if (status.getStatusCode() != 200) {
-        SKCommon.sDoLogD("TAG", "Invalid response from server: " + status.toString());
-        SKCommon.sDoAssert(ClosestTarget.class, false);
+        SKPorting.sLogD("TAG", "Invalid response from server: " + status.toString());
+        SKPorting.sAssert(ClosestTarget.class, false);
       } else {
         // Successful query, handle the response!
         final Date timeNow = new Date();
 
         long measuredLatencyMilliseconds = timeNow.getTime() - startTime.getTime();
-        SKCommon.sDoAssert(ClosestTarget.class, measuredLatencyMilliseconds > 0);
+        SKPorting.sAssert(ClosestTarget.class, measuredLatencyMilliseconds > 0);
 
-        SKCommon.sDoLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - success - measuredLatencyMilliseconds = " + measuredLatencyMilliseconds);
+        SKPorting.sLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - success - measuredLatencyMilliseconds = " + measuredLatencyMilliseconds);
 
         return new SKPair<>(true, measuredLatencyMilliseconds);
       }
 
     } catch (SocketTimeoutException ste) {
       // Don't fire a debug-time assertion if we have a simple timeout!
-      SKCommon.sDoLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - SocketTimeoutException");
+      SKPorting.sLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - SocketTimeoutException");
     } catch (ConnectTimeoutException cte) {
       // Don't fire a debug-time assertion if we have a simple timeout!
-      SKCommon.sDoLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - ConnectTimeoutException");
+      SKPorting.sLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - ConnectTimeoutException");
     } catch (UnknownHostException uhe) {
       // Don't fire a debug-time assertion if the host cannot be found - it might just be down.
-      SKCommon.sDoLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - UnknownHostException");
+      SKPorting.sLogD("ClosestTarget", "DEBUG: HTTP/Closest target test - UnknownHostException");
     } catch (Exception e) {
       // This might show up if e.g. all network connections are disabled.
-      SKCommon.sDoAssert(ClosestTarget.class, false);
+      SKPorting.sAssert(ClosestTarget.class, false);
     }
 
     return new SKPair<>(false, -100L);
@@ -279,7 +279,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       doneSignal = inDoneSignal;
 
       latencyTest = latencyTests[serverIndex];
-      SKCommon.sDoAssert(getClass(), latencyTest.getTarget().equals(target));
+      SKPorting.sAssert(getClass(), latencyTest.getTarget().equals(target));
     }
 
 
@@ -290,10 +290,10 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
         doWork();
 
       } catch (InterruptedException ex) {
-        SKCommon.sDoAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
 
-      SKCommon.sDoLogD("RUN()", "Finished run() in WorkerRunner!");
+      SKPorting.sLogD("RUN()", "Finished run() in WorkerRunner!");
     }
 
     void doWork() {
@@ -302,7 +302,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       if (latencyQueryResult.first) {
         // Succeeded!
         measuredLatencyMilliseconds = latencyQueryResult.second;
-        SKCommon.sDoAssert(getClass(), measuredLatencyMilliseconds > 0L);
+        SKPorting.sAssert(getClass(), measuredLatencyMilliseconds > 0L);
       } else {
         // Failed to get a latency measurement!
         measuredLatencyMilliseconds = -100L;
@@ -356,24 +356,24 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
 
     String TAG = getClass().getName();
 
-    SKCommon.sDoLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails");
+    SKPorting.sLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails");
 
 
     // 3 Threads per server!
     int serverCount = targets.size();
 
-    SKCommon.sDoLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - serverCount=" + serverCount);
+    SKPorting.sLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - serverCount=" + serverCount);
 
     {
       int tempIndex;
       for (tempIndex = 0; tempIndex < serverCount; tempIndex++) {
-        SKCommon.sDoLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - targets[" + tempIndex + "]=" + targets.get(tempIndex));
+        SKPorting.sLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - targets[" + tempIndex + "]=" + targets.get(tempIndex));
         finishedTestsPerServer.add(0);
       }
     }
 
     int queriesToRun = serverCount * cQueryCountPerServer;
-    SKCommon.sDoLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - queriesToRun=" + queriesToRun);
+    SKPorting.sLogD("ClosestTarget", "DEBUG: tryHttpClosestTargetTestIfUdpTestFails - queriesToRun=" + queriesToRun);
 
     // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
     CountDownLatch startSignal = new CountDownLatch(1);
@@ -417,21 +417,21 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     try {
       queryCompleteCountdown.await();
     } catch (InterruptedException e) {
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     //
     // We have finished the tests, for all servers!
     //
     long now = new Date().getTime();
-    SKCommon.sDoLogD("HTTPClosestTarget", "time in seconds taken to run all HTTP tests = " + ((double) (now - timeAtStart)) / 1000.0);
+    SKPorting.sLogD("HTTPClosestTarget", "time in seconds taken to run all HTTP tests = " + ((double) (now - timeAtStart)) / 1000.0);
 
     // Return true if we succeed - in which case :
     // closestTarget = set to the right target
     // ipClosestTarget = the ip address of the closest target
     if (closestTarget.equals(VALUE_NOT_KNOWN)) {
       // This can happen e.g. if all networking is off... but it is quite unlikely.
-      SKCommon.sDoAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     } else {
       success = true;
 
@@ -440,7 +440,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
         address = InetAddress.getByName(closestTarget);
         ipClosestTarget = address.getHostAddress();
       } catch (UnknownHostException e) {
-        SKCommon.sDoAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
 
@@ -477,7 +477,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
 
       } catch (InterruptedException ie) {
         ie.printStackTrace();
-        SKCommon.sDoAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
     int minDist = Integer.MAX_VALUE;
@@ -556,7 +556,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     //TIME
     o.add(mTimestamp + "");
     output.put(JsonData.JSON_TIMESTAMP, mTimestamp);
-    output.put(JsonData.JSON_DATETIME, SKCommon.sGetDateInIso8601Format(new java.util.Date(mTimestamp * 1000)));
+    output.put(JsonData.JSON_DATETIME, SKPorting.sGetDateAsIso8601String(new java.util.Date(mTimestamp * 1000)));
     //status
     boolean status = true;
     if (closestTarget.equals(VALUE_NOT_KNOWN)) {

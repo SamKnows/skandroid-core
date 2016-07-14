@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import android.util.Log;
 import android.util.Pair;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -102,19 +102,19 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
   @Override
   public boolean isReady() {
     if (!between(nPackets, NUMBEROFPACKETSMIN, NUMBEROFPACKETSMAX)) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (!between(interPacketTime, INTERPACKETIMEMIN, INTERPACKETIMEMAX)) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (!between(delayTimeout, DELAYTIMEOUTMIN, DELAYTIMEOUTMAX)) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (!between(targets.size(), NUMBEROFTARGETSMIN, NUMBEROFTARGETSMAX)) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return false;
     }
 
@@ -206,13 +206,13 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       StatusLine status = response.getStatusLine();
       if (status.getStatusCode() != 200) {
         Log.d("TAG", "Invalid response from server: " + status.toString());
-        SKLogger.sAssert(ClosestTarget.class, false);
+        SKPorting.sAssert(ClosestTarget.class, false);
       } else {
         // Successful query, handle the response!
         final Date timeNow = new Date();
 
         long measuredLatencyMilliseconds = timeNow.getTime() - startTime.getTime();
-        SKLogger.sAssert(ClosestTarget.class, measuredLatencyMilliseconds > 0);
+        SKPorting.sAssert(ClosestTarget.class, measuredLatencyMilliseconds > 0);
 
         Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - success - measuredLatencyMilliseconds = " + measuredLatencyMilliseconds);
 
@@ -230,7 +230,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       Log.d(ClosestTarget.sGetTAG(), "DEBUG: HTTP/Closest target test - UnknownHostException");
     } catch (Exception e) {
       // This might show up if e.g. all network connections are disabled.
-      SKLogger.sAssert(ClosestTarget.class, false);
+      SKPorting.sAssert(ClosestTarget.class, false);
     }
 
     return new Pair<>(false, -100L);
@@ -280,7 +280,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       doneSignal = inDoneSignal;
 
       latencyTest = latencyTests[serverIndex];
-      SKLogger.sAssert(getClass(), latencyTest.getTarget().equals(target));
+      SKPorting.sAssert(getClass(), latencyTest.getTarget().equals(target));
     }
 
 
@@ -291,7 +291,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
         doWork();
 
       } catch (InterruptedException ex) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
 
       Log.d("RUN()", "Finished run() in WorkerRunner!");
@@ -303,7 +303,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
       if (latencyQueryResult.first) {
         // Succeeded!
         measuredLatencyMilliseconds = latencyQueryResult.second;
-        SKLogger.sAssert(getClass(), measuredLatencyMilliseconds > 0L);
+        SKPorting.sAssert(getClass(), measuredLatencyMilliseconds > 0L);
       } else {
         // Failed to get a latency measurement!
         measuredLatencyMilliseconds = -100L;
@@ -418,7 +418,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     try {
       queryCompleteCountdown.await();
     } catch (InterruptedException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     //
@@ -432,7 +432,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
     // ipClosestTarget = the ip address of the closest target
     if (closestTarget.equals(VALUE_NOT_KNOWN)) {
       // This can happen e.g. if all networking is off... but it is quite unlikely.
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     } else {
       success = true;
 
@@ -441,7 +441,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
         address = InetAddress.getByName(closestTarget);
         ipClosestTarget = address.getHostAddress();
       } catch (UnknownHostException e) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
 
@@ -478,7 +478,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
 
       } catch (InterruptedException ie) {
         ie.printStackTrace();
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
       }
     }
     int minDist = Integer.MAX_VALUE;

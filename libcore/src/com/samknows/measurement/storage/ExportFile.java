@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.environment.CellTowersData;
 import com.samknows.measurement.environment.DCSData;
@@ -134,11 +134,11 @@ public class ExportFile {
     if (jsonArchiveFolder.exists() == false) {
       boolean bResult = jsonArchiveFolder.mkdir();
       if (bResult == false) {
-        SKLogger.sAssert(ExportFile.class, bResult);
+        SKPorting.sAssert(ExportFile.class, bResult);
         return;
       }
       if (jsonArchiveFolder.exists() == false) {
-        SKLogger.sAssert(ExportFile.class, bResult);
+        SKPorting.sAssert(ExportFile.class, bResult);
         return;
       }
     }
@@ -149,12 +149,12 @@ public class ExportFile {
     // Try to create the file...
     try {
       // Note that the file should not already exist(!)
-      SKLogger.sAssert(ExportFile.class, resultsJSONFile.exists() == false);
+      SKPorting.sAssert(ExportFile.class, resultsJSONFile.exists() == false);
       boolean bRes = resultsJSONFile.createNewFile();
-      SKLogger.sAssert(bRes);
+      SKPorting.sAssert(bRes);
     } catch (IOException e) {
-      SKLogger.e(ExportFile.class, "Failed to create " + resultsJSONFile.getPath() + " to save results.", e);
-      SKLogger.sAssert(ExportFile.class, false);
+      SKPorting.sAssertE(ExportFile.class, "Failed to create " + resultsJSONFile.getPath() + " to save results.", e);
+      SKPorting.sAssert(ExportFile.class, false);
       return;
     }
 
@@ -170,7 +170,7 @@ public class ExportFile {
       os.close();
       os = null;
     } catch (IOException e) {
-      SKLogger.e(ExportFile.class, "Unable to save json array to file" + resultsJSONFile.getPath(), e);
+      SKPorting.sAssertE(ExportFile.class, "Unable to save json array to file" + resultsJSONFile.getPath(), e);
     }
   }
 
@@ -236,10 +236,10 @@ public class ExportFile {
 
       return true;
     } catch (IOException e) {
-      SKLogger.e(ExportFile.class, "Error in creating the zip file for the export", e);
+      SKPorting.sAssertE(ExportFile.class, "Error in creating the zip file for the export", e);
       return false;
     } catch (Exception e) {
-      SKLogger.e(ExportFile.class, "Error in creating the zip file for the export", e);
+      SKPorting.sAssertE(ExportFile.class, "Error in creating the zip file for the export", e);
       return false;
     }
   }

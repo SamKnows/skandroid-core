@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 import org.json.JSONObject;
 
 // NOTE: This code is written as Pure Java.
@@ -249,7 +249,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     public void setTcpNoDelay(boolean on) throws SocketException {
 
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
@@ -259,7 +259,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     public synchronized void setReceiveBufferSize(int size) throws SocketException {
 
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
@@ -268,7 +268,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     public int getReceiveBufferSize() throws SocketException {
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return 0;
       }
 
@@ -278,7 +278,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     public synchronized void setSendBufferSize(int size) throws SocketException {
 
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
@@ -287,7 +287,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     public synchronized  int getSendBufferSize()  throws SocketException {
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return 0;
       }
       return socket.getSendBufferSize();
@@ -295,7 +295,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     public void setSoTimeout(int timeout) throws SocketException {
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
       socket.setSoTimeout(timeout);
@@ -305,7 +305,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     public String connect(String target, int port, int timeout) throws IOException {
       InetSocketAddress sockAddr = new InetSocketAddress(target, port);
       if (sockAddr == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return "";
       }
       socket.connect(sockAddr, timeout); // // 10 seconds connection timeout
@@ -314,7 +314,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     public InputStream getInputStream() throws IOException {
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return null;
       }
       return socket.getInputStream();
@@ -322,7 +322,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     public OutputStream getOutputStream() throws IOException {
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return null;
       }
       return socket.getOutputStream();
@@ -330,14 +330,14 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     public void close() throws IOException {
       if (socket == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         return;
       }
 
       try {
         socket.close();
       } catch (IOException e1) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
         throw e1;
       } finally {
         socket = null;
@@ -425,13 +425,13 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         } else if (param.contains(POSTDATALENGTH)) {
           postDataLength = Integer.parseInt(value);
         } else {
-          SKCommon.sDoLogE("HttpTest", "setParams()");
+          SKPorting.sLogE("HttpTest", "setParams()");
           initialised = false;
           break;
         }
       }
     } catch (NumberFormatException nfe) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
       initialised = false;
     }
   }
@@ -487,11 +487,11 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 //        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 90);
 //        socket.send(packet);
 //      } catch (Exception e) {
-//        sDoAssert(false);
+//        sAssert(false);
 //      }
 //    } catch (SocketException e2) {
 //      socket.close();
-//      sDoAssert(false);
+//      sAssert(false);
 //    } finally {
 //      if (socket != null) {
 //        socket.close();
@@ -541,7 +541,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       }
     } catch (Exception e) {
       setErrorIfEmpty("Thread join exception: ", e);
-      SKCommon.sDoLogE("HttpTest", "Thread join exception()");
+      SKPorting.sLogE("HttpTest", "Thread join exception()");
       testStatus = "FAIL";
     }
 
@@ -562,7 +562,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
   public void runBlockingTestToFinishInThisThread(ISKHttpSocketFactory withThisSocketFactory) {													/* Execute test */
     if (mThisSocketFactory != null) {
-      SKCommon.sDoAssert(false);
+      SKPorting.sAssert(false);
     } else {
       mThisSocketFactory = withThisSocketFactory;
     }
@@ -613,11 +613,11 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       }
 
       ipAddress = retSocket.connect(target, port, CONNECTIONTIMEOUT); // // 10 seconds connection timeout
-      SKCommon.sDoAssert(ipAddress.length() > 0);
+      SKPorting.sAssert(ipAddress.length() > 0);
 
       //SKLogger.d(this, "HTTP TEST - getSocket() completed OK");
     } catch (Exception e) {
-      SKCommon.sDoLogE("HttpTest", "getSocket()", e);
+      SKPorting.sLogE("HttpTest", "getSocket()", e);
       retSocket = null;
     }
     return retSocket;
@@ -650,7 +650,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
     // time
     output.put(JsonData.JSON_TIMESTAMP, mTimestampSeconds);
-    output.put(JsonData.JSON_DATETIME, SKCommon.sGetDateInIso8601Format(new java.util.Date(mTimestampSeconds * 1000)));
+    output.put(JsonData.JSON_DATETIME, SKPorting.sGetDateAsIso8601String(new java.util.Date(mTimestampSeconds * 1000)));
 
     long transferBytes = getTotalTransferBytes();
     //SKLogger.d(this, "HTTP TEST - output(), transferBytes=" + transferBytes);
@@ -717,7 +717,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   public static void sSetLatestSpeedForExternalMonitor(Double bytesPerSecond, String testId) {
     sBytesPerSecondLast = sLatestSpeedForExternalMonitorBytesPerSecond;
     if (bytesPerSecond == 0) {
-      //sDoAssert(testId.equals(cReasonUploadEnd));
+      //sAssert(testId.equals(cReasonUploadEnd));
     }
     sLatestSpeedForExternalMonitorBytesPerSecond.set(bytesPerSecond);
     sLatestSpeedForExternalMonitorTestId = testId;
@@ -816,7 +816,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       setErrorIfEmpty("read error");
       bytes = 0; 																		/* do not modify the bytes counters ??? */
       error.set(true);
-      SKCommon.sDoLogE("HttpTest", "isTransferDone, bytes == BYTESREADERR!");
+      SKPorting.sLogE("HttpTest", "isTransferDone, bytes == BYTESREADERR!");
       return true;
     }
 
@@ -887,7 +887,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       }
 
       if (bFound == false) {
-        SKCommon.sDoLogE("HttpTest", "getThreadIndex()");
+        SKPorting.sLogE("HttpTest", "getThreadIndex()");
       }
     }
     return threadIndex;
@@ -903,15 +903,15 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         conn = socket.getOutputStream();			/* Try to get output stream */
       } catch (IOException io) {
         err = true;									/* Fails */
-        SKCommon.sDoLogE("HttpTest", "getOutput() ... thread: " + this.getThreadIndex(), io);
+        SKPorting.sLogE("HttpTest", "getOutput() ... thread: " + this.getThreadIndex(), io);
       }
     } else {											/* if socket is null - fails */
       err = true;
-      SKCommon.sDoLogE("HttpTest", "getOutput(), socket is null! ... thread: " + this.getThreadIndex());
+      SKPorting.sLogE("HttpTest", "getOutput(), socket is null! ... thread: " + this.getThreadIndex());
     }
 
     if (err) {										/* return null if there is an error */
-      SKCommon.sDoLogE("HttpTest", "Error occurred while getting output connection, returning null... thread: " + this.getThreadIndex());
+      SKPorting.sLogE("HttpTest", "Error occurred while getting output connection, returning null... thread: " + this.getThreadIndex());
       return null;
     }
 
@@ -927,15 +927,15 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         conn = socket.getInputStream();			/* Try to get output stream */
       } catch (IOException io) {
         err = true;									/* Fails */
-        SKCommon.sDoLogE("HttpTest", "getInput() ... thread: " + this.getThreadIndex(), io);
+        SKPorting.sLogE("HttpTest", "getInput() ... thread: " + this.getThreadIndex(), io);
       }
     } else {											/* if socket is null - fails */
       err = true;
-      SKCommon.sDoLogE("HttpTest", "getOutput(), socket is null! ... thread: " + this.getThreadIndex());
+      SKPorting.sLogE("HttpTest", "getOutput(), socket is null! ... thread: " + this.getThreadIndex());
     }
 
     if (err) {										/* return null if there is an error */
-      SKCommon.sDoLogE("HttpTest", "Error occurred while getting input connection, returning null... thread: " + this.getThreadIndex());
+      SKPorting.sLogE("HttpTest", "Error occurred while getting input connection, returning null... thread: " + this.getThreadIndex());
       return null;
     }
 
@@ -989,8 +989,8 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
       return 100;
     }
 
-    SKCommon.sDoAssert(result >= 0);
-    SKCommon.sDoAssert(result <= 100);
+    SKPorting.sAssert(result >= 0);
+    SKPorting.sAssert(result <= 100);
 
     return result;
   }
@@ -1008,7 +1008,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
       } catch (IOException e) {
-        SKCommon.sDoLogE("HttpTest", "closeConnection(), e", e);
+        SKPorting.sLogE("HttpTest", "closeConnection(), e", e);
       }
 
 
@@ -1017,7 +1017,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         try {
           inputStream.close();
         } catch (IOException ioe) {
-          SKCommon.sDoLogE("HttpTest", "closeConnection(), ioe", ioe);
+          SKPorting.sLogE("HttpTest", "closeConnection(), ioe", ioe);
         }
       }
 
@@ -1026,7 +1026,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         try {
           outputStream.close();
         } catch (IOException ioe2) {
-          SKCommon.sDoLogE("HttpTest", "closeConnection(), ioe2", ioe2);
+          SKPorting.sLogE("HttpTest", "closeConnection(), ioe2", ioe2);
         }
       }
 
@@ -1034,7 +1034,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
         //SKLogger.d(this, "socket.close()");
         socket.close();
       } catch (IOException ioe3) {
-        SKCommon.sDoLogE("HttpTest", "closeConnection(), ioe2", ioe3);
+        SKPorting.sLogE("HttpTest", "closeConnection(), ioe2", ioe3);
       }
     }
   }
@@ -1047,7 +1047,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     ISKHttpSocket socket = makeSocket();
 
     if (socket == null) {
-      SKCommon.sDoLogE("HttpTest", "Socket initiation failed, thread: " + threadIndex);
+      SKPorting.sLogE("HttpTest", "Socket initiation failed, thread: " + threadIndex);
       return;
     }
 

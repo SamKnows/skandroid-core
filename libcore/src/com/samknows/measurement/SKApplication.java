@@ -3,8 +3,9 @@ package com.samknows.measurement;
 import java.io.File;
 
 import com.samknows.libcore.R;
+import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKConstants;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKOperators;
 import com.samknows.measurement.environment.CellTowersDataCollector;
 import com.samknows.measurement.storage.ExportFile;
@@ -76,13 +77,13 @@ public class SKApplication extends MultiDexApplication {
         for (File file : files) {
           if (file.getName().indexOf(baseExportName) == 0) {
             boolean bRes = file.delete();
-            SKLogger.sAssert(bRes);
+            SKPorting.sAssert(bRes);
           }
         }
       }
     }
 
-    SKLogger.setStorageFolder(theCacheDir);
+    SKAndroidLogger.setStorageFolder(theCacheDir);
     TestResultsManager.setStorage(theCacheDir);
 
     // Do NOT use the storage area for ExportFiles... these should be retained for future export.
@@ -248,12 +249,12 @@ public class SKApplication extends MultiDexApplication {
 
   public String getExportFileProviderAuthority() {
     // e.g.	return "com.samknows.myapppackage.ExportFileProvider.provider";
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return null;
   }
 
   public String getAppName() {
-    SKLogger.sAssert(getClass(), false); // Must be overridden!
+    SKPorting.sAssert(getClass(), false); // Must be overridden!
     return "Unknown";
   }
 
@@ -272,31 +273,31 @@ public class SKApplication extends MultiDexApplication {
 
   // Must be overridden!
   public String getDCSInitUrl() {
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return "DCSInitUrl_UNKNOWN";
   }
 
   public String getBaseUrlForUpload() {
     //return @"http://dcs-mobile-fcc.samknows.com";
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return "BaseUrlForUpload_UNKNOWN";
   }
 
   // Must be overridden!
   public String getEnterpriseId() {
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return "EnterpriseId_UNKNOWN";
   }
 
   // This must be overridden to return the HockeyApp id ...
   public String getCrashManagerId() {
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return "CrashManagerId_UNKNOWN";
   }
 
   // Must be overridden!
   public boolean getAnonymous() {
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return true;
   }
 
@@ -383,7 +384,7 @@ public class SKApplication extends MultiDexApplication {
           return true;
         }
       } catch (Exception e) {
-        SKLogger.sAssert(SKApplication.class, false);
+        SKPorting.sAssert(SKApplication.class, false);
       }
     }
 
@@ -408,7 +409,7 @@ public class SKApplication extends MultiDexApplication {
 
   public java.io.InputStream getScheduleXml() {
     // Must be overridden!
-    SKLogger.sAssert(getClass(), false);
+    SKPorting.sAssert(getClass(), false);
     return null;
   }
 
@@ -437,7 +438,7 @@ public class SKApplication extends MultiDexApplication {
 //      SKLogger.sAssert(false);
     } else {
       Log.d("SKTypefaceUtil", "Unexpected font path " + typefacePathInAssets);
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
     Typeface result = null;
@@ -445,10 +446,10 @@ public class SKApplication extends MultiDexApplication {
     try {
       result = Typeface.createFromAsset(context.getAssets(), typefacePathInAssets);
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
     }
 
-    SKLogger.sAssert(result != null);
+    SKPorting.sAssert(result != null);
 
     return result;
   }

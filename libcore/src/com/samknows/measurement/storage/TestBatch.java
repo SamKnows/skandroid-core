@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 public class TestBatch extends JSONObject {
 	
@@ -51,7 +51,7 @@ public class TestBatch extends JSONObject {
 		test_batch.put(JSON_DTIME, _starttime);
 		test_batch.put(JSON_RUNMANUALLY, _run_manually ? "1" : "0");
 		}catch(JSONException je){
-			SKLogger.e(TestBatch.class, "Error in creating the JSONObject for creating a new test batch in the DB: " + je.getMessage());
+			SKPorting.sAssertE(TestBatch.class, "Error in creating the JSONObject for creating a new test batch in the DB: " + je.getMessage());
 		}
 		DBHelper db = new DBHelper(ctx);
 		

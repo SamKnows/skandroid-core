@@ -22,7 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.samknows.libcore.SKCommon;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -269,7 +269,7 @@ public class SKGraphForResults {
       daysBetween++;
 
       if (daysBetween <= 0) {
-        SKLogger.sAssert(getClass(), false);
+        SKPorting.sAssert(getClass(), false);
         daysBetween = 1;
       }
 
@@ -359,10 +359,10 @@ public class SKGraphForResults {
         // dayIndex = 10011;
 
         if (dayIndex < 0) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           dayIndex = 0;
         } else if (dayIndex >= theNewArray.size()) {
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           dayIndex = theNewArray.size() - 1;
         }
 //				}
@@ -497,9 +497,9 @@ public class SKGraphForResults {
       //Log.d(this.getClass().getName(), "All values extracted!");
 
     } catch (JSONException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     } catch (NullPointerException e) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
     }
 
     // Allow enough range for the plots note to be chopped-off in the Y range!
@@ -545,7 +545,7 @@ public class SKGraphForResults {
 
     } catch (JSONException e) {
       e.printStackTrace();
-      SKLogger.sAssert(this.getClass(), false);
+      SKPorting.sAssert(this.getClass(), false);
       return;
     }
 
@@ -611,8 +611,8 @@ public class SKGraphForResults {
       // Are we in a new hour?
       // If so, save the last value before continuing!
       int hourIndex = (int) (timeIntervalSinceStart / timeIntervalForOneHour);
-      SKLogger.sAssert(getClass(), hourIndex >= 0);
-      SKLogger.sAssert(getClass(), hourIndex <= 23);
+      SKPorting.sAssert(getClass(), hourIndex >= 0);
+      SKPorting.sAssert(getClass(), hourIndex <= 23);
       if (hourIndex < 0) {
         hourIndex = 0;
       }
@@ -698,7 +698,7 @@ public class SKGraphForResults {
 
     int lDates = mpCorePlotDates.size();
 
-    SKLogger.sAssert(getClass(), mpCorePlotDataPoints.size() == mpCorePlotDates.size());
+    SKPorting.sAssert(getClass(), mpCorePlotDataPoints.size() == mpCorePlotDates.size());
 
     if (mDateRange == DATERANGE_1w1m3m1y.DATERANGE_1w1m3m1y_ONE_DAY) {
       // 24-hour mode - just plot hourly averages!
@@ -876,7 +876,7 @@ public class SKGraphForResults {
   public void updateGraphWithTheseResults(JSONObject data, DATERANGE_1w1m3m1y dateFilter) {
 
     if (data == null) {
-      SKLogger.sAssert(getClass(), false);
+      SKPorting.sAssert(getClass(), false);
       return;
     }
 

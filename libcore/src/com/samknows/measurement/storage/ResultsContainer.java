@@ -12,7 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.schedule.TestDescription;
 import com.samknows.measurement.schedule.condition.Condition;
@@ -94,7 +95,7 @@ public class ResultsContainer {
 			// OK!
 		} else {
 			// Not expected!
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 		}
 
 		mRequestedTests.put(testTypeString);
@@ -145,7 +146,7 @@ public class ResultsContainer {
 			ret.put(ResultsContainer.JSON_METRICS, metrics);
 			ret.put(ResultsContainer.JSON_CONDITIONS, conditions);
 		}catch(JSONException je){
-			SKLogger.e(this, "Error in creating a JSONObject: " + je.getMessage() );
+			SKPorting.sAssertE(this, "Error in creating a JSONObject: " + je.getMessage() );
 			ret = null;
 		}
 		return ret;

@@ -2,12 +2,124 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257b949c-13ca-461d-9324-68b52c0eaa3d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/skConsoleSpeedTest.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/samknows/libcore/SKPorting.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKAndroidUI.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKPorting.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKUICommon.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/ExportFileProvider.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKAndroidExportFileProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKLogger.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKAndroidLogger.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKScreenShot.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKAndroidScreenShot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/Main.java" afterPath="$PROJECT_DIR$/src/com/samknows/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestClosestTarget.java" afterPath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestClosestTarget.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestDownload.java" afterPath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestDownload.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestLatency.java" afterPath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestLatency.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestUpload.java" afterPath="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestUpload.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java" afterPath="$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/libcore/SKPair.java" afterPath="$PROJECT_DIR$/src/com/samknows/libcore/SKPair.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/SKTestRunner.java" afterPath="$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/SKTestRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/ActiveServerUploadTest.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/ActiveServerUploadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/ClosestTarget.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/ClosestTarget.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/DownloadTest.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/DownloadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/PassiveServerUploadTest.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/PassiveServerUploadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/TestFactory.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/TestFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java" afterPath="$PROJECT_DIR$/src/com/samknows/tests/UploadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/lb/auto_fit_textview/AutoResizeTextView.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/lb/auto_fit_textview/AutoResizeTextView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/loopj/android/http/AsyncHttpClient.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/loopj/android/http/AsyncHttpClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/loopj/android/http/Base64.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/loopj/android/http/Base64.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/loopj/android/http/MySSLSocketFactory.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/loopj/android/http/MySSLSocketFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKCommon.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKCommon.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKOperators.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKOperators.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKPair.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKPair.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKSimpleHttpToJsonQuery.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKSimpleHttpToJsonQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKTypeface.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/libcore/SKTypeface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/DeviceDescription.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/DeviceDescription.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/MainService.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/MainService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/PowerReceiver.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/PowerReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SK2AppSettings.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SK2AppSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SKAppSettings.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SKAppSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SKApplication.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SKApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SamKnowsLoginService.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/SamKnowsLoginService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/Security.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/Security.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/Storage.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/Storage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestParamsManager.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestParamsManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/BackgroundTestRunner.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/BackgroundTestRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/ContinuousTestRunner.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/ContinuousTestRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/ManualTestRunner.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/ManualTestRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/SKTestRunner.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/SKTestRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/TestContext.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/TestContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/TestExecutor.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/TestRunner/TestExecutor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/SamKnowsBaseActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/SamKnowsBaseActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/SamKnowsBaseActivityWithActionBar.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/SamKnowsBaseActivityWithActionBar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/SamKnowsBaseActivityWithAppCompatActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/SamKnowsBaseActivityWithAppCompatActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/components/SKGraphForResults.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/components/SKGraphForResults.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/components/UIUpdate.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/activity/components/UIUpdate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/BaseDataCollector.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/BaseDataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/CellTowersData.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/CellTowersData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/CellTowersDataCollector.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/CellTowersDataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/LocationData.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/LocationData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/LocationDataCollector.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/LocationDataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/NetworkDataCollector.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/NetworkDataCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/QueryWlanCarrier.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/QueryWlanCarrier.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/Reachability.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/Reachability.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/TrafficStatsCollector.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/environment/TrafficStatsCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/net/NetAction.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/net/NetAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/net/RequestScheduleAnonymousAction.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/net/RequestScheduleAnonymousAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/net/SubmitTestResultsAnonymousAction.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/net/SubmitTestResultsAnonymousAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/ScheduleConfig.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/ScheduleConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/TestDescription.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/TestDescription.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/condition/Condition.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/condition/Condition.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/condition/LocationAvailableCondition.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/condition/LocationAvailableCondition.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/condition/NetworkTypeCondition.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/schedule/condition/NetworkTypeCondition.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/statemachine/ScheduledTestExecutionQueue.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/statemachine/ScheduledTestExecutionQueue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/statemachine/state/ExecuteScheduledTestQueueState.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/statemachine/state/ExecuteScheduledTestQueueState.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/DBHelper.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/DBHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/ExportFile.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/ExportFile.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/PassiveMetric.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/PassiveMetric.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/ResultsContainer.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/ResultsContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/SKSQLiteHelper.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/SKSQLiteHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/StorageTestResult.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/StorageTestResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/TestBatch.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/TestBatch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/TestResultsManager.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/storage/TestResultsManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/util/Base64.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/util/Base64.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/util/OtherUtils.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/util/OtherUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/util/SKDateFormat.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/measurement/util/SKDateFormat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAMainResultsActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAMainResultsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAPostToSocialMedia.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAPostToSocialMedia.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAPostToTwitterActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAPostToTwitterActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAPreferenceActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKAPreferenceActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKARunningTestActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKARunningTestActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKASettingsActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKASettingsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKATermsOfUseActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKATermsOfUseActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKATermsOfUseWithButtonActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ska/activity/SKATermsOfUseWithButtonActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/ActiveServerUploadTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/ActiveServerUploadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/ClosestTarget.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/ClosestTarget.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/DownloadTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/DownloadTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/HttpTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/HttpTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/LatencyTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/LatencyTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/PassiveServerUploadTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/PassiveServerUploadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/ProxyDetector.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/ProxyDetector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/TestFactory.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/TestFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/UploadTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/tests/UploadTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/ActivityAbout.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/ActivityAbout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/ActivitySelectNetworkType.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/ActivitySelectNetworkType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/ActivityShareResult.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/ActivityShareResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/AdapterArchivedResultsListView.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/AdapterArchivedResultsListView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FormattedValues.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FormattedValues.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentActivityMain.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentActivityMain.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentArchivedResults.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentArchivedResults.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentRunTest.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentRunTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentSettings.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentSummary.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/FragmentSummary.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/GaugeView.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/GaugeView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/SKAAboutActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/SKAAboutActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/SamKnowsBaseFragmentActivity.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/SamKnowsBaseFragmentActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/SamKnowsBaseFragmentActivityWithActionBar.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/SamKnowsBaseFragmentActivityWithActionBar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/TestResult.java" afterPath="$PROJECT_DIR$/../../libcore/src/com/samknows/ui2/activity/TestResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../libcore/src/test/com/samknows/tests/DownloadTestTests.java" afterPath="$PROJECT_DIR$/../../libcore/src/test/com/samknows/tests/DownloadTestTests.java" />
     </list>
     <ignored path="skConsoleSpeedTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,11 +141,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="276">
+              <caret line="24" column="97" selection-start-line="24" selection-start-column="97" selection-end-line="24" selection-end-column="97" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,12 +156,11 @@
       <file leaf-file-name="SKCommon.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="122" column="6" selection-start-line="122" selection-start-column="6" selection-end-line="122" selection-end-column="6" />
+            <state relative-caret-position="559">
+              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3903#3904#0" expanded="true" />
-                <element signature="e#3938#3939#0" expanded="true" />
+                <element signature="e#214#215#0" expanded="true" />
+                <element signature="e#236#237#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -58,8 +169,8 @@
       <file leaf-file-name="SKKitTestClosestTarget.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestClosestTarget.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
+            <state relative-caret-position="116">
+              <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -67,16 +178,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SKTestRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/SKTestRunner.java">
+      <file leaf-file-name="SKPair.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKPair.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="99" column="2" selection-start-line="99" selection-start-column="2" selection-end-line="99" selection-end-column="2" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#563#564#0" expanded="true" />
-                <element signature="e#598#599#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="30">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -84,8 +191,8 @@
       <file leaf-file-name="SKKitTestDownload.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestDownload.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+            <state relative-caret-position="301">
+              <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -96,8 +203,8 @@
       <file leaf-file-name="SKKitTestLatency.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestLatency.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="148" column="8" selection-start-line="148" selection-start-column="8" selection-end-line="148" selection-end-column="8" />
+            <state relative-caret-position="226">
+              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -108,8 +215,8 @@
       <file leaf-file-name="SKKitTestUpload.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestUpload.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="42" column="26" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+            <state relative-caret-position="720">
+              <caret line="71" column="50" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,11 +224,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PassiveServerUploadTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/PassiveServerUploadTest.java">
+      <file leaf-file-name="SKTestRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/SKTestRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-416">
-              <caret line="214" column="47" selection-start-line="214" selection-start-column="47" selection-end-line="214" selection-end-column="47" />
+            <state relative-caret-position="1410">
+              <caret line="98" column="2" selection-start-line="98" selection-start-column="2" selection-end-line="98" selection-end-column="2" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -129,29 +236,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LatencyTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java">
+      <file leaf-file-name="SKPorting.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKPorting.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="548" column="24" selection-start-line="548" selection-start-column="24" selection-end-line="548" selection-end-column="24" />
+            <state relative-caret-position="-104">
+              <caret line="112" column="4" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3329#3330#0" expanded="true" />
+                <element signature="e#3353#3354#0" expanded="true" />
+                <element signature="e#3403#3404#0" expanded="true" />
+                <element signature="e#3425#3426#0" expanded="true" />
+                <element signature="e#3546#3547#0" expanded="true" />
+                <element signature="e#3599#3600#0" expanded="true" />
+                <element signature="e#3655#3656#0" expanded="true" />
+                <element signature="e#3716#3717#0" expanded="true" />
+                <element signature="e#3895#3896#0" expanded="true" />
+                <element signature="e#3917#3918#0" expanded="true" />
+                <element signature="e#4143#4144#0" expanded="true" />
+                <element signature="e#4162#4163#0" expanded="true" />
+                <element signature="e#4210#4211#0" expanded="true" />
+                <element signature="e#4232#4233#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProxyDetector.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java">
+      <file leaf-file-name="ExecutorService.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/src.zip!/java/util/concurrent/ExecutorService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="87" column="8" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="8" />
+            <state relative-caret-position="-2820">
+              <caret line="136" column="17" selection-start-line="136" selection-start-column="17" selection-end-line="136" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
@@ -165,7 +293,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/com/samknows/tests/SKAbstractBaseTest.java" />
-        <option value="$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/tests/ActiveServerUploadTest.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/tests/ClosestTarget.java" />
@@ -174,11 +301,14 @@
         <option value="$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/SKTestRunner.java" />
-        <option value="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestLatency.java" />
-        <option value="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestClosestTarget.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/libcore/SKPair.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestDownload.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestLatency.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestUpload.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestClosestTarget.java" />
         <option value="$PROJECT_DIR$/src/com/samknows/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java" />
+        <option value="$PROJECT_DIR$/src/com/samknows/libcore/SKPorting.java" />
       </list>
     </option>
   </component>
@@ -220,8 +350,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -344,7 +473,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -356,11 +486,12 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/org.apache.http.legacy.jar!/" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.samknows.libcore.SKPorting" />
       <recent name="com.samknows.libcore.SKCommon" />
     </key>
   </component>
@@ -623,30 +754,30 @@
     <frame x="20" y="43" width="1400" height="833" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39921466" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -662,32 +793,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/samknows/Main.java</url>
-          <line>50</line>
-          <properties />
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java</url>
-          <line>109</line>
-          <properties />
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java</url>
-          <line>113</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java</url>
-          <line>130</line>
-          <properties />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
@@ -697,22 +802,18 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKServiceDataCache.java">
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="74" column="55" selection-start-line="74" selection-start-column="55" selection-end-line="74" selection-end-column="55" />
-          <folding />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/ExportFileProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKServiceDataCache.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/ExportFileProvider.java" />
     <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/SKAbstractBaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -721,22 +822,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-705">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKOperators.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKOperators.java" />
     <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/HttpTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -768,7 +854,7 @@
         <state relative-caret-position="161">
           <caret line="614" column="8" selection-start-line="614" selection-start-column="8" selection-end-line="614" selection-end-column="8" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -781,76 +867,112 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/TestExecutor.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/TestContext.java" />
     <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/PassiveServerUploadTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-416">
-          <caret line="214" column="47" selection-start-line="214" selection-start-column="47" selection-end-line="214" selection-end-column="47" />
+        <state relative-caret-position="3075">
+          <caret line="214" column="46" selection-start-line="214" selection-start-column="46" selection-end-line="214" selection-end-column="46" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/LatencyTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="548" column="24" selection-start-line="548" selection-start-column="24" selection-end-line="548" selection-end-column="24" />
+        <state relative-caret-position="7320">
+          <caret line="547" column="23" selection-start-line="547" selection-start-column="23" selection-end-line="547" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/tests/ProxyDetector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
+        <state relative-caret-position="1125">
           <caret line="87" column="8" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="8" />
+          <folding>
+            <element signature="e#2233#2234#0" expanded="false" />
+            <element signature="e#2260#2261#0" expanded="false" />
+            <element signature="e#2316#2317#0" expanded="false" />
+            <element signature="e#2345#2346#0" expanded="false" />
+            <element signature="e#4177#4178#0" expanded="false" />
+            <element signature="e#4198#4199#0" expanded="false" />
+            <element signature="e#4356#4357#0" expanded="false" />
+            <element signature="e#4371#4372#0" expanded="false" />
+            <element signature="e#4527#4528#0" expanded="false" />
+            <element signature="e#4542#4543#0" expanded="false" />
+            <element signature="e#4574#4575#0" expanded="false" />
+            <element signature="e#4589#4590#0" expanded="false" />
+            <element signature="e#4625#4626#0" expanded="false" />
+            <element signature="e#4642#4643#0" expanded="false" />
+            <element signature="e#4676#4677#0" expanded="false" />
+            <element signature="e#4691#4692#0" expanded="false" />
+            <marker date="1468481748000" expanded="false" signature="29:265" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/TestExecutor.java">
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKPair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="764">
-          <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/TestContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
+        <state relative-caret-position="30">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/measurement/TestRunner/SKTestRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="99" column="2" selection-start-line="99" selection-start-column="2" selection-end-line="99" selection-end-column="2" />
+        <state relative-caret-position="1410">
+          <caret line="98" column="2" selection-start-line="98" selection-start-column="2" selection-end-line="98" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#563#564#0" expanded="true" />
-            <element signature="e#598#599#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/src.zip!/java/util/concurrent/ExecutorService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2820">
+          <caret line="136" column="17" selection-start-line="136" selection-start-column="17" selection-end-line="136" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestDownload.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestUpload.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="71" column="50" selection-start-line="71" selection-start-column="50" selection-end-line="71" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestLatency.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="148" column="8" selection-start-line="148" selection-start-column="8" selection-end-line="148" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestDownload.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+        <state relative-caret-position="226">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -859,30 +981,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestClosestTarget.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="122" column="6" selection-start-line="122" selection-start-column="6" selection-end-line="122" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3903#3904#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/samknows/SKKit/SKKitTestUpload.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="42" column="26" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+        <state relative-caret-position="116">
+          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -891,10 +991,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/samknows/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="276">
+          <caret line="24" column="97" selection-start-line="24" selection-start-column="97" selection-end-line="24" selection-end-column="97" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKCommon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+          <folding>
+            <element signature="e#214#215#0" expanded="true" />
+            <element signature="e#236#237#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/samknows/libcore/SKPorting.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-104">
+          <caret line="112" column="4" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3329#3330#0" expanded="true" />
+            <element signature="e#3353#3354#0" expanded="true" />
+            <element signature="e#3403#3404#0" expanded="true" />
+            <element signature="e#3425#3426#0" expanded="true" />
+            <element signature="e#3546#3547#0" expanded="true" />
+            <element signature="e#3599#3600#0" expanded="true" />
+            <element signature="e#3655#3656#0" expanded="true" />
+            <element signature="e#3716#3717#0" expanded="true" />
+            <element signature="e#3895#3896#0" expanded="true" />
+            <element signature="e#3917#3918#0" expanded="true" />
+            <element signature="e#4143#4144#0" expanded="true" />
+            <element signature="e#4162#4163#0" expanded="true" />
+            <element signature="e#4210#4211#0" expanded="true" />
+            <element signature="e#4232#4233#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -3,7 +3,7 @@ package com.samknows.measurement.activity.components;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 
 /*
  * Utility class that translates several events in JSONObject in order 
@@ -32,7 +32,7 @@ public class UIUpdate {
 		try{
 			ret.put(JSON_TYPE, JSON_COMPLETED);
 		}catch(JSONException je){
-			SKLogger.e(UIUpdate.class, "Error in createing JSONObject: "+ je.getMessage());
+			SKPorting.sAssertE(UIUpdate.class, "Error in createing JSONObject: "+ je.getMessage());
 		}
 		return ret;
 	}

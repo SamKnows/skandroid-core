@@ -7,7 +7,8 @@ import java.util.List;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.schedule.OutParamDescription;
 import com.samknows.tests.ClosestTarget;
@@ -31,8 +32,8 @@ public class TestParamsManager implements Serializable {
 			sb.append(p.getName()).append(" ").append(p.getValue()).append(". ");
 			if (p.getValue().equals("$closest")) {
 				String closestTarget = ClosestTarget.sGetClosestTarget();
-				SKLogger.d(TAG, "replacing closestTarget with + " + closestTarget);
-				SKLogger.sAssert(closestTarget.length() > 0);
+				SKPorting.sLogD(TAG, "replacing closestTarget with + " + closestTarget);
+				SKPorting.sAssert(closestTarget.length() > 0);
 				result.add(new Param(p.getName(), closestTarget));
 			} else if (p.getValue().startsWith(SKConstants.PARAM_PREFIX)) {
 				String name = p.getValue().substring(SKConstants.PARAM_PREFIX.length());
@@ -40,18 +41,18 @@ public class TestParamsManager implements Serializable {
 				if (newParam != null) {
 					if (p.getValue().equals("$closest")) {
 						ClosestTarget.sSetClosestTarget(newParam.value);
-						SKLogger.sAssert(false);
+						SKPorting.sAssert(false);
 					}
-					SKLogger.d(TAG, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
+					SKPorting.sLogD(TAG, "replacing param.name=" + p.getName() + " with value: " + p.getValue() + " with: " + newParam.value);
 					result.add(new Param(p.getName(), newParam.value));
 				} else {
-					SKLogger.e(this, "can't replace param: " + p.getName() + " with value: " + p.getValue() + "!");
+					SKPorting.sAssertE(this, "can't replace param: " + p.getName() + " with value: " + p.getValue() + "!");
 				}
 			} else {
 				result.add(p);
 			}
 		}
-		SKLogger.d(TAG, "Test params are: "+sb.toString());
+		SKPorting.sLogD(TAG, "Test params are: "+sb.toString());
 		return result;
 	}
 	

@@ -7,7 +7,7 @@ import android.net.TrafficStats;
 import android.os.Process;
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 
 public class TrafficStatsCollector extends EnvBaseDataCollector implements Serializable {
@@ -47,7 +47,7 @@ public class TrafficStatsCollector extends EnvBaseDataCollector implements Seria
 		try {
 			Thread.sleep(SKConstants.NET_ACTIVITY_CONDITION_WAIT_TIME);
 		} catch (InterruptedException e1) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 			e1.printStackTrace();
 		}
 		TrafficData a = collectTraffic();
@@ -57,7 +57,7 @@ public class TrafficStatsCollector extends EnvBaseDataCollector implements Seria
 		try {
 			Thread.sleep(interval);
 		} catch (InterruptedException e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
 			e.printStackTrace();
 		}
 		

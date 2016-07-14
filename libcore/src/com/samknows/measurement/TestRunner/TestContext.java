@@ -2,7 +2,7 @@ package com.samknows.measurement.TestRunner;
 
 import android.content.Context;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.CachingStorage;
 import com.samknows.measurement.Storage;
 import com.samknows.measurement.TestParamsManager;
@@ -23,7 +23,7 @@ public class TestContext {
 		ScheduleConfig config = storage.loadScheduleConfig();
 		if (config == null) {
 			// This happens in new-style apps, which doesn't use a test schedule.
-			SKLogger.sAssert(false);
+			SKPorting.sAssert(false);
 			throw new NullPointerException("null schedule config!");
 		}
 		
@@ -46,7 +46,7 @@ public class TestContext {
 	
 	private TestContext(Context ctx, ScheduleConfig config, TestParamsManager manager, boolean PbIsManualTest) {
 		super();
-		SKLogger.sAssert(ctx != null);
+		SKPorting.sAssert(ctx != null);
 		this.ctx = ctx;
 		this.config = config;
 		this.paramsManager = manager;

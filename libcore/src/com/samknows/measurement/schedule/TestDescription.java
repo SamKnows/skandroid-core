@@ -8,7 +8,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.util.IdGenerator;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.XmlUtils;
@@ -49,7 +49,7 @@ public class TestDescription implements Serializable{
       } else if (value ==  SCHEDULE_TEST_ID.LATENCY_TEST.value) {
         return SCHEDULE_TEST_ID.LATENCY_TEST;
       } else {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
         return SCHEDULE_TEST_ID.CLOSEST_TARGET_TEST;
       }
     }

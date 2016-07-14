@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.SKDateFormat;
@@ -147,7 +147,7 @@ public class LocationData implements DCSData {
 
 	@Override
 	public List<JSONObject> getPassiveMetric() {
-		SKLogger.sAssert(getClass(), false);
+		SKPorting.sAssert(getClass(), false);
 		return new ArrayList<>();
 	}
 

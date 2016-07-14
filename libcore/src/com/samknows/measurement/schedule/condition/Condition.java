@@ -7,7 +7,7 @@ import java.util.concurrent.FutureTask;
 
 import org.w3c.dom.Element;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.TestRunner.TestContext;
 import com.samknows.measurement.util.SimpleFuture;
@@ -61,7 +61,7 @@ public abstract class Condition implements Serializable{
 				case NetworkType : c = NetworkTypeCondition.parseXml(node); break;
 				case LocationAvailable : c = LocationAvailableCondition.parseXml(node); break;
 				case ParamExpired : c = ParamExpiredCondition.parseXml(node); break;
-				default : SKLogger.e(Condition.class, "not such condition: " + type, new RuntimeException());
+				default : SKPorting.sAssertE(Condition.class, "not such condition: " + type, new RuntimeException());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

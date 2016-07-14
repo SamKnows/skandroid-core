@@ -23,7 +23,8 @@ import org.apache.http.params.HttpParams;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKAndroidLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 
 
@@ -57,7 +58,7 @@ public class NetAction {
 				try {
 					((HttpPost)mess).setEntity(new StringEntity(body));
 				} catch (UnsupportedEncodingException e) {
-					SKLogger.e(this, "error creating http message", e);
+					SKPorting.sAssertE(this, "error creating http message", e);
 				}
 			}
 		} else {
@@ -73,14 +74,14 @@ public class NetAction {
 			response = httpclient.execute(mess);
 		} catch (Exception e) {
 			Log.e("NetAction", "failed to execute request: " + request + ", exception=" + e.toString());
-			SKLogger.sAssert(getClass(), false);
+			SKPorting.sAssert(getClass(), false);
 		}
 		
 		if (isResponseOk()) {
 			onActionFinished();
 		} else if (response != null && response.getStatusLine() != null) {
       isSuccess = false;
-      SKLogger.e(this, "failed request, response code: " + response.getStatusLine().getStatusCode());
+      SKPorting.sAssertE(this, "failed request, response code: " + response.getStatusLine().getStatusCode());
       try {
         InputStream content = response.getEntity().getContent();
         List<String> lines = IOUtils.readLines(content);
@@ -89,9 +90,9 @@ public class NetAction {
           errorString += "\n" + s;
         }
       } catch (Exception e) {
-        SKLogger.sAssert(false);
+        SKPorting.sAssert(false);
       }
-      SKLogger.e(this, errorString);
+      SKPorting.sAssertE(this, errorString);
     }
 	}
 

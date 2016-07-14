@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import android.content.Context;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 
 public class RequestScheduleAnonymousAction extends NetAction {
@@ -28,7 +28,7 @@ public class RequestScheduleAnonymousAction extends NetAction {
 		try {
 			content = response.getEntity().getContent();
 		} catch (Exception e) {
-			SKLogger.e(this, "failed to parse response", e);
+			SKPorting.sAssertE(this, "failed to parse response", e);
 		}
 	}
 

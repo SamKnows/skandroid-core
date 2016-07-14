@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.samknows.XCT;
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 
 import java.io.ByteArrayOutputStream;
@@ -74,7 +74,7 @@ public class DownloadTestTests {
 
 //      if (bReadHeader == false) {
 //        bReadHeader = true;
-        SKLogger.sAssert(headerBytes.length <= byteCount);
+        SKPorting.sAssert(headerBytes.length <= byteCount);
         System.arraycopy(headerBytes, 0, buffer, byteOffset, headerBytes.length);
 //      }
 

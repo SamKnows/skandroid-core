@@ -1,6 +1,6 @@
 package com.samknows.SKKit;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.tests.LatencyTest;
 import com.samknows.tests.Param;
@@ -23,15 +23,15 @@ public class SKKitTestLatency {
     public final Integer mPort;
     public final Double mInterPacketTimeSeconds;
     public final Double mDelayTimeoutSeconds;
-    public final Integer mNumberOfPackets;
+    public Integer mNumberOfPackets;
     public final Integer mPercentile;
     public Double mMaxTimeSeconds;
 
     public SKKitTestDescriptor_Latency(String target) {
       if (target == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
       } else {
-        SKCommon.sDoAssert(!target.isEmpty());
+        SKPorting.sAssert(!target.isEmpty());
       }
 
       mTarget = target;
@@ -56,7 +56,7 @@ public class SKKitTestLatency {
 
   public SKKitTestLatency(SKKitTestDescriptor_Latency testDescriptor) {
     mTestDescriptor = testDescriptor;
-    SKCommon.sDoAssert(!testDescriptor.mTarget.isEmpty());
+    SKPorting.sAssert(!testDescriptor.mTarget.isEmpty());
   }
 
   // Adaptor for extracting JSON data for export!
@@ -64,10 +64,10 @@ public class SKKitTestLatency {
     return mLatencyTest.getJSONResult();
   }
 
-  //private final Handler mHandler = new Handler();
+  private final SKPorting.MainThreadResultHandler mHandler = new SKPorting.MainThreadResultHandler();
 
   public void start(final ISKLatencyTestProgressUpdate progressUpdate) {
-    SKCommon.sDoAssert(progressUpdate != null);
+    SKPorting.sAssert(progressUpdate != null);
 
     // This requires a TestRunner for observing results...
     SKTestRunner.SKTestRunnerObserver observer = new SKTestRunner.SKTestRunnerObserver() {
@@ -124,11 +124,11 @@ public class SKKitTestLatency {
         params.add(new Param(TestFactory.PERCENTILE, String.valueOf(mTestDescriptor.mPercentile)));
         params.add(new Param(TestFactory.MAXTIME, String.valueOf((int) (mTestDescriptor.mMaxTimeSeconds * 1000000.0)))); // Microseconds!
 
-        SKCommon.sDoLogD("IHT", "START Running Latency test for milliseconds=" + mTestDescriptor.mMaxTimeSeconds * 1000.0);
+        SKPorting.sLogD("IHT", "START Running Latency test for milliseconds=" + mTestDescriptor.mMaxTimeSeconds * 1000.0);
 
         mLatencyTest = LatencyTest.sCreateLatencyTest(params);
         if (mLatencyTest == null) {
-          SKCommon.sDoAssert(false);
+          SKPorting.sAssert(false);
           return;
         }
         final LatencyTest theTest = mLatencyTest;
@@ -137,24 +137,21 @@ public class SKKitTestLatency {
         long timeEndMilli = System.currentTimeMillis();
 
         long actualTimeTakenMilli = timeEndMilli - timeStartMilli;
-        SKCommon.sDoLogD("IHT", "STOPPED Running Latency test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
+        SKPorting.sLogD("IHT", "STOPPED Running Latency test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
 
         // Finished the Latency test - extract the result values, and post them to the handler method in the main thread.
         final double latency = theTest.getResultLatencyMilliseconds();
         final double loss = theTest.getResultLossPercent0To100();
         final double jitterMilliseconds = theTest.getResultJitterMilliseconds();
 
-        if (progressUpdate != null) {
-          progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
-        }
-//        mHandler.post(new Runnable() {
-//          public void run() {
-//
-//            if (progressUpdate != null) {
-//              progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
-//            }
-//          }
-//        });
+        mHandler.callUsingMainThreadWhereSupported(new Runnable() {
+          public void run() {
+
+            if (progressUpdate != null) {
+              progressUpdate.onTestCompleted_OnMainThread(latency, loss, jitterMilliseconds);
+            }
+          }
+        });
       }
     };
 
@@ -169,7 +166,7 @@ public class SKKitTestLatency {
 
   public int getProgress0To100() {
     if (mLatencyTest == null) {
-      //SKCommon.sDoAssert(false);
+      //SKCommon.sAssert(false);
       return 0;
     }
     return mLatencyTest.getProgress0To100();

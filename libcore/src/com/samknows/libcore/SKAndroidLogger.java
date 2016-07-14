@@ -11,11 +11,10 @@ import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.util.OtherUtils;
 import com.samknows.measurement.util.TimeUtils;
 
-import android.content.res.Resources;
 import android.util.Log;
 
 
-public class SKLogger {
+public class SKAndroidLogger {
   private static File folder;
   private static final String ERROR = "Error";
   private static final String WARNING = "Warning";
@@ -29,14 +28,14 @@ public class SKLogger {
 
     if (LOG_TO_FILE) {
       // This MUST be synchronized, as multiple threads might try to write at once!
-      synchronized (SKLogger.class) {
+      synchronized (SKAndroidLogger.class) {
         File logFile = new File(folder, "log.file");
         if (!logFile.exists()) {
           try {
             boolean bRes = logFile.createNewFile();
-            SKLogger.sAssert(bRes);
+            SKPorting.sAssert(bRes);
           } catch (IOException e) {
-            SKLogger.sAssert(false);
+            SKPorting.sAssert(false);
           }
         }
         try {
@@ -49,7 +48,7 @@ public class SKLogger {
           buf.newLine();
           buf.close();
         } catch (IOException e) {
-          SKLogger.sAssert(false);
+          SKPorting.sAssert(false);
         }
       }
     }
@@ -77,7 +76,7 @@ public class SKLogger {
 
       folder = storageSubFolder;
     } catch (Exception e) {
-      SKLogger.sAssert(false);
+      SKPorting.sAssert(false);
       folder = f;
     }
 //    File writeHere = new File(storageSubFolder, fileName);
@@ -100,7 +99,7 @@ public class SKLogger {
           Log.d("", theChunk);
 
         } catch (IndexOutOfBoundsException e) {
-          sAssert(SKLogger.class, false);
+          sAssert(SKAndroidLogger.class, false);
         }
       }
 
@@ -158,9 +157,9 @@ public class SKLogger {
   public static void sAssert(Class clazz, String message, final boolean check) {
     if (check == false) {
       if (message.length() > 0) {
-        Log.e(clazz.getName(), "sAssertFailed (" + message + "): you can trap with a breakpoint in " + SKLogger.class.getName());
+        Log.e(clazz.getName(), "sAssertFailed (" + message + "): you can trap with a breakpoint in " + SKAndroidLogger.class.getName());
       } else {
-        Log.e(clazz.getName(), "sAssertFailed: you can trap with a breakpoint in " + SKLogger.class.getName());
+        Log.e(clazz.getName(), "sAssertFailed: you can trap with a breakpoint in " + SKAndroidLogger.class.getName());
       }
     }
   }
@@ -190,19 +189,6 @@ public class SKLogger {
     }
   }
 
-  public static Boolean sGetIsRunningJUnit() {
-    StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-
-    for (StackTraceElement item : elements) {
-      String className = item.getClassName();
-      if (className.startsWith("org.robolectric")) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   public static void sAssert(final boolean check) {
     if (check == false) {
 
@@ -228,6 +214,6 @@ public class SKLogger {
         return;
       }
     }
-    SKLogger.sAssert(false);
+    SKPorting.sAssert(false);
   }
 }

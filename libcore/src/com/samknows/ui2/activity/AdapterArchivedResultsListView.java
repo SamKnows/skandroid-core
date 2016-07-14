@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKLogger;
+import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;
@@ -144,7 +144,7 @@ public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
 
         default:
           testNetworkType.setImageResource(R.drawable.ic_swifi);
-          SKLogger.sAssert(getClass(), false);
+          SKPorting.sAssert(getClass(), false);
           break;
       }
 

@@ -1,6 +1,6 @@
 package com.samknows.SKKit;
 
-import com.samknows.libcore.SKCommon;
+import com.samknows.libcore.SKPorting;
 import com.samknows.tests.Conversions;
 import com.samknows.tests.PassiveServerUploadTest;
 import com.samknows.tests.UploadTest;
@@ -30,9 +30,9 @@ public class SKKitTestUpload {
 
     public SKKitTestDescriptor_Upload(String target) {
       if (target == null) {
-        SKCommon.sDoAssert(false);
+        SKPorting.sAssert(false);
       } else {
-        SKCommon.sDoAssert(!target.isEmpty());
+        SKPorting.sAssert(!target.isEmpty());
       }
 
       mTarget = target;
@@ -66,20 +66,22 @@ public class SKKitTestUpload {
 
   public SKKitTestUpload(SKKitTestDescriptor_Upload testDescriptor) {
     mTestDescriptor = testDescriptor;
-    SKCommon.sDoAssert(!testDescriptor.mTarget.isEmpty());
+    SKPorting.sAssert(!testDescriptor.mTarget.isEmpty());
   }
+
+  private final SKPorting.MainThreadResultHandler mHandler = new SKPorting.MainThreadResultHandler();
 
   public double getTransferBytesPerSecond() {
     if (mUploadTest != null) {
       return mUploadTest.getTransferBytesPerSecond();
     }
 
-    //SKCommon.sDoAssert(false);
+    //SKCommon.sAssert(false);
     return 0;
   }
 
   public void start(final ISKUploadTestProgressUpdate progressUpdate) {
-    SKCommon.sDoAssert(progressUpdate != null);
+    SKPorting.sAssert(progressUpdate != null);
 
     Thread uploadThread = new Thread() {
       @Override
@@ -101,7 +103,7 @@ public class SKKitTestUpload {
         // Note that long delays (of approximately 0.5 to 1.5 seconds) can occcur quite often.
         params.add(new Param(HttpTest.SENDBUFFERSIZE, String.valueOf(mTestDescriptor.mSendDataChunkSizeBytes)));
 
-        SKCommon.sDoLogD("IHT", "START Running upload test for milliseconds=" + mTestDescriptor.mTransferMaxTimeSeconds * 1000.0);
+        SKPorting.sLogD("IHT", "START Running upload test for milliseconds=" + mTestDescriptor.mTransferMaxTimeSeconds * 1000.0);
 
         mUploadTest = PassiveServerUploadTest.sCreatePassiveServerUploadTest(params);
 //        // The default behaviour is to fail if socket write timout occurs (which is 10 seconds by default!)
@@ -114,32 +116,23 @@ public class SKKitTestUpload {
         long timeEndMilli = System.currentTimeMillis();
 
         long actualTimeTakenMilli = timeEndMilli - timeStartMilli;
-        SKCommon.sDoLogD("IHT", "STOPPED Running upload test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
+        SKPorting.sLogD("IHT", "STOPPED Running upload test for milliseconds=" + actualTimeTakenMilli + ", completed after " + actualTimeTakenMilli);
 
-        if (progressUpdate != null) {
-          double bytesPerSecond = theTest.getTransferBytesPerSecond();
+        mHandler.callUsingMainThreadWhereSupported(new Runnable() {
+          public void run() {
 
-          // To reach here, we've finished the upload test!
-          double mbpsPerSecond1024Based = Conversions.sConvertBytesPerSecondToMbps1024Based(bytesPerSecond);
-          progressUpdate.onTestCompleted_OnMainThread(mbpsPerSecond1024Based);
-        }
-        mUploadTest = null;
+            // Finished the upload test!
 
-//        mHandler.post(new Runnable() {
-//          public void run() {
-//
-//            // Finished the upload test!
-//
-//            if (progressUpdate != null) {
-//              double bytesPerSecond = theTest.getTransferBytesPerSecond();
-//
-//              // To reach here, we've finished the upload test!
-//              double mbpsPerSecond1024Based = Conversions.sConvertBytesPerSecondToMbps1024Based(bytesPerSecond);
-//              progressUpdate.onTestCompleted_OnMainThread(mbpsPerSecond1024Based);
-//            }
-//            mUploadTest = null;
-//          }
-//        });
+            if (progressUpdate != null) {
+              double bytesPerSecond = theTest.getTransferBytesPerSecond();
+
+              // To reach here, we've finished the upload test!
+              double mbpsPerSecond1024Based = Conversions.sConvertBytesPerSecondToMbps1024Based(bytesPerSecond);
+              progressUpdate.onTestCompleted_OnMainThread(mbpsPerSecond1024Based);
+            }
+            mUploadTest = null;
+          }
+        });
       }
     };
     uploadThread.start();
@@ -154,7 +147,7 @@ public class SKKitTestUpload {
 
   public int getProgress0To100() {
     if (mUploadTest == null) {
-      //SKCommon.sDoAssert(false);
+      //SKCommon.sAssert(false);
       return 0;
     }
     return mUploadTest.getProgress0To100();
