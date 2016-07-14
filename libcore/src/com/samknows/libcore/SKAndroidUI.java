@@ -7,11 +7,6 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-
 public class SKAndroidUI {
   /**
    * This method converts dp unit to equivalent pixels, depending on device density.

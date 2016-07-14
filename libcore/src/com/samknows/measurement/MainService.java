@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.TestRunner.SKTestRunner;

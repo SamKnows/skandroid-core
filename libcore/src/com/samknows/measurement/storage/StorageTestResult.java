@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 import com.samknows.measurement.CachingStorage;
@@ -355,7 +354,7 @@ public class StorageTestResult extends JSONObject{
 
     // This writes the test results via JSON_HRESULT, which is sent (a short while later) to the UI as Message instances...
     // by ManualTestRunner:progressMessage
-    Double bytesPerSecond = Double.valueOf(Math.max(0, theTest.getTransferBytesPerSecond()));
+    Double bytesPerSecond = Math.max(0, theTest.getTransferBytesPerSecond());
     Double bitsPerSecond = bytesPerSecond * 8.0;
 		ret.setResult(bitsPerSecond);
 
@@ -378,7 +377,7 @@ public class StorageTestResult extends JSONObject{
     String target = theTest.getTarget();
     lat.setLocation(target);
 
-    Double latencyResultMicroseconds = Double.valueOf(theTest.getAverageMicroseconds());
+    Double latencyResultMicroseconds = (double) theTest.getAverageMicroseconds();
     lat.setResult(latencyResultMicroseconds);
 
     long success = theTest.isSuccessful() ? 1 : 0;
@@ -424,7 +423,7 @@ public class StorageTestResult extends JSONObject{
 		String target = theTest.getTarget();
     ret.setLocation(target);
 
-    Double jitterMilliseconds = Double.valueOf(theTest.getResultJitterMilliseconds());
+    Double jitterMilliseconds = (double) theTest.getResultJitterMilliseconds();
     Double jitterMicroseconds = jitterMilliseconds * 1000.0;
     ret.setResult(jitterMicroseconds);
 

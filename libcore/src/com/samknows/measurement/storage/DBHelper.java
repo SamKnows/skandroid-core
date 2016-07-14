@@ -16,7 +16,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.SKApplication.eNetworkTypeResults;

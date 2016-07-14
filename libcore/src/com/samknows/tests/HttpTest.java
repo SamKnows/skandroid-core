@@ -684,14 +684,14 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
 /* The following set of methods relates to a  communication with the external UI TODO move prototypes to test */
 
-  static private AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<>(Double.valueOf(0.0));
-  static private AtomicReference<Double> sBytesPerSecondLast = new AtomicReference<>(Double.valueOf(0.0));
+  static private AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<>(0.0);
+  static private AtomicReference<Double> sBytesPerSecondLast = new AtomicReference<>(0.0);
 
   private static String sLatestSpeedForExternalMonitorTestId = "";
 
   private static void sLatestSpeedReset(String theReasonId) {
-    sLatestSpeedForExternalMonitorBytesPerSecond.set(Double.valueOf(0));
-    sBytesPerSecondLast.set(Double.valueOf(0));
+    sLatestSpeedForExternalMonitorBytesPerSecond.set(0d);
+    sBytesPerSecondLast.set(0d);
     sLatestSpeedForExternalMonitorTestId = theReasonId;
   }
 
@@ -703,7 +703,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   // Returns -1 if sample time too short.
   public static Pair<Double, String> sGetLatestSpeedForExternalMonitorAsMbps() {
     // use moving average of the last 2 items!
-    double bytesPerSecondToUse = sBytesPerSecondLast.get().doubleValue() + sLatestSpeedForExternalMonitorBytesPerSecond.get().doubleValue();
+    double bytesPerSecondToUse = sBytesPerSecondLast.get() + sLatestSpeedForExternalMonitorBytesPerSecond.get();
     bytesPerSecondToUse /= 2;
 
     double mbps1000Based = Conversions.sConvertBytesPerSecondToMbps1000Based(bytesPerSecondToUse);

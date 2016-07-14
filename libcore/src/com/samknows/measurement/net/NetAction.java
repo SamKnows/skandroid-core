@@ -23,7 +23,6 @@ import org.apache.http.params.HttpParams;
 
 import android.util.Log;
 
-import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKConstants;
 

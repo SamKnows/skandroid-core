@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.schedule.TestDescription;
@@ -134,11 +133,9 @@ public class ResultsContainer {
 			if (mConditionBreaches.size() > 0) {
         JSONArray conditionBreaches = new JSONArray();
 
-        Iterator<Entry<String, String>> it = mConditionBreaches.entrySet().iterator();
-        while (it.hasNext()) {
-          Entry<String, String> pairs = it.next();
-          conditionBreaches.put(pairs.getKey());
-        }
+				for (Entry<String, String> pairs : mConditionBreaches.entrySet()) {
+					conditionBreaches.put(pairs.getKey());
+				}
 
         ret.put(ResultsContainer.JSON_CONDITION_BREACHES, conditionBreaches);
       }

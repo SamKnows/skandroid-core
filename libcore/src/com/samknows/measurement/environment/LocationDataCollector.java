@@ -16,7 +16,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.util.Pair;
 
-import com.samknows.libcore.SKAndroidLogger;
 import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;

@@ -40,7 +40,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKTypeface;
