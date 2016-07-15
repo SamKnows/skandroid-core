@@ -144,7 +144,8 @@ public class FragmentRunTest extends Fragment {
   private ImageView iv_Result_NetworkType;                              // Image showing the network type icon (Mobile or WiFi)
   private Typeface typeface_Din_Condensed_Cyrillic, typeface_Roboto_Light, typeface_Roboto_Thin;    // Type faces to be used in this fragment UI
   private Typeface typeface_Roboto_Bold;
-  private MenuItem menuItem_SelectTests, menuItem_ShareResult;
+  private MenuItem menuItem_SelectTests = null;
+  private MenuItem  menuItem_ShareResult = null;
 
   // Other class objects
   private RelativeLayout gaugeViewContainer;
@@ -439,7 +440,9 @@ public class FragmentRunTest extends Fragment {
         if (/*haha*/result) {
           testsRunning = true;                                    // Make it notice that tests are running
           resetValueFields();                                      // Set the value fields to a initial state
-          menuItem_SelectTests.setVisible(false);
+          if (menuItem_SelectTests != null) {
+            menuItem_SelectTests.setVisible(false);
+          }
           changeFadingTextViewValue(tv_Gauge_TextView_PsuedoButton, getString(R.string.gauge_message_starting), 0);  // Set the gauge main text to STARTING
           changeAdviceMessageTo(getString(R.string.advice_message_running));              // Change the advice message to "Running tests"
           fadeInProgressBar();                                    // Initiate the progress bar to let the user know the progress of the tests
@@ -1851,7 +1854,9 @@ public class FragmentRunTest extends Fragment {
 
     if (itemId == R.id.menu_item_fragment_run_test_select_tests) {
       if (SKApplication.getAppInstance().allowUserToSelectTestToRun() == false) {
-        menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+        if (menuItem_SelectTests != null) {
+          menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+        }
         SKPorting.sAssert(getClass(), false);
         return true;
       }
@@ -1866,7 +1871,9 @@ public class FragmentRunTest extends Fragment {
       if (connectivityType == eNetworkTypeResults.eNetworkTypeResults_WiFi) {
         SKPorting.sAssert(getClass(), false);
 
-        menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
+        if (menuItem_ShareResult != null) {
+          menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
+        }
       } else {
         FormattedValues formattedValues = new FormattedValues();
 
@@ -1911,7 +1918,9 @@ public class FragmentRunTest extends Fragment {
       return;
     }
 
-    menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+    if (menuItem_SelectTests != null) {
+      menuItem_SelectTests.setVisible(SKApplication.getAppInstance().allowUserToSelectTestToRun());
+    }
     changeAdviceMessageTo(getString(R.string.advice_message_press_the_button_run_again));
     resetProgressBar();
     changeLabelText(getString(R.string.label_message_tests_executed));
@@ -1992,7 +2001,9 @@ public class FragmentRunTest extends Fragment {
 
         gaugeVisible = false;
 
-        menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
+        if (menuItem_ShareResult != null) {
+          menuItem_ShareResult.setVisible((!gaugeVisible) && (connectivityType == eNetworkTypeResults.eNetworkTypeResults_Mobile));
+        }
 
         // Move the results layout to the top of the screen
         run_results_panel_frame_to_animate.animate().setDuration(300).y(dpToPx(8)).setInterpolator(new OvershootInterpolator(1.2f));
@@ -2040,7 +2051,9 @@ public class FragmentRunTest extends Fragment {
             layout_ll_passive_metrics.setVisibility(View.GONE);
             gaugeVisible = true;
 
-            menuItem_ShareResult.setVisible(false);
+            if (menuItem_ShareResult != null) {
+              menuItem_ShareResult.setVisible(false);
+            }
           }
         });
       }

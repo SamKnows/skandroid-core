@@ -97,7 +97,9 @@ public class FragmentArchivedResults extends Fragment {
   private TextView tv_result_wlan_carrier;
 
   private Typeface typeface_Roboto_Light, typeface_Roboto_Thin;
-  private MenuItem menu_Item_Network_Type_Filter, menu_Item_Refresh_Spinner, menu_Item_Share_Result;
+  private MenuItem menu_Item_Network_Type_Filter = null;
+  private MenuItem menu_Item_Refresh_Spinner = null;
+  private MenuItem menu_Item_Share_Result = null;
   private TextView publicIp;
   private TextView submissionId;
   private TextView networkType;
@@ -1290,10 +1292,14 @@ public class FragmentArchivedResults extends Fragment {
     lv_archived_results.setClickable(false);
 
     // Hide the action bar menu filter while the details of a test are shown
-    menu_Item_Network_Type_Filter.setVisible(false);
+    if (menu_Item_Network_Type_Filter != null) {
+      menu_Item_Network_Type_Filter.setVisible(false);
+    }
     if (clickedPosition != -1) {
       // Only share MOBILE results!
-      menu_Item_Share_Result.setVisible(aList_ArchivedResults.get(clickedPosition).getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_Mobile);
+      if (menu_Item_Share_Result != null) {
+        menu_Item_Share_Result.setVisible(aList_ArchivedResults.get(clickedPosition).getNetworkType() == eNetworkTypeResults.eNetworkTypeResults_Mobile);
+      }
     }
 
     // Get the position of the clicked list view item

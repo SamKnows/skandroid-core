@@ -107,7 +107,7 @@ public class FragmentSummary extends Fragment {
   // Container for the graph
   private WebView graphContainer;
 
-  private MenuItem menu_item_seletcNetworkType, menu_Item_Select_Time_Period, menu_Item_Refresh_Spinner;
+  private MenuItem menu_item_selectNetworkType, menu_Item_Select_Time_Period, menu_Item_Refresh_Spinner;
   private boolean asyncTask_RetrieveData_Running = false;    // Whether or not the asynchronous task is running
   private boolean asyncTask_PrepareChart_Running = false;    // Whether or not the asynchronous task is running
   private boolean aList_SummaryResults_No_Empty_For_Download, aList_SummaryResults_No_Empty_For_Upload, aList_SummaryResults_No_Empty_For_Latency, aList_SummaryResults_No_Empty_For_Packet_Loss, aList_SummaryResults_No_Empty_For_Jitter;
@@ -1091,8 +1091,8 @@ public class FragmentSummary extends Fragment {
               prepareChartEnvironment(0, getTimePeriodSelection());
 
               // Disable action bar filters
-              menu_item_seletcNetworkType.setVisible(false);
-              menu_Item_Select_Time_Period.setVisible(false);
+              hideNetworkAndTimePeriodMenuItems();
+
               // Move out of the screen the other rows
               layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
               layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
@@ -1144,8 +1144,8 @@ public class FragmentSummary extends Fragment {
               prepareChartEnvironment(1, getTimePeriodSelection());
 
               // Disable action bar filters
-              menu_item_seletcNetworkType.setVisible(false);
-              menu_Item_Select_Time_Period.setVisible(false);
+              hideNetworkAndTimePeriodMenuItems();
+
               // Move out of the screen the other rows
               layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
               layout_ll_summary_section_latency.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
@@ -1201,8 +1201,8 @@ public class FragmentSummary extends Fragment {
               prepareChartEnvironment(2, getTimePeriodSelection());
 
               // Disable action bar filters
-              menu_item_seletcNetworkType.setVisible(false);
-              menu_Item_Select_Time_Period.setVisible(false);
+              hideNetworkAndTimePeriodMenuItems();
+
               // Move out of the screen the other rows
               layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
               layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
@@ -1257,8 +1257,8 @@ public class FragmentSummary extends Fragment {
               prepareChartEnvironment(3, getTimePeriodSelection());
 
               // Disable action bar filters
-              menu_item_seletcNetworkType.setVisible(false);
-              menu_Item_Select_Time_Period.setVisible(false);
+              hideNetworkAndTimePeriodMenuItems();
+
               // Move out of the screen the other rows
               layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
               layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
@@ -1314,8 +1314,8 @@ public class FragmentSummary extends Fragment {
               prepareChartEnvironment(4, getTimePeriodSelection());
 
               // Disable action bar filters
-              menu_item_seletcNetworkType.setVisible(false);
-              menu_Item_Select_Time_Period.setVisible(false);
+              hideNetworkAndTimePeriodMenuItems();
+
               // Move out of the screen the other rows
               layout_ll_summary_section_download.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
               layout_ll_summary_section_upload.animate().x(-screenWidth).setDuration(300).alpha(0.0f).setInterpolator(null);
@@ -1724,6 +1724,15 @@ public class FragmentSummary extends Fragment {
     layout_ll_summary_section_jitter.setClickable(pAvailable);
   }
 
+  private void hideNetworkAndTimePeriodMenuItems() {
+    if (menu_item_selectNetworkType != null) {
+      menu_item_selectNetworkType.setVisible(false);
+    }
+    if (menu_Item_Select_Time_Period != null) {
+      menu_Item_Select_Time_Period.setVisible(false);
+    }
+  }
+
   // *** MENUS *** //
   // Initialise the contents of the Activity's standard options menu.
   // You should place your menu items in to menu. For this method to be called, you must have first called setHasOptionsMenu(boolean).
@@ -1733,7 +1742,7 @@ public class FragmentSummary extends Fragment {
     super.onCreateOptionsMenu(menu, inflater);
 
     // Identify the action bar menu filters
-    menu_item_seletcNetworkType = menu.findItem(R.id.menu_item_fragment_summary_select_network);
+    menu_item_selectNetworkType = menu.findItem(R.id.menu_item_fragment_summary_select_network);
     menu_Item_Select_Time_Period = menu.findItem(R.id.menu_item_fragment_summary_select_time_period);
     // Identify and initialise the refresh spinner in the action bar
     menu_Item_Refresh_Spinner = menu.findItem(R.id.menu_item_fragment_summary_refreshSpinner);
@@ -1742,8 +1751,7 @@ public class FragmentSummary extends Fragment {
 
     // If the rows are hidden, hide the menu filters
     if (isListviewHidden) {
-      menu_item_seletcNetworkType.setVisible(false);
-      menu_Item_Select_Time_Period.setVisible(false);
+      hideNetworkAndTimePeriodMenuItems();
     }
   }
 
