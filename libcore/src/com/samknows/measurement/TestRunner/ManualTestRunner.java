@@ -361,14 +361,18 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
     List<JSONObject> ret = new ArrayList<>();
     List<String> tests = new ArrayList<>();
 
-    if (td.type.equals(TestFactory.DOWNSTREAMTHROUGHPUT)) {
-      tests.add("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt());
-    } else if (td.type.equals(TestFactory.UPSTREAMTHROUGHPUT)) {
-      tests.add("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt());
-    } else if (td.type.equals(TestFactory.LATENCY)) {
-      tests.add("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt());
-      tests.add("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt());
-      tests.add("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt());
+    switch (td.type) {
+      case TestFactory.DOWNSTREAMTHROUGHPUT:
+        tests.add("" + DETAIL_TEST_ID.DOWNLOAD_TEST_ID.getValueAsInt());
+        break;
+      case TestFactory.UPSTREAMTHROUGHPUT:
+        tests.add("" + DETAIL_TEST_ID.UPLOAD_TEST_ID.getValueAsInt());
+        break;
+      case TestFactory.LATENCY:
+        tests.add("" + DETAIL_TEST_ID.LATENCY_TEST_ID.getValueAsInt());
+        tests.add("" + DETAIL_TEST_ID.PACKETLOSS_TEST_ID.getValueAsInt());
+        tests.add("" + DETAIL_TEST_ID.JITTER_TEST_ID.getValueAsInt());
+        break;
     }
     try {
       for (String t : tests) {

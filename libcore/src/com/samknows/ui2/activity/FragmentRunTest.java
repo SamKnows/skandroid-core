@@ -381,24 +381,26 @@ public class FragmentRunTest extends Fragment {
 
               if (showValueMbps != lastPolledSpeedValueMbps) {
 
-                if (value.second.equals(HttpTest.cReasonUploadEnd)) {
-                  // Nothing to do...?!
+                switch (value.second) {
+                  case HttpTest.cReasonUploadEnd:
+                    // Nothing to do...?!
 
-                } else if ( (value.second.equals(HttpTest.cReasonResetUpload)) ||
-                     (value.second.equals(HttpTest.cReasonResetDownload))
-                   )
-                {
-                  // Don't display the first "0" for the download/upload test reset...
-                  String workingString = getString(R.string.result_working);
-                  tv_Gauge_TextView_PsuedoButton.setText(workingString);
-                } else {
-                  //String message = String.valueOf(value);
+                    break;
+                  case HttpTest.cReasonResetUpload:
+                  case HttpTest.cReasonResetDownload:
+                    // Don't display the first "0" for the download/upload test reset...
+                    String workingString = getString(R.string.result_working);
+                    tv_Gauge_TextView_PsuedoButton.setText(workingString);
+                    break;
+                  default:
+                    //String message = String.valueOf(value);
 
-                  // Update the current result meter for download/upload
-                  updateCurrentTestSpeedMbps(showValueMbps);
+                    // Update the current result meter for download/upload
+                    updateCurrentTestSpeedMbps(showValueMbps);
 
-                  // Update the gauge colour indicator (in Megabytes)
-                  gaugeView.setAngleByValue(showValueMbps);
+                    // Update the gauge colour indicator (in Megabytes)
+                    gaugeView.setAngleByValue(showValueMbps);
+                    break;
                 }
 
                 lastPolledSpeedValueMbps = value.first;
@@ -936,69 +938,93 @@ public class FragmentRunTest extends Fragment {
         value = message_JSON.getString("value");
 
         if (!metricString.equals("invisible")) {
-          if (metricString.equals("simoperatorname")) {
-            tv_result_sim_operator.setText(value);
-          } else if (metricString.equals("simoperatorcode")) {
-            tv_result_sim_operator_code.setText(value);
-          } else if (metricString.equals("networkoperatorname")) {
-            tv_result_network_operator.setText(value);
-          } else if (metricString.equals("networkoperatorcode")) {
-            tv_result_network_operator_code.setText(value);
-          } else if (metricString.equals("roamingstatus")) {
-            tv_result_roaming_status.setText(value);
-          } else if (metricString.equals("gsmcelltowerid")) {
-            tv_result_cell_tower_ID.setText(value);
-          } else if (metricString.equals("gsmlocationareacode")) {
-            tv_result_cell_tower_area_location_code.setText(value);
-          } else if (metricString.equals("gsmsignalstrength")) {
-            tv_result_signal_strength.setText(value);
-          } else if (metricString.equals("manufactor")) {
-            tv_result_manufacturer.setText(value);
-          } else if (metricString.equals("networktype")) {
-            tv_result_bearer.setText(value);
-          } else if (metricString.equals("model")) {
-            tv_result_model.setText(value);
-          } else if (metricString.equals("ostype")) {
-            tv_result_OS.setText(value);
-          } else if (metricString.equals("osversion")) {
-            tv_result_OS_version.setText(value);
-          } else if (metricString.equals("osversionandroid")) {
-            tv_result_OS_version.setText(value);
-            // TODO - WIFI_SSID and other new stuff!
-            // wifi_ssid
-            // municipality
-            // country_name
-            // android os version string
-          } else if (metricString.equals("phonetype")) {
-            tv_result_phone_type.setText(value);
-          } else if (metricString.equals("latitude")) {
-            tv_result_latitude.setText(value);
-          } else if (metricString.equals("longitude")) {
-            tv_result_longitude.setText(value);
-          } else if (metricString.equals("accuracy")) {
-            tv_result_accuracy.setText(value);
-          } else if (metricString.equals("locationprovider")) {
-            tv_result_provider.setText(value);
-          } else if (metricString.equals("public_ip")) {
-            if (publicIp != null) {
-              publicIp.setText(value);
-            }
-          } else if (metricString.equals("submission_id")) {
-            if (submissionId != null) {
-              submissionId.setText(value);
-            }
-          } else if (metricString.equals("activenetworktype")) {
-            if (value.equals("WiFi")) {
-              setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-              //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-            } else if (value.equals("mobile")) {
-              setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-              //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-            } else {
-              SKPorting.sAssert(getClass(), false);
-            }
-          } else {
-            //SKLogger.sAssert(getClass(),  false);
+          switch (metricString) {
+            case "simoperatorname":
+              tv_result_sim_operator.setText(value);
+              break;
+            case "simoperatorcode":
+              tv_result_sim_operator_code.setText(value);
+              break;
+            case "networkoperatorname":
+              tv_result_network_operator.setText(value);
+              break;
+            case "networkoperatorcode":
+              tv_result_network_operator_code.setText(value);
+              break;
+            case "roamingstatus":
+              tv_result_roaming_status.setText(value);
+              break;
+            case "gsmcelltowerid":
+              tv_result_cell_tower_ID.setText(value);
+              break;
+            case "gsmlocationareacode":
+              tv_result_cell_tower_area_location_code.setText(value);
+              break;
+            case "gsmsignalstrength":
+              tv_result_signal_strength.setText(value);
+              break;
+            case "manufactor":
+              tv_result_manufacturer.setText(value);
+              break;
+            case "networktype":
+              tv_result_bearer.setText(value);
+              break;
+            case "model":
+              tv_result_model.setText(value);
+              break;
+            case "ostype":
+              tv_result_OS.setText(value);
+              break;
+            case "osversion":
+              tv_result_OS_version.setText(value);
+              break;
+            case "osversionandroid":
+              tv_result_OS_version.setText(value);
+              // TODO - WIFI_SSID and other new stuff!
+              // wifi_ssid
+              // municipality
+              // country_name
+              // android os version string
+              break;
+            case "phonetype":
+              tv_result_phone_type.setText(value);
+              break;
+            case "latitude":
+              tv_result_latitude.setText(value);
+              break;
+            case "longitude":
+              tv_result_longitude.setText(value);
+              break;
+            case "accuracy":
+              tv_result_accuracy.setText(value);
+              break;
+            case "locationprovider":
+              tv_result_provider.setText(value);
+              break;
+            case "public_ip":
+              if (publicIp != null) {
+                publicIp.setText(value);
+              }
+              break;
+            case "submission_id":
+              if (submissionId != null) {
+                submissionId.setText(value);
+              }
+              break;
+            case "activenetworktype":
+              if (value.equals("WiFi")) {
+                setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+                //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+              } else if (value.equals("mobile")) {
+                setTestConnectivity(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+                //testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+              } else {
+                SKPorting.sAssert(getClass(), false);
+              }
+              break;
+            default:
+              //SKLogger.sAssert(getClass(),  false);
+              break;
           }
         }
       }
@@ -1650,8 +1676,9 @@ public class FragmentRunTest extends Fragment {
       } else {
         return false;
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       Log.i("warning", "Error checking internet connection", e);
+      SKPorting.sAssert(false);
       return false;
     }
   }

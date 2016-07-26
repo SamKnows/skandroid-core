@@ -1360,14 +1360,18 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     ((TextView) row.findViewById(R.id.stat_grid_location)).setText(location);
     ((TextView) row.findViewById(R.id.stat_grid_result)).setText(result);
 
-    if (networkType.equals("mobile")) {
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.cell_phone_icon);
-      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
-    } else if (networkType.equals("WiFi")) {
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.wifiservice);
-      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
-    } else {
-      row.findViewById(R.id.networkTypeImage).setVisibility(View.INVISIBLE);
+    switch (networkType) {
+      case "mobile":
+        ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.cell_phone_icon);
+        row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
+        break;
+      case "WiFi":
+        ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.wifiservice);
+        row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
+        break;
+      default:
+        row.findViewById(R.id.networkTypeImage).setVisibility(View.INVISIBLE);
+        break;
     }
 
     table.addView(row);
@@ -1384,14 +1388,18 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
     ((TextView) row.findViewById(R.id.stat_grid_location)).setText(location);
     ((TextView) row.findViewById(R.id.stat_grid_result)).setText(result);
 
-    if (networkType.equals("mobile")) {
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.cell_phone_icon);
-      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
-    } else if (networkType.equals("WiFi")) {
-      ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.wifiservice);
-      row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
-    } else {
-      row.findViewById(R.id.networkTypeImage).setVisibility(View.INVISIBLE);
+    switch (networkType) {
+      case "mobile":
+        ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.cell_phone_icon);
+        row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
+        break;
+      case "WiFi":
+        ((ImageView) row.findViewById(R.id.networkTypeImage)).setImageResource(R.drawable.wifiservice);
+        row.findViewById(R.id.networkTypeImage).setVisibility(View.VISIBLE);
+        break;
+      default:
+        row.findViewById(R.id.networkTypeImage).setVisibility(View.INVISIBLE);
+        break;
     }
 
     table.addView(row);
@@ -2116,120 +2124,154 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
         // The only safe thing to do, is to use as String value to determine
         // which resource id to use.
 
-        if (metric.equals("connected")) { // connected
-          statRecords.get(archiveItemIndex + 1).passivemetric1 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric1_type = type;
-        } else if (metric.equals("connectivitytype")) { // connectivity
-          // type
-          statRecords.get(archiveItemIndex + 1).passivemetric2 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric2_type = type;
-        } else if (metric.equals("gsmcelltowerid")) { // cell tower id
-          // TODO - Giancarlo says this isn't displayed in SamKnowsAggregateStatViewerActivity - "Archived Result" (archive_result)
-          // METRIC_TYPE.GSMCID("gsmcelltowerid")
-          statRecords.get(archiveItemIndex + 1).passivemetric3 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric3_type = type;
-        } else if (metric.equals("gsmlocationareacode")) { // cell tower
-          // location area
-          statRecords.get(archiveItemIndex + 1).passivemetric4 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric4_type = type;
-        } else if (metric.equals("gsmsignalstrength")) { // signal strength
-          statRecords.get(archiveItemIndex + 1).passivemetric5 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric5_type = type;
-        } else if (metric.equals("networktype")) { // bearer
-          statRecords.get(archiveItemIndex + 1).passivemetric6 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric6_type = type;
-        } else if (metric.equals("networkoperatorname")) { // network
-          // operator
-          statRecords.get(archiveItemIndex + 1).passivemetric7_networkoperatorname = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric7_networkoperatorname_type = type;
-        } else if (metric.equals("latitude")) { // latitude
-          statRecords.get(archiveItemIndex + 1).passivemetric8 =
-              SKCommon.sGetDecimalStringAnyLocaleAs1Pt5LocalisedString(value);
-          statRecords.get(archiveItemIndex + 1).passivemetric8_type = type;
-        } else if (metric.equals("longitude")) { // longitude
-          statRecords.get(archiveItemIndex + 1).passivemetric9 =
-              SKCommon.sGetDecimalStringAnyLocaleAs1Pt5LocalisedString(value);
-          statRecords.get(archiveItemIndex + 1).passivemetric9_type = type;
-        } else if (metric.equals("accuracy")) { // accuracy
-          statRecords.get(archiveItemIndex + 1).passivemetric10 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric10_type = type;
-        } else if (metric.equals("locationprovider")) { // location
-          // provider
-          statRecords.get(archiveItemIndex + 1).passivemetric11 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric11_type = type;
-        } else if (metric.equals("simoperatorcode")) { // sim operator code
-          statRecords.get(archiveItemIndex + 1).passivemetric12 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric12_type = type;
-        } else if (metric.equals("simoperatorname")) { // sim operator name
-          statRecords.get(archiveItemIndex + 1).passivemetric13 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric13_type = type;
-        } else if (metric.equals("imei")) { // imei
-          statRecords.get(archiveItemIndex + 1).passivemetric14 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric14_type = type;
-        } else if (metric.equals("imsi")) { // imsi
-          statRecords.get(archiveItemIndex + 1).passivemetric15 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric15_type = type;
-        } else if (metric.equals("manufactor")) { // manufacturer
-          statRecords.get(archiveItemIndex + 1).passivemetric16 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric16_type = type;
-        } else if (metric.equals("model")) { // model
-          statRecords.get(archiveItemIndex + 1).passivemetric17 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric17_type = type;
-        } else if (metric.equals("ostype")) { // os type
-          statRecords.get(archiveItemIndex + 1).passivemetric18 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric18_type = type;
-        } else if (metric.equals("osversion")) { // os version
-          statRecords.get(archiveItemIndex + 1).passivemetric19 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric19_type = type;
-        } else if (metric.equals("gsmbiterrorrate")) { // gsmbiterrorrate
-          statRecords.get(archiveItemIndex + 1).passivemetric20 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric20_type = type;
-        } else if (metric.equals("cdmaecio")) { // cdmaecio
-          statRecords.get(archiveItemIndex + 1).passivemetric21 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric21_type = type;
-        } else if (metric.equals("phonetype")) { // phone type
-          statRecords.get(archiveItemIndex + 1).passivemetric22 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric22_type = type;
-        } else if (metric.equals("activenetworktype")) { // active network
-          // type
-          if (value.length() > 0) {
-            String new_value = value.substring(0, 1).toUpperCase() + value.substring(1);
-            statRecords.get(archiveItemIndex + 1).active_network_type = "(" + new_value + ")";
-          }
+        switch (metric) {
+          case "connected":  // connected
+            statRecords.get(archiveItemIndex + 1).passivemetric1 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric1_type = type;
+            break;
+          case "connectivitytype":  // connectivity
+            // type
+            statRecords.get(archiveItemIndex + 1).passivemetric2 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric2_type = type;
+            break;
+          case "gsmcelltowerid":  // cell tower id
+            // TODO - Giancarlo says this isn't displayed in SamKnowsAggregateStatViewerActivity - "Archived Result" (archive_result)
+            // METRIC_TYPE.GSMCID("gsmcelltowerid")
+            statRecords.get(archiveItemIndex + 1).passivemetric3 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric3_type = type;
+            break;
+          case "gsmlocationareacode":  // cell tower
+            // location area
+            statRecords.get(archiveItemIndex + 1).passivemetric4 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric4_type = type;
+            break;
+          case "gsmsignalstrength":  // signal strength
+            statRecords.get(archiveItemIndex + 1).passivemetric5 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric5_type = type;
+            break;
+          case "networktype":  // bearer
+            statRecords.get(archiveItemIndex + 1).passivemetric6 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric6_type = type;
+            break;
+          case "networkoperatorname":  // network
+            // operator
+            statRecords.get(archiveItemIndex + 1).passivemetric7_networkoperatorname = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric7_networkoperatorname_type = type;
+            break;
+          case "latitude":  // latitude
+            statRecords.get(archiveItemIndex + 1).passivemetric8 =
+                SKCommon.sGetDecimalStringAnyLocaleAs1Pt5LocalisedString(value);
+            statRecords.get(archiveItemIndex + 1).passivemetric8_type = type;
+            break;
+          case "longitude":  // longitude
+            statRecords.get(archiveItemIndex + 1).passivemetric9 =
+                SKCommon.sGetDecimalStringAnyLocaleAs1Pt5LocalisedString(value);
+            statRecords.get(archiveItemIndex + 1).passivemetric9_type = type;
+            break;
+          case "accuracy":  // accuracy
+            statRecords.get(archiveItemIndex + 1).passivemetric10 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric10_type = type;
+            break;
+          case "locationprovider":  // location
+            // provider
+            statRecords.get(archiveItemIndex + 1).passivemetric11 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric11_type = type;
+            break;
+          case "simoperatorcode":  // sim operator code
+            statRecords.get(archiveItemIndex + 1).passivemetric12 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric12_type = type;
+            break;
+          case "simoperatorname":  // sim operator name
+            statRecords.get(archiveItemIndex + 1).passivemetric13 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric13_type = type;
+            break;
+          case "imei":  // imei
+            statRecords.get(archiveItemIndex + 1).passivemetric14 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric14_type = type;
+            break;
+          case "imsi":  // imsi
+            statRecords.get(archiveItemIndex + 1).passivemetric15 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric15_type = type;
+            break;
+          case "manufactor":  // manufacturer
+            statRecords.get(archiveItemIndex + 1).passivemetric16 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric16_type = type;
+            break;
+          case "model":  // model
+            statRecords.get(archiveItemIndex + 1).passivemetric17 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric17_type = type;
+            break;
+          case "ostype":  // os type
+            statRecords.get(archiveItemIndex + 1).passivemetric18 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric18_type = type;
+            break;
+          case "osversion":  // os version
+            statRecords.get(archiveItemIndex + 1).passivemetric19 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric19_type = type;
+            break;
+          case "gsmbiterrorrate":  // gsmbiterrorrate
+            statRecords.get(archiveItemIndex + 1).passivemetric20 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric20_type = type;
+            break;
+          case "cdmaecio":  // cdmaecio
+            statRecords.get(archiveItemIndex + 1).passivemetric21 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric21_type = type;
+            break;
+          case "phonetype":  // phone type
+            statRecords.get(archiveItemIndex + 1).passivemetric22 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric22_type = type;
+            break;
+          case "activenetworktype":  // active network
+            // type
+            if (value.length() > 0) {
+              String new_value = value.substring(0, 1).toUpperCase() + value.substring(1);
+              statRecords.get(archiveItemIndex + 1).active_network_type = "(" + new_value + ")";
+            }
 
-          //views.get(i + 1).passivemetric23 = value;
-          //views.get(i + 1).passivemetric23_type = type;
-        } else if (metric.equals("connectionstatus")) { // connection
-          // status
-          statRecords.get(archiveItemIndex + 1).passivemetric24 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric24_type = type;
-        } else if (metric.equals("roamingstatus")) { // roaming status
-          statRecords.get(archiveItemIndex + 1).passivemetric25 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric25_type = type;
-        } else if (metric.equals("networkoperatorcode")) { // network
-          // operator code
-          statRecords.get(archiveItemIndex + 1).passivemetric26 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric26_type = type;
-        } else if (metric.equals("cdmasignalstrength")) { // cdmasignalstrength
-          statRecords.get(archiveItemIndex + 1).passivemetric27 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric27_type = type;
-        } else if (metric.equals("cdmabasestationid")) { // cdmabasestationid
-          statRecords.get(archiveItemIndex + 1).passivemetric28 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric28_type = type;
-        } else if (metric.equals("cdmabasestationlatitude")) { // cdmabasestationlatitude
-          statRecords.get(archiveItemIndex + 1).passivemetric29 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric29_type = type;
-        } else if (metric.equals("cdmabasestationlongitude")) { // cdmabasestationlongitude
-          statRecords.get(archiveItemIndex + 1).passivemetric30 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric30_type = type;
-        } else if (metric.equals("cdmanetworkid")) { // cdmanetworkid
-          statRecords.get(archiveItemIndex + 1).passivemetric31 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric31_type = type;
-        } else if (metric.equals("cdmasystemid")) { // cdmasystemid
-          statRecords.get(archiveItemIndex + 1).passivemetric32 = value;
-          statRecords.get(archiveItemIndex + 1).passivemetric32_type = type;
-        } else {
-          Log.d("SamKnowsAggregateStatViewerActivity:MyPagerAdapter", "WARNING - unsupported metric (" + metric + ")");
+            //views.get(i + 1).passivemetric23 = value;
+            //views.get(i + 1).passivemetric23_type = type;
+            break;
+          case "connectionstatus":  // connection
+            // status
+            statRecords.get(archiveItemIndex + 1).passivemetric24 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric24_type = type;
+            break;
+          case "roamingstatus":  // roaming status
+            statRecords.get(archiveItemIndex + 1).passivemetric25 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric25_type = type;
+            break;
+          case "networkoperatorcode":  // network
+            // operator code
+            statRecords.get(archiveItemIndex + 1).passivemetric26 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric26_type = type;
+            break;
+          case "cdmasignalstrength":  // cdmasignalstrength
+            statRecords.get(archiveItemIndex + 1).passivemetric27 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric27_type = type;
+            break;
+          case "cdmabasestationid":  // cdmabasestationid
+            statRecords.get(archiveItemIndex + 1).passivemetric28 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric28_type = type;
+            break;
+          case "cdmabasestationlatitude":  // cdmabasestationlatitude
+            statRecords.get(archiveItemIndex + 1).passivemetric29 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric29_type = type;
+            break;
+          case "cdmabasestationlongitude":  // cdmabasestationlongitude
+            statRecords.get(archiveItemIndex + 1).passivemetric30 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric30_type = type;
+            break;
+          case "cdmanetworkid":  // cdmanetworkid
+            statRecords.get(archiveItemIndex + 1).passivemetric31 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric31_type = type;
+            break;
+          case "cdmasystemid":  // cdmasystemid
+            statRecords.get(archiveItemIndex + 1).passivemetric32 = value;
+            statRecords.get(archiveItemIndex + 1).passivemetric32_type = type;
+            break;
+          default:
+            Log.d("SamKnowsAggregateStatViewerActivity:MyPagerAdapter", "WARNING - unsupported metric (" + metric + ")");
+            break;
         }
 
       } catch (JSONException je) {

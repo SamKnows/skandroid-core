@@ -16,22 +16,36 @@ public class SKTypeface {
     Typeface result = null;
 
     // TODO - allow the app to override these!
-    if (typefacePathInAssets.equals("fonts/roboto_condensed_regular.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_light.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_regular.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Medium.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_MediumItalic.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Thin.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_ThinItalic.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Light.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_LightItalic.ttf")) {
-    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
+    switch (typefacePathInAssets) {
+      case "fonts/roboto_condensed_regular.ttf":
+        break;
+      case "fonts/roboto_light.ttf":
+        break;
+      case "fonts/roboto_thin.ttf":
+        break;
+      case "fonts/roboto_bold.ttf":
+        break;
+      case "fonts/roboto_regular.ttf":
+        break;
+      case "fonts/Lato_Medium.ttf":
+        break;
+      case "fonts/Lato_MediumItalic.ttf":
+        break;
+      case "fonts/Lato_Thin.ttf":
+        break;
+      case "fonts/Lato_ThinItalic.ttf":
+        break;
+      case "fonts/Lato_Light.ttf":
+        break;
+      case "fonts/Lato_LightItalic.ttf":
+        break;
+      case "typewriter.ttf":
 //      Log.d("SKTypefaceUtil", "typewriter.ttf!");
 //      SKLogger.sAssert(false);
-    } else {
-      Log.d("SKTypefaceUtil", "App requested custom font path (" + typefacePathInAssets + ")");
+        break;
+      default:
+        Log.d("SKTypefaceUtil", "App requested custom font path (" + typefacePathInAssets + ")");
+        break;
     }
 
     // e.g. could override here! typefacePathInAssets = "typewriter.ttf";

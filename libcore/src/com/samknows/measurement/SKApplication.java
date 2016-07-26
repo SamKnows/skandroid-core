@@ -420,25 +420,41 @@ public class SKApplication extends MultiDexApplication {
   public Typeface createTypefaceFromAsset(String typefacePathInAssets) {
     Context context = getApplicationContext();
 
-    if (typefacePathInAssets.equals("fonts/roboto_condensed_regular.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_light.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_thin.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_bold.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/roboto_regular.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Semibold.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Bold.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Medium.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_MediumItalic.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Thin.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_ThinItalic.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_Light.ttf")) {
-    } else if (typefacePathInAssets.equals("fonts/Lato_LightItalic.ttf")) {
-    } else if (typefacePathInAssets.equals("typewriter.ttf")) {
+    switch (typefacePathInAssets) {
+      case "fonts/roboto_condensed_regular.ttf":
+        break;
+      case "fonts/roboto_light.ttf":
+        break;
+      case "fonts/roboto_thin.ttf":
+        break;
+      case "fonts/roboto_bold.ttf":
+        break;
+      case "fonts/roboto_regular.ttf":
+        break;
+      case "fonts/Lato_Semibold.ttf":
+        break;
+      case "fonts/Lato_Bold.ttf":
+        break;
+      case "fonts/Lato_Medium.ttf":
+        break;
+      case "fonts/Lato_MediumItalic.ttf":
+        break;
+      case "fonts/Lato_Thin.ttf":
+        break;
+      case "fonts/Lato_ThinItalic.ttf":
+        break;
+      case "fonts/Lato_Light.ttf":
+        break;
+      case "fonts/Lato_LightItalic.ttf":
+        break;
+      case "typewriter.ttf":
 //      Log.d("SKTypefaceUtil", "typewriter.ttf!");
 //      SKLogger.sAssert(false);
-    } else {
-      Log.d("SKTypefaceUtil", "Unexpected font path " + typefacePathInAssets);
-      SKPorting.sAssert(false);
+        break;
+      default:
+        Log.d("SKTypefaceUtil", "Unexpected font path " + typefacePathInAssets);
+        SKPorting.sAssert(false);
+        break;
     }
 
     Typeface result = null;

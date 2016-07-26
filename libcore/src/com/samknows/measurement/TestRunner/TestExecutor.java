@@ -169,13 +169,17 @@ public class TestExecutor {
 						Log.d(TestExecutor.class.getName(), "DEBUG - throttle query success, responseCode=(" + responseCode + "), responseDataAsString=(" + responseDataAsString + ")");
 
 						if (responseCode == 200) {
-							if (responseDataAsString.equals("YES")) {
-								mpThrottleResponse = "throttled";
-							} else if ( responseDataAsString.equals("NO")) {
-								mpThrottleResponse = "non-throttled";
-							} else {
-								SKPorting.sAssert(getClass(), false);
-								mpThrottleResponse = "error";
+							switch (responseDataAsString) {
+								case "YES":
+									mpThrottleResponse = "throttled";
+									break;
+								case "NO":
+									mpThrottleResponse = "non-throttled";
+									break;
+								default:
+									SKPorting.sAssert(getClass(), false);
+									mpThrottleResponse = "error";
+									break;
 							}
 						} else {
 							SKPorting.sAssert(getClass(), false);

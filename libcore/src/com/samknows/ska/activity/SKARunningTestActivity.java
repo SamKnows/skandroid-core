@@ -277,73 +277,107 @@ public class SKARunningTestActivity extends BaseLogoutActivity {
           // The only safe thing to do, is to look at the metricString value,
           // to determine which resource id to use.
           Log.d(this.getClass().getName(), "metric=" + metric + ", metricString=" + metricString + ", value=" + value);
-          if (metricString.equals("connected")) { // connected
-            metric = 1;
-          } else if (metricString.equals("connectivitytype")) { // connectivity
-            metric = 2;
-          } else if (metricString.equals("gsmcelltowerid")) { // cell tower id
-            metric = 3;
-          } else if (metricString.equals("gsmlocationareacode")) { // cell tower
-            metric = 4;
-          } else if (metricString.equals("gsmsignalstrength")) { // signal strength
-            metric = 5;
-          } else if (metricString.equals("networktype")) { // bearer
-            metric = 6;
-          } else if (metricString.equals("networkoperatorname")) { // network operator name
-            metric = 7;
-          } else if (metricString.equals("latitude")) { // latitude
-            metric = 8;
-          } else if (metricString.equals("longitude")) { // longitude
-            metric = 9;
-          } else if (metricString.equals("accuracy")) { // accuracy
-            metric = 10;
-          } else if (metricString.equals("locationprovider")) { // location
-            metric = 11;
-          } else if (metricString.equals("simoperatorcode")) { // sim operator code
-            metric = 12;
-          } else if (metricString.equals("simoperatorname")) { // sim operator name
-            metric = 13;
-          } else if (metricString.equals("imei")) { // imei
-            metric = 14;
-          } else if (metricString.equals("imsi")) { // imsi
-            metric = 15;
-          } else if (metricString.equals("manufactor")) { // manufacter
-            metric = 16;
-          } else if (metricString.equals("model")) { // model
-            metric = 17;
-          } else if (metricString.equals("ostype")) { // os type
-            metric = 18;
-          } else if (metricString.equals("osversion")) { // os version
-            metric = 19;
-          } else if (metricString.equals("gsmbiterrorrate")) { // gsmbiterrorrate
-            metric = 20;
-          } else if (metricString.equals("cdmaecio")) { // cdmaecio
-            metric = 21;
-          } else if (metricString.equals("phonetype")) { // phone type
-            metric = 22;
-          } else if (metricString.equals("activenetworktype")) { // active network
-            metric = 23;
-            mActiveNetworkType = value;
-          } else if (metricString.equals("connectionstatus")) { // connection
-            metric = 24;
-          } else if (metricString.equals("roamingstatus")) { // roaming status
-            metric = 25;
-          } else if (metricString.equals("networkoperatorcode")) { // network
-            metric = 26;
-          } else if (metricString.equals("cdmasignalstrength")) { // cdmasignalstrength
-            metric = 27;
-          } else if (metricString.equals("cdmabasestationid")) { // cdmabasestationid
-            metric = 28;
-          } else if (metricString.equals("cdmabasestationlatitude")) { // cdmabasestationlatitude
-            metric = 29;
-          } else if (metricString.equals("cdmabasestationlongitude")) { // cdmabasestationlongitude
-            metric = 30;
-          } else if (metricString.equals("cdmanetworkid")) { // cdmanetworkid
-            metric = 31;
-          } else if (metricString.equals("cdmasystemid")) { // cdmasystemid
-            metric = 32;
-          } else {
-            Log.d(this.getClass().getName(), "WARNING - unsupported metric (" + metric +")");
+          switch (metricString) {
+            case "connected":  // connected
+              metric = 1;
+              break;
+            case "connectivitytype":  // connectivity
+              metric = 2;
+              break;
+            case "gsmcelltowerid":  // cell tower id
+              metric = 3;
+              break;
+            case "gsmlocationareacode":  // cell tower
+              metric = 4;
+              break;
+            case "gsmsignalstrength":  // signal strength
+              metric = 5;
+              break;
+            case "networktype":  // bearer
+              metric = 6;
+              break;
+            case "networkoperatorname":  // network operator name
+              metric = 7;
+              break;
+            case "latitude":  // latitude
+              metric = 8;
+              break;
+            case "longitude":  // longitude
+              metric = 9;
+              break;
+            case "accuracy":  // accuracy
+              metric = 10;
+              break;
+            case "locationprovider":  // location
+              metric = 11;
+              break;
+            case "simoperatorcode":  // sim operator code
+              metric = 12;
+              break;
+            case "simoperatorname":  // sim operator name
+              metric = 13;
+              break;
+            case "imei":  // imei
+              metric = 14;
+              break;
+            case "imsi":  // imsi
+              metric = 15;
+              break;
+            case "manufactor":  // manufacter
+              metric = 16;
+              break;
+            case "model":  // model
+              metric = 17;
+              break;
+            case "ostype":  // os type
+              metric = 18;
+              break;
+            case "osversion":  // os version
+              metric = 19;
+              break;
+            case "gsmbiterrorrate":  // gsmbiterrorrate
+              metric = 20;
+              break;
+            case "cdmaecio":  // cdmaecio
+              metric = 21;
+              break;
+            case "phonetype":  // phone type
+              metric = 22;
+              break;
+            case "activenetworktype":  // active network
+              metric = 23;
+              mActiveNetworkType = value;
+              break;
+            case "connectionstatus":  // connection
+              metric = 24;
+              break;
+            case "roamingstatus":  // roaming status
+              metric = 25;
+              break;
+            case "networkoperatorcode":  // network
+              metric = 26;
+              break;
+            case "cdmasignalstrength":  // cdmasignalstrength
+              metric = 27;
+              break;
+            case "cdmabasestationid":  // cdmabasestationid
+              metric = 28;
+              break;
+            case "cdmabasestationlatitude":  // cdmabasestationlatitude
+              metric = 29;
+              break;
+            case "cdmabasestationlongitude":  // cdmabasestationlongitude
+              metric = 30;
+              break;
+            case "cdmanetworkid":  // cdmanetworkid
+              metric = 31;
+              break;
+            case "cdmasystemid":  // cdmasystemid
+              metric = 32;
+              break;
+            default:
+              Log.d(this.getClass().getName(), "WARNING - unsupported metric (" + metric + ")");
+              break;
           }
 
           // Prevent them display at ALL in the test view; to prevent

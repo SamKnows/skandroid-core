@@ -280,27 +280,31 @@ public class StorageTestResult extends JSONObject{
     TESTSSTRINGID tsid;
 		//SKLogger.sAssert(data[0].equals(testType));
 
-		if (testType.equals(SKConstants.TEST_TYPE_DOWNLOAD)) {
-      tsid = TESTSSTRINGID.JHTTPGETMT;
-			// Continue!
-		} else if (testType.equals(SKConstants.TEST_TYPE_UPLOAD)) {
-      tsid = TESTSSTRINGID.JHTTPPOSTMT;
-			// Continue!
-		} else if (testType.equals(SKConstants.TEST_TYPE_LATENCY)) {
-      tsid = TESTSSTRINGID.JUDPLATENCY;
-			// Continue!
-		} else if (testType.equals(SKConstants.TEST_TYPE_CLOSEST_TARGET)) {
-			return null;
-		} else if (testType.equals("NETACTIVITY")) {
-			SKPorting.sAssert(false);
-			return null;
+		switch (testType) {
+			case SKConstants.TEST_TYPE_DOWNLOAD:
+				tsid = TESTSSTRINGID.JHTTPGETMT;
+				// Continue!
+				break;
+			case SKConstants.TEST_TYPE_UPLOAD:
+				tsid = TESTSSTRINGID.JHTTPPOSTMT;
+				// Continue!
+				break;
+			case SKConstants.TEST_TYPE_LATENCY:
+				tsid = TESTSSTRINGID.JUDPLATENCY;
+				// Continue!
+				break;
+			case SKConstants.TEST_TYPE_CLOSEST_TARGET:
+				return null;
+			case "NETACTIVITY":
+				SKPorting.sAssert(false);
+				return null;
 //		} else if (testType.equals("CPUACTIVITY")) {
 //			SKLogger.sAssert(false);
 //			return null;
-		} else {
-      SKPorting.sAssert(false);
-			// Nothing to report!
-			return null;
+			default:
+				SKPorting.sAssert(false);
+				// Nothing to report!
+				return null;
 		}
 
 		switch (tsid) {

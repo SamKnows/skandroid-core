@@ -865,72 +865,100 @@ public class FragmentArchivedResults extends Fragment {
           String metric = passiveMetricsEntry.getString("metric");
           String value = passiveMetricsEntry.getString("value");
 
-          if (metric.equals("simoperatorname")) {
-            testResult.setSimOperatorName(value);
-          } else if (metric.equals("simoperatorcode")) {
-            testResult.setSimOperatorCode(value);
-          } else if (metric.equals("networkoperatorname")) {
-            testResult.setNetworkOperatorName(value);
-          } else if (metric.equals("networkoperatorcode")) {
-            testResult.setNetworkOperatorCode(value);
-          } else if (metric.equals("roamingstatus")) {
-            testResult.setRoamingStatus(value);
-          } else if (metric.equals("gsmcelltowerid")) {
-            testResult.setGSMCellTowerID(value);
-          } else if (metric.equals("gsmlocationareacode")) {
-            testResult.setGSMLocationAreaCode(value);
-          } else if (metric.equals("gsmsignalstrength")) {
-            testResult.setGSMSignalStrength(value);
-          } else if (metric.equals("manufactor")) {
-            testResult.setManufactor(value);
-          } else if (metric.equals("networktype")) {
-            testResult.setBearer(value);
-          } else if (metric.equals("model")) {
-            testResult.setModel(value);
-          } else if (metric.equals("ostype")) {
-            testResult.setOSType(value);
-          } else if (metric.equals("osversion")) {
-            testResult.setOSVersion(value);
-          } else if (metric.equals("osversionandroid")) {
-            tv_result_OS_version.setText(value);
-          } else if (metric.equals("androidbuildversion")) {
-            testResult.setOSVersion(value);
-          } else if (metric.equals("phonetype")) {
-            testResult.setPhoneType(value);
-          } else if (metric.equals("latitude")) {
-            testResult.setLatitude(value);
-          } else if (metric.equals("longitude")) {
-            testResult.setLongitude(value);
-          } else if (metric.equals("accuracy")) {
-            testResult.setAccuracy(value);
-          } else if (metric.equals("locationprovider")) {
-            testResult.setLocationProvider(value);
-          } else if (metric.equals("public_ip")) {
-            testResult.setPublicIp(value);
-          } else if (metric.equals("submission_id")) {
-            testResult.setSubmissionId(value);
-          } else if (metric.equals("activenetworktype")) {
-            if (value.equals("WiFi")) {
-              testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
-            } else if (value.equals("mobile")) {
-              testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
-            } else {
-              SKPorting.sAssert(getClass(), false);
-            }
+          switch (metric) {
+            case "simoperatorname":
+              testResult.setSimOperatorName(value);
+              break;
+            case "simoperatorcode":
+              testResult.setSimOperatorCode(value);
+              break;
+            case "networkoperatorname":
+              testResult.setNetworkOperatorName(value);
+              break;
+            case "networkoperatorcode":
+              testResult.setNetworkOperatorCode(value);
+              break;
+            case "roamingstatus":
+              testResult.setRoamingStatus(value);
+              break;
+            case "gsmcelltowerid":
+              testResult.setGSMCellTowerID(value);
+              break;
+            case "gsmlocationareacode":
+              testResult.setGSMLocationAreaCode(value);
+              break;
+            case "gsmsignalstrength":
+              testResult.setGSMSignalStrength(value);
+              break;
+            case "manufactor":
+              testResult.setManufactor(value);
+              break;
+            case "networktype":
+              testResult.setBearer(value);
+              break;
+            case "model":
+              testResult.setModel(value);
+              break;
+            case "ostype":
+              testResult.setOSType(value);
+              break;
+            case "osversion":
+              testResult.setOSVersion(value);
+              break;
+            case "osversionandroid":
+              tv_result_OS_version.setText(value);
+              break;
+            case "androidbuildversion":
+              testResult.setOSVersion(value);
+              break;
+            case "phonetype":
+              testResult.setPhoneType(value);
+              break;
+            case "latitude":
+              testResult.setLatitude(value);
+              break;
+            case "longitude":
+              testResult.setLongitude(value);
+              break;
+            case "accuracy":
+              testResult.setAccuracy(value);
+              break;
+            case "locationprovider":
+              testResult.setLocationProvider(value);
+              break;
+            case "public_ip":
+              testResult.setPublicIp(value);
+              break;
+            case "submission_id":
+              testResult.setSubmissionId(value);
+              break;
+            case "activenetworktype":
+              if (value.equals("WiFi")) {
+                testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_WiFi);
+              } else if (value.equals("mobile")) {
+                testResult.setNetworkType(eNetworkTypeResults.eNetworkTypeResults_Mobile);
+              } else {
+                SKPorting.sAssert(getClass(), false);
+              }
 
-          // WIFI_SSID and other new stuff!
-          // wifi_ssid
-          // municipality
-          // country_name
-          // android os version string
-          } else if (metric.equals("wifi_ssid")){
-            testResult.setWifiSSID(value);
-          } else if (metric.equals("municipality")){
-            testResult.setMunicipality(value);
-          } else if (metric.equals("country_name")){
-            testResult.setCountryName(value);
-          } else if (metric.equals("wlan_carrier")){
-            testResult.setWLANCarrier(value);
+              // WIFI_SSID and other new stuff!
+              // wifi_ssid
+              // municipality
+              // country_name
+              // android os version string
+              break;
+            case "wifi_ssid":
+              testResult.setWifiSSID(value);
+              break;
+            case "municipality":
+              testResult.setMunicipality(value);
+              break;
+            case "country_name":
+              testResult.setCountryName(value);
+              break;
+            case "wlan_carrier":
+              testResult.setWLANCarrier(value);
+              break;
           }
 
           {
