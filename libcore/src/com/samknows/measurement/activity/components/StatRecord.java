@@ -64,8 +64,8 @@ public class StatRecord {
 	public String passivemetric21_type="";
 	public String passivemetric22="";
 	public String passivemetric22_type="";
-	public String passivemetric23="";
-	public String passivemetric23_type="";
+	public final String passivemetric23="";
+	public final String passivemetric23_type="";
 	public String passivemetric24="";
 	public String passivemetric24_type="";
 	public String passivemetric25="";

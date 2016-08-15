@@ -25,12 +25,12 @@ public class ResultsContainer {
 	public static final String JSON_METRICS = "metrics";
 	public static final String JSON_REQUESTED_TESTS = "requested_tests";
 	public static final String JSON_CONDITION_BREACHES = "condition_breaches";
-	private List<JSONObject> mTests = new ArrayList<>();
-	private List<JSONObject> mConditions = new ArrayList<>();
-	private List<JSONObject> mMetrics = new ArrayList<>();
-	private Map<String, Object> mExtra = new LinkedHashMap<>();
-	private JSONArray mRequestedTests = new JSONArray();
-	private Map<String, String> mConditionBreaches = new HashMap<>();
+	private final List<JSONObject> mTests = new ArrayList<>();
+	private final List<JSONObject> mConditions = new ArrayList<>();
+	private final List<JSONObject> mMetrics = new ArrayList<>();
+	private final Map<String, Object> mExtra = new LinkedHashMap<>();
+	private final JSONArray mRequestedTests = new JSONArray();
+	private final Map<String, String> mConditionBreaches = new HashMap<>();
 
   public boolean getAreThereAnyTests() {
     return mTests.size() > 0;

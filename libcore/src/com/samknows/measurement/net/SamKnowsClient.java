@@ -15,12 +15,12 @@ import com.samknows.measurement.SK2AppSettings;
 public class SamKnowsClient{
 	private static final String TAG = Connection.class.getSimpleName();
 	
-	private String username;
-	private String password;
+	private final String username;
+	private final String password;
 	private String device;
 	
-	private AsyncHttpClient client = new AsyncHttpClient();
-	private HttpClient httpClient = client.getHttpClient();
+	private final AsyncHttpClient client = new AsyncHttpClient();
+	private final HttpClient httpClient = client.getHttpClient();
 	private HttpParams httpParams = httpClient.getParams();
 	
 	public final String ALLOWED_UNITS = SK2AppSettings.getInstance().reportingServerPath + "user/getAllowedUnits";

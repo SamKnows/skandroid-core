@@ -44,7 +44,7 @@ import android.util.Pair;
 public class SubmitTestResultsAnonymousAction {
   static final String TAG = "SubmitTestResAnymAct";
 
-  protected Context context;
+  protected final Context context;
   protected boolean isSuccess = false;
 
   public SubmitTestResultsAnonymousAction(Context _context) {

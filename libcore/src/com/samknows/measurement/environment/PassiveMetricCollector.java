@@ -24,11 +24,11 @@ public class PassiveMetricCollector {
     mListDCSData = new ArrayList<>();
   }
 
-  private Context mContext;
-  private TestContext mTestContext;
+  private final Context mContext;
+  private final TestContext mTestContext;
   private List<EnvBaseDataCollector> mCollectors;
   private LocationDataCollector mLocationDataCollector;
-  private List<DCSData> mListDCSData;
+  private final List<DCSData> mListDCSData;
 
   public void startCollectors(List<BaseDataCollector> dataCollectors) {
     mCollectors = new ArrayList<>();

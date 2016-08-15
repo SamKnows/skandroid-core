@@ -13,11 +13,11 @@ public class TestBatch extends JSONObject {
 	
 	public static final String JSON_DTIME = "dtime";
 	public static final String JSON_RUNMANUALLY = "run_manually";
-	private long _starttime;
+	private final long _starttime;
 	private boolean _run_manually;
 	
-	private Vector<JSONObject> tests = new Vector<>();
-	private Vector<JSONObject> metrics = new Vector<>();
+	private final Vector<JSONObject> tests = new Vector<>();
+	private final Vector<JSONObject> metrics = new Vector<>();
 
 	public TestBatch(){
 		_starttime = System.currentTimeMillis();

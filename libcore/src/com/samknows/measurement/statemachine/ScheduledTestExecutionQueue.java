@@ -23,7 +23,7 @@ public class ScheduledTestExecutionQueue implements Serializable{
 
 	private long startTime;
 	private long endTime; //end time for the queue
-	private PriorityQueue<QueueEntry> entries = new PriorityQueue<>();
+	private final PriorityQueue<QueueEntry> entries = new PriorityQueue<>();
 	
 	private transient TestContext tc;
 	
@@ -204,10 +204,10 @@ public class ScheduledTestExecutionQueue implements Serializable{
 	
 	class QueueEntry implements Serializable, Comparable<QueueEntry>{
 		private static final long serialVersionUID = 1L;
-		private long systemTimeMilliseconds;
-    private String systemTimeAsDebugString;
-		long groupId;
-		int orderIdx;
+		private final long systemTimeMilliseconds;
+    private final String systemTimeAsDebugString;
+		final long groupId;
+		final int orderIdx;
 
     public long getSystemTimeMilliseconds() {
       return systemTimeMilliseconds;

@@ -76,12 +76,12 @@ public class ScheduleConfig implements Serializable {
   public List<ConditionGroup> conditionGroups = new ArrayList<>();
   public List<TestDescription> tests = new ArrayList<>();
   public List<TestGroup> backgroundTestGroups = new ArrayList<>();
-  public List<TestDescription> manual_tests = new ArrayList<>();
-  public List<TestDescription> continuous_tests = new ArrayList<>();
+  public final List<TestDescription> manual_tests = new ArrayList<>();
+  public final List<TestDescription> continuous_tests = new ArrayList<>();
   public String manual_test_condition_group_id = null;
   public List<BaseDataCollector> dataCollectors = new ArrayList<>();
-  public HashMap<String, String> hosts = new HashMap<>();
-  public HashMap<String, Communication> communications = new HashMap<>();
+  public final HashMap<String, String> hosts = new HashMap<>();
+  public final HashMap<String, Communication> communications = new HashMap<>();
   public long maximumTestUsage = 0;
 
   public enum TestAlarmType {

@@ -17,7 +17,7 @@ import com.samknows.tests.Conversions;
 public class DataUsedPreference extends DialogPreference {
 
   private TextView mSplashText, mValueText;
-  private Context mContext;
+  private final Context mContext;
   private String mDialogMessage, mSuffix;
 
   public DataUsedPreference(Context context, AttributeSet attrs, int defStyle) {

@@ -173,8 +173,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
   ScheduleConfig config;
 
   List<TestDescription> testList;
-  ArrayList<String> array_spinner = new ArrayList<>();
-  ArrayList<SCHEDULE_TEST_ID> array_spinner_int = new ArrayList<>();
+  final ArrayList<String> array_spinner = new ArrayList<>();
+  final ArrayList<SCHEDULE_TEST_ID> array_spinner_int = new ArrayList<>();
 
   TextView tvHeader = null;
 
@@ -1913,7 +1913,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
   public class MyPagerAdapter extends PagerAdapter {
 
-    private ArrayList<StatRecord> statRecords;
+    private final ArrayList<StatRecord> statRecords;
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position,
@@ -1922,7 +1922,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       current_page_view_position = position;
     }
 
-    SKAMainResultsActivity mMainResultsActivity;
+    final SKAMainResultsActivity mMainResultsActivity;
 
     public MyPagerAdapter(SKAMainResultsActivity inMainResultsActivity) {
 
@@ -3120,7 +3120,7 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 	}
 	
     // http://stackoverflow.com/questions/7175873/click-effect-on-button-in-android?lq=1
-    private static AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
+    private static final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
     
     public static void sSetButtonEffect(View button){
     	

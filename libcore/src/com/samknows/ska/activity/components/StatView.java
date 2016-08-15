@@ -15,7 +15,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class StatView extends ScrollView {
-	private Context ctx;
+	private final Context ctx;
     public StatView(Context ctx) {
         super(ctx);
         this.ctx=ctx;

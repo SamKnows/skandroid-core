@@ -12,7 +12,7 @@ import android.text.format.DateUtils;
 
 
 public class SKDateFormat {
-  private Context mCtx;
+  private final Context mCtx;
 
   static final char DateFormat_MONTH = 'M'; // DateFormat.MONTH;
   static final char DateFormat_DATE = 'd'; // DateFormat.DATE;

@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class ConditionGroupResult extends ConditionResult{
 
-	private List<JSONObject> json_results = new ArrayList<>();
+	private final List<JSONObject> json_results = new ArrayList<>();
   public List<JSONObject> getJsonResultArray() {
     return json_results;
   }

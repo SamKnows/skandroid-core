@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class ButtonWithRightArrow extends Button {
 
-    private int   arrowColor = 0xFF888888;
+    private final int   arrowColor = 0xFF888888;
     private Paint arrowPaint;
     private Path  arrowPath;
 

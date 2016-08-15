@@ -42,7 +42,7 @@ class GaugeView extends View {
   private Paint drawPaint, textPaint;
 
   // Other stuff
-  private Context mContext;
+  private final Context mContext;
 
 
   // *** CONSTRUCTOR *** //

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 
 public class SKServiceDataCache {
-	private HashMap<Key, CachedValue> map = new HashMap<>();
+	private final HashMap<Key, CachedValue> map = new HashMap<>();
 	
 	public void put(String device, int type, String responce, String start) {
 		map.put(new Key(device, type), new CachedValue(responce, System.currentTimeMillis(), start));
@@ -15,8 +15,8 @@ public class SKServiceDataCache {
 	}
 	
 	private class Key {
-		public String device;
-		public int type;
+		public final String device;
+		public final int type;
 		
 		public Key(String device, int type) {
 			super();
@@ -61,9 +61,9 @@ public class SKServiceDataCache {
 	}
 	
 	public class CachedValue {
-		public String responce;
-		public long cachedTime;
-		public String cachedStart;
+		public final String responce;
+		public final long cachedTime;
+		public final String cachedStart;
 		public CachedValue(String responce, long cached, String cachedStart) {
 			super();
 			this.responce = responce;

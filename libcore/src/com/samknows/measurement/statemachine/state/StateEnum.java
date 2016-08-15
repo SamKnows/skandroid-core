@@ -9,7 +9,7 @@ public enum StateEnum {
 	SUBMIT_RESULTS_ANONYMOUS(R.string.state_submit_results),
 	SHUTDOWN(R.string.state_shutdown);
 	
-	public int sId;
+	public final int sId;
 	StateEnum(int stringId){
 		sId = stringId;
 	}

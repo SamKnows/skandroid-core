@@ -3,7 +3,7 @@ package com.samknows.measurement.util;
 import com.samknows.libcore.SKConstants;
 
 public class DCSStringBuilder {
-	private StringBuilder builder = new StringBuilder();
+	private final StringBuilder builder = new StringBuilder();
 	
 	public DCSStringBuilder append(String s) {
 		builder.append(s);

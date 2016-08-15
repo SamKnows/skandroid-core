@@ -42,8 +42,8 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
 
 
   private List<TestDescription> mTestDescription;
-  private Context ctx;
-  private AtomicBoolean run = new AtomicBoolean(true);
+  private final Context ctx;
+  private final AtomicBoolean run = new AtomicBoolean(true);
 
   private ManualTestRunner(SKTestRunnerObserver observer, List<TestDescription> td) {
     super(observer);
@@ -329,9 +329,9 @@ public class ManualTestRunner extends SKTestRunner implements Runnable {
   }
 
   private class ObservableExecutor implements Runnable {
-    public TestExecutor te;
-    private TestDescription td;
-    private ConditionGroupResult tr;
+    public final TestExecutor te;
+    private final TestDescription td;
+    private final ConditionGroupResult tr;
     private SKAbstractBaseTest theTestThatWasRun = null;
     public SKAbstractBaseTest getTheTest() {
       return theTestThatWasRun;

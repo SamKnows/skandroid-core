@@ -26,7 +26,7 @@ public class AutofitLayout extends FrameLayout {
     private boolean mEnabled;
     private float mMinTextSize;
     private float mPrecision;
-    private WeakHashMap<View, AutofitHelper> mHelpers = new WeakHashMap<>();
+    private final WeakHashMap<View, AutofitHelper> mHelpers = new WeakHashMap<>();
 
     public AutofitLayout(Context context) {
         super(context);

@@ -35,11 +35,11 @@ public class ContinuousTestRunner  extends SKTestRunner  implements Runnable {
   private Context mContext;
   private StateEnum mPreviousState;
 
-  PassiveMetricCollector mPassiveMetricCollector;
+  final PassiveMetricCollector mPassiveMetricCollector;
 
-  private TestContext mTestContext;
+  private final TestContext mTestContext;
   private ScheduleConfig mConfig;
-  private DBHelper mDBHelper;
+  private final DBHelper mDBHelper;
 
   public ContinuousTestRunner(SKTestRunnerObserver observer) {
     super(observer);

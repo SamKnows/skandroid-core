@@ -24,9 +24,9 @@ public class CellTowersDataCollector extends EnvBaseDataCollector {
 	 * performs a synchronous read of the signal strength  
 	 */
 	static TelephonyManager mTelManager = null;
-	static CellTowersData mData = new CellTowersData();
+	static final CellTowersData mData = new CellTowersData();
 	static AndroidPhoneStateListener phoneStateListener = null;
-	static CellTowersData neighbours = new CellTowersData();
+	static final CellTowersData neighbours = new CellTowersData();
 
 	@Override
 	synchronized public CellTowersData collect() {

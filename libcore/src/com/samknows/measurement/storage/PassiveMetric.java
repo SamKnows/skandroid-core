@@ -67,8 +67,8 @@ public class PassiveMetric extends JSONObject{
 		 COUNTRYNAME("country_name"); // Not uploaded!
 		 // WIFI_SSID and other new stuff (end)
 
-		public String metric_name;
-		 public String type;
+		public final String metric_name;
+		 public final String type;
 		 METRIC_TYPE(String _name){
 			 metric_name = _name;
 			 type = TYPE_STRING;

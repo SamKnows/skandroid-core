@@ -16,7 +16,7 @@ import java.util.List;
 import com.samknows.libcore.SKPorting;
 
 public final class DownloadTest extends HttpTest {
-  private byte[] buff = new byte[getDownloadBufferSize()];
+  private final byte[] buff = new byte[getDownloadBufferSize()];
   private int readBytes = 0;
 
   private DownloadTest(List<Param> params) {

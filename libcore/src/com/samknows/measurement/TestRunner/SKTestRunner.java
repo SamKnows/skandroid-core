@@ -12,7 +12,7 @@ public class SKTestRunner {
   public enum TestRunnerState {STOPPED, STARTING, EXECUTING, STOPPING}
 
   // Handler used for making the callbacks through the observer.
-  protected Handler mHandler = new Handler();
+  protected final Handler mHandler = new Handler();
 
   // This might be null.
   protected SKTestRunnerObserver mObserver;

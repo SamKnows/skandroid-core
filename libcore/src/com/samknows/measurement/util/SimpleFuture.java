@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class SimpleFuture<T> implements Future<T>{
-	private T result;
+	private final T result;
 	
 	public SimpleFuture(T result) {
 		super();

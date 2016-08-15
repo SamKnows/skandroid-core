@@ -90,7 +90,7 @@ public class DBHelper {
 
 	// members
 	private SQLiteDatabase database;
-	private SKSQLiteHelper dbhelper;
+	private final SKSQLiteHelper dbhelper;
 	private final static Object sync = new Object();
 
 	// Constructor used to set the context

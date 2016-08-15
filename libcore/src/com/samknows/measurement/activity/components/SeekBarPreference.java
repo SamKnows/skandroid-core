@@ -20,12 +20,15 @@ public class SeekBarPreference extends DialogPreference implements
 
 	private SeekBar mSeekBar;
 	private TextView mSplashText, mValueText;
-	private Context mContext;
+	private final Context mContext;
 
 	private int initialValue;
 
-	private String mDialogMessage, mPrefix;
-	private int mDefault, mMax, mValue = 0;
+	private final String mDialogMessage;
+	private final String mPrefix;
+	private final int mDefault;
+	private int mMax;
+	private int mValue = 0;
 
 	public SeekBarPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);

@@ -38,10 +38,10 @@ public class Connection {
 	
 
 	
-	private String mUsername;
-	private String mPassword;
+	private final String mUsername;
+	private final String mPassword;
 	private String mUnit;
-	private DefaultHttpClient mClient = new DefaultHttpClient();
+	private final DefaultHttpClient mClient = new DefaultHttpClient();
 	
 
 	/** 

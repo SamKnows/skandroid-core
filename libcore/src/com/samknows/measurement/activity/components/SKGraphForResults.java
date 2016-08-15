@@ -50,8 +50,8 @@ public class SKGraphForResults {
     DATERANGE_1w1m3m1y_SIX_MONTHS // Only for the SK app...
   }
 
-  private String TAG = SKGraphForResults.class.getSimpleName();
-  private ViewGroup containerViewCroup;
+  private final String TAG = SKGraphForResults.class.getSimpleName();
+  private final ViewGroup containerViewCroup;
   private String json;
   private String date;
   private String tag = "tag";

@@ -1,6 +1,5 @@
 package com.samknows.ui2.activity;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -312,7 +311,7 @@ public class FragmentRunTest extends Fragment {
 
   /// *** BROADCASTER RECEIVERS **** ///
   // Broadcast receiver listening for connectivity changes to make the application connectivity aware.
-  private BroadcastReceiver broadcastReceiverConnectivityChanges = new BroadcastReceiver() {
+  private final BroadcastReceiver broadcastReceiverConnectivityChanges = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
       // On connectivity changes the data cap message might be modified because this message is only shown on mobile connectivity (3G, Edge, HSPA...)
@@ -322,7 +321,7 @@ public class FragmentRunTest extends Fragment {
     }
   };
 
-  Handler mHandler = new Handler();
+  final Handler mHandler = new Handler();
   Timer myTimer = null;
 
   private void stopTimer() {
@@ -334,7 +333,7 @@ public class FragmentRunTest extends Fragment {
 
   static double lastPolledSpeedValueMbps = 0;
 
-  private Random mRandom = new Random();
+  private final Random mRandom = new Random();
 
   private void startTimer() {
 

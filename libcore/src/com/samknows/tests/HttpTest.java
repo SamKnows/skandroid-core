@@ -364,6 +364,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   //private abstract int getWarmupBytesPerSecond();						/* Initial traffic speed */
   //private abstract int getTransferBytesPerSecond();						/* Main traffic speed */
 
+  private final Boolean mThreadsGuard = new Boolean(true);
   private Thread[] mThreads = null;										/* Array of all running threads */
 
   /* Time helper functions */
@@ -684,7 +685,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
 /* The following set of methods relates to a  communication with the external UI TODO move prototypes to test */
 
-  static private AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<>(0.0);
+  static private final AtomicReference<Double> sLatestSpeedForExternalMonitorBytesPerSecond = new AtomicReference<>(0.0);
   static private AtomicReference<Double> sBytesPerSecondLast = new AtomicReference<>(0.0);
 
   private static String sLatestSpeedForExternalMonitorTestId = "";
@@ -869,7 +870,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   protected int getThreadIndex() {
     int threadIndex = 0;
 
-    synchronized (mThreads) {
+    synchronized (mThreadsGuard) {
 
       boolean bFound = false;
 
@@ -1062,9 +1063,9 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   /*
    * Atomic variables used as aggregate counters or (errors, etc. ) indicators updated from concurrently running threads
    */
-  private AtomicLong totalWarmUpBytes = new AtomicLong(0);												/* Total num of bytes transmitted during warmup period */
-  private AtomicLong totalTransferBytes = new AtomicLong(0);												/* Total num of bytes transmitted during trnasfer period */
-  private AtomicBoolean error = new AtomicBoolean(false);												/* Global error indicator */
+  private final AtomicLong totalWarmUpBytes = new AtomicLong(0);												/* Total num of bytes transmitted during warmup period */
+  private final AtomicLong totalTransferBytes = new AtomicLong(0);												/* Total num of bytes transmitted during trnasfer period */
+  private final AtomicBoolean error = new AtomicBoolean(false);												/* Global error indicator */
 
   protected AtomicBoolean getError() {
     return error;
@@ -1128,7 +1129,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   private String infoString = "";
   private String ipAddress = "";
 
-  private boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
+  private final boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
 
   protected boolean getRandomEnabled() {
     return randomEnabled;
@@ -1142,10 +1143,10 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   }
 
   // warmup variables
-  private AtomicLong mStartWarmupMicro = new AtomicLong(0);												/* Point in time when warm up process starts, uSecs */
-  private AtomicLong mWarmupMicroDuration = new AtomicLong(0);											/* Total duration of warm up period, uSecs */
-  private AtomicLong mWarmupTimeMicro = new AtomicLong(0);												/* Time elapsed since warm up process started, uSecs */
-  private AtomicInteger warmupDoneCounter = new AtomicInteger(0);											/* Counter shows how many threads completed warm up process */
+  private final AtomicLong mStartWarmupMicro = new AtomicLong(0);												/* Point in time when warm up process starts, uSecs */
+  private final AtomicLong mWarmupMicroDuration = new AtomicLong(0);											/* Total duration of warm up period, uSecs */
+  private final AtomicLong mWarmupTimeMicro = new AtomicLong(0);												/* Time elapsed since warm up process started, uSecs */
+  private final AtomicInteger warmupDoneCounter = new AtomicInteger(0);											/* Counter shows how many threads completed warm up process */
   private long mWarmupMaxTimeMicro = 0;																	/* Max time warm up is allowed to continue, uSecs */
 
   protected long getWarmupMaxTimeMicro() {
@@ -1160,10 +1161,10 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
 
 
   // transfer variables
-  private AtomicLong mStartTransferMicro = new AtomicLong(0);												/* Point in time when transfer process starts, uSecs */
-  private AtomicLong mTransferMicroDuration = new AtomicLong(0);											/* Total duration of transfer period, uSecs */
-  private AtomicLong transferTimeMicroseconds = new AtomicLong(0);										/* Time elapsed since transfer process started, uSecs */
-  private AtomicInteger transferDoneCounter = new AtomicInteger(0);										/* Counter shows how many threads completed trnasfer process */
+  private final AtomicLong mStartTransferMicro = new AtomicLong(0);												/* Point in time when transfer process starts, uSecs */
+  private final AtomicLong mTransferMicroDuration = new AtomicLong(0);											/* Total duration of transfer period, uSecs */
+  private final AtomicLong transferTimeMicroseconds = new AtomicLong(0);										/* Time elapsed since transfer process started, uSecs */
+  private final AtomicInteger transferDoneCounter = new AtomicInteger(0);										/* Counter shows how many threads completed trnasfer process */
   private long mTransferMaxTimeMicro = 0;																/* Max time transfer is allowed to continue, uSecs*/
 
   protected long getTransferMaxTimeMicro() {
@@ -1177,7 +1178,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   }
 
   //external monitor variables
-  private AtomicLong timeElapsedSinceLastExternalMonitorUpdate = new AtomicLong(0);						/* Time elapsed since external monitor counter was updated last time, uSecs */
+  private final AtomicLong timeElapsedSinceLastExternalMonitorUpdate = new AtomicLong(0);						/* Time elapsed since external monitor counter was updated last time, uSecs */
 
   // Various HTTP tests variables
   private int nThreads;																					/* Number of send/receive threads */
@@ -1205,7 +1206,7 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
     return nThreads;
   }														/* Accessor for number of threads */
 
-  private boolean noDelay = false;
+  private final boolean noDelay = false;
 
   private String testStatus = "FAIL";																	/* Test status, could be 'OK' or 'FAIL' */
 

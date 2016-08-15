@@ -12,7 +12,7 @@ public class EnvironmentDataCollector extends BaseDataCollector{
 	private static final long serialVersionUID = 1L;
 	
 	//List<String> result = new ArrayList<String>();
-	private List<DCSData> data = new ArrayList<>();
+	private final List<DCSData> data = new ArrayList<>();
 		
 	@Override
 	public void start(TestContext ctx) {

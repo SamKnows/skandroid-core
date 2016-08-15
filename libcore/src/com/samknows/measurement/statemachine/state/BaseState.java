@@ -5,7 +5,7 @@ import android.content.Context;
 import com.samknows.measurement.statemachine.StateResponseCode;
 
 public class BaseState {
-	protected Context ctx;
+	protected final Context ctx;
 	
 	public BaseState(Context c) {
 		super();

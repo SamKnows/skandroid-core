@@ -19,16 +19,16 @@ public final class ActiveServerUploadTest extends UploadTest {
   private boolean bGotValidResponseFromServer = false;
   //private boolean bReadThreadIsRunning = 		true;				/* True if thread from Server still running */
 
-  private AtomicInteger threadsCount = new AtomicInteger(0);
+  private final AtomicInteger threadsCount = new AtomicInteger(0);
 
   /* Server side metrics */
-  private AtomicLong serverBytesPerSecondTotal = new AtomicLong(0);
-  private AtomicLong serverBytesTransferTotal = new AtomicLong(0);
-  private AtomicLong serverBytesWarmUpTotal = new AtomicLong(0);
-  private AtomicLong serverTimeWarmUpTotal = new AtomicLong(0);
-  private AtomicLong serverTimeTransferTotal = new AtomicLong(0);
+  private final AtomicLong serverBytesPerSecondTotal = new AtomicLong(0);
+  private final AtomicLong serverBytesTransferTotal = new AtomicLong(0);
+  private final AtomicLong serverBytesWarmUpTotal = new AtomicLong(0);
+  private final AtomicLong serverTimeWarmUpTotal = new AtomicLong(0);
+  private final AtomicLong serverTimeTransferTotal = new AtomicLong(0);
 
-  private AtomicLong runUpStartTime = new AtomicLong(0);
+  private final AtomicLong runUpStartTime = new AtomicLong(0);
 
   private long mSessionID = -1L;
   //private HashMap<Integer, ServerInStreamThread> readThreads = new HashMap<Integer, ServerInStreamThread>();

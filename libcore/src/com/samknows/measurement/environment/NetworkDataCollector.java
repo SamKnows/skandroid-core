@@ -159,7 +159,7 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
 	}
 	
 	private class NetworkDataListener extends PhoneStateListener{
-		NetworkDataCollector mNetworkDataCollector;
+		final NetworkDataCollector mNetworkDataCollector;
 		public NetworkDataListener(NetworkDataCollector ndc){
 			mNetworkDataCollector = ndc;
 		}

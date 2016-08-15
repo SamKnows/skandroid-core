@@ -11,6 +11,7 @@ import org.json.JSONObject;
 abstract public class SKAbstractBaseTest {
 
   //private String[] outputFields = null;
+  private final Boolean errorStringGuard = Boolean.valueOf(true);
   private String errorString = "";
   //private JSONObject json_output = null;
 
@@ -60,7 +61,7 @@ abstract public class SKAbstractBaseTest {
 
   protected boolean setErrorIfEmpty(String error) {
     boolean ret = false;
-    synchronized (errorString) {
+    synchronized (errorStringGuard) {
       if (errorString.equals("")) {
         errorString = error;
         ret = true;
@@ -70,7 +71,7 @@ abstract public class SKAbstractBaseTest {
   }
 
   protected void setError(String error) {
-    synchronized (errorString) {
+    synchronized (errorStringGuard) {
       errorString = error;
     }
   }

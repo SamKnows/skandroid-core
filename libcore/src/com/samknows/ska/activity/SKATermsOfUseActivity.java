@@ -33,7 +33,7 @@ public class SKATermsOfUseActivity extends BaseLogoutActivity {
 	
 	
 	public class WebAppInterface {
-		Context mContext;
+		final Context mContext;
 
 		/** Instantiate the interface and set the context */
 		WebAppInterface(Context c) {

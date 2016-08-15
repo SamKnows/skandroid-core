@@ -30,7 +30,7 @@ import com.samknows.libcore.SKPorting;
  * certificate validation on every device, use with caution
  */
 public class MySSLSocketFactory extends SSLSocketFactory {
-    SSLContext sslContext = SSLContext.getInstance("TLS");
+    final SSLContext sslContext = SSLContext.getInstance("TLS");
 
     /**
      * Creates a new SSL Socket Factory with the given KeyStore.

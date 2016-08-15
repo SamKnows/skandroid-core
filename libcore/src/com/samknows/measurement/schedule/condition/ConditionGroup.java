@@ -20,7 +20,7 @@ public class ConditionGroup extends Condition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public String id;
-	public List<Condition> conditions = new ArrayList<>();
+	public final List<Condition> conditions = new ArrayList<>();
 	public RetryFailAction failAction;
 
 	public static ConditionGroup parseXml(Element node) {

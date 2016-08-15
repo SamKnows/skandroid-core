@@ -12,7 +12,7 @@ import com.samknows.measurement.statemachine.state.BaseState;
 import com.samknows.measurement.util.OtherUtils;
 
 public class BackgroundTestRunner  extends SKTestRunner  {
-  private Context mContext;
+  private final Context mContext;
 
   public BackgroundTestRunner(SKTestRunnerObserver observer) {
     super(observer);

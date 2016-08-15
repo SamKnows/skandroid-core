@@ -87,7 +87,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
   }
 
   //Used to collect the results from the individual LatencyTests as soon as the finish
-  private BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<>();
+  private final BlockingQueue<LatencyTest.Result> bq_results = new LinkedBlockingQueue<>();
 
   //public ClosestTarget() {
   //	synchronized (ClosestTarget.this) {
@@ -243,7 +243,7 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
   }
 
   private final int cQueryCountPerServer = 3;
-  private ArrayList<Integer> finishedTestsPerServer = new ArrayList<>();
+  private final ArrayList<Integer> finishedTestsPerServer = new ArrayList<>();
 
   private boolean mbInHttpTestingFallbackMode = false;
   private boolean mbUdpClosestTargetTestSucceeded = false;
@@ -254,12 +254,12 @@ public class ClosestTarget extends SKAbstractBaseTest implements Runnable {
 
   // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/CountDownLatch.html
   class WorkerRunner extends Thread {
-    private int serverIndex;
-    private String target;
-    private String urlString;
+    private final int serverIndex;
+    private final String target;
+    private final String urlString;
 
-    private CountDownLatch startSignal;
-    private CountDownLatch doneSignal;
+    private final CountDownLatch startSignal;
+    private final CountDownLatch doneSignal;
 
     private long measuredLatencyMilliseconds = -100L;
 

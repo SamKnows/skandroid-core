@@ -27,7 +27,7 @@ public class TestDescription implements Serializable{
     UPLOAD_TEST(3),
     LATENCY_TEST(4); // This contains Jitter, Latency, Loss...
 
-    private int value;
+    private final int value;
 
     SCHEDULE_TEST_ID(int value) {
       this.value = value;
@@ -75,7 +75,7 @@ public class TestDescription implements Serializable{
 
 	public static final long NO_START_TIME = -1;
 	
-	public long id = IdGenerator.generate();
+	public final long id = IdGenerator.generate();
 
 	public SCHEDULE_TEST_ID testId;
 	public String type;//todo change to enum

@@ -29,11 +29,11 @@ public class SKConstants {
 	// The value must NOT be shipped set to true!
 	public static final boolean USE_LOCAL_CONFIG = false;
 	
-	public static long TEST_QUEUE_MAX_SIZE_IN_DAYS = 3; //populate execution queue with task for next *number* of days
-	public static long TEST_QUEUE_NORMAL_SIZE_IN_DAYS = 1; //populate execution queue with task for next *number* of days
-	public static long NO_NEXT_RUN_TIME = -1;
+	public static final long TEST_QUEUE_MAX_SIZE_IN_DAYS = 3; //populate execution queue with task for next *number* of days
+	public static final long TEST_QUEUE_NORMAL_SIZE_IN_DAYS = 1; //populate execution queue with task for next *number* of days
+	public static final long NO_NEXT_RUN_TIME = -1;
 	
-	public static long WAIT_TEST_BEFORE_ABORT = 600000; //Wait time before kill a test being executing in millis currently 10 min
+	public static final long WAIT_TEST_BEFORE_ABORT = 600000; //Wait time before kill a test being executing in millis currently 10 min
 	
 	public static final int NOTIFICATION_ID = 1;
 	
@@ -47,7 +47,7 @@ public class SKConstants {
 	public static final long SUBMITED_LOGS_MAX_SIZE = 5L * 1024L * 1024L; //in bytes
 	
 	//public static int RC_SCHEDULE_TEST = 0;
-	public static int RC_NOTIFICATION = 1;
+	public static final int RC_NOTIFICATION = 1;
 	
 	public static final String RESULT_OK = "OK";
 	public static final String RESULT_FAIL = "FAIL";
@@ -105,7 +105,7 @@ public class SKConstants {
 	//public static final String PREF_DATA_CAP_USER_DEFINED = "data_cap_user_defined";
 	public static final String PREF_ENABLE_WAKEUP = "enable_wakeup";
 	public static final String PREF_LOCATION_TYPE = "location_type";
-	public static String PREF_DATA_CAP_RESET_DAY = "data_cap_reset_day";
+	public static final String PREF_DATA_CAP_RESET_DAY = "data_cap_reset_day";
 	
 	public static final String TEST_TYPE_CLOSEST_TARGET = "closestTarget";
 	public static final String TEST_TYPE_DOWNLOAD = "downstreamthroughput";

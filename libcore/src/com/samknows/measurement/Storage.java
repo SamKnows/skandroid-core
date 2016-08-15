@@ -18,7 +18,7 @@ import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.statemachine.ScheduledTestExecutionQueue;
 
 public class Storage {
-  private Context c;
+  private final Context c;
 
   protected Storage(Context c) {
     super();

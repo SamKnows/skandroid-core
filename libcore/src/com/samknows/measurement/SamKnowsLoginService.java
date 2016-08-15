@@ -24,7 +24,7 @@ public class SamKnowsLoginService {
 	private static final String TAG = SamKnowsLoginService.class.getSimpleName();
 	
 	private SamKnowsClient client;
-	private SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
+	private final SK2AppSettings appSettings = SK2AppSettings.getSK2AppSettingsInstance();
 	private boolean FORCE = false;
 	
 	public static final SKServiceDataCache cache = new SKServiceDataCache();

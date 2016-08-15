@@ -197,7 +197,7 @@ public class SKAPostToTwitterActivity extends Activity {
 		editor.commit();
 	}
 	
-	Handler mHandler = new Handler();
+	final Handler mHandler = new Handler();
 	
 	private void clearLoginDetails() {
 		// If (say) the user has blocked the app on the Twitter site, we should clear-out cache login

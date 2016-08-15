@@ -17,7 +17,7 @@ public class TestParamsManager implements Serializable {
   static final String TAG = "TestParamsManager";
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<String, TestParam> map = new HashMap<>();
+	private final HashMap<String, TestParam> map = new HashMap<>();
 	
 	private void put(String name, String value) {
 		Log.d(TAG, "saving param: " + name + " with value: " + value);
@@ -73,8 +73,9 @@ public class TestParamsManager implements Serializable {
 
 	private class TestParam implements Serializable{
 		private static final long serialVersionUID = 1L;
-		public String name, value;
-		public long createdTime;
+		public final String name;
+		public final String value;
+		public final long createdTime;
 		public TestParam(String name, String value) {
 			super();
 			this.name = name;

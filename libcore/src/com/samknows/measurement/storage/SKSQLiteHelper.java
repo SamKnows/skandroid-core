@@ -30,7 +30,7 @@ public class SKSQLiteHelper extends SQLiteOpenHelper {
 		TR_COLUMN_LOCATION, TR_COLUMN_SUCCESS, TR_COLUMN_RESULT, TR_COLUMN_BATCH_ID
 	};
 	
-	public static String CREATE_TABLE_TESTRESULT = "CREATE TABLE "
+	public static final String CREATE_TABLE_TESTRESULT = "CREATE TABLE "
 			+ TABLE_TESTRESULT + " ( "
 			+ TR_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ TR_COLUMN_TYPE + " TEXT NOT NULL, "
@@ -53,7 +53,7 @@ public class SKSQLiteHelper extends SQLiteOpenHelper {
 	public static final String PM_COLUMN_BATCH_ID = "batch_id";
 	public static final String[] TABLE_PASSIVEMETRIC_ALLCOLUMNS = {
 		PM_COLUMN_ID, PM_COLUMN_METRIC, PM_COLUMN_DTIME, PM_COLUMN_VALUE, PM_COLUMN_TYPE, PM_COLUMN_BATCH_ID	};
-	public String CREATE_TABLE_PASSIVEMETRIC = "CREATE TABLE "
+	public final String CREATE_TABLE_PASSIVEMETRIC = "CREATE TABLE "
 			+ TABLE_PASSIVEMETRIC + " ( "
 			+ PM_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ PM_COLUMN_METRIC + " TEXT NOT NULL, "
@@ -70,7 +70,7 @@ public class SKSQLiteHelper extends SQLiteOpenHelper {
 	public static final String TB_COLUMN_MANUAL = "manual";
 	public static final String[] TABLE_TESTBATCH_ALLCOLUMNS = {
 		TB_COLUMN_ID, TB_COLUMN_DTIME, TB_COLUMN_MANUAL};
-	public String CREATE_TABLE_TESTBATCH = "CREATE TABLE "
+	public final String CREATE_TABLE_TESTBATCH = "CREATE TABLE "
 			+ TABLE_TESTBATCH + " ( "
 			+ TB_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ TB_COLUMN_DTIME + " INTEGER NOT NULL, "
@@ -86,7 +86,7 @@ public class SKSQLiteHelper extends SQLiteOpenHelper {
 	
 			
 	//database creation sql statement	
-	public String[] DATABASE_CREATE = {
+	public final String[] DATABASE_CREATE = {
 			CREATE_TABLE_TESTRESULT,  
 			CREATE_TABLE_PASSIVEMETRIC,
 			CREATE_TABLE_TESTBATCH

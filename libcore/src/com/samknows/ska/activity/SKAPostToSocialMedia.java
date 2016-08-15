@@ -520,7 +520,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 		createFacebookSessionAndThenPost(messageToPost, imageToPost);
 	}
 	
-		Request.Callback uploadPhotoRequestCallback = new Request.Callback() {
+		final Request.Callback uploadPhotoRequestCallback = new Request.Callback() {
 		    @Override
 		    public void onCompleted(Response response) {
 		    	if (response.getError() != null) { 
@@ -689,7 +689,7 @@ public class SKAPostToSocialMedia extends BaseLogoutActivity {
 	private Handler mRunOnUi = new Handler();
 
 	// http://stackoverflow.com/questions/7175873/click-effect-on-button-in-android?lq=1
-	private static AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
+	private static final AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
 
 	public static void sSetViewOnTouchEffect(View button){
 

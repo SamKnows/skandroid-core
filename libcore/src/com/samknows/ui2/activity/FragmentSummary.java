@@ -264,7 +264,7 @@ public class FragmentSummary extends Fragment {
 
   // *** BROADCAST RECEIVERS *** //
   // Our handler for received Intents. This will be called whenever an Intent with an action named "refreshUIMessage" is broadcasted.
-  private BroadcastReceiver updateScreenMessageReceiver = new BroadcastReceiver() {
+  private final BroadcastReceiver updateScreenMessageReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
       // Refresh the UI data. This it's need because the list view data was modified

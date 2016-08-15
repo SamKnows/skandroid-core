@@ -7,7 +7,7 @@ import java.util.List;
 import android.content.Context;
 
 public abstract class EnvBaseDataCollector {
-	protected Context context;
+	protected final Context context;
 	final List<DCSData> mListDCSData = Collections.synchronizedList(new ArrayList<DCSData>());
 
 	public EnvBaseDataCollector(Context context) {

@@ -45,10 +45,10 @@ public class ProgressWheel extends View {
 	private int textColor = 0xFF000000;
 
 	//Paints
-	private Paint barPaint = new Paint();
-	private Paint circlePaint = new Paint();
-	private Paint rimPaint = new Paint();
-	private Paint textPaint = new Paint();
+	private final Paint barPaint = new Paint();
+	private final Paint circlePaint = new Paint();
+	private final Paint rimPaint = new Paint();
+	private final Paint textPaint = new Paint();
 	
 	//Rectangles
 	@SuppressWarnings("unused")
@@ -60,7 +60,7 @@ public class ProgressWheel extends View {
 	private int spinSpeed = 2;
 	//The number of milliseconds to wait inbetween each draw
 	private int delayMillis = 0;
-	private Handler spinHandler = new Handler() {
+	private final Handler spinHandler = new Handler() {
 		/**
 		 * This is the code that will increment the progress variable
 		 * and so spin the wheel

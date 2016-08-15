@@ -31,8 +31,8 @@ public class NetAction {
   static final String TAG = "NetAction";
 
 	private String request, errorString;
-	private List<Header> headers = new ArrayList<>();
-	private HttpParams params = new BasicHttpParams();
+	private final List<Header> headers = new ArrayList<>();
+	private final HttpParams params = new BasicHttpParams();
 	private String body;
 	protected HttpResponse response;
 	

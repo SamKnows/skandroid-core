@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import com.samknows.libcore.SKPorting;
 
 public class DeviceDescription implements Serializable{
-	private String id;
-	private String mac;
+	private final String id;
+	private final String mac;
 	
 	public DeviceDescription(String id, String mac) {
 		super();

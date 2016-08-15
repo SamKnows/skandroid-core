@@ -7,7 +7,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 
 public class PhoneIdentityDataCollector {
-	private Context context;
+	private final Context context;
 
 	public PhoneIdentityDataCollector(Context context) {
 		super();

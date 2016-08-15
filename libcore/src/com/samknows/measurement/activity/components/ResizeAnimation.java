@@ -6,12 +6,13 @@ import android.view.animation.Transformation;
 
 public class ResizeAnimation extends Animation {
 
-    int originalHeight;
-    int targetHeight;
-    int offsetHeight;
+    final int originalHeight;
+    final int targetHeight;
+    final int offsetHeight;
     int adjacentHeightIncrement;
-    View view, adjacentView;
-    boolean down;
+    final View view;
+    View adjacentView;
+    final boolean down;
 
     //This constructor makes the animation start from height 0px
     public ResizeAnimation(View view, int offsetHeight, boolean down) {

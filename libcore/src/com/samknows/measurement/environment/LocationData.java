@@ -33,9 +33,9 @@ public class LocationData implements DCSData {
 	public static final String JSON_PROVIDERSTATUS_UNAVAILABLE	= "unavailable";
 
 
-	private Location mLocation;
+	private final Location mLocation;
 	private boolean mIsLastKnown = false;
-	private LocationType mLocType;
+	private final LocationType mLocType;
 	private int mProviderStatus = LocationProvider.AVAILABLE;
 
   private long mForcedTimeMilli = -1L;

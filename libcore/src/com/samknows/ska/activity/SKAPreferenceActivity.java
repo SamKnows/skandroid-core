@@ -53,7 +53,7 @@ public class SKAPreferenceActivity extends PreferenceActivity implements OnShare
 //    private LruCache<String, Typeface> sTypefaceCache =
 //        new LruCache<String, Typeface>(12);
 
-    private Typeface mTypeface;
+    private final Typeface mTypeface;
 
     /**
      * Load the {@link Typeface} and apply to a {@link Spannable}.

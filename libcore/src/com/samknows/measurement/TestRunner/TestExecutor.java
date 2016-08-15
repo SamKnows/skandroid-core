@@ -52,12 +52,12 @@ import com.samknows.tests.TestFactory;
 public class TestExecutor {
 	private static final String JSON_SUBMISSION_TYPE = "submission_type";
 	private static final String TAG = TestExecutor.class.getName();
-	private TestContext tc;
+	private final TestContext tc;
 	private SKAbstractBaseTest executingTest;
 	private long lastTestBytes;
 	private long accumulatedTestBytes;
 	private Thread startThread = null;
-	private ResultsContainer rc;
+	private final ResultsContainer rc;
 	
 	public SKAbstractBaseTest getExecutingTest() {
 		return executingTest;

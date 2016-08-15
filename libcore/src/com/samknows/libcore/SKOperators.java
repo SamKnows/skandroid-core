@@ -36,9 +36,9 @@ public class SKOperators {
   public class SKThrottledQueryResult {
 
     public SKOperators_Return returnCode;
-    public String timestamp; // Unix time - seconds since 1970
+    public final String timestamp; // Unix time - seconds since 1970
     //public String datetimeUTCMilliZ;  // UTC string
-    public String datetimeUTCSimple;  // UTC string
+    public final String datetimeUTCSimple;  // UTC string
     public String carrier;
 
     public SKThrottledQueryResult() {

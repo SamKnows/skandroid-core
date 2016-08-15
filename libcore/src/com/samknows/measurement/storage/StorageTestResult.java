@@ -31,7 +31,7 @@ public class StorageTestResult extends JSONObject{
     PACKETLOSS_TEST_ID(3),
     JITTER_TEST_ID(4);
 
-    private int value;
+    private final int value;
 
     DETAIL_TEST_ID(int value) {
       this.value = value;

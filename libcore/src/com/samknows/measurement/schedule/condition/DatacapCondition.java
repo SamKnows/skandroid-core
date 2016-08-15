@@ -12,8 +12,8 @@ import com.samknows.measurement.util.SKDateFormat;
  */
 public class DatacapCondition {
 	public static final String JSON_DATACAP = "DATACAP";
-	private boolean mSuccess;
-	private long mTimemillis;
+	private final boolean mSuccess;
+	private final long mTimemillis;
 	
 	
 	public DatacapCondition(boolean success){

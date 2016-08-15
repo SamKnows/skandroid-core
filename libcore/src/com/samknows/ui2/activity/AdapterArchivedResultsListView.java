@@ -30,11 +30,11 @@ import com.samknows.libcore.SKTypeface;
 
 public class AdapterArchivedResultsListView extends ArrayAdapter<TestResult> {
   // *** VARIABLES *** //
-  private ArrayList<TestResult> archivedResultsList;
+  private final ArrayList<TestResult> archivedResultsList;
   private boolean packetLossTestWasPerformed = false;
 
   // Other stuff
-  private Context context;
+  private final Context context;
 
   // Custom adapter constructor
   public AdapterArchivedResultsListView(Context pContext, ArrayList<TestResult> pArchivedResultsList) {

@@ -12,9 +12,9 @@ import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.storage.ResultsContainer;
 
 public class TestContext {
-	private Context ctx;
-	public ScheduleConfig config;
-	public TestParamsManager paramsManager;
+	private final Context ctx;
+	public final ScheduleConfig config;
+	public final TestParamsManager paramsManager;
 	
 	public ResultsContainer resultsContainer = null;
 	

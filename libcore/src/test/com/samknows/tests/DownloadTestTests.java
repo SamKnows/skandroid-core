@@ -60,8 +60,8 @@ public class DownloadTestTests {
       return mBlockSize;
     }
 
-    String header = "HTTP/1.1 200 OK\n\n\n";
-    byte[] headerBytes = header.getBytes();
+    final String header = "HTTP/1.1 200 OK\n\n\n";
+    final byte[] headerBytes = header.getBytes();
 
 //    boolean bReadHeader = false;
 

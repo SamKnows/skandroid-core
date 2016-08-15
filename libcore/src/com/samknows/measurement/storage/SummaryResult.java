@@ -15,8 +15,10 @@ import com.samknows.measurement.storage.StorageTestResult.*;
 
 public class SummaryResult
 {
-	private DETAIL_TEST_ID testType;
-	private float max, min, average;
+	private final DETAIL_TEST_ID testType;
+	private final float max;
+	private final float min;
+	private final float average;
 	
 	public SummaryResult(DETAIL_TEST_ID pTestType, float pAverage, float pMax, float pMin)
 	{

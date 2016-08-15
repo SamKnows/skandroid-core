@@ -499,8 +499,8 @@ public class RequestParams {
     }
 
     public static class FileWrapper {
-        public File file;
-        public String contentType;
+        public final File file;
+        public final String contentType;
 
         public FileWrapper(File file, String contentType) {
             this.file = file;
@@ -509,9 +509,9 @@ public class RequestParams {
     }
 
     public static class StreamWrapper {
-        public InputStream inputStream;
-        public String name;
-        public String contentType;
+        public final InputStream inputStream;
+        public final String name;
+        public final String contentType;
 
         public StreamWrapper(InputStream inputStream, String name, String contentType) {
             this.inputStream = inputStream;

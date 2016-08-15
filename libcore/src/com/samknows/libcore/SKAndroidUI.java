@@ -44,7 +44,7 @@ public class SKAndroidUI {
 
   private static class DialogActionClickListener implements DialogInterface.OnClickListener
   {
-    private Runnable mActionRunnable;
+    private final Runnable mActionRunnable;
 
     private DialogActionClickListener( Runnable actionRunnable )
     {

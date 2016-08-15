@@ -145,8 +145,8 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   }
 
   static public class Result {
-    public String target;
-    public long rttMicroseconds;
+    public final String target;
+    public final long rttMicroseconds;
 
     public Result(String _target, long nanoseconds) {
       target = _target;
@@ -187,16 +187,16 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     public static final int SERVERTOCLIENTMAGIC = 0x00006000;
     static final int CLIENTTOSERVERMAGIC = 0x00009000;
 
-    int datagramid;
+    final int datagramid;
     @SuppressWarnings("unused")
     int starttimesec;
     @SuppressWarnings("unused")
     int starttimeusec;
-    int magic;
+    final int magic;
 
     // When we make the "ping" we don't want to lose any time in memory
     // allocations, as much as possible should be ready (I miss structs...)
-    byte[] arrayRepresentation;
+    final byte[] arrayRepresentation;
 
     UdpDatagram(byte[] byteArray) {
       arrayRepresentation = byteArray;

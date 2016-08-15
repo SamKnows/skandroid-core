@@ -88,7 +88,7 @@ public class SKPorting {
   // Calls handler. If the platform supports calling in main thread, then make the call in the main thread!
   public static class MainThreadResultHandler {
 
-    Handler mHandler = new Handler();
+    final Handler mHandler = new Handler();
 
     public void callUsingMainThreadWhereSupported(Runnable runnable) {
 

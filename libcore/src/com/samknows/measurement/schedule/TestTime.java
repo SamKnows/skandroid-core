@@ -9,8 +9,8 @@ import com.samknows.measurement.util.TimeUtils;
 public class TestTime implements Serializable, Comparable<TestTime> {
 	public static final long NO_START_TIME = -1;
 	private static final long serialVersionUID = 1L;
-	public Long mTime;
-	public Long mRandomInterval;
+	public final Long mTime;
+	public final Long mRandomInterval;
 	
 	public TestTime(Long time){
 		mTime = time;

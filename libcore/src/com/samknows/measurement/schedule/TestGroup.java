@@ -15,7 +15,7 @@ import com.samknows.measurement.util.XmlUtils;
 public class TestGroup implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	public long id = IdGenerator.generate();
+	public final long id = IdGenerator.generate();
 	
 	//condition group to be executed before and after
 	public String conditionGroupId;
