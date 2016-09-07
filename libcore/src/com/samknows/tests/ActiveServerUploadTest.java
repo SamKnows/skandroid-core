@@ -316,11 +316,12 @@ public final class ActiveServerUploadTest extends UploadTest {
           break;
         }
 
-        connOut.write(buff);														/* Write buffer to output socket */
+        byte[] uploadBuffer = getBufferWithOptionalRandomize();
+        connOut.write(uploadBuffer);														/* Write buffer to output socket */
         connOut.flush();
 
-        bytesTransferredInThisThread += buff.length;
-        addTotalTransferBytes(buff.length);
+        bytesTransferredInThisThread += uploadBuffer.length;
+        addTotalTransferBytes(uploadBuffer.length);
 
       } catch (IOException ioe) {
         SKPorting.sAssert(getClass(), false);

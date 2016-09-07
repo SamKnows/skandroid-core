@@ -1129,7 +1129,8 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   private String infoString = "";
   private String ipAddress = "";
 
-  private final boolean randomEnabled = false;																			/* Upload buffer randomisation is required */
+  // Flag to indicate if upload buffer randomisation is required...
+  private final boolean randomEnabled = true;
 
   protected boolean getRandomEnabled() {
     return randomEnabled;

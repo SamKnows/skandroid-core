@@ -9,7 +9,23 @@ import com.samknows.libcore.SKPorting;
 public abstract class UploadTest extends HttpTest {
 
   protected double bitrateMpbs1024Based = -1.0;			/* ???? Scale coefficient */
-  protected byte[] buff;											/* buffer to send values */
+  private byte[] buff;											/* buffer to send values */
+
+  public byte[] getBufferDoNotRandomize() {
+    return buff;
+  }
+
+  public int getBufferLength() {
+    return buff.length;
+  }
+
+  public byte[] getBufferWithOptionalRandomize() {
+    if (getRandomEnabled()) {
+      mRandom.nextBytes(buff);
+    }
+
+    return buff;
+  }
 
   protected UploadTest(List<Param> params) {
     super(_UPSTREAM, params);
@@ -56,13 +72,14 @@ public abstract class UploadTest extends HttpTest {
     return values;
   }
 
+  Random mRandom = new Random();								/* Used for initialisation of upload array */
+
   private void init() {											/* don't forget to check error state after this method */
 																	/* getSocket() is a method from the parent class */
     int maxSendDataChunkSize = 32768;
 
     // Generate this value in case we need it.
     // It is a random value from [0...2^32-1]
-    Random sRandom = new Random();								/* Used for initialisation of upload array */
 
     if (getUploadBufferSize() > 0 && getUploadBufferSize() <= maxSendDataChunkSize) {
       buff = new byte[getUploadBufferSize()];
@@ -72,8 +89,7 @@ public abstract class UploadTest extends HttpTest {
     }
 
     if (getRandomEnabled()) {											/* randomEnabled comes from the parent (HTTPTest) class */
-      sRandom = new Random();									/* Used for initialisation of upload array */
-      sRandom.nextBytes(buff);
+      mRandom = new Random();								/* Used for initialisation of upload array */
     }
   }
 

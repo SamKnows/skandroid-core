@@ -73,10 +73,11 @@ public class PassiveServerUploadTest extends UploadTest {
       return true;
     }
 
+    byte[] uploadBuffer = getBufferDoNotRandomize();
     if (isWarmup) {
-      return isWarmupDone(buff.length);
+      return isWarmupDone(uploadBuffer.length);
     } else {
-      return isTransferDone(buff.length);
+      return isTransferDone(uploadBuffer.length);
     }
   }
 
@@ -114,7 +115,10 @@ public class PassiveServerUploadTest extends UploadTest {
         long startTimeWrite = System.currentTimeMillis();
         */
         try {
-          connOut.write(buff);
+
+
+          byte[] uploadBuffer = getBufferWithOptionalRandomize();
+          connOut.write(uploadBuffer);
         } catch (SocketTimeoutException e) {
           if (getIgnoreSocketTimeout()) {
             if (Debug.isDebuggerConnected()) {
@@ -205,7 +209,8 @@ public class PassiveServerUploadTest extends UploadTest {
     // If only 1 buffer "SENT": treat this as an error...
     //
     long btsTotal = getTotalTransferBytes();
-    if (btsTotal == buff.length) {
+
+    if (btsTotal == getBufferLength()) {
       // ONLY 1 BUFFER "SENT": TREAT THIS AS AN ERROR, AND SET BYTES TO 0!!!
       SKPorting.sAssertE(this, "Only one buffer sent - treat this as an upload failure");
       resetTotalTransferBytesToZero();
