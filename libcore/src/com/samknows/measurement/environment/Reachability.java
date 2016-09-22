@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
 
 import com.samknows.libcore.R;
 import com.samknows.libcore.SKPorting;
@@ -92,4 +93,20 @@ public class Reachability {
     return sCheckIfIsConnectedAndIfNotShowAnAlertThenFinish(activity, false);
   }
 
+  @NonNull
+  public static Boolean sGetGetDoesDeviceSupportCellularData() {
+    // http://stackoverflow.com/questions/27536238/detect-if-an-android-device-has-mobile-data-capability
+    Context context = SKApplication.getAppInstance().getApplicationContext();
+    Boolean bDeviceHasCellularData = false; // Assume default case - it doesn't
+    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    if (cm != null) {
+      NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+      if (ni != null) {
+        // Not null - means that the device *DOES* have mobile data capability
+        bDeviceHasCellularData = true;
+        // Note that Genymotion devices take this route through the code!
+      }
+    }
+    return bDeviceHasCellularData;
+  }
 }
