@@ -50,277 +50,281 @@ import com.samknows.tests.SKAbstractBaseTest;
 import com.samknows.tests.TestFactory;
 
 public class TestExecutor {
-	private static final String JSON_SUBMISSION_TYPE = "submission_type";
-	private static final String TAG = TestExecutor.class.getName();
-	private final TestContext tc;
-	private SKAbstractBaseTest executingTest;
-	private long lastTestBytes;
-	private long accumulatedTestBytes;
-	private Thread startThread = null;
-	private final ResultsContainer rc;
-	
-	public SKAbstractBaseTest getExecutingTest() {
-		return executingTest;
-	}
-	
-	public long getAccumulatedTestBytes() {
-		return accumulatedTestBytes;
-	}
-	
-	public ResultsContainer getResultsContainer() {
-		return rc;
-	}
-	
-	public SKThrottledQueryResult mThrottledQueryResult = null;
-	String mpThrottleResponse = "no throttling";
-	
-	private JSONArray accumulatedNetworkTypeLocationMetrics = new JSONArray();
-	
-	public TestContext getTestContext() {
-		return tc;
-	}
+  private static final String JSON_SUBMISSION_TYPE = "submission_type";
+  private static final String TAG = TestExecutor.class.getName();
+  private final TestContext tc;
+  private SKAbstractBaseTest executingTest;
+  private long lastTestBytes;
+  private long accumulatedTestBytes;
+  private Thread startThread = null;
+  private final ResultsContainer rc;
 
+  public SKAbstractBaseTest getExecutingTest() {
+    return executingTest;
+  }
+
+  public long getAccumulatedTestBytes() {
+    return accumulatedTestBytes;
+  }
+
+  public ResultsContainer getResultsContainer() {
+    return rc;
+  }
+
+  public SKThrottledQueryResult mThrottledQueryResult = null;
+  String mpThrottleResponse = "no throttling";
+
+  private JSONArray accumulatedNetworkTypeLocationMetrics = new JSONArray();
+
+  public TestContext getTestContext() {
+    return tc;
+  }
+
+  public void addCustomMetric(JSONObject customMetric) {
+    SKPorting.sAssert(customMetric.has("type"));
+
+    accumulatedNetworkTypeLocationMetrics.put(customMetric);
+  }
 
   public void addPassiveLocationMetricForTestResult(JSONObject jsonResult) {
     boolean forceReportLastKnownAsLocationFalse = false;
-		List<JSONObject> passiveMetrics = LocationDataCollector.sGetPassiveLocationMetric(forceReportLastKnownAsLocationFalse);
-		if (passiveMetrics.size() == 0) {
-			// Nothing to do!
-			return;
-		}
+    List<JSONObject> passiveMetrics = LocationDataCollector.sGetPassiveLocationMetric(forceReportLastKnownAsLocationFalse);
+    if (passiveMetrics.size() == 0) {
+      // Nothing to do!
+      return;
+    }
 
-		int items = passiveMetrics.size();
-		int i;
-		for (i = 0; i < items; i++) {
-			JSONObject item = passiveMetrics.get(i);
-			try {
-				// Overwrite the date/time fields...
+    int items = passiveMetrics.size();
+    int i;
+    for (i = 0; i < items; i++) {
+      JSONObject item = passiveMetrics.get(i);
+      try {
+        // Overwrite the date/time fields...
 //				ResultsContainer resultsContainer = getResultsContainer();
 //				JSONObject theTest = resultsContainer.getJSONArrayForTestId(getInternalNameOfExecutingTest());
-				long timestamp = 0;
-				try{
-					timestamp = jsonResult.getLong(DCSData.JSON_TIMESTAMP);
-				}catch(Exception e){
-					int hahah = 1;
-				}
-				
-				item.put("type", "location");
-				item.put(DCSData.JSON_TIMESTAMP, timestamp);
-				String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
-				item.put(DCSData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
-				
+        long timestamp = 0;
+        try {
+          timestamp = jsonResult.getLong(DCSData.JSON_TIMESTAMP);
+        } catch (Exception e) {
+          int hahah = 1;
+        }
+
+        item.put("type", "location");
+        item.put(DCSData.JSON_TIMESTAMP, timestamp);
+        String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
+        item.put(DCSData.JSON_DATETIME, datetime); // new java.util.Date(timestamp * 1000L).toString());
+
         accumulatedNetworkTypeLocationMetrics.put(item);
 
-			} catch (JSONException e) {
-				SKPorting.sAssert(StorageTestResult.class, false);
-			}
-		}
-	}
-	
-	public void addPassiveNetworkTypeMetricForTestResult(JSONObject jsonResult) {
-		
-		// The following should only ever return a List<JSONObject> containing one item!
-		List<JSONObject> passiveMetrics = NetworkDataCollector.sGetNetworkDataPassiveMetrics();
-		int items = passiveMetrics.size();
-		SKPorting.sAssert(StorageTestResult.class, items == 1);
+      } catch (JSONException e) {
+        SKPorting.sAssert(StorageTestResult.class, false);
+      }
+    }
+  }
 
-		int i;
-		for (i = 0; i < items; i++) {
-			JSONObject item = passiveMetrics.get(i);
-			try {
-				// Overwrite the date/time fields...
-				long timestamp = jsonResult.getLong(DCSData.JSON_TIMESTAMP);
-				item.put(DCSData.JSON_TIMESTAMP, timestamp);
-				String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
-				item.put(DCSData.JSON_DATETIME,  datetime); // new java.util.Date(timestamp * 1000L).toString());
-				
+  public void addPassiveNetworkTypeMetricForTestResult(JSONObject jsonResult) {
+
+    // The following should only ever return a List<JSONObject> containing one item!
+    List<JSONObject> passiveMetrics = NetworkDataCollector.sGetNetworkDataPassiveMetrics();
+    int items = passiveMetrics.size();
+    SKPorting.sAssert(StorageTestResult.class, items == 1);
+
+    int i;
+    for (i = 0; i < items; i++) {
+      JSONObject item = passiveMetrics.get(i);
+      try {
+        // Overwrite the date/time fields...
+        long timestamp = jsonResult.getLong(DCSData.JSON_TIMESTAMP);
+        item.put(DCSData.JSON_TIMESTAMP, timestamp);
+        String datetime = jsonResult.getString(DCSData.JSON_DATETIME);
+        item.put(DCSData.JSON_DATETIME, datetime); // new java.util.Date(timestamp * 1000L).toString());
+
         accumulatedNetworkTypeLocationMetrics.put(item);
-			} catch (JSONException e) {
-				SKPorting.sAssert(StorageTestResult.class, false);
-			}
-		}
+      } catch (JSONException e) {
+        SKPorting.sAssert(StorageTestResult.class, false);
+      }
+    }
 
-	}
-		
-	public TestExecutor(TestContext tc) {
-		super();
-		this.tc = tc;
-		
-		accumulatedTestBytes = 0L;
-		
-		rc = new ResultsContainer();
-		
-		if (SKApplication.getAppInstance().isThrottleQuerySupported() == false) {
-			// No throttled query!
-			mThrottledQueryResult = null;
-			mpThrottleResponse = "no throttling";
-		} else {
-			// Fire-off a Throttle test, capture it, and submit when done!
-			SKOperators operators = SKOperators.getInstance(tc.getContext());
-			mpThrottleResponse = "timeout";
-			mThrottledQueryResult = operators.fireThrottledWebServiceQueryWithCallback(new ISKQueryCompleted() {
+  }
 
-				@Override
-				public void onQueryCompleted(Exception e, long responseCode,
-						String responseDataAsString) {
-					SKPorting.sAssert(getClass(), mThrottledQueryResult.returnCode == SKOperators_Return.SKOperators_Return_FiredThrottleQueryAwaitCallback);
+  public TestExecutor(TestContext tc) {
+    super();
+    this.tc = tc;
 
-					if (e == null) {
-						Log.d(TestExecutor.class.getName(), "DEBUG - throttle query success, responseCode=(" + responseCode + "), responseDataAsString=(" + responseDataAsString + ")");
+    accumulatedTestBytes = 0L;
 
-						if (responseCode == 200) {
-							switch (responseDataAsString) {
-								case "YES":
-									mpThrottleResponse = "throttled";
-									break;
-								case "NO":
-									mpThrottleResponse = "non-throttled";
-									break;
-								default:
-									SKPorting.sAssert(getClass(), false);
-									mpThrottleResponse = "error";
-									break;
-							}
-						} else {
-							SKPorting.sAssert(getClass(), false);
+    rc = new ResultsContainer();
 
-							// http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-							if (    (responseCode == 408) // Request Timeout
-									|| (responseCode == 504) // Gateway Timeout
-									|| (responseCode == 524) // Timeout
-									|| (responseCode == 598) // timeout
-									|| (responseCode == 599) // timeout
-									)
-							{
-								mpThrottleResponse = "timeout";
-							} else {
-								mpThrottleResponse = "error";
-							}
-						}
-					} else {
-						Log.d(TestExecutor.class.getName(), "DEBUG - throttle query error, responseCode=(" + responseCode + "), responseDataAsString=(" + responseDataAsString + ")");
-						//SKLogger.sAssert(getClass(), false);
-						mpThrottleResponse = "error";
-					}
-				}
-			});
+    if (SKApplication.getAppInstance().isThrottleQuerySupported() == false) {
+      // No throttled query!
+      mThrottledQueryResult = null;
+      mpThrottleResponse = "no throttling";
+    } else {
+      // Fire-off a Throttle test, capture it, and submit when done!
+      SKOperators operators = SKOperators.getInstance(tc.getContext());
+      mpThrottleResponse = "timeout";
+      mThrottledQueryResult = operators.fireThrottledWebServiceQueryWithCallback(new ISKQueryCompleted() {
 
-			if (mThrottledQueryResult.returnCode == SKOperators_Return.SKOperators_Return_NoThrottleQuery) {
-				mpThrottleResponse = "no throttling";
-			}
-		}
+        @Override
+        public void onQueryCompleted(Exception e, long responseCode,
+                                     String responseDataAsString) {
+          SKPorting.sAssert(getClass(), mThrottledQueryResult.returnCode == SKOperators_Return.SKOperators_Return_FiredThrottleQueryAwaitCallback);
 
-		// This is required to be stored in the test Context; otherwise,
-		// we cannot capture information on failed Conditions!
-		tc.resultsContainer = rc;
+          if (e == null) {
+            Log.d(TestExecutor.class.getName(), "DEBUG - throttle query success, responseCode=(" + responseCode + "), responseDataAsString=(" + responseDataAsString + ")");
 
-	}
-	
-	public void addRequestedTest(TestDescription td){
-		rc.addRequestedTest(td);
-	}
-	
-	public ConditionGroupResult execute(ConditionGroup cg){ 
-		ConditionGroupResult ret = new ConditionGroupResult();
-		if(cg == null){
-			return ret;
-		}
-		try{
-			ConditionGroupResult c = (ConditionGroupResult ) cg.testBefore(tc).get(); 
-			ret.add(c);
-		//Treat exceptions as failures	
-		} catch(ExecutionException ee){
-			SKPorting.sAssertE(this, "Error in running test condition: " + ee.getMessage());
-			ret.isSuccess=false;
-		} catch(InterruptedException ie){
-			SKPorting.sAssertE(this, "Error in running test condition: " + ie.getMessage());
-			ret.isSuccess=false;
-		}
-		return ret;
-	
-	}
-	
-	public ConditionGroupResult execute(ConditionGroup cg, TestDescription td) {
-		showNotification(tc.getString(R.string.ntf_checking_conditions));
-		ConditionGroupResult result = execute(cg);
+            if (responseCode == 200) {
+              switch (responseDataAsString) {
+                case "YES":
+                  mpThrottleResponse = "throttled";
+                  break;
+                case "NO":
+                  mpThrottleResponse = "non-throttled";
+                  break;
+                default:
+                  SKPorting.sAssert(getClass(), false);
+                  mpThrottleResponse = "error";
+                  break;
+              }
+            } else {
+              SKPorting.sAssert(getClass(), false);
 
-		if (result.isSuccess || result.isFailQuiet()) {
-			executeTest(td, result);
-		}
-		SKPorting.sLogD(TAG, "result test: " + (result.isSuccess ? "OK" : "FAIL"));
+              // http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+              if ((responseCode == 408) // Request Timeout
+                  || (responseCode == 504) // Gateway Timeout
+                  || (responseCode == 524) // Timeout
+                  || (responseCode == 598) // timeout
+                  || (responseCode == 599) // timeout
+                  ) {
+                mpThrottleResponse = "timeout";
+              } else {
+                mpThrottleResponse = "error";
+              }
+            }
+          } else {
+            Log.d(TestExecutor.class.getName(), "DEBUG - throttle query error, responseCode=(" + responseCode + "), responseDataAsString=(" + responseDataAsString + ")");
+            //SKLogger.sAssert(getClass(), false);
+            mpThrottleResponse = "error";
+          }
+        }
+      });
 
-		if (result.isSuccess && cg != null) {
-			ConditionGroupResult cgr = cg.testAfter(tc);
-			result.add(cgr);
-			rc.addCondition(result.getJsonResultArray());
-		}
+      if (mThrottledQueryResult.returnCode == SKOperators_Return.SKOperators_Return_NoThrottleQuery) {
+        mpThrottleResponse = "no throttling";
+      }
+    }
 
-		if (cg != null) {
-			cg.release(tc);
-		}
+    // This is required to be stored in the test Context; otherwise,
+    // we cannot capture information on failed Conditions!
+    tc.resultsContainer = rc;
 
-		SKPorting.sLogD(this, "conditionGroup:execute - rc.getJSON()=" + rc.getJSON().toString());
+  }
 
-		// TestResultsManager.saveResult(tc.getServiceContext(),
-		// result.results);
-		cancelNotification();
-		return result;
-	}
+  public void addRequestedTest(TestDescription td) {
+    rc.addRequestedTest(td);
+  }
 
-	public SKAbstractBaseTest executeTest(TestDescription td, ConditionGroupResult result) {
-		
-		try {
-			List<Param> params = tc.paramsManager.prepareParams(td.params);
+  public ConditionGroupResult execute(ConditionGroup cg) {
+    ConditionGroupResult ret = new ConditionGroupResult();
+    if (cg == null) {
+      return ret;
+    }
+    try {
+      ConditionGroupResult c = (ConditionGroupResult) cg.testBefore(tc).get();
+      ret.add(c);
+      //Treat exceptions as failures
+    } catch (ExecutionException ee) {
+      SKPorting.sAssertE(this, "Error in running test condition: " + ee.getMessage());
+      ret.isSuccess = false;
+    } catch (InterruptedException ie) {
+      SKPorting.sAssertE(this, "Error in running test condition: " + ie.getMessage());
+      ret.isSuccess = false;
+    }
+    return ret;
 
-			executingTest = TestFactory.create(td.type, params);
-			if (executingTest != null) {
-				SKPorting.sLogD(TestExecutor.class, "start to execute test: " + td.displayName);
-			
-				String displayName = td.displayName;
-				boolean bShowNotification = true;
-				if (td.type.equalsIgnoreCase(TestFactory.CLOSESTTARGET)) {
-					if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo() == false) {
-						// Do NOT show closest target report!
-    				  bShowNotification = false;
-					}
-				} else if (td.type.equals(TestFactory.LATENCY)) {
-					displayName = tc.getString(R.string.latency);
-				} else if (td.type.equals(TestFactory.DOWNSTREAMTHROUGHPUT)) {
-					displayName = tc.getString(R.string.download);
-				} else if (td.type.equals(TestFactory.UPSTREAMTHROUGHPUT)) {
-					displayName = tc.getString(R.string.upload);
-				}
-				
-				if (bShowNotification) {
-					showNotification(tc.getString(R.string.ntf_running_test) + displayName);
-				}
-				
-				//execute the test in a new thread and kill it if it doesn't terminate after
-				//Constants.WAIT_TEST_BEFORE_ABORT
-				Thread t = new Thread(new Runnable() {
-					@Override
-					public void run() {
-						executingTest.runBlockingTestToFinishInThisThread();
-					}
-				});
-				t.start();
-				t.join(SKConstants.WAIT_TEST_BEFORE_ABORT);
-				if (t.isAlive()) {
-					SKPorting.sAssertE(this, "Test is still running after "+SKConstants.WAIT_TEST_BEFORE_ABORT/1000+" seconds.");
-					t.interrupt();
-					t = null;
-				} else {
-					lastTestBytes = executingTest.getNetUsage();
-					accumulatedTestBytes += lastTestBytes;
-					result.isSuccess = executingTest.isSuccessful();
+  }
 
-					// TODO MPC - theJsonResult here, can be used to append the Accumulated results!
-					JSONObject jsonResult = executingTest.getJSONResult();
-					//SKLogger.d("", jsonResult.toString());//TODO remove in production
-					addPassiveLocationMetricForTestResult(jsonResult);
-		      addPassiveNetworkTypeMetricForTestResult(jsonResult);
-					rc.addTestJSONObject(jsonResult);
-					
+  public ConditionGroupResult execute(ConditionGroup cg, TestDescription td) {
+    showNotification(tc.getString(R.string.ntf_checking_conditions));
+    ConditionGroupResult result = execute(cg);
+
+    if (result.isSuccess || result.isFailQuiet()) {
+      executeTest(td, result);
+    }
+    SKPorting.sLogD(TAG, "result test: " + (result.isSuccess ? "OK" : "FAIL"));
+
+    if (result.isSuccess && cg != null) {
+      ConditionGroupResult cgr = cg.testAfter(tc);
+      result.add(cgr);
+      rc.addCondition(result.getJsonResultArray());
+    }
+
+    if (cg != null) {
+      cg.release(tc);
+    }
+
+    SKPorting.sLogD(this, "conditionGroup:execute - rc.getJSON()=" + rc.getJSON().toString());
+
+    // TestResultsManager.saveResult(tc.getServiceContext(),
+    // result.results);
+    cancelNotification();
+    return result;
+  }
+
+  public SKAbstractBaseTest executeTest(TestDescription td, ConditionGroupResult result) {
+
+    try {
+      List<Param> params = tc.paramsManager.prepareParams(td.params);
+
+      executingTest = TestFactory.create(td.type, params);
+      if (executingTest != null) {
+        SKPorting.sLogD(TestExecutor.class, "start to execute test: " + td.displayName);
+
+        String displayName = td.displayName;
+        boolean bShowNotification = true;
+        if (td.type.equalsIgnoreCase(TestFactory.CLOSESTTARGET)) {
+          if (SKApplication.getAppInstance().getDoesAppDisplayClosestTargetInfo() == false) {
+            // Do NOT show closest target report!
+            bShowNotification = false;
+          }
+        } else if (td.type.equals(TestFactory.LATENCY)) {
+          displayName = tc.getString(R.string.latency);
+        } else if (td.type.equals(TestFactory.DOWNSTREAMTHROUGHPUT)) {
+          displayName = tc.getString(R.string.download);
+        } else if (td.type.equals(TestFactory.UPSTREAMTHROUGHPUT)) {
+          displayName = tc.getString(R.string.upload);
+        }
+
+        if (bShowNotification) {
+          showNotification(tc.getString(R.string.ntf_running_test) + displayName);
+        }
+
+        //execute the test in a new thread and kill it if it doesn't terminate after
+        //Constants.WAIT_TEST_BEFORE_ABORT
+        Thread t = new Thread(new Runnable() {
+          @Override
+          public void run() {
+            executingTest.runBlockingTestToFinishInThisThread();
+          }
+        });
+        t.start();
+        t.join(SKConstants.WAIT_TEST_BEFORE_ABORT);
+        if (t.isAlive()) {
+          SKPorting.sAssertE(this, "Test is still running after " + SKConstants.WAIT_TEST_BEFORE_ABORT / 1000 + " seconds.");
+          t.interrupt();
+          t = null;
+        } else {
+          lastTestBytes = executingTest.getNetUsage();
+          accumulatedTestBytes += lastTestBytes;
+          result.isSuccess = executingTest.isSuccessful();
+
+          // TODO MPC - theJsonResult here, can be used to append the Accumulated results!
+          JSONObject jsonResult = executingTest.getJSONResult();
+          //SKLogger.d("", jsonResult.toString());//TODO remove in production
+          addPassiveLocationMetricForTestResult(jsonResult);
+          addPassiveNetworkTypeMetricForTestResult(jsonResult);
+          rc.addTestJSONObject(jsonResult);
+
 //					// HACK TO INCLUDE THE JUDPJITTER RESULTS
 //					if (td.type.equalsIgnoreCase("latency")) {
 //            if (executingTest instanceof LatencyTest) {
@@ -363,42 +367,42 @@ public class TestExecutor {
 //						}
 //					}
 
-					SKPorting.sLogD(TAG, "finished execution test: " + td.type);
-				}
-			} else {
-				SKPorting.sAssertE(TAG, "Can't find test for: " + td.type,
-						new RuntimeException());
-				SKPorting.sAssert(getClass(), false);
-				result.isSuccess = false;
-			}
-		} catch (Throwable e) {
-			SKPorting.sAssertE(this, "Error in executing the test. ", e);
-			SKPorting.sAssert(getClass(), false);
-			result.isSuccess = false;
-		} finally {
-			cancelNotification();
-		}
-		
-		return executingTest;
-	}
+          SKPorting.sLogD(TAG, "finished execution test: " + td.type);
+        }
+      } else {
+        SKPorting.sAssertE(TAG, "Can't find test for: " + td.type,
+            new RuntimeException());
+        SKPorting.sAssert(getClass(), false);
+        result.isSuccess = false;
+      }
+    } catch (Throwable e) {
+      SKPorting.sAssertE(this, "Error in executing the test. ", e);
+      SKPorting.sAssert(getClass(), false);
+      result.isSuccess = false;
+    } finally {
+      cancelNotification();
+    }
 
-	public int getProgress0To100() {
-		if (executingTest != null) {
-			return executingTest.getProgress0To100();
-		}
-		return -1;
-	}
+    return executingTest;
+  }
 
-	@SuppressWarnings("deprecation")
-	public void showNotification(String message) {
-		String title = SKApplication.getAppInstance().getAppName();
+  public int getProgress0To100() {
+    if (executingTest != null) {
+      return executingTest.getProgress0To100();
+    }
+    return -1;
+  }
 
-		PendingIntent intent = PendingIntent.getService(tc.getContext(),
-				SKConstants.RC_NOTIFICATION, new Intent(),
-				PendingIntent.FLAG_UPDATE_CURRENT);
+  @SuppressWarnings("deprecation")
+  public void showNotification(String message) {
+    String title = SKApplication.getAppInstance().getAppName();
 
-		NotificationManager manager = (NotificationManager) tc
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+    PendingIntent intent = PendingIntent.getService(tc.getContext(),
+        SKConstants.RC_NOTIFICATION, new Intent(),
+        PendingIntent.FLAG_UPDATE_CURRENT);
+
+    NotificationManager manager = (NotificationManager) tc
+        .getSystemService(Context.NOTIFICATION_SERVICE);
 
     Notification.Builder builder = new Notification.Builder(tc.getContext());
 
@@ -426,142 +430,142 @@ public class TestExecutor {
 		n.setLatestEventInfo(tc.getContext(), title, message, intent);
 		manager.notify(SKConstants.NOTIFICATION_ID, n);
 		*/
-	}
+  }
 
-	public void cancelNotification() {
-		NotificationManager manager = (NotificationManager) tc
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.cancel(SKConstants.NOTIFICATION_ID);
-	}
+  public void cancelNotification() {
+    NotificationManager manager = (NotificationManager) tc
+        .getSystemService(Context.NOTIFICATION_SERVICE);
+    manager.cancel(SKConstants.NOTIFICATION_ID);
+  }
 
-	public void startInBackGround() {
-		startThread = new Thread(new Runnable() {
-			public void run() {
-				start();
-			}
-		});
-		startThread.start();
-	}
+  public void startInBackGround() {
+    startThread = new Thread(new Runnable() {
+      public void run() {
+        start();
+      }
+    });
+    startThread.start();
+  }
 
-	public void start() {
-		for (BaseDataCollector collector : tc.config.dataCollectors) {
-			if (collector.isEnabled)
-				collector.start(tc);
-		}
-	}
+  public void start() {
+    for (BaseDataCollector collector : tc.config.dataCollectors) {
+      if (collector.isEnabled)
+        collector.start(tc);
+    }
+  }
 
-	public void stop() {
-		if (startThread != null) {
-			for (;;) {
-				
-				try {
-					if (!startThread.isAlive()) {
-						break;
-					}
-					
-					startThread.join(100);
-					
-				} catch (InterruptedException ie) {
-					SKPorting.sAssertE(this, "Ignore InterruptedException while waiting for the start thread to finish");
-					SKPorting.sAssert(getClass(), false);
-				}
-			}
-		}
-		
-		for (BaseDataCollector collector : tc.config.dataCollectors) {
-			if (collector.isEnabled) {
-				collector.stop(tc);
-				// TestResultsManager.saveResult(tc.getServiceContext(),
-				// collector.getOutput());
-				rc.addMetric(collector.getJSONOutput());
-			}
-		}
-		
-	}
-	
-	//private long mBatchId = -1;
+  public void stop() {
+    if (startThread != null) {
+      for (; ; ) {
 
-	public ConditionGroupResult executeGroup(TestGroup tg) {
-		long startTime = System.currentTimeMillis();
-		List<TestDescription> tds = new ArrayList<>();
-		for (SCHEDULE_TEST_ID test_id : tg.testIds) {
-			tds.add(tc.config.findTestById(test_id));
-		}
-		ConditionGroup cg = tc.config.getConditionGroup(tg.conditionGroupId);
-		showNotification(tc.getString(R.string.ntf_checking_conditions));
-		ConditionGroupResult result = execute(cg);
+        try {
+          if (!startThread.isAlive()) {
+            break;
+          }
+
+          startThread.join(100);
+
+        } catch (InterruptedException ie) {
+          SKPorting.sAssertE(this, "Ignore InterruptedException while waiting for the start thread to finish");
+          SKPorting.sAssert(getClass(), false);
+        }
+      }
+    }
+
+    for (BaseDataCollector collector : tc.config.dataCollectors) {
+      if (collector.isEnabled) {
+        collector.stop(tc);
+        // TestResultsManager.saveResult(tc.getServiceContext(),
+        // collector.getOutput());
+        rc.addMetric(collector.getJSONOutput());
+      }
+    }
+
+  }
+
+  //private long mBatchId = -1;
+
+  public ConditionGroupResult executeGroup(TestGroup tg) {
+    long startTime = System.currentTimeMillis();
+    List<TestDescription> tds = new ArrayList<>();
+    for (SCHEDULE_TEST_ID test_id : tg.testIds) {
+      tds.add(tc.config.findTestById(test_id));
+    }
+    ConditionGroup cg = tc.config.getConditionGroup(tg.conditionGroupId);
+    showNotification(tc.getString(R.string.ntf_checking_conditions));
+    ConditionGroupResult result = execute(cg);
 
 
     List<JSONObject> testsResults = new ArrayList<>();
-		//Run tests only if the conditions are met
-		if(result.isSuccess){
-			for (TestDescription td : tds) {
-				SKAbstractBaseTest theRunTest = executeTest(td, result);
+    //Run tests only if the conditions are met
+    if (result.isSuccess) {
+      for (TestDescription td : tds) {
+        SKAbstractBaseTest theRunTest = executeTest(td, result);
 
         List<JSONObject> theResult = com.samknows.measurement.storage.StorageTestResult.testOutput(theRunTest, td.type);
         if (theResult != null) {
           testsResults.addAll(theResult);
         }
-			}
-		}
+      }
+    }
 
 
-		if (cg != null) {
-			ConditionGroupResult cgr = cg.testAfter(tc);
-			result.add(cgr);
-			rc.addCondition(result.getJsonResultArray());
-			cg.release(tc);
-		}
-		List<JSONObject> passiveMetrics = new ArrayList<>();
-		for (BaseDataCollector c : tc.config.dataCollectors) {
-			if (c.isEnabled) {
-				for (JSONObject o : c.getPassiveMetric()) {
-					passiveMetrics.add(o);
-				}
-			}
-		}
-		JSONObject batch = new JSONObject();
-		try {
-			batch.put(TestBatch.JSON_DTIME, startTime);
-			batch.put(TestBatch.JSON_RUNMANUALLY, "0");
-		} catch (JSONException je) {
-			SKPorting.sAssertE(this,
-					"Error in creating test batch object: " + je.getMessage());
-		}
-		DBHelper db = new DBHelper(tc.getContext());
-	
-		//SKLogger.sAssert(getClass(), mBatchId == -1);
-		//mBatchId = 
-		db.insertTestBatch(batch, testsResults, passiveMetrics);
-		
-		cancelNotification();
-		return result;
+    if (cg != null) {
+      ConditionGroupResult cgr = cg.testAfter(tc);
+      result.add(cgr);
+      rc.addCondition(result.getJsonResultArray());
+      cg.release(tc);
+    }
+    List<JSONObject> passiveMetrics = new ArrayList<>();
+    for (BaseDataCollector c : tc.config.dataCollectors) {
+      if (c.isEnabled) {
+        for (JSONObject o : c.getPassiveMetric()) {
+          passiveMetrics.add(o);
+        }
+      }
+    }
+    JSONObject batch = new JSONObject();
+    try {
+      batch.put(TestBatch.JSON_DTIME, startTime);
+      batch.put(TestBatch.JSON_RUNMANUALLY, "0");
+    } catch (JSONException je) {
+      SKPorting.sAssertE(this,
+          "Error in creating test batch object: " + je.getMessage());
+    }
+    DBHelper db = new DBHelper(tc.getContext());
 
-	}
+    //SKLogger.sAssert(getClass(), mBatchId == -1);
+    //mBatchId =
+    db.insertTestBatch(batch, testsResults, passiveMetrics);
 
-	public ConditionGroupResult executeBackgroundTestGroup(long groupId) {
-		TestGroup tg = tc.config.findBackgroundTestGroup(groupId);
-		if (tg == null) {
-			SKPorting.sAssertE(this, "can not find background test group for id: " + groupId);
-		} else {
-			return executeGroup(tg);
-		}
+    cancelNotification();
+    return result;
 
-		return new ConditionGroupResult();
-	}
+  }
 
-	public ConditionGroupResult execute(long testId) {
-		TestDescription td = tc.config.findTest(testId);
-		if (td != null) {
-			ConditionGroup cg = tc.config
-					.getConditionGroup(td.conditionGroupId);
-			return execute(cg, td);
-		} else {
-			SKPorting.sAssertE(this, "can not find test for id: " + testId);
-		}
-		return new ConditionGroupResult();
-	}
-	
+  public ConditionGroupResult executeBackgroundTestGroup(long groupId) {
+    TestGroup tg = tc.config.findBackgroundTestGroup(groupId);
+    if (tg == null) {
+      SKPorting.sAssertE(this, "can not find background test group for id: " + groupId);
+    } else {
+      return executeGroup(tg);
+    }
+
+    return new ConditionGroupResult();
+  }
+
+  public ConditionGroupResult execute(long testId) {
+    TestDescription td = tc.config.findTest(testId);
+    if (td != null) {
+      ConditionGroup cg = tc.config
+          .getConditionGroup(td.conditionGroupId);
+      return execute(cg, td);
+    } else {
+      SKPorting.sAssertE(this, "can not find test for id: " + testId);
+    }
+    return new ConditionGroupResult();
+  }
+
 //	public void save(String type, long batchId) {
 //		SKLogger.sAssert(getClass(),  mBatchId == -1);
 //		mBatchId = batchId;
@@ -580,51 +584,50 @@ public class TestExecutor {
     return -1;
   }
 
-	public void save(String type, long batchId) {
-        //mBatchId = batchId;
-		
-		//SKLogger.sAssert(getClass(), mBatchId != -1);
-		
-		rc.addExtra(JSON_SUBMISSION_TYPE, type);
-		if (batchId != -1) {
-			rc.addExtra("batch_id", String.valueOf(batchId));
-		}
+  public void save(String type, long batchId) {
+    //mBatchId = batchId;
 
-		try {
-			int accumulatedNetworkTypeLocationMetricCount = accumulatedNetworkTypeLocationMetrics.length();
-			int i;
-			for (i = 0; i < accumulatedNetworkTypeLocationMetricCount; i++) {
-				JSONObject object = accumulatedNetworkTypeLocationMetrics.getJSONObject(i);
-				// The following can be useful for debugging!
-				// object.put("DEBUG_TAG", "DEBUG_TAG");
-				rc.addMetric(object);
-			}
+    //SKLogger.sAssert(getClass(), mBatchId != -1);
+
+    rc.addExtra(JSON_SUBMISSION_TYPE, type);
+    if (batchId != -1) {
+      rc.addExtra("batch_id", String.valueOf(batchId));
+    }
+
+    try {
+      int accumulatedNetworkTypeLocationMetricCount = accumulatedNetworkTypeLocationMetrics.length();
+      int i;
+      for (i = 0; i < accumulatedNetworkTypeLocationMetricCount; i++) {
+        JSONObject object = accumulatedNetworkTypeLocationMetrics.getJSONObject(i);
+        // The following can be useful for debugging!
+        // object.put("DEBUG_TAG", "DEBUG_TAG");
+        rc.addMetric(object);
+      }
 
       // And clear-out any accumulated metrics!
       accumulatedNetworkTypeLocationMetrics = new JSONArray();
 
-			if ( (mThrottledQueryResult != null) &&
-   			     (mThrottledQueryResult.returnCode != SKOperators_Return.SKOperators_Return_NoThrottleQuery)
-			  )
-			{
-				JSONObject throttleResponseMetric = new JSONObject();
-				throttleResponseMetric.put("type", "carrier_status");
-				throttleResponseMetric.put("timestamp", mThrottledQueryResult.timestamp);
-				throttleResponseMetric.put("datetime", mThrottledQueryResult.datetimeUTCSimple);
-				throttleResponseMetric.put("carrier", mThrottledQueryResult.carrier);
-				throttleResponseMetric.put("status", mpThrottleResponse);
-				rc.addMetric(throttleResponseMetric);
-			}
+      if ((mThrottledQueryResult != null) &&
+          (mThrottledQueryResult.returnCode != SKOperators_Return.SKOperators_Return_NoThrottleQuery)
+          ) {
+        JSONObject throttleResponseMetric = new JSONObject();
+        throttleResponseMetric.put("type", "carrier_status");
+        throttleResponseMetric.put("timestamp", mThrottledQueryResult.timestamp);
+        throttleResponseMetric.put("datetime", mThrottledQueryResult.datetimeUTCSimple);
+        throttleResponseMetric.put("carrier", mThrottledQueryResult.carrier);
+        throttleResponseMetric.put("status", mpThrottleResponse);
+        rc.addMetric(throttleResponseMetric);
+      }
 
 
       // Add WIFI metrics!
       Context context = SKApplication.getAppInstance();
       //TelephonyManager mTelManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
       ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-      WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+      WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
       if (connManager != null && wifiManager != null) {
         NetworkInfo netInfo = connManager.getActiveNetworkInfo();
-        WifiInfo wifiInfo=wifiManager.getConnectionInfo();
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (netInfo != null && wifiInfo != null) {
           if (netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
 
@@ -635,7 +638,7 @@ public class TestExecutor {
             wifiStateMetric.put("timestamp", String.valueOf(now.getTime()));
             wifiStateMetric.put("rssi", wifiInfo.getRssi());
 
-            List<ScanResult> results=null;
+            List<ScanResult> results = null;
 
             try {
               results = wifiManager.getScanResults();
@@ -667,15 +670,15 @@ public class TestExecutor {
       }
 
     } catch (JSONException e) {
-			SKPorting.sAssert(getClass(),  false);
-		}
+      SKPorting.sAssert(getClass(), false);
+    }
 
-		//SKLogger.sAssert(getClass(), mBatchId != -1);
-		TestResultsManager.saveResult(tc.getContext(), rc);
-	}
+    //SKLogger.sAssert(getClass(), mBatchId != -1);
+    TestResultsManager.saveResult(tc.getContext(), rc);
+  }
 
-	public long getLastTestByte() {
-		return lastTestBytes;
-	}
-
+  public long getLastTestByte() {
+    return lastTestBytes;
+  }
 }
+
