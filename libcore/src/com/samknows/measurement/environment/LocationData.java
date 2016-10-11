@@ -1,17 +1,30 @@
 package com.samknows.measurement.environment;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.samknows.libcore.SKPorting;
+import com.samknows.measurement.SKApplication;
 import com.samknows.measurement.schedule.ScheduleConfig.LocationType;
 import com.samknows.measurement.util.DCSStringBuilder;
 import com.samknows.measurement.util.SKDateFormat;
 
+import android.location.Address;
 import android.location.Location;
 import android.location.LocationProvider;
 
@@ -40,7 +53,250 @@ public class LocationData implements DCSData {
 
   private long mForcedTimeMilli = -1L;
 
-  public void setLocationTimeMilli(long timeMilli) {
+	// https://code.google.com/p/android/issues/detail?id=38009
+	public static List<Address> sGetAddressFromLocation(double lat, double lng, int maxResult) {
+		return sGetAddressFromLocation(lat, lng, maxResult, null);
+	}
+
+  public static List<Address> sGetAddressFromLocation(double lat, double lng, int maxResult, String withKeyOptional){
+
+		String command = "https://maps.googleapis.com/maps/api/geocode/json?";
+
+		if (withKeyOptional != null) {
+			command += "key=";
+			command += withKeyOptional;
+      command += "&";
+		}
+
+	  //String arguments = String.format("latlng=%1$f,%2$f&sensor=true&result_type=locality|street_address|postal_code", lat, lng);
+    String arguments = String.format("latlng=%1$f,%2$f&sensor=true", lat, lng);
+    String finalCommand = command + arguments;
+
+    List<Address> retList = new ArrayList<>();
+
+    try {
+      HttpGet httpGet = new HttpGet(finalCommand);
+
+      HttpClient client = new DefaultHttpClient();
+      HttpResponse response;
+      StringBuilder stringBuilder = new StringBuilder();
+
+      response = client.execute(httpGet);
+      HttpEntity entity = response.getEntity();
+      InputStream stream = entity.getContent();
+      int b;
+      while ((b = stream.read()) != -1) {
+        stringBuilder.append((char) b);
+      }
+
+      JSONObject jsonObject = new JSONObject();
+      jsonObject = new JSONObject(stringBuilder.toString());
+
+      if ("OK".equalsIgnoreCase(jsonObject.getString("status"))
+          && (jsonObject.has("results"))
+          )
+      {
+        JSONArray results = jsonObject.getJSONArray("results");
+
+        if (results.length() > 0) {
+          JSONObject place = results.getJSONObject(0);
+
+          Locale currentLocale = SKApplication.getAppInstance().getApplicationContext().getResources().getConfiguration().locale;
+
+          String cityName = "";
+          String countryName = "";
+          String locality = "";
+          String route = ""; // e.g. MyStreet
+          String postalTown = ""; // e.g. MyStreet
+
+          JSONArray addressComponents = place.getJSONArray("address_components");
+          for (int i = 0; i < addressComponents.length(); i++) {
+            JSONObject component = addressComponents.getJSONObject(i);
+            JSONArray types = component.getJSONArray("types");
+            for (int j = 0; j < types.length(); j++) {
+              Object x = types.get(j);
+              if (x instanceof String) {
+                String typeCode = (String) x;
+                if (typeCode.equals("locality")) {
+                  cityName = component.getString("long_name");
+                } else if (typeCode.equals("country")) {
+                  countryName = component.getString("long_name");
+                } else if (typeCode.equals("route")) {
+                  route = component.getString("long_name");
+                } else if (typeCode.equals("postal_town")) {
+                  postalTown = component.getString("long_name");
+                }
+              }
+            }
+          }
+
+          Address addr = new Address(currentLocale);
+          addr.setLatitude(lat);
+          addr.setLongitude(lng);
+
+          addr.setCountryName(countryName);
+          if (locality.length() == 0) {
+            locality = postalTown;
+          }
+          addr.setLocality(locality);
+          addr.setAddressLine(0, route);
+          addr.setAddressLine(1, postalTown);
+
+
+          retList.add(addr);
+        }
+      } else {
+        // Most likely reason - we're offline!
+        SKPorting.sAssert(false);
+      }
+
+
+    } catch (ClientProtocolException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
+      SKPorting.sAssert(false);
+    } catch (IOException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
+      SKPorting.sAssert(false);
+    } catch (JSONException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error parsing Google geocode webservice response.", e);
+      SKPorting.sAssert(false);
+    } catch (Exception e) {
+      SKPorting.sAssert(false);
+    }
+
+    return retList;
+  }
+
+  public static List<Address> sGetAddressFromPostcode(String postcode, int maxResult, String withKey) {
+
+    // Spaces will cause trouble!
+    postcode = postcode.replace(" ", "");
+
+    String command = "https://maps.googleapis.com/maps/api/geocode/json?";
+
+    command += "key=";
+    command += withKey;
+    command += "&";
+
+    //String arguments = String.format("latlng=%1$f,%2$f&sensor=true&result_type=locality|street_address|postal_code", lat, lng);
+    String arguments = String.format("address=" + postcode + "&sensor=true");
+    String finalCommand = command + arguments;
+
+    List<Address> retList = new ArrayList<>();
+
+    try {
+      HttpGet httpGet = new HttpGet(finalCommand);
+
+      HttpClient client = new DefaultHttpClient();
+      HttpResponse response;
+      StringBuilder stringBuilder = new StringBuilder();
+
+      response = client.execute(httpGet);
+      HttpEntity entity = response.getEntity();
+      InputStream stream = entity.getContent();
+      int b;
+      while ((b = stream.read()) != -1) {
+        stringBuilder.append((char) b);
+      }
+
+      JSONObject jsonObject = new JSONObject();
+      jsonObject = new JSONObject(stringBuilder.toString());
+
+      if ("OK".equalsIgnoreCase(jsonObject.getString("status"))
+          && (jsonObject.has("results"))
+          ) {
+        JSONArray results = jsonObject.getJSONArray("results");
+
+        if (results.length() > 0) {
+          JSONObject place = results.getJSONObject(0);
+
+          Locale currentLocale = SKApplication.getAppInstance().getApplicationContext().getResources().getConfiguration().locale;
+
+          String cityName = "";
+          String countryName = "";
+          String locality = "";
+          String route = ""; // e.g. MyStreet
+          String postalTown = ""; // e.g. MyStreet
+
+          Double latitude = null;
+          Double longitude = null;
+
+          //JSONArray array = result.getJSONArray("results");
+          if (place.has("geometry")) {
+            JSONObject geometry = place.getJSONObject("geometry");
+            if (geometry.has("location")) {
+              JSONObject location = geometry.getJSONObject("location");
+
+              if (location.has("lat")) {
+                latitude = location.getDouble("lat");
+              }
+              if (location.has("lng")) {
+                longitude = location.getDouble("lng");
+              }
+            }
+          }
+
+          //JSONArray array = result.getJSONArray("results");
+          JSONArray addressComponents = place.getJSONArray("address_components");
+          for (int i = 0; i < addressComponents.length(); i++) {
+            JSONObject component = addressComponents.getJSONObject(i);
+            JSONArray types = component.getJSONArray("types");
+            for (int j = 0; j < types.length(); j++) {
+              if (types.getString(j).equals("locality")) {
+                cityName = component.getString("long_name");
+              } else if (types.getString(j).equals("country")) {
+                countryName = component.getString("long_name");
+              } else if (types.getString(j).equals("route")) {
+                route = component.getString("long_name");
+              } else if (types.getString(j).equals("postal_town")) {
+                postalTown = component.getString("long_name");
+              }
+            }
+          }
+
+          Address addr = new Address(currentLocale);
+          addr.setPostalCode(postcode);
+
+          addr.setCountryName(countryName);
+          if (locality.length() == 0) {
+            locality = postalTown;
+          }
+          addr.setLocality(locality);
+          addr.setAddressLine(0, postalTown);
+          addr.setAddressLine(1, route);
+
+          if (latitude != null) {
+            addr.setLatitude(latitude);
+          }
+          if (longitude != null) {
+            addr.setLongitude(longitude);
+          }
+
+          retList.add(addr);
+        }
+      } else {
+        // Most likely reason - we're offline!
+        SKPorting.sAssert(false);
+      }
+
+
+    } catch (ClientProtocolException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
+      SKPorting.sAssert(false);
+    } catch (IOException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
+      SKPorting.sAssert(false);
+    } catch (JSONException e) {
+      //Log.e(MyGeocoder.class.getName(), "Error parsing Google geocode webservice response.", e);
+      SKPorting.sAssert(false);
+    } catch (Exception e) {
+      SKPorting.sAssert(false);
+    }
+
+    return retList;
+  }
+
+	public void setLocationTimeMilli(long timeMilli) {
     // This is used ONLY for special cases.
     //mLocation.setTime(timeMilli);
     mForcedTimeMilli = timeMilli;

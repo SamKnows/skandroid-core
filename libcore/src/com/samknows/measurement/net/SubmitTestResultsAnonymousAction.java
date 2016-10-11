@@ -1,18 +1,11 @@
 package com.samknows.measurement.net;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +14,7 @@ import com.samknows.libcore.SKPorting;
 import com.samknows.libcore.SKSimpleHttpToJsonQuery;
 import com.samknows.measurement.SK2AppSettings;
 import com.samknows.measurement.SKApplication;
+import com.samknows.measurement.environment.LocationData;
 import com.samknows.measurement.environment.LocationDataCollector;
 import com.samknows.measurement.schedule.ScheduleConfig;
 import com.samknows.measurement.storage.DBHelper;
@@ -116,86 +110,6 @@ public class SubmitTestResultsAnonymousAction {
     for (int i : fail) {
       TestResultsManager.saveResult(context, results[i]);
     }
-  }
-
-  // https://code.google.com/p/android/issues/detail?id=38009
-  public static List<Address> getFromLocation(double lat, double lng, int maxResult){
-
-    String address = String.format(Locale.ENGLISH,"http://maps.googleapis.com/maps/api/geocode/json?latlng=%1$f,%2$f&sensor=true&language="+Locale.getDefault().getCountry(), lat, lng);
-    HttpGet httpGet = new HttpGet(address);
-    HttpClient client = new DefaultHttpClient();
-    HttpResponse response;
-    StringBuilder stringBuilder = new StringBuilder();
-
-    List<Address> retList = null;
-
-    try {
-      response = client.execute(httpGet);
-      HttpEntity entity = response.getEntity();
-      InputStream stream = entity.getContent();
-      int b;
-      while ((b = stream.read()) != -1) {
-        stringBuilder.append((char) b);
-      }
-
-      JSONObject jsonObject = new JSONObject();
-      jsonObject = new JSONObject(stringBuilder.toString());
-
-      retList = new ArrayList<>();
-
-      if ("OK".equalsIgnoreCase(jsonObject.getString("status"))
-          && (jsonObject.has("results"))
-         )
-      {
-        JSONArray results = jsonObject.getJSONArray("results");
-
-        if (results.length() > 0) {
-          JSONObject place = results.getJSONObject(0);
-
-          Locale currentLocale = SKApplication.getAppInstance().getApplicationContext().getResources().getConfiguration().locale;
-
-          String cityName = "";
-          String countryName = "";
-
-          //JSONArray array = result.getJSONArray("results");
-          JSONArray components = place.getJSONArray("address_components");
-          for( int i = 0 ; i < components.length() ; i++ ) {
-            JSONObject component = components.getJSONObject(i);
-            JSONArray types = component.getJSONArray("types");
-            for (int j = 0; j < types.length(); j++) {
-              if (types.getString(j).equals("locality")) {
-                cityName = component.getString("long_name");
-              } else if (types.getString(j).equals("country")) {
-                countryName = component.getString("long_name");
-              }
-            }
-          }
-
-          Address addr = new Address(currentLocale);
-
-          //addr.setAddressLine(0, indiStr);
-          addr.setLocality(cityName);
-          addr.setCountryName(countryName);
-
-          retList.add(addr);
-        }
-      }
-
-
-    } catch (ClientProtocolException e) {
-      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
-      SKPorting.sAssert(false);
-    } catch (IOException e) {
-      //Log.e(MyGeocoder.class.getName(), "Error calling Google geocode webservice.", e);
-      SKPorting.sAssert(false);
-    } catch (JSONException e) {
-      //Log.e(MyGeocoder.class.getName(), "Error parsing Google geocode webservice response.", e);
-      SKPorting.sAssert(false);
-    } catch (Exception e) {
-      SKPorting.sAssert(false);
-    }
-
-    return retList;
   }
 
 
@@ -401,7 +315,7 @@ public class SubmitTestResultsAnonymousAction {
 
       if (addressList == null || addressList.size() == 0) {
         // https://code.google.com/p/android/issues/detail?id=38009
-        addressList = getFromLocation(latitude, longitude, 1);
+        addressList = LocationData.sGetAddressFromLocation(latitude, longitude, 1);
       }
 
       if (addressList != null) {
