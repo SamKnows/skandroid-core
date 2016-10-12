@@ -72,7 +72,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
     LocationListener locationListener = new LocationListener() {
       @Override
       public void onLocationChanged(Location location) {
-        // Got location change!
+        //Log.d("LOCATION", "CHANGED! Lat="+location.getLatitude() + ", Lng:" + location.getLongitude());
       }
 
       @Override
@@ -120,6 +120,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
 					if (lastKnownLocation != null) {
 						sLastKnown = lastKnownLocation;
+						//Log.d("GPS LOCATION", "lastKnownLocation Lat="+sLastKnown.getLatitude() + ", Lng:" + sLastKnown.getLongitude());
 						return new Pair<>(lastKnownLocation, LocationType.gps);
 					}
 
@@ -136,6 +137,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 
         if (lastKnownLocation != null) {
           sLastKnown = lastKnownLocation;
+          //Log.d("WI-FI LOCATION", "lastKnownLocation Lat="+sLastKnown.getLatitude() + ", Lng:" + sLastKnown.getLongitude());
           return new Pair<>(lastKnownLocation, LocationType.network);
         }
 
