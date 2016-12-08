@@ -109,14 +109,14 @@ public class NetworkDataCollector extends EnvBaseDataCollector {
     } else {
       final NetworkData finalRet = ret;
 
-      QueryWlanCarrier myQuery = new QueryWlanCarrier() {
+			QueryWlanCarrier myQuery = new QueryWlanCarrier() {
 
-        @Override
-        public void doHandleGotWlanCarrier(String wlanCarrier) {
-          Log.d("MPC", "NetorkDataCollector got wlanCarrier=" + wlanCarrier);
-          finalRet.wlanCarrier = wlanCarrier;
-        }
-      };
+				@Override
+				public void doHandleGotWlanCarrier(String wlanCarrier) {
+					//Log.d("MPC", "NetworkDataCollector got wlanCarrier=" + wlanCarrier);
+					finalRet.wlanCarrier = wlanCarrier;
+				}
+			};
       myQuery.doPerformQuery();
     }
 	}

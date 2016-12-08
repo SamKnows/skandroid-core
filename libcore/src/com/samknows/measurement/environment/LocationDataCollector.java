@@ -153,7 +153,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		Pair<Location, LocationType> lastKnownPair = sGetLastKnownLocation();
 		if (lastKnownPair == null) {
 			// Nothing known - don't store a passive metric, simply return empty instead...
-			SKPorting.sAssert(OtherUtils.isThisDeviceAnEmulator());
+			//SKPorting.sAssert(OtherUtils.isThisDeviceAnEmulator());
 			return new ArrayList<>();
 		}
 
