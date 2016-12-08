@@ -430,9 +430,21 @@ public class FragmentSettings extends Fragment {
       //SKLogger.sAssert(false);
     }
 
-    Location loc1 = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
-    Location loc2 = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    Location loc1 = null;
+    Location loc2 = null;
     Location loc = null;
+
+    try {
+      loc1 = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      loc2 = ((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE)).getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    } catch (SecurityException e) {
+      // This catches java.lang.SecurityException: "gps" location provider requires ACCESS_FINE_LOCATION permission.
+      // Seen on some Samsung devices - captured via HockeyApp.
+      SKPorting.sAssert(false);
+    } catch (Exception e) {
+      SKPorting.sAssert(false);
+    }
+
     if (loc1 != null && loc2 != null) {
       loc = loc1.getTime() > loc2.getTime() ? loc1 : loc2;
     } else {
@@ -447,7 +459,7 @@ public class FragmentSettings extends Fragment {
       try {
         ((TextView) view.findViewById(R.id.tv_loc_provider_value)).setText(loc.getProvider());
       } catch (NoSuchFieldError e) {
-        SKPorting.sAssert(false);
+        //SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_loc_long_value)).setText(String.format("%1.5f", loc.getLongitude()));
@@ -462,7 +474,7 @@ public class FragmentSettings extends Fragment {
       try {
         ((TextView) view.findViewById(R.id.tv_loc_acc_value)).setText(loc.getAccuracy() + " m");
       } catch (NoSuchFieldError e) {
-        SKPorting.sAssert(false);
+        //SKPorting.sAssert(false);
       }
     }
 
@@ -476,17 +488,17 @@ public class FragmentSettings extends Fragment {
       try {
         ((TextView) view.findViewById(R.id.tv_cell_tower_type_value)).setText("GSM");
       } catch (NoSuchFieldError e) {
-        SKPorting.sAssert(false);
+        //SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_cell_id_value)).setText("" + gsmLocation.getCid());
       } catch (NoSuchFieldError e) {
-        SKPorting.sAssert(false);
+        //SKPorting.sAssert(false);
       }
       try {
         ((TextView) view.findViewById(R.id.tv_area_code_value)).setText("" + gsmLocation.getLac());
       } catch (NoSuchFieldError e) {
-        SKPorting.sAssert(false);
+        //SKPorting.sAssert(false);
       }
     } else if (cellData.getCellLocation() instanceof CdmaCellLocation) {
       try {

@@ -153,6 +153,11 @@ public class SKAndroidLogger {
     sAssert(parent.getClass(), false);
   }
 
+  // If debugging, you should set a breakpoint here to trap all assertions!
+  private static void sInternalCalledOnAssert() {
+
+  }
+
 
   public static void sAssert(Class clazz, String message, final boolean check) {
     if (check == false) {
@@ -161,6 +166,8 @@ public class SKAndroidLogger {
       } else {
         Log.e(clazz.getName(), "sAssertFailed: you can trap with a breakpoint in " + SKAndroidLogger.class.getName());
       }
+
+      sInternalCalledOnAssert();
     }
   }
 
@@ -186,6 +193,8 @@ public class SKAndroidLogger {
           Log.e("SKLOGGER", "sAssertFailed: you can trap with a breakpoint in " + where);
         }
       }
+
+      sInternalCalledOnAssert();
     }
   }
 
@@ -203,6 +212,8 @@ public class SKAndroidLogger {
         }
         Log.e("SKLOGGER", "sAssertFailed: you can trap with a breakpoint in " + where);
       }
+
+      sInternalCalledOnAssert();
     }
   }
 

@@ -89,6 +89,8 @@ public class TestFactory {
       }
     } else if (testType.equalsIgnoreCase(LATENCY)) {
       ret = LatencyTest.STRING_ID;
+    } else if (testType.equalsIgnoreCase(CLOSESTTARGET)) {
+      ret = ClosestTarget.TESTSTRING;
     }
     return ret;
   }
