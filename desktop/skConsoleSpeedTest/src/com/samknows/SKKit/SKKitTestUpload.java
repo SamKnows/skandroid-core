@@ -39,9 +39,9 @@ public class SKKitTestUpload {
 
       mPort = 8080;
       mWarmupMaxTimeSeconds = 2.0;
-      mTransferMaxTimeSeconds = 10.0;
+      mTransferMaxTimeSeconds = 5.0;
       mNumberOfThreads = 1;
-      mSendDataChunkSizeBytes = 512;
+      mSendDataChunkSizeBytes = 4096;
     }
   }
 
@@ -101,7 +101,7 @@ public class SKKitTestUpload {
         // in PassiveServerUploadTest.java ...!
         // e.g. more than 30 seconds!
         // Note that long delays (of approximately 0.5 to 1.5 seconds) can occcur quite often.
-        params.add(new Param(HttpTest.SENDBUFFERSIZE, String.valueOf(mTestDescriptor.mSendDataChunkSizeBytes)));
+        //params.add(new Param(HttpTest.SENDBUFFERSIZE, String.valueOf(mTestDescriptor.mSendDataChunkSizeBytes)));
 
         SKPorting.sLogD("IHT", "START Running upload test for milliseconds=" + mTestDescriptor.mTransferMaxTimeSeconds * 1000.0);
 

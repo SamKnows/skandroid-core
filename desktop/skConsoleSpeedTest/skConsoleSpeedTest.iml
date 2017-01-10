@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.json:json:20140107" level="project" />
     <orderEntry type="library" name="org.apache.http.legacy" level="project" />
+    <orderEntry type="library" name="json-1.5-20090211" level="project" />
   </component>
 </module>

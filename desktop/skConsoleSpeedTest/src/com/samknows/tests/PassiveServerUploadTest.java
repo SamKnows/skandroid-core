@@ -137,6 +137,7 @@ public class PassiveServerUploadTest extends UploadTest {
 
         long startTimeFlush = System.currentTimeMillis();
         */
+
         try {
           connOut.flush();
         } catch (SocketTimeoutException e) {
@@ -151,6 +152,7 @@ public class PassiveServerUploadTest extends UploadTest {
             throw e;
           }
         }
+
         //sLogD(this, "transmit() called flush()! ... thread:" + threadIndex);
 
         /*
@@ -198,8 +200,8 @@ public class PassiveServerUploadTest extends UploadTest {
       } catch (Exception e1) {
         SKPorting.sAssert(false);
       }
-      Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
+//      Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+//      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
 
       sSetLatestSpeedForExternalMonitorInterval(extMonitorUpdateInterval, "runUp1Err", getBytesPerSecond(isWarmup));
       //sLogE(TAG(this), "loop - break 3");
@@ -223,8 +225,8 @@ public class PassiveServerUploadTest extends UploadTest {
       } catch (Exception e1) {
         SKPorting.sAssert(false);
       }
-      Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
-      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
+//      Double bytesPerSecondMeasurement = Math.max(0, getTransferBytesPerSecond());
+//      SKPorting.sAssert(bytesPerSecondMeasurement == 0);
       return false;
     }
 

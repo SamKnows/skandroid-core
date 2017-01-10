@@ -1269,8 +1269,10 @@ public abstract class HttpTest extends SKAbstractBaseTest implements Runnable {
   // Returns -1 if not enough time has passed for sensible measurement.
   public double getTransferBytesPerSecond() {
     long btsTotal = getTotalTransferBytes();
+    System.out.println("total bytes " +  btsTotal);
     long durationMicro = getTransferTimeDurationMicro() == 0 ? (sGetMicroTime() - getStartTransferMicro()) : getTransferTimeDurationMicro();
 
+    System.out.println("total duration " +  durationMicro);
 //    double durationSeconds = ((double)durationMicro) / 1000000.0;
     //if (durationMicro < 1000000.0) // Anything
     if (durationMicro == 0) // Anything

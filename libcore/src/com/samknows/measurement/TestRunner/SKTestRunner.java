@@ -1,6 +1,7 @@
 package com.samknows.measurement.TestRunner;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.storage.PassiveMetric;
@@ -12,7 +13,7 @@ public class SKTestRunner {
   public enum TestRunnerState {STOPPED, STARTING, EXECUTING, STOPPING}
 
   // Handler used for making the callbacks through the observer.
-  protected final Handler mHandler = new Handler();
+  protected final Handler mHandler = new Handler(Looper.getMainLooper());
 
   // This might be null.
   protected SKTestRunnerObserver mObserver;

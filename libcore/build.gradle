@@ -54,7 +54,7 @@ dependencies {
   //  }
   compile 'com.facebook.android:facebook-android-sdk:3.23.0'
   compile 'com.google.android.gms:play-services:8.4.0'
-  compile 'junit:junit:4.+'
+  compile 'junit:junit:4.12'
   compile 'com.android.support:multidex:1.0.1'
   compile 'org.robolectric:robolectric:3.0'
   compile 'org.robolectric:shadows-httpclient:3.0'

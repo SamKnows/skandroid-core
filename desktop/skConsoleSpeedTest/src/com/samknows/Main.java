@@ -28,6 +28,8 @@ public class Main {
     targetList.add(new SKKitTestClosestTarget.ClosestTargetHostDescriptor("samknows1.chi2.level3.net", "Chicago, USA"));
     targetList.add(new SKKitTestClosestTarget.ClosestTargetHostDescriptor("samknows1.lax1.level3.net", "Los Angeles, USA"));
 
+    targetList.add(new SKKitTestClosestTarget.ClosestTargetHostDescriptor("n1-the1.samknows.com", "London, UK"));
+
     SKKitTestClosestTarget.SKKitTestDescriptor_ClosestTarget closestTargetTestDescriptor;
     closestTargetTestDescriptor = new SKKitTestClosestTarget.SKKitTestDescriptor_ClosestTarget(targetList);
 
@@ -130,12 +132,12 @@ public class Main {
     System.out.println("Start Upload Test");
 
     SKKitTestUpload.SKKitTestDescriptor_Upload uploadTestDescriptor;
-    uploadTestDescriptor = new SKKitTestUpload.SKKitTestDescriptor_Upload("speedtestsk1.ofca.gov.hk");
-    uploadTestDescriptor.mPort = 80;
+    uploadTestDescriptor = new SKKitTestUpload.SKKitTestDescriptor_Upload("n1-the1.samknows.com");
+    uploadTestDescriptor.mPort = 8080;
     uploadTestDescriptor.mWarmupMaxTimeSeconds = 2.0;
-    uploadTestDescriptor.mTransferMaxTimeSeconds = 5.0;
-    uploadTestDescriptor.mNumberOfThreads = 16;
-    uploadTestDescriptor.mSendDataChunkSizeBytes = 512; // 4096*4; // 16K!
+    uploadTestDescriptor.mTransferMaxTimeSeconds = 10.0;
+    uploadTestDescriptor.mNumberOfThreads = 3;
+    uploadTestDescriptor.mSendDataChunkSizeBytes = 8192; // 4096*4; // 16K!
 
     SKKitTestUpload uploadTest = new SKKitTestUpload(uploadTestDescriptor);
 
@@ -149,19 +151,16 @@ public class Main {
     //
     // Kick-off the background test thread.
     //
-    uploadTest.start(new SKKitTestUpload.ISKUploadTestProgressUpdate() {
-      @Override
-      public void onTestCompleted_OnMainThread(double mbpsPerSecond1024Based) {
-        System.out.println("Upload test result: " + mbpsPerSecond1024Based + " Mbps");
+    uploadTest.start(mbpsPerSecond1024Based -> {
+      System.out.println("Upload test result: " + mbpsPerSecond1024Based + " Mbps");
 
-        // Note that on desktop Java, this will not be on the main thread.
-        // We arrive here with the mutex unlocked (the await() causes the unlock to happen).
-        // We must grab the lock, call signal, and then unlock.
-        // The await() will then unblock and continue.
-        lock.lock();
-        cv.signal();
-        lock.unlock();
-      }
+      // Note that on desktop Java, this will not be on the main thread.
+      // We arrive here with the mutex unlocked (the await() causes the unlock to happen).
+      // We must grab the lock, call signal, and then unlock.
+      // The await() will then unblock and continue.
+      lock.lock();
+      cv.signal();
+      lock.unlock();
     });
 
     //
@@ -230,13 +229,13 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    System.out.println("Start Tests...!");
+//    System.out.println("Start Tests...!");
 
-    doClosestTargetTest();
-    doDownloadTest();
+//    doClosestTargetTest();
+//    doDownloadTest();
     doUploadTest();
-    doLatencyTest();
+//    doLatencyTest();
 
-    System.out.println("Tests completed!");
+//    System.out.println("Tests completed!");
   }
 }

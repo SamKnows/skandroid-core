@@ -43,7 +43,7 @@ public class SKPorting {
   }
 
   public static void sLogD(String tag, String value) {
-    Log.d(tag, value);
+//    Log.d(tag, value);
   }
 
   public static void sLogD(Object parent, String message) {

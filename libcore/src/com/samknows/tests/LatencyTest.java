@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
-import com.samknows.libcore.SKPorting;
 import com.samknows.measurement.TestRunner.SKTestRunner;
 import com.samknows.measurement.util.SKDateFormat;
 
@@ -36,6 +35,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   public static final String JSON_RTT_STDDEV = "rtt_stddev";
   public static final String JSON_RECEIVED_PACKETS = "received_packets";
   public static final String JSON_LOST_PACKETS = "lost_packets";
+  public static final String JSON_SENT_PACKETS = "sent_packets";
 
   // Create an interface class, which will allow us to inject a test socket for mock testing.
   public interface ISKUDPSocket {
@@ -59,14 +59,14 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     }
 
     public void open() throws SocketException {
-      SKPorting.sAssert(socket == null);
+//      SKPorting.sAssert(socket == null);
       socket = new DatagramSocket();
-      SKPorting.sAssert(socket != null);
+//      SKPorting.sAssert(socket != null);
     }
 
     public void send(DatagramPacket pack) throws IOException {
       if (socket == null) {
-        SKPorting.sAssert(false);
+//        SKPorting.sAssert(false);
         return;
       }
       socket.send(pack);
@@ -74,7 +74,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public void receive(DatagramPacket pack) throws IOException {
       if (socket == null) {
-        SKPorting.sAssert(false);
+//        SKPorting.sAssert(false);
         return;
       }
       socket.receive(pack);
@@ -82,7 +82,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public void setSoTimeout(int timeout) throws SocketException {
       if (socket == null) {
-        SKPorting.sAssert(false);
+//        SKPorting.sAssert(false);
         return;
       }
       socket.setSoTimeout(timeout);
@@ -90,7 +90,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
     public void close() {
       if (socket == null) {
-        SKPorting.sAssert(false);
+//        SKPorting.sAssert(false);
         return;
       }
 
@@ -132,13 +132,13 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
         } else if (param.contains(TestFactory.MAXTIME)) {
           ret.setMaxExecutionTimeMicroseconds(Long.parseLong(value));
         } else {
-          SKPorting.sAssert(false);
+//          SKPorting.sAssert(false);
           ret = null;
           break;
         }
       }
     } catch (NumberFormatException nfe) {
-      SKPorting.sAssert(false);
+//      SKPorting.sAssert(false);
       ret = null;
     }
     return ret;
@@ -162,7 +162,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       try {
         bq_results.put(r);
       } catch (InterruptedException e) {
-        SKPorting.sAssert(LatencyTest.class, false);
+//        SKPorting.sAssert(LatencyTest.class, false);
       }
     }
   }
@@ -270,27 +270,27 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   @Override
   public boolean isReady() {
     if (target.length() == 0) {
-      SKPorting.sAssert(getClass(), false);
+//      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (port == 0) {
-      SKPorting.sAssert(getClass(), false);
+//      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (numdatagrams == 0 || results == null) {
-      SKPorting.sAssert(getClass(), false);
+//      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (delayTimeout == 0) {
-      SKPorting.sAssert(getClass(), false);
+//      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (interPacketTime == 0) {
-      SKPorting.sAssert(getClass(), false);
+//      SKPorting.sAssert(getClass(), false);
       return false;
     }
     if (percentile < 0 || percentile > 100) {
-      SKPorting.sAssert(getClass(), false);
+//      SKPorting.sAssert(getClass(), false);
       return false;
     }
 
@@ -301,7 +301,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   @Override
   public void runBlockingTestToFinishInThisThread() {
-    SKPorting.sAssert(mSKUDPSocket == null);
+//    SKPorting.sAssert(mSKUDPSocket == null);
     mSKUDPSocket = new SKUDPSocket();
 
     // Note that we do NOT run a separate thread, when execute is called!
@@ -436,6 +436,9 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     // 11 - lost packets
     output.put(JSON_LOST_PACKETS, getLostPackets());
 
+    // 12 - sent packets
+    output.put(JSON_SENT_PACKETS, getSentPackets());
+
     //setOutput(o.toArray(new String[1]));
     JSONObject json_output = new JSONObject(output);
     return json_output;
@@ -451,7 +454,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   boolean mbAlreadyRunning = false;
   private void runInCurrentThread() {
-    SKPorting.sAssert(mbAlreadyRunning == false);
+//    SKPorting.sAssert(mbAlreadyRunning == false);
     mbAlreadyRunning = true;
 
     setStateToRunning();
@@ -492,7 +495,7 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
       address = mSKUDPSocket.getInetAddressByName(target);
       ipAddress = address.getHostAddress();
     } catch (UnknownHostException e) {
-      SKPorting.sAssert(false);
+//      SKPorting.sAssert(false);
       failure();
       socket.close();
       socket = null;
@@ -585,19 +588,21 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
   private void sleep(long rtt) {
     long sleepPeriod = interPacketTime - rtt;
 
+    Log.e("SLEEP", "Delay -> " + sleepPeriod);
+
     if (sleepPeriod > 0) {
       long millis = (long) Math.floor(sleepPeriod / 1000000);
       int nanos = (int) sleepPeriod % 1000000;
       try {
         Thread.sleep(millis, nanos);
       } catch (InterruptedException e) {
-        SKPorting.sAssert(false);
+//        SKPorting.sAssert(false);
       }
     }
   }
 
   private void failure() {
-    SKPorting.sAssert(false);
+//    SKPorting.sAssert(false);
     testStatus = "FAIL";
     finish();
   }
