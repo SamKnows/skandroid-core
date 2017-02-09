@@ -15,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
@@ -337,10 +338,26 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
     return result;
   }
 
-  public long getResultJitterMilliseconds() {
-    long jitterMicroseconds =  getAverageMicroseconds() - getMinimumMicroseconds();
-    long jitterMilliseconds =  jitterMicroseconds / 1000;
+  public Double getResultJitterMilliseconds() {
+    double jitterMicroseconds =  getAverageMicroseconds() - getMinimumMicroseconds();
+    double jitterMilliseconds =  jitterMicroseconds / 1000;
+
     return jitterMilliseconds;
+  }
+
+  public Double getResultJitterMillisecondsNew() {
+    double sumVariance = 0d;
+    for (int i=0; i<results.length-1; i++)
+    {
+      double result1 = results[i];
+      double result2 = results[i + 1];
+
+      double difference = Math.abs(result2 - result1);
+      sumVariance = sumVariance + difference;
+    }
+
+    double testJitter = (sumVariance / results.length - 1);
+    return testJitter / 1000000d;
   }
 
   public long getAverageMicroseconds() {
@@ -587,8 +604,6 @@ public class LatencyTest extends SKAbstractBaseTest implements Runnable {
 
   private void sleep(long rtt) {
     long sleepPeriod = interPacketTime - rtt;
-
-    Log.e("SLEEP", "Delay -> " + sleepPeriod);
 
     if (sleepPeriod > 0) {
       long millis = (long) Math.floor(sleepPeriod / 1000000);
