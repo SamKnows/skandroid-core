@@ -15,16 +15,10 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'com.google.android.gms:play-services:12.0.1'
     implementation 'com.facebook.android:facebook-android-sdk:3.23.0'
-    //implementation fileTree(dir: 'libs', include: '*.jar')
-    implementation files ('./libs/HockeySDK-3.0.1.jar')
-    implementation files ('./libs/achartengine-1.1.0.jar')
-    //implementation files ('./libs/android-support-v13.jar')
-    //implementation files ('./libs/android-support-v4.jar')
-    //implementation files ('./libs/bolts-android-1.1.2.jar')
-    implementation files ('./libs/commons-io-2.2.jar')
-    implementation files ('./libs/twitter4j-core-3.0.5.jar')
 
     implementation 'com.android.support:multidex:1.0.3'
 }
