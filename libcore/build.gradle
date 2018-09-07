@@ -25,11 +25,17 @@ dependencies {
     //compile files ('./libs/bolts-android-1.1.2.jar')
     compile files ('./libs/commons-io-2.2.jar')
     compile files ('./libs/twitter4j-core-3.0.5.jar')
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 android {
     compileSdkVersion 19
     buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        multiDexEnabled true
+    }
 
     lintOptions {
         abortOnError false
