@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -24,12 +25,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 //import android.os.Trace;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -1724,6 +1727,8 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
       }
     }
 
+    if (ContextCompat.checkSelfPermission(fromActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            == PackageManager.PERMISSION_GRANTED) {
     // Extract the file!
     File file = ExportFile.getZipOfAllExportJsonFilesToThisFolderFile(storageSubFolder, fileName);
     if (file != null) {
@@ -1745,6 +1750,15 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
             public void onClick(DialogInterface dialog, int whichButton) {
             }
           }).show();
+    }
+    } else {
+      new AlertDialog.Builder(fromActivity)
+              .setTitle(R.string.menu_export_file_permissions_failed_title)
+              .setMessage(R.string.menu_export_file_permissions_failed_to_save)
+              .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+              }).show();
     }
 
   }
