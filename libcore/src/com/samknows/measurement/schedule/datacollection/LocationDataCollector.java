@@ -6,13 +6,17 @@ import java.util.List;
 
 import org.json.JSONObject;
 import org.w3c.dom.Element;
+
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
 
@@ -132,8 +136,10 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		// We must not allow that behavior to cause the app to crash.
 		try {
 			
+			if (ContextCompat.checkSelfPermission(tc.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+					== PackageManager.PERMISSION_GRANTED) {
 			manager.requestLocationUpdates(provider, 0, 0, LocationDataCollector.this, Looper.getMainLooper());
-	
+			}
 			
 			Log.d(TAG, "start collecting location data from: " + provider);
 		
