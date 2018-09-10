@@ -1729,28 +1729,28 @@ public class SKAMainResultsActivity extends SKAPostToSocialMedia
 
     if (ContextCompat.checkSelfPermission(fromActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             == PackageManager.PERMISSION_GRANTED) {
-    // Extract the file!
-    File file = ExportFile.getZipOfAllExportJsonFilesToThisFolderFile(storageSubFolder, fileName);
-    if (file != null) {
+      // Extract the file!
+      File file = ExportFile.getZipOfAllExportJsonFilesToThisFolderFile(storageSubFolder, fileName);
+      if (file != null) {
 
-      new AlertDialog.Builder(fromActivity)
-          .setTitle(fromActivity.getString(R.string.menu_export_file_saved_title) + " (" + subFolderName + "/" + fileName + ")")
-          .setMessage(R.string.menu_export_saved_ok)
-          .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-          }).show();
+        new AlertDialog.Builder(fromActivity)
+            .setTitle(fromActivity.getString(R.string.menu_export_file_saved_title) + " (" + subFolderName + "/" + fileName + ")")
+            .setMessage(R.string.menu_export_saved_ok)
+            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {
+              }
+            }).show();
 
-    } else {
+      } else {
 
-      new AlertDialog.Builder(fromActivity)
-          .setTitle(R.string.menu_export_file_save_failed_title)
-          .setMessage(R.string.menu_export_file_failed_to_save)
-          .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-          }).show();
-    }
+        new AlertDialog.Builder(fromActivity)
+            .setTitle(R.string.menu_export_file_save_failed_title)
+            .setMessage(R.string.menu_export_file_failed_to_save)
+            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {
+              }
+            }).show();
+      }
     } else {
       new AlertDialog.Builder(fromActivity)
               .setTitle(R.string.menu_export_file_permissions_failed_title)
