@@ -42,7 +42,7 @@ public class CellTowersDataCollector extends BaseDataCollector{
 		try {
 			if (ContextCompat.checkSelfPermission(weakRefContext.get(), Manifest.permission.ACCESS_COARSE_LOCATION)
 					== PackageManager.PERMISSION_GRANTED) {
-			data.setCellLocation(mTelManager.getCellLocation());
+				data.setCellLocation(mTelManager.getCellLocation());
 			}
 		} catch (SecurityException e) {
 			// Seen - rarely - on some Android devices.
@@ -52,10 +52,10 @@ public class CellTowersDataCollector extends BaseDataCollector{
 		
 		if (ContextCompat.checkSelfPermission(weakRefContext.get(), Manifest.permission.ACCESS_COARSE_LOCATION)
 				== PackageManager.PERMISSION_GRANTED) {
-		// Note: the following call might return NULL
-		
-		//data.setNeighbors(mTelManager.getAllCellInfo());
-		data.setNeighbors(mTelManager.getNeighboringCellInfo());
+			// Note: the following call might return NULL
+
+			//data.setNeighbors(mTelManager.getAllCellInfo());
+			data.setNeighbors(mTelManager.getNeighboringCellInfo());
 		}
 	
 		SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);

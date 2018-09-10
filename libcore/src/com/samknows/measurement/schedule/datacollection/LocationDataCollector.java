@@ -138,7 +138,7 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 			
 			if (ContextCompat.checkSelfPermission(tc.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
 					== PackageManager.PERMISSION_GRANTED) {
-			manager.requestLocationUpdates(provider, 0, 0, LocationDataCollector.this, Looper.getMainLooper());
+				manager.requestLocationUpdates(provider, 0, 0, LocationDataCollector.this, Looper.getMainLooper());
 			}
 			
 			Log.d(TAG, "start collecting location data from: " + provider);
