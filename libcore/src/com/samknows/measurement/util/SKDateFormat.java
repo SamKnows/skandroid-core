@@ -19,41 +19,42 @@ public class SKDateFormat  {
 	}
 	
 	public static String sGetGraphDateFormat(Context context){
-		char[] order = null;
-		try {
-			order = DateFormat.getDateFormatOrder(context);
-		} catch (java.lang.IllegalArgumentException e) {
-			// Deal with OEM bug seen on some devices...:
-			// "java.lang.IllegalArgumentException: Bad pattern character 'E' in E, MMM d, yyyy at libcore.icu.ICU.getDateFormatOrder"
-			SKLogger.sAssert(SKDateFormat.class,  false);
-			
-			order = new char[3];
-			order[0] = DateFormat.MONTH;
-			order[1] = DateFormat.DATE;
-			order[2] = DateFormat.YEAR;
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		for(int i =0; i< order.length; i++){
-			switch(order[i]){
-			case DateFormat.DATE:
-				if(i!=0){
-					sb.append("/");
-				}
-				sb.append("dd");
-				break;
-			case DateFormat.MONTH:
-				if(i!=0){
-					sb.append("/");
-				}
-				sb.append("MM");
-				break;
-			case DateFormat.YEAR:
-				//sb.append("yyyy");
-				break;
-			}
-		}
-		return sb.toString();
+//		char[] order = null;
+//		try {
+//			order = DateFormat.getDateFormatOrder(context);
+//		} catch (java.lang.IllegalArgumentException e) {
+//			// Deal with OEM bug seen on some devices...:
+//			// "java.lang.IllegalArgumentException: Bad pattern character 'E' in E, MMM d, yyyy at libcore.icu.ICU.getDateFormatOrder"
+//			SKLogger.sAssert(SKDateFormat.class,  false);
+//
+//			order = new char[3];
+//			order[0] = DateFormat.MONTH;
+//			order[1] = DateFormat.DATE;
+//			order[2] = DateFormat.YEAR;
+//		}
+//
+//		StringBuilder sb = new StringBuilder();
+//		for(int i =0; i< order.length; i++){
+//			switch(order[i]){
+//			case DateFormat.DATE:
+//				if(i!=0){
+//					sb.append("/");
+//				}
+//				sb.append("dd");
+//				break;
+//			case DateFormat.MONTH:
+//				if(i!=0){
+//					sb.append("/");
+//				}
+//				sb.append("MM");
+//				break;
+//			case DateFormat.YEAR:
+//				//sb.append("yyyy");
+//				break;
+//			}
+//		}
+//		return sb.toString();
+		return "MM/dd";
 	}
 	
 	public static String sGetGraphTimeFormat() {
@@ -61,59 +62,59 @@ public class SKDateFormat  {
 	}
 	
 	private String dateFormat(){
-    StringBuilder sb = new StringBuilder();
-    try {
-      char[] order = DateFormat.getDateFormatOrder(mCtx);
-      for(int i =0; i< order.length; i++){
-        if(i!=0){
-          sb.append("/");
-        }
-        switch(order[i]){
-        case DateFormat.DATE:
-          sb.append("dd");
-          break;
-        case DateFormat.MONTH:
-          sb.append("MM");
-          break;
-        case DateFormat.YEAR:
-          sb.append("yyyy");
-          break;
-        }
-      }
-    } catch (Exception e) {
-      // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in yyyy年 MMM d日, E
-      // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in E, d MMM yyyy
-      SKLogger.sAssert(false);
-      sb.append("yyyy");
-      sb.append("MM");
-      sb.append("dd");
-    }
-		return sb.toString();
-		
+//    StringBuilder sb = new StringBuilder();
+//    try {
+//      char[] order = DateFormat.getDateFormatOrder(mCtx);
+//      for(int i =0; i< order.length; i++){
+//        if(i!=0){
+//          sb.append("/");
+//        }
+//        switch(order[i]){
+//        case DateFormat.DATE:
+//          sb.append("dd");
+//          break;
+//        case DateFormat.MONTH:
+//          sb.append("MM");
+//          break;
+//        case DateFormat.YEAR:
+//          sb.append("yyyy");
+//          break;
+//        }
+//      }
+//    } catch (Exception e) {
+//      // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in yyyy年 MMM d日, E
+//      // Caused by: java.lang.IllegalArgumentException: Bad pattern character 'E' in E, d MMM yyyy
+//      SKLogger.sAssert(false);
+//      sb.append("yyyy");
+//      sb.append("MM");
+//      sb.append("dd");
+//    }
+//		return sb.toString();
+		return "yyyy/MM/dd";
 	}
 	
 	private String shortDateTimeFormatForGraphColumn(){
-		char[] order = DateFormat.getDateFormatOrder(mCtx);
-		StringBuilder sb = new StringBuilder();
-		for(int i =0; i< order.length; i++){
-			if(i!=0){
-				sb.append("/");
-			}
-			switch(order[i]){
-			case DateFormat.DATE:
-				sb.append("dd");
-				break;
-			case DateFormat.MONTH:
-				sb.append("MM");
-				break;
-			case DateFormat.YEAR:
-				sb.append("yy");
-				break;
-			}
-		}
-		sb.append(" HH:mm");
-		return sb.toString();
-		
+//		char[] order = DateFormat.getDateFormatOrder(mCtx);
+//		StringBuilder sb = new StringBuilder();
+//		for(int i =0; i< order.length; i++){
+//			if(i!=0){
+//				sb.append("/");
+//			}
+//			switch(order[i]){
+//			case DateFormat.DATE:
+//				sb.append("dd");
+//				break;
+//			case DateFormat.MONTH:
+//				sb.append("MM");
+//				break;
+//			case DateFormat.YEAR:
+//				sb.append("yy");
+//				break;
+//			}
+//		}
+//		sb.append(" HH:mm");
+//		return sb.toString();
+		return "yy/MM/dd HH:mm";
 	}
 	
 
@@ -131,26 +132,27 @@ public class SKDateFormat  {
 	}
 	
 	public String getJSDateFormat(){
-		char[] order = DateFormat.getDateFormatOrder(mCtx);
-		StringBuilder sb = new StringBuilder();
-		for(int i =0; i< order.length; i++){
-			if(i!=0){
-				sb.append("/");
-			}
-			switch(order[i]){
-			case DateFormat.DATE:
-				sb.append("%d");
-				break;
-			case DateFormat.MONTH:
-				sb.append("%m");
-				break;
-			case DateFormat.YEAR:
-				sb.append("%y");
-				break;
-			}
-			
-		}
-		return sb.toString();
+//		char[] order = DateFormat.getDateFormatOrder(mCtx);
+//		StringBuilder sb = new StringBuilder();
+//		for(int i =0; i< order.length; i++){
+//			if(i!=0){
+//				sb.append("/");
+//			}
+//			switch(order[i]){
+//			case DateFormat.DATE:
+//				sb.append("%d");
+//				break;
+//			case DateFormat.MONTH:
+//				sb.append("%m");
+//				break;
+//			case DateFormat.YEAR:
+//				sb.append("%y");
+//				break;
+//			}
+//
+//		}
+//		return sb.toString();
+		return "%y/%m/%d";
 	}
 
     // https://developer.android.com/reference/java/text/SimpleDateFormat.html

@@ -1,11 +1,15 @@
 package com.samknows.measurement.environment;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import com.samknows.libcore.SKLogger;
 import com.samknows.measurement.util.OtherUtils;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.telephony.CellInfo;
 import android.telephony.CellLocation;
 import android.telephony.NeighboringCellInfo;
@@ -17,6 +21,7 @@ public class CellTowersDataCollector extends BaseDataCollector{
 
 	public CellTowersDataCollector(Context context) {
 		super(context);
+		weakRefContext = new WeakReference<>(context);
 	}
 	
 	/*
@@ -26,6 +31,7 @@ public class CellTowersDataCollector extends BaseDataCollector{
 	static CellTowersData mData = new CellTowersData();
 	static AndroidPhoneStateListener phoneStateListener = null;
 	static CellTowersData neighbours = new CellTowersData();
+	private WeakReference<Context> weakRefContext;
 
 	@Override
 	synchronized public CellTowersData collect() {
@@ -34,17 +40,23 @@ public class CellTowersDataCollector extends BaseDataCollector{
 		data.setTime(System.currentTimeMillis());
 		
 		try {
-			data.setCellLocation(mTelManager.getCellLocation());
+			if (ContextCompat.checkSelfPermission(weakRefContext.get(), Manifest.permission.ACCESS_COARSE_LOCATION)
+					== PackageManager.PERMISSION_GRANTED) {
+				data.setCellLocation(mTelManager.getCellLocation());
+			}
 		} catch (SecurityException e) {
 			// Seen - rarely - on some Android devices.
 			// Neither user 99999 nor current process has android.permission.ACCESS_COARSE_LOCATION.
     		SKLogger.sAssert(CellTowersDataCollector.class, false);
 		}
 		
-		// Note: the following call might return NULL
-		
-		//data.setNeighbors(mTelManager.getAllCellInfo());
-		data.setNeighbors(mTelManager.getNeighboringCellInfo());
+		if (ContextCompat.checkSelfPermission(weakRefContext.get(), Manifest.permission.ACCESS_COARSE_LOCATION)
+				== PackageManager.PERMISSION_GRANTED) {
+			// Note: the following call might return NULL
+
+			//data.setNeighbors(mTelManager.getAllCellInfo());
+			data.setNeighbors(mTelManager.getNeighboringCellInfo());
+		}
 	
 		SKLogger.sAssert(CellTowersDataCollector.class, mData.getSignal() != null);
 		// This following line is actually essential!

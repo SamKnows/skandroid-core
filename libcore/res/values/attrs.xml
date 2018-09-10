@@ -26,7 +26,7 @@
     </declare-styleable>
     
     <declare-styleable name="TintableImageView">
-        <attr name="tint" format="reference|color" />
+        <attr name="tint_renamed_to_avoid_conflict" format="reference|color" />
     </declare-styleable>
 
 </resources>

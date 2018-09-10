@@ -192,6 +192,8 @@
 
 <string name="menu_export_nothing_to_export">Nothing to export</string>
 <string name="menu_export_there_is_no_data">There is no data available to export.</string>
+<string name="menu_export_file_permissions_failed_title">No storage permissions!</string>
+<string name="menu_export_file_permissions_failed_to_save">Unable to write file to storage; please enable &quot;Storage&quot; permission in system settings!</string>
 <string name="menu_export_file_save_failed_title">File save failed</string>
 <string name="menu_export_file_could_not_be_overwritten">A file of that name already existed, but could not be overwritten.</string>
 <string name="menu_export_file_saved_title">File saved to sdcard</string>

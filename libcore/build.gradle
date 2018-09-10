@@ -1,9 +1,11 @@
 buildscript {
     repositories {
+        google()
+        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:3.1.4'
     }
 }
 
@@ -13,21 +15,25 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.google.android.gms:play-services:6.5.87'
-    compile 'com.facebook.android:facebook-android-sdk:3.23.0'
-    //compile fileTree(dir: 'libs', include: '*.jar')
-    compile files ('./libs/HockeySDK-3.0.1.jar')
-    compile files ('./libs/achartengine-1.1.0.jar')
-    //compile files ('./libs/android-support-v13.jar')
-    //compile files ('./libs/android-support-v4.jar')
-    //compile files ('./libs/bolts-android-1.1.2.jar')
-    compile files ('./libs/commons-io-2.2.jar')
-    compile files ('./libs/twitter4j-core-3.0.5.jar')
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'com.facebook.android:facebook-android-sdk:3.23.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+
+        multiDexEnabled true
+
+        useLibrary 'org.apache.http.legacy'
+    }
 
     lintOptions {
         abortOnError false
@@ -45,7 +51,7 @@ android {
         }
 
         // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
+//        instrumentTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...

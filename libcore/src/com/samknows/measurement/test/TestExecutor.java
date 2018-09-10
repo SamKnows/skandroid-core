@@ -423,7 +423,8 @@ public class TestExecutor {
 		PendingIntent intent = PendingIntent.getService(tc.getContext(),
 				SKConstants.RC_NOTIFICATION, new Intent(),
 				PendingIntent.FLAG_UPDATE_CURRENT);
-		n.setLatestEventInfo(tc.getContext(), title, message, intent);
+		// setLatestEventInfo() was removed ca API 23
+//		n.setLatestEventInfo(tc.getContext(), title, message, intent);
 		manager.notify(SKConstants.NOTIFICATION_ID, n);
 	}
 
