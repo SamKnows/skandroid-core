@@ -1,5 +1,5 @@
 # skandroid-core
-`modernize` branch
+` fcc_skcore` branch
 
 ## Introduction
 This is the GitHub repository that contains the source-code for the SamKnows Speed test app 
