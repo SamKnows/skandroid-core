@@ -89,8 +89,14 @@ public class LocationDataCollector extends BaseDataCollector implements Location
 		}
 		
 		String provider = locationType == LocationType.gps ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER;
-		
-		return new Pair<Location,LocationType> (manager.getLastKnownLocation(provider), locationType);
+
+		Pair retPair = null;
+		if (ContextCompat.checkSelfPermission(tc.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+				== PackageManager.PERMISSION_GRANTED) {
+			retPair = new Pair<Location,LocationType> (manager.getLastKnownLocation(provider), locationType);
+		}
+
+		return retPair;
 	}
 
 	
